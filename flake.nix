@@ -21,8 +21,8 @@
       "Dustins-Air" = darwin.lib.darwinSystem {
         system = "aarch64-darwin";
         modules = [
-          ./build/macos-config.nix
-        # ./build/macos-home.nix
+          ./macos-config.nix
+        # ./macos-home.nix
         ];
         inputs = { inherit darwin home-manager nixpkgs; };
       };
@@ -33,12 +33,12 @@
       felix = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         modules = [
-          ./build/nixos-config.nix
-          ./build/hardware/felix.nix
+          ./nixos-config.nix
+          ./hardware/felix.nix
           home-manager.nixosModules.home-manager {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
-            home-manager.users.dustin = import ./build/nixos-home.nix;
+            home-manager.users.dustin = import ./nixos-home.nix;
           }
         ];
       };
