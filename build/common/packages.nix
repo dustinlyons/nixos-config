@@ -4,18 +4,19 @@ with pkgs; [
   alacritty
   aspell
   aspellDicts.en
-  #brave
   emacs
   home-manager
+  htop
   iftop
   jq
   nodejs
-  #pandoc
+  pandoc
   python3
   ripgrep
   tree
-  unzip
   vim
   wget
+  unzip
+  unrar
   zip
 ]

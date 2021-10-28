@@ -1,46 +1,15 @@
 { pkgs }:
 
 with pkgs; [
-  alacritty
-  aspell
-  aspellDicts.en
   bash-completion
   brave
   direnv
-  emacs
   fontconfig
-  gnugrep
-  gnumake
-  gnused
-  gnutar
   home-manager
-  htop
-  iftop
-  jq
-  lsof
-  man
-  nodejs
   openssh
-  pandoc
-  python27
-  python27Packages.certifi
-  python27Packages.pygments
-  python27Packages.setuptools
-  python3
-  pythonDocs.html.python27
-  pythonDocs.pdf_letter.python27
   ripgrep
-  rsync
   tree
   unixtools.ifconfig
   unixtools.netstat
-  unixtools.ping
-  unixtools.route
-  unixtools.top
-  unrar
-  unzip
-  vim
-  wget
   xdg_utils
-  zip
 ]
