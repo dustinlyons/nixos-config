@@ -13,7 +13,7 @@ Enter Nix and NixOS.
 
 - Simplicity as a guiding principle; Nix is notoriously confusing so make it easy to understand
 - Entirely driven by my single Flake
-- Supports sharing config between your M1 Macbook Pro and NixOS PCs
+- Supports sharing config between an M1 Macbook Pro and NixOS PCs
 - Simple bash scripts to build and switch environments
 - Literate configuration style, so overly explain for posterity
 
