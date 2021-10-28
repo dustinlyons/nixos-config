@@ -25,6 +25,16 @@
     '';
    };
 
+  services.emacs.package = pkgs.emacsPgtkGcc;
+
+  nixpkgs.overlays = [
+    (import (builtins.fetchGit {
+      url = "https://github.com/nix-community/emacs-overlay.git";
+      ref = "master";
+      rev = "278ab5def18f7c3edd2dc65a64994e8b3aa63390";
+    }))
+  ];
+
   # Enable the X11 windowing system
   services.xserver.enable = true;
   services.xserver.videoDrivers = [ "nvidia" ];
@@ -58,7 +68,9 @@
     extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
   };
 
-  environment.systemPackages = with pkgs; [];
+  environment.systemPackages = with pkgs; [
+    emacsPgtkGcc
+  ];
   system.stateVersion = "21.05"; # Don't change this
 
 }

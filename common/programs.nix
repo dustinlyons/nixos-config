@@ -1,6 +1,14 @@
 { pkgs }:
 
 {
+  emacs = {
+    extraConfig = ''
+(package-initialize)
+(require 'org-install)
+(file-truename (org-babel-load-file "~/.config/emacs/config.org"))
+'';
+  };
+
   alacritty = {
     enable = true;
   };

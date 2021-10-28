@@ -1,5 +1,7 @@
 { config, pkgs, ... }:
 
+let
+  common-programs = import ../common/programs.nix { pkgs = pkgs; }; in
 {
   environment.systemPackages = [ ];
 
@@ -18,7 +20,7 @@
   # Setup user, packages, programs
   nix.package = pkgs.nixUnstable;
 
-  programs = {
+  programs = common-programs // {
     zsh = {
       enable = true; # Default shell on MacOS so we've stuck with it
     };
