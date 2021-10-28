@@ -22,7 +22,6 @@
         system = "aarch64-darwin";
         modules = [
           ./macos-config.nix
-        # ./macos-home.nix
         ];
         inputs = { inherit darwin home-manager nixpkgs; };
       };
