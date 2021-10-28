@@ -1,7 +1,8 @@
 { pkgs }:
 
-with pkgs; [
-  bash-completion
+with pkgs;
+let common-packages = import ./common/packages.nix { pkgs = pkgs; }; in
+common-packages ++ [
   brave
   direnv
   fontconfig

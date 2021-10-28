@@ -4,10 +4,11 @@ with pkgs; [
   alacritty
   aspell
   aspellDicts.en
+  bash-completion
   emacs
   hack-font
   font-awesome
-  font-google-roboto
+  roboto
   home-manager
   htop
   iftop
