@@ -1,0 +1,3 @@
+#!/bin/bash -xe
+
+curl -L https://releases.nixos.org/nix/nix-2.4pre-rc1/install | sh
