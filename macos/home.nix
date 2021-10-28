@@ -9,7 +9,7 @@
   };
 
   home-manager.users.dustin = { pkgs, ... }: {
-    home.packages = pkgs.callPackage ./macos-packages.nix {};
+    home.packages = pkgs.callPackage ./packages.nix {};
   };
 
 }

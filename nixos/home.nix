@@ -2,9 +2,9 @@
 
 let 
   home = builtins.getEnv "HOME";
-  common-programs = import ./common/programs.nix { pkgs = pkgs; }; in
+  common-programs = import ../common/programs.nix { pkgs = pkgs; }; in
 {
-  home.packages = pkgs.callPackage ./nixos-packages.nix {};
+  home.packages = pkgs.callPackage ./packages.nix {};
   home.username = "dustin";
   home.homeDirectory = "/home/dustin";
 
