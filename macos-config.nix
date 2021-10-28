@@ -18,8 +18,11 @@
   # Setup user, packages, programs
   nix.package = pkgs.nixUnstable;
 
-  # Create /etc/bashrc that loads the nix-darwin environment.
-  programs.zsh.enable = true;  # default shell on catalina
+  programs = {
+    zsh = {
+      enable = true; # Default shell on MacOS so we've stuck with it
+    };
+  };
 
   imports = [ <home-manager/nix-darwin> ];
 

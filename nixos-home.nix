@@ -1,13 +1,18 @@
-{ pkgs, lib, config, ... }:
+{ pkgs, ... }:
 
-let home = builtins.getEnv "HOME";
-in {
-
+let 
+  home = builtins.getEnv "HOME";
+  common-programs = import ./common/programs.nix { pkgs = pkgs; }; in
+{
   home.packages = pkgs.callPackage ./nixos-packages.nix {};
   home.username = "dustin";
   home.homeDirectory = "/home/dustin";
 
-  programs = {
+  programs = common-programs // { 
+    alacritty = {
+      enable = true;
+    };
+
     git = {
       enable = true;
       userName = "Dustin Lyons";
@@ -18,3 +23,4 @@ in {
     };
   };
 }
+

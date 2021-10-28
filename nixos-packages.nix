@@ -5,6 +5,7 @@ with pkgs; [
   brave
   direnv
   fontconfig
+  gimp
   home-manager
   openssh
   ripgrep

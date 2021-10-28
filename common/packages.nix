@@ -5,6 +5,9 @@ with pkgs; [
   aspell
   aspellDicts.en
   emacs
+  hack-font
+  font-awesome
+  font-google-roboto
   home-manager
   htop
   iftop
