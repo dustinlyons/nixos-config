@@ -3,7 +3,14 @@
 let
   common-programs = import ../common/programs.nix { pkgs = pkgs; }; in
 {
-  environment.systemPackages = [ ];
+  environment.systemPackages = [
+    (pkgs.emacsWithPackagesFromUsePackage {
+      config = ../common/config/emacs/emacs.org;
+      package = pkgs.emacsGit;
+      alwaysEnsure = true;
+
+    })
+  ];
 
   nixpkgs = {
     config = {
