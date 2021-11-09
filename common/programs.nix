@@ -1,9 +1,9 @@
 { pkgs }:
 
 {
- # alacritty = {
- #   enable = true;
- # };
+  alacritty = {
+    enable = true;
+  };
 
   git = {
     enable = true;

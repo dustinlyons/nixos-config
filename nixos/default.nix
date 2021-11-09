@@ -1,12 +1,19 @@
 # Dustin's NixOS configuration
 { config, pkgs, ... }:
 {
+  imports = [
+    ../common
+  ];
+
+  # Import shared configuration
+
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
+  boot.kernelPackages = pkgs.linuxPackages_latest;
 
   # Set your time zone.
-  time.timeZone = "Kentucky/Louisville";
+  time.timeZone = "America/New_York";
 
   # The global useDHCP flag is deprecated, therefore explicitly set to false here.
   # Per-interface useDHCP will be mandatory in the future, so this generated config
@@ -68,9 +75,14 @@
     extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
   };
 
-  environment.systemPackages = with pkgs; [
-    emacsPgtkGcc
+  environment.systemPackages = [
+    (pkgs.emacsWithPackagesFromUsePackage {
+      config = ./emacs.org;
+      package = pkgs.emacsPgtkGcc;
+      alwaysEnsure = true;
+    })
   ];
+
   system.stateVersion = "21.05"; # Don't change this
 
 }

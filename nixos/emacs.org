@@ -331,8 +331,6 @@ If you haven't heard of org mode, go watch [[https://www.youtube.com/watch?v=SzA
 
   (use-package org
     :defer t
-    :ensure nil
-    :straight nil
     :hook (org-mode . dl/org-mode-setup)
     :config
     (setq org-edit-src-content-indentation 2 ;; Indent code blocks by 2
