@@ -22,8 +22,8 @@ with pkgs; [
   ripgrep
   sqlite
   tree
-  unzip
   unrar
+  unzip
   vim
   wget
   yubikey-manager

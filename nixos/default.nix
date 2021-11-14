@@ -77,7 +77,7 @@
 
   environment.systemPackages = [
     (pkgs.emacsWithPackagesFromUsePackage {
-      config = ./emacs.org;
+      config = ../common/config/emacs/Emacs.org;
       package = pkgs.emacsPgtkGcc;
       alwaysEnsure = true;
     })
