@@ -430,6 +430,10 @@ These are templates used to create new notes.
         :files (:defaults "extensions/*"))
        :init
          (setq org-roam-v2-ack t) ;; Turn off v2 warning
+         (setq org-roam-mode-section-functions
+           (list #'org-roam-backlinks-section
+                 #'org-roam-reflinks-section
+                 #'org-roam-unlinked-references-section))
          (add-to-list 'display-buffer-alist
              '("\\*org-roam\\*"
                (display-buffer-in-direction)
