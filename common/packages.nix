@@ -15,6 +15,7 @@ with pkgs; [
   htop
   iftop
   jq
+  libfido2
   nodejs
   pinentry
   pandoc

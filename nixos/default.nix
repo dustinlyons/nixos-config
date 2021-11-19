@@ -21,9 +21,19 @@
   networking.hostName = "felix"; # Define your hostname.
   networking.useDHCP = false;
   networking.interfaces.eno1.useDHCP = true;
+  #networking.hostId = "18675309";
+  #boot.initrd.supportedFilesystems = ["zfs"]; # boot from zfs
+  #boot.supportedFilesystems = [ "zfs" ];
+  #services.udev.extraRules = ''
+  #  ACTION=="add|change", 
+  #  KERNEL=="sd[a-z]*[0-9]*|mmcblk[0-9]*p[0-9]*|nvme[0-9]*n[0-9]*p[0-9]*", 
+  #  ENV{ID_FS_TYPE}=="zfs_member", 
+  #  ATTR{../queue/scheduler}="none"
+  #'';
 
   # Turn on flag for proprietary software
   nixpkgs.config.allowUnfree = true;
+  nixpkgs.config.allowBroken = true;
   nix = {
     allowedUsers = [ "dustin" ];
     package = pkgs.nixUnstable;
@@ -68,6 +78,13 @@
 
   # libinput provides better support for our stuff
   services.xserver.libinput.enable = true;
+
+  services.syncthing = {
+    enable = true;
+    user = "dustin";
+    dataDir = "/home/dustin/.config/syncthing"
+    configDir = "/home/dustin/.config/syncthing"
+  };
 
   # It's me
   users.users.dustin = {
