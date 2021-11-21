@@ -25,9 +25,9 @@
   #boot.initrd.supportedFilesystems = ["zfs"]; # boot from zfs
   #boot.supportedFilesystems = [ "zfs" ];
   #services.udev.extraRules = ''
-  #  ACTION=="add|change", 
-  #  KERNEL=="sd[a-z]*[0-9]*|mmcblk[0-9]*p[0-9]*|nvme[0-9]*n[0-9]*p[0-9]*", 
-  #  ENV{ID_FS_TYPE}=="zfs_member", 
+  #  ACTION=="add|change",
+  #  KERNEL=="sd[a-z]*[0-9]*|mmcblk[0-9]*p[0-9]*|nvme[0-9]*n[0-9]*p[0-9]*",
+  #  ENV{ID_FS_TYPE}=="zfs_member",
   #  ATTR{../queue/scheduler}="none"
   #'';
 
@@ -59,7 +59,7 @@
     Option       "metamodes" "nvidia-auto-select +0+0 {ForceFullCompositionPipeline=On}"
     Option       "AllowIndirectGLXProtocol" "off"
     Option       "TripleBuffer" "on"
-  ''; 
+  '';
 
   # Enable the GNOME Desktop Environment
   services.xserver.displayManager.gdm.enable = true;
@@ -79,11 +79,12 @@
   # libinput provides better support for our stuff
   services.xserver.libinput.enable = true;
 
+  # Sync state between machines
   services.syncthing = {
     enable = true;
     user = "dustin";
-    dataDir = "/home/dustin/.config/syncthing"
-    configDir = "/home/dustin/.config/syncthing"
+    dataDir = "/home/dustin/.config/syncthing";
+    configDir = "/home/dustin/.config/syncthing";
   };
 
   # It's me
@@ -103,4 +104,3 @@
   system.stateVersion = "21.05"; # Don't change this
 
 }
-

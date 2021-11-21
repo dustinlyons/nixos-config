@@ -1,6 +1,6 @@
 #+TITLE: Emacs
 #+STARTUP: content
-#+CONSTANTS: code_dir_path="/data/dustin/Projects/Code"
+#+CONSTANTS: code_dir_path="/mnt/state/Projects/Code"
 
 * Configuration   :emacs:
 ** About Emacs

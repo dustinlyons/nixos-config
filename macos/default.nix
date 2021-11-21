@@ -1,23 +1,17 @@
-{ config, pkgs, ... }:
+{ config, pkgs, nixpkgs, ... }:
 
 let
-  common-programs = import ../common/programs.nix { pkgs = pkgs; }; in
+  common-programs = import ../common/programs.nix { pkgs = nixpkgs; }; in
 {
-  environment.systemPackages = [
-    (pkgs.emacsWithPackagesFromUsePackage {
-      config = ../common/config/emacs/emacs.org;
-      package = pkgs.emacsGit;
-      alwaysEnsure = true;
 
-    })
-  ];
+  imports = [ ./home.nix ];
 
   nixpkgs = {
     config = {
       allowUnfree = true;
       allowBroken = false;
       allowInsecure = false;
-      allowUnsupportedSystem = false;
+      allowUnsupportedSystem = true;
     };
   };
 
@@ -26,32 +20,47 @@ let
 
   # Setup user, packages, programs
   nix.package = pkgs.nixUnstable;
+  nix.trustedUsers = [ "@admin" "dustin" ];
+  nix.gc.user = "root";
+  
+  # Turn off NIX_PATH warnings now that we're using flakes
+  system.checks.verifyNixPath = false;
+
+  environment.systemPackages = [
+    #(pkgs.emacsWithPackagesFromUsePackage {
+    #  config = ../common/config/emacs/Emacs.org;
+    #  package = pkgs.emacsGit;
+    #  alwaysEnsure = true;
+    #})
+  ];
+
+  # Enable fonts dir
+  fonts.enableFontDir = true;
 
   programs = common-programs // {
     zsh = {
-      enable = true; # Default shell on MacOS so we've stuck with it
+      enable = true;
     };
-  };
-
-  imports = [ <home-manager/nix-darwin> ];
-
-  users.users.dustin = {
-    name = "dustin";
-    home = "/Users/dustin";
-  };
-
-  home-manager.users.dustin = { pkgs, ... }: {
-    home.packages = pkgs.callPackage ./packages.nix {};
   };
 
   system = {
     stateVersion = 4;
 
     defaults = {
+      LaunchServices = {
+        LSQuarantine = false;
+      };
+
       NSGlobalDomain = {
+        AppleShowAllExtensions = true;
         ApplePressAndHoldEnabled = false;
-        _HIHideMenuBar = true;
-        "com.apple.keyboard.fnState" = true;
+
+        # 120, 90, 60, 30, 12, 6, 2
+        KeyRepeat = 2;
+
+        # 120, 94, 68, 35, 25, 15
+        InitialKeyRepeat = 15;
+
         "com.apple.mouse.tapBehavior" = 1;
         "com.apple.sound.beep.volume" = "0.0";
         "com.apple.sound.beep.feedback" = 0;
@@ -61,6 +70,7 @@ let
         autohide = false;
         launchanim = true;
         orientation = "bottom";
+        tilesize = 64;
       };
 
       trackpad = {

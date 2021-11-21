@@ -20,6 +20,7 @@ with pkgs; [
   pinentry
   pandoc
   python3
+  ranger
   ripgrep
   sqlite
   tree
@@ -27,8 +28,5 @@ with pkgs; [
   unzip
   vim
   wget
-  yubikey-manager
-  yubikey-manager-qt
-  yubikey-agent
   zip
 ]

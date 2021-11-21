@@ -18,7 +18,7 @@
 
     # My Macbook Pro 16"
     darwinConfigurations = {
-      "Dustins-Air" = darwin.lib.darwinSystem {
+      "Dustins-MBP" = darwin.lib.darwinSystem {
         system = "aarch64-darwin";
         modules = [
           ./macos

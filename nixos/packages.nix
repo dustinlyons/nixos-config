@@ -20,4 +20,7 @@ common-packages ++ [
   unixtools.netstat
   xdg_utils
   wineWowPackages.stable
+  yubikey-manager
+  yubikey-manager-qt
+  yubikey-agent
 ]
