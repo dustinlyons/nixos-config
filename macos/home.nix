@@ -1,5 +1,7 @@
 { config, pkgs, ... }:
 
+let 
+  common-programs = import ../common/programs.nix { pkgs = pkgs; }; in
 {
   imports = [ 
     <home-manager/nix-darwin> 
@@ -36,6 +38,8 @@
   homebrew.brewPrefix = "/opt/homebrew/bin";
   homebrew.casks = pkgs.callPackage ./casks.nix {};
 
+  # Link Applications from home-manager so Raycast can pick them up
+  # Note, Spotlight ignores symlinks in Applications; only Raycast works here
   home-manager.users.dustin = { pkgs, ... }: {
     home.packages = pkgs.callPackage ./packages.nix {};
     home.file."Applications/From Nix".source = let
@@ -44,7 +48,6 @@
         paths = pkgs.callPackage ./packages.nix {};
         pathsToLink = "/Applications";
       }; in "${apps}/Applications";
+    programs = common-programs // { };
   };
-
-
 }

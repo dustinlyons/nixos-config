@@ -1,16 +1,16 @@
-{ pkgs }:
+{ pkgs, ... }:
 
 {
-  #alacritty = {
-  #  enable = true;
-  #};
+  alacritty = {
+   enable = true;
+  };
 
-  #git = {
-  #  enable = true;
-  #  userName = "Dustin Lyons";
-  #  userEmail = "hello@dustinlyons.co";
-  #  extraConfig = {
-  #    init.defaultBranch = "main";
-  #  };
-  #};
+  git = {
+    enable = true;
+    userName = "Dustin Lyons";
+    userEmail = "hello@dustinlyons.co";
+    extraConfig = {
+      init.defaultBranch = "main";
+    };
+  };
 }

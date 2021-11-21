@@ -37,7 +37,7 @@ let
   # Enable fonts dir
   fonts.enableFontDir = true;
 
-  programs = common-programs // {
+  programs = {
     zsh = {
       enable = true;
     };
