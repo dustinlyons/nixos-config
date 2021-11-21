@@ -22,53 +22,53 @@ Enter Nix and NixOS.
 ### Step 1 - If this isn't NixOS, install Nix package manager
 Install the nix package manager:
 ```sh
-$ sh <(curl -L https://nixos.org/nix/install) --daemon
+sh <(curl -L https://nixos.org/nix/install) --daemon
 ```
 ```sh
-$ nix-channel --add https://nixos.org/channels/nixpkgs-unstable nixpkgs
+nix-channel --add https://nixos.org/channels/nixpkgs-unstable nixpkgs
 ```
 ```sh
-$ nix-channel --update
+nix-channel --update
 ```
 
 ### Step 2 - Install home-manager (declaratively manage our dotfiles)
 Install the nix package manager:
 ```sh
-$ nix-channel --add https://github.com/nix-community/home-manager/archive/master.tar.gz home-manager
+nix-channel --add https://github.com/nix-community/home-manager/archive/master.tar.gz home-manager
 ```
 ```sh
-$ nix-channel --update
+nix-channel --update
 ```
 
 ### Step 3 - If on an new Mac, install Darwin dependencies
 Install nix-darwin, a native set of Nix modules for MacOS, and Xcode CLI tools.
 ```sh
-$ xcode-select --install
+xcode-select --install
 ```
 ```sh
-$ nix-build https://github.com/LnL7/nix-darwin/archive/master.tar.gz -A installer
+nix-build https://github.com/LnL7/nix-darwin/archive/master.tar.gz -A installer
 ```
 ```sh
-$ ./result/bin/darwin-installer
+./result/bin/darwin-installer
 ```
 
 ### Step 4 - Build the environment
 Grab the latest nix-config zip file from Github, move to the directory and run
 ```sh
-$ ./bin/mac-build
+./bin/mac-build
 ``` 
 or
 ```sh
-$ ./bin/nixos-build
+./bin/nixos-build
 ```
 
 ### Step 5 - Add your Yubikey SSH and upload it to Github
 Insert laptop Yubikey and generate private keys
 ```sh
-$ ssh-keygen -t ecdsa-sk
+ssh-keygen -t ecdsa-sk
 ```
 ```sh
-$ gh auth login
+gh auth login
 ```
 
 ### Step 6 - Reboot computer
