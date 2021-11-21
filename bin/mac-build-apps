@@ -40,6 +40,7 @@ spinner() {
         printf "%s\b" "${sp:i++%n:1}"
     done
 }
+
 # Zsh error function
 function handle_error() {
 	echo -e "\e[1;31mOops! Something went wrong.\e[0m"
@@ -50,30 +51,7 @@ function handle_exit() {
         exit 0
 }
 
-# Always grab these signals and route them to my exit func
-trap handle_error SIGHUP SIGINT SIGQUIT SIGABRT SIGTERM
-trap handle_exit 0 EXIT
-
-echo -e "\e[1;32mStarting private setup...\e[0m"
-##############################
-# Install homebrew
-##############################
-
-# Check for Homebrew,install if we don't have it
-if [ ! -e "$(which brew)" ]; then
-  echo -e "\e[1;32mInstalling homebrew...\e[0m"
-  /bin/bash -c \
-  "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-  echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> $HOME_DIR/.zprofile
-  eval "$(/opt/homebrew/bin/brew shellenv)"
-fi
-if [ ! -e "$(which brew)" ]; then
-  echo -e "\e[1;31mFailed to install homebrew, exiting...\e[0m"
-  exit 1
-fi
-
 PACKAGES=(
-	mas
 )
 
 # Update homebrew recipes
@@ -89,28 +67,13 @@ brew install ${PACKAGES[@]}
 
 # Apps
 APPS=(
-	appcleaner
-	brave-browser
-	discord
-	homebrew/cask/docker
-	iterm2
-	notion
-	ngrok
-	kap
-	raycast
-	slack
-	syncthing
-	telegram
-	homebrew/cask/transmission
-	vlc
-	zoom
 )
 
 # Install apps to /Applications
 # Default is: /Users/$user/Applications
 echo -e "\e[1;32mInstalling homebrew apps...\e[0m"
-brew install --cask --appdir="/Applications" ${APPS[@]}
-brew cleanup
+#brew install --cask --appdir="/Applications" ${APPS[@]}
+#brew cleanup
 
 ##############################
 # Mac app store
@@ -137,8 +100,8 @@ mas install $YOINK_APP_ID
 
 echo -e "\e[1;32mSetting security defaults...\e[0m"
 # Turn off the "Are you sure you want to open this?" warnings
-defaults write com.apple.LaunchServices LSQuarantine -bool NO
+# defaults write com.apple.LaunchServices LSQuarantine -bool NO
 
 echo -e "\e[1;32mComplete, rebooting finder...\e[0m"
 # Enable settings
-killall Finder
+#killall Finder
