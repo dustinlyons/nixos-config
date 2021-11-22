@@ -38,9 +38,9 @@ let
   fonts.enableFontDir = true;
 
   programs = {
-    zsh = {
-      enable = true;
-    };
+    #zsh = {
+    #  enable = true;
+    #};
   };
 
   system = {

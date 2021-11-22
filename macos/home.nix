@@ -11,7 +11,6 @@ let
   local.dock.enable = true;
   local.dock.entries = [
     { path = "/Applications/Brave Browser.app/"; }
-    { path = "/Applications/Microsoft Teams.app/"; }
     { path = "/Applications/Slack.app/"; }
     { path = "/System/Applications/Messages.app/"; }
     { path = "/Applications/iTerm.app/"; }
@@ -34,20 +33,43 @@ let
   # We use Homebrew to install impure software only (Mac Apps)
   homebrew.enable = true;
   homebrew.cleanup = "uninstall";
-  homebrew.brews = [ "mas" ];
   homebrew.brewPrefix = "/opt/homebrew/bin";
   homebrew.casks = pkgs.callPackage ./casks.nix {};
+  homebrew.masApps = {
+    "1password" = 1333542190;
+    "drafts" = 1435957248;
+    "harvest" = 506189836;
+    "hidden-bar" = 1452453066;
+    "instapaper" = 288545208;
+    "yoink" = 457622435; 
+  };
 
   # Link Applications from home-manager so Raycast can pick them up
   # Note, Spotlight ignores symlinks in Applications; only Raycast works here
+  #system.build.applications = pkgs.lib.mkForce (pkgs.buildEnv {
+  #  name = "applications";
+  #  paths = config.environment.systemPackages ++ config.home-manager.users.dustin.home.packages;
+  #  pathsToLink = "/Applications";
+  #});
+
+  system.activationScripts.applications.text = let
+    env = pkgs.buildEnv {
+      name = "system-applications";
+      paths = config.environment.systemPackages ++ config.home-manager.users.dustin.home.packages;
+      pathsToLink = "/Applications";
+    };
+  in pkgs.lib.mkForce ''
+    echo "setting up ~/Applications..." >&2
+    rm -rf ~/Applications/Nix\ Apps
+    mkdir -p ~/Applications/Nix\ Apps
+    find ${env}/Applications -maxdepth 1 -type l -exec readlink '{}' + |
+        while read src; do
+          /bin/cp -cr "$src" ~/Applications/Nix\ Apps
+        done
+  '';
+
   home-manager.users.dustin = { pkgs, ... }: {
     home.packages = pkgs.callPackage ./packages.nix {};
-    home.file."Applications/From Nix".source = let
-      apps = pkgs.buildEnv {
-        name = "from-nix-applications";
-        paths = pkgs.callPackage ./packages.nix {};
-        pathsToLink = "/Applications";
-      }; in "${apps}/Applications";
     programs = common-programs // { };
   };
 }

@@ -7,21 +7,22 @@ with pkgs; [
   bottom
   bash-completion
   emacs
-  hack-font
   font-awesome
   gcc
-  roboto
+  hack-font
   home-manager
   htop
   iftop
   jq
   libfido2
   nodejs
+  openssh
   pinentry
   pandoc
   python3
   ranger
   ripgrep
+  roboto
   sqlite
   tree
   unrar
