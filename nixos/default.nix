@@ -75,6 +75,9 @@
   # Enable sound
   sound.enable = true;
   hardware.pulseaudio.enable = true;
+  hardware.opengl.enable = true;
+  hardware.opengl.driSupport32Bit = true;
+  hardware.opengl.driSupport = true;
 
   # libinput provides better support for our stuff
   services.xserver.libinput.enable = true;
@@ -101,6 +104,7 @@
     })
   ];
 
+  programs.steam.enable = true;
   system.stateVersion = "21.05"; # Don't change this
 
 }

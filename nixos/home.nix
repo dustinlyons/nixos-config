@@ -9,6 +9,7 @@ let
   home.homeDirectory = "/home/dustin";
 
   programs = common-programs // { 
+
     alacritty = {
       enable = true;
     };
