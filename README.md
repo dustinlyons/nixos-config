@@ -19,7 +19,7 @@ Enter Nix and NixOS.
 
 ## Install
 
-### Step 1 - If this isn't NixOS, install Nix package manager
+### Step 1 - For foreign distros (namely MacOS), install Nix package manager
 Install the nix package manager:
 ```sh
 sh <(curl -L https://nixos.org/nix/install) --daemon
@@ -40,7 +40,7 @@ nix-channel --add https://github.com/nix-community/home-manager/archive/master.t
 nix-channel --update
 ```
 
-### Step 3 - If on an new Mac, install Darwin dependencies
+### Step 3 - If MacOS, install Darwin dependencies
 Install nix-darwin, a native set of Nix modules for MacOS, and Xcode CLI tools.
 ```sh
 xcode-select --install
@@ -62,13 +62,10 @@ or
 ./bin/nixos-build
 ```
 
-### Step 5 - Add your Yubikey SSH and upload it to Github
+### Step 5 - Add Yubikey and generate key
 Insert laptop Yubikey and generate private keys
 ```sh
 ssh-keygen -t ecdsa-sk
-```
-```sh
-gh auth login
 ```
 
 ### Step 6 - Reboot computer
