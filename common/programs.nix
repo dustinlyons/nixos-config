@@ -8,10 +8,13 @@
    oh-my-zsh = {
      enable = true;
      theme = "robbyrussell";
-     plugins = [ "macos" "git" ];
+     plugins = [ "docker" "emacs" ];
    };
    initExtraFirst = ''
-    export PATH=$NIX_USER_PROFILE_DIR/profile/bin/:$PATH
+    export PATH=$HOME/.npm-packages/bin:$PATH
+    export PATH=$NIX_USER_PROFILE_DIR/profile/bin:$PATH
+    export NVM_DIR="$HOME/.nvm"
+    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm 
    '';
   };
 
@@ -25,6 +28,7 @@
     userEmail = "hello@dustinlyons.co";
     extraConfig = {
       init.defaultBranch = "main";
+      core.editor = "vim";
     };
   };
 }

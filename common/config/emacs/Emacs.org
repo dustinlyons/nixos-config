@@ -6,7 +6,7 @@
 ** About Emacs
 This is my emacs config file. Yes, in emacs you can write configuration like a Google Doc and get away with it. It's called [[https://en.wikipedia.org/wiki/Literate_programming]["literate programming"]].
 
-Emacs is more than an editor, it's a whole damn operating system. This file is evidence of that. This configuration drives how I interact with my journal, complete and organize tasks, develop and write blog posts, write code and ship new stuff, etc. etc. etc. list goes o. I've yet to jump into EXWM, but if one is so inclined, Emacs can expand beyond an application into all software.
+Emacs is more than an editor, it's a whole damn operating system. This file is evidence of that. This configuration drives how I interact with my journal, complete and organize tasks, develop and write blog posts, write code and ship new stuff, etc. etc. etc. list goes on. I've yet to jump into EXWM, but if one is so inclined, Emacs can expand beyond an application into all software.
 
 ** Personal Information
 Just me!
@@ -35,47 +35,12 @@ This associates our package manager with the right source (MELPA).
 #+BEGIN_SRC emacs-lisp
   (unless (assoc-default "melpa" package-archives)
     (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t))
-  (unless (assoc-default "org" package-archives)
-    (add-to-list 'package-archives '("org" . "https://orgmode.org/elpa/") t))
   (unless (assoc-default "nongnu" package-archives)
     (add-to-list 'package-archives '("nongnu" . "https://elpa.nongnu.org/nongnu/") t))
 #+END_SRC
 
 *** Package managers
 Using straight.el under the hood of use-package enables us to download packages using git. This is preferred for easier hacking.
-
-**** Straight.el
-Straight.el fetchs packages over git via use-package.
-
-#+NAME: straight-el
-#+BEGIN_SRC emacs-lisp
-  ;; use-package package provides common package import functions
-  (unless (package-installed-p 'use-package)
-    (package-initialize)
-    (package-install 'use-package))
-  (setq use-package-verbose t)
-  (setq use-package-always-ensure t)
-  (require 'use-package)
-
-  ;; This sets up straight.el, a git package manager
-  (defvar bootstrap-version)
-    (let ((bootstrap-file
-	 (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
-	(bootstrap-version 5))
-    (unless (file-exists-p bootstrap-file)
-      (with-current-buffer
-	  (url-retrieve-synchronously
-	   "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
-	   'silent 'inhibit-cookies)
-	(goto-char (point-max))
-	(eval-print-last-sexp)))
-    (load bootstrap-file nil 'nomessage))
-
-  ;; Tells (use-package) to use straight.el to download packages
-  ;; straight.el uses git packages, instead of the default bin files, which we like
-  ;; as it's much easier to open it up and hack it
-  (setq straight-use-package-by-default t)
-#+END_SRC
 
 ** Keybindings
 *** Leader keys
@@ -318,27 +283,9 @@ If you haven't heard of org mode, go watch [[https://www.youtube.com/watch?v=SzA
 
 #+NAME::org-mode
 #+BEGIN_SRC emacs-lisp
-  (defun dl/org-mode-setup ()
-    (org-indent-mode)
-    (variable-pitch-mode 1)
-    (auto-fill-mode 0)
-    (visual-line-mode 1)
-    (setq evil-auto-indent nil))
-
   ;; Occassionally I received an error around org's clock
   ;; Leaving this around if we need it, still working on refining my configs
   ;;(defun org-clocking-buffer (&rest _))
-
-  (use-package org
-    :defer t
-    :hook (org-mode . dl/org-mode-setup)
-    :config
-    (setq org-edit-src-content-indentation 2 ;; Indent code blocks by 2
-          org-ellipsis " ▾" ;; Prettify the fold indicator
-          org-hide-emphasis-markers t ;; Hide special characters
-          org-hide-block-startup nil) ;; Don't start org mode with blocks folded
-    :bind
-          (("C-c a" . org-agenda)))
 
   (setq org-todo-keywords
      '((sequence "TODO(t)"
@@ -421,28 +368,30 @@ These are templates used to create new notes.
       :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}")
       :unnarrowed t)))
 #+END_SRC
+
 **** Org Roam
 ***** Install package
 #+NAME::org-roam-package
 #+BEGIN_SRC emacs-lisp
   (use-package org-roam
-        :straight (:host github :repo "org-roam/org-roam"
-        :files (:defaults "extensions/*"))
+        :straight (:host github :repo "dustinlyons/org-roam"
+                   :branch "add-query-feature"
+                   :files (:defaults "extensions/*")
+        :build (:not compile))
        :init
          (setq org-roam-v2-ack t) ;; Turn off v2 warning
          (setq org-roam-mode-section-functions
            (list #'org-roam-backlinks-section
-                 #'org-roam-reflinks-section
-                 #'org-roam-unlinked-references-section))
+            #'org-roam-reflinks-section
+            #'org-roam-unlinked-references-section))
          (add-to-list 'display-buffer-alist
              '("\\*org-roam\\*"
                (display-buffer-in-direction)
                (direction . right)
                (window-width . 0.33)
                (window-height . fit-window-to-buffer)))
-         (org-roam-db-autosync-mode)
        :custom
-         (org-roam-directory (file-truename "~/Notebook"))
+         (org-roam-directory (file-truename "~/State/Areas/Writing/Notebook"))
          (org-roam-dailies-directory "daily/")
          (org-roam-completion-everywhere t)
        :bind
@@ -457,7 +406,7 @@ These are templates used to create new notes.
           ("C-<left>" . org-roam-dailies-goto-previous-note)
           ("C-`" . org-roam-buffer-toggle)
           ("C-<right>" . org-roam-dailies-goto-next-note)))
-
+  (org-roam-db-autosync-mode)
 #+END_SRC
 
 ***** Configure templates
@@ -705,25 +654,26 @@ This is what makes emacs possible for me. All evil mode packages and related con
 
     (use-package evil
       :init
-      (setq evil-want-integration t) ;; TODO: research what this does
-      (setq evil-want-keybinding nil)
-      (setq evil-want-fine-undo 'fine) ;; undo/redo each motion
-      (setq evil-want-Y-yank-to-eol t) ;; Y copies to end of line like vim
-      (setq evil-want-C-u-scroll t) ;; vim like scroll up
-      :hook (evil-mode . dl/evil-hook)
+        (setq evil-want-integration t) ;; TODO: research what this does
+        (setq evil-want-keybinding nil)
+        (setq evil-want-fine-undo 'fine) ;; undo/redo each motion
+        (setq evil-want-Y-yank-to-eol t) ;; Y copies to end of line like vim
+        (setq evil-want-C-u-scroll t) ;; vim like scroll up
+        :hook (evil-mode . dl/evil-hook)
       :config
-      (evil-mode 1)
+        ;; Emacs "cancel" == vim "cancel"
+        (define-key evil-insert-state-map (kbd "C-g") 'evil-normal-state)
 
-      ;; Emacs "cancel" == vim "cancel"
-      (define-key evil-insert-state-map (kbd "C-g") 'evil-normal-state)
-      ;; Ctrl-h deletes in vim insert mode
-      (define-key evil-insert-state-map (kbd "C-h") 'evil-delete-backward-char-and-join)
-      ;; When we wrap lines, jump visually, not to the "actual" next line
-      (evil-global-set-key 'motion "j" 'evil-next-visual-line)
-      (evil-global-set-key 'motion "k" 'evil-previous-visual-line)
+        ;; Ctrl-h deletes in vim insert mode
+        (define-key evil-insert-state-map (kbd "C-h")
+          'evil-delete-backward-char-and-join)
 
-      (evil-set-initial-state 'message-buffer-mode 'normal)
-      (evil-set-initial-state 'dashboard-mode 'normal))
+        ;; When we wrap lines, jump visually, not to the "actual" next line
+        (evil-global-set-key 'motion "j" 'evil-next-visual-line)
+        (evil-global-set-key 'motion "k" 'evil-previous-visual-line)
+
+        (evil-set-initial-state 'message-buffer-mode 'normal)
+        (evil-set-initial-state 'dashboard-mode 'normal))
 
     ;; Gives me vim bindings elsewhere in emacs
     (use-package evil-collection
@@ -733,12 +683,22 @@ This is what makes emacs possible for me. All evil mode packages and related con
 
     ;; Keybindings in org mode
     (use-package evil-org
-      :after org
+      :after evil
       :hook
         (org-mode . (lambda () evil-org-mode))
+      :init
+        (fset 'evil-redirect-digit-argument 'ignore)
       :config
-      (require 'evil-org-agenda)
-      (evil-org-agenda-set-keys))
+        (require 'evil-org-agenda)
+        (evil-org-agenda-set-keys)
+        ;; Added Nov 8, 2021 to resolve bug related to
+        ;; removal of evil-redirect-digit-argument
+        ;; See: https://github.com/Somelauw/evil-org-mode/issues/93
+        (add-to-list 'evil-digit-bound-motions 'evil-org-beginning-of-line)
+        (evil-define-key 'motion 'evil-org-mode
+          (kbd "0") 'evil-org-beginning-of-line))
+
+    (evil-mode 1)
 
     ;; Branching undo system
     (use-package undo-tree
@@ -962,6 +922,15 @@ Delete trailing whitespace on save.
 #+BEGIN_SRC emacs-lisp
   (add-hook 'before-save-hook 'delete-trailing-whitespace)
 #+END_SRC
+
+** Infrastructure
+*** Nix
+Nix is my package manager and operating system of choice; this mode enables me to have a better time writing Nix expressions.
+
+#+begin_src emacs-lisp
+(use-package nix-mode
+  :mode "\\.nix\\'")
+#+end_src
 
 ** Writing
 

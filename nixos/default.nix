@@ -96,6 +96,10 @@
     extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
   };
 
+  users.extraUsers.dustin = {
+    shell = pkgs.zsh;
+  };
+ 
   environment.systemPackages = [
     (pkgs.emacsWithPackagesFromUsePackage {
       config = ../common/config/emacs/Emacs.org;
