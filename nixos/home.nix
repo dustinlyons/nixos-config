@@ -8,20 +8,5 @@ let
   home.username = "dustin";
   home.homeDirectory = "/home/dustin";
 
-  programs = common-programs // { 
-
-    alacritty = {
-      enable = true;
-    };
-
-    git = {
-      enable = true;
-      userName = "Dustin Lyons";
-      userEmail = "hello@dustinlyons.co";
-      extraConfig = {
-        init.defaultBranch = "main";
-      };
-    };
-  };
+  programs = common-programs // { };
 }
-
