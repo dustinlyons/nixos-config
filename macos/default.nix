@@ -70,7 +70,7 @@ let
         autohide = false;
         launchanim = true;
         orientation = "bottom";
-        tilesize = 64;
+        tilesize = 48;
       };
 
       trackpad = {

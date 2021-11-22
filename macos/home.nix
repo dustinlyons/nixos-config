@@ -10,16 +10,32 @@ let
 
   local.dock.enable = true;
   local.dock.entries = [
-    { path = "/Applications/Brave Browser.app/"; }
     { path = "/Applications/Slack.app/"; }
+    { path = "/Applications/Discord.app/"; }
+    { path = "/Applications/Telegram.app/"; }
     { path = "/System/Applications/Messages.app/"; }
+    { path = "/System/Applications/Facetime.app/"; }
+    { path = "/Applications/zoom.us.app/"; }
+    { path = "/Applications/Notion.app/"; }
+    { path = "/Applications/Brave Browser.app/"; }
     { path = "/Applications/iTerm.app/"; }
     { path = "/System/Applications/Music.app/"; }
+    { path = "/System/Applications/Podcasts.app/"; }
+    { path = "/System/Applications/Photos.app/"; }
+    { path = "/System/Applications/Photo Booth.app/"; }
+    { path = "/System/Applications/News.app/"; }
+    { path = "/Applications/Harvest.app/"; }
+    { path = "/Applications/Drafts.app/"; }
     { path = "/System/Applications/Home.app/"; }
     {
       path = "/Users/dustin/State/";
       section = "others";
       options = "--sort name --view grid --display folder";
+    }
+    {
+      path = "/Users/dustin/State/Inbox/Downloads";
+      section = "others";
+      options = "--sort name --view grid --display stack";
     }
   ];
 
