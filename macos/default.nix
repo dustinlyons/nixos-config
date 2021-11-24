@@ -17,31 +17,27 @@ let
 
   # Auto upgrade nix package and the daemon service.
   services.nix-daemon.enable = true;
+  services.activate-system.enable = true;
 
   # Setup user, packages, programs
-  nix.package = pkgs.nixUnstable;
-  nix.trustedUsers = [ "@admin" "dustin" ];
-  nix.gc.user = "root";
+  nix = {
+    trustedUsers = [ "@admin" "dustin" ];
+    package = pkgs.nixUnstable;
+    gc.user = "root";
+    extraOptions = ''
+      experimental-features = nix-command flakes
+    '';
+   };
   
   # Turn off NIX_PATH warnings now that we're using flakes
   system.checks.verifyNixPath = false;
 
-  environment.systemPackages = [
-    #(pkgs.emacsWithPackagesFromUsePackage {
-    #  config = ../common/config/emacs/Emacs.org;
-    #  package = pkgs.emacsGit;
-    #  alwaysEnsure = true;
-    #})
-  ];
+  environment.systemPackages = pkgs.callPackage ./packages.nix {};
 
   # Enable fonts dir
   fonts.enableFontDir = true;
 
-  programs = {
-    #zsh = {
-    #  enable = true;
-    #};
-  };
+  programs = { };
 
   system = {
     stateVersion = 4;

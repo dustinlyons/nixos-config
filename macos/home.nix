@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 
 let 
   common-programs = import ../common/programs.nix { pkgs = pkgs; }; in
@@ -44,6 +44,7 @@ let
     name = "dustin";
     home = "/Users/dustin";
     isHidden = false;
+    shell = pkgs.zsh;
   };
 
   # We use Homebrew to install impure software only (Mac Apps)
@@ -60,32 +61,18 @@ let
     "yoink" = 457622435; 
   };
 
-  # Link Applications from home-manager so Raycast can pick them up
-  # Note, Spotlight ignores symlinks in Applications; only Raycast works here
-  #system.build.applications = pkgs.lib.mkForce (pkgs.buildEnv {
-  #  name = "applications";
-  #  paths = config.environment.systemPackages ++ config.home-manager.users.dustin.home.packages;
-  #  pathsToLink = "/Applications";
-  #});
-
-  system.activationScripts.applications.text = let
-    env = pkgs.buildEnv {
-      name = "system-applications";
-      paths = config.environment.systemPackages ++ config.home-manager.users.dustin.home.packages;
-      pathsToLink = "/Applications";
+  home-manager = {
+    useGlobalPkgs = true;
+    users.dustin = { pkgs, lib, ... }: {
+      home.packages = pkgs.callPackage ./packages.nix {};
+      programs = common-programs // { };
+      home.activation = {
+        aliasApplications = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+          rm -rf /Applications/Home\ Manager\ Apps
+          mkdir -p /Applications/Home\ Manager\ Apps
+          for i in $(ls ~/Applications); do app=$i; ln -s ~/Applications/$app /Applications/Home\ Manager\ Apps/$app; done
+        '';
+      };
     };
-  in pkgs.lib.mkForce ''
-    echo "setting up ~/Applications..." >&2
-    rm -rf ~/Applications/Nix\ Apps
-    mkdir -p ~/Applications/Nix\ Apps
-    find ${env}/Applications -maxdepth 1 -type l -exec readlink '{}' + |
-        while read src; do
-          /bin/cp -cr "$src" ~/Applications/Nix\ Apps
-        done
-  '';
-
-  home-manager.users.dustin = { pkgs, ... }: {
-    home.packages = pkgs.callPackage ./packages.nix {};
-    programs = common-programs // { };
   };
 }
