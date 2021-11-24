@@ -835,20 +835,43 @@ Everything related to M-x compile.
 
 *** Languages
 **** HTML
-Emmet mode gives autocompletion for HTML tags using short hand notations.
+***** Emmet Mode
+Emmet mode gives autocompletion for HTML tags using short hand notations, which for I use the TAB key.
+
 #+NAME: html-auto-completion
 #+BEGIN_SRC emacs-lisp
-  ;; Auto complete HTML and CSS tags
-  (use-package emmet-mode)
-  (add-hook 'sgml-mode-hook 'emmet-mode) ;; Auto-start on any markup modes
-  (add-hook 'css-mode-hook  'emmet-mode) ;; enable Emmet's css abbreviation.
+
+(use-package emmet-mode)
+(add-hook 'sgml-mode-hook 'emmet-mode)
+(add-hook 'css-mode-hook  'emmet-mode)
+(define-key emmet-mode-keymap [tab] 'emmet-expand-line)
+
 #+END_SRC
 
+***** Rainbow Mode
 Rainbow mode is an Emacs minor mode to highlight the color shown by a RGB hex triplet (example #FFFFFF).
+
 #+NAME: rainbow-mode
 #+BEGIN_SRC emacs-lisp
   ;; Minor mode to show HTML hex colors
   (use-package rainbow-mode)
+#+END_SRC
+
+**** CSS
+#+NAME: html-auto-completion
+#+BEGIN_SRC emacs-lisp
+(use-package lsp-tailwindcss
+        :straight (:host github :repo "merrickluo/lsp-tailwindcss"))
+#+END_SRC
+
+**** Nix
+#+NAME: html-auto-completion
+#+BEGIN_SRC emacs-lisp
+(add-to-list 'lsp-language-id-configuration '(nix-mode . "nix"))
+(lsp-register-client
+ (make-lsp-client :new-connection (lsp-stdio-connection '("rnix-lsp"))
+                  :major-modes '(nix-mode)
+                  :server-id 'nix))
 #+END_SRC
 
 **** Javascript
