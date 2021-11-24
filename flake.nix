@@ -4,6 +4,7 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
+    libusb.url = "github:steav005/xow/0fe9cd9"; # libusb patch until 1.0.25
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -14,7 +15,7 @@
     };
   };
 
-  outputs = { self, darwin, home-manager, nixpkgs, ... }: {
+  outputs = { self, darwin, home-manager, nixpkgs, ... }@inputs: {
 
     # My Macbook Pro 16"
     darwinConfigurations = {
@@ -40,6 +41,10 @@
             home-manager.users.dustin = import ./nixos/home.nix;
           }
         ];
+       specialArgs = {
+        inherit inputs;
+       };
+
       };
     };
   };

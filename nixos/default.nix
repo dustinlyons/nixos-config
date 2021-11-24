@@ -1,5 +1,5 @@
 # Dustin's NixOS configuration
-{ config, pkgs, ... }:
+{ config, inputs, pkgs, ... }:
 {
   imports = [
     ../common
@@ -52,6 +52,13 @@
       rev = "278ab5def18f7c3edd2dc65a64994e8b3aa63390";
     }))
   ];
+
+  nixpkgs.config.packageOverrides = pkgs: {
+    xow = pkgs.xow.overrideAttrs (orig: {
+      version = "pre-1.0.25";
+      buildInputs = [ inputs.libusb.packages.x86_64-linux.libusb ];
+    });
+  };
 
   # Enable the X11 windowing system
   services.xserver.enable = true;

@@ -1,7 +1,4 @@
 { config, pkgs, nixpkgs, ... }:
-
-let
-  common-programs = import ../common/programs.nix { pkgs = nixpkgs; }; in
 {
 
   imports = [ ./home.nix ];
