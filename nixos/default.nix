@@ -11,6 +11,7 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.kernelPackages = pkgs.linuxPackages_latest;
+  boot.blacklistedKernelModules = [ "mt76x2u" ];
 
   # Set your time zone.
   time.timeZone = "America/New_York";
@@ -78,9 +79,12 @@
   hardware.opengl.enable = true;
   hardware.opengl.driSupport32Bit = true;
   hardware.opengl.driSupport = true;
+  services.hardware.xow.enable = true;
+  services.udev.packages = [ pkgs.xow ];
 
   # libinput provides better support for our stuff
   services.xserver.libinput.enable = true;
+  boot.kernelModules = [ "uinput" ];
 
   # Sync state between machines
   services.syncthing = {
@@ -99,8 +103,9 @@
   users.extraUsers.dustin = {
     shell = pkgs.zsh;
   };
- 
+
   environment.systemPackages = [
+    pkgs.xow
     (pkgs.emacsWithPackagesFromUsePackage {
       config = ../common/config/emacs/Emacs.org;
       package = pkgs.emacsPgtkGcc;
