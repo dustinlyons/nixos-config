@@ -5,7 +5,7 @@
   "brave-browser"
   "discord"
   "homebrew/cask/docker"
-  "kap"
+  "microsoft-teams"
   "notion"
   "ngrok"
   "raycast"
