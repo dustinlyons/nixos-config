@@ -5,7 +5,6 @@
   "brave-browser"
   "discord"
   "homebrew/cask/docker"
-  "iterm2"
   "kap"
   "notion"
   "ngrok"

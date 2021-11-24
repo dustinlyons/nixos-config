@@ -18,7 +18,8 @@ let
     { path = "/Applications/zoom.us.app/"; }
     { path = "/Applications/Notion.app/"; }
     { path = "/Applications/Brave Browser.app/"; }
-    { path = "/Applications/iTerm.app/"; }
+    { path = "/Applications/Home Manager Apps/Alacritty.app/"; }
+    { path = "/Applications/Home Manager Apps/Emacs.app/"; }
     { path = "/System/Applications/Music.app/"; }
     { path = "/System/Applications/Podcasts.app/"; }
     { path = "/System/Applications/Photos.app/"; }
