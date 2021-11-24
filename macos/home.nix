@@ -1,10 +1,10 @@
 { config, pkgs, lib, ... }:
 
-let 
+let
   common-programs = import ../common/home.nix { pkgs = pkgs; }; in
 {
-  imports = [ 
-    <home-manager/nix-darwin> 
+  imports = [
+    <home-manager/nix-darwin>
     ./dock
   ];
 
@@ -59,7 +59,7 @@ let
     "harvest" = 506189836;
     "hidden-bar" = 1452453066;
     "instapaper" = 288545208;
-    "yoink" = 457622435; 
+    "yoink" = 457622435;
   };
 
   home-manager = {

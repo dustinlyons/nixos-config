@@ -22,15 +22,6 @@
   networking.hostName = "felix"; # Define your hostname.
   networking.useDHCP = false;
   networking.interfaces.eno1.useDHCP = true;
-  #networking.hostId = "18675309";
-  #boot.initrd.supportedFilesystems = ["zfs"]; # boot from zfs
-  #boot.supportedFilesystems = [ "zfs" ];
-  #services.udev.extraRules = ''
-  #  ACTION=="add|change",
-  #  KERNEL=="sd[a-z]*[0-9]*|mmcblk[0-9]*p[0-9]*|nvme[0-9]*n[0-9]*p[0-9]*",
-  #  ENV{ID_FS_TYPE}=="zfs_member",
-  #  ATTR{../queue/scheduler}="none"
-  #'';
 
   # Turn on flag for proprietary software
   nixpkgs.config.allowUnfree = true;
@@ -44,7 +35,6 @@
    };
 
   services.emacs.package = pkgs.emacsPgtkGcc;
-
   nixpkgs.overlays = [
     (import (builtins.fetchGit {
       url = "https://github.com/nix-community/emacs-overlay.git";

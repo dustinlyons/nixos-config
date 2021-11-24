@@ -56,7 +56,7 @@ nix-build https://github.com/LnL7/nix-darwin/archive/master.tar.gz -A installer
 Grab the latest nix-config zip file from Github, move to the directory and run
 ```sh
 ./bin/mac-build
-``` 
+```
 or
 ```sh
 ./bin/nixos-build

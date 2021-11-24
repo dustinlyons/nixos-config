@@ -7,7 +7,7 @@ let
       "${nixpkgs}/nixos/modules/installer/cd-dvd/channel.nix"
     ];
 
-    networking.hostName = "base"; 
+    networking.hostName = "base";
     users.extraUsers.root.password = "password";
     environment.systemPackages = with pkgs; [ vim git screen ];
 

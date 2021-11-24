@@ -8,8 +8,8 @@ let
     ];
 
     time.timeZone = "America/New_York";
-    networking.hostName = "syncthing"; 
-    networking.hostId = "67518724"; 
+    networking.hostName = "syncthing";
+    networking.hostId = "67518724";
     boot.initrd.supportedFilesystems = ["zfs"]; # boot from zfs
     boot.supportedFilesystems = [ "zfs" ];
     services.udev.extraRules = ''
@@ -24,7 +24,6 @@ let
       isNormalUser = true;
       extraGroups = [ "wheel" ];
     };
-
 
   };
 

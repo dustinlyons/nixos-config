@@ -1,6 +1,6 @@
 { pkgs, ... }:
 
-let 
+let
   home = builtins.getEnv "HOME";
   common-programs = import ../common/home.nix { pkgs = pkgs; }; in
 {

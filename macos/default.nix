@@ -25,7 +25,7 @@
       experimental-features = nix-command flakes
     '';
    };
-  
+
   # Turn off NIX_PATH warnings now that we're using flakes
   system.checks.verifyNixPath = false;
 
