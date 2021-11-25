@@ -6,7 +6,6 @@ with pkgs; [
   aspellDicts.en
   bottom
   bash-completion
-  emacs
   font-awesome
   gcc
   hack-font

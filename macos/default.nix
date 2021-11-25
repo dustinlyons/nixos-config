@@ -61,9 +61,14 @@
 
       dock = {
         autohide = false;
+        show-recents = false;
         launchanim = true;
         orientation = "bottom";
         tilesize = 48;
+      };
+
+      finder = {
+        _FXShowPosixPathInTitle = false;
       };
 
       trackpad = {

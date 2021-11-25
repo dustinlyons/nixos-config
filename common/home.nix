@@ -1,18 +1,23 @@
 { pkgs, ... }:
 
 {
+  #emacs = {
+  # enable = true;
+  # package = if pkgs.stdenv.isDarwin then pkgs.emacsGcc else pkgs.emacsPgtkGcc;
+  #};
+
   zsh = {
     enable = true;
-    autocd = true;
+    autocd = false;
     cdpath = [ "~/State/Projects/Code/" ];
     oh-my-zsh = {
       enable = true;
       theme = "robbyrussell";
-      plugins = [ "docker" "emacs" ];
     };
     initExtraFirst = ''
       export PATH=$HOME/.npm-packages/bin:$PATH
       export PATH=$NIX_USER_PROFILE_DIR/profile/bin:$PATH
+      export PATH=$HOME/bin:$PATH
       export NVM_DIR="$HOME/.nvm"
       [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
    '';
@@ -20,7 +25,7 @@
 
   git = {
     enable = true;
-    ignores = [ "*~" "*.swp" ];
+    ignores = [ "*.swp" ];
     userName = "Dustin Lyons";
     userEmail = "hello@dustinlyons.co";
     attributes = [ "* filter=trimWhitespace" ];

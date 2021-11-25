@@ -5,22 +5,21 @@ let common-packages = import ../common/packages.nix { pkgs = pkgs; }; in
 common-packages ++ [
   brave
   cabextract
-  mycrypto
-  etcher
+  etcher # flash USB drives
   electrum
   direnv
   fontconfig
   gimp
   gnumake
   gnugrep
-  libusb1
+  libusb1 # for Xbox controller
   home-manager
   openssh
-  obs-studio
+  obs-studio # for streaming, video
   ripgrep
-  rnix-lsp
+  rnix-lsp # lsp-mode for nix
   tree
-  tdesktop
+  tdesktop # telegram desktop
   unixtools.ifconfig
   unixtools.netstat
   xdg_utils

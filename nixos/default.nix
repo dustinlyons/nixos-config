@@ -5,8 +5,6 @@
     ../common
   ];
 
-  # Import shared configuration
-
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
@@ -34,15 +32,17 @@
     '';
    };
 
+  # GTK Native Comp Emacs
   services.emacs.package = pkgs.emacsPgtkGcc;
+  services.emacs.enable = true;
   nixpkgs.overlays = [
     (import (builtins.fetchGit {
       url = "https://github.com/nix-community/emacs-overlay.git";
-      ref = "master";
-      rev = "278ab5def18f7c3edd2dc65a64994e8b3aa63390";
     }))
   ];
 
+  # Video games, patch libusb1 so Xbox controller works
+  programs.steam.enable = true;
   nixpkgs.config.packageOverrides = pkgs: {
     xow = pkgs.xow.overrideAttrs (orig: {
       version = "pre-1.0.25";
@@ -95,22 +95,21 @@
   users.users.dustin = {
     isNormalUser = true;
     extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
-  };
-
-  users.extraUsers.dustin = {
     shell = pkgs.zsh;
   };
 
-  environment.systemPackages = [
-    pkgs.xow
-    (pkgs.emacsWithPackagesFromUsePackage {
+  # NixOS trivia. Q: What is the difference between
+  # systemPackages and regular user profile packages?
+  # A: systemPackages are updated every time the system is rebuilt
+  environment.systemPackages = with pkgs; [
+    xow
+    (emacsWithPackagesFromUsePackage {
       config = ../common/config/emacs/Emacs.org;
-      package = pkgs.emacsPgtkGcc;
+      package = emacsPgtkGcc;
       alwaysEnsure = true;
     })
   ];
 
-  programs.steam.enable = true;
   system.stateVersion = "21.05"; # Don't change this
 
 }
