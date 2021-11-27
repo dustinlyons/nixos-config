@@ -78,8 +78,18 @@ Some my own, some from others.
 
 #+NAME: themes-autothemer
 #+BEGIN_SRC emacs-lisp
-(use-package autothemer
-  :init (load-theme 'zeroed t))
+(use-package doom-themes
+  :ensure t
+  :config
+  ;; Global settings (defaults)
+  (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
+        doom-themes-enable-italic t) ; if nil, italics is universally disabled
+
+  (load-theme 'doom-city-lights t)
+
+  ;; Enable flashing mode-line on errors
+  (doom-themes-visual-bell-config)
+  (doom-themes-org-config))
 #+END_SRC
 
 *** Windows
@@ -227,6 +237,9 @@ This is used primarily to center org mode text.
 Predefine windows with hotkeys and jump to them.
 
 #+BEGIN_SRC emacs-lisp
+;; Remove binding for facemap-menu, use for ace-window instead
+(global-unset-key (kbd "M-o"))
+
 (use-package ace-window
   :bind (("M-o" . ace-window))
   :custom
@@ -266,7 +279,7 @@ Various helpers and packages I find useful for window management.
 #+END_SRC
 ** Global Settings and Config
 ***  Global modes
-I like these modes, what can I say.
+I like these modes, what can I say. They're good to me.
 
 #+NAME: global-modes
 #+BEGIN_SRC emacs-lisp
@@ -275,6 +288,8 @@ I like these modes, what can I say.
   (global-visual-line-mode t) ;; Wraps lines everywhere
   (line-number-mode t) ;; Line numbers in the gutter
   (show-paren-mode t) ;; Highlights parans for me
+
+  (setq warning-minimum-level :error)
 #+END_SRC
 
 ** Org mode
@@ -334,10 +349,11 @@ Note the weekly scope of the command's precision.")
        (insert "\n"))
 
  (dl/leader-keys
-  "c"  '(:ignore t :which-key "compilation")
-  "cc" '(compile :which-key "compile")
-  "cr" '(compile :which-key "recompile")
+  "e" '((load "~/.emacs") :which-key "reload emacs conf")
   ","  '(dl/insert-current-time :which-key "current time"))
+
+ # This gives us snippets for source blocks with <s TAB.
+ (use-package org-tempo)
 
 #+END_SRC
 
@@ -807,12 +823,21 @@ Everything related to spell and grammar checking.
 #+BEGIN_SRC emacs-lisp
 
   (use-package flycheck-grammarly)
-  (require 'flycheck-grammarly)
   (defun spell() (interactive) (flyspell-mode 1))
+
+  (use-package flyspell-correct
+    :after flyspell
+    :bind (:map flyspell-mode-map ("C-;" . flyspell-correct-wrapper)))
+
+  (use-package flyspell-correct-ivy
+    :after flyspell-correct)
 
   ;; Add spell check for git commits
   (add-hook 'git-commit-mode-hook 'turn-on-flyspell)
 
+(add-hook 'text-mode-hook 'flyspell-mode)
+(add-hook 'org-mode-hook 'flyspell-mode)
+(add-hook 'prog-mode-hook 'flyspell-prog-mode)
 #+END_SRC
 
 ** Coding
@@ -901,6 +926,8 @@ Rainbow mode is an Emacs minor mode to highlight the color shown by a RGB hex tr
 
   (use-package company-box
     :hook (company-mode . company-box-mode))
+
+  (use-package vue-mode)
 
   (use-package typescript-mode
     :mode "\\.ts\\'"
