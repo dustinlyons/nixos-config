@@ -36,8 +36,9 @@
   services.emacs.package = pkgs.emacsPgtkGcc;
   services.emacs.enable = true;
   nixpkgs.overlays = [
-    (import (builtins.fetchGit {
-      url = "https://github.com/nix-community/emacs-overlay.git";
+    (import (builtins.fetchTarball {
+      url = https://github.com/nix-community/emacs-overlay/archive/master.tar.gz;
+      sha256 = "01p8wj6gb2h6q5l4kxaxjg17qkdl62062p1v542h7sbhhzxvpfl6";
     }))
   ];
 

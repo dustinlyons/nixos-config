@@ -1,7 +1,7 @@
 { config, pkgs, nixpkgs, ... }:
 {
 
-  imports = [ ./home.nix ];
+  imports = [ ./home-manager.nix ];
 
   nixpkgs = {
     config = {

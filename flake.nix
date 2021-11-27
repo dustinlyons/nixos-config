@@ -38,7 +38,7 @@
           home-manager.nixosModules.home-manager {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
-            home-manager.users.dustin = import ./nixos/home.nix;
+            home-manager.users.dustin = import ./nixos/home-manager.nix;
           }
         ];
        specialArgs = {

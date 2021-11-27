@@ -16,6 +16,7 @@ with pkgs; [
   libfido2
   nodejs
   nodePackages.live-server
+  nodePackages.npm
   openssh
   pinentry
   pandoc
