@@ -311,7 +311,7 @@ Various helpers and packages I find useful for window management.
     "rl"  '(rotate-layout :which-key "rotate layout"))
 
 #+END_SRC
-** Global Settings and Config
+** Global Settings
 
 *** Global Modes
 I like these modes, what can I say. They're good to me.
@@ -694,7 +694,7 @@ Replaces the standard org-mode header asterisks with dots.
     (set-face-attribute (car face) nil :font "Helvetica LT Std" :weight 'medium :height (cdr face)))
 #+END_SRC
 
-** Evil mode (Vim)
+** Evil mode (aka Vim mode)
 *** Install package
 This is what makes emacs possible for me. All evil mode packages and related configuration.
 
@@ -762,6 +762,70 @@ This is what makes emacs possible for me. All evil mode packages and related con
       (evil-set-undo-system 'undo-tree)
       (global-undo-tree-mode 1))
 
+#+END_SRC
+
+** File browser
+*** Install package
+Convenient helpers and keybindings when browsing files in Emacs.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package all-the-icons-dired)
+  (use-package dired-single)
+  (use-package dired-ranger)
+  (use-package dired-collapse)
+
+  (setq dired-listing-switches "-agho --group-directories-first")
+  (setq dired-omit-files "^\\.[^.].*")
+  (setq dired-omit-verbose nil)
+  (setq dired-hide-details-hide-symlink-targets nil)
+  (setq delete-by-moving-to-trash t)
+
+  (autoload 'dired-omit-mode "dired-x")
+
+  (add-hook 'dired-load-hook
+            (lambda ()
+              (interactive)
+              (dired-collapse)))
+
+  (add-hook 'dired-mode-hook
+            (lambda ()
+              (interactive)
+              (dired-omit-mode 1)
+              (dired-hide-details-mode 1)
+              (all-the-icons-dired-mode 1))
+              (hl-line-mode 1))
+
+    (evil-collection-define-key 'normal 'dired-mode-map
+      "h" 'dired-single-up-directory
+      "c" 'find-file
+      "H" 'dired-omit-mode
+      "l" 'dired-single-buffer
+      "y" 'dired-ranger-copy
+      "X" 'dired-ranger-move
+      "p" 'dired-ranger-paste)
+
+  (use-package dired-rainbow
+   :after dired
+   (dired-rainbow-define-chmod directory "#6cb2eb" "d.*")
+   (dired-rainbow-define html "#eb5286" ("css" "less" "sass" "scss" "htm" "html" "jhtm" "mht" "eml" "mustache" "xhtml"))
+   (dired-rainbow-define xml "#f2d024" ("xml" "xsd" "xsl" "xslt" "wsdl" "bib" "json" "msg" "pgn" "rss" "yaml" "yml" "rdata"))
+   (dired-rainbow-define document "#9561e2" ("docm" "doc" "docx" "odb" "odt" "pdb" "pdf" "ps" "rtf" "djvu" "epub" "odp" "ppt" "pptx"))
+   (dired-rainbow-define markdown "#ffed4a" ("org" "etx" "info" "markdown" "md" "mkd" "nfo" "pod" "rst" "tex" "textfile" "txt"))
+   (dired-rainbow-define database "#6574cd" ("xlsx" "xls" "csv" "accdb" "db" "mdb" "sqlite" "nc"))
+   (dired-rainbow-define media "#de751f" ("mp3" "mp4" "mkv" "MP3" "MP4" "avi" "mpeg" "mpg" "flv" "ogg" "mov" "mid" "midi" "wav" "aiff" "flac"))
+   (dired-rainbow-define image "#f66d9b" ("tiff" "tif" "cdr" "gif" "ico" "jpeg" "jpg" "png" "psd" "eps" "svg"))
+   (dired-rainbow-define log "#c17d11" ("log"))
+   (dired-rainbow-define shell "#f6993f" ("awk" "bash" "bat" "sed" "sh" "zsh" "vim"))
+   (dired-rainbow-define interpreted "#38c172" ("py" "ipynb" "rb" "pl" "t" "msql" "mysql" "pgsql" "sql" "r" "clj" "cljs" "scala" "js"))
+   (dired-rainbow-define compiled "#4dc0b5" ("asm" "cl" "lisp" "el" "c" "h" "c++" "h++" "hpp" "hxx" "m" "cc" "cs" "cp" "cpp" "go" "f" "for" "ftn" "f90" "f95" "f03" "f08" "s" "rs" "hi" "hs" "pyc" ".java"))
+   (dired-rainbow-define executable "#8cc4ff" ("exe" "msi"))
+   (dired-rainbow-define compressed "#51d88a" ("7z" "zip" "bz2" "tgz" "txz" "gz" "xz" "z" "Z" "jar" "war" "ear" "rar" "sar" "xpi" "apk" "xz" "tar"))
+   (dired-rainbow-define packaged "#faad63" ("deb" "rpm" "apk" "jad" "jar" "cab" "pak" "pk3" "vdf" "vpk" "bsp"))
+   (dired-rainbow-define encrypted "#ffed4a" ("gpg" "pgp" "asc" "bfe" "enc" "signature" "sig" "p12" "pem"))
+   (dired-rainbow-define fonts "#6cb2eb" ("afm" "fon" "fnt" "pfb" "pfm" "ttf" "otf"))
+   (dired-rainbow-define partition "#e3342f" ("dmg" "iso" "bin" "nrg" "qcow" "toast" "vcd" "vmdk" "bak"))
+   (dired-rainbow-define vc "#0074d9" ("git" "gitignore" "gitattributes" "gitmodules"))
+   (dired-rainbow-define-chmod executable-unix "#38c172" "-.*x.*"))
 #+END_SRC
 
 ** Managing Projects
@@ -1002,6 +1066,15 @@ Rainbow mode is an Emacs minor mode to highlight the color shown by a RGB hex tr
     :init (setq markdown-command "pandoc"))
 #+END_SRC
 
+*** Infrastructure
+**** Nix
+Nix is my package manager and operating system of choice; this mode enables me to have a better time writing Nix expressions.
+
+#+begin_src emacs-lisp
+(use-package nix-mode
+  :mode "\\.nix\\'")
+#+end_src
+
 *** Quality of Life
 
 Delete trailing whitespace on save.
@@ -1010,15 +1083,6 @@ Delete trailing whitespace on save.
 #+BEGIN_SRC emacs-lisp
   (add-hook 'before-save-hook 'delete-trailing-whitespace)
 #+END_SRC
-
-** Infrastructure
-*** Nix
-Nix is my package manager and operating system of choice; this mode enables me to have a better time writing Nix expressions.
-
-#+begin_src emacs-lisp
-(use-package nix-mode
-  :mode "\\.nix\\'")
-#+end_src
 
 ** Writing
 
