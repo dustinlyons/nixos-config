@@ -92,6 +92,18 @@ Some my own, some from others.
   (doom-themes-org-config))
 #+END_SRC
 
+*** System Definitions
+**** Conditionals
+#+BEGIN_SRC emacs-lisp
+(defun system-is-mac ()
+  "Return true if system is darwin-based (Mac OS X)"
+  (string-equal system-type "darwin"))
+
+(defun system-is-linux ()
+  "Return true if system is GNU/Linux-based"
+  (string-equal system-type "gnu/linux"))
+
+#+END_SRC
 *** Windows
 **** Defaults
 Sets some reasonable defaults.
@@ -124,9 +136,11 @@ Turns off the various menu bars, they're quite ugly.
     :height 100)
 
   ;; Set the variable pitch face
-  (set-face-attribute 'variable-pitch nil
-    :font "Helvetica LT Std"
-    :height 120)
+  (when (system-is-linux)
+    (set-face-attribute 'variable-pitch nil :font "Helvetica LT Std" :height 120))
+
+  (when (system-is-mac)
+    (set-face-attribute 'variable-pitch nil :font "Helvetica" :height 120))
 #+END_SRC
 
 ***** Line numbers
@@ -174,7 +188,8 @@ Turn UI things on and off, scale things up and down.
 
   (dl/leader-keys
     "t"  '(:ignore t :which-key "toggles")
-    "tt" '(counsel-load-theme :which-key "choose theme")
+    "tt" '(treemacs :which-key "treemacs")
+    "th" '(counsel-load-theme :which-key "choose theme")
     "ts" '(hydra-text-scale/body :which-key "scale text"))
 #+END_SRC
 
@@ -187,9 +202,9 @@ I like these window related minor modes.
   ;; Note to future self: If you have problems with these later,
   ;; move these into custom file and set variable custom-file
   (column-number-mode)
-  (scroll-bar-mode -1)
-  (menu-bar-mode -1)
-  (tool-bar-mode -1)
+  (scroll-bar-mode 0)
+  (menu-bar-mode 0)
+  (tool-bar-mode 0)
   (winner-mode 1) ;; ctrl-c left, ctrl-c right for window undo/redo
 #+END_SRC
 
@@ -225,8 +240,7 @@ This is used primarily to center org mode text.
 #+BEGIN_SRC emacs-lisp
 (defun dl/org-mode-visual-fill ()
   (setq visual-fill-column-width 110
-        visual-fill-column-center-text t)
-  (visual-fill-column-mode 1))
+        visual-fill-column-center-text t))
 
 (use-package visual-fill-column
   :defer t
@@ -262,6 +276,26 @@ Keeps info at my fingertips. Modeline is much better than Vim's Powerline (sorry
     :init (doom-modeline-mode 1))
 #+END_SRC
 
+**** Treemacs
+Although I'm primarily a keyboard user and use Projectile for quickly finding files, I still find the need to browse through files in a more visual way. Treemacs does the job, and beautifully might I add.
+
+#+NAME: modeline
+#+BEGIN_SRC emacs-lisp
+  ;; Run M-x all-the-icons-install-fonts to install
+  (use-package treemacs
+    :config
+      (setq treemacs-is-never-other-window nil)
+    :bind
+      ("C-c t" . treemacs-find-file)
+      ("C-c b" . treemacs-bookmark))
+
+  (use-package treemacs-icons-dired)
+  (use-package treemacs-all-the-icons)
+  (use-package treemacs-projectile)
+  (use-package treemacs-magit)
+  (use-package treemacs-evil)
+#+END_SRC
+
 **** Rotate windows
 Various helpers and packages I find useful for window management.
 
@@ -278,7 +312,8 @@ Various helpers and packages I find useful for window management.
 
 #+END_SRC
 ** Global Settings and Config
-***  Global modes
+
+*** Global Modes
 I like these modes, what can I say. They're good to me.
 
 #+NAME: global-modes
@@ -341,6 +376,11 @@ Simple snippets using leader keys. I'll convert to yas-snippets when this needs 
   "Format of date to insert with `insert-current-time' func.
 Note the weekly scope of the command's precision.")
 
+(defun dl/reload-emacs ()
+  "reload the emacs configuration"
+  (interactive)
+  (load "~/.emacs"))
+
 (defun dl/insert-current-time ()
   "insert the current time (1-week scope) into the current buffer."
        (interactive)
@@ -349,11 +389,8 @@ Note the weekly scope of the command's precision.")
        (insert "\n"))
 
  (dl/leader-keys
-  "e" '((load "~/.emacs") :which-key "reload emacs conf")
+  "e" '(dl/reload-emacs :which-key "reload emacs conf")
   ","  '(dl/insert-current-time :which-key "current time"))
-
- # This gives us snippets for source blocks with <s TAB.
- (use-package org-tempo)
 
 #+END_SRC
 
@@ -524,7 +561,9 @@ I use org-roam to take notes, which keeps many small files in the style of Zette
    (setq org-agenda-files (dl/define-agenda-files))
 
   (dl/leader-keys
-    "a"  '(dl/define-agenda-files :which-key "refresh agenda db"))
+    "a"  '(:ignore t :which-key "manage org-agenda")
+    "aa"  '(dl/define-agenda-files :which-key "refresh agenda db")
+    "ar"  '(org-roam-refile :which-key "refile a TODO"))
 
 #+END_SRC
 
@@ -661,7 +700,6 @@ This is what makes emacs possible for me. All evil mode packages and related con
 
 #+NAME: evil-packages
 #+BEGIN_SRC emacs-lisp
-
     (defun dl/evil-hook ()
       (dolist (mode '(eshell-mode
                       git-rebase-mode
@@ -710,7 +748,7 @@ This is what makes emacs possible for me. All evil mode packages and related con
         ;; Added Nov 8, 2021 to resolve bug related to
         ;; removal of evil-redirect-digit-argument
         ;; See: https://github.com/Somelauw/evil-org-mode/issues/93
-        (add-to-list 'evil-digit-bound-motions 'evil-org-beginning-of-line)
+        ;; (add-to-list 'evil-digit-bound-motions 'evil-org-beginning-of-line)
         (evil-define-key 'motion 'evil-org-mode
           (kbd "0") 'evil-org-beginning-of-line))
 
@@ -736,13 +774,13 @@ Projectile enables me organize projects with a killer grep interface.
     :diminish projectile-mode
     :config (projectile-mode)
     :custom
-	((projectile-completion-system 'ivy))
-      :bind-keymap
-	("C-c p" . projectile-command-map)
-      :init
-	(when (file-directory-p code_dir_path)
-	(setq projectile-project-search-path '(code_dir_path)))
-	  (setq projectile-switch-project-action #'projectile-dired))
+      ((projectile-completion-system 'ivy))
+    :bind-keymap
+	    ("C-c p" . projectile-command-map)
+    :init
+	    (when (file-directory-p code_dir_path)
+	    (setq projectile-project-search-path '(code_dir_path)))
+	    (setq projectile-switch-project-action #'projectile-dired))
 
   ;; Gives me Ivy options in the Projectile menus
   (use-package counsel-projectile
@@ -758,14 +796,14 @@ These settings keep emacs from littering the filesystem with buffer backups. The
 
 #+NAME: backup-files
 #+BEGIN_SRC emacs-lisp
-  (setq backup-directory-alist
-    `(("." . ,(concat user-emacs-directory "backup")))
+(setq backup-directory-alist
+      `((".*" . ,temporary-file-directory))
       backup-by-copying t    ; Don't delink hardlinks
       version-control t      ; Use version numbers on backups
-      delete-old-versions t  ; Automatically delete excess backups
-      kept-new-versions 20   ; how many of the newest versions to keep
-      kept-old-versions 5    ; and how many of the old
-    )
+      delete-old-versions t) ; Automatically delete excess backups
+
+(setq auto-save-file-name-transforms
+      `((".*" ,temporary-file-directory t)))
 #+END_SRC
 
 *** Fuzzy file finder

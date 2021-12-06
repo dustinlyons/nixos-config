@@ -19,7 +19,8 @@
       export PATH=$NIX_USER_PROFILE_DIR/profile/bin:$PATH
       export PATH=$HOME/bin:$PATH
       export NVM_DIR="$HOME/.nvm"
-      [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+      [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+      alias open='nautilus --browser .'
    '';
   };
 
@@ -29,6 +30,9 @@
     userName = "Dustin Lyons";
     userEmail = "hello@dustinlyons.co";
     attributes = [ "* filter=trimWhitespace" ];
+    lfs = {
+      enable = true;
+    };
     extraConfig = {
       init.defaultBranch = "main";
       core.editor = "vim";

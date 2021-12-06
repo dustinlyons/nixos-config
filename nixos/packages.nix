@@ -7,6 +7,7 @@ common-packages ++ [
   cabextract
   etcher # flash USB drives
   electrum
+  discord
   direnv
   fontconfig
   gimp
@@ -16,6 +17,7 @@ common-packages ++ [
   home-manager
   openssh
   obs-studio # for streaming, video
+  pinentry-curses
   ripgrep
   rnix-lsp # lsp-mode for nix
   tree

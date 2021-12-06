@@ -3,6 +3,7 @@
 {
   imports = [
     ../common
+    ./cachix.nix # Community builds of Emacs so we don't have to
   ];
 
   # Use the systemd-boot EFI boot loader.
@@ -10,7 +11,6 @@
   boot.loader.efi.canTouchEfiVariables = true;
   boot.kernelPackages = pkgs.linuxPackages_latest;
   boot.blacklistedKernelModules = [ "mt76x2u" ];
-
   # Set your time zone.
   time.timeZone = "America/New_York";
 
@@ -44,6 +44,7 @@
 
   # Video games, patch libusb1 so Xbox controller works
   programs.steam.enable = true;
+  programs.gnupg.agent.enable = true;
   nixpkgs.config.packageOverrides = pkgs: {
     xow = pkgs.xow.overrideAttrs (orig: {
       version = "pre-1.0.25";
@@ -51,9 +52,12 @@
     });
   };
 
-  # Enable the X11 windowing system
+  # Enable Wayland with Gnome
+  # hardware.nvidia.modesetting.enable = true;
   services.xserver.enable = true;
   services.xserver.videoDrivers = [ "nvidia" ];
+
+  # This helps fix tearing of windows
   services.xserver.screenSection = ''
     Option       "metamodes" "nvidia-auto-select +0+0 {ForceFullCompositionPipeline=On}"
     Option       "AllowIndirectGLXProtocol" "off"
@@ -62,6 +66,7 @@
 
   # Enable the GNOME Desktop Environment
   services.xserver.displayManager.gdm.enable = true;
+  services.xserver.displayManager.gdm.wayland = false;
   services.xserver.desktopManager.gnome.enable = true;
 
   # Turn Caps Lock into Ctrl
@@ -74,13 +79,18 @@
   # Enable sound
   sound.enable = true;
   hardware.pulseaudio.enable = true;
+
+  # Video support
   hardware.opengl.enable = true;
   hardware.opengl.driSupport32Bit = true;
   hardware.opengl.driSupport = true;
+  hardware.nvidia.modesetting.enable = true;
+
+  # Xbox controller support
   services.hardware.xow.enable = true;
   services.udev.packages = [ pkgs.xow ];
 
-  # libinput provides better support for our stuff
+  # Better support for general peripherals
   services.xserver.libinput.enable = true;
   boot.kernelModules = [ "uinput" ];
 

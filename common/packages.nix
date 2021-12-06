@@ -8,6 +8,7 @@ with pkgs; [
   bash-completion
   font-awesome
   gcc
+  gnupg
   hack-font
   home-manager
   htop
