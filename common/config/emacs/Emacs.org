@@ -311,6 +311,12 @@ Various helpers and packages I find useful for window management.
     "rl"  '(rotate-layout :which-key "rotate layout"))
 
 #+END_SRC
+**** Show git status in gutter
+Show symbols in the gutter to reflect status of git hunks. This + magit make Emacs the best git experience, hands down.
+#+BEGIN_SRC emacs-lisp
+  (use-package git-gutter-fringe+)
+  (global-git-gutter-mode 1) ;; Show git changes everywhere
+#+END_SRC
 ** Global Settings
 
 *** Global Modes
