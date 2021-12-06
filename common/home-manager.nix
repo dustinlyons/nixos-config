@@ -20,7 +20,10 @@
       export PATH=$HOME/bin:$PATH
       export NVM_DIR="$HOME/.nvm"
       [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-      alias open='nautilus --browser .'
+      # Open file window from within terminal
+      alias open='nautilus --browser . > /dev/null 2>&1 &'
+      # Ranger is a terminal app to browse files
+      alias r='ranger'
    '';
   };
 
