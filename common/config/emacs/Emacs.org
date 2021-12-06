@@ -377,12 +377,12 @@ Simple snippets using leader keys. I'll convert to yas-snippets when this needs 
 Note the weekly scope of the command's precision.")
 
 (defun dl/reload-emacs ()
-  "reload the emacs configuration"
+  "Reload the emacs configuration"
   (interactive)
   (load "~/.emacs"))
 
 (defun dl/insert-current-time ()
-  "insert the current time (1-week scope) into the current buffer."
+  "Insert the current time (1-week scope) into the current buffer."
        (interactive)
        (insert "** ")
        (insert (format-time-string current-time-format (current-time)))
@@ -532,6 +532,7 @@ Sets timestamps in the Properties drawer of files. I intend to use this one day 
 #+NAME::org-roam-set-timestamps-on-save
 #+BEGIN_SRC emacs-lisp
   (defun dl/org-roam-create-id ()
+  "Add created date to org-roam node."
     (interactive)
     (org-id-get-create)
     (dl/org-set-created-property))
@@ -544,9 +545,8 @@ I use org-roam to take notes, which keeps many small files in the style of Zette
 #+NAME::org-mode
 #+BEGIN_SRC emacs-lisp
   (defun dl/define-agenda-files ()
+    "Return a list of note files containing 'HasTodo' tag."
   (interactive)
-    "Return a list of note files containing 'HasTodo' tag.
-     I use this to denote files with tasks for org-agenda" ;
     (seq-uniq
      (seq-map
       #'car
