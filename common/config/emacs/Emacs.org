@@ -26,6 +26,8 @@ Mainly splash screen settings. In the future we may look to optimize performance
   (setq inhibit-startup-screen t)
   ;; Turn off the splash screen
   (setq initial-scratch-message nil)
+  ;; Confirm before exiting Emacs
+  (setq confirm-kill-emacs #'yes-or-no-p)
 #+END_SRC
 
 *** Add package sources
@@ -70,6 +72,15 @@ Hydra enables me drop into quick keybinding modes. See [[https://github.com/abo-
 #+NAME: next-buffer
 #+BEGIN_SRC emacs-lisp
   (global-set-key (kbd "<C-tab>") 'next-buffer)
+#+END_SRC
+
+*** Spaces over tabs
+We use two spaces in place of tabs.
+
+#+NAME: next-buffer
+#+BEGIN_SRC emacs-lisp
+  (setq-default indent-tabs-mode nil)
+  (setq-default tab-width 2)
 #+END_SRC
 
 ** Display Options
@@ -118,10 +129,7 @@ Sets some reasonable defaults.
       cursor-type 'bar)
 #+END_SRC
 
-**** Display configuration
-Turns off the various menu bars, they're quite ugly.
-
-***** Fonts
+**** Fonts
 [[https://sourcefoundry.org/hack/][Hack]] is a code-friendly typeface. I really like it.
 
 #+NAME: fonts
@@ -143,6 +151,40 @@ Turns off the various menu bars, they're quite ugly.
     (set-face-attribute 'variable-pitch nil :font "Helvetica" :height 120))
 #+END_SRC
 
+**** Toggles
+Turn UI things on and off, scale things up and down.
+
+#+NAME: ui-toggles
+#+BEGIN_SRC emacs-lisp
+  (defhydra hydra-text-scale (:timeout 4)
+    "scale text"
+    ("j" text-scale-increase "big")
+    ("k" text-scale-decrease "small")
+    ("q" nil "quit" :exit t))
+
+  (dl/leader-keys
+    "t"  '(:ignore t :which-key "toggles")
+    "tt" '(treemacs :which-key "treemacs")
+    "th" '(counsel-load-theme :which-key "choose theme")
+    "ts" '(hydra-text-scale/body :which-key "scale text"))
+#+END_SRC
+
+***** Rotate windows
+Various helpers and packages I find useful for window management.
+
+#+BEGIN_SRC emacs-lisp
+
+  ;; Rotates windows and layouts
+  (use-package rotate
+    :config)
+
+  (dl/leader-keys
+    "r"  '(:ignore t :which-key "rotate")
+    "rw"  '(rotate-window :which-key "rotate window")
+    "rl"  '(rotate-layout :which-key "rotate layout"))
+
+#+END_SRC
+**** Gutter
 ***** Line numbers
 These functions define vim-style relative line numbers.
 
@@ -175,24 +217,7 @@ These functions define vim-style relative line numbers.
     (add-hook mode (lambda () (linum-mode 0))))
 #+END_SRC
 
-***** Toggles
-Turn UI things on and off, scale things up and down.
-
-#+NAME: ui-toggles
-#+BEGIN_SRC emacs-lisp
-  (defhydra hydra-text-scale (:timeout 4)
-    "scale text"
-    ("j" text-scale-increase "big")
-    ("k" text-scale-decrease "small")
-    ("q" nil "quit" :exit t))
-
-  (dl/leader-keys
-    "t"  '(:ignore t :which-key "toggles")
-    "tt" '(treemacs :which-key "treemacs")
-    "th" '(counsel-load-theme :which-key "choose theme")
-    "ts" '(hydra-text-scale/body :which-key "scale text"))
-#+END_SRC
-
+**** Modes
 ***** Window minor modes
 I like these window related minor modes.
 
@@ -208,6 +233,21 @@ I like these window related minor modes.
   (winner-mode 1) ;; ctrl-c left, ctrl-c right for window undo/redo
 #+END_SRC
 
+***** Set mode margins
+This is used primarily to center org mode text.
+
+#+NAME: mode-margins
+#+BEGIN_SRC emacs-lisp
+(defun dl/org-mode-visual-fill ()
+  (setq visual-fill-column-width 110
+        visual-fill-column-center-text t))
+
+(use-package visual-fill-column
+  :defer t
+  :hook (org-mode . dl/org-mode-visual-fill))
+#+END_SRC
+
+**** Colors
 ***** Rainbow delimiters
 Makes my lisp parens pretty, and easy to spot.
 
@@ -233,18 +273,37 @@ Define a global set of colors to be used everywhere in Emacs.
 (defvar dl/dark-grey-color "#65737E")
 #+END_SRC
 
-**** Set mode margins
-This is used primarily to center org mode text.
+**** Addons
+***** "Powerline"
+Keeps info at my fingertips. Modeline is much better than Vim's Powerline (sorry Vim).
 
-#+NAME: mode-margins
+#+NAME: modeline
 #+BEGIN_SRC emacs-lisp
-(defun dl/org-mode-visual-fill ()
-  (setq visual-fill-column-width 110
-        visual-fill-column-center-text t))
+  ;; Run M-x all-the-icons-install-fonts to install
+  (use-package all-the-icons)
+  (use-package doom-modeline
+    :ensure t
+    :init (doom-modeline-mode 1))
+#+END_SRC
 
-(use-package visual-fill-column
-  :defer t
-  :hook (org-mode . dl/org-mode-visual-fill))
+***** Treemacs
+Although I'm primarily a keyboard user and use Projectile for quickly finding files, I still find the need to browse through files in a more visual way. Treemacs does the job, and beautifully might I add.
+
+#+NAME: modeline
+#+BEGIN_SRC emacs-lisp
+  ;; Run M-x all-the-icons-install-fonts to install
+  (use-package treemacs
+    :config
+      (setq treemacs-is-never-other-window 1)
+    :bind
+      ("C-c t" . treemacs-find-file)
+      ("C-c b" . treemacs-bookmark))
+
+  (use-package treemacs-icons-dired)
+  (use-package treemacs-all-the-icons)
+  (use-package treemacs-projectile)
+  (use-package treemacs-magit)
+  (use-package treemacs-evil)
 #+END_SRC
 
 **** Easy window motions with ace-window
@@ -264,59 +323,6 @@ Predefine windows with hotkeys and jump to them.
     (ace-window-display-mode 1))
 #+END_SRC
 
-**** "Powerline"
-Keeps info at my fingertips. Modeline is much better than Vim's Powerline (sorry Vim).
-
-#+NAME: modeline
-#+BEGIN_SRC emacs-lisp
-  ;; Run M-x all-the-icons-install-fonts to install
-  (use-package all-the-icons)
-  (use-package doom-modeline
-    :ensure t
-    :init (doom-modeline-mode 1))
-#+END_SRC
-
-**** Treemacs
-Although I'm primarily a keyboard user and use Projectile for quickly finding files, I still find the need to browse through files in a more visual way. Treemacs does the job, and beautifully might I add.
-
-#+NAME: modeline
-#+BEGIN_SRC emacs-lisp
-  ;; Run M-x all-the-icons-install-fonts to install
-  (use-package treemacs
-    :config
-      (setq treemacs-is-never-other-window nil)
-    :bind
-      ("C-c t" . treemacs-find-file)
-      ("C-c b" . treemacs-bookmark))
-
-  (use-package treemacs-icons-dired)
-  (use-package treemacs-all-the-icons)
-  (use-package treemacs-projectile)
-  (use-package treemacs-magit)
-  (use-package treemacs-evil)
-#+END_SRC
-
-**** Rotate windows
-Various helpers and packages I find useful for window management.
-
-#+BEGIN_SRC emacs-lisp
-
-  ;; Rotates windows and layouts
-  (use-package rotate
-    :config)
-
-  (dl/leader-keys
-    "r"  '(:ignore t :which-key "rotate")
-    "rw"  '(rotate-window :which-key "rotate window")
-    "rl"  '(rotate-layout :which-key "rotate layout"))
-
-#+END_SRC
-**** Show git status in gutter
-Show symbols in the gutter to reflect status of git hunks. This + magit make Emacs the best git experience, hands down.
-#+BEGIN_SRC emacs-lisp
-  (use-package git-gutter-fringe+)
-  (global-git-gutter-mode 1) ;; Show git changes everywhere
-#+END_SRC
 ** Global Settings
 
 *** Global Modes
