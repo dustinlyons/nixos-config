@@ -23,6 +23,7 @@ let
       extraConfig = {
         init.defaultBranch = "main";
         core.editor = "vim";
+        credential.helper = "netlify";
       };
     };
   };
