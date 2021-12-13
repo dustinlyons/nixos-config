@@ -9,10 +9,12 @@ common-packages ++ [
   electrum
   discord
   direnv
+  firefox
   fontconfig
   gimp
   gnumake
   gnugrep
+  libreoffice
   libusb1 # for Xbox controller
   home-manager
   openssh

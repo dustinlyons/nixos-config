@@ -2,6 +2,7 @@
 
 with pkgs; [
   alacritty
+  awscli2
   aspell
   aspellDicts.en
   bottom
