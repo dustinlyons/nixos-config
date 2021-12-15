@@ -35,6 +35,7 @@
     attributes = [ "* filter=trimWhitespace" ];
     lfs = {
       enable = true;
+      allowincompletepush = true;
     };
     extraConfig = {
       init.defaultBranch = "main";

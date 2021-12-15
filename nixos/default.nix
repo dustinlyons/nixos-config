@@ -114,6 +114,7 @@
   # A: systemPackages are updated every time the system is rebuilt
   environment.systemPackages = with pkgs; [
     xow
+    gitAndTools.gitFull
     (emacsWithPackagesFromUsePackage {
       config = ../common/config/emacs/Emacs.org;
       package = emacsPgtkGcc;
