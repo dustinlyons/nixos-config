@@ -7,6 +7,8 @@ common-packages ++ [
   cabextract
   etcher # flash USB drives
   electrum
+  docker
+  docker-compose
   discord
   direnv
   firefox
@@ -14,12 +16,14 @@ common-packages ++ [
   gimp
   gnumake
   gnugrep
+  google-chrome
   libreoffice
   libusb1 # for Xbox controller
   home-manager
   openssh
   obs-studio # for streaming, video
   pinentry-curses
+  postgresql
   ripgrep
   rnix-lsp # lsp-mode for nix
   tree

@@ -102,10 +102,16 @@
     configDir = "/home/dustin/.config/syncthing";
   };
 
+  # Add docker daemon
+  virtualisation.docker.enable = true;
+
   # It's me
   users.users.dustin = {
     isNormalUser = true;
-    extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
+    extraGroups = [ 
+      "wheel" # Enable ‘sudo’ for the user.
+      "docker"
+    ]; 
     shell = pkgs.zsh;
   };
 
