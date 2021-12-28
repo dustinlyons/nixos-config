@@ -79,8 +79,9 @@ We use two spaces in place of tabs.
 
 #+NAME: next-buffer
 #+BEGIN_SRC emacs-lisp
-  (setq-default indent-tabs-mode nil)
-  (setq-default tab-width 2)
+  (setq-default indent-tabs-mode nil
+                js-indent-level 2
+                tab-width 2)
 #+END_SRC
 
 ** Display Options
@@ -96,7 +97,7 @@ Some my own, some from others.
   (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
         doom-themes-enable-italic t) ; if nil, italics is universally disabled
 
-  (load-theme 'doom-city-lights t)
+  (load-theme 'doom-ayu-mirage t)
 
   ;; Enable flashing mode-line on errors
   (doom-themes-visual-bell-config)
