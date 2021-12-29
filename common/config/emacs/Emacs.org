@@ -166,6 +166,7 @@ Turn UI things on and off, scale things up and down.
   (dl/leader-keys
     "t"  '(:ignore t :which-key "toggles")
     "tt" '(treemacs :which-key "treemacs")
+    "tl" '(lsp :which-key "lsp")
     "th" '(counsel-load-theme :which-key "choose theme")
     "ts" '(hydra-text-scale/body :which-key "scale text"))
 #+END_SRC
