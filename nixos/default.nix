@@ -35,12 +35,19 @@
   # GTK Native Comp Emacs
   services.emacs.package = pkgs.emacsPgtkGcc;
   services.emacs.enable = true;
-  nixpkgs.overlays = [
-    (import (builtins.fetchTarball {
-      url = https://github.com/nix-community/emacs-overlay/archive/master.tar.gz;
-      sha256 = "01p8wj6gb2h6q5l4kxaxjg17qkdl62062p1v542h7sbhhzxvpfl6";
-    }))
-  ];
+  nixpkgs.overlays =
+    let path = ../overlays; in with builtins;
+    # Load everything in overlays/ dir
+    map (n: import (path + ("/" + n)))
+        (filter (n: match ".*\\.nix" n != null ||
+                    pathExists (path + ("/" + n + "/default.nix")))
+                (attrNames (readDir path)))
+    # We use the nix-community Emacs patches
+    ++ [(import (builtins.fetchTarball {
+          url = https://github.com/nix-community/emacs-overlay/archive/master.tar.gz;
+          sha256 = "01p8wj6gb2h6q5l4kxaxjg17qkdl62062p1v542h7sbhhzxvpfl6";
+         }))
+       ];
 
   # Video games, patch libusb1 so Xbox controller works
   programs.steam.enable = true;
@@ -108,10 +115,10 @@
   # It's me
   users.users.dustin = {
     isNormalUser = true;
-    extraGroups = [ 
+    extraGroups = [
       "wheel" # Enable ‘sudo’ for the user.
       "docker"
-    ]; 
+    ];
     shell = pkgs.zsh;
   };
 
