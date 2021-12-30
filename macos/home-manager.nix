@@ -65,18 +65,12 @@ let
   home-manager = {
     useGlobalPkgs = true;
     users.dustin = { pkgs, lib, ... }: {
-      home = {
-        packages = pkgs.callPackage ./packages.nix {};
-        activation = {
-          aliasApplications = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-            rm -rf /Applications/Home\ Manager\ Apps
-            mkdir -p /Applications/Home\ Manager\ Apps
-            for i in $(ls ~/Applications); do app=$i; ln -s ~/Applications/$app /Applications/Home\ Manager\ Apps/$app; done
-          '';
-        };
+      home.packages = pkgs.callPackage ./packages.nix {};
+      programs = common-programs // { zsh.initExtra = ''
+       . /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
+       . /nix/var/nix/profiles/default/etc/profile.d/nix.sh
+      '';
       };
-
-      programs = common-programs // { };
     };
   };
 }

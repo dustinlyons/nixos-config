@@ -37,7 +37,9 @@
 
   # Enable fonts dir
   fonts.enableFontDir = true;
+
   programs = { };
+
   system = {
     stateVersion = 4;
 

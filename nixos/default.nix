@@ -19,6 +19,10 @@
   networking.hostName = "felix"; # Define your hostname.
   networking.useDHCP = false;
   networking.interfaces.eno1.useDHCP = true;
+  networking.extraHosts =
+  ''
+    192.168.0.67 BRN008077D92A06.local
+  '';
 
   # Turn on flag for proprietary software
   nix = {
