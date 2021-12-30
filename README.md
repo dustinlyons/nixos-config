@@ -17,7 +17,7 @@ Enter Nix and NixOS.
 - Simple bash scripts to build and switch environments
 - Literate configuration style to overly explain for posterity (coming soon)
 
-## Install
+## Bootstrap New Computer
 
 ### Step 1 - For foreign distros (namely MacOS), install Nix package manager
 Install the nix package manager:
