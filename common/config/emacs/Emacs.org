@@ -214,6 +214,7 @@ These functions define vim-style relative line numbers.
   ;; Disable line numbers for some modes
   (dolist (mode '(org-mode-hook
                   term-mode-hook
+                  treemacs-mode-hook
                   shell-mode-hook
                   eshell-mode-hook))
     (add-hook mode (lambda () (linum-mode 0))))

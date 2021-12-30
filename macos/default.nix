@@ -1,16 +1,10 @@
 { config, pkgs, nixpkgs, ... }:
 {
 
-  imports = [ ./home-manager.nix ];
-
-  nixpkgs = {
-    config = {
-      allowUnfree = true;
-      allowBroken = false;
-      allowInsecure = false;
-      allowUnsupportedSystem = true;
-    };
-  };
+  imports = [
+    ../common
+    ./home-manager.nix
+  ];
 
   # Auto upgrade nix package and the daemon service.
   services.nix-daemon.enable = true;
@@ -24,18 +18,26 @@
     extraOptions = ''
       experimental-features = nix-command flakes
     '';
-   };
+  };
+
+  # GTK Native Comp Emacs
+  services.emacs.package = pkgs.emacsGcc;
+  services.emacs.enable = true;
 
   # Turn off NIX_PATH warnings now that we're using flakes
   system.checks.verifyNixPath = false;
 
-  environment.systemPackages = pkgs.callPackage ./packages.nix {};
+  environment.systemPackages = with pkgs; [
+    (emacsWithPackagesFromUsePackage {
+      config = ../common/config/emacs/Emacs.org;
+      package = emacsGcc;
+      alwaysEnsure = true;
+    })
+  ] ++ (import ../common/packages.nix { pkgs = pkgs; });
 
   # Enable fonts dir
   fonts.enableFontDir = true;
-
   programs = { };
-
   system = {
     stateVersion = 4;
 

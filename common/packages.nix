@@ -10,6 +10,7 @@ with pkgs; [
   font-awesome
   gcc
   gnupg
+  highlight
   hack-font
   home-manager
   htop

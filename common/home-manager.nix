@@ -15,6 +15,8 @@
       theme = "robbyrussell";
     };
     initExtraFirst = ''
+      . /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
+      . /nix/var/nix/profiles/default/etc/profile.d/nix.sh
       export PATH=$HOME/.npm-packages/bin:$PATH
       export PATH=$NIX_USER_PROFILE_DIR/profile/bin:$PATH
       export PATH=$HOME/bin:$PATH
@@ -41,7 +43,6 @@
     attributes = [ "* filter=trimWhitespace" ];
     lfs = {
       enable = true;
-      allowincompletepush = true;
     };
     extraConfig = {
       init.defaultBranch = "main";

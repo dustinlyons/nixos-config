@@ -14,5 +14,6 @@
   "telegram"
   "homebrew/cask/transmission"
   "vlc"
+  "visual-studio-code"
   "zoom"
 ]

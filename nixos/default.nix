@@ -22,8 +22,6 @@
   networking.interfaces.eno1.useDHCP = true;
 
   # Turn on flag for proprietary software
-  nixpkgs.config.allowUnfree = true;
-  nixpkgs.config.allowBroken = true;
   nix = {
     allowedUsers = [ "dustin" ];
     package = pkgs.nixUnstable;
@@ -32,22 +30,9 @@
     '';
    };
 
-  # GTK Native Comp Emacs
+  # GTK Native Comp Emacs with Wayland support
   services.emacs.package = pkgs.emacsPgtkGcc;
   services.emacs.enable = true;
-  nixpkgs.overlays =
-    let path = ../overlays; in with builtins;
-    # Load everything in overlays/ dir
-    map (n: import (path + ("/" + n)))
-        (filter (n: match ".*\\.nix" n != null ||
-                    pathExists (path + ("/" + n + "/default.nix")))
-                (attrNames (readDir path)))
-    # We use the nix-community Emacs patches
-    ++ [(import (builtins.fetchTarball {
-          url = https://github.com/nix-community/emacs-overlay/archive/master.tar.gz;
-          sha256 = "01p8wj6gb2h6q5l4kxaxjg17qkdl62062p1v542h7sbhhzxvpfl6";
-         }))
-       ];
 
   # Video games, patch libusb1 so Xbox controller works
   programs.steam.enable = true;
@@ -122,9 +107,6 @@
     shell = pkgs.zsh;
   };
 
-  # NixOS trivia. Q: What is the difference between
-  # systemPackages and regular user profile packages?
-  # A: systemPackages are updated every time the system is rebuilt
   environment.systemPackages = with pkgs; [
     xow
     gitAndTools.gitFull

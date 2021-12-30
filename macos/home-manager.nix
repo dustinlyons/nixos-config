@@ -65,15 +65,18 @@ let
   home-manager = {
     useGlobalPkgs = true;
     users.dustin = { pkgs, lib, ... }: {
-      home.packages = pkgs.callPackage ./packages.nix {};
-      programs = common-programs // { };
-      home.activation = {
-        aliasApplications = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-          rm -rf /Applications/Home\ Manager\ Apps
-          mkdir -p /Applications/Home\ Manager\ Apps
-          for i in $(ls ~/Applications); do app=$i; ln -s ~/Applications/$app /Applications/Home\ Manager\ Apps/$app; done
-        '';
+      home = {
+        packages = pkgs.callPackage ./packages.nix {};
+        activation = {
+          aliasApplications = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+            rm -rf /Applications/Home\ Manager\ Apps
+            mkdir -p /Applications/Home\ Manager\ Apps
+            for i in $(ls ~/Applications); do app=$i; ln -s ~/Applications/$app /Applications/Home\ Manager\ Apps/$app; done
+          '';
+        };
       };
+
+      programs = common-programs // { };
     };
   };
 }
