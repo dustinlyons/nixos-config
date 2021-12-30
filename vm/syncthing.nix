@@ -19,7 +19,7 @@ let
     nixpkgs.config.allowUnfree = true;
     environment.systemPackages = with pkgs; [ syncthing vim htop ];
 
-    users.extraUsers.root.password = "password";
+    users.extraUsers.root.password = "password"; # Change after first login
     users.users.dustin = {
       isNormalUser = true;
       extraGroups = [ "wheel" ];
