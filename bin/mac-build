@@ -5,13 +5,13 @@ export RED_TERMINAL_OUTPUT='\033[1;31m'
 export CLEAR='\033[0m'
 export NIXPKGS_ALLOW_UNFREE=1
 
-echo -e "${GREEN_TERMINAL_OUTPUT}~~> Building nix environment...${CLEAR}"
+echo -e "${GREEN_TERMINAL_OUTPUT}Building nix environment...${CLEAR}"
 nix --experimental-features 'nix-command flakes' build .#darwinConfigurations.Dustins-MBP.system --impure
 
-echo -e "${GREEN_TERMINAL_OUTPUT}~~> Switching to new generation...${CLEAR}"
+echo -e "${GREEN_TERMINAL_OUTPUT}Switching to new generation...${CLEAR}"
 ./result/sw/bin/darwin-rebuild switch --flake .#Dustins-MBP --impure
 
-echo -e "${GREEN_TERMINAL_OUTPUT}~~> Cleaning up...${CLEAR}"
+echo -e "${GREEN_TERMINAL_OUTPUT}Cleaning up...${CLEAR}"
 rm -rf ./result
 
-echo -e "${GREEN_TERMINAL_OUTPUT}~~> Done!${CLEAR}"
+echo -e "${GREEN_TERMINAL_OUTPUT}Done!${CLEAR}"
