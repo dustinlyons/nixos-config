@@ -2,7 +2,7 @@
 {
 
   imports = [
-    ./cachix.nix # Community builds of Emacs so we don't have to
+    ./cachix # Community builds of Emacs so we don't have to
   ];
 
   nixpkgs = {
