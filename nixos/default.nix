@@ -3,7 +3,6 @@
 {
   imports = [
     ../common
-    ./cachix.nix # Community builds of Emacs so we don't have to
   ];
 
   # Use the systemd-boot EFI boot loader.

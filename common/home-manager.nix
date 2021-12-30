@@ -1,11 +1,6 @@
 { pkgs, ... }:
 
 {
-  #emacs = {
-  # enable = true;
-  # package = if pkgs.stdenv.isDarwin then pkgs.emacsGcc else pkgs.emacsPgtkGcc;
-  #};
-
   zsh = {
     enable = true;
     autocd = false;
