@@ -1,7 +1,7 @@
 # Dustin's Nix / NixOS config
 
 ## Overview
-#### Updated: November 18, 2021
+#### Updated: December 30, 2021
 
 These are my "dotfiles" contained within Nix deriviations that drive setup and configuration of my Macbook Pro and a NixOS workstation sitting on my desk at home.
 
