@@ -6,7 +6,6 @@
 This is my emacs config file. Yes, in emacs you can write configuration like a Google Doc and get away with it. It's called [[https://en.wikipedia.org/wiki/Literate_programming]["literate programming"]].
 
 Emacs is more than an editor, it's a whole damn operating system. This file is evidence of that. This configuration drives how I interact with my journal, complete and organize tasks, develop and write blog posts, write code and ship new stuff, etc. etc. etc. list goes on. I've yet to jump into EXWM, but if one is so inclined, Emacs can expand beyond an application into all software.
-
 ** Personal Information
 Just me!
 
@@ -15,7 +14,6 @@ Just me!
   (setq user-full-name "Dustin Lyons"
     user-mail-address "hello@dustinlyons.co")
 #+END_SRC
-
 ** Initialization
 *** Booting up
 Mainly splash screen settings. In the future we may look to optimize performance here.
@@ -28,7 +26,6 @@ Mainly splash screen settings. In the future we may look to optimize performance
   ;; Confirm before exiting Emacs
   (setq confirm-kill-emacs #'yes-or-no-p)
 #+END_SRC
-
 *** Add package sources
 This associates our package manager with the right source (MELPA).
 
@@ -39,7 +36,6 @@ This associates our package manager with the right source (MELPA).
   (unless (assoc-default "nongnu" package-archives)
     (add-to-list 'package-archives '("nongnu" . "https://elpa.nongnu.org/nongnu/") t))
 #+END_SRC
-
 *** System Definitions
 **** Conditionals
 #+BEGIN_SRC emacs-lisp
@@ -52,7 +48,6 @@ This associates our package manager with the right source (MELPA).
   (string-equal system-type "gnu/linux"))
 
 #+END_SRC
-
 *** Hydra framework
 Hydra enables me drop into quick keybinding modes. See [[https://github.com/abo-abo/hydra][here]].
 
@@ -60,7 +55,6 @@ Hydra enables me drop into quick keybinding modes. See [[https://github.com/abo-
 #+BEGIN_SRC emacs-lisp
 (use-package hydra)
 #+END_SRC
-
 *** Counsel/Ivy framework
 Ivy and associated helpers that uses the minibuffer (the info window at the bottom).
 
@@ -109,7 +103,6 @@ Ivy and associated helpers that uses the minibuffer (the info window at the bott
     :init (add-hook 'after-init-hook 'all-the-icons-ivy-setup))
 
 #+END_SRC
-
 *** Leader keys
 I use general.el to define groups of keybindings under my 'leader' definition. You will see these definitions sprinkled throughout this file; my own private collection of fast shit. For more info, [[https://medium.com/usevim/vim-101-what-is-the-leader-key-f2f5c1fa610f][here]] is a good explanation on leader keys.
 
@@ -124,7 +117,6 @@ I use general.el to define groups of keybindings under my 'leader' definition. Y
       :keymaps '(normal visual emacs)
       :prefix ","))
 #+END_SRC
-
 **** Toggles
 Turn UI things on and off, scale things up and down.
 
@@ -143,7 +135,6 @@ Turn UI things on and off, scale things up and down.
     "th" '(counsel-load-theme :which-key "choose theme")
     "ts" '(hydra-text-scale/body :which-key "scale text"))
 #+END_SRC
-
 ***** Rotate windows
 Various helpers and packages I find useful for window management.
 
@@ -198,7 +189,6 @@ These functions define vim-style relative line numbers.
                   eshell-mode-hook))
     (add-hook mode (lambda () (linum-mode 0))))
 #+END_SRC
-
 **** Modes
 ***** Window minor modes
 I like these window related minor modes.
@@ -214,7 +204,6 @@ I like these window related minor modes.
   (tool-bar-mode 0)
   (winner-mode 1) ;; ctrl-c left, ctrl-c right for window undo/redo
 #+END_SRC
-
 ***** Set mode margins
 This is used primarily to center org mode text.
 
@@ -228,7 +217,6 @@ This is used primarily to center org mode text.
   :defer t
   :hook (org-mode . dl/org-mode-visual-fill))
 #+END_SRC
-
 **** Colors
 ***** Rainbow delimiters
 Makes my lisp parens pretty, and easy to spot.
@@ -238,7 +226,6 @@ Makes my lisp parens pretty, and easy to spot.
   (use-package rainbow-delimiters
     :hook (prog-mode . rainbow-delimiters-mode))
 #+END_SRC
-
 ***** Color definitions
 Define a global set of colors to be used everywhere in Emacs.
 
@@ -254,7 +241,6 @@ Define a global set of colors to be used everywhere in Emacs.
 (defvar dl/light-grey-color "#C0C5CE")
 (defvar dl/dark-grey-color "#65737E")
 #+END_SRC
-
 **** Addons
 ***** "Powerline"
 Keeps info at my fingertips. Modeline is much better than Vim's Powerline (sorry Vim).
@@ -267,7 +253,6 @@ Keeps info at my fingertips. Modeline is much better than Vim's Powerline (sorry
     :ensure t
     :init (doom-modeline-mode 1))
 #+END_SRC
-
 ***** Treemacs
 Although I'm primarily a keyboard user and use Projectile for quickly finding files, I still find the need to browse through files in a more visual way. Treemacs does the job, and beautifully might I add.
 
@@ -286,7 +271,6 @@ Although I'm primarily a keyboard user and use Projectile for quickly finding fi
   (use-package treemacs-magit)
   (use-package treemacs-evil)
 #+END_SRC
-
 **** Easy window motions with ace-window
 Predefine windows with hotkeys and jump to them.
 
@@ -303,10 +287,8 @@ Predefine windows with hotkeys and jump to them.
   :config
     (ace-window-display-mode 1))
 #+END_SRC
-
 *** Package managers
 Using straight.el under the hood of use-package enables us to download packages using git. This is preferred for easier hacking.
-
 *** Windows
 **** Defaults
 Sets some reasonable defaults.
@@ -320,7 +302,6 @@ Sets some reasonable defaults.
       use-file-dialog nil
       cursor-type 'bar)
 #+END_SRC
-
 **** Fonts
 [[https://sourcefoundry.org/hack/][Hack]] is a code-friendly typeface. I really like it.
 
@@ -345,7 +326,6 @@ Sets some reasonable defaults.
     (set-face-attribute 'variable-pitch nil :font "Helvetica" :weight 'normal :height 170))
 
 #+END_SRC
-
 ** Keybindings
 *** Spaces over tabs
 We use two spaces in place of tabs.
@@ -356,13 +336,11 @@ We use two spaces in place of tabs.
                 js-indent-level 2
                 tab-width 2)
 #+END_SRC
-
 *** Buffers
 #+NAME: next-buffer
 #+BEGIN_SRC emacs-lisp
   (global-set-key (kbd "<C-tab>") 'next-buffer)
 #+END_SRC
-
 ** Display options
 *** Themes
 Some my own, some from others.
@@ -382,9 +360,7 @@ Some my own, some from others.
   (doom-themes-visual-bell-config)
   (doom-themes-org-config))
 #+END_SRC
-
 ** Global Settings
-
 *** Global Modes
 I like these modes, what can I say. They're good to me.
 
@@ -398,11 +374,9 @@ I like these modes, what can I say. They're good to me.
 
   (setq warning-minimum-level :error)
 #+END_SRC
-
 ** Org mode
 *** Install package
 If you haven't heard of org mode, go watch [[https://www.youtube.com/watch?v=SzA2YODtgK4][this]] talk and come back when you are finished.
-
 **** Quick Snippets
 
 Simple snippets using leader keys. I'll convert to yas-snippets when this needs an upgrade.
@@ -430,7 +404,6 @@ Note the weekly scope of the command's precision.")
   ","  '(dl/insert-current-time :which-key "current time"))
 
 #+END_SRC
-
 ***** Roam capture templates
 These are templates used to create new notes.
 
@@ -458,7 +431,6 @@ These are templates used to create new notes.
       :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}")
       :unnarrowed t)))
 #+END_SRC
-
 **** Org Roam
 ***** Install package
 #+NAME::org-roam-package
@@ -498,7 +470,6 @@ These are templates used to create new notes.
           ("C-<right>" . org-roam-dailies-goto-next-note)))
   (org-roam-db-autosync-mode)
 #+END_SRC
-
 ***** Configure templates
 #+NAME::org-roam-templates
 #+BEGIN_SRC emacs-lisp
@@ -508,10 +479,8 @@ These are templates used to create new notes.
        :if-new (file+head "%<%Y-%m-%d>.org"
                           "#+TITLE: %<%Y-%m-%d>\n#+filetags: Daily\n\n"))))
 #+END_SRC
-
 ***** Extending Roam
 Here we add additional function to org-roam to either do something specific for more workflow, or otherwise make ~org-roam~ more full featured.
-
 ****** Set CREATED and LAST_MODIFIED filetags on save
 Sets timestamps in the Properties drawer of files. I intend to use this one day when rendering these notes as HTML, to quickly see files last touched.
 
@@ -564,7 +533,6 @@ Sets timestamps in the Properties drawer of files. I intend to use this one day 
     (when (derived-mode-p 'org-mode)
       (dl/org-set-time-file-property "LAST_MODIFIED")))
 #+END_SRC
-
 ****** Set CREATED on node creation
 #+NAME::org-roam-set-timestamps-on-save
 #+BEGIN_SRC emacs-lisp
@@ -574,7 +542,6 @@ Sets timestamps in the Properties drawer of files. I intend to use this one day 
     (org-id-get-create)
     (dl/org-set-created-property))
 #+END_SRC
-
 *** Agenda
 **** Filter out files that don't include tasks in org-agenda
 I use org-roam to take notes, which keeps many small files in the style of Zettelkasten. However, org-agenda doesn't perform well in this scenario. To fix this, we filter out all files from org-agenda that don't contain a ~TODO~.
@@ -665,7 +632,6 @@ This block sets the ~org-agenda-prefix-format~ in an friendly way for org-roam (
           (tags . " %i %(dl/agenda-category 32) ")
           (search . " %i %(dl/agenda-category 32) ")))
 #+END_SRC
-
 **** org-super-agenda views
 Setup for org-super-agenda and org-ql.
 
@@ -709,16 +675,13 @@ Setup for org-super-agenda and org-ql.
 
      (org-super-agenda-mode)
 #+END_SRC
-
 *** UI improvements
 Anything related to making org mode pretty.
-
 **** Change color of ivy window selection
 #+NAME::ivy-window-selection
 #+BEGIN_SRC emacs-lisp
 (set-face-attribute 'ivy-current-match nil :foreground "#3d434d" :background "#ffcc66")
 #+END_SRC
-
 **** Change default bullets to be pretty
 
 Replaces the standard org-mode header asterisks with dots.
@@ -731,7 +694,6 @@ Replaces the standard org-mode header asterisks with dots.
       (org-superstar-remove-leading-stars t)
       (org-superstar-headline-bullets-list '("•" "•" "•" "◦" "◦" "◦" "◦")))
 #+END_SRC
-
 **** Fonts
 #+NAME::org-mode-variable-width-fonts
 #+BEGIN_SRC emacs-lisp
@@ -762,7 +724,6 @@ Replaces the standard org-mode header asterisks with dots.
  (when (system-is-mac)
    (set-face-attribute 'variable-pitch nil :font "Helvetica" :weight 'medium :height 170)))
 #+END_SRC
-
 ** Evil mode (aka Vim mode)
 *** Install package
 This is what makes emacs possible for me. All evil mode packages and related configuration.
@@ -824,10 +785,8 @@ This is what makes emacs possible for me. All evil mode packages and related con
       (global-undo-tree-mode 1))
 
 #+END_SRC
-
 ** Managing files
 Configuration related to filesystem, either basic IO and interaction from emacs or directly moving files around where it makes sense.
-
 *** Backups and auto-save
 These settings keep emacs from littering the filesystem with buffer backups. These files look like ~~yourfilename.txt~ or ~#yourfilename.txt#~ and would otherwise be dropped in your working directory.
 
@@ -842,7 +801,6 @@ These settings keep emacs from littering the filesystem with buffer backups. The
 (setq auto-save-file-name-transforms
       `((".*" ,temporary-file-directory t)))
 #+END_SRC
-
 *** File browser
 Convenient helpers and keybindings when browsing files in Emacs.
 
@@ -891,7 +849,6 @@ Convenient helpers and keybindings when browsing files in Emacs.
     (setq insert-directory-program
       (expand-file-name ".nix-profile/bin/ls" (getenv "HOME"))))
 #+END_SRC
-
 ** Managing projects
 *** Projectile
 Projectile enables me organize projects with a killer grep interface.
@@ -914,7 +871,6 @@ Projectile enables me organize projects with a killer grep interface.
     :after projectile
     :config (counsel-projectile-mode))
 #+END_SRC
-
 ** Writing
 *** Spell Check / Flycheck Mode
 Everything related to spell and grammar checking.
@@ -922,8 +878,9 @@ Everything related to spell and grammar checking.
 #+NAME: spell-check
 #+BEGIN_SRC emacs-lisp
   (defun spell() (interactive) (flyspell-mode 1))
-  (setq ispell-program-name
-    (expand-file-name ".nix-profile/bin/ispell" (getenv "HOME")))
+  (when (system-is-mac)
+    (setq ispell-program-name
+      (expand-file-name ".nix-profile/bin/ispell" (getenv "HOME")))))
 
   (use-package flyspell-correct
     :after flyspell
@@ -937,7 +894,6 @@ Everything related to spell and grammar checking.
   (add-hook 'org-mode-hook 'flyspell-mode)
   (add-hook 'prog-mode-hook 'flyspell-prog-mode)
 #+END_SRC
-
 ** Coding
 *** Compile buffers
 
@@ -955,7 +911,6 @@ Everything related to M-x compile.
     (ansi-color-apply-on-region (point-min) (point-max))))
 (add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
 #+END_SRC
-
 *** Languages
 **** HTML
 ***** Emmet mode
@@ -970,7 +925,6 @@ Emmet mode gives autocompletion for HTML tags using short hand notations, which 
 (define-key emmet-mode-keymap [tab] 'emmet-expand-line)
 
 #+END_SRC
-
 ***** Rainbow mode
 Rainbow mode is an Emacs minor mode to highlight the color shown by a RGB hex triplet (example #FFFFFF).
 
@@ -979,14 +933,12 @@ Rainbow mode is an Emacs minor mode to highlight the color shown by a RGB hex tr
   ;; Minor mode to show HTML hex colors
   (use-package rainbow-mode)
 #+END_SRC
-
 **** CSS
 #+NAME: html-auto-completion
 #+BEGIN_SRC emacs-lisp
 (use-package lsp-tailwindcss
         :straight (:host github :repo "merrickluo/lsp-tailwindcss"))
 #+END_SRC
-
 **** Nix
 #+NAME: html-auto-completion
 #+BEGIN_SRC emacs-lisp
@@ -1041,14 +993,12 @@ Rainbow mode is an Emacs minor mode to highlight the color shown by a RGB hex tr
   ;; Using flycheck with Grammarly for now, turning this off
   ;;(add-to-list 'lsp-language-id-configuration '(org-mode . "plaintext"))
 #+END_SRC
-
 *** Git
 #+NAME: magit-git
 #+BEGIN_SRC emacs-lisp
   (use-package magit
     :commands (magit-status magit-get-current-branch))
 #+END_SRC
-
 **** File types
 ***** Markdown mode
 #+NAME: markdown-mode
@@ -1061,7 +1011,6 @@ Rainbow mode is an Emacs minor mode to highlight the color shown by a RGB hex tr
       ("\\.markdown\\'" . markdown-mode))
     :init (setq markdown-command "pandoc"))
 #+END_SRC
-
 *** Infrastructure
 **** Nix
 Nix is my package manager and operating system of choice; this mode enables me to have a better time writing Nix expressions.
@@ -1079,9 +1028,7 @@ Delete trailing whitespace on save.
 #+BEGIN_SRC emacs-lisp
   (add-hook 'before-save-hook 'delete-trailing-whitespace)
 #+END_SRC
-
 ** Writing
-
 *** Update Table of Contents on Save
 
 I use =org-make-toc= to automatically update the Table of Contents in any header with a property named =TOC=.
@@ -1090,15 +1037,12 @@ I use =org-make-toc= to automatically update the Table of Contents in any header
   (use-package org-make-toc)
   (add-hook 'org-mode-hook #'org-make-toc-mode)
 #+end_src
-
 ** Learning Emacs
 These packages may come and go, but ultimately aid in my understanding of emacs and emacs lisp.
-
 *** Indent org-babel source blocks
 #+BEGIN_SRC emacs-lisp
   (setq org-src-tab-acts-natively nil)
 #+END_SRC
-
 *** Show real-time key bindings in a separate buffer
 #+NAME: command-log
 #+BEGIN_SRC emacs-lisp
@@ -1107,7 +1051,6 @@ These packages may come and go, but ultimately aid in my understanding of emacs 
   (setq global-command-log-mode t)
   ;; TODO Install package that lets you define help screens for keymaps
 #+END_SRC
-
 *** Panel popup to show key bindings
 #+NAME: which-key
 #+BEGIN_SRC emacs-lisp
@@ -1118,7 +1061,6 @@ These packages may come and go, but ultimately aid in my understanding of emacs 
     :config
     (setq which-key-idle-delay 0.3))
 #+END_SRC
-
 *** Helpful documentation strings for common functions
 
 #+NAME: helpful
