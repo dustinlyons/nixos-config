@@ -5,6 +5,7 @@ let
   common-programs = import ../common/home-manager.nix { pkgs = pkgs; }; in
 {
   home = {
+    enableNixpkgsReleaseCheck = false;
     packages = pkgs.callPackage ./packages.nix {};
     username = "dustin";
     homeDirectory = "/home/dustin";

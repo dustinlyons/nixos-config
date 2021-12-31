@@ -65,6 +65,7 @@ let
   home-manager = {
     useGlobalPkgs = true;
     users.dustin = { pkgs, lib, ... }: {
+      home.enableNixpkgsReleaseCheck = false;
       home.packages = pkgs.callPackage ./packages.nix {};
       programs = common-programs // {};
     };
