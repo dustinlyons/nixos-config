@@ -35,7 +35,6 @@
 
   # GTK Native Comp Emacs with Wayland support
   services.emacs.package = pkgs.emacsPgtkGcc;
-  services.emacs.enable = true;
 
   # Video games, patch libusb1 so Xbox controller works
   programs.steam.enable = true;

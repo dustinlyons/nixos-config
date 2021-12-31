@@ -22,7 +22,6 @@
 
   # GTK Native Comp Emacs
   services.emacs.package = pkgs.emacsGcc;
-  services.emacs.enable = true;
 
   # Turn off NIX_PATH warnings now that we're using flakes
   system.checks.verifyNixPath = false;
