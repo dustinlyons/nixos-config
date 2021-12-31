@@ -333,12 +333,10 @@ Sets some reasonable defaults.
 
   ;; Set the variable pitch face
   (when (system-is-linux)
-    (set-face-attribute 'variable-pitch nil :font "Cantarell" :weight 'medium :height 100))
+    (set-face-attribute 'variable-pitch nil :font "Cantarell" :weight 'medium :height 120))
   (when (system-is-mac)
     (set-face-attribute 'variable-pitch nil :font "Helvetica" :weight 'normal :height 170))
 #+END_SRC
-
-#+RESULTS: fonts
 
 ** Keybindings
 *** Spaces over tabs
@@ -396,54 +394,6 @@ I like these modes, what can I say. They're good to me.
 ** Org mode
 *** Install package
 If you haven't heard of org mode, go watch [[https://www.youtube.com/watch?v=SzA2YODtgK4][this]] talk and come back when you are finished.
-
-#+NAME::org-mode
-#+BEGIN_SRC emacs-lisp
-  (defun dl/org-mode-setup ()
-    (org-indent-mode)
-    (variable-pitch-mode 1)
-    (auto-fill-mode 0)
-    (visual-line-mode 1)
-    (setq evil-auto-indent nil))
-
-  (use-package org
-    :defer t
-    :hook (org-mode . dl/org-mode-setup)
-    :config
-  (setq org-edit-src-content-indentation 2 ;; Indent code blocks by 2
-        org-ellipsis " ▾" ;; Prettify the fold indicator
-        org-hide-emphasis-markers t ;; Hide special characters
-        org-hide-block-startup nil) ;; Don't start org mode with blocks folded
-    :bind
-      (("C-c a" . org-agenda)))
-      (setq org-todo-keywords
-       '((sequence "TODO(t)"
-                   "NEXT(n)"
-                   "ACTIVE(a)"
-                   "WAITING(w)"
-                   "SOMEDAY(s)"
-                   "|"
-                   "CANCELED(c)"
-                   "DONE(d)")))
-
-  ;; Fast access to tag common contexts I use
-  (setq org-tag-persistent-alist
-    '(("Inbox" . ?i)("#Daily" . ?d) ("@Home" . ?h) ("@Amanda" . ?a)("@Justin" . ?j)
-     ("@Car" . ?c) ("@Office" . ?o) ("#Phone" . ?p) ("#Computer" . ?u)))
-    ;;'(("#Inbox" . ?i) ("#Daily" . ?d) ("@Zeroed" . ?z) ("@ScholarRx" . ?s)("@Braeview" . ?b)
-    ;; ("@Errands" . ?e) ("@Play" . ?p) ))
-
-  (setq org-todo-keyword-faces
-    `(("NEXT" . ,dl/yellow-color)
-     ("WAITING" . ,dl/light-grey-color)
-     ("SOMEDAY" . ,dl/dark-grey-color)))
-
-  (setq org-tag-faces
-    `(("@Home" . ,dl/green-color)
-     ("@Car" . ,dl/purple-color)
-     ("@Office" . ,dl/teal-color)
-     ("Inbox" . ,dl/blue-color)))
-#+END_SRC
 
 **** Quick Snippets
 
@@ -621,7 +571,7 @@ Sets timestamps in the Properties drawer of files. I intend to use this one day 
 **** Filter out files that don't include tasks in org-agenda
 I use org-roam to take notes, which keeps many small files in the style of Zettelkasten. However, org-agenda doesn't perform well in this scenario. To fix this, we filter out all files from org-agenda that don't contain a ~TODO~.
 
-#+NAME::org-mode
+#+NAME::org-mode-filter
 #+BEGIN_SRC emacs-lisp
   (defun dl/define-agenda-files ()
     "Return a list of note files containing 'HasTodo' tag."
@@ -645,7 +595,30 @@ I use org-roam to take notes, which keeps many small files in the style of Zette
     "ar"  '(org-roam-refile :which-key "refile a TODO"))
 
 #+END_SRC
+**** Set org faces
+Set various face colors for org-mode.
 
+#+NAME::org-mode-faces
+#+BEGIN_SRC emacs-lisp
+  ;; Fast access to tag common contexts I use
+  (setq org-tag-persistent-alist
+    '(("Inbox" . ?i)("#Daily" . ?d) ("@Home" . ?h) ("@Amanda" . ?a)("@Justin" . ?j)
+     ("@Car" . ?c) ("@Office" . ?o) ("#Phone" . ?p) ("#Computer" . ?u)))
+    ;;'(("#Inbox" . ?i) ("#Daily" . ?d) ("@Zeroed" . ?z) ("@ScholarRx" . ?s)("@Braeview" . ?b)
+    ;; ("@Errands" . ?e) ("@Play" . ?p) ))
+
+  (setq org-todo-keyword-faces
+    `(("NEXT" . ,dl/yellow-color)
+     ("WAITING" . ,dl/light-grey-color)
+     ("SOMEDAY" . ,dl/dark-grey-color)))
+
+  (setq org-tag-faces
+    `(("@Home" . ,dl/green-color)
+     ("@Car" . ,dl/purple-color)
+     ("@Office" . ,dl/teal-color)
+     ("Inbox" . ,dl/blue-color)))
+#+END_SRC
+#
 **** Remove noise from org-agenda views
 This block sets the ~org-agenda-prefix-format~ in an friendly way for org-roam (credit to [[https://d12frosted.io/posts/2020-06-24-task-management-with-roam-vol2.html][this post)]]. It truncates long filenames and removes the org-roam timestamp slug.
 

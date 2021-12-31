@@ -27,6 +27,32 @@
 (setq straight-use-package-by-default t)
 
 (package-initialize)
+(defun dl/org-mode-setup ()
+  (org-indent-mode)
+  (variable-pitch-mode 1)
+  (auto-fill-mode 0)
+  (visual-line-mode 1)
+  (setq evil-auto-indent nil))
+
+(use-package org
+  :defer t
+  :hook (org-mode . dl/org-mode-setup)
+  :config
+    (setq org-edit-src-content-indentation 2 ;; Indent code blocks by 2
+      org-ellipsis " ▾" ;; Prettify the fold indicator
+      org-hide-emphasis-markers t ;; Hide special characters
+      org-hide-block-startup nil) ;; Don't start org mode with blocks folded
+  :bind
+    (("C-c a" . org-agenda)))
+    (setq org-todo-keywords
+     '((sequence "TODO(t)"
+                 "NEXT(n)"
+                 "ACTIVE(a)"
+                 "WAITING(w)"
+                 "SOMEDAY(s)"
+                 "|"
+                 "CANCELED(c)"
+                 "DONE(d)")))
 
 (require 'org-install)
 (org-babel-load-file "~/State/Projects/Code/nixos-config/common/config/emacs/Emacs.org")
