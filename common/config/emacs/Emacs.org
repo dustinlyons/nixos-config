@@ -107,6 +107,8 @@ Ivy and associated helpers that uses the minibuffer (the info window at the bott
 
   (use-package all-the-icons-ivy
     :init (add-hook 'after-init-hook 'all-the-icons-ivy-setup))
+
+  (set-face-attribute 'ivy-current-match nil :foreground "#3d434d" :background "#ffcc66")
 #+END_SRC
 
 *** Leader keys
@@ -336,6 +338,7 @@ Sets some reasonable defaults.
     (set-face-attribute 'variable-pitch nil :font "Cantarell" :weight 'medium :height 120))
   (when (system-is-mac)
     (set-face-attribute 'variable-pitch nil :font "Helvetica" :weight 'normal :height 170))
+
 #+END_SRC
 
 ** Keybindings
