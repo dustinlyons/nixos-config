@@ -1,5 +1,7 @@
 (unless (assoc-default "org" package-archives)
   (add-to-list 'package-archives '("org" . "https://orgmode.org/elpa/") t))
+(unless (assoc-default "melpa" package-archives)
+  (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t))
 
 ;; use-package package provides common package import functions
 (unless (package-installed-p 'use-package)
@@ -22,30 +24,9 @@
       (goto-char (point-max))
       (eval-print-last-sexp)))
   (load bootstrap-file nil 'nomessage))
-
-;; Tells (use-package) to use straight.el to download packages
-;; straight.el uses git packages, instead of the default bin files, which we like
-;; as it's much easier to open it up and hack it
 (setq straight-use-package-by-default t)
 
-(defun dl/org-mode-setup ()
-  (org-indent-mode)
-  (variable-pitch-mode 1)
-  (auto-fill-mode 0)
-  (visual-line-mode 1)
-  (setq evil-auto-indent nil)) 
-
-(use-package org
-  :defer t
-  :hook (org-mode . dl/org-mode-setup)
-  :config
-  (setq org-edit-src-content-indentation 2 ;; Indent code blocks by 2
-        org-ellipsis " ▾" ;; Prettify the fold indicator
-        org-hide-emphasis-markers t ;; Hide special characters
-        org-hide-block-startup nil) ;; Don't start org mode with blocks folded
-  :bind
-  (("C-c a" . org-agenda)))
-
 (package-initialize)
+
 (require 'org-install)
-(org-babel-load-file "~/State/Projects/Code/nixos-config/common/config/emacs/Emacs.org") 
+(org-babel-load-file "~/State/Projects/Code/nixos-config/common/config/emacs/Emacs.org")
