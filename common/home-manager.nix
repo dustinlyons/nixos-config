@@ -35,6 +35,9 @@
     # Ranger is a terminal app to browse files
     alias r='ranger'
 
+    # Always color ls
+    alias ls='ls --color'
+
     # Cypress is a dev tool for end-to-end testing
     export CYPRESS_INSTALL_BINARY=0
     export CYPRESS_RUN_BINARY=$(which Cypress)
