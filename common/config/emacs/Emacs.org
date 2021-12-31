@@ -871,6 +871,11 @@ Convenient helpers and keybindings when browsing files in Emacs.
     "y" 'dired-ranger-copy
     "X" 'dired-ranger-move
     "p" 'dired-ranger-paste)
+
+  ;; Darwin needs ls from coreutils for dired to work
+  (when (system-is-mac)
+    (setq insert-directory-program
+      (expand-file-name ".nix-profile/bin/ls" (getenv "HOME"))))
 #+END_SRC
 
 ** Managing projects

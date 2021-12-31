@@ -7,6 +7,7 @@ with pkgs; [
   aspellDicts.en
   bottom
   bash-completion
+  coreutils
   font-awesome
   gcc
   gnupg
