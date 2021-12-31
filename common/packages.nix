@@ -14,6 +14,7 @@ with pkgs; [
   hack-font
   home-manager
   htop
+  ispell
   iftop
   jq
   libfido2

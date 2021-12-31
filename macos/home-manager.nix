@@ -66,11 +66,7 @@ let
     useGlobalPkgs = true;
     users.dustin = { pkgs, lib, ... }: {
       home.packages = pkgs.callPackage ./packages.nix {};
-      programs = common-programs // { zsh.initExtra = ''
-       . /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
-       . /nix/var/nix/profiles/default/etc/profile.d/nix.sh
-      '';
-      };
+      programs = common-programs // {};
     };
   };
 }
