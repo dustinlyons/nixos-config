@@ -108,7 +108,6 @@ Ivy and associated helpers that uses the minibuffer (the info window at the bott
   (use-package all-the-icons-ivy
     :init (add-hook 'after-init-hook 'all-the-icons-ivy-setup))
 
-  (set-face-attribute 'ivy-current-match nil :foreground "#3d434d" :background "#ffcc66")
 #+END_SRC
 
 *** Leader keys
@@ -167,6 +166,12 @@ These functions define vim-style relative line numbers.
 #+NAME: line-numbers
 #+BEGIN_SRC emacs-lisp
   (global-linum-mode 1)
+
+  (when (system-is-linux)
+    (set-face-attribute 'linum nil :font "Hack" :foreground "#757b8a" :height 100))
+  (when (system-is-mac)
+    (set-face-attribute 'linum nil :font "Hack" :foreground "#757b8a" :height 130))
+
   (defvar my-linum-current-line-number 0)
   (setq linum-format 'my-linum-relative-line-numbers)
 
@@ -707,6 +712,12 @@ Setup for org-super-agenda and org-ql.
 
 *** UI improvements
 Anything related to making org mode pretty.
+
+**** Change color of ivy window selection
+#+NAME::ivy-window-selection
+#+BEGIN_SRC emacs-lisp
+(set-face-attribute 'ivy-current-match nil :foreground "#3d434d" :background "#ffcc66")
+#+END_SRC
 
 **** Change default bullets to be pretty
 
