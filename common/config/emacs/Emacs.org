@@ -363,7 +363,7 @@ We use two spaces in place of tabs.
   (global-set-key (kbd "<C-tab>") 'next-buffer)
 #+END_SRC
 
-** Display Options
+** Display options
 *** Themes
 Some my own, some from others.
 
@@ -921,9 +921,9 @@ Everything related to spell and grammar checking.
 
 #+NAME: spell-check
 #+BEGIN_SRC emacs-lisp
-
-  (use-package flycheck-grammarly)
   (defun spell() (interactive) (flyspell-mode 1))
+  (setq ispell-program-name
+    (expand-file-name ".nix-profile/bin/ispell" (getenv "HOME")))
 
   (use-package flyspell-correct
     :after flyspell
@@ -932,12 +932,10 @@ Everything related to spell and grammar checking.
   (use-package flyspell-correct-ivy
     :after flyspell-correct)
 
-  ;; Add spell check for git commits
   (add-hook 'git-commit-mode-hook 'turn-on-flyspell)
-
-(add-hook 'text-mode-hook 'flyspell-mode)
-(add-hook 'org-mode-hook 'flyspell-mode)
-(add-hook 'prog-mode-hook 'flyspell-prog-mode)
+  (add-hook 'text-mode-hook 'flyspell-mode)
+  (add-hook 'org-mode-hook 'flyspell-mode)
+  (add-hook 'prog-mode-hook 'flyspell-prog-mode)
 #+END_SRC
 
 ** Coding
