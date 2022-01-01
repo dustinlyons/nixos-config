@@ -303,21 +303,21 @@ Sets some reasonable defaults.
       cursor-type 'bar)
 #+END_SRC
 **** Fonts
-[[https://sourcefoundry.org/hack/][Hack]] is a code-friendly typeface. I really like it.
+[[https://sourcefoundry.org/hack/][Fira Code]] is a code-friendly typeface. I really like it.
 
 #+NAME: fonts
 #+BEGIN_SRC emacs-lisp
   ;; Set the default pitch face
   (when (system-is-linux)
-    (set-face-attribute 'default nil :font "Hack" :height 100))
+    (set-face-attribute 'default nil :font "Fira Code" :height 100))
   (when (system-is-mac)
-    (set-face-attribute 'default nil :font "Hack" :height 130))
+    (set-face-attribute 'default nil :font "Fira Code" :height 130))
 
   ;; Set the fixed pitch face
   (when (system-is-linux)
-    (set-face-attribute 'fixed-pitch nil :font "Hack" :weight 'normal :height 100))
+    (set-face-attribute 'fixed-pitch nil :font "Fira Code" :weight 'normal :height 100))
   (when (system-is-mac)
-    (set-face-attribute 'fixed-pitch nil :font "Hack" :weight 'normal :height 140))
+    (set-face-attribute 'fixed-pitch nil :font "Fira Code" :weight 'normal :height 140))
 
   ;; Set the variable pitch face
   (when (system-is-linux)
@@ -697,6 +697,7 @@ Replaces the standard org-mode header asterisks with dots.
 **** Fonts
 #+NAME::org-mode-variable-width-fonts
 #+BEGIN_SRC emacs-lisp
+  (add-hook 'org-mode-hook 'variable-pitch-mode)
   (require 'org-indent)
   (set-face-attribute 'org-block nil :foreground nil :inherit 'fixed-pitch)
   (set-face-attribute 'org-table nil  :inherit 'fixed-pitch)
@@ -877,10 +878,11 @@ Everything related to spell and grammar checking.
 
 #+NAME: spell-check
 #+BEGIN_SRC emacs-lisp
-  (defun spell() (interactive) (flyspell-mode 1))
   (when (system-is-mac)
-    (setq ispell-program-name
-      (expand-file-name ".nix-profile/bin/ispell" (getenv "HOME")))))
+    (with-eval-after-load "ispell"
+      (setq ispell-program-name
+        (expand-file-name ".nix-profile/bin/hunspell" (getenv "HOME")))
+      (setq ispell-dictionary "en_US")))
 
   (use-package flyspell-correct
     :after flyspell
@@ -893,10 +895,12 @@ Everything related to spell and grammar checking.
   (add-hook 'text-mode-hook 'flyspell-mode)
   (add-hook 'org-mode-hook 'flyspell-mode)
   (add-hook 'prog-mode-hook 'flyspell-prog-mode)
+
+  (defun spell() (interactive) (flyspell-mode 1))
 #+END_SRC
+
 ** Coding
 *** Compile buffers
-
 Everything related to M-x compile.
 
 #+NAME: compilation-buffer
@@ -930,17 +934,16 @@ Rainbow mode is an Emacs minor mode to highlight the color shown by a RGB hex tr
 
 #+NAME: rainbow-mode
 #+BEGIN_SRC emacs-lisp
-  ;; Minor mode to show HTML hex colors
   (use-package rainbow-mode)
 #+END_SRC
 **** CSS
-#+NAME: html-auto-completion
+#+NAME: lsp-tailwindcss
 #+BEGIN_SRC emacs-lisp
 (use-package lsp-tailwindcss
         :straight (:host github :repo "merrickluo/lsp-tailwindcss"))
 #+END_SRC
 **** Nix
-#+NAME: html-auto-completion
+#+NAME: lsp-nix
 #+BEGIN_SRC emacs-lisp
 (add-to-list 'lsp-language-id-configuration '(nix-mode . "nix"))
 (lsp-register-client
@@ -987,11 +990,8 @@ Rainbow mode is an Emacs minor mode to highlight the color shown by a RGB hex tr
 
   ;; Fixes flycheck in vue-mode (Vue.js)
   ;; https://emacs-lsp.github.io/lsp-mode/page/faq/
-  (with-eval-after-load 'lsp-mode
-    (mapc #'lsp-flycheck-add-mode '(typescript-mode js-mode css-mode vue-html-mode)))
-
-  ;; Using flycheck with Grammarly for now, turning this off
-  ;;(add-to-list 'lsp-language-id-configuration '(org-mode . "plaintext"))
+  ;; (with-eval-after-load 'lsp-mode
+  ;;   (mapc #'lsp-flycheck-add-mode '(typescript-mode js-mode css-mode vue-html-mode)))
 #+END_SRC
 *** Git
 #+NAME: magit-git
@@ -1019,7 +1019,6 @@ Nix is my package manager and operating system of choice; this mode enables me t
 (use-package nix-mode
   :mode "\\.nix\\'")
 #+end_src
-
 *** Quality of Life
 
 Delete trailing whitespace on save.
