@@ -2,6 +2,8 @@
 
 {
 
+  go.enable = true;
+
   zsh.enable = true;
   zsh.autocd = false;
   zsh.cdpath = [ "~/State/Projects/Code/" ];

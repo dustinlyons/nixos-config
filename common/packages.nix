@@ -11,6 +11,8 @@ with pkgs; [
   font-awesome
   gcc
   gnupg
+  gopls
+  git-filter-repo
   highlight
   hack-font
   home-manager

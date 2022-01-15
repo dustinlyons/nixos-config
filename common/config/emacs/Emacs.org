@@ -477,8 +477,9 @@ These are templates used to create new notes.
     '(("d" "default" entry
        "* %?"
        :if-new (file+head "%<%Y-%m-%d>.org"
-                          "#+TITLE: %<%Y-%m-%d>\n#+filetags: Daily\n\n"))))
+                          "#+TITLE: %<%Y-%m-%d>\n#+filetags: Daily\n\n\n[[id:5275a99d-03cb-4be0-9105-97ae15a6dd28][Loops]]\n\n\n* Log\n\n\n** "))))
 #+END_SRC
+
 ***** Extending Roam
 Here we add additional function to org-roam to either do something specific for more workflow, or otherwise make ~org-roam~ more full featured.
 ****** Set CREATED and LAST_MODIFIED filetags on save
@@ -559,7 +560,7 @@ I use org-roam to take notes, which keeps many small files in the style of Zette
         :from tags
         :left-join nodes
         :on (= tags:node-id nodes:id)
-        :where (in tag $v1)] '(["Project" "Area" "Daily"])))))
+        :where (in tag $v1)] '(["Project" "Area" "HasTodo"])))))
 
   ;; Roam Daily Log and Project Files only
    (setq org-agenda-files (dl/define-agenda-files))
@@ -914,6 +915,7 @@ Everything related to M-x compile.
   (let ((inhibit-read-only t))
     (ansi-color-apply-on-region (point-min) (point-max))))
 (add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
+
 #+END_SRC
 *** Languages
 **** HTML
@@ -942,6 +944,35 @@ Rainbow mode is an Emacs minor mode to highlight the color shown by a RGB hex tr
 (use-package lsp-tailwindcss
         :straight (:host github :repo "merrickluo/lsp-tailwindcss"))
 #+END_SRC
+**** Go
+#+NAME: lsp-go
+#+BEGIN_SRC emacs-lisp
+(use-package go-mode)
+(use-package company-go)
+
+;; Set up before-save hooks to format buffer and add/delete imports.
+;; Make sure you don't have other gofmt/goimports hooks enabled.
+(defun lsp-go-install-save-hooks ()
+  (add-hook 'before-save-hook #'lsp-format-buffer t t)
+  (add-hook 'before-save-hook #'lsp-organize-imports t t))
+
+(defun my-go-mode-hook ()
+  ; Call Gofmt before saving
+  (add-hook 'before-save-hook 'gofmt-before-save)
+  ; Customize compile command to run go build
+  (if (not (string-match "go" compile-command))
+      (set (make-local-variable 'compile-command)
+           "go build -v && go test -v && go vet"))
+  ; Godef jump key binding
+  (local-set-key (kbd "M-.") 'godef-jump)
+  (local-set-key (kbd "M-*") 'pop-tag-mark)
+)
+
+(add-hook 'go-mode-hook 'my-go-mode-hook)
+(add-hook 'go-mode-hook #'lsp-go-install-save-hooks)
+(add-hook 'go-mode-hook #'lsp-deferred)
+#+END_SRC
+
 **** Nix
 #+NAME: lsp-nix
 #+BEGIN_SRC emacs-lisp
