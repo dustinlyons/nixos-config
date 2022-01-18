@@ -5,6 +5,7 @@
   "brave-browser"
   "discord"
   "homebrew/cask/docker"
+  "loom"
   "microsoft-teams"
   "notion"
   "ngrok"

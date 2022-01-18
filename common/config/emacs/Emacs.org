@@ -130,11 +130,13 @@ Turn UI things on and off, scale things up and down.
 
   (dl/leader-keys
     "t"  '(:ignore t :which-key "toggles")
-    "tt" '(treemacs :which-key "treemacs")
+    "tt" '(treemacs :which-key "toggle treemacs")
+    "to" '(treemacs-select-window :which-key "select treemacs")
     "tl" '(lsp :which-key "lsp")
     "th" '(counsel-load-theme :which-key "choose theme")
     "ts" '(hydra-text-scale/body :which-key "scale text"))
 #+END_SRC
+
 ***** Rotate windows
 Various helpers and packages I find useful for window management.
 
@@ -477,7 +479,7 @@ These are templates used to create new notes.
     '(("d" "default" entry
        "* %?"
        :if-new (file+head "%<%Y-%m-%d>.org"
-                          "#+TITLE: %<%Y-%m-%d>\n#+filetags: Daily\n\n\n[[id:5275a99d-03cb-4be0-9105-97ae15a6dd28][Loops]]\n\n\n* Log\n\n\n** "))))
+                          "#+TITLE: %<%Y-%m-%d>\n#+filetags: Daily\n\n[[id:5275a99d-03cb-4be0-9105-97ae15a6dd28][Loops]]\n\n* Log\n\n** "))))
 #+END_SRC
 
 ***** Extending Roam
