@@ -28,7 +28,9 @@
     [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
 
     # Open file window from within terminal
-    alias open='nautilus --browser . > /dev/null 2>&1 &'
+    if [[ uname != "Darwin" ]]; then
+      alias open='nautilus --browser . > /dev/null 2>&1 &'
+    fi
 
     # Ranger is a terminal app to browse files
     alias r='ranger'
@@ -60,12 +62,12 @@
   alacritty = {
     enable = true;
     settings = {
-      background_opacity =  1.0;
       cursor = {
         style = "Block";
       };
 
       window = {
+        opacity = 1.0;
         padding = {
           x = 8;
           y = 8;

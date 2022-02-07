@@ -5,6 +5,7 @@ let common-packages = import ../common/packages.nix { pkgs = pkgs; }; in
 common-packages ++ [
   brave
   cabextract
+  cawbird
   cypress
   etcher # flash USB drives
   docker
