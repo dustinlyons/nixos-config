@@ -11,20 +11,19 @@ let
   local.dock.enable = true;
   local.dock.entries = [
     { path = "/Applications/Slack.app/"; }
-    { path = "/Applications/Discord.app/"; }
-    { path = "/Applications/Telegram.app/"; }
     { path = "/System/Applications/Messages.app/"; }
     { path = "/System/Applications/Facetime.app/"; }
-    { path = "/Applications/zoom.us.app/"; }
+    { path = "/Applications/Telegram.app/"; }
     { path = "/Applications/Notion.app/"; }
     { path = "/Applications/Brave Browser.app/"; }
     { path = "/Applications/Home Manager Apps/Alacritty.app/"; }
+    { path = "/Applications/Discord.app/"; }
     { path = "/Applications/Home Manager Apps/Emacs.app/"; }
-    { path = "/Applications/Spotify.app/"; }
     { path = "/System/Applications/Podcasts.app/"; }
+    { path = "/Applications/Spotify.app/"; }
+    { path = "/System/Applications/News.app/"; }
     { path = "/System/Applications/Photos.app/"; }
     { path = "/System/Applications/Photo Booth.app/"; }
-    { path = "/System/Applications/News.app/"; }
     { path = "/Applications/Drafts.app/"; }
     { path = "/System/Applications/Home.app/"; }
     {
