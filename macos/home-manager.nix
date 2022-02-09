@@ -20,12 +20,11 @@ let
     { path = "/Applications/Brave Browser.app/"; }
     { path = "/Applications/Home Manager Apps/Alacritty.app/"; }
     { path = "/Applications/Home Manager Apps/Emacs.app/"; }
-    { path = "/System/Applications/Music.app/"; }
+    { path = "/Applications/Spotify.app/"; }
     { path = "/System/Applications/Podcasts.app/"; }
     { path = "/System/Applications/Photos.app/"; }
     { path = "/System/Applications/Photo Booth.app/"; }
     { path = "/System/Applications/News.app/"; }
-    { path = "/Applications/Harvest.app/"; }
     { path = "/Applications/Drafts.app/"; }
     { path = "/System/Applications/Home.app/"; }
     {
@@ -56,9 +55,7 @@ let
   homebrew.masApps = {
     "1password" = 1333542190;
     "drafts" = 1435957248;
-    "harvest" = 506189836;
     "hidden-bar" = 1452453066;
-    "instapaper" = 288545208;
     "yoink" = 457622435;
   };
 

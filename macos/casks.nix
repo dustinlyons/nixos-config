@@ -12,6 +12,7 @@
   "raycast"
   "slack"
   "syncthing"
+  "spotify"
   "telegram"
   "homebrew/cask/transmission"
   "vlc"
