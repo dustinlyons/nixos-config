@@ -33,6 +33,9 @@ with pkgs; [
   ripgrep
   roboto
   sqlite
+  spotify-qt
+  spotify-tui
+  spotifyd
   tree
   unrar
   unzip
