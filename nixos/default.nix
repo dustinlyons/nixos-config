@@ -10,7 +10,6 @@
   boot.loader.efi.canTouchEfiVariables = true;
   boot.kernelPackages = pkgs.linuxPackages_latest;
   boot.blacklistedKernelModules = [ "mt76x2u" ];
-
   # Set your time zone.
   time.timeZone = "America/New_York";
 
@@ -107,8 +106,6 @@
     shell = pkgs.zsh;
   };
 
-  # Userland
-  services.spotifyd.enable = true;
   environment.systemPackages = with pkgs; [
     xow
     gitAndTools.gitFull
