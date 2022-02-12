@@ -55,6 +55,7 @@
     extraConfig = {
       init.defaultBranch = "main";
       core.editor = "vim";
+      core.autocrlf = "input";
       filter.trimWhitespace.clean = "git-stripspace";
     };
   };
