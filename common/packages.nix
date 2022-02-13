@@ -12,6 +12,7 @@ with pkgs; [
   gcc
   gnupg
   gopls
+  google-cloud-sdk
   git-filter-repo
   highlight
   hack-font
