@@ -7,10 +7,10 @@ common-packages ++ [
   cabextract
   cawbird
   cypress
-  etcher # flash USB drives
+  # Marked insecure due to EOL electron version Feb 19, 2022
+  # etcher # flash USB drives
   docker
   docker-compose
-  discord
   direnv
   electrum
   firefox

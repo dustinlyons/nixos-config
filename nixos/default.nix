@@ -109,6 +109,7 @@
   environment.systemPackages = with pkgs; [
     xow
     gitAndTools.gitFull
+    discord
     (emacsWithPackagesFromUsePackage {
       config = ../common/config/emacs/Emacs.org;
       package = emacsPgtkGcc;
