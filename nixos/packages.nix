@@ -4,11 +4,9 @@ with pkgs;
 let common-packages = import ../common/packages.nix { pkgs = pkgs; }; in
 common-packages ++ [
   brave
-  cabextract
   cawbird
   cypress
   # Marked insecure due to EOL electron version Feb 19, 2022
-  # etcher # flash USB drives
   docker
   docker-compose
   direnv
@@ -20,6 +18,7 @@ common-packages ++ [
   gnugrep
   google-chrome
   home-manager
+  hwinfo
   inotify-tools
   libreoffice
   libusb1 # for Xbox controller
