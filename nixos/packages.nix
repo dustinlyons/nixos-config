@@ -18,7 +18,6 @@ common-packages ++ [
   gnugrep
   google-chrome
   home-manager
-  hwinfo
   inotify-tools
   libreoffice
   libusb1 # for Xbox controller
