@@ -38,6 +38,7 @@ with pkgs; [
   unrar
   unzip
   vim
+  vscode
   wget
   zip
 ]
