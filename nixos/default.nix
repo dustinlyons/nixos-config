@@ -26,7 +26,7 @@
 
   # Turn on flag for proprietary software
   nix = {
-    allowedUsers = [ "dustin" ];
+    settings.allowed-users = [ "dustin" ];
     package = pkgs.nixUnstable;
     extraOptions = ''
       experimental-features = nix-command flakes

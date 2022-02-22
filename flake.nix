@@ -28,7 +28,7 @@
       };
      };
 
-   # My home-lab Desktop, felix
+    # My NixOS machine
     nixosConfigurations = {
       felix = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";

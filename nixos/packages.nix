@@ -3,6 +3,7 @@
 with pkgs;
 let common-packages = import ../common/packages.nix { pkgs = pkgs; }; in
 common-packages ++ [
+  _1password-gui
   brave
   cawbird
   cypress
@@ -27,6 +28,7 @@ common-packages ++ [
   postgresql
   ripgrep
   rnix-lsp # lsp-mode for nix
+  spotify
   tree
   tdesktop # telegram desktop
   unixtools.ifconfig
