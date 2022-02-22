@@ -1,21 +1,24 @@
 # Dustin's Nix / NixOS config
 
 ## Overview
-#### Updated: December 30, 2021
+#### Updated: Feburary 22, 2022
 
-These are my "dotfiles" contained within Nix deriviations that drive setup and configuration of my Macbook Pro and a NixOS workstation sitting on my desk at home.
+These are my "dotfiles" contained within Nix deriviations that drive setup and configuration of, as of this writing
 
-In a previous life my configuration was driven by [Guix](https://github.com/dustinlyons/guix-config), but with the recent release of new Apple Silicon I started exploring other options.
+* my Macbook Pro 
+* a NixOS workstation sitting on my desk at home
+* an old Thinkpad I use as an air-gapped machine
+* virtual machines on my home-lab Proxmox server
 
-Enter Nix and NixOS.
+In a previous life my configuration was driven by [Guix](https://github.com/dustinlyons/guix-config), but with the release of new Apple Silicon I started exploring other options. Enter Nix and NixOS.
 
 ## Features
 
-- Simplicity as a guiding principle; Nix is notoriously confusing so make it easy to understand
-- Entirely driven by my single Flake
-- Supports sharing common config between an M1 Macbook Pro and NixOS PCs
-- Simple bash scripts to build and switch environments
-- Literate configuration style to overly explain for posterity (coming soon)
+1. Simplicity as a guiding principle; Nix is notoriously confusing so make it easy to understand
+2. Entirely driven by my single Flake
+3. Supports sharing common config between an M1 Macbook Pro and NixOS PCs
+4. Simple bash scripts to build and switch environments
+5. Literate configuration style to overly explain for posterity (coming soon)
 
 ## Bootstrap New Computer
 
