@@ -856,7 +856,7 @@ Convenient helpers and keybindings when browsing files in Emacs.
 #+END_SRC
 ** Managing projects
 *** Projectile
-Projectile enables me organize projects with a killer grep interface.
+Projectile enables me to organize projects with a killer grep interface.
 #+NAME: projectile
 #+BEGIN_SRC emacs-lisp
   (use-package projectile
