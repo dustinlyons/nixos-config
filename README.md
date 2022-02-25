@@ -18,7 +18,6 @@ In a previous life my configuration was driven by [Guix](https://github.com/dust
 2. Entirely driven by my single Flake
 3. Supports sharing common config between an M1 Macbook Pro and NixOS PCs
 4. Simple bash scripts to build and switch environments
-5. Literate configuration style to overly explain for posterity (coming soon)
 
 ## Bootstrap New Computer
 
@@ -34,7 +33,7 @@ nix-channel --add https://nixos.org/channels/nixpkgs-unstable nixpkgs
 nix-channel --update
 ```
 
-### Step 2 - Install home-manager (declaratively manage our dotfiles)
+### Step 2 - Install home-manager
 Install the nix package manager:
 ```sh
 nix-channel --add https://github.com/nix-community/home-manager/archive/master.tar.gz home-manager
