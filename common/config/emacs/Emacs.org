@@ -56,7 +56,7 @@ Hydra enables me drop into quick keybinding modes. See [[https://github.com/abo-
 (use-package hydra)
 #+END_SRC
 *** Counsel/Ivy framework
-Ivy and associated helpers that uses the minibuffer (the info window at the bottom).
+Ivy and associated helpers that uses the minibuffer. Ivy describes itself as "a generic completion mechanism for Emacs." Basically, it's a prettier popup window to input Emacs commands. I've defined this to show at the bottom of the screen, which is conveniently also the default.
 
 #+NAME: ivy-framework
 #+BEGIN_SRC emacs-lisp
@@ -290,7 +290,7 @@ Predefine windows with hotkeys and jump to them.
     (ace-window-display-mode 1))
 #+END_SRC
 *** Package managers
-Using straight.el under the hood of use-package enables us to download packages using git. This is preferred for easier hacking.
+Using straighel under the hood of use-package enables us to download packages using git. This is preferred for easier hacking; I maintain my own org-roam fork, for example, and it's just another directory where I organize code. I configure straight.el with one line to use it.
 *** Windows
 **** Defaults
 Sets some reasonable defaults.
