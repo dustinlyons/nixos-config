@@ -36,6 +36,7 @@ with pkgs; [
   sqlite
   slack
   tree
+  terraform-ls
   unrar
   unzip
   vim

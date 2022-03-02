@@ -986,6 +986,11 @@ Rainbow mode is an Emacs minor mode to highlight the color shown by a RGB hex tr
                   :server-id 'nix))
 #+END_SRC
 
+**** Terraform
+#+NAME: lsp-terraform
+#+BEGIN_SRC emacs-lisp
+  (use-package terraform-mode)
+#+END_SRC
 **** Javascript
 #+NAME: javascript
 #+BEGIN_SRC emacs-lisp

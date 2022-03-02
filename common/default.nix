@@ -22,8 +22,8 @@
                   (attrNames (readDir path)))
       # We use the nix-community Emacs patches
       ++ [(import (builtins.fetchTarball {
-        url = https://github.com/nix-community/emacs-overlay/archive/master.tar.gz;
-        sha256 = "10nxr3wbdh51fc2dr007bq05afx1kh6db145vn6ph3ya1dmszjvi";
+        url = "https://github.com/nix-community/emacs-overlay/archive/refs/heads/master.tar.gz";
+        sha256 = "13ry36k0phqalyrwjya04fzd45px5s2mkghfqgkh1qga8j0rsjj1";
       }))];
   };
 
