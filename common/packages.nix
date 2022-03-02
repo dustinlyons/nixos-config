@@ -34,6 +34,7 @@ with pkgs; [
   ripgrep
   roboto
   sqlite
+  slack
   tree
   unrar
   unzip
