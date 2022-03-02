@@ -15,7 +15,7 @@ In a previous life my configuration was driven by [Guix](https://github.com/dust
 ## Features
 
 1. Simplicity as a guiding principle; Nix is notoriously confusing so make it easy to understand
-2. Entirely driven by my single Flake
+2. Entirely driven by my single [Flake](https://nixos.wiki/wiki/Flakes)
 3. Supports sharing common config between an M1 Macbook Pro and NixOS PCs
 4. Simple bash scripts to build and switch environments
 
