@@ -5,7 +5,7 @@
 
 These are my "dotfiles" contained within Nix deriviations that drive setup and configuration of, as of this writing
 
-* my Macbook Pro 
+* my Macbook Pro
 * a NixOS workstation sitting on my desk at home
 * an old Thinkpad I use as an air-gapped machine
 * virtual machines on my home-lab Proxmox server

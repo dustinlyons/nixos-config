@@ -412,6 +412,7 @@ These are templates used to create new notes.
 
 #+NAME::roam-templates
 #+BEGIN_SRC emacs-lisp
+
   (setq org-roam-capture-templates
    '(("d" "default" plain
       "%?"
@@ -434,10 +435,12 @@ These are templates used to create new notes.
       :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}")
       :unnarrowed t)))
 #+END_SRC
+
 **** Org Roam
 ***** Install package
 #+NAME::org-roam-package
 #+BEGIN_SRC emacs-lisp
+  (require 'ucs-normalize)
   (use-package org-roam
         :straight (:host github :repo "dustinlyons/org-roam"
                    :branch "add-query-feature"
@@ -473,6 +476,7 @@ These are templates used to create new notes.
           ("C-<right>" . org-roam-dailies-goto-next-note)))
   (org-roam-db-autosync-mode)
 #+END_SRC
+
 ***** Configure templates
 #+NAME::org-roam-templates
 #+BEGIN_SRC emacs-lisp

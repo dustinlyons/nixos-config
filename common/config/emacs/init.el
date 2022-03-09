@@ -8,7 +8,7 @@
   (add-to-list 'package-archives '("org" . "https://orgmode.org/elpa/") t))
 
 ;; use-package package provides common package import functions
-;; fetch the list of packages available 
+;; fetch the list of packages available
 (unless (package-installed-p 'use-package)
   (package-initialize)
   (package-install 'use-package))
