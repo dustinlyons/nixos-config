@@ -15,6 +15,8 @@
     trustedUsers = [ "@admin" "dustin" ];
     package = pkgs.nixUnstable;
     gc.user = "root";
+    # Highly recommend adding these to save keystrokes
+    # at the command line
     extraOptions = ''
       experimental-features = nix-command flakes
     '';
