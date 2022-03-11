@@ -21,6 +21,7 @@ let
     { path = "/Applications/Home Manager Apps/Emacs.app/"; }
     { path = "/System/Applications/Podcasts.app/"; }
     { path = "/Applications/Spotify.app/"; }
+    { path = "/Applications/Steam.app/"; }
     { path = "/System/Applications/News.app/"; }
     { path = "/System/Applications/Photos.app/"; }
     { path = "/System/Applications/Photo Booth.app/"; }
