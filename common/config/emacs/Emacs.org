@@ -372,11 +372,13 @@ I like these modes, what can I say. They're good to me.
   (defalias 'yes-or-no-p 'y-or-n-p) ;; Use Y or N in prompts, instead of full Yes or No
 
   (global-visual-line-mode t) ;; Wraps lines everywhere
+  (global-auto-revert-mode t) ;; Auto refresh buffers from disk
   (line-number-mode t) ;; Line numbers in the gutter
   (show-paren-mode t) ;; Highlights parans for me
 
   (setq warning-minimum-level :error)
 #+END_SRC
+
 ** Org mode
 *** Install package
 If you haven't heard of org mode, go watch [[https://www.youtube.com/watch?v=SzA2YODtgK4][this]] talk and come back when you are finished.
@@ -749,7 +751,6 @@ This is what makes emacs possible for me. All evil mode packages and related con
                       git-rebase-mode
                       term-mode))
       (add-to-list 'evil-emacs-state-modes mode))) ;; no evil mode for these modes
-
 
     (use-package evil
       :init
