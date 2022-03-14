@@ -43,8 +43,6 @@
     });
   };
 
-  # Enable Wayland with Gnome
-  # hardware.nvidia.modesetting.enable = true;
   services.xserver.enable = true;
   services.xserver.videoDrivers = [ "nvidia" ];
 

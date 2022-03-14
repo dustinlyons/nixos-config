@@ -407,12 +407,17 @@ Note the weekly scope of the command's precision.")
   ","  '(dl/insert-current-time :which-key "current time"))
 
 #+END_SRC
+***** yasnippet
+#+NAME::yasnippet
+#+BEGIN_SRC emacs-lisp
+  (use-package yasnippet)
+  (yas-global-mode 1)
+#+END_SRC
+
 ***** Roam capture templates
 These are templates used to create new notes.
-
 #+NAME::roam-templates
 #+BEGIN_SRC emacs-lisp
-
   (setq org-roam-capture-templates
    '(("d" "default" plain
       "%?"
@@ -745,7 +750,6 @@ This is what makes emacs possible for me. All evil mode packages and related con
                       term-mode))
       (add-to-list 'evil-emacs-state-modes mode))) ;; no evil mode for these modes
 
-    (setq evil-want-keybinding nil)
 
     (use-package evil
       :init
@@ -793,6 +797,7 @@ This is what makes emacs possible for me. All evil mode packages and related con
       (evil-set-undo-system 'undo-tree)
       (global-undo-tree-mode 1))
 
+    (setq evil-want-keybinding nil)
 #+END_SRC
 ** Managing files
 Configuration related to filesystem, either basic IO and interaction from emacs or directly moving files around where it makes sense.
@@ -951,33 +956,39 @@ Rainbow mode is an Emacs minor mode to highlight the color shown by a RGB hex tr
 (use-package lsp-tailwindcss
         :straight (:host github :repo "merrickluo/lsp-tailwindcss"))
 #+END_SRC
-**** Go
-#+NAME: lsp-go
+**** golang
+#+NAME: golang-config
 #+BEGIN_SRC emacs-lisp
-(use-package go-mode)
-(use-package company-go)
+  (use-package go-mode)
+  (use-package company-go)
 
-;; Set up before-save hooks to format buffer and add/delete imports.
-;; Make sure you don't have other gofmt/goimports hooks enabled.
-(defun lsp-go-install-save-hooks ()
-  (add-hook 'before-save-hook #'lsp-format-buffer t t)
-  (add-hook 'before-save-hook #'lsp-organize-imports t t))
+  ;; Set up before-save hooks to format buffer and add/delete imports.
+  ;; Make sure you don't have other gofmt/goimports hooks enabled.
+  (defun lsp-go-install-save-hooks ()
+    (add-hook 'before-save-hook #'lsp-format-buffer t t)
+    (add-hook 'before-save-hook #'lsp-organize-imports t t))
+  (add-hook 'go-mode-hook #'lsp-go-install-save-hooks)
+  (add-hook 'go-mode-hook #'lsp-deferred)
 
-(defun my-go-mode-hook ()
-  ; Call Gofmt before saving
-  (add-hook 'before-save-hook 'gofmt-before-save)
-  ; Customize compile command to run go build
-  (if (not (string-match "go" compile-command))
-      (set (make-local-variable 'compile-command)
-           "go build -v && go test -v && go vet"))
-  ; Godef jump key binding
-  (local-set-key (kbd "M-.") 'godef-jump)
-  (local-set-key (kbd "M-*") 'pop-tag-mark)
-)
+  (defun dl/go-mode-hook ()
+    ; Call Gofmt before saving
+    (add-hook 'before-save-hook 'gofmt-before-save)
+    ; Customize compile command to run go build
+    (if (not (string-match "go" compile-command))
+        (set (make-local-variable 'compile-command)
+             "go build -v && go test -v && go vet"))
+    ; Godef jump key binding
+    (local-set-key (kbd "M-.") 'godef-jump)
+    ;; pop-tag-mark moves back before jump, to undo M-,
+    (local-set-key (kbd "M-*") 'pop-tag-mark))
+  (add-hook 'go-mode-hook 'dl/go-mode-hook)
 
-(add-hook 'go-mode-hook 'my-go-mode-hook)
-(add-hook 'go-mode-hook #'lsp-go-install-save-hooks)
-(add-hook 'go-mode-hook #'lsp-deferred)
+  ; Little hack to bring in my shell path on Mac where gopls and other binaries complained
+  (when (system-is-mac)
+    (setq exec-path (append '("/Users/dustin/bin" "/profile/bin" "/Users/dustin/.npm-packages/bin" "/Users/dustin/.nix-profile/bin" "/nix/var/nix/profiles/default/bin" "/usr/local/bin") exec-path)))
+
+  ;; golang related yasnippets
+  (load "~/State/Projects/Code/nixos-config/common/snippets/go-snippets/go-snippets.el")
 #+END_SRC
 
 **** Nix
@@ -1081,10 +1092,38 @@ I use =org-make-toc= to automatically update the Table of Contents in any header
 #+end_src
 ** Learning Emacs
 These packages may come and go, but ultimately aid in my understanding of emacs and emacs lisp.
-*** Indent org-babel source blocks
+*** org-babel
+**** Load languages to run in org mode code blocks
+#+BEGIN_SRC emacs-lisp
+  (with-eval-after-load 'org
+    (org-babel-do-load-languages
+    'org-babel-load-languages
+    '(
+      (emacs-lisp . t)
+      (python . t)
+      (shell . t)))
+   )
+#+END_SRC
+
+**** Indent blocks, set max region of output
 #+BEGIN_SRC emacs-lisp
   (setq org-src-tab-acts-natively nil)
+  (setq org-table-convert-region-max-lines 9999)
 #+END_SRC
+**** ANSI color codes in org babel shell output
+Found [[https://emacs.stackexchange.com/questions/44664/apply-ansi-color-escape-sequences-for-org-babel-results][here]].
+#+BEGIN_SRC emacs-lisp
+(defun dl/babel-ansi ()
+  (when-let ((beg (org-babel-where-is-src-block-result nil nil)))
+    (save-excursion
+      (goto-char beg)
+      (when (looking-at org-babel-result-regexp)
+        (let ((end (org-babel-result-end))
+              (ansi-color-context-region nil))
+          (ansi-color-apply-on-region beg end))))))
+(add-hook 'org-babel-after-execute-hook 'dl/babel-ansi)
+#+END_SRC
+
 *** Show real-time key bindings in a separate buffer
 #+NAME: command-log
 #+BEGIN_SRC emacs-lisp
