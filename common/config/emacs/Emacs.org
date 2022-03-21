@@ -491,7 +491,7 @@ These are templates used to create new notes.
     '(("d" "default" entry
        "* %?"
        :if-new (file+head "%<%Y-%m-%d>.org"
-                          "#+TITLE: %<%Y-%m-%d>\n#+filetags: Daily\n\n[[id:5275a99d-03cb-4be0-9105-97ae15a6dd28][Loops]]\n\n* Log\n\n** "))))
+                          "#+TITLE: %<%Y-%m-%d>\n#+filetags: Daily\n* Log\n\n** <Log>\n\n* Drafts"))))
 #+END_SRC
 
 ***** Extending Roam
@@ -574,7 +574,7 @@ I use org-roam to take notes, which keeps many small files in the style of Zette
         :from tags
         :left-join nodes
         :on (= tags:node-id nodes:id)
-        :where (in tag $v1)] '(["Project" "Area" "HasTodo"])))))
+        :where (in tag $v1)] '(["Project" "Area" "Daily"])))))
 
   ;; Roam Daily Log and Project Files only
    (setq org-agenda-files (dl/define-agenda-files))
@@ -585,6 +585,7 @@ I use org-roam to take notes, which keeps many small files in the style of Zette
     "ar"  '(org-roam-refile :which-key "refile a TODO"))
 
 #+END_SRC
+
 **** Set org faces
 Set various face colors for org-mode.
 
@@ -592,10 +593,7 @@ Set various face colors for org-mode.
 #+BEGIN_SRC emacs-lisp
   ;; Fast access to tag common contexts I use
   (setq org-tag-persistent-alist
-    '(("Inbox" . ?i)("#Daily" . ?d) ("@Home" . ?h) ("@Amanda" . ?a)("@Justin" . ?j)
-     ("@Car" . ?c) ("@Office" . ?o) ("#Phone" . ?p) ("#Computer" . ?u)))
-    ;;'(("#Inbox" . ?i) ("#Daily" . ?d) ("@Zeroed" . ?z) ("@ScholarRx" . ?s)("@Braeview" . ?b)
-    ;; ("@Errands" . ?e) ("@Play" . ?p) ))
+    '(("@Home" . ?h) ("@Errands" . ?e) ("@Office" . ?o) ("@Phone" . ?p)))
 
   (setq org-todo-keyword-faces
     `(("NEXT" . ,dl/yellow-color)
@@ -608,7 +606,7 @@ Set various face colors for org-mode.
      ("@Office" . ,dl/teal-color)
      ("Inbox" . ,dl/blue-color)))
 #+END_SRC
-#
+
 **** Remove noise from org-agenda views
 This block sets the ~org-agenda-prefix-format~ in an friendly way for org-roam (credit to [[https://d12frosted.io/posts/2020-06-24-task-management-with-roam-vol2.html][this post)]]. It truncates long filenames and removes the org-roam timestamp slug.
 
@@ -751,6 +749,7 @@ This is what makes emacs possible for me. All evil mode packages and related con
                       git-rebase-mode
                       term-mode))
       (add-to-list 'evil-emacs-state-modes mode))) ;; no evil mode for these modes
+
 
     (use-package evil
       :init
@@ -1002,12 +1001,7 @@ Rainbow mode is an Emacs minor mode to highlight the color shown by a RGB hex tr
                   :server-id 'nix))
 #+END_SRC
 
-**** Terraform
-#+NAME: lsp-terraform
-#+BEGIN_SRC emacs-lisp
-  (use-package terraform-mode)
-#+END_SRC
-**** Javascript
+**** LSP
 #+NAME: javascript
 #+BEGIN_SRC emacs-lisp
   (use-package lsp-mode
@@ -1034,7 +1028,18 @@ Rainbow mode is an Emacs minor mode to highlight the color shown by a RGB hex tr
 
   (use-package company-box
     :hook (company-mode . company-box-mode))
+#+END_SRC
 
+**** Terraform
+#+NAME: lsp-terraform
+#+BEGIN_SRC emacs-lisp
+  (use-package terraform-mode
+    :hook (terraform-mode . lsp-deferred))
+#+END_SRC
+
+**** Javascript
+#+NAME: javascript
+#+BEGIN_SRC emacs-lisp
   (use-package vue-mode)
 
   (use-package typescript-mode
