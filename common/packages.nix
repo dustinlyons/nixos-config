@@ -5,6 +5,7 @@ with pkgs; [
   awscli2
   aspell
   aspellDicts.en
+  bats
   bottom
   bash-completion
   coreutils
@@ -36,6 +37,7 @@ with pkgs; [
   sqlite
   slack
   tree
+  terraform
   terraform-ls
   unrar
   unzip
