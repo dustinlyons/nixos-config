@@ -1059,6 +1059,11 @@ Nix is my package manager and operating system of choice; this mode enables me t
 #+begin_src emacs-lisp
 (use-package nix-mode
   :mode "\\.nix\\'")
+(add-to-list 'lsp-language-id-configuration '(nix-mode . "nix"))
+(lsp-register-client
+ (make-lsp-client :new-connection (lsp-stdio-connection '("rnix-lsp"))
+                  :major-modes '(nix-mode)
+                  :server-id 'nix))
 #+end_src
 **** Docker mode
 #+NAME: dockerfile-mode
@@ -1073,16 +1078,6 @@ Nix is my package manager and operating system of choice; this mode enables me t
 #+BEGIN_SRC emacs-lisp
   (use-package terraform-mode
     :hook (terraform-mode . lsp-deferred))
-#+END_SRC
-
-**** Nix
-#+NAME: lsp-nix
-#+BEGIN_SRC emacs-lisp
-(add-to-list 'lsp-language-id-configuration '(nix-mode . "nix"))
-(lsp-register-client
- (make-lsp-client :new-connection (lsp-stdio-connection '("rnix-lsp"))
-                  :major-modes '(nix-mode)
-                  :server-id 'nix))
 #+END_SRC
 
 *** Quality of Life
