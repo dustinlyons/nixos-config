@@ -1071,6 +1071,14 @@ Rainbow mode is an Emacs minor mode to highlight the color shown by a RGB hex tr
       ("\\.markdown\\'" . markdown-mode))
     :init (setq markdown-command "pandoc"))
 #+END_SRC
+***** Docker mode
+#+NAME: dockerfile-mode
+#+BEGIN_SRC emacs-lisp
+  ;; This uses dockerfile-mode for Docker files
+  (use-package dockerfile-mode)
+  (put 'dockerfile-image-name 'safe-local-variable #'stringp)
+#+END_SRC
+
 *** Infrastructure
 **** Nix
 Nix is my package manager and operating system of choice; this mode enables me to have a better time writing Nix expressions.
