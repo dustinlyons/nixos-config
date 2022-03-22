@@ -602,8 +602,9 @@ Set various face colors for org-mode.
 
   (setq org-tag-faces
     `(("@Home" . ,dl/green-color)
-     ("@Car" . ,dl/purple-color)
+     ("@Errands" . ,dl/purple-color)
      ("@Office" . ,dl/teal-color)
+     ("@Phone" . ,dl/purple-color)
      ("Inbox" . ,dl/blue-color)))
 #+END_SRC
 
@@ -673,8 +674,6 @@ Setup for org-super-agenda and org-ql.
                    :tag ("@Home")))
             (:name "Waiting"
                    :todo "WAITING")
-            (:name "Maintenance"
-                   :todo "MAINTAIN")
             (:name "Home"
                    :tag "@Home")
             (:name "Office"
@@ -930,6 +929,17 @@ Everything related to M-x compile.
 
 #+END_SRC
 *** Languages
+**** Markdown
+#+NAME: markdown-mode
+#+BEGIN_SRC emacs-lisp
+  ;; This uses Github Flavored Markdown for README files
+  (use-package markdown-mode
+    :commands (markdown-mode gfm-mode)
+    :mode (("README\\.md\\'" . gfm-mode)
+      ("\\.md\\'" . markdown-mode)
+      ("\\.markdown\\'" . markdown-mode))
+    :init (setq markdown-command "pandoc"))
+#+END_SRC
 **** HTML
 ***** Emmet mode
 Emmet mode gives autocompletion for HTML tags using short hand notations, which for I use the TAB key.
@@ -991,17 +1001,23 @@ Rainbow mode is an Emacs minor mode to highlight the color shown by a RGB hex tr
   (load "~/State/Projects/Code/nixos-config/common/snippets/go-snippets/go-snippets.el")
 #+END_SRC
 
-**** Nix
-#+NAME: lsp-nix
+**** Javascript
+#+NAME: javascript
 #+BEGIN_SRC emacs-lisp
-(add-to-list 'lsp-language-id-configuration '(nix-mode . "nix"))
-(lsp-register-client
- (make-lsp-client :new-connection (lsp-stdio-connection '("rnix-lsp"))
-                  :major-modes '(nix-mode)
-                  :server-id 'nix))
-#+END_SRC
+  (use-package vue-mode)
 
-**** LSP
+  (use-package typescript-mode
+    :mode "\\.ts\\'"
+    :hook (typescript-mode . lsp-deferred)
+    :config
+    (setq typescript-indent-level 2))
+
+  ;; Fixes flycheck in vue-mode (Vue.js)
+  ;; https://emacs-lsp.github.io/lsp-mode/page/faq/
+  ;; (with-eval-after-load 'lsp-mode
+  ;;   (mapc #'lsp-flycheck-add-mode '(typescript-mode js-mode css-mode vue-html-mode)))
+#+END_SRC
+*** LSP
 #+NAME: javascript
 #+BEGIN_SRC emacs-lisp
   (use-package lsp-mode
@@ -1030,55 +1046,12 @@ Rainbow mode is an Emacs minor mode to highlight the color shown by a RGB hex tr
     :hook (company-mode . company-box-mode))
 #+END_SRC
 
-**** Terraform
-#+NAME: lsp-terraform
-#+BEGIN_SRC emacs-lisp
-  (use-package terraform-mode
-    :hook (terraform-mode . lsp-deferred))
-#+END_SRC
-
-**** Javascript
-#+NAME: javascript
-#+BEGIN_SRC emacs-lisp
-  (use-package vue-mode)
-
-  (use-package typescript-mode
-    :mode "\\.ts\\'"
-    :hook (typescript-mode . lsp-deferred)
-    :config
-    (setq typescript-indent-level 2))
-
-  ;; Fixes flycheck in vue-mode (Vue.js)
-  ;; https://emacs-lsp.github.io/lsp-mode/page/faq/
-  ;; (with-eval-after-load 'lsp-mode
-  ;;   (mapc #'lsp-flycheck-add-mode '(typescript-mode js-mode css-mode vue-html-mode)))
-#+END_SRC
 *** Git
 #+NAME: magit-git
 #+BEGIN_SRC emacs-lisp
   (use-package magit
     :commands (magit-status magit-get-current-branch))
 #+END_SRC
-**** File types
-***** Markdown mode
-#+NAME: markdown-mode
-#+BEGIN_SRC emacs-lisp
-  ;; This uses Github Flavored Markdown for README files
-  (use-package markdown-mode
-    :commands (markdown-mode gfm-mode)
-    :mode (("README\\.md\\'" . gfm-mode)
-      ("\\.md\\'" . markdown-mode)
-      ("\\.markdown\\'" . markdown-mode))
-    :init (setq markdown-command "pandoc"))
-#+END_SRC
-***** Docker mode
-#+NAME: dockerfile-mode
-#+BEGIN_SRC emacs-lisp
-  ;; This uses dockerfile-mode for Docker files
-  (use-package dockerfile-mode)
-  (put 'dockerfile-image-name 'safe-local-variable #'stringp)
-#+END_SRC
-
 *** Infrastructure
 **** Nix
 Nix is my package manager and operating system of choice; this mode enables me to have a better time writing Nix expressions.
@@ -1087,6 +1060,31 @@ Nix is my package manager and operating system of choice; this mode enables me t
 (use-package nix-mode
   :mode "\\.nix\\'")
 #+end_src
+**** Docker mode
+#+NAME: dockerfile-mode
+#+BEGIN_SRC emacs-lisp
+  ;; This uses dockerfile-mode for Docker files
+  (use-package dockerfile-mode)
+  (put 'dockerfile-image-name 'safe-local-variable #'stringp)
+#+END_SRC
+
+**** Terraform
+#+NAME: lsp-terraform
+#+BEGIN_SRC emacs-lisp
+  (use-package terraform-mode
+    :hook (terraform-mode . lsp-deferred))
+#+END_SRC
+
+**** Nix
+#+NAME: lsp-nix
+#+BEGIN_SRC emacs-lisp
+(add-to-list 'lsp-language-id-configuration '(nix-mode . "nix"))
+(lsp-register-client
+ (make-lsp-client :new-connection (lsp-stdio-connection '("rnix-lsp"))
+                  :major-modes '(nix-mode)
+                  :server-id 'nix))
+#+END_SRC
+
 *** Quality of Life
 
 Delete trailing whitespace on save.
