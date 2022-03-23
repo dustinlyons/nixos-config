@@ -450,7 +450,7 @@ These are templates used to create new notes.
   (require 'ucs-normalize)
   (use-package org-roam
         :straight (:host github :repo "dustinlyons/org-roam"
-                   :branch "add-query-feature"
+                   :branch "master"
                    :files (:defaults "extensions/*")
         :build (:not compile))
        :init
