@@ -68,7 +68,7 @@
 
   # Enable sound
   sound.enable = true;
-  hardware.pulseaudio.enable = true;
+  #hardware.pulseaudio.enable = true;
 
   # Video support
   hardware.opengl.enable = true;
