@@ -1,7 +1,6 @@
 # Dustin's Nix / NixOS config
 
 ## Overview
-#### Updated: Feburary 22, 2022
 
 These are my "dotfiles" contained within Nix deriviations that drive setup and configuration of, as of this writing
 
