@@ -26,7 +26,7 @@ common-packages ++ [
   obs-studio # for streaming, video
   pinentry-curses
   postgresql
-  pavucontrol
+  qmk
   ripgrep
   rnix-lsp # lsp-mode for nix
   spotify

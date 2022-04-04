@@ -1,10 +1,6 @@
 { config, pkgs, ...}:
 {
 
-  imports = [
-    ./cachix # Community builds of Emacs so we don't have to
-  ];
-
   nixpkgs = {
     config = {
       allowUnfree = true;

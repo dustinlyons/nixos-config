@@ -3,6 +3,7 @@
 
   imports = [
     ../common
+    ./cachix
     ./home-manager.nix
   ];
 
