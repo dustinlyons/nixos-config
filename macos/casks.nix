@@ -12,7 +12,6 @@
   "ngrok"
   "raycast"
   "slack"
-  "steam"
   "syncthing"
   "spotify"
   "telegram"
