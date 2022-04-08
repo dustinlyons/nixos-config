@@ -17,7 +17,9 @@
                       pathExists (path + ("/" + n + "/default.nix")))
                   (attrNames (readDir path)))
       # We use the nix-community Emacs patches
-      ++ [(import (builtins.fetchTarball https://github.com/nix-community/emacs-overlay/archive/refs/heads/master.tar.gz))];
+      ++ [(import (builtins.fetchTarball { 
+		url = "https://github.com/nix-community/emacs-overlay/archive/refs/heads/master.tar.gz";
+		sha256 = "0jnz4wplyvyfsdjbl6xxmd11pr5pl9f8dg90f6nq4fd84l2hpwbj";
+	}))]; 
   };
-
 }
