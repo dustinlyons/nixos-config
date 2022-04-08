@@ -57,8 +57,12 @@
     };
     extraConfig = {
       init.defaultBranch = "main";
-      core.editor = "vim";
-      core.autocrlf = "input";
+      core = { 
+	editor = "vim";
+        autocrlf = "input";
+      };
+      pull.rebase = true;
+      rebase.autoStash = true;
       filter.trimWhitespace.clean = "git-stripspace";
     };
   };

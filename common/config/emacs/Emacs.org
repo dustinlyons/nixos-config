@@ -749,6 +749,7 @@ This is what makes emacs possible for me. All evil mode packages and related con
                       term-mode))
       (add-to-list 'evil-emacs-state-modes mode))) ;; no evil mode for these modes
 
+
     (use-package evil
       :init
         (setq evil-want-integration t) ;; TODO: research what this does
