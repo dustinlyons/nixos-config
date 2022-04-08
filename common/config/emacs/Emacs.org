@@ -749,7 +749,6 @@ This is what makes emacs possible for me. All evil mode packages and related con
                       term-mode))
       (add-to-list 'evil-emacs-state-modes mode))) ;; no evil mode for these modes
 
-
     (use-package evil
       :init
         (setq evil-want-integration t) ;; TODO: research what this does
@@ -806,14 +805,20 @@ These settings keep emacs from littering the filesystem with buffer backups. The
 #+NAME: backup-files
 #+BEGIN_SRC emacs-lisp
 (setq backup-directory-alist
-      `((".*" . "~/.emacs.d/backups/"))
+      `((".*" "~/State/.emacs/"))
       backup-by-copying t    ; Don't delink hardlinks
       version-control t      ; Use version numbers on backups
       delete-old-versions t) ; Automatically delete excess backups
-
-(setq auto-save-file-name-transforms
-      `((".*" ,temporary-file-directory t)))
 #+END_SRC
+
+#+NAME: local-file-transforms
+#+BEGIN_SRC emacs-lisp
+(setq auto-save-file-name-transforms
+      `((".*" "~/State/.emacs/" t)))
+(setq lock-file-name-transforms
+      `((".*" "~/State/.emacs/lock-files/" t)))
+#+END_SRC
+
 *** File browser
 Convenient helpers and keybindings when browsing files in Emacs.
 
