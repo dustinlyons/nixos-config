@@ -20,20 +20,5 @@ let
       };
       size = 10;
     };
-
-    git = {
-      enable = true;
-      ignores = [ "*.swp" ];
-      userName = "Dustin Lyons";
-      userEmail = "hello@dustinlyons.co";
-      lfs = {
-        enable = true;
-      };
-      extraConfig = {
-        init.defaultBranch = "main";
-        core.editor = "vim";
-        credential.helper = "netlify";
-      };
-    };
   };
 }
