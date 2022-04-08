@@ -51,7 +51,6 @@
     ignores = [ "*.swp" ];
     userName = "Dustin Lyons";
     userEmail = "hello@dustinlyons.co";
-    attributes = [ "* filter=trimWhitespace" ];
     lfs = {
       enable = true;
     };
@@ -63,7 +62,6 @@
       };
       pull.rebase = true;
       rebase.autoStash = true;
-      filter.trimWhitespace.clean = "git-stripspace";
     };
   };
 
