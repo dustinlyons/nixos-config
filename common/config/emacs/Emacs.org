@@ -805,7 +805,7 @@ These settings keep emacs from littering the filesystem with buffer backups. The
 #+NAME: backup-files
 #+BEGIN_SRC emacs-lisp
 (setq backup-directory-alist
-      `((".*" "~/State/.emacs/"))
+      `((".*" . "~/State/.emacs/"))
       backup-by-copying t    ; Don't delink hardlinks
       version-control t      ; Use version numbers on backups
       delete-old-versions t) ; Automatically delete excess backups
