@@ -749,6 +749,7 @@ This is what makes emacs possible for me. All evil mode packages and related con
                       term-mode))
       (add-to-list 'evil-emacs-state-modes mode))) ;; no evil mode for these modes
 
+
     (use-package evil
       :init
         (setq evil-want-integration t) ;; TODO: research what this does
@@ -1093,6 +1094,7 @@ Delete trailing whitespace on save.
 #+BEGIN_SRC emacs-lisp
   (add-hook 'before-save-hook 'delete-trailing-whitespace)
 #+END_SRC
+
 ** Writing
 *** Update Table of Contents on Save
 
@@ -1102,8 +1104,10 @@ I use =org-make-toc= to automatically update the Table of Contents in any header
   (use-package org-make-toc)
   (add-hook 'org-mode-hook #'org-make-toc-mode)
 #+end_src
+
 ** Learning Emacs
 These packages may come and go, but ultimately aid in my understanding of emacs and emacs lisp.
+
 *** org-babel
 **** Load languages to run in org mode code blocks
 #+BEGIN_SRC emacs-lisp
@@ -1122,6 +1126,7 @@ These packages may come and go, but ultimately aid in my understanding of emacs 
   (setq org-src-tab-acts-natively nil)
   (setq org-table-convert-region-max-lines 9999)
 #+END_SRC
+
 **** ANSI color codes in org babel shell output
 Found [[https://emacs.stackexchange.com/questions/44664/apply-ansi-color-escape-sequences-for-org-babel-results][here]].
 #+BEGIN_SRC emacs-lisp
@@ -1144,6 +1149,7 @@ Found [[https://emacs.stackexchange.com/questions/44664/apply-ansi-color-escape-
   (setq global-command-log-mode t)
   ;; TODO Install package that lets you define help screens for keymaps
 #+END_SRC
+
 *** Panel popup to show key bindings
 #+NAME: which-key
 #+BEGIN_SRC emacs-lisp
@@ -1154,6 +1160,7 @@ Found [[https://emacs.stackexchange.com/questions/44664/apply-ansi-color-escape-
     :config
     (setq which-key-idle-delay 0.3))
 #+END_SRC
+
 *** Helpful documentation strings for common functions
 
 #+NAME: helpful
