@@ -56,7 +56,7 @@
     };
     extraConfig = {
       init.defaultBranch = "main";
-      core = {
+      core = { 
 	editor = "vim";
         autocrlf = "input";
       };
