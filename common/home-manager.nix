@@ -35,6 +35,9 @@
     # Ranger is a terminal app to browse files
     alias r='ranger'
 
+    # bat is a better cat
+    alias cat=bat
+
     # Always color ls
     alias ls='ls --color'
 
