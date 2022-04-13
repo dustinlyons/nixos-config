@@ -41,6 +41,7 @@ with pkgs; [
   terraform
   terraform-ls
   tree
+  tmux
   unrar
   unzip
   vim
