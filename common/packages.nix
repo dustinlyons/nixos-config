@@ -2,43 +2,44 @@
 
 with pkgs; [
   alacritty
-  awscli2
   aspell
   aspellDicts.en
+  awscli2
+  bash-completion
   bats
   bottom
-  bash-completion
   coreutils
+  du-dust
+  fira-code
   font-awesome
   gcc
-  gnupg
-  gopls
-  google-cloud-sdk
   git-filter-repo
-  highlight
+  gnupg
+  google-cloud-sdk
+  gopls
   hack-font
+  highlight
   home-manager
   htop
   hunspell
-  fira-code
   iftop
   jq
   libfido2
-  nodejs
   nodePackages.live-server
   nodePackages.npm
+  nodejs
   openssh
-  pinentry
   pandoc
+  pinentry
   python3
   ranger
   ripgrep
   roboto
-  sqlite
   slack
-  tree
+  sqlite
   terraform
   terraform-ls
+  tree
   unrar
   unzip
   vim
