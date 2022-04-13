@@ -6,7 +6,8 @@ with pkgs; [
   aspellDicts.en
   awscli2
   bash-completion
-  bats
+  bat # A cat(1) clone with syntax highlighting
+  bats # A bash testing framework
   bottom
   coreutils
   du-dust
