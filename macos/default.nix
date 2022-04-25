@@ -38,7 +38,7 @@
   ] ++ (import ../common/packages.nix { pkgs = pkgs; });
 
   # Enable fonts dir
-  fonts.enableFontDir = true;
+  fonts.fontDir.enable = true;
 
   programs = { };
 
