@@ -4,7 +4,7 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
-    libusb.url = "github:steav005/xow/0fe9cd9"; # libusb patch until 1.0.25
+    #libusb.url = "github:steav005/xow/0fe9cd9"; # libusb patch until 1.0.25
     home-manager = {
       url = "github:nix-community/home-manager";
       #inputs.nixpkgs.follows = "nixpkgs";

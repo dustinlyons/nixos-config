@@ -22,8 +22,8 @@ common-packages ++ [
   inotify-tools
   libreoffice
   libusb1 # for Xbox controller
+  ledger-live-desktop
   openssh
-  obs-studio # for streaming, video
   pinentry-curses
   postgresql
   qmk

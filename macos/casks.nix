@@ -7,7 +7,6 @@
   "homebrew/cask/docker"
   "google-chrome"
   "loom"
-  "microsoft-teams"
   "notion"
   "ngrok"
   "raycast"

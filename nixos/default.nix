@@ -38,12 +38,12 @@
   # Video games, patch libusb1 so Xbox controller works
   programs.steam.enable = true;
   programs.gnupg.agent.enable = true;
-  nixpkgs.config.packageOverrides = pkgs: {
-    xow = pkgs.xow.overrideAttrs (orig: {
-      version = "pre-1.0.25";
-      buildInputs = [ inputs.libusb.packages.x86_64-linux.libusb ];
-    });
-  };
+  #nixpkgs.config.packageOverrides = pkgs: {
+  #  xow = pkgs.xow.overrideAttrs (orig: {
+  #    version = "pre-1.0.25";
+  #    buildInputs = [ inputs.libusb.packages.x86_64-linux.libusb ];
+  #  });
+  #};
 
   services.xserver.enable = true;
   services.xserver.videoDrivers = [ "nvidia" ];
@@ -80,9 +80,12 @@
   hardware.opengl.driSupport = true;
   hardware.nvidia.modesetting.enable = true;
 
+  # Crypto wallet support
+  hardware.ledger.enable = true;
+
   # Xbox controller support
-  services.hardware.xow.enable = true;
-  services.udev.packages = [ pkgs.xow ];
+  # services.hardware.xow.enable = true;
+  # services.udev.packages = [ pkgs.xow ];
 
   # Better support for general peripherals
   services.xserver.libinput.enable = true;
@@ -98,7 +101,7 @@
 
   # Add docker daemon
   virtualisation.docker.enable = true;
-
+  
   # It's me
   users.users.dustin = {
     isNormalUser = true;
@@ -110,7 +113,7 @@
   };
 
   environment.systemPackages = with pkgs; [
-    xow
+    #xow
     gitAndTools.gitFull
     discord
     (emacsWithPackagesFromUsePackage {
