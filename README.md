@@ -2,7 +2,7 @@
 
 ## Overview
 
-These are my "dotfiles" contained within Nix deriviations that drive setup and configuration of, as of this writing
+These are my "dotfiles" contained within Nix deriviations that drive setup and configuration of
 
 * my Macbook Pro
 * a NixOS workstation sitting on my desk at home
