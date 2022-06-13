@@ -36,9 +36,7 @@
     alias r='ranger'
 
     # javascript things
-    if [[ uname == "Darwin" ]]; then
-      alias yarn=~/.npm-new-global/bin/yarn
-    fi
+    alias yarn=~/.npm-new-global/bin/yarn
 
     # bat is a better cat
     alias cat=bat
