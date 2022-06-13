@@ -35,6 +35,11 @@
     # Ranger is a terminal app to browse files
     alias r='ranger'
 
+    # javascript things
+    if [[ uname == "Darwin" ]]; then
+      alias yarn=~/.npm-new-global/bin/yarn
+    fi
+
     # bat is a better cat
     alias cat=bat
 
