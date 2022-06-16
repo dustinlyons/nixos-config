@@ -7,7 +7,7 @@ These are my "dotfiles" contained within Nix deriviations that drive setup and c
 * my Macbook Pro
 * a NixOS workstation sitting on my desk at home
 * an old Thinkpad I use as an air-gapped machine
-* virtual machines on my home-lab Proxmox server
+* virtual machines running on my home-lab Proxmox server
 
 In a previous life my configuration was driven by [Guix](https://github.com/dustinlyons/guix-config), but with the release of new Apple Silicon I started exploring other options. Enter Nix and NixOS.
 
