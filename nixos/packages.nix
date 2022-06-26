@@ -20,6 +20,7 @@ common-packages ++ [
   google-chrome
   home-manager
   inotify-tools
+  imagemagick
   libreoffice
   libusb1 # for Xbox controller
   ledger-live-desktop
