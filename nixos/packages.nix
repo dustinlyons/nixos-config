@@ -7,9 +7,6 @@ common-packages ++ [
   brave
   cawbird
   cypress
-  # Marked insecure due to EOL electron version Feb 19, 2022
-  docker
-  docker-compose
   direnv
   electrum
   firefox

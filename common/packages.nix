@@ -11,6 +11,8 @@ with pkgs; [
   bottom
   coreutils
   du-dust
+  docker
+  docker-compose
   fira-code
   flyctl
   font-awesome
