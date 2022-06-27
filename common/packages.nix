@@ -12,6 +12,7 @@ with pkgs; [
   coreutils
   du-dust
   fira-code
+  flyctl
   font-awesome
   gcc
   git-filter-repo
