@@ -31,6 +31,7 @@ common-packages ++ [
   ripgrep
   rnix-lsp # lsp-mode for nix
   spotify
+  sqlite
   tree
   tdesktop # telegram desktop
   unixtools.ifconfig
