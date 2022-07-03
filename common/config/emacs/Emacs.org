@@ -485,7 +485,7 @@ These are templates used to create new notes.
     '(("d" "default" entry
        "* %?"
        :if-new (file+head "%<%Y-%m-%d>.org"
-                          "#+TITLE: %<%Y-%m-%d>\n#+filetags: Daily\n* Log\n\n** <Log>\n\n* Drafts"))))
+                          "#+TITLE: %<%Y-%m-%d>\n#+filetags: Daily\n* Log\n\n"))))
 #+END_SRC
 
 ***** Extending Roam
