@@ -10,6 +10,10 @@
   boot.loader.grub.enable = true;
   boot.loader.grub.version = 2;
   boot.supportedFilesystems = [ "zfs" ];
+  services.zfs.autoSnapshot = {
+    enable = true;
+    frequent = 30; # Keep last thirty 15-minute snapshots (instead of four)
+  };
   boot.loader.grub.device = "/dev/sda";
 
   networking.hostName = "state"; # Define your hostname.
@@ -29,6 +33,19 @@
     extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
   };
 
+  # At 12:01, snapshot our global State directory. This dir lives in all of my Home directories.
+  # At 2:00, replicate to mirrored ZFS pool and remove trailing 30 days.
+  services.cron = {
+    enable = true;
+    systemCronJobs = [
+      "1  0 * * * zfs snapshot rpool/data@`date +\%Y-\%m-\%d` 2>> /var/log/zfs.snapshot
+      "0  2 * * * zfs destroy rpool/data@`date -d -30days +\%Y-\%m-\%d` 2>> /var/log/zfs.destroy
+      "0  2 * * * zfs send -i rpool/data@`date +\%Y-\%m-\%d` | ssh dustin@192.168.0.223 zfs recv rpool/backups 2>> /var/log/zfs.send
+      "0  2 * * * ssh dustin@192.168.0.223 zfs destroy rpool/data@`date -d -30days +\%Y-\%m-\%d` 2>> /var/log/zfs.destroy
+    ];
+
+  };
+
   services.syncthing = {
     enable = true;
     user = "dustin";
@@ -38,6 +55,7 @@
 
   environment.systemPackages = with pkgs; [
     git
+    rsync
     vim
     wget
     htop
