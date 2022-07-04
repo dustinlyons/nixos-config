@@ -44,6 +44,9 @@
     # Always color ls
     alias ls='ls --color'
 
+    # One-liners
+    rm-trailing-whitespace(){ sed -i 's/[[:space:]]*$//' $1 ; }
+
     # Cypress is a dev tool for end-to-end testing
     export CYPRESS_INSTALL_BINARY=0
     export CYPRESS_RUN_BINARY=$(which Cypress)
