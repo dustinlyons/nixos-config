@@ -16,7 +16,7 @@
   boot.loader.grub.device = "/dev/sda";
 
   time.timeZone = "America/New_York";
-  networking.hostName = "compute"; # Define your hostname.
+  networking.hostName = "docker"; # Define your hostname.
   networking.hostId = "67518725"; # Needed for ZFS to work
 
   boot.initrd.supportedFilesystems = ["zfs"]; # boot from zfs

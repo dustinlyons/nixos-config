@@ -12,7 +12,7 @@
   boot.supportedFilesystems = [ "zfs" ];
   boot.loader.grub.device = "/dev/sda";
 
-  networking.hostName = "data"; # Define your hostname.
+  networking.hostName = "state"; # Define your hostname.
 
   # Set your time zone.
   time.timeZone = "America/New_York";
