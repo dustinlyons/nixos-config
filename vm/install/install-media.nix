@@ -7,8 +7,11 @@ let
       "${nixpkgs}/nixos/modules/installer/cd-dvd/channel.nix"
     ];
 
+    nixpkgs.config.allowUnfree = true;
     time.timeZone = "America/New_York";
     networking.hostName = "syncthing";
+
+    # ZFS
     networking.hostId = "67518724";
     boot.initrd.supportedFilesystems = ["zfs"]; # boot from zfs
     boot.supportedFilesystems = [ "zfs" ];
@@ -16,9 +19,7 @@ let
       ACTION=="add|change", KERNEL=="sd[a-z]*[0-9]*|mmcblk[0-9]*p[0-9]*|nvme[0-9]*n[0-9]*p[0-9]*", ENV{ID_FS_TYPE}=="zfs_member", ATTR{../queue/scheduler}="none"
 '';
 
-    nixpkgs.config.allowUnfree = true;
     environment.systemPackages = with pkgs; [ syncthing vim htop ];
-
     users.extraUsers.root.password = "password"; # Change after first login
     users.users.dustin = {
       isNormalUser = true;
