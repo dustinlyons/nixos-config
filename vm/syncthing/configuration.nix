@@ -38,10 +38,10 @@
   services.cron = {
     enable = true;
     systemCronJobs = [
-      "1  0 * * * zfs snapshot rpool/data@`date +\%Y-\%m-\%d` 2>> /var/log/zfs.snapshot
-      "0  2 * * * zfs destroy rpool/data@`date -d -30days +\%Y-\%m-\%d` 2>> /var/log/zfs.destroy
-      "0  2 * * * zfs send -i rpool/data@`date +\%Y-\%m-\%d` | ssh dustin@192.168.0.223 zfs recv rpool/backups 2>> /var/log/zfs.send
-      "0  2 * * * ssh dustin@192.168.0.223 zfs destroy rpool/data@`date -d -30days +\%Y-\%m-\%d` 2>> /var/log/zfs.destroy
+      "1  0 * * * zfs snapshot rpool/data@`date +\%Y-\%m-\%d` 2>> /var/log/zfs.snapshot"
+      "0  2 * * * zfs destroy rpool/data@`date -d -30days +\%Y-\%m-\%d` 2>> /var/log/zfs.destroy"
+      "0  2 * * * zfs send -i rpool/data@`date +\%Y-\%m-\%d` | ssh dustin@192.168.0.223 zfs recv rpool/backups 2>> /var/log/zfs.send"
+      "0  2 * * * ssh dustin@192.168.0.223 zfs destroy rpool/data@`date -d -30days +\%Y-\%m-\%d` 2>> /var/log/zfs.destroy"
     ];
 
   };
