@@ -25,23 +25,31 @@
   # Per-interface useDHCP will be mandatory in the future, so this generated config
   # replicates the default behaviour.
   networking.useDHCP = false;
-  networking.interfaces.ens18.useDHCP = true;
   networking.hostId = "e583cd01";
+  networking.interfaces.ens18.ipv4.addresses = [ {
+    address = "192.168.0.215";
+    prefixLength = 24;
+  } ];
+
+  networking.defaultGateway = "192.168.0.1";
+  networking.nameservers = [ "192.168.0.223" ];
 
   users.users.dustin = {
     isNormalUser = true;
     extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
   };
 
-  # At 12:01, snapshot our global State directory. This dir lives in all of my Home directories.
-  # At 2:00, replicate to mirrored ZFS pool and remove trailing 30 days.
+  # 12:00 - Snapshot data with current date
+  # 2:00 - Destroy anything older than 30 days
+  # 2:00 - Incrementally send today's changes to mirrored pool
+  # 2:00 - Destroy anything older than 30 days on mirrored pool
   services.cron = {
     enable = true;
     systemCronJobs = [
-      "1  0 * * * zfs snapshot rpool/data@`date +\%Y-\%m-\%d` 2>> /var/log/zfs.snapshot"
-      "0  2 * * * zfs destroy rpool/data@`date -d -30days +\%Y-\%m-\%d` 2>> /var/log/zfs.destroy"
-      "0  2 * * * zfs send -i rpool/data@`date +\%Y-\%m-\%d` | ssh dustin@192.168.0.223 zfs recv rpool/backups 2>> /var/log/zfs.send"
-      "0  2 * * * ssh dustin@192.168.0.223 zfs destroy rpool/data@`date -d -30days +\%Y-\%m-\%d` 2>> /var/log/zfs.destroy"
+      "1  0 * * *      root    zfs snapshot rpool/data@`date +\%Y-\%m-\%d` 2>> /var/log/zfs.snapshot"
+      "0  2 * * *      root    zfs destroy rpool/data@`date -d -30days +\%Y-\%m-\%d` 2>> /var/log/zfs.destroy"
+      "0  2 * * *      root    zfs send -i rpool/data@`date -d -1days +\%Y-\%m-\%d` rpool/data@`date +\%Y-\%m-\%d` | ssh dustin@192.168.0.223 zfs recv rpool/backups 2>> /var/log/zfs.send"
+      "0  2 * * *      root    ssh dustin@192.168.0.223 zfs destroy rpool/data@`date -d -30days +\%Y-\%m-\%d` 2>> /var/log/zfs.destroy"
     ];
 
   };
@@ -61,11 +69,6 @@
     htop
     inetutils
   ];
-
-  # @todo: create local DNS server
-  #environment.etc = {
-  #  "resolv.conf".text = "nameserver 192.168.0.32\n";
-  #};
 
   # started in user sessions.
   programs.mtr.enable = true;
