@@ -27,8 +27,8 @@
 
   # Turn on flag for proprietary software
   nix = {
-    allowedUsers = [ "dustin" ];
-    # settings.allowed-users = [ "dustin" ];
+    # allowedUsers = [ "dustin" ];
+    settings.allowed-users = [ "dustin" ];
     package = pkgs.nixUnstable;
     extraOptions = ''
       experimental-features = nix-command flakes
@@ -66,6 +66,7 @@
 
   # Enable CUPS to print documents
   services.printing.enable = true;
+  services.printing.drivers = [ pkgs.brlaser ];
 
   # Enable sound
   sound.enable = true;

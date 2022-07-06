@@ -5,6 +5,7 @@ let common-packages = import ../common/packages.nix { pkgs = pkgs; }; in
 common-packages ++ [
   _1password-gui
   brave
+  brlaser
   cawbird
   cypress
   direnv
@@ -22,6 +23,7 @@ common-packages ++ [
   libusb1 # for Xbox controller
   ledger-live-desktop
   openssh
+  keepassxc
   pinentry-curses
   postgresql
   qmk
