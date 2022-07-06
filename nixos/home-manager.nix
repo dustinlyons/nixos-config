@@ -9,6 +9,7 @@ let
     packages = pkgs.callPackage ./packages.nix {};
     username = "dustin";
     homeDirectory = "/home/dustin";
+    stateVersion = "21.05";
   };
 
   # TODO: Clean this up. Import these so we use Nix composability.
