@@ -22,7 +22,7 @@
   networking.interfaces.eno1.useDHCP = true;
   networking.extraHosts =
   ''
-    192.168.0.67 BRN008077D92A06.local
+    192.168.2.67 BRN008077D92A06.local # Printer
   '';
 
   # Turn on flag for proprietary software
