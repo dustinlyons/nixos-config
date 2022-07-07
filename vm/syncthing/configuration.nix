@@ -48,7 +48,7 @@
     systemCronJobs = [
       "0  3 * * *  root    zfs snapshot rpool/data@`date +\\%Y-\\%m-\\%d` | logger -t cron"
       "0  4 * * *  root    zfs destroy rpool/data@`date -d -30days +\\%Y-\\%m-\\%d` | logger -t cron"
-      "0  4 * * *  root    zfs send -i rpool/data@`date -d -1days +\\%Y-\\%m-\\%d` rpool/data@`date +\\%Y-\\%m-\\%d` | ssh dustin@194.168.0.223 zfs recv rpool/backups | logger -t cron"
+      "0  4 * * *  root    zfs send -i rpool/data@`date -d -1days +\\%Y-\\%m-\\%d` rpool/data@`date +\\%Y-\\%m-\\%d` | ssh dustin@192.168.0.223 zfs recv rpool/backups | logger -t cron"
       "0  4 * * *  root    ssh dustin@192.168.0.223 zfs destroy rpool/data@`date -d -30days +\\%Y-\\%m-\\%d` | logger -t cron"
     ];
 
