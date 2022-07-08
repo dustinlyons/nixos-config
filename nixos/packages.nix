@@ -31,6 +31,7 @@ common-packages ++ [
   rnix-lsp # lsp-mode for nix
   spotify
   sqlite
+  ssm-session-manager-plugin
   tree
   tdesktop # telegram desktop
   unixtools.ifconfig
