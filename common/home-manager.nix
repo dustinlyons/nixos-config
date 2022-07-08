@@ -44,6 +44,9 @@
     # Always color ls
     alias ls='ls --color'
 
+    # Weather report in your terminal
+    alias weather='curl http://wttr.in'
+
     # One-liners
     rm-trailing-whitespace(){ sed -i 's/[[:space:]]*$//' $1 ; }
 
