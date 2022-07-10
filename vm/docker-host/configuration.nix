@@ -30,8 +30,13 @@
   # Per-interface useDHCP will be mandatory in the future, so this generated config
   # replicates the default behaviour.
   networking.useDHCP = false;
-  networking.interfaces.ens18.useDHCP = true;
   networking.interfaces.docker0.useDHCP = true;
+  networking.interfaces.ens18.ipv4.addresses = [ {
+    address = "192.168.0.223";
+    prefixLength = 24;
+} ];
+  networking.defaultGateway = "192.168.0.1";
+  networking.nameservers = [ "192.168.0.223" ];
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.dustin = {
