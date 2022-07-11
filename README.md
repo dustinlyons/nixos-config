@@ -2,21 +2,51 @@
 
 ## Overview
 
-These are my "dotfiles" contained within Nix deriviations that drive setup and configuration of
+These are my "dotfiles" contained within Nix derivations that drive the setup and configuration of
 
 * my Macbook Pro
 * a NixOS workstation sitting on my desk at home
 * an old Thinkpad I use as an air-gapped machine
 * virtual machines running on my home-lab Proxmox server
 
-In a previous life my configuration was driven by [Guix](https://github.com/dustinlyons/guix-config), but with the release of new Apple Silicon I started exploring other options. Enter Nix and NixOS.
+Why do this? Why spend the hours to learn Nix and the nuances of getting it all to work across various architectures?
 
-## Features
+Well, it's pretty magical, honestly.
 
-1. Simplicity as a guiding principle; Nix is notoriously confusing so make it easy to understand
-2. Entirely driven by my single [Flake](https://nixos.wiki/wiki/Flakes)
-3. Supports sharing common config between an M1 Macbook Pro and NixOS PCs
-4. Simple bash scripts to build and switch environments
+Years of honing my environment, making tiny optimizations to my workflow and development environment, are now codified and reproducible by a machine.
+
+I'll never experience a day, _sans hardware failure_, where everything is borked and I can't work, thanks to the declarative nature of Nix, the Nix Store, and its update and rollback features.
+
+I can magically update everything, everywhere, by typing `nix flake update; nixos-rebuild switch`. Done. 
+
+It's great.
+
+I do this frequently, _because it's so damn cheap_, but mainly I get to leverage the work from _hundreds_ of people, all merging PRs in harmony to maintain a set of software that's highly secure, efficient, and workable. 
+
+Sometimes I go to update, and the build fails. That's okay. Nix doesn't apply the update to your machine until everything works.
+
+So usually, I just wait a few days for the community to patch it and move on. I can count on one finger the times I've had an issue, and there wasn't already an active discussion.
+
+Seriously, the [nixpkgs](https://github.com/NixOS/nixpkgs) repository and other groups within [nix-community](https://github.com/nix-community/), like [emacs-overlay](https://github.com/nix-community/emacs-overlay), are some of the best examples of open source at scale. PRs are merged multiple times an hour (over 150,000 😱 closed), and you get all of that with a simple `nix flake update`. 
+
+It's brilliant. And it's not just installing _updates_. `emacs-overlay`, for example, helps me keep a bleeding edge, natively compiled version of Emacs, across both M1 and x86, with minimal effort. Any workarounds or known ~platform~ M1 bugs are quickly solved for me.
+
+So yeah, pretty great. I encourage you to give Nix a try. Look around, and if you have questions, I'm on [Twitter](https://twitter.com/dustinhlyons).
+
+## Update Computer
+
+### Download latest updates and update lock file
+```sh
+nix flake update
+```
+### Run platform specific build
+```sh
+./bin/darwin-build
+```
+or
+```sh
+./bin/nixos-build
+```
 
 ## Bootstrap New Computer
 
@@ -71,6 +101,3 @@ ssh-keygen -t ecdsa-sk
 
 ### Step 6 - Reboot computer
 That's it. You're done.
-
-## Get in touch
-- Feedback or questions? Find me on [Twitter](https://twitter.com/dustinhlyons).
