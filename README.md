@@ -17,11 +17,13 @@ Years of honing my environment, making tiny optimizations to my workflow and dev
 
 I'll never experience a day, _sans hardware failure_, where everything is borked and I can't work, thanks to the declarative nature of Nix, the Nix Store, and its update and rollback features.
 
-I can magically update everything, everywhere, by typing `nix flake update; nixos-rebuild switch`. Done. 
+I can magically update everything, everywhere, by typing `nix flake update; nixos-rebuild switch`. 
+
+Done. 
 
 It's great.
 
-I do this frequently, _because it's so damn cheap_, but mainly I get to leverage the work from _hundreds_ of people, all merging PRs in harmony to maintain a set of software that's highly secure, efficient, and workable. 
+I do this frequently, _because it's so damn cheap_, but mainly I get to leverage the work from _hundreds_ of people, all contributing pull requests in harmony to maintain a global set of software that's highly secure, efficient, and workable. 
 
 Sometimes I go to update, and the build fails. That's okay. Nix doesn't apply the update to your machine until everything works.
 
