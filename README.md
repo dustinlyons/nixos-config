@@ -20,7 +20,7 @@ In a previous life my configuration was driven by [Guix](https://github.com/dust
 
 ## Bootstrap New Computer
 
-### Step 1 - For foreign distros (namely MacOS), install Nix package manager
+### Step 1 - For foreign distros (namely macOS), install Nix package manager
 Install the nix package manager, add unstable channel:
 ```sh
 sh <(curl -L https://nixos.org/nix/install) --daemon
@@ -41,7 +41,7 @@ nix-channel --add https://github.com/nix-community/home-manager/archive/master.t
 nix-channel --update
 ```
 
-### Step 3 - If MacOS, install Darwin dependencies
+### Step 3 - If macOS, install Darwin dependencies
 Install Xcode CLI tools and nix-darwin:
 ```sh
 xcode-select --install
@@ -56,7 +56,7 @@ nix-build https://github.com/LnL7/nix-darwin/archive/master.tar.gz -A installer
 ### Step 4 - Build the environment
 Download this repo and run:
 ```sh
-./bin/mac-build
+./bin/darwin-build
 ```
 or
 ```sh
