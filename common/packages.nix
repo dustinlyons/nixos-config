@@ -41,6 +41,7 @@ with pkgs; [
   roboto
   slack
   sqlite
+  ssm-session-manager-plugin
   terraform
   terraform-ls
   tree
