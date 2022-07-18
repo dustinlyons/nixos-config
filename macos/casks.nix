@@ -12,6 +12,7 @@
   "raycast"
   "slack"
   "syncthing"
+  "shottr"
   "spotify"
   "telegram"
   "homebrew/cask/transmission"
