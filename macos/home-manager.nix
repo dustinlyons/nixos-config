@@ -49,6 +49,7 @@ let
 
   # We use Homebrew to install impure software only (Mac Apps)
   homebrew.enable = true;
+  homebrew.autoUpdate = true;
   homebrew.cleanup = "uninstall";
   homebrew.brewPrefix = "/opt/homebrew/bin";
   homebrew.casks = pkgs.callPackage ./casks.nix {};
