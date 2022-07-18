@@ -29,11 +29,9 @@ Sometimes I go to update, and the build fails. That's okay. Nix doesn't apply th
 
 So usually, I just wait a few days for the community to patch it and move on. I can count on one finger the times I've had an issue, and there wasn't already an active discussion.
 
-Seriously, the [nixpkgs](https://github.com/NixOS/nixpkgs) repository and other groups within [nix-community](https://github.com/nix-community/), like [emacs-overlay](https://github.com/nix-community/emacs-overlay), are some of the best examples of open source at scale. PRs are merged multiple times an hour (over 150,000 😱 closed), and you get all of that with a simple `nix flake update`. 
+The [nixpkgs](https://github.com/NixOS/nixpkgs) repository and other groups within [nix-community](https://github.com/nix-community/), like [emacs-overlay](https://github.com/nix-community/emacs-overlay), are some of the best examples of open source at scale. PRs are merged multiple times an hour (over 150,000 😱 closed), and you get all of that with a simple `nix flake update`. 
 
-It's brilliant. And it's not just installing _updates_. `emacs-overlay`, for example, helps me keep a bleeding edge, natively compiled version of Emacs, across both M1 and x86, with minimal effort. Any workarounds or known ~platform~ M1 bugs are quickly solved for me.
-
-So yeah, pretty great. I encourage you to give Nix a try. Look around, and if you have questions, I'm on [Twitter](https://twitter.com/dustinhlyons).
+I encourage you to give Nix a try. Look around, and if you have questions, I'm on [Twitter](https://twitter.com/dustinhlyons).
 
 ## Update Computer
 
