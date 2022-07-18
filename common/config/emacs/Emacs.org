@@ -1018,10 +1018,11 @@ Rainbow mode is an Emacs minor mode to highlight the color shown by a RGB hex tr
 #+NAME: javascript
 #+BEGIN_SRC emacs-lisp
   (use-package typescript-mode
-    :mode "\\.ts\\'"
+    :mode (rx ".ts" string-end)
     :hook (typescript-mode . lsp-deferred)
-    :config
-    (setq typescript-indent-level 2))
+    :init
+      (define-derived-mode typescript-tsx-mode typescript-mode "typescript-tsx")
+      (add-to-list 'auto-mode-alist (cons (rx ".tsx" string-end) #'typescript-tsx-mode)))
 
   (use-package vue-mode)
   (use-package web-mode)
