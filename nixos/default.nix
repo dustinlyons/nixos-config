@@ -10,7 +10,6 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.kernelPackages = pkgs.linuxPackages_latest;
-  boot.blacklistedKernelModules = [ "mt76x2u" ];
   # Set your time zone.
   time.timeZone = "America/New_York";
 
@@ -38,12 +37,6 @@
   # Video games, patch libusb1 so Xbox controller works
   programs.steam.enable = true;
   programs.gnupg.agent.enable = true;
-  #nixpkgs.config.packageOverrides = pkgs: {
-  #  xow = pkgs.xow.overrideAttrs (orig: {
-  #    version = "pre-1.0.25";
-  #    buildInputs = [ inputs.libusb.packages.x86_64-linux.libusb ];
-  #  });
-  #};
 
   services.xserver.enable = true;
   services.xserver.videoDrivers = [ "nvidia" ];
@@ -81,12 +74,11 @@
   hardware.opengl.driSupport = true;
   hardware.nvidia.modesetting.enable = true;
 
+  # Enable Xbox support
+  hardware.xone.enable = true;
+
   # Crypto wallet support
   hardware.ledger.enable = true;
-
-  # Xbox controller support
-  # services.hardware.xow.enable = true;
-  # services.udev.packages = [ pkgs.xow ];
 
   # Better support for general peripherals
   services.xserver.libinput.enable = true;
@@ -114,7 +106,6 @@
   };
 
   environment.systemPackages = with pkgs; [
-    #xow
     gitAndTools.gitFull
     discord
     (emacsWithPackagesFromUsePackage {
