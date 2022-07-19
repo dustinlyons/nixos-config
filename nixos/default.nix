@@ -110,7 +110,7 @@
     discord
     (emacsWithPackagesFromUsePackage {
       config = ../common/config/emacs/Emacs.org;
-      package = emacsPgtkGcc;
+      package = emacsPgtkNativeComp;
       alwaysEnsure = true;
     })
   ];
