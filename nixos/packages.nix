@@ -12,6 +12,7 @@ common-packages ++ [
   electrum
   firefox
   fontconfig
+  fractal
   gimp
   gnumake
   gnugrep

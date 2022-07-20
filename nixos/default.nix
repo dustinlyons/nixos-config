@@ -108,6 +108,7 @@
   environment.systemPackages = with pkgs; [
     gitAndTools.gitFull
     discord
+    inetutils
     (emacsWithPackagesFromUsePackage {
       config = ../common/config/emacs/Emacs.org;
       package = emacsPgtkNativeComp;
