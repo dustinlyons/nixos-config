@@ -94,7 +94,7 @@ or
 ```
 
 ### Step 5 - Add Yubikey and generate key
-Insert laptop Yubikey and generate private keys
+Insert Yubikey and generate private keys
 ```sh
 ssh-keygen -t ecdsa-sk
 ```
