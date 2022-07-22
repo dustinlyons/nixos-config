@@ -443,38 +443,38 @@ These are templates used to create new notes.
 #+BEGIN_SRC emacs-lisp
   (require 'ucs-normalize)
   (use-package org-roam
-        :straight (:host github :repo "dustinlyons/org-roam"
-                   :branch "master"
-                   :files (:defaults "extensions/*")
-        :build (:not compile))
-       :init
-         (setq org-roam-v2-ack t) ;; Turn off v2 warning
-         (setq org-roam-mode-section-functions
-           (list #'org-roam-backlinks-section
-            #'org-roam-reflinks-section
-            #'org-roam-unlinked-references-section))
-         (add-to-list 'display-buffer-alist
+    :straight (:host github :repo "dustinlyons/org-roam"
+               :branch "master"
+               :files (:defaults "extensions/*")
+    :build (:not compile))
+    :init
+      (setq org-roam-v2-ack t) ;; Turn off v2 warning
+      (setq org-roam-mode-section-functions
+        (list #'org-roam-backlinks-section
+              #'org-roam-reflinks-section
+              #'org-roam-unlinked-references-section))
+        (add-to-list 'display-buffer-alist
              '("\\*org-roam\\*"
                (display-buffer-in-direction)
                (direction . right)
                (window-width . 0.33)
                (window-height . fit-window-to-buffer)))
-       :custom
-         (org-roam-directory (file-truename "~/State/Areas/Writing/Notebook"))
-         (org-roam-dailies-directory "daily/")
-         (org-roam-completion-everywhere t)
-       :bind
-         (("C-c r b" . org-roam-buffer-toggle)
-          ("C-c r t" . org-roam-dailies-goto-today)
-          ("C-c r y" . org-roam-dailies-goto-yesterday)
-          ("C-M-n" . org-roam-node-insert)
-          :map org-mode-map
-          ("C-M-i"   . completion-at-point)
-          ("C-M-f" . org-roam-node-find)
-          ("C-M-c" . dl/org-roam-create-id)
-          ("C-<left>" . org-roam-dailies-goto-previous-note)
-          ("C-`" . org-roam-buffer-toggle)
-          ("C-<right>" . org-roam-dailies-goto-next-note)))
+    :custom
+      (org-roam-directory (file-truename "~/State/Areas/Writing/Notebook"))
+      (org-roam-dailies-directory "daily/")
+      (org-roam-completion-everywhere t)
+    :bind
+      (("C-c r b" . org-roam-buffer-toggle)
+       ("C-c r t" . org-roam-dailies-goto-today)
+       ("C-c r y" . org-roam-dailies-goto-yesterday)
+       ("C-M-n" . org-roam-node-insert)
+         :map org-mode-map
+       ("C-M-i"   . completion-at-point)
+       ("C-M-f" . org-roam-node-find)
+       ("C-M-c" . dl/org-roam-create-id)
+       ("C-<left>" . org-roam-dailies-goto-previous-note)
+       ("C-`" . org-roam-buffer-toggle)
+       ("C-<right>" . org-roam-dailies-goto-next-note)))
   (org-roam-db-autosync-mode)
 #+END_SRC
 
@@ -979,6 +979,7 @@ Rainbow mode is an Emacs minor mode to highlight the color shown by a RGB hex tr
 (use-package lsp-tailwindcss
         :straight (:host github :repo "merrickluo/lsp-tailwindcss"))
 #+END_SRC
+
 **** golang
 #+NAME: golang-config
 #+BEGIN_SRC emacs-lisp
