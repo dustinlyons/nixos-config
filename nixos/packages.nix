@@ -4,6 +4,7 @@ with pkgs;
 let common-packages = import ../common/packages.nix { pkgs = pkgs; }; in
 common-packages ++ [
   _1password-gui
+  appimage-run
   brave
   brlaser
   cawbird
