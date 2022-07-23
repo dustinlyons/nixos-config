@@ -258,7 +258,7 @@ Keeps info at my fingertips. Modeline is much better than Vim's Powerline (sorry
 ***** Treemacs
 Although I'm primarily a keyboard user and use Projectile for quickly finding files, I still find the need to browse through files in a more visual way. Treemacs does the job, and beautifully might I add.
 
-#+NAME: modeline
+#+NAME: treemacs
 #+BEGIN_SRC emacs-lisp
   (use-package treemacs
     :config
@@ -276,6 +276,7 @@ Although I'm primarily a keyboard user and use Projectile for quickly finding fi
 **** Easy window motions with ace-window
 Predefine windows with hotkeys and jump to them.
 
+#+NAME: easy-window-motions
 #+BEGIN_SRC emacs-lisp
 ;; Remove binding for facemap-menu, use for ace-window instead
 (global-unset-key (kbd "M-o"))
@@ -305,7 +306,7 @@ Sets some reasonable defaults.
       cursor-type 'bar)
 #+END_SRC
 **** Fonts
-[[https://sourcefoundry.org/hack/][Fira Code]] is a code-friendly typeface. I really like it.
+[[https://sourcefoundry.org/hack/][Fira Code]] is a code-friendly typeface. I dig it.
 
 #+NAME: fonts
 #+BEGIN_SRC emacs-lisp
@@ -406,7 +407,6 @@ Note the weekly scope of the command's precision.")
 
   "A few of my own personal shortcuts"
  (dl/leader-keys
-  "e" '(dl/reload-emacs :which-key "reload emacs conf")
   ","  '(dl/insert-current-time :which-key "current time"))
 
 #+END_SRC
