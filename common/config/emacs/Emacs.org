@@ -681,6 +681,7 @@ Setup for org-super-agenda and org-ql.
 
      (org-super-agenda-mode)
 #+END_SRC
+
 *** UI improvements
 Anything related to making org mode pretty.
 **** Change color of ivy window selection
@@ -688,6 +689,7 @@ Anything related to making org mode pretty.
 #+BEGIN_SRC emacs-lisp
 (set-face-attribute 'ivy-current-match nil :foreground "#3d434d" :background "#ffcc66")
 #+END_SRC
+
 **** Change default bullets to be pretty
 
 Replaces the standard org-mode header asterisks with dots.
