@@ -640,6 +640,21 @@ This block sets the ~org-agenda-prefix-format~ in an friendly way for org-roam (
           (tags . " %i %(dl/agenda-category 32) ")
           (search . " %i %(dl/agenda-category 32) ")))
 #+END_SRC
+
+**** org-transclusion
+Let's us move text but still see it in another file. I primarily use this to move text around in my journal.
+#+NAME::org-transclusion
+#+BEGIN_SRC emacs-lisp
+(use-package org-transclusion
+  :after org
+  :init
+  (map!
+   :map global-map "<f12>" #'org-transclusion-add
+   :leader
+   :prefix "n"
+   :desc "Org Transclusion Mode" "t" #'org-transclusion-mode))
+#+END_SRC
+
 **** org-super-agenda views
 Setup for org-super-agenda and org-ql.
 
