@@ -17,6 +17,7 @@ with pkgs; [
   flyctl
   font-awesome
   gcc
+  gh
   git-filter-repo
   gnupg
   google-cloud-sdk
