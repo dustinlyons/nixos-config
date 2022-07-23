@@ -47,6 +47,9 @@
     # Weather report in your terminal
     alias weather='curl http://wttr.in'
 
+    # Run sunsama quietly and as system user
+    alias sunsama='sunsama > /dev/null 2>&1 &; disown'
+
     # One-liners
     rm-trailing-whitespace(){ sed -i 's/[[:space:]]*$//' $1 ; }
 
