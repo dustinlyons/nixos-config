@@ -34,12 +34,18 @@ common-packages ++ [
   spotify
   sqlite
   tree
-  tdesktop # telegram desktop
   unixtools.ifconfig
   unixtools.netstat
   xdg_utils
   wineWowPackages.stable
   yubikey-manager
-  yubikey-manager-qt
+
+  # 6/23/22
+  # Broken build, fix merged upstream
+  # Try again later
+  # 
+  # yubikey-manager-qt
+  # tdesktop # telegram desktop
+
   yubikey-agent
 ]
