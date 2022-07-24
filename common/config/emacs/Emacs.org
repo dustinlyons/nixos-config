@@ -304,7 +304,10 @@ Sets some reasonable defaults.
   (setq use-dialog-box nil
       use-file-dialog nil
       cursor-type 'bar)
+  (add-to-list 'default-frame-alist '(height . 80))
+  (add-to-list 'default-frame-alist '(width . 160))
 #+END_SRC
+
 **** Fonts
 [[https://sourcefoundry.org/hack/][Fira Code]] is a code-friendly typeface. I dig it.
 
