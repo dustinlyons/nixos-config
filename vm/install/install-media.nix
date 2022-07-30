@@ -10,9 +10,7 @@ let
     nixpkgs.config.allowUnfree = true;
     time.timeZone = "America/New_York";
     networking.hostName = "syncthing";
-
-    # ZFS
-    networking.hostId = "67518724";
+    networking.hostId = "67518724"; # zfs requires this
     boot.initrd.supportedFilesystems = ["zfs"]; # boot from zfs
     boot.supportedFilesystems = [ "zfs" ];
     services.udev.extraRules = ''
