@@ -1,9 +1,7 @@
 # Install
 
 ## Overview
-These Nix derivations create the _install media_ used to bootstrap a virtual machine. 
-
-The instructions below walk you through building and creating a VM from scratch.
+These Nix derivations create the _install media_ used to bootstrap a virtual machine. The instructions below walk you through building and creating a VM from scratch.
 
 ## Steps to install
 
