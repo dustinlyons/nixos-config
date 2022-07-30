@@ -22,7 +22,7 @@ I use ZFS, but you can just as easily use ```ext4``` with ```fdisk```. Our first
 ```sh
 $ lsblk -p
 ```
-> Note: You are logged-in automatically as nixos. The nixos user account has an empty password so you can use sudo without a password.
+> Note: You are logged-in automatically as `nixos`. The nixos user account has an empty password so you can use `sudo` without a password.
 
 #### Create and format disk partitions
 Next, let's create our first partition. Move over to `sudo` and bring `sgdisk` into your path.
@@ -86,7 +86,7 @@ $ mount -t zfs rpool/data /mnt/data
 ```
 
 ### Generate Nix configuration
-Generate the configuration at /mnt, where the filesystem was mounted for Nix to do it's installation.
+Generate the configuration at `/mnt`, where the filesystem was mounted for Nix to do it's installation.
 
 ```sh
 $ nixos-generate-config --root /mnt
