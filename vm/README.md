@@ -43,7 +43,7 @@ This command is a bit archaic so let me breakdown what we're doing.
 
 As I mentioned, these VMs use the old BIOS MBR, not UEFI. Why? I use Proxmox and by default it prefers virtual machines use SeaBIOS. I like defaults, so I keep it.
 
-More info on Proxmox and ZFS: https://pve.proxmox.com/wiki/ZFS_on_Linux
+[Learn more](https://pve.proxmox.com/wiki/ZFS_on_Linux) about Proxmox and ZFS.
 
 #### Configure ZFS
 Okay, we have some empty partitions. What next? Let's create the filesystem, which in our case is ZFS. In practice this means creating a "zpool" and ZFS "datasets", which is just ZFS jargon for the basic "container" of filesystems and the filesystems themselves.
