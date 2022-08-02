@@ -31,7 +31,7 @@
 
   environment.systemPackages = with pkgs; [
     (emacsWithPackagesFromUsePackage {
-      config = ../common/config/emacs/Emacs.org;
+      config = /Users/dustin/State/Projects/Code/dot-emacs/Emacs.org;
       package = emacsGcc;
       alwaysEnsure = true;
     })
