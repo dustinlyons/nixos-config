@@ -29,6 +29,7 @@ with pkgs; [
   hunspell
   iftop
   jq
+  killall
   libfido2
   nodePackages.live-server
   nodePackages.npm
