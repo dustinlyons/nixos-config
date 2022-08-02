@@ -110,7 +110,7 @@
     discord
     inetutils
     (emacsWithPackagesFromUsePackage {
-      config = ../common/config/emacs/Emacs.org;
+      config = /home/dustin/State/Projects/Code/dot-emacs/Emacs.org;
       package = emacsPgtkNativeComp;
       alwaysEnsure = true;
     })
