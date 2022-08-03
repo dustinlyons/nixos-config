@@ -813,6 +813,8 @@ This is what makes emacs possible for me. All evil mode packages and related con
       (evil-set-undo-system 'undo-tree)
       (global-undo-tree-mode 1))
 
+    (setq evil-want-keybinding nil)
+
 #+END_SRC
 
 ** Managing files
