@@ -39,13 +39,8 @@ common-packages ++ [
   xdg_utils
   wineWowPackages.stable
   yubikey-manager
-
-  # 6/23/22
-  # Broken build, fix merged upstream
-  # Try again later
-  # 
-  # yubikey-manager-qt
-  # tdesktop # telegram desktop
+  yubikey-manager-qt
+  tdesktop # telegram desktop
 
   yubikey-agent
 ]
