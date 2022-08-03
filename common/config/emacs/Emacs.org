@@ -773,9 +773,8 @@ This is what makes emacs possible for me. All evil mode packages and related con
         (setq evil-want-fine-undo 'fine) ;; undo/redo each motion
         (setq evil-want-Y-yank-to-eol t) ;; Y copies to end of line like vim
         (setq evil-want-C-u-scroll t) ;; vim like scroll up
-        (setq evil-want-keybinding nil)
         (evil-mode 1)
-        :hook (evil-mode . dl/evil-hook)
+      :hook (evil-mode . dl/evil-hook)
       :config
         ;; Emacs "cancel" == vim "cancel"
         (define-key evil-insert-state-map (kbd "C-g") 'evil-normal-state)
