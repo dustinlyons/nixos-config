@@ -23,15 +23,12 @@
     '';
   };
 
-  # GTK Native Comp Emacs
-  services.emacs.package = pkgs.emacsGcc;
-
   # Turn off NIX_PATH warnings now that we're using flakes
   system.checks.verifyNixPath = false;
 
   environment.systemPackages = with pkgs; [
     (emacsWithPackagesFromUsePackage {
-      config = /Users/dustin/State/Projects/Code/dot-emacs/Emacs.org;
+      config = ../common/config/emacs/Emacs.org;
       package = emacsGcc;
       alwaysEnsure = true;
     })
