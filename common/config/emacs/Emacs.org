@@ -360,8 +360,7 @@ Some my own, some from others.
   (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
         doom-themes-enable-italic t) ; if nil, italics is universally disabled
 
-  (load-theme 'doom-badger t)
-  ;;(load-theme 'doom-sourcerer t)
+  (load-theme 'doom-sourcerer t)
 
   ;; Enable flashing mode-line on errors
   (doom-themes-visual-bell-config)
@@ -399,10 +398,10 @@ Note the weekly scope of the command's precision.")
   (interactive)
   (load "~/.emacs"))
 
-(defun dl/move-todo-and-transclude ()
-  "Move Todo heading in current buffer to Todo file and add transclude link"
-       (interactive)
-       (org-refile
+;;(defun dl/move-todo-and-transclude ()
+;;  "Move Todo heading in current buffer to Todo file and add transclude link"
+;;       (interactive)
+;;       (org-refile...
 
 (defun dl/insert-current-time ()
   "Insert the current time (1-week scope) into the current buffer."
@@ -761,60 +760,59 @@ This is what makes emacs possible for me. All evil mode packages and related con
 
 #+NAME: evil-packages
 #+BEGIN_SRC emacs-lisp
-    (defun dl/evil-hook ()
-      (dolist (mode '(eshell-mode
-                      git-rebase-mode
-                      term-mode))
-      (add-to-list 'evil-emacs-state-modes mode))) ;; no evil mode for these modes
+(defun dl/evil-hook ()
+  (dolist (mode '(eshell-mode
+                  git-rebase-mode
+                  term-mode))
+  (add-to-list 'evil-emacs-state-modes mode))) ;; no evil mode for these modes
 
-    (use-package evil
-      :init
-        (setq evil-want-integration t) ;; TODO: research what this does
-        (setq evil-want-fine-undo 'fine) ;; undo/redo each motion
-        (setq evil-want-Y-yank-to-eol t) ;; Y copies to end of line like vim
-        (setq evil-want-C-u-scroll t) ;; vim like scroll up
-        (evil-mode 1)
-      :hook (evil-mode . dl/evil-hook)
-      :config
-        ;; Emacs "cancel" == vim "cancel"
-        (define-key evil-insert-state-map (kbd "C-g") 'evil-normal-state)
+(use-package evil
+  :init
+    (setq evil-want-integration t) ;; TODO: research what this does
+    (setq evil-want-fine-undo 'fine) ;; undo/redo each motion
+    (setq evil-want-Y-yank-to-eol t) ;; Y copies to end of line like vim
+    (setq evil-want-C-u-scroll t) ;; vim like scroll up
+    (evil-mode 1)
+    :hook (evil-mode . dl/evil-hook)
+  :config
+    ;; Emacs "cancel" == vim "cancel"
+    (define-key evil-insert-state-map (kbd "C-g") 'evil-normal-state)
 
-        ;; Ctrl-h deletes in vim insert mode
-        (define-key evil-insert-state-map (kbd "C-h")
-          'evil-delete-backward-char-and-join)
+    ;; Ctrl-h deletes in vim insert mode
+    (define-key evil-insert-state-map (kbd "C-h")
+      'evil-delete-backward-char-and-join)
 
-        ;; When we wrap lines, jump visually, not to the "actual" next line
-        (evil-global-set-key 'motion "j" 'evil-next-visual-line)
-        (evil-global-set-key 'motion "k" 'evil-previous-visual-line)
+    ;; When we wrap lines, jump visually, not to the "actual" next line
+    (evil-global-set-key 'motion "j" 'evil-next-visual-line)
+    (evil-global-set-key 'motion "k" 'evil-previous-visual-line)
 
-        (evil-set-initial-state 'message-buffer-mode 'normal)
-        (evil-set-initial-state 'dashboard-mode 'normal))
+    (evil-set-initial-state 'message-buffer-mode 'normal)
+    (evil-set-initial-state 'dashboard-mode 'normal))
 
-    ;; Gives me vim bindings elsewhere in emacs
-    (use-package evil-collection
-      :after evil
-      :config
-      (evil-collection-init))
+;; Gives me vim bindings elsewhere in emacs
+(use-package evil-collection
+  :after evil
+  :config
+  (evil-collection-init))
 
-    ;; Keybindings in org mode
-    (use-package evil-org
-      :after evil
-      :hook
-        (org-mode . (lambda () evil-org-mode))
-      :config
-        (require 'evil-org-agenda)
-        (evil-org-agenda-set-keys))
+;; Keybindings in org mode
+(use-package evil-org
+  :after evil
+  :hook
+    (org-mode . (lambda () evil-org-mode))
+  :config
+    (require 'evil-org-agenda)
+    (evil-org-agenda-set-keys))
 
-    ;; Branching undo system
-    (use-package undo-tree
-      :after evil
-      :diminish
-      :config
-      (evil-set-undo-system 'undo-tree)
-      (global-undo-tree-mode 1))
+;; Branching undo system
+(use-package undo-tree
+  :after evil
+  :diminish
+  :config
+  (evil-set-undo-system 'undo-tree)
+  (global-undo-tree-mode 1))
 
-    (setq evil-want-keybinding nil)
-
+(setq evil-want-keybinding nil)
 #+END_SRC
 
 ** Managing files
