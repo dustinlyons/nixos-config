@@ -58,7 +58,7 @@
                "SOMEDAY(s)"
                "|"
                "CANCELED(c)"
-               "DONE(d)"))))
+               "DONE(d)")))))
 
 (use-package org
   :defer t
