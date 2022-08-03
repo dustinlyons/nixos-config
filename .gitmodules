@@ -4,6 +4,3 @@
 [submodule "common/snippets/react-snippets"]
 	path = common/snippets/react-snippets
 	url = git@github.com:johnmastro/react-snippets.el.git
-[submodule "common/config/emacs"]
-	path = common/config/emacs
-	url = git@github.com:dustinlyons/dot-emacs.git
