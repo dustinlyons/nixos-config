@@ -111,11 +111,13 @@ I use general.el to define groups of keybindings under my 'leader' definition. Y
   ;; ESC will also cancel/quit/etc.
   (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
   (use-package general
+    :init
+      (setq evil-want-keybinding nil)
     :config
-    (general-evil-setup t)
-    (general-create-definer dl/leader-keys
-      :keymaps '(normal visual emacs)
-      :prefix ","))
+      (general-evil-setup t)
+      (general-create-definer dl/leader-keys
+        :keymaps '(normal visual emacs)
+        :prefix ","))
 #+END_SRC
 **** Toggles
 Turn UI things on and off, scale things up and down.
@@ -412,8 +414,7 @@ Note the weekly scope of the command's precision.")
 
   "A few of my own personal shortcuts"
  (dl/leader-keys
-  ","  '(dl/insert-current-time :which-key "current time")
-  ","  '(dl/move-todo-and-transclude :which-key "transclude"))
+  ","  '(dl/insert-current-time :which-key "current time"))
 
 #+END_SRC
 
@@ -653,13 +654,9 @@ Let's us move text but still see it in another file. I primarily use this to mov
 #+BEGIN_SRC emacs-lisp
 (use-package org-transclusion
   :after org
-  :init
-  (map!
-   :map global-map "<f12>" #'org-transclusion-add
-   :leader
-   :prefix "n"
-   :desc "Org Transclusion Mode" "t" #'org-transclusion-mode))
+  :hook (org-mode . org-transclusion-mode))
 #+END_SRC
+
 
 **** org-super-agenda views
 Setup for org-super-agenda and org-ql.
@@ -760,6 +757,8 @@ This is what makes emacs possible for me. All evil mode packages and related con
 
 #+NAME: evil-packages
 #+BEGIN_SRC emacs-lisp
+
+
 (defun dl/evil-hook ()
   (dolist (mode '(eshell-mode
                   git-rebase-mode
@@ -812,7 +811,6 @@ This is what makes emacs possible for me. All evil mode packages and related con
   (evil-set-undo-system 'undo-tree)
   (global-undo-tree-mode 1))
 
-(setq evil-want-keybinding nil)
 #+END_SRC
 
 ** Managing files
