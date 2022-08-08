@@ -221,6 +221,12 @@ This is used primarily to center org mode text.
   :defer t
   :hook (org-mode . dl/org-mode-visual-fill))
 #+END_SRC
+***** Don't blink the cursor
+#+NAME: cursor-mode
+#+BEGIN_SRC emacs-lisp
+(blink-cursor-mode -1)
+#+END_SRC
+
 **** Colors
 ***** Rainbow delimiters
 Makes my lisp parens pretty, and easy to spot.
