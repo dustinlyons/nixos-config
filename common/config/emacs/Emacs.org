@@ -406,11 +406,6 @@ Note the weekly scope of the command's precision.")
   (interactive)
   (load "~/.emacs"))
 
-;;(defun dl/move-todo-and-transclude ()
-;;  "Move Todo heading in current buffer to Todo file and add transclude link"
-;;       (interactive)
-;;       (org-refile...
-
 (defun dl/insert-current-time ()
   "Insert the current time (1-week scope) into the current buffer."
        (interactive)
@@ -571,7 +566,8 @@ I use org-roam to take notes, which keeps many small files in the style of Zette
 #+NAME::org-mode-filter
 #+BEGIN_SRC emacs-lisp
   (defun dl/define-agenda-files ()
-    "Return a list of note files containing 'HasTodo' tag."
+    "Return a list of note files containing 'Todo' property.
+      We could just read the file but this query helps keep this flexible."
   (interactive)
     (seq-uniq
      (seq-map
@@ -582,14 +578,25 @@ I use org-roam to take notes, which keeps many small files in the style of Zette
         :left-join nodes
         :on (= tags:node-id nodes:id)
         :where (in tag $v1)] '(["Todo"])))))
+  (setq org-agenda-files (dl/define-agenda-files))
 
-  ;; Roam Daily Log and Project Files only
-   (setq org-agenda-files (dl/define-agenda-files))
+  (defun org-global-props (&optional property buffer)
+    "Helper function to grab org properties"
+    (unless property (setq property "PROPERTY"))
+    (with-current-buffer (or buffer (current-buffer))
+      (org-element-map (org-element-parse-buffer) 'keyword
+      (lambda (el) (when (string-match property (org-element-property :key el)) el)))))
+
+  (defun dl/refile-and-transclude ()
+    "Move file and add transclude link with header"
+  (interactive)
+    (org-roam-refile)
+    (insert "#+transclude: [[file:~/State/Areas/Writing/Notebook/20220419121404-todo.org::*" (org-element-property :value (car (org-global-props "TITLE"))) "][Transclude]]"))
 
   (dl/leader-keys
     "a"  '(:ignore t :which-key "manage org-agenda")
     "aa"  '(dl/define-agenda-files :which-key "refresh agenda db")
-    "ar"  '(org-roam-refile :which-key "refile a TODO"))
+    "ar"  '(dl/refile-and-transclude :which-key "refile TODOs and insert transclude link"))
 
 #+END_SRC
 
