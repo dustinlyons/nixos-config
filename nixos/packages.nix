@@ -41,6 +41,5 @@ common-packages ++ [
   yubikey-manager
   yubikey-manager-qt
   tdesktop # telegram desktop
-
   yubikey-agent
 ]

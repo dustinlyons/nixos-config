@@ -63,6 +63,7 @@
 
   # Enable sound
   sound.enable = true;
+
   # Wireplumber broke my audio, patch is incoming but need this
   # until then. See: https://github.com/NixOS/nixpkgs/issues/163066
   services.pipewire.media-session.enable = true;

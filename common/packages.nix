@@ -8,13 +8,14 @@ with pkgs; [
   bash-completion
   bat # A cat(1) clone with syntax highlighting
   bats # A bash testing framework
-  bottom
+  btop
   coreutils
   du-dust
   docker
   docker-compose
   fira-code
   flyctl
+  fd
   font-awesome
   gcc
   gh
@@ -31,6 +32,7 @@ with pkgs; [
   jq
   killall
   libfido2
+  ncspot
   nodePackages.live-server
   nodePackages.npm
   nodejs
