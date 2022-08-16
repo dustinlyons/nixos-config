@@ -134,7 +134,6 @@ Turn UI things on and off, scale things up and down.
     "t"  '(:ignore t :which-key "toggles")
     "tt" '(treemacs :which-key "toggle treemacs")
     "to" '(treemacs-select-window :which-key "select treemacs")
-    "tl" '(lsp :which-key "lsp")
     "th" '(counsel-load-theme :which-key "choose theme")
     "ts" '(hydra-text-scale/body :which-key "scale text"))
 #+END_SRC
@@ -401,6 +400,11 @@ If you haven't heard of org mode, go watch [[https://www.youtube.com/watch?v=SzA
   "Format of date to insert with `insert-current-time' func.
 Note the weekly scope of the command's precision.")
 
+(defun dl/load-buffer-with-emacs-config ()
+  "Open the emacs configuration"
+  (interactive)
+  (find-file "~/State/Projects/Code/nixos-config/common/config/emacs/Emacs.org"))
+
 (defun dl/reload-emacs ()
   "Reload the emacs configuration"
   (interactive)
@@ -415,7 +419,8 @@ Note the weekly scope of the command's precision.")
 
   "A few of my own personal shortcuts"
  (dl/leader-keys
-  ","  '(dl/insert-current-time :which-key "current time"))
+  ","  '(dl/insert-current-time :which-key "current time")
+  "e"  '(dl/load-buffer-with-emacs-config :which-key "open emacs config"))
 
 #+END_SRC
 
