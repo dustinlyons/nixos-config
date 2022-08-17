@@ -3,10 +3,13 @@
 {
 
   go.enable = true;
-
   zsh.enable = true;
   zsh.autocd = false;
   zsh.cdpath = [ "~/State/Projects/Code/" ];
+  zsh.oh-my-zsh {
+    enable = true;
+    theme = "nicoulaj";
+  };
 
   zsh.dirHashes = {
     Code = "$HOME/State/Projects/Code";
