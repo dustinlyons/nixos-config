@@ -8,7 +8,7 @@
   zsh.cdpath = [ "~/State/Projects/Code/" ];
   zsh.oh-my-zsh = {
     enable = true;
-    theme = "nicoulaj";
+    theme = "robbyrussell";
   };
 
   zsh.dirHashes = {
