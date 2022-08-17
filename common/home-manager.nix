@@ -6,7 +6,7 @@
   zsh.enable = true;
   zsh.autocd = false;
   zsh.cdpath = [ "~/State/Projects/Code/" ];
-  zsh.oh-my-zsh {
+  zsh.oh-my-zsh = {
     enable = true;
     theme = "nicoulaj";
   };
