@@ -893,6 +893,14 @@ Convenient helpers and keybindings when browsing files in Emacs.
     (setq insert-directory-program
       (expand-file-name ".nix-profile/bin/ls" (getenv "HOME"))))
 #+END_SRC
+*** Images
+#+NAME: org-download-copy
+#+BEGIN_SRC emacs-lisp
+  (use-package org-download)
+  ;; Drag-and-drop to `dired`
+  (add-hook 'dired-mode-hook 'org-download-enable)
+#+END_SRC
+
 ** Managing projects
 *** Projectile
 Projectile enables me to organize projects with a killer grep interface.
