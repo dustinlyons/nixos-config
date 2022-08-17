@@ -692,16 +692,6 @@ Setup for org-super-agenda and org-ql.
                    :priority "A")
             (:name "Inbox"
                    :tag ("Inbox" "Daily"))
-            (:name "Next Actions at Office"
-                   :and (
-                   :todo ("NEXT")
-                   :tag ("Active")
-                   :tag ("@Office")))
-            (:name "Next Actions at Home"
-                   :and (
-                   :todo ("NEXT")
-                   :tag ("Active")
-                   :tag ("@Home")))
             (:name "Waiting"
                    :todo "WAITING")
             (:name "Home"
@@ -829,6 +819,8 @@ This is what makes emacs possible for me. All evil mode packages and related con
   (evil-set-undo-system 'undo-tree)
   (global-undo-tree-mode 1))
 
+;; Keep undo files from littering directories
+(setq undo-tree-history-directory-alist '(("." . "~/.emacs.d/undo")))
 #+END_SRC
 
 ** Managing files
