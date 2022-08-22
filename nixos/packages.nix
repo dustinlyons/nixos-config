@@ -8,6 +8,7 @@ common-packages ++ [
   brave
   brlaser
   cawbird
+  cider
   cypress
   direnv
   electrum
