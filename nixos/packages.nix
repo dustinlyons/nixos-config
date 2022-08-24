@@ -12,6 +12,7 @@ common-packages ++ [
   cypress
   direnv
   electrum
+  emote
   firefox
   fontconfig
   fractal
