@@ -405,6 +405,11 @@ Note the weekly scope of the command's precision.")
   (interactive)
   (find-file "~/State/Projects/Code/nixos-config/common/config/emacs/Emacs.org"))
 
+(defun dl/load-buffer-with-todo ()
+  "Open the emacs configuration"
+  (interactive)
+  (find-file "~/State/Areas/Writing/Notebook/20220419121404-todo.org"))
+
 (defun dl/reload-emacs ()
   "Reload the emacs configuration"
   (interactive)
@@ -420,7 +425,8 @@ Note the weekly scope of the command's precision.")
   "A few of my own personal shortcuts"
  (dl/leader-keys
   ","  '(dl/insert-current-time :which-key "current time")
-  "e"  '(dl/load-buffer-with-emacs-config :which-key "open emacs config"))
+  "e"  '(dl/load-buffer-with-emacs-config :which-key "open emacs config")
+  "d"  '(dl/load-buffer-with-todo :which-key "open todo"))
 
 #+END_SRC
 
@@ -602,7 +608,6 @@ I use org-roam to take notes, which keeps many small files in the style of Zette
     "a"  '(:ignore t :which-key "manage org-agenda")
     "aa"  '(dl/define-agenda-files :which-key "refresh agenda db")
     "ar"  '(dl/refile-and-transclude :which-key "refile TODOs and insert transclude link"))
-
 #+END_SRC
 
 **** Set org faces
@@ -612,7 +617,7 @@ Set various face colors for org-mode.
 #+BEGIN_SRC emacs-lisp
   ;; Fast access to tag common contexts I use
   (setq org-tag-persistent-alist
-    '(("@Home" . ?h) ("@Errands" . ?e) ("@Office" . ?o) ("@Phone" . ?p)))
+    '(("home" . ?h) ("batch" . ?b) ("bn" . ?n) ("usf" . ?u) ("agency" . ?a)))
 
   (setq org-todo-keyword-faces
     `(("NEXT" . ,dl/yellow-color)
@@ -620,11 +625,11 @@ Set various face colors for org-mode.
      ("SOMEDAY" . ,dl/dark-grey-color)))
 
   (setq org-tag-faces
-    `(("@Home" . ,dl/green-color)
-     ("@Errands" . ,dl/purple-color)
-     ("@Office" . ,dl/teal-color)
-     ("@Phone" . ,dl/purple-color)
-     ("Inbox" . ,dl/blue-color)))
+    `(("batch" . ,dl/yellow-color)
+     ("bn" . ,dl/purple-color)
+     ("home" . ,dl/blue-color)
+     ("usf" . ,dl/teal-color)
+     ("agency" . ,dl/blue-color)))
 #+END_SRC
 
 **** Remove noise from org-agenda views
@@ -654,17 +659,18 @@ This block sets the ~org-agenda-prefix-format~ in an friendly way for org-roam (
                      (string-equal category file-name))
                     title
                   category)
-                "")))
+                )))
       (if (numberp len)
           (s-truncate len (s-pad-right len " " result))
         result)))
-
+  (setq org-agenda-hide-tags-regexp (regexp-opt '("Todo" "agency" "home" "braeview" "bn" "batch")))
   (setq org-agenda-prefix-format
-        '((agenda . " %i %(dl/agenda-category 32)%?-32t% s")
+        '((agenda . " %i %(dl/agenda-category 12)%?-32t% s")
           (todo . " %i %(dl/agenda-category 32) ")
           (tags . " %i %(dl/agenda-category 32) ")
           (search . " %i %(dl/agenda-category 32) ")))
 #+END_SRC
+
 
 **** org-transclusion
 Let's us move text but still see it in another file. I primarily use this to move text around in my journal.
@@ -688,20 +694,20 @@ Setup for org-super-agenda and org-ql.
 
      ;; Dashboard View
      (setq org-super-agenda-groups
-          '((:name "Priority"
-                   :priority "A")
-            (:name "Inbox"
-                   :tag ("Inbox" "Daily"))
+          '((:name "Batch"
+                   :tag "batch")
+            (:name "Now"
+                   :todo "NEXT")
             (:name "Waiting"
                    :todo "WAITING")
+            (:name "Bitcoin Noobs"
+                   :tag "bn")
+            (:name "Agency"
+                   :tag "agency")
+            (:name "Student Capstone Projects"
+                   :tag "usf")
             (:name "Home"
-                   :tag "@Home")
-            (:name "Office"
-                   :tag "@Office")
-            (:name "Braeview"
-                   :tag "Braeview")
-            (:name "Productivity"
-                   :tag "Productivity")
+                   :tag "home")
             (:name "Someday"
                    :todo "SOMEDAY")))
 
