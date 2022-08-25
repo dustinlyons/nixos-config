@@ -50,8 +50,8 @@
     # Weather report in your terminal
     alias weather='curl http://wttr.in'
 
-    # Run sunsama quietly and as system user
-    alias sunsama='sunsama > /dev/null 2>&1 &; disown'
+    # Reboot into Windows for Steam Big Picture
+    alias windows='systemctl reboot --boot-loader-entry=auto-windows'
 
     # One-liners
     rm-trailing-whitespace(){ sed -i 's/[[:space:]]*$//' $1 ; }
