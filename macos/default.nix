@@ -13,11 +13,11 @@
 
   # Setup user, packages, programs
   nix = {
-    trustedUsers = [ "@admin" "dustin" ];
     package = pkgs.nixUnstable;
+    settings.trusted-users = [ "@admin" "dustin" ];
     gc.user = "root";
-    # Highly recommend adding these to save keystrokes
-    # at the command line
+
+    # Turn this on to make command line easier
     extraOptions = ''
       experimental-features = nix-command flakes
     '';
