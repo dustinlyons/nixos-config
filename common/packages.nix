@@ -30,6 +30,7 @@ with pkgs; [
   hunspell
   iftop
   jq
+  keepassxc
   killall
   libfido2
   ncspot
