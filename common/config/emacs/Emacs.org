@@ -12,7 +12,7 @@ Just me!
 #+NAME: personal-info
 #+BEGIN_SRC emacs-lisp
   (setq user-full-name "Dustin Lyons"
-    user-mail-address "hello@dustinlyons.co")
+    user-mail-address "dustin@dlyons.dev")
 #+END_SRC
 ** Initialization
 *** Booting up
@@ -153,8 +153,8 @@ Various helpers and packages I find useful for window management.
     "rl"  '(rotate-layout :which-key "rotate layout"))
 
 #+END_SRC
-**** Gutter
-***** Line numbers
+*** Gutter
+**** Line numbers
 These functions define vim-style relative line numbers.
 
 #+NAME: line-numbers
@@ -192,8 +192,8 @@ These functions define vim-style relative line numbers.
                   eshell-mode-hook))
     (add-hook mode (lambda () (linum-mode 0))))
 #+END_SRC
-**** Modes
-***** Window minor modes
+*** Modes
+**** Window minor modes
 I like these window related minor modes.
 
 #+NAME: windows-ui-settings
@@ -207,7 +207,7 @@ I like these window related minor modes.
   (tool-bar-mode 0)
   (winner-mode 1) ;; ctrl-c left, ctrl-c right for window undo/redo
 #+END_SRC
-***** Set mode margins
+**** Set mode margins
 This is used primarily to center org mode text.
 
 #+NAME: mode-margins
@@ -220,7 +220,7 @@ This is used primarily to center org mode text.
   :defer t
   :hook (org-mode . dl/org-mode-visual-fill))
 #+END_SRC
-***** Don't blink the cursor
+**** Don't blink the cursor
 #+NAME: cursor-mode
 #+BEGIN_SRC emacs-lisp
 (blink-cursor-mode -1)
@@ -1060,7 +1060,7 @@ Rainbow mode is an Emacs minor mode to highlight the color shown by a RGB hex tr
   ;; (load "~/State/Projects/Code/nixos-config/common/snippets/go-snippets/go-snippets.el")
 #+END_SRC
 
-**** Javascript
+**** Javascript / Typescript
 #+NAME: javascript
 #+BEGIN_SRC emacs-lisp
   (use-package typescript-mode
@@ -1070,23 +1070,33 @@ Rainbow mode is an Emacs minor mode to highlight the color shown by a RGB hex tr
       (define-derived-mode typescript-tsx-mode typescript-mode "typescript-tsx")
       (add-to-list 'auto-mode-alist (cons (rx ".tsx" string-end) #'typescript-tsx-mode)))
 
-  (use-package vue-mode)
   (use-package web-mode)
-
   (add-to-list 'auto-mode-alist '("\\.jsx?$" . web-mode)) ;; auto-enable for .js/.jsx files
   (setq web-mode-content-types-alist '(("jsx" . "\\.js[x]?\\'")))
+
   (defun web-mode-init-hook ()
     "Hooks for Web mode.  Adjust indent."
     (setq web-mode-markup-indent-offset 4))
-
   (add-hook 'web-mode-hook  'web-mode-init-hook)
+
   ;; React snippets
   (load "~/State/Projects/Code/nixos-config/common/snippets/react-snippets/react-snippets.el")
+
 #+END_SRC
 
 *** LSP
 #+NAME: javascript
 #+BEGIN_SRC emacs-lisp
+  (use-package vue-mode
+    :mode "\\.vue\\'"
+    :config
+    (add-hook 'vue-mode-hook #'lsp))
+
+  (straight-use-package
+   '(lsp-volar :type git :host github :repo "jadestrong/lsp-volar"))
+
+  (use-package lsp-volar)
+
   (use-package lsp-mode
     :commands lsp lsp-deferred
     :init
@@ -1123,6 +1133,7 @@ Rainbow mode is an Emacs minor mode to highlight the color shown by a RGB hex tr
 **** Nix
 Nix is my package manager and operating system of choice; this mode enables me to have a better time writing Nix expressions.
 
+#+NAME: nix-mode
 #+begin_src emacs-lisp
 (use-package nix-mode
   :mode "\\.nix\\'")
@@ -1138,22 +1149,15 @@ Nix is my package manager and operating system of choice; this mode enables me t
   ;; This uses dockerfile-mode for Docker files
   (use-package dockerfile-mode)
   (put 'dockerfile-image-name 'safe-local-variable #'stringp)
+  (add-to-list 'auto-mode-alist '("\\Dockerfile?$" . dockerfile-mode)) ;; auto-enable for .tf files
 #+END_SRC
 
 **** Terraform
-#+NAME: lsp-terraform
+#+NAME: terraform-mode
 #+BEGIN_SRC emacs-lisp
   (use-package terraform-mode
     :hook (terraform-mode . lsp-deferred))
-#+END_SRC
-
-*** Quality of Life
-
-Delete trailing whitespace on save.
-
-#+NAME: trailing-whitespace-on-save
-#+BEGIN_SRC emacs-lisp
-  (add-hook 'before-save-hook 'delete-trailing-whitespace)
+  (add-to-list 'auto-mode-alist '("\\.tf?$" . terraform-mode)) ;; auto-enable for .tf files
 #+END_SRC
 
 ** Writing
