@@ -27,7 +27,6 @@ common-packages ++ [
   libusb1 # for Xbox controller
   ledger-live-desktop
   openssh
-  keepassxc
   pinentry-curses
   postgresql
   qmk
