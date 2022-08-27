@@ -41,6 +41,12 @@
   services.xserver.enable = true;
   services.xserver.videoDrivers = [ "nvidia" ];
 
+  # Sometimes I need to SSH into this machine
+  services.openssh = {
+    enable = true;
+    passwordAuthentication = false;
+  };
+
   # This helps fix tearing of windows
   services.xserver.screenSection = ''
     Option       "metamodes" "nvidia-auto-select +0+0 {ForceFullCompositionPipeline=On}"
@@ -99,6 +105,9 @@
       "docker"
     ];
     shell = pkgs.zsh;
+    openssh.authorizedKeys.keys = [
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOoC9CTKaguJf4cktkbVfU4+KdVL/kTg1XqIIwxwh/85"
+    ];
   };
 
   environment.systemPackages = with pkgs; [
