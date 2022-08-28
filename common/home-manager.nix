@@ -39,16 +39,12 @@
     export NVM_DIR="$HOME/.nvm"
     [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
 
-    # Open file window from within terminal
-    if [[ uname != "Darwin" ]]; then
-      alias open='nautilus --browser . > /dev/null 2>&1 &'
-    fi
+    # Cypress is a dev toom for end-to-end testing
+    export CYPRESS_INSTALL_BINARY=0
+    export CYPRESS_RUN_BINARY=$(which Cypress)
 
-    # Ranger is a terminal app to browse files
-    alias r='ranger'
-
-    # javascript things
-    alias yarn=~/.npm-new-global/bin/yarn
+    # Remove history data we don't want to see
+    export HISTIGNORE="pwd:ls:cd"
 
     # bat is a better cat
     alias cat=bat
@@ -62,15 +58,6 @@
     # Reboot into Windows for Steam Big Picture
     alias windows='systemctl reboot --boot-loader-entry=auto-windows'
 
-    # One-liners
-    rm-trailing-whitespace(){ sed -i 's/[[:space:]]*$//' $1 ; }
-
-    # Cypress is a dev tool for end-to-end testing
-    export CYPRESS_INSTALL_BINARY=0
-    export CYPRESS_RUN_BINARY=$(which Cypress)
-
-    # Remove history data we don't want to see
-    export HISTIGNORE="pwd:ls:cd"
   '';
 
   git = {
