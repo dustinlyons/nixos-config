@@ -1063,20 +1063,15 @@ Rainbow mode is an Emacs minor mode to highlight the color shown by a RGB hex tr
 **** Javascript / Typescript
 #+NAME: javascript
 #+BEGIN_SRC emacs-lisp
-  (use-package typescript-mode
-    :mode (rx ".ts" string-end)
-    :hook (typescript-mode . lsp-deferred)
-    :init
-      (define-derived-mode typescript-tsx-mode typescript-mode "typescript-tsx")
-      (add-to-list 'auto-mode-alist (cons (rx ".tsx" string-end) #'typescript-tsx-mode)))
+  (use-package web-mode
+    :hook (web-mode . lsp-deferred))
 
-  (use-package web-mode)
   (add-to-list 'auto-mode-alist '("\\.jsx?$" . web-mode)) ;; auto-enable for .js/.jsx files
-  (setq web-mode-content-types-alist '(("jsx" . "\\.js[x]?\\'")))
+  (add-to-list 'auto-mode-alist '("\\.vue\\'" . web-mode))
 
   (defun web-mode-init-hook ()
     "Hooks for Web mode.  Adjust indent."
-    (setq web-mode-markup-indent-offset 4))
+    (setq web-mode-markup-indent-offset 2))
   (add-hook 'web-mode-hook  'web-mode-init-hook)
 
   ;; React snippets
@@ -1087,16 +1082,10 @@ Rainbow mode is an Emacs minor mode to highlight the color shown by a RGB hex tr
 *** LSP
 #+NAME: javascript
 #+BEGIN_SRC emacs-lisp
-  (use-package vue-mode
-    :mode "\\.vue\\'"
-    :config
-    (add-hook 'vue-mode-hook #'lsp))
-
   (straight-use-package
    '(lsp-volar :type git :host github :repo "jadestrong/lsp-volar"))
 
   (use-package lsp-volar)
-
   (use-package lsp-mode
     :commands lsp lsp-deferred
     :init
@@ -1149,7 +1138,7 @@ Nix is my package manager and operating system of choice; this mode enables me t
   ;; This uses dockerfile-mode for Docker files
   (use-package dockerfile-mode)
   (put 'dockerfile-image-name 'safe-local-variable #'stringp)
-  (add-to-list 'auto-mode-alist '("\\Dockerfile?$" . dockerfile-mode)) ;; auto-enable for .tf files
+  (add-to-list 'auto-mode-alist '("\\Dockerfile?$" . dockerfile-mode)) ;; auto-enable for Dockerfiles
 #+END_SRC
 
 **** Terraform
