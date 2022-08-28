@@ -8,14 +8,8 @@ export NIXPKGS_ALLOW_UNFREE=1
 echo -e "${GREEN_TERMINAL_OUTPUT}Starting...${CLEAR}"
 nix --experimental-features 'nix-command flakes' build .#darwinConfigurations.Dustins-MBP.system --impure $1
 
-# Open App Store so the mas CLI can function
-shortcuts run "Open App Store"
-
 echo -e "${GREEN_TERMINAL_OUTPUT}Switching to new generation...${CLEAR}"
 ./result/sw/bin/darwin-rebuild switch --flake .#Dustins-MBP --impure $1
-
-# Clean up
-shortcuts run "Close App Store"
 
 echo -e "${GREEN_TERMINAL_OUTPUT}Cleaning up...${CLEAR}"
 rm -rf ./result
