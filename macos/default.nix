@@ -9,7 +9,6 @@
 
   # Auto upgrade nix package and the daemon service.
   services.nix-daemon.enable = true;
-  services.activate-system.enable = true;
 
   # Setup user, packages, programs
   nix = {

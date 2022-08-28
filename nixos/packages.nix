@@ -23,6 +23,7 @@ common-packages ++ [
   home-manager
   inotify-tools
   imagemagick
+  keepassxc
   libreoffice
   libusb1 # for Xbox controller
   ledger-live-desktop

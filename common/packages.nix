@@ -30,7 +30,11 @@ with pkgs; [
   hunspell
   iftop
   jq
-  keepassxc
+
+  # This is broken on MacOS for now
+  # https://github.com/NixOS/nixpkgs/issues/172165 
+  # keepassxc
+
   killall
   libfido2
   ncspot
@@ -57,4 +61,6 @@ with pkgs; [
   vscode
   wget
   zip
+  zsh-powerlevel10k
+  meslo-lgs-nf
 ]

@@ -19,7 +19,7 @@
       # We use the nix-community Emacs patches
       ++ [(import (builtins.fetchTarball { 
 	       url = "https://github.com/nix-community/emacs-overlay/archive/refs/heads/master.tar.gz";
-               sha256 = "1w8cxx0diihiizby9dxaf4gfiyh1slsw008nhy3fdzc90xsi6x9f";
+               sha256 = "1pyq0cygc1w5n51lbqch2k5fz9csrk2dxlkqhkflf21wxk7v155i";
 	}))]; 
   };
 }

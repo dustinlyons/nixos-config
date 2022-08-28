@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, lib, ... }:
 
 {
 
@@ -6,10 +6,6 @@
   zsh.enable = true;
   zsh.autocd = false;
   zsh.cdpath = [ "~/State/Projects/Code/" ];
-  zsh.oh-my-zsh = {
-    enable = true;
-    theme = "robbyrussell";
-  };
 
   zsh.dirHashes = {
     Code = "$HOME/State/Projects/Code";
@@ -18,6 +14,19 @@
     Screenshots = "$HOME/State/Inbox/Screenshots";
     Wallpaper = "$HOME/State/Resources/Wallpaper";
   };
+
+  zsh.plugins = [
+    {
+        name = "powerlevel10k";
+        src = pkgs.zsh-powerlevel10k;
+        file = "share/zsh-powerlevel10k/powerlevel10k.zsh-theme";
+    }
+    {
+        name = "powerlevel10k-config";
+        src = lib.cleanSource ./config;
+        file = "p10k.zsh";
+    }
+  ];
 
   zsh.initExtraFirst = ''
     if [[ -f /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh ]]; then
@@ -101,10 +110,9 @@
 
       font = {
         normal = {
-          family = "Hack";
+          family = "MesloLGS NF";
           style = "Regular";
         };
-
         size = 14;
 
       };
