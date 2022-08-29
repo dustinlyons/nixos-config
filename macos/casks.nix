@@ -14,7 +14,6 @@
   "syncthing"
   "shottr"
   "spotify"
-  "sunsama"
   "telegram"
   "homebrew/cask/transmission"
   "vlc"
