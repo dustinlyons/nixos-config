@@ -112,7 +112,7 @@
 
   environment.systemPackages = with pkgs; [
     gitAndTools.gitFull
-    discord
+    xfce.thunar
     inetutils
     (emacsWithPackagesFromUsePackage {
       config = ../common/config/emacs/Emacs.org;
@@ -120,6 +120,9 @@
       alwaysEnsure = true;
     })
   ];
+
+  services.gvfs.enable = true; # Mount, trash, and other functionalities
+  services.tumbler.enable = true; # Thumbnail support for images
 
   system.stateVersion = "21.05"; # Don't change this
 
