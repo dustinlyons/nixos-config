@@ -829,6 +829,17 @@ This is what makes emacs possible for me. All evil mode packages and related con
 (setq undo-tree-history-directory-alist '(("." . "~/.emacs.d/undo")))
 #+END_SRC
 
+** Terminal
+#+NAME: vterm
+#+BEGIN_SRC emacs-lisp
+  (use-package vterm
+    :commands vterm
+    :config
+      (setq term-prompt-regexp "^[^#$%>\n]*[#$%>] *")
+      (setq vterm-shell "zsh")
+      (setq vterm-max-scrollback 10000))
+#+END_SRC
+
 ** Managing files
 Configuration related to filesystem, either basic IO and interaction from emacs or directly moving files around where it makes sense.
 *** Backups and auto-save
