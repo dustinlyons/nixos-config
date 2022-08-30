@@ -16,6 +16,7 @@
   "spotify"
   "telegram"
   "homebrew/cask/transmission"
+  "xcode"
   "vlc"
   "visual-studio-code"
 ]
