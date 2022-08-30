@@ -671,7 +671,6 @@ This block sets the ~org-agenda-prefix-format~ in an friendly way for org-roam (
           (search . " %i %(dl/agenda-category 32) ")))
 #+END_SRC
 
-
 **** org-transclusion
 Let's us move text but still see it in another file. I primarily use this to move text around in my journal.
 #+NAME::org-transclusion
@@ -680,7 +679,6 @@ Let's us move text but still see it in another file. I primarily use this to mov
   :after org
   :hook (org-mode . org-transclusion-mode))
 #+END_SRC
-
 
 **** org-super-agenda views
 Setup for org-super-agenda and org-ql.
@@ -771,7 +769,6 @@ This is what makes emacs possible for me. All evil mode packages and related con
 
 #+NAME: evil-packages
 #+BEGIN_SRC emacs-lisp
-
 
 (defun dl/evil-hook ()
   (dolist (mode '(eshell-mode
@@ -1029,13 +1026,6 @@ Rainbow mode is an Emacs minor mode to highlight the color shown by a RGB hex tr
 #+BEGIN_SRC emacs-lisp
   (use-package rainbow-mode)
 #+END_SRC
-**** CSS
-#+NAME: lsp-tailwindcss
-#+BEGIN_SRC emacs-lisp
-(use-package lsp-tailwindcss
-        :straight (:host github :repo "merrickluo/lsp-tailwindcss"))
-#+END_SRC
-
 **** golang
 #+NAME: golang-config
 #+BEGIN_SRC emacs-lisp
@@ -1085,6 +1075,11 @@ Rainbow mode is an Emacs minor mode to highlight the color shown by a RGB hex tr
     (setq web-mode-markup-indent-offset 2))
   (add-hook 'web-mode-hook  'web-mode-init-hook)
 
+  (straight-use-package
+   '(lsp-volar :type git :host github :repo "jadestrong/lsp-volar"))
+
+  (use-package lsp-volar)
+
   ;; React snippets
   (load "~/State/Projects/Code/nixos-config/common/snippets/react-snippets/react-snippets.el")
 
@@ -1093,10 +1088,6 @@ Rainbow mode is an Emacs minor mode to highlight the color shown by a RGB hex tr
 *** LSP
 #+NAME: javascript
 #+BEGIN_SRC emacs-lisp
-  (straight-use-package
-   '(lsp-volar :type git :host github :repo "jadestrong/lsp-volar"))
-
-  (use-package lsp-volar)
   (use-package lsp-mode
     :commands lsp lsp-deferred
     :init
