@@ -3,7 +3,7 @@
   description = "Dustin's NixOS and MacOS configuration";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
+    nixpkgs.url = "github:dustinlyons/nixpkgs/master";
     home-manager = {
       url = "github:nix-community/home-manager";
     };
