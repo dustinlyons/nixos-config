@@ -8,11 +8,8 @@
   zsh.cdpath = [ "~/State/Projects/Code/" ];
 
   zsh.dirHashes = {
-    Code = "$HOME/State/Projects/Code";
-    Config = "$HOME/State/Projects/Code/nixos-config";
-    Downloads = "$HOME/State/Inbox/Downloads";
-    Screenshots = "$HOME/State/Inbox/Screenshots";
-    Wallpaper = "$HOME/State/Resources/Wallpaper";
+    code = "$HOME/State/Projects/Code";
+    nixos-config = "$HOME/State/Projects/Code/nixos-config";
   };
 
   zsh.plugins = [
@@ -57,7 +54,6 @@
 
     # Reboot into Windows for Steam Big Picture
     alias windows='systemctl reboot --boot-loader-entry=auto-windows'
-
   '';
 
   git = {
