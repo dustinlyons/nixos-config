@@ -11,8 +11,10 @@ common-packages ++ [
   cider
   cypress
   direnv
+  discord
   electrum
   emote
+  feh
   firefox
   fontconfig
   fractal
@@ -20,6 +22,7 @@ common-packages ++ [
   gnumake
   gnugrep
   google-chrome
+  pantheon.elementary-screenshot
   home-manager
   inotify-tools
   imagemagick
@@ -29,8 +32,11 @@ common-packages ++ [
   ledger-live-desktop
   openssh
   pinentry-curses
+  polybar
   postgresql
+  playerctl
   qmk
+  rofi
   ripgrep
   rnix-lsp # lsp-mode for nix
   spotify
@@ -39,6 +45,8 @@ common-packages ++ [
   unixtools.ifconfig
   unixtools.netstat
   xdg_utils
+  xautolock
+  vlc
   wineWowPackages.stable
   yubikey-manager
   yubikey-manager-qt

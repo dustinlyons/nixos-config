@@ -54,10 +54,18 @@
     Option       "TripleBuffer" "on"
   '';
 
-  # Enable the GNOME Desktop Environment
-  services.xserver.displayManager.gdm.enable = true;
-  services.xserver.displayManager.gdm.wayland = false;
-  services.xserver.desktopManager.gnome.enable = true;
+  # LightDM Display Manager
+  services.xserver.displayManager.defaultSession = "none+bspwm";
+  services.xserver.displayManager.lightdm = {
+    enable = true;
+    greeters.enso.enable = true;
+  };
+
+  services.xserver.windowManager.bspwm = {
+    enable = true;
+    configFile = ./bspwmrc;
+    sxhkd.configFile = ./sxhkdrc;
+  };
 
   # Turn Caps Lock into Ctrl
   services.xserver.layout = "us";
@@ -96,7 +104,86 @@
 
   # Add docker daemon
   virtualisation.docker.enable = true;
-  
+
+  services.picom = {
+    enable = true;
+    settings = {
+      animations = true;
+      animation-stiffness = 300.0;
+      animation-dampening = 35.0;
+      animation-clamping = false;
+      animation-mass = 1;
+      animation-for-open-window = "zoom";
+      animation-for-menu-window = "slide-down";
+      animation-for-transient-window = "slide-down";
+      corner-radius = 13;
+      rounded-corners-exclude = [
+      ];
+      round-borders = 3;
+      round-borders-exclude = [
+      ];
+
+      round-borders-rule = [
+      ];
+
+      shadow = false;
+      shadow-radius = 44;
+      shadow-opacity = .75;
+      shadow-offset-x = -15;
+      shadow-offset-y = -15;
+      shadow-exclude = [
+      ];
+
+      fading = false;
+      fade-in-step = 0.09;
+      fade-out-step = 0.09;
+      inactive-opacity = 0.8;
+      frame-opacity = 0.7;
+      inactive-opacity-override = false;
+      active-opacity = 1.0;
+      focus-exclude = [
+      ];
+
+      opacity-rule = [
+      ];
+
+      blur-kern = "3x3box";
+      blur = {
+        method = "kawase";
+        strength = 8;
+        background = true;
+        background-frame = false;
+        background-fixed = false;
+        kern = "3x3box";
+      };
+
+      blur-background-exclude = [
+      ];
+
+      experimental-backends = true;
+      backend = "glx";
+      vsync = false;
+      mark-wmwin-focused = true;
+      mark-ovredir-focused = true;
+      detect-rounded-corners = true;
+      detect-client-opacity = false;
+      refresh-rate = 60;
+      detect-transient = true;
+      detect-client-leader = true;
+      use-damage = true;
+      log-level = "info";
+
+      wintypes = {
+        normal = { fade = true; shadow = false; };
+        tooltip = { fade = true; shadow = true; opacity = 0.75; focus = true; full-shadow = false; };
+        dock = { shadow = false; };
+        dnd = { shadow = false; };
+        popup_menu = { opacity = 0.8; };
+        dropdown_menu = { opacity = 0.8; };
+      };
+    };
+  };
+
   # It's me
   users.users.dustin = {
     isNormalUser = true;

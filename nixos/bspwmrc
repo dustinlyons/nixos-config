@@ -1,0 +1,24 @@
+#! /bin/sh
+pgrep -x sxhkd > /dev/null || sxhkd &
+
+bspc monitor -d I II III IV
+bspc monitor --reset-desktops daily dev chat media finance misc
+bspc config border_width         2
+bspc config window_gap          12
+
+bspc config split_ratio          0.33
+bspc config borderless_monocle   true
+bspc config gapless_monocle      true
+
+bspc config top_padding            60
+bspc config bottom_padding         60
+bspc config left_padding           60
+bspc config right_padding          60
+
+bspc rule -a Gimp desktop='media' follow=on
+bspc rule -a discord desktop='chat' follow=on
+bspc rule -a google-chrome-stable desktop='daily' follow=on
+bspc rule -a emacs desktop='daily' follow=on
+bspc rule --add vlc desktop='media' follow=on
+bspc rule --add feh state=floating
+bspc rule --add Keepassx state=floating

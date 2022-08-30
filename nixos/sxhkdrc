@@ -1,0 +1,77 @@
+# Close window
+alt + F4
+	bspc node --close
+
+# Close window
+ctrl + q
+	bspc node --clos
+
+# Make split ratios equal
+super + equal
+	bspc node @/ --equalize
+
+# Make split ratios balanced
+super + minus
+	bspc node @/ --balance
+
+# Toogle tiling of window
+super + d
+	bspc query --nodes -n focused.tiled && state=floating || state=tiled; \
+	bspc node --state \~$state
+
+# Toggle fullscreen of window
+super + f
+	bspc node --state \~fullscreen
+
+# swap the current node and the biggest window
+super + g
+	bspc node -s biggest.window
+
+# swap the current node and the smallest window
+super + shift + g
+	bspc node -s biggest.window
+
+# alternate between the tiled and monocle layout
+super + m
+	bspc desktop -l next
+
+# focus the node in the given direction
+super + {_,shift + }{h,j,k,l}
+	bspc node -{f,s} {west,south,north,east}
+
+# Focus left/right occupied desktop
+super + {Left,Right}
+	bspc desktop --focus {prev,next}.occupied
+
+# Focus left/right occupied desktop
+ctrl + alt + {Left,Right}
+	bspc desktop --focus {prev,next}.occupied
+
+# focus the older or newer node in the focus history
+super + {o,i}
+	bspc wm -h off; \
+	bspc node {older,newer} -f; \
+	bspc wm -h on
+
+# focus or send to the given desktop
+super + {_,shift + }{1-9,0}
+	bspc {desktop -f,node -d} '^{1-9,10}'
+
+# terminal emulator
+super + Return
+	alacritty
+
+# program launcher
+super + @space
+	rofi -show drun
+
+# web browser
+super + shift + Return
+  google-chrome-stable
+
+# emacs
+super + shift + Return
+
+# Lock the screen
+ctrl + alt + l
+	xautolock -enable; sleep 1; xautolock -locknow

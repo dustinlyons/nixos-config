@@ -9,6 +9,7 @@ with pkgs; [
   bat # A cat(1) clone with syntax highlighting
   bats # A bash testing framework
   btop
+  cmake
   coreutils
   du-dust
   docker
@@ -28,6 +29,7 @@ with pkgs; [
   home-manager
   htop
   hunspell
+  inxi
   iftop
   jq
 
