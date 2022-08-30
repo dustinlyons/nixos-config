@@ -16,6 +16,14 @@
 (setq use-package-always-ensure t)
 (require 'use-package)
 
+;; Copy $PATH from our environment to Emacs process
+(use-package exec-path-from-shell)
+(when (memq window-system '(mac ns x))
+  (exec-path-from-shell-initialize))
+
+(when (daemonp)
+  (exec-path-from-shell-initialize))
+
 ;; This sets up straight.el, a git package manager
 (defvar bootstrap-version)
 (let ((bootstrap-file
