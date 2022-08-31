@@ -312,16 +312,17 @@ Sets some reasonable defaults.
     (add-to-list 'default-frame-alist '(height . 80))
     (add-to-list 'default-frame-alist '(width . 160))
 
-  (defun dl/set-window-padding ()
+  (defun set-window-padding ()
     (setq-default left-margin-width 2 right-margin-width 2) ; Define new widths.
     (set-window-buffer nil (current-buffer)) ; Use them now
 
-    (setq default-background (face-attribute 'default :background))
+    (setq header-line-format " ")
     (set-face-attribute 'header-line nil :height 1.5)
+
+    (setq default-background (face-attribute 'default :background))
     (set-face-background 'header-line default-background))
 
-  (add-hook 'text-mode-hook 'dl/set-window-padding)
-  (add-hook 'prog-mode-hook 'dl/set-window-padding)
+  (add-hook 'buffer-list-update-hook 'set-window-padding)
 #+END_SRC
 
 **** Fonts
@@ -372,15 +373,11 @@ Some my own, some from others.
 (use-package doom-themes
   :ensure t
   :config
-  ;; Global settings (defaults)
-  (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
-        doom-themes-enable-italic t) ; if nil, italics is universally disabled
-
-  (load-theme 'doom-material-dark t)
-
-  ;; Enable flashing mode-line on errors
-  (doom-themes-visual-bell-config)
-  (doom-themes-org-config))
+    (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
+          doom-themes-enable-italic t) ; if nil, italics is universally disabled
+    (load-theme 'doom-material-dark t)
+    (doom-themes-visual-bell-config)
+    (doom-themes-org-config))
 #+END_SRC
 
 ** Global Settings

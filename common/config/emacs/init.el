@@ -42,10 +42,12 @@
 
 ;; I load org-mode here, outside of my Emacs.org file, as I like to generate
 ;; the _*.el file when Emacs loads, instead of relying on save hooks or
-;; manually running some command
+;; manually running some command.
+
 ;; The tradeoff is some org-mode config lives here and not in my
 ;; master literate config (Emacs.org).  I could probably slim it down more
 ;; from what you see here but I'm lazy -DL, 2/14/22
+
 (defun dl/org-mode-setup ()
   (org-indent-mode)
   (variable-pitch-mode 1)
