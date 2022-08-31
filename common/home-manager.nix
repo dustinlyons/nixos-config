@@ -86,8 +86,8 @@
       window = {
         opacity = 1.0;
         padding = {
-          x = 8;
-          y = 8;
+          x = 24;
+          y = 24;
         };
       };
 
@@ -96,8 +96,10 @@
           family = "MesloLGS NF";
           style = "Regular";
         };
-        size = 14;
-
+        size = lib.mkMerge [
+          (lib.mkIf pkgs.stdenv.hostPlatform.isLinux 12)
+          (lib.mkIf pkgs.stdenv.hostPlatform.isDarwin 14)
+        ];
       };
 
       dynamic_padding = true;
