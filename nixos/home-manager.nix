@@ -1,8 +1,8 @@
-{ pkgs, ... }:
+{ pkgs, lib, ... }:
 
 let
   home = builtins.getEnv "HOME";
-  common-programs = import ../common/home-manager.nix { pkgs = pkgs; }; in
+  common-programs = import ../common/home-manager.nix { pkgs = pkgs; lib = lib; }; in
 {
   home = {
     enableNixpkgsReleaseCheck = false;
