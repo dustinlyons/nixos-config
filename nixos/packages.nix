@@ -5,7 +5,7 @@ let common-packages = import ../common/packages.nix { pkgs = pkgs; }; in
 common-packages ++ [
   _1password-gui
   appimage-run
-  brave
+  betterlockscreen
   brlaser
   cawbird
   cider
@@ -18,11 +18,11 @@ common-packages ++ [
   firefox
   fontconfig
   fractal
+  flameshot
   gimp
   gnumake
   gnugrep
   google-chrome
-  pantheon.elementary-screenshot
   home-manager
   inotify-tools
   imagemagick
@@ -45,7 +45,6 @@ common-packages ++ [
   unixtools.ifconfig
   unixtools.netstat
   xdg_utils
-  xautolock
   vlc
   wineWowPackages.stable
   yubikey-manager

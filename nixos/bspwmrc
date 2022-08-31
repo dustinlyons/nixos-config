@@ -3,17 +3,26 @@ pgrep -x sxhkd > /dev/null || sxhkd &
 
 bspc monitor -d I II III IV
 bspc monitor --reset-desktops daily dev chat media finance misc
-bspc config border_width         2
-bspc config window_gap          12
+bspc config border_width         0
+bspc config window_gap          16
 
-bspc config split_ratio          0.33
+bspc config split_ratio          0.52
 bspc config borderless_monocle   true
 bspc config gapless_monocle      true
 
+# Padding inside of the window
+# Padding outside of the window
 bspc config top_padding            60
 bspc config bottom_padding         60
 bspc config left_padding           60
 bspc config right_padding          60
+
+# Move floating windows
+bspc config pointer_action1 move
+
+# Resize floating windows
+bspc config pointer_action2 resize_side
+bspc config pointer_action2 resize_corner
 
 bspc rule -a Gimp desktop='media' follow=on
 bspc rule -a discord desktop='chat' follow=on

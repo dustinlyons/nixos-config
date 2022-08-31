@@ -13,7 +13,7 @@ super + equal
 # Make split ratios balanced
 super + minus
 	bspc node @/ --balance
-
+ 
 # Toogle tiling of window
 super + d
 	bspc query --nodes -n focused.tiled && state=floating || state=tiled; \
@@ -23,19 +23,19 @@ super + d
 super + f
 	bspc node --state \~fullscreen
 
-# swap the current node and the biggest window
+# Swap the current node and the biggest window
 super + g
 	bspc node -s biggest.window
 
-# swap the current node and the smallest window
+# Swap the current node and the smallest window
 super + shift + g
 	bspc node -s biggest.window
 
-# alternate between the tiled and monocle layout
+# Alternate between the tiled and monocle layout
 super + m
 	bspc desktop -l next
 
-# focus the node in the given direction
+# Focus the node in the given direction
 super + {_,shift + }{h,j,k,l}
 	bspc node -{f,s} {west,south,north,east}
 
@@ -47,31 +47,39 @@ super + {Left,Right}
 ctrl + alt + {Left,Right}
 	bspc desktop --focus {prev,next}.occupied
 
-# focus the older or newer node in the focus history
+# Focus the older or newer node in the focus history
 super + {o,i}
 	bspc wm -h off; \
 	bspc node {older,newer} -f; \
 	bspc wm -h on
 
-# focus or send to the given desktop
+# Focus or send to the given desktop
 super + {_,shift + }{1-9,0}
 	bspc {desktop -f,node -d} '^{1-9,10}'
 
-# terminal emulator
+# Terminal emulator
 super + Return
 	alacritty
 
-# program launcher
+# Program launcher
 super + @space
 	rofi -show drun
 
-# web browser
+# Web browser
 super + shift + Return
-  google-chrome-stable
+  	google-chrome-stable
 
-# emacs
+# Emacs
 super + shift + Return
+
+# File browser at home dir
+super + h 
+  	thunar
+
+# Take a screenshot
+Print
+ 	flameshot gui -c -p $HOME/State/Inbox/Screenshots
 
 # Lock the screen
-ctrl + alt + l
-	xautolock -enable; sleep 1; xautolock -locknow
+ctrl + alt + BackSpace
+  	betterlockscreen -l blur

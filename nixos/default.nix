@@ -10,6 +10,7 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.kernelPackages = pkgs.linuxPackages_latest;
+
   # Set your time zone.
   time.timeZone = "America/New_York";
 
@@ -19,10 +20,6 @@
   networking.hostName = "felix"; # Define your hostname.
   networking.useDHCP = false;
   networking.interfaces.eno1.useDHCP = true;
-  networking.extraHosts =
-  ''
-    192.168.2.67 BRN008077D92A06.local # Printer
-  '';
 
   # Turn on flag for proprietary software
   nix = {
@@ -77,6 +74,7 @@
 
   # Enable sound
   sound.enable = true;
+  hardware.pulseaudio.enable = true;
 
   # Video support
   hardware.opengl.enable = true;
@@ -85,7 +83,7 @@
   hardware.nvidia.modesetting.enable = true;
 
   # Enable Xbox support
-  hardware.xone.enable = true;
+  # hardware.xone.enable = true;
 
   # Crypto wallet support
   hardware.ledger.enable = true;
@@ -113,7 +111,7 @@
       animation-dampening = 35.0;
       animation-clamping = false;
       animation-mass = 1;
-      animation-for-open-window = "zoom";
+      animation-for-open-window = "slide-down";
       animation-for-menu-window = "slide-down";
       animation-for-transient-window = "slide-down";
       corner-radius = 13;
@@ -126,7 +124,7 @@
       round-borders-rule = [
       ];
 
-      shadow = false;
+      shadow = true;
       shadow-radius = 44;
       shadow-opacity = .75;
       shadow-offset-x = -15;
