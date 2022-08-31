@@ -607,7 +607,7 @@ I use org-roam to take notes, which keeps many small files in the style of Zette
   (dl/leader-keys
     "a"  '(:ignore t :which-key "manage org-agenda")
     "aa"  '(dl/define-agenda-files :which-key "refresh agenda db")
-    "ar"  '(dl/refile-and-transclude :which-key "refile TODOs and insert transclude link"))
+    "ar"  '(dl/refile-and-transclude :which-key "move buffer to TODO.org and insert transclude link"))
 #+END_SRC
 
 **** Set org faces
@@ -839,28 +839,8 @@ This is what makes emacs possible for me. All evil mode packages and related con
 
 ** Managing files
 Configuration related to filesystem, either basic IO and interaction from emacs or directly moving files around where it makes sense.
-*** Backups and auto-save
-These settings keep emacs from littering the filesystem with buffer backups. These files look like ~~yourfilename.txt~ or ~#yourfilename.txt#~ and would otherwise be dropped in your working directory.
-
-#+NAME: backup-files
-#+BEGIN_SRC emacs-lisp
-(setq backup-directory-alist
-      `((".*" . "~/State/.emacs/"))
-      backup-by-copying t    ; Don't delink hardlinks
-      version-control t      ; Use version numbers on backups
-      delete-old-versions t) ; Automatically delete excess backups
-#+END_SRC
-
-#+NAME: local-file-transforms
-#+BEGIN_SRC emacs-lisp
-(setq auto-save-file-name-transforms
-      `((".*" "~/State/.emacs/" t)))
-(setq lock-file-name-transforms
-      `((".*" "~/State/.emacs/lock-files/" t)))
-#+END_SRC
-
 *** File browser
-Convenient helpers and keybindings when browsing files in Emacs.
+`dired` provides a more visual interface to browsing files; similar to terminal programs like `ranger`.
 
 #+BEGIN_SRC emacs-lisp
   (use-package all-the-icons-dired)
@@ -907,12 +887,51 @@ Convenient helpers and keybindings when browsing files in Emacs.
     (setq insert-directory-program
       (expand-file-name ".nix-profile/bin/ls" (getenv "HOME"))))
 #+END_SRC
+
+**** Quick shortcuts for common file tasks
+#+NAME::buffer-and-file-movement
+#+BEGIN_SRC emacs-lisp
+(defun er-delete-file-and-buffer ()
+  "Kill the current buffer and deletes the file it is visiting."
+  (interactive)
+  (let ((filename (buffer-file-name)))
+    (when filename
+      (if (vc-backend filename)
+          (vc-delete-file filename)
+        (progn
+          (delete-file filename)
+          (message "Deleted file %s" filename)
+          (kill-buffer))))))
+
+(global-set-key (kbd "C-c D")  #'er-delete-file-and-buffer)
+#+END_SRC
+
 *** Images
 #+NAME: org-download-copy
 #+BEGIN_SRC emacs-lisp
   (use-package org-download)
   ;; Drag-and-drop to `dired`
   (add-hook 'dired-mode-hook 'org-download-enable)
+#+END_SRC
+
+*** Backups and auto-save
+These settings keep emacs from littering the filesystem with buffer backups. These files look like ~~yourfilename.txt~ or ~#yourfilename.txt#~ and would otherwise be dropped in your working directory.
+
+#+NAME: backup-files
+#+BEGIN_SRC emacs-lisp
+(setq backup-directory-alist
+      `((".*" . "~/State/.emacs/"))
+      backup-by-copying t    ; Don't delink hardlinks
+      version-control t      ; Use version numbers on backups
+      delete-old-versions t) ; Automatically delete excess backups
+#+END_SRC
+
+#+NAME: local-file-transforms
+#+BEGIN_SRC emacs-lisp
+(setq auto-save-file-name-transforms
+      `((".*" "~/State/.emacs/" t)))
+(setq lock-file-name-transforms
+      `((".*" "~/State/.emacs/lock-files/" t)))
 #+END_SRC
 
 ** Managing projects
@@ -1077,8 +1096,6 @@ Rainbow mode is an Emacs minor mode to highlight the color shown by a RGB hex tr
 
   (straight-use-package
    '(lsp-volar :type git :host github :repo "jadestrong/lsp-volar"))
-
-  (use-package lsp-volar)
 
   ;; React snippets
   (load "~/State/Projects/Code/nixos-config/common/snippets/react-snippets/react-snippets.el")
