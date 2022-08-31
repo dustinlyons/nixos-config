@@ -17,6 +17,7 @@ common-packages ++ [
   feh
   firefox
   fontconfig
+  font-manager
   fractal
   flameshot
   gimp
