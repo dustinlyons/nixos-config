@@ -35,6 +35,7 @@ common-packages ++ [
   polybar
   postgresql
   playerctl
+  pcmanfm
   qmk
   rofi
   ripgrep

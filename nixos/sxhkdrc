@@ -67,6 +67,7 @@ super + Return
 
 # Emacs
 super + shift + Return
+	emacsclient -c -a emacs
 
 # Web browser
 ctrl + alt + Return
@@ -74,7 +75,7 @@ ctrl + alt + Return
 
 # File browser at home dir
 super + h 
-  	thunar
+	pcmanfm
 
 # Take a screenshot
 Print
