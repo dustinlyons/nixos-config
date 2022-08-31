@@ -43,6 +43,12 @@
     # Remove history data we don't want to see
     export HISTIGNORE="pwd:ls:cd"
 
+    # Emacs is my editor
+    export ALTERNATE_EDITOR=""
+    export EDITOR="emacsclient -t"
+    export VISUAL="emacsclient -c -a emacs"
+    alias e='emacsclient -t'
+
     # bat is a better cat
     alias cat=bat
 

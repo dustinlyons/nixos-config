@@ -194,15 +194,18 @@
     ];
   };
 
+  services.emacs = {
+    enable = true;
+    package = pkgs.emacsWithPackagesFromUsePackage {
+      config = ../common/config/emacs/Emacs.org;
+      package = pkgs.emacsPgtkNativeComp;
+      alwaysEnsure = true;
+    };
+  };
+
   environment.systemPackages = with pkgs; [
     gitAndTools.gitFull
-    xfce.thunar
     inetutils
-    (emacsWithPackagesFromUsePackage {
-      config = ../common/config/emacs/Emacs.org;
-      package = emacsPgtkNativeComp;
-      alwaysEnsure = true;
-    })
   ];
 
   services.gvfs.enable = true; # Mount, trash, and other functionalities

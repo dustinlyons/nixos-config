@@ -300,19 +300,28 @@ Predefine windows with hotkeys and jump to them.
 *** Package managers
 Using straighel under the hood of use-package enables us to download packages using git. This is preferred for easier hacking; I maintain my own org-roam fork, for example, and it's just another directory where I organize code. I configure straight.el with one line to use it.
 *** Windows
-**** Defaults
+**** Default sizes
 Sets some reasonable defaults.
 
 #+NAME: windows-reasonable-defaults
 #+BEGIN_SRC emacs-lisp
-  ;; Maximize window on initialize
-  ;; (add-hook 'window-setup-hook 'toggle-frame-maximized t)
-  (when window-system (set-frame-size (selected-frame) 120 60))
-  (setq use-dialog-box nil
-      use-file-dialog nil
-      cursor-type 'bar)
-  (add-to-list 'default-frame-alist '(height . 80))
-  (add-to-list 'default-frame-alist '(width . 160))
+    (when window-system (set-frame-size (selected-frame) 120 60))
+    (setq use-dialog-box nil
+        use-file-dialog nil
+        cursor-type 'bar)
+    (add-to-list 'default-frame-alist '(height . 80))
+    (add-to-list 'default-frame-alist '(width . 160))
+
+  (defun dl/set-window-padding ()
+    (setq-default left-margin-width 2 right-margin-width 2) ; Define new widths.
+    (set-window-buffer nil (current-buffer)) ; Use them now
+
+    (setq default-background (face-attribute 'default :background))
+    (set-face-attribute 'header-line nil :height 1.5)
+    (set-face-background 'header-line default-background))
+
+  (add-hook 'text-mode-hook 'dl/set-window-padding)
+  (add-hook 'prog-mode-hook 'dl/set-window-padding)
 #+END_SRC
 
 **** Fonts
@@ -367,7 +376,7 @@ Some my own, some from others.
   (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
         doom-themes-enable-italic t) ; if nil, italics is universally disabled
 
-  (load-theme 'doom-sourcerer t)
+  (load-theme 'doom-material-dark t)
 
   ;; Enable flashing mode-line on errors
   (doom-themes-visual-bell-config)
@@ -1096,6 +1105,7 @@ Rainbow mode is an Emacs minor mode to highlight the color shown by a RGB hex tr
 
   (straight-use-package
    '(lsp-volar :type git :host github :repo "jadestrong/lsp-volar"))
+
 
   ;; React snippets
   (load "~/State/Projects/Code/nixos-config/common/snippets/react-snippets/react-snippets.el")
