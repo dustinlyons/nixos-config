@@ -2,7 +2,6 @@
 
 [
   "appcleaner"
-  "brave-browser"
   "discord"
   "homebrew/cask/docker"
   "google-chrome"
@@ -16,7 +15,6 @@
   "spotify"
   "telegram"
   "homebrew/cask/transmission"
-  "xcode"
   "vlc"
   "visual-studio-code"
 ]
