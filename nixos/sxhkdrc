@@ -57,20 +57,20 @@ super + {o,i}
 super + {_,shift + }{1-9,0}
 	bspc {desktop -f,node -d} '^{1-9,10}'
 
-# Terminal emulator
-super + Return
-	alacritty
-
 # Program launcher
 super + @space
 	rofi -show drun
 
-# Web browser
-super + shift + Return
-  	google-chrome-stable
+# Terminal emulator
+super + Return
+	alacritty
 
 # Emacs
 super + shift + Return
+
+# Web browser
+ctrl + alt + Return
+	google-chrome-stable
 
 # File browser at home dir
 super + h 
