@@ -1,7 +1,6 @@
 #! /bin/sh
 pgrep -x sxhkd > /dev/null || sxhkd &
 
-bspc monitor -d I II III IV
 bspc monitor --reset-desktops daily dev chat media finance misc
 bspc config border_width         0
 bspc config window_gap          16
@@ -10,7 +9,6 @@ bspc config split_ratio          0.52
 bspc config borderless_monocle   true
 bspc config gapless_monocle      true
 
-# Padding inside of the window
 # Padding outside of the window
 bspc config top_padding            60
 bspc config bottom_padding         60
