@@ -317,10 +317,11 @@ Sets some reasonable defaults.
     (setq-default left-margin-width 2 right-margin-width 2) ; Define new widths.
     (set-window-buffer nil (current-buffer)) ; Use them now
     (setq header-line-format " ")
-    (set-face-attribute 'header-line nil :height 1.5)
+    (set-face-attribute 'header-line nil :height 1.0)
     (set-face-background 'header-line default-background))
 
   (add-hook 'org-mode-hook 'set-window-padding)
+  (add-hook 'conf-mode-hook 'set-window-padding)
   (add-hook 'prog-mode-hook 'set-window-padding)
   (add-hook 'text-mode-hook 'set-window-padding)
   (add-hook 'treemacs-mode-hook 'set-window-padding)
@@ -1121,9 +1122,7 @@ Rainbow mode is an Emacs minor mode to highlight the color shown by a RGB hex tr
     :commands lsp lsp-deferred
     :init
       (setq lsp-keymap-prefix "C-c l")
-      (setq lsp-enable-which-key-integration t)
-    :custom
-      (lsp-headerline-breadcrumb-path-face (t :inherit shadow :height 0.4)))
+      (setq lsp-enable-which-key-integration t))
 
   (use-package lsp-ui
     :hook (lsp-mode . lsp-ui-mode)
@@ -1143,6 +1142,10 @@ Rainbow mode is an Emacs minor mode to highlight the color shown by a RGB hex tr
 
   (use-package company-box
     :hook (company-mode . company-box-mode))
+
+  ;; bug in emacs https://github.com/emacs-lsp/lsp-mode/issues/2525
+  (setq lsp-headerline-breadcrumb-enable nil)
+  (add-hook 'lsp-mode-hook #'lsp-headerline-breadcrumb-mode)
 #+END_SRC
 
 *** Git
