@@ -305,24 +305,25 @@ Sets some reasonable defaults.
 
 #+NAME: windows-reasonable-defaults
 #+BEGIN_SRC emacs-lisp
-    (when window-system (set-frame-size (selected-frame) 120 60))
+  (when window-system (set-frame-size (selected-frame) 120 60))
     (setq use-dialog-box nil
         use-file-dialog nil
         cursor-type 'bar)
     (add-to-list 'default-frame-alist '(height . 80))
     (add-to-list 'default-frame-alist '(width . 160))
 
+  (setq default-background (face-attribute 'default :background))
   (defun set-window-padding ()
     (setq-default left-margin-width 2 right-margin-width 2) ; Define new widths.
     (set-window-buffer nil (current-buffer)) ; Use them now
-
     (setq header-line-format " ")
     (set-face-attribute 'header-line nil :height 1.5)
-
-    (setq default-background (face-attribute 'default :background))
     (set-face-background 'header-line default-background))
 
-  (add-hook 'buffer-list-update-hook 'set-window-padding)
+  (add-hook 'org-mode-hook 'set-window-padding)
+  (add-hook 'prog-mode-hook 'set-window-padding)
+  (add-hook 'text-mode-hook 'set-window-padding)
+  (add-hook 'treemacs-mode-hook 'set-window-padding)
 #+END_SRC
 
 **** Fonts
@@ -344,11 +345,12 @@ Sets some reasonable defaults.
 
   ;; Set the variable pitch face
   (when (system-is-linux)
-    (set-face-attribute 'variable-pitch nil :font "Cantarell" :weight 'medium :height 120))
+    (set-face-attribute 'variable-pitch nil :font "Helvetica LT Std Condensed" :weight 'normal :height 140))
   (when (system-is-mac)
     (set-face-attribute 'variable-pitch nil :font "Helvetica" :weight 'normal :height 170))
 
 #+END_SRC
+
 ** Keybindings
 *** Spaces over tabs
 We use two spaces in place of tabs.
@@ -753,7 +755,7 @@ Replaces the standard org-mode header asterisks with dots.
   (set-face-attribute 'org-meta-line nil :inherit '(font-lock-comment-face fixed-pitch))
   (set-face-attribute 'org-checkbox nil :inherit 'fixed-pitch)
   (when (system-is-linux)
-    (set-face-attribute 'org-document-title nil :font "Cantarell" :weight 'bold :height 1.2))
+    (set-face-attribute 'org-document-title nil :font "Helvetica LT Std Condensed" :weight 'bold :height 1.2))
   (when (system-is-mac)
     (set-face-attribute 'variable-pitch nil :font "Helvetica" :height 120))
   (dolist (face '((org-level-1 . 1.2)
@@ -765,10 +767,11 @@ Replaces the standard org-mode header asterisks with dots.
                   (org-level-7 . 1.0)
                   (org-level-8 . 1.0)))
  (when (system-is-linux)
-   (set-face-attribute (car face) nil :font "Cantarell" :weight 'medium :height (cdr face)))
+   (set-face-attribute (car face) nil :font "Helvetica LT Std Condensed" :weight 'medium :height (cdr face)))
  (when (system-is-mac)
    (set-face-attribute 'variable-pitch nil :font "Helvetica" :weight 'medium :height 170)))
 #+END_SRC
+
 ** Evil mode (aka Vim mode)
 *** Install package
 This is what makes emacs possible for me. All evil mode packages and related configuration.
@@ -1103,6 +1106,8 @@ Rainbow mode is an Emacs minor mode to highlight the color shown by a RGB hex tr
   (straight-use-package
    '(lsp-volar :type git :host github :repo "jadestrong/lsp-volar"))
 
+  (use-package lsp-volar
+    :straight t)
 
   ;; React snippets
   (load "~/State/Projects/Code/nixos-config/common/snippets/react-snippets/react-snippets.el")
@@ -1115,8 +1120,10 @@ Rainbow mode is an Emacs minor mode to highlight the color shown by a RGB hex tr
   (use-package lsp-mode
     :commands lsp lsp-deferred
     :init
-    (setq lsp-keymap-prefix "C-c l")
-    (setq lsp-enable-which-key-integration t))
+      (setq lsp-keymap-prefix "C-c l")
+      (setq lsp-enable-which-key-integration t)
+    :custom
+      (lsp-headerline-breadcrumb-path-face (t :inherit shadow :height 0.4)))
 
   (use-package lsp-ui
     :hook (lsp-mode . lsp-ui-mode)

@@ -4,7 +4,7 @@ alt + F4
 
 # Close window
 ctrl + q
-	bspc node --clos
+	bspc node --close
 
 # Make split ratios equal
 super + equal
@@ -35,13 +35,17 @@ super + shift + g
 super + m
 	bspc desktop -l next
 
+# Move between windows in monocle layout
+super + {_, shift + }c
+        bspc node -f {next, prev}.local.!hidden.window
+
 # Focus the node in the given direction
 super + {_,shift + }{h,j,k,l}
 	bspc node -{f,s} {west,south,north,east}
 
 # Focus left/right occupied desktop
-super + {Left,Right}
-	bspc desktop --focus {prev,next}.occupied
+super + {Left,Right,Up,Down}
+	bspc desktop --focus {prev,next,prev,next}.occupied
 
 # Focus left/right occupied desktop
 ctrl + alt + {Left,Right}
@@ -56,6 +60,10 @@ super + {o,i}
 # Focus or send to the given desktop
 super + {_,shift + }{1-9,0}
 	bspc {desktop -f,node -d} '^{1-9,10}'
+
+# Preselect the direction
+super + ctrl + {h,j,k,l}
+	bspc node -p {west,south,north,east}
 
 # Program launcher
 super + @space
