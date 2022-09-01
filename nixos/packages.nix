@@ -39,7 +39,6 @@ common-packages ++ [
   pcmanfm
   qmk
   rofi
-  ripgrep
   rnix-lsp # lsp-mode for nix
   spotify
   sqlite
