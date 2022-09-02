@@ -323,6 +323,7 @@ Sets some reasonable defaults.
   (add-hook 'org-mode-hook 'set-window-padding)
   (add-hook 'conf-mode-hook 'set-window-padding)
   (add-hook 'prog-mode-hook 'set-window-padding)
+  (add-hook 'flymake-buffer-diagnostic-mode-hook 'set-window-padding)
   (add-hook 'text-mode-hook 'set-window-padding)
   (add-hook 'treemacs-mode-hook 'set-window-padding)
 #+END_SRC
