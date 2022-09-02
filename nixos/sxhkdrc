@@ -43,17 +43,21 @@ super + {_, shift + }c
 super + {_,shift + }{h,j,k,l}
 	bspc node -{f,s} {west,south,north,east}
 
-# Focus left/right occupied desktop
+# Focus left/right desktop
 super + {Left,Right}
-	bspc desktop --focus {prev,next}.occupied
+	bspc desktop --focus {prev,next}
 
-# Focus left/right occupied desktop
+# Focus left/right desktop
 super + {Up,Down}
-	bspc desktop --focus {prev,next}.occupied
+	bspc desktop --focus {prev,next}
 
 # Focus left/right occupied desktop
 ctrl + alt + {Left,Right}
-	bspc desktop --focus {prev,next}.occupied
+	bspc desktop --focus {prev,next}
+
+# Focus left/right occupied desktop
+ctrl + alt + {Up, Down}
+	bspc desktop --focus {prev,next}
 
 # Focus the older or newer node in the focus history
 super + {o,i}
