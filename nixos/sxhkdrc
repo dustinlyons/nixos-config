@@ -6,10 +6,6 @@ alt + F4
 ctrl + q
 	bspc node --close
 
-# Close window
-ctrl + w
-	bspc node --close
-
 # Make split ratios equal
 super + equal
 	bspc node @/ --equalize
