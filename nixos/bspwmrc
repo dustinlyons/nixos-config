@@ -29,3 +29,6 @@ bspc rule -a emacs desktop='daily' follow=on
 bspc rule --add vlc desktop='media' follow=on
 bspc rule --add feh state=floating
 bspc rule --add Keepassx state=floating
+
+feh --bg-scale $HOME/.config/wallpaper/active.png
+$HOME/.config/polybar/launch.sh --docky
