@@ -56,7 +56,8 @@
   services.xserver.displayManager.defaultSession = "none+bspwm";
   services.xserver.displayManager.lightdm = {
     enable = true;
-    greeters.gtk.enable = true;
+    greeters.slick.enable = true;
+    background = ./login-wallpaper.png;
   };
 
   # My tiling window manager
