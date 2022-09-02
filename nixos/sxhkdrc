@@ -69,7 +69,6 @@ super + {o,i}
 super + {_,shift + }{1-9,0}
 	bspc {desktop -f,node -d} '^{1-9,10}'
 
-
 # Preselect the direction
 super + ctrl + {h,j,k,l}
 	bspc node -p {west,south,north,east}
@@ -78,6 +77,22 @@ super + ctrl + {h,j,k,l}
 # For context on syntax: https://github.com/baskerville/bspwm/issues/344
 super + ctrl + {_,shift + }Escape
         bspc query -N -d | xargs -I id -n 1 bspc node id -p cancel
+
+# Set the node flags
+super + ctrl + {m,x,y,z}
+	bspc node -g {marked,locked,sticky,private}
+
+# Send the newest marked node to the newest preselected node
+super + y
+	bspc node newest.marked.local -n newest.!automatic.local
+
+# Expand a window by moving one of its side outward
+super + alt + {h,j,k,l}
+ 	bspc node -z {left -20 0,bottom 0 20,top 0 -20,right 20 0}
+
+# Contract a window by moving one of its side inward
+super + alt + shift + {h,j,k,l}
+	bspc node -z {right -20 0,top 0 20,bottom 0 -20,left 20 0}
 
 # Program launcher
 super + @space
