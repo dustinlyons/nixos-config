@@ -69,9 +69,15 @@ super + {o,i}
 super + {_,shift + }{1-9,0}
 	bspc {desktop -f,node -d} '^{1-9,10}'
 
+
 # Preselect the direction
 super + ctrl + {h,j,k,l}
 	bspc node -p {west,south,north,east}
+
+# Cancel the preselect
+# For context on syntax: https://github.com/baskerville/bspwm/issues/344
+super + ctrl + {_,shift + }Escape
+        bspc query -N -d | xargs -I id -n 1 bspc node id -p cancel
 
 # Program launcher
 super + @space
@@ -90,7 +96,7 @@ ctrl + alt + Return
 	google-chrome-stable
 
 # File browser at home dir
-super + @space + h
+super + shift + @space
 	pcmanfm
 
 # Take a screenshot
