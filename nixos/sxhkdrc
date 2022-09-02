@@ -79,20 +79,12 @@ super + ctrl + {_,shift + }Escape
         bspc query -N -d | xargs -I id -n 1 bspc node id -p cancel
 
 # Set the node flags
-super + ctrl + {m,x,y,z}
+super + ctrl + {m,x,s,p}
 	bspc node -g {marked,locked,sticky,private}
 
 # Send the newest marked node to the newest preselected node
 super + y
 	bspc node newest.marked.local -n newest.!automatic.local
-
-# Expand a window by moving one of its side outward
-super + alt + {h,j,k,l}
- 	bspc node -z {left -20 0,bottom 0 20,top 0 -20,right 20 0}
-
-# Contract a window by moving one of its side inward
-super + alt + shift + {h,j,k,l}
-	bspc node -z {right -20 0,top 0 20,bottom 0 -20,left 20 0}
 
 # Program launcher
 super + @space
@@ -114,7 +106,7 @@ ctrl + alt + Return
 super + shift + @space
 	pcmanfm
 
-# Take a screenshot
+# Take a screenshot with PrintSc
 Print
  	flameshot gui -c -p $HOME/State/Inbox/Screenshots
 
@@ -122,12 +114,14 @@ Print
 ctrl + alt + BackSpace
   	betterlockscreen -l blur
 
-# Audio controls
+# Audio controls for + volume
 XF86AudioRaiseVolume
-  pactl set-sink-volume @DEFAULT_SINK@ +5%
+	pactl set-sink-volume @DEFAULT_SINK@ +5%
 
+# Audio controls for - volume
 XF86AudioLowerVolume
-  pactl set-sink-volume @DEFAULT_SINK@ -5%
+	pactl set-sink-volume @DEFAULT_SINK@ -5%
 
+# Audio controls for mute
 XF86AudioMute
 	pactl set-sink-mute @DEFAULT_SINK@ toggle

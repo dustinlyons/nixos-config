@@ -8,6 +8,7 @@ common-packages ++ [
   betterlockscreen
   brlaser
   cawbird
+  cava
   cider
   cypress
   direnv
