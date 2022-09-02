@@ -36,7 +36,7 @@ super + m
 	bspc desktop -l next
 
 # Move between windows in monocle layout
-super + {_, shift + }m
+super + {_, alt + }m
         bspc node -f {next, prev}.local.!hidden.window
 
 # Focus the node in the given direction
