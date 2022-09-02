@@ -30,9 +30,11 @@
     '';
    };
 
-  # Video games, patch libusb1 so Xbox controller works
-  programs.steam.enable = true;
+  # Manages keys and such
   programs.gnupg.agent.enable = true;
+
+  # Needed for anything GTK related
+  programs.dconf.enable = true;
 
   services.xserver.enable = true;
   services.xserver.videoDrivers = [ "nvidia" ];
@@ -54,9 +56,10 @@
   services.xserver.displayManager.defaultSession = "none+bspwm";
   services.xserver.displayManager.lightdm = {
     enable = true;
-    greeters.enso.enable = true;
+    greeters.gtk.enable = true;
   };
 
+  # My tiling window manager
   services.xserver.windowManager.bspwm = {
     enable = true;
     configFile = ./bspwmrc;
@@ -102,6 +105,16 @@
   # Add docker daemon
   virtualisation.docker.enable = true;
 
+  # Picom, my window compositor with fancy effects
+  #
+  # Notes on writing exclude rules:
+  #
+  #   class_g looks up index 1 in WM_CLASS value for an application
+  #   class_i looks up index 0
+  #
+  #   To find the value for a specific application, use `xprop` at the
+  #   terminal and then click on a window of the application in question
+  #
   services.picom = {
     enable = true;
     settings = {
@@ -115,22 +128,18 @@
       animation-for-transient-window = "slide-down";
       corner-radius = 13;
       rounded-corners-exclude = [
+        "class_i = 'polybar'"
+        "class_g = 'i3lock'"
       ];
       round-borders = 3;
-      round-borders-exclude = [
-      ];
-
-      round-borders-rule = [
-      ];
-
+      round-borders-exclude = [];
+      round-borders-rule = [];
       shadow = true;
       shadow-radius = 44;
       shadow-opacity = .75;
       shadow-offset-x = -15;
       shadow-offset-y = -15;
-      shadow-exclude = [
-      ];
-
+      shadow-exclude = [];
       fading = false;
       fade-in-step = 0.09;
       fade-out-step = 0.09;
@@ -142,6 +151,7 @@
       ];
 
       opacity-rule = [
+        "100:class_g = 'i3lock'"
       ];
 
       blur-kern = "3x3box";
@@ -175,8 +185,8 @@
         tooltip = { fade = true; shadow = true; opacity = 0.75; focus = true; full-shadow = false; };
         dock = { shadow = false; };
         dnd = { shadow = false; };
-        popup_menu = { opacity = 0.8; };
-        dropdown_menu = { opacity = 0.8; };
+        popup_menu = { opacity = 1.0; };
+        dropdown_menu = { opacity = 1.0; };
       };
     };
   };
@@ -194,6 +204,7 @@
     ];
   };
 
+  # My editor runs as a daemon
   services.emacs = {
     enable = true;
     package = pkgs.emacsWithPackagesFromUsePackage {

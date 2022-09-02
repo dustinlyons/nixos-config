@@ -71,7 +71,7 @@ super + ctrl + {h,j,k,l}
 
 # Program launcher
 super + @space
-	rofi -show drun
+	rofi -config -no-lazy-grab -show drun -modi drun -theme ~/.config/polybar/docky/scripts/rofi/launcher.rasi
 
 # Terminal emulator
 super + Return
@@ -86,7 +86,7 @@ ctrl + alt + Return
 	google-chrome-stable
 
 # File browser at home dir
-super + h 
+super + @space + h
 	pcmanfm
 
 # Take a screenshot
