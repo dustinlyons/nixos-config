@@ -124,9 +124,11 @@
       animation-dampening = 35.0;
       animation-clamping = false;
       animation-mass = 1;
-      animation-for-open-window = "slide-down";
-      animation-for-menu-window = "slide-down";
-      animation-for-transient-window = "slide-down";
+      animation-for-workspace-switch-in = "auto";
+      animation-for-workspace-switch-out = "auto";
+      animation-for-open-window = "slide-up";
+      animation-for-menu-window = "slide-up";
+      animation-for-transient-window = "slide-up";
       corner-radius = 13;
       rounded-corners-exclude = [
         "class_i = 'polybar'"
