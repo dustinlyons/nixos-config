@@ -43,19 +43,19 @@ super + {_, alt + }m
 super + {_,shift + }{h,j,k,l}
 	bspc node -{f,s} {west,south,north,east}
 
-# Focus left/right desktop
+# Focus left/right occupied desktop
 super + {Left,Right}
-	bspc desktop --focus {prev,next}
-
-# Focus left/right desktop
-super + {Up,Down}
-	bspc desktop --focus {prev,next}
+	bspc desktop --focus {prev,next}.occupied
 
 # Focus left/right occupied desktop
+super + {Up,Down}
+	bspc desktop --focus {prev,next}.occupied
+
+# Focus left/right desktop
 ctrl + alt + {Left,Right}
 	bspc desktop --focus {prev,next}
 
-# Focus left/right occupied desktop
+# Focus left/right desktop
 ctrl + alt + {Up, Down}
 	bspc desktop --focus {prev,next}
 
