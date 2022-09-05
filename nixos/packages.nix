@@ -33,8 +33,8 @@ common-packages ++ [
   libusb1 # for Xbox controller
   ledger-live-desktop
   openssh
+  pavucontrol
   pinentry-curses
-  polybar
   postgresql
   playerctl
   pcmanfm
