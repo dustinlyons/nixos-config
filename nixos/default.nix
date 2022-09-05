@@ -118,6 +118,7 @@
   #
   services.picom = {
     enable = true;
+    experimentalBackends = true;
     settings = {
       animations = true;
       animation-stiffness = 300.0;
@@ -126,10 +127,10 @@
       animation-mass = 1;
       animation-for-workspace-switch-in = "auto";
       animation-for-workspace-switch-out = "auto";
-      animation-for-open-window = "slide-up";
-      animation-for-menu-window = "slide-up";
-      animation-for-transient-window = "slide-up";
-      corner-radius = 13;
+      animation-for-open-window = "slide-down";
+      animation-for-menu-window = "zoom";
+      animation-for-transient-window = "zoom";
+      corner-radius = 12;
       rounded-corners-exclude = [
         "class_i = 'polybar'"
         "class_g = 'i3lock'"
@@ -137,15 +138,12 @@
       round-borders = 3;
       round-borders-exclude = [];
       round-borders-rule = [];
-      shadow = true;
-      shadow-radius = 44;
-      shadow-opacity = .75;
-      shadow-offset-x = -15;
-      shadow-offset-y = -15;
-      shadow-exclude = [];
+      shadow = false;
+      shadow-radius = 12;
+      shadow-opacity = 0.6;
+      shadow-offset-x = -8;
+      shadow-offset-y = -8;
       fading = false;
-      fade-in-step = 0.09;
-      fade-out-step = 0.09;
       inactive-opacity = 0.8;
       frame-opacity = 0.7;
       inactive-opacity-override = false;
@@ -155,29 +153,35 @@
 
       opacity-rule = [
         "100:class_g = 'i3lock'"
+        "60:class_g = 'Dunst'"
+        "100:class_g = 'Alacritty' && focused"
+        "90:class_g = 'Alacritty' && !focused"
       ];
 
       blur-kern = "3x3box";
       blur = {
-        method = "kawase";
+        method = "kernel";
         strength = 8;
-        background = true;
+        background = false;
         background-frame = false;
         background-fixed = false;
         kern = "3x3box";
       };
 
-      blur-background-exclude = [
+      shadow-exclude = [
+        "class_g = 'Dunst'"
       ];
 
-      experimental-backends = true;
+      blur-background-exclude = [
+        "class_g = 'Dunst'"
+      ];
+
       backend = "glx";
       vsync = false;
       mark-wmwin-focused = true;
       mark-ovredir-focused = true;
       detect-rounded-corners = true;
       detect-client-opacity = false;
-      refresh-rate = 60;
       detect-transient = true;
       detect-client-leader = true;
       use-damage = true;
@@ -185,7 +189,7 @@
 
       wintypes = {
         normal = { fade = true; shadow = false; };
-        tooltip = { fade = true; shadow = true; opacity = 0.75; focus = true; full-shadow = false; };
+        tooltip = { fade = true; shadow = false; opacity = 0.75; focus = true; full-shadow = false; };
         dock = { shadow = false; };
         dnd = { shadow = false; };
         popup_menu = { opacity = 1.0; };
