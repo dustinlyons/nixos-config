@@ -128,8 +128,8 @@
       animation-for-workspace-switch-in = "auto";
       animation-for-workspace-switch-out = "auto";
       animation-for-open-window = "slide-down";
-      animation-for-menu-window = "zoom";
-      animation-for-transient-window = "zoom";
+      animation-for-menu-window = "none";
+      animation-for-transient-window = "slide-down";
       corner-radius = 12;
       rounded-corners-exclude = [
         "class_i = 'polybar'"
