@@ -1,9 +1,9 @@
 final: prev: {
   picom = prev.picom.overrideAttrs (old: {
     src = prev.fetchFromGitHub {
-      owner = "dustinlyons";
+      owner = "mebenstein";
       repo = "picom";
-      rev = "1f69af3174bd45324487087c667ea3545cbf2d58";
+      rev = "b68488273e3274436eda1b714d1fa57824cf9e4a";
       sha256 = "HIZ9/zKlpgwogue/ranOlVpWSCoZ+xhLVx245QlgTIU=";
     };
   });
