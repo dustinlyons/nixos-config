@@ -216,7 +216,7 @@
     enable = true;
     package = pkgs.emacsWithPackagesFromUsePackage {
       config = ../common/config/emacs/Emacs.org;
-      package = pkgs.emacsPgtkNativeComp;
+      package = pkgs.emacsGitNativeComp;
       alwaysEnsure = true;
     };
   };
