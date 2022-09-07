@@ -28,7 +28,7 @@
   environment.systemPackages = with pkgs; [
     (emacsWithPackagesFromUsePackage {
       config = ../common/config/emacs/Emacs.org;
-      package = emacsGcc;
+      package = emacsNativeComp;
       alwaysEnsure = true;
     })
   ] ++ (import ../common/packages.nix { pkgs = pkgs; });
@@ -57,7 +57,7 @@
         InitialKeyRepeat = 15;
 
         "com.apple.mouse.tapBehavior" = 1;
-        "com.apple.sound.beep.volume" = "0.0";
+        "com.apple.sound.beep.volume" = 0.0;
         "com.apple.sound.beep.feedback" = 0;
       };
 
