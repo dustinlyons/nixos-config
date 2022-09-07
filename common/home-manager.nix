@@ -49,6 +49,9 @@
     export VISUAL="emacsclient -c -a emacs"
     alias e='emacsclient -t'
 
+    # Enter nix-shell
+    alias s="nix-shell '<nixpkgs>' -A $1"
+
     # bat is a better cat
     alias cat=bat
 
