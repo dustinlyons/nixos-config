@@ -17,6 +17,7 @@ common-packages ++ [
   # Functional testing framework using headless chrome
   cypress
 
+  cmake
   direnv
   discord
   electrum
@@ -27,7 +28,6 @@ common-packages ++ [
   # Manage wallpapers
   feh
 
-  firefox
   fontconfig
   font-manager
 
@@ -41,8 +41,6 @@ common-packages ++ [
   gnumake
   gnugrep
   google-chrome
-  gtk3
-  glib
   home-manager
 
   # inotifywait, inotifywatch
@@ -68,10 +66,6 @@ common-packages ++ [
 
   # Our file browser
   pcmanfm
-
-  # Context on pkg-config
-  # https://nixos.wiki/wiki/FAQ#I_installed_a_library_but_my_compiler_is_not_finding_it._Why
-  pkg-config
 
   qmk
   rofi
