@@ -85,6 +85,7 @@ let
       icon_theme = "Adwaita-dark";
       sticky_history = "yes";
       history_length = 20;
+      history = "ctrl+grave";
       browser = "google-chrome-stable";
       always_run_script = true;
       title = "Dunst";
