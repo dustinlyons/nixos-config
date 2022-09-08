@@ -79,14 +79,9 @@ Ivy and associated helpers that uses the minibuffer. Ivy describes itself as "a 
     :config
       (setq ivy-initial-inputs-alist nil)) ;; Don't start searches with ^
 
-  ;;(use-package prescient
-  ;;  :config
-  ;;    (prescient-persist-mode))
-
-  ;;(use-package ivy-prescient
-  ;;  :after counsel
-  ;;  :config
-  ;;    (ivy-prescient-mode))
+  (use-package prescient
+    :config
+      (prescient-persist-mode))
 
   (use-package ivy
     :bind (("C-s" . swiper)
@@ -113,6 +108,11 @@ Ivy and associated helpers that uses the minibuffer. Ivy describes itself as "a 
 
 ;;  (use-package ivy-rich
 ;;    :init (ivy-rich-mode 1))
+
+  (use-package ivy-prescient
+    :after counsel
+    :config
+      (ivy-prescient-mode))
 
   (use-package all-the-icons-ivy
     :init (add-hook 'after-init-hook 'all-the-icons-ivy-setup))
@@ -325,7 +325,7 @@ Predefine windows with hotkeys and jump to them.
 #+END_SRC
 
 *** Package managers
-Using straighel under the hood of use-package enables us to download packages using git. This is preferred for easier hacking; I maintain my own org-roam fork, for example, and it's just another directory where I organize code. I configure straight.el with one line to use it.
+Using straight.el under the hood of use-package enables us to download packages using git. This is preferred for easier hacking; I maintain my own org-roam fork, for example, and it's just another directory where I organize code. I configure straight.el with one line to use it.
 
 *** Windows
 **** Default sizes
@@ -767,6 +767,7 @@ Replaces the standard org-mode header asterisks with dots.
       (org-superstar-remove-leading-stars t)
       (org-superstar-headline-bullets-list '("•" "•" "•" "◦" "◦" "◦" "◦")))
 #+END_SRC
+
 **** Fonts
 #+NAME::org-mode-variable-width-fonts
 #+BEGIN_SRC emacs-lisp
@@ -984,19 +985,17 @@ Projectile enables me to organize projects with a killer grep interface.
     :bind-keymap
 	    ("C-c p" . projectile-command-map)
     :init
-	    (when (file-directory-p "mnt/state/Projects/Code")
-	      (setq projectile-project-search-path "mnt/state/Projects/Code"))
-	    (when (file-directory-p "/Users/dustin/State/Projects/Code")
-	      (setq projectile-project-search-path "/Users/dustin/State/Projects/Code"))
-	    (setq projectile-switch-project-action #'projectile-dired))
+      (setq projectile-enable-caching t)
+      (setq projectile-switch-project-action #'projectile-dired))
+      (when (file-directory-p "mnt/state/Projects/Code")
+        (setq projectile-project-search-path "mnt/state/Projects/Code"))
+      (when (file-directory-p "/Users/dustin/State/Projects/Code")
+        (setq projectile-project-search-path "/Users/dustin/State/Projects/Code"))
 
   ;; Gives me Ivy options in the Projectile menus
   (use-package counsel-projectile
     :after projectile
     :config (counsel-projectile-mode))
-
-  (setq counsel-projectile-sort-files nil)
-  (setq counsel-projectile-find-file-matcher #'ivy--re-filter)
 #+END_SRC
 
 ** Writing
@@ -1287,19 +1286,18 @@ Found [[https://emacs.stackexchange.com/questions/44664/apply-ansi-color-escape-
 #+END_SRC
 
 *** Helpful documentation strings for common functions
-
 #+NAME: helpful
 #+BEGIN_SRC emacs-lisp
   (use-package helpful
     :custom
-    ;; Remap Counsel help functions
-    (counsel-describe-function-function #'helpful-callable)
-    (counsel-describe-variable-function #'helpful-variable)
-      :bind
-    ;; Remap default help functions
-    ([remap describe-function] . helpful-function)
-    ([remap describe-symbol] . helpful-symbol)
-    ([remap describe-variable] . helpful-variable)
-    ([remap describe-command] . helpful-command)
-    ([remap describe-key] . helpful-key))
+      ;; Remap Counsel help functions
+      (counsel-describe-function-function #'helpful-callable)
+      (counsel-describe-variable-function #'helpful-variable)
+    :bind
+      ;; Remap default help functions
+      ([remap describe-function] . helpful-function)
+      ([remap describe-symbol] . helpful-symbol)
+      ([remap describe-variable] . helpful-variable)
+      ([remap describe-command] . helpful-command)
+      ([remap describe-key] . helpful-key))
 #+END_SRC
