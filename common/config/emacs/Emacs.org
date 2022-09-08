@@ -1014,6 +1014,39 @@ Everything related to M-x compile.
 (add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
 
 #+END_SRC
+*** LSP
+#+NAME: javascript
+#+BEGIN_SRC emacs-lisp
+  (use-package lsp-mode
+    :commands lsp lsp-deferred
+    :init
+      (setq lsp-keymap-prefix "C-c l")
+      (setq lsp-enable-which-key-integration t))
+
+  (use-package lsp-ui
+    :hook (lsp-mode . lsp-ui-mode)
+    :custom
+      (lsp-ui-doc-position 'bottom))
+
+  (use-package company
+    :after lsp-mode
+    :hook (lsp-mode . company-mode)
+    :bind (:map company-active-map
+          ("<tab>" . company-complete-selection))
+          (:map lsp-mode-map
+          ("<tab>" . company-indent-or-complete-common))
+     :custom
+       (company-minimum-prefix-length 1)
+       (company-idle-delay 0.0))
+
+  (use-package company-box
+    :hook (company-mode . company-box-mode))
+
+  ;; bug in emacs https://github.com/emacs-lsp/lsp-mode/issues/2525
+  (setq lsp-headerline-breadcrumb-enable nil)
+  (add-hook 'lsp-mode-hook #'lsp-headerline-breadcrumb-mode)
+#+END_SRC
+
 *** Languages
 **** Markdown
 #+NAME: markdown-mode
@@ -1117,39 +1150,6 @@ Rainbow mode is an Emacs minor mode to highlight the color shown by a RGB hex tr
   ;; React snippets
   (load "~/State/Projects/Code/nixos-config/common/snippets/react-snippets/react-snippets.el")
 
-#+END_SRC
-
-*** LSP
-#+NAME: javascript
-#+BEGIN_SRC emacs-lisp
-  (use-package lsp-mode
-    :commands lsp lsp-deferred
-    :init
-      (setq lsp-keymap-prefix "C-c l")
-      (setq lsp-enable-which-key-integration t))
-
-  (use-package lsp-ui
-    :hook (lsp-mode . lsp-ui-mode)
-    :custom
-      (lsp-ui-doc-position 'bottom))
-
-  (use-package company
-    :after lsp-mode
-    :hook (lsp-mode . company-mode)
-    :bind (:map company-active-map
-          ("<tab>" . company-complete-selection))
-          (:map lsp-mode-map
-          ("<tab>" . company-indent-or-complete-common))
-     :custom
-       (company-minimum-prefix-length 1)
-       (company-idle-delay 0.0))
-
-  (use-package company-box
-    :hook (company-mode . company-box-mode))
-
-  ;; bug in emacs https://github.com/emacs-lsp/lsp-mode/issues/2525
-  (setq lsp-headerline-breadcrumb-enable nil)
-  (add-hook 'lsp-mode-hook #'lsp-headerline-breadcrumb-mode)
 #+END_SRC
 
 *** Git
