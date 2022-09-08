@@ -18,8 +18,8 @@
                   (attrNames (readDir path)))
 
       ++ [(import (builtins.fetchTarball { 
-	       url = "https://github.com/dustin-lyons/emacs-overlay/archive/refs/heads/master.tar.gz";
-               sha256 = "0dzw4azhh96vdg1zl323b4l2ahg3lqkkf8lj22x10s5lg3hy9ryr";
+	       url = "https://github.com/dustinlyons/emacs-overlay/archive/refs/heads/master.tar.gz";
+               sha256 = "1nrpw2w2jfpgf85lxwddnnl0s8sv2j5pq0rb5jmgy65644skrsfq";
 	}))]; 
   };
 }
