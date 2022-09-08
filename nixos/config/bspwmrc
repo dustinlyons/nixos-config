@@ -31,4 +31,3 @@ bspc rule --add feh state=floating
 bspc rule --add Keepassx state=floating
 
 feh --bg-scale $HOME/.config/wallpaper/active.png
-$HOME/.config/polybar/launch.sh --docky
