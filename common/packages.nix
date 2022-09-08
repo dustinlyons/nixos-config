@@ -16,6 +16,7 @@ with pkgs; [
   fira-code
   flyctl
   fd
+  fzf
   font-awesome
   gcc
   gh
