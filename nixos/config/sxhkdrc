@@ -88,7 +88,7 @@ super + y
 
 # Program launcher
 super + @space
-	rofi -config -no-lazy-grab -show drun -modi drun -theme ~/.config/polybar/docky/scripts/rofi/launcher.rasi
+	rofi -config -no-lazy-grab -show drun -modi drun -theme ~/State/Projects/Code/nixos-config/nixos/config/rofi/launcher.rasi
 
 # Terminal emulator
 super + Return
