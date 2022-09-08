@@ -135,6 +135,7 @@ Turn UI things on and off, scale things up and down.
     "tt" '(treemacs :which-key "toggle treemacs")
     "to" '(treemacs-select-window :which-key "select treemacs")
     "th" '(counsel-load-theme :which-key "choose theme")
+    "tl" '(flymake-show-buffer-diagnostics :which-key "lsp buffer")
     "ts" '(hydra-text-scale/body :which-key "scale text"))
 #+END_SRC
 
@@ -313,12 +314,14 @@ Sets some reasonable defaults.
     (add-to-list 'default-frame-alist '(width . 160))
 
   (setq default-background (face-attribute 'default :background))
+
   (defun set-window-padding ()
     (setq-default left-margin-width 2 right-margin-width 2) ; Define new widths.
     (set-window-buffer nil (current-buffer)) ; Use them now
-    (setq header-line-format " ")
-    (set-face-attribute 'header-line nil :height 1.0)
     (set-face-background 'header-line default-background))
+    (when (system-is-linux)
+      (setq header-line-format " "))
+    (set-face-attribute 'header-line nil :height 1.0)
 
   (add-hook 'org-mode-hook 'set-window-padding)
   (add-hook 'conf-mode-hook 'set-window-padding)
@@ -1163,12 +1166,8 @@ Nix is my package manager and operating system of choice; this mode enables me t
 #+begin_src emacs-lisp
 (use-package nix-mode
   :mode "\\.nix\\'")
-(add-to-list 'lsp-language-id-configuration '(nix-mode . "nix"))
-(lsp-register-client
- (make-lsp-client :new-connection (lsp-stdio-connection '("rnix-lsp"))
-                  :major-modes '(nix-mode)
-                  :server-id 'nix))
 #+end_src
+
 **** Docker mode
 #+NAME: dockerfile-mode
 #+BEGIN_SRC emacs-lisp
