@@ -57,14 +57,14 @@
   services.xserver.displayManager.lightdm = {
     enable = true;
     greeters.slick.enable = true;
-    background = ./login-wallpaper.png;
+    background = ./config/login-wallpaper.png;
   };
 
   # My tiling window manager
   services.xserver.windowManager.bspwm = {
     enable = true;
-    configFile = ./bspwmrc;
-    sxhkd.configFile = ./sxhkdrc;
+    configFile = ./config/bspwmrc;
+    sxhkd.configFile = ./config/sxhkdrc;
   };
 
   # Turn Caps Lock into Ctrl
@@ -138,9 +138,9 @@
       round-borders = 3;
       round-borders-exclude = [];
       round-borders-rule = [];
-      shadow = false;
-      shadow-radius = 12;
-      shadow-opacity = 0.6;
+      shadow = true;
+      shadow-radius = 8;
+      shadow-opacity = 0.4;
       shadow-offset-x = -8;
       shadow-offset-y = -8;
       fading = false;
