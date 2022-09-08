@@ -52,6 +52,9 @@
     # Enter nix-shell
     alias s="nix-shell '<nixpkgs>' -A $1"
 
+    # Local global npm packages
+    alias yarn=$HOME/.npm-new-global/bin/yarn
+
     # bat is a better cat
     alias cat=bat
 
