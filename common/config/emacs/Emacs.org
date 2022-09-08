@@ -6,6 +6,7 @@
 This is my emacs config file. Yes, in emacs you can write configuration like a Google Doc and get away with it. It's called [[https://en.wikipedia.org/wiki/Literate_programming]["literate programming"]].
 
 Emacs is more than an editor, it's a whole damn operating system. This file is evidence of that. This configuration drives how I interact with my journal, complete and organize tasks, develop and write blog posts, write code and ship new stuff, etc. etc. etc. list goes on. I've yet to jump into EXWM, but if one is so inclined, Emacs can expand beyond an application into all software.
+
 ** Personal Information
 Just me!
 
@@ -14,6 +15,7 @@ Just me!
   (setq user-full-name "Dustin Lyons"
     user-mail-address "dustin@dlyons.dev")
 #+END_SRC
+
 ** Initialization
 *** Booting up
 Mainly splash screen settings. In the future we may look to optimize performance here.
@@ -26,6 +28,7 @@ Mainly splash screen settings. In the future we may look to optimize performance
   ;; Confirm before exiting Emacs
   (setq confirm-kill-emacs #'yes-or-no-p)
 #+END_SRC
+
 *** Add package sources
 This associates our package manager with the right source (MELPA).
 
@@ -36,6 +39,7 @@ This associates our package manager with the right source (MELPA).
   (unless (assoc-default "nongnu" package-archives)
     (add-to-list 'package-archives '("nongnu" . "https://elpa.nongnu.org/nongnu/") t))
 #+END_SRC
+
 *** System Definitions
 **** Conditionals
 #+BEGIN_SRC emacs-lisp
@@ -48,6 +52,7 @@ This associates our package manager with the right source (MELPA).
   (string-equal system-type "gnu/linux"))
 
 #+END_SRC
+
 *** Hydra framework
 Hydra enables me drop into quick keybinding modes. See [[https://github.com/abo-abo/hydra][here]].
 
@@ -55,6 +60,7 @@ Hydra enables me drop into quick keybinding modes. See [[https://github.com/abo-
 #+BEGIN_SRC emacs-lisp
 (use-package hydra)
 #+END_SRC
+
 *** Counsel/Ivy framework
 Ivy and associated helpers that uses the minibuffer. Ivy describes itself as "a generic completion mechanism for Emacs." Basically, it's a prettier popup window to input Emacs commands. I've defined this to show at the bottom of the screen, which is conveniently also the default.
 
@@ -73,10 +79,19 @@ Ivy and associated helpers that uses the minibuffer. Ivy describes itself as "a 
     :config
       (setq ivy-initial-inputs-alist nil)) ;; Don't start searches with ^
 
+  ;;(use-package prescient
+  ;;  :config
+  ;;    (prescient-persist-mode))
+
+  ;;(use-package ivy-prescient
+  ;;  :after counsel
+  ;;  :config
+  ;;    (ivy-prescient-mode))
+
   (use-package ivy
     :bind (("C-s" . swiper)
     :map ivy-minibuffer-map
-      ("TAB" . ivy-alt-done)
+      ("TAB" . ivy-partial-or-done)
       ("C-f" . ivy-alt-done)
       ("C-l" . ivy-alt-done)
       ("C-j" . ivy-next-line)
@@ -96,13 +111,14 @@ Ivy and associated helpers that uses the minibuffer. Ivy describes itself as "a 
       (setq ivy-count-format "(%d/%d) ")
       (setq enable-recursive-minibuffers t))
 
-  (use-package ivy-rich
-    :init (ivy-rich-mode 1))
+;;  (use-package ivy-rich
+;;    :init (ivy-rich-mode 1))
 
   (use-package all-the-icons-ivy
     :init (add-hook 'after-init-hook 'all-the-icons-ivy-setup))
 
 #+END_SRC
+
 *** Leader keys
 I use general.el to define groups of keybindings under my 'leader' definition. You will see these definitions sprinkled throughout this file; my own private collection of fast shit. For more info, [[https://medium.com/usevim/vim-101-what-is-the-leader-key-f2f5c1fa610f][here]] is a good explanation on leader keys.
 
@@ -119,6 +135,7 @@ I use general.el to define groups of keybindings under my 'leader' definition. Y
         :keymaps '(normal visual emacs)
         :prefix ","))
 #+END_SRC
+
 **** Toggles
 Turn UI things on and off, scale things up and down.
 
@@ -154,6 +171,7 @@ Various helpers and packages I find useful for window management.
     "rl"  '(rotate-layout :which-key "rotate layout"))
 
 #+END_SRC
+
 *** Gutter
 **** Line numbers
 These functions define vim-style relative line numbers.
@@ -193,6 +211,7 @@ These functions define vim-style relative line numbers.
                   eshell-mode-hook))
     (add-hook mode (lambda () (linum-mode 0))))
 #+END_SRC
+
 *** Modes
 **** Window minor modes
 I like these window related minor modes.
@@ -208,6 +227,7 @@ I like these window related minor modes.
   (tool-bar-mode 0)
   (winner-mode 1) ;; ctrl-c left, ctrl-c right for window undo/redo
 #+END_SRC
+
 **** Set mode margins
 This is used primarily to center org mode text.
 
@@ -221,6 +241,7 @@ This is used primarily to center org mode text.
   :defer t
   :hook (org-mode . dl/org-mode-visual-fill))
 #+END_SRC
+
 **** Don't blink the cursor
 #+NAME: cursor-mode
 #+BEGIN_SRC emacs-lisp
@@ -236,6 +257,7 @@ Makes my lisp parens pretty, and easy to spot.
   (use-package rainbow-delimiters
     :hook (prog-mode . rainbow-delimiters-mode))
 #+END_SRC
+
 ***** Color definitions
 Define a global set of colors to be used everywhere in Emacs.
 
@@ -251,6 +273,7 @@ Define a global set of colors to be used everywhere in Emacs.
 (defvar dl/light-grey-color "#C0C5CE")
 (defvar dl/dark-grey-color "#65737E")
 #+END_SRC
+
 **** Addons
 ***** "Powerline"
 Keeps info at my fingertips. Modeline is much better than Vim's Powerline (sorry Vim).
@@ -263,6 +286,7 @@ Keeps info at my fingertips. Modeline is much better than Vim's Powerline (sorry
     :ensure t
     :init (doom-modeline-mode 1))
 #+END_SRC
+
 ***** Treemacs
 Although I'm primarily a keyboard user and use Projectile for quickly finding files, I still find the need to browse through files in a more visual way. Treemacs does the job, and beautifully might I add.
 
@@ -281,6 +305,7 @@ Although I'm primarily a keyboard user and use Projectile for quickly finding fi
   (use-package treemacs-magit)
   (use-package treemacs-evil)
 #+END_SRC
+
 **** Easy window motions with ace-window
 Predefine windows with hotkeys and jump to them.
 
@@ -298,8 +323,10 @@ Predefine windows with hotkeys and jump to them.
   :config
     (ace-window-display-mode 1))
 #+END_SRC
+
 *** Package managers
 Using straighel under the hood of use-package enables us to download packages using git. This is preferred for easier hacking; I maintain my own org-roam fork, for example, and it's just another directory where I organize code. I configure straight.el with one line to use it.
+
 *** Windows
 **** Default sizes
 Sets some reasonable defaults.
@@ -366,11 +393,13 @@ We use two spaces in place of tabs.
                 js-indent-level 2
                 tab-width 2)
 #+END_SRC
+
 *** Buffers
 #+NAME: next-buffer
 #+BEGIN_SRC emacs-lisp
   (global-set-key (kbd "<C-tab>") 'next-buffer)
 #+END_SRC
+
 ** Display options
 *** Themes
 Some my own, some from others.
@@ -404,205 +433,13 @@ I like these modes, what can I say. They're good to me.
 #+END_SRC
 
 ** Org mode
-*** Install package
-If you haven't heard of org mode, go watch [[https://www.youtube.com/watch?v=SzA2YODtgK4][this]] talk and come back when you are finished.
-**** Leader key shortcuts
-#+NAME::org-mode-quick-entry
-#+BEGIN_SRC emacs-lisp
-(defvar current-time-format "%H:%M:%S"
-  "Format of date to insert with `insert-current-time' func.
-Note the weekly scope of the command's precision.")
-
-(defun dl/load-buffer-with-emacs-config ()
-  "Open the emacs configuration"
-  (interactive)
-  (find-file "~/State/Projects/Code/nixos-config/common/config/emacs/Emacs.org"))
-
-(defun dl/load-buffer-with-todo ()
-  "Open the emacs configuration"
-  (interactive)
-  (find-file "~/State/Areas/Writing/Notebook/20220419121404-todo.org"))
-
-(defun dl/reload-emacs ()
-  "Reload the emacs configuration"
-  (interactive)
-  (load "~/.emacs"))
-
-(defun dl/insert-current-time ()
-  "Insert the current time (1-week scope) into the current buffer."
-       (interactive)
-       (insert "** ")
-       (insert (format-time-string current-time-format (current-time)))
-       (insert "\n"))
-
-  "A few of my own personal shortcuts"
- (dl/leader-keys
-  ","  '(dl/insert-current-time :which-key "current time")
-  "e"  '(dl/load-buffer-with-emacs-config :which-key "open emacs config")
-  "d"  '(dl/load-buffer-with-todo :which-key "open todo"))
-
-#+END_SRC
-
-***** Snippets
-#+NAME::yasnippet
-#+BEGIN_SRC emacs-lisp
-  (use-package yasnippet)
-  (yas-global-mode 1)
-#+END_SRC
-
-***** Roam capture templates
-These are templates used to create new notes.
-#+NAME::roam-templates
-#+BEGIN_SRC emacs-lisp
-  (setq org-roam-capture-templates
-   '(("d" "default" plain
-      "%?"
-      :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n\n")
-      :unnarrowed t)
-     ("p" "people" plain
-      "#+filetags: People CRM\n\n* Contacts\n\nRelationship: %^{Relationship}\n\n* Notes\n\n %?"
-      :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}")
-      :unnarrowed t)
-     ("i" "institution" plain
-      "#+filetags: Institution CRM\n\n* Contacts\n\nRelationship: %^{Relationship}\n\n %?"
-      :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}")
-      :unnarrowed t)))
-#+END_SRC
-
-**** Org Roam
-***** Install package
-#+NAME::org-roam-package
-#+BEGIN_SRC emacs-lisp
-  (require 'ucs-normalize)
-  (use-package org-roam
-    :straight (:host github :repo "dustinlyons/org-roam"
-               :branch "master"
-               :files (:defaults "extensions/*")
-    :build (:not compile))
-    :init
-      (setq org-roam-v2-ack t) ;; Turn off v2 warning
-      (setq org-roam-mode-section-functions
-        (list #'org-roam-backlinks-section
-              #'org-roam-reflinks-section
-              #'org-roam-unlinked-references-section))
-        (add-to-list 'display-buffer-alist
-             '("\\*org-roam\\*"
-               (display-buffer-in-direction)
-               (direction . right)
-               (window-width . 0.33)
-               (window-height . fit-window-to-buffer)))
-    :custom
-      (org-roam-directory (file-truename "~/State/Areas/Writing/Notebook"))
-      (org-roam-dailies-directory "daily/")
-      (org-roam-completion-everywhere t)
-    :bind
-      (("C-c r b" . org-roam-buffer-toggle)
-       ("C-c r t" . org-roam-dailies-goto-today)
-       ("C-c r y" . org-roam-dailies-goto-yesterday)
-       ("C-M-n" . org-roam-node-insert)
-         :map org-mode-map
-       ("C-M-i"   . completion-at-point)
-       ("C-M-f" . org-roam-node-find)
-       ("C-M-c" . dl/org-roam-create-id)
-       ("C-<left>" . org-roam-dailies-goto-previous-note)
-       ("C-`" . org-roam-buffer-toggle)
-       ("C-<right>" . org-roam-dailies-goto-next-note)))
-  (org-roam-db-autosync-mode)
-#+END_SRC
-
-***** Configure templates
-#+NAME::org-roam-templates
-#+BEGIN_SRC emacs-lisp
-  (setq org-roam-dailies-capture-templates
-    '(("d" "default" entry
-       "* %?"
-       :if-new (file+head "%<%Y-%m-%d>.org"
-                          "#+TITLE: %<%Y-%m-%d>\n#+filetags: Daily\n* Log\n\n* %<%Y-%m-%d>"))))
-#+END_SRC
-
-***** Extending Roam
-Here we add additional function to org-roam to either do something specific for more workflow, or otherwise make ~org-roam~ more full featured.
-****** Set CREATED and LAST_MODIFIED filetags on save
-Sets timestamps in the Properties drawer of files. I intend to use this one day when rendering these notes as HTML, to quickly see files last touched.
-
-#+NAME::org-roam-set-timestamps-on-save
-#+BEGIN_SRC emacs-lisp
-  (defvar dl/org-created-property-name "CREATED")
-
-  (defun dl/org-set-created-property (&optional active name)
-    (interactive)
-    (let* ((created (or name dl/org-created-property-name))
-           (fmt (if active "<%s>" "[%s]"))
-           (now (format fmt (format-time-string "%Y-%m-%d %a %H:%M"))))
-      (unless (org-entry-get (point) created nil)
-        (org-set-property created now)
-        now)))
-
-  (defun dl/org-find-time-file-property (property &optional anywhere)
-    (save-excursion
-      (goto-char (point-min))
-      (let ((first-heading
-             (save-excursion
-               (re-search-forward org-outline-regexp-bol nil t))))
-        (when (re-search-forward (format "^#\\+%s:" property)
-                                 (if anywhere nil first-heading) t)
-          (point)))))
-
-  (defun dl/org-has-time-file-property-p (property &optional anywhere)
-    (when-let ((pos (dl/org-find-time-file-property property anywhere)))
-      (save-excursion
-        (goto-char pos)
-        (if (and (looking-at-p " ")
-                 (progn (forward-char)
-                        (org-at-timestamp-p 'lax)))
-            pos -1))))
-
-  (defun dl/org-set-time-file-property (property &optional anywhere pos)
-    (when-let ((pos (or pos
-                        (dl/org-find-time-file-property property))))
-      (save-excursion
-        (goto-char pos)
-        (if (looking-at-p " ")
-            (forward-char)
-          (insert " "))
-        (delete-region (point) (line-end-position))
-        (let* ((now (format-time-string "[%Y-%m-%d %a %H:%M]")))
-          (insert now)))))
-
-  (defun dl/org-set-last-modified ()
-    "Update the LAST_MODIFIED file property in the preamble."
-    (when (derived-mode-p 'org-mode)
-      (dl/org-set-time-file-property "LAST_MODIFIED")))
-#+END_SRC
-****** Set CREATED on node creation
-#+NAME::org-roam-set-timestamps-on-save
-#+BEGIN_SRC emacs-lisp
-  (defun dl/org-roam-create-id ()
-  "Add created date to org-roam node."
-    (interactive)
-    (org-id-get-create)
-    (dl/org-set-created-property))
-#+END_SRC
 *** Agenda
 **** Filter out files that don't include tasks in org-agenda
 I use org-roam to take notes, which keeps many small files in the style of Zettelkasten. However, org-agenda doesn't perform well in this scenario. To fix this, we filter out all files from org-agenda that don't contain a ~TODO~.
 
 #+NAME::org-mode-filter
 #+BEGIN_SRC emacs-lisp
-  (defun dl/define-agenda-files ()
-    "Return a list of note files containing 'Todo' property.
-      We could just read the file but this query helps keep this flexible."
-  (interactive)
-    (seq-uniq
-     (seq-map
-      #'car
-      (org-roam-db-query
-       [:select [nodes:file]
-        :from tags
-        :left-join nodes
-        :on (= tags:node-id nodes:id)
-        :where (in tag $v1)] '(["Todo"])))))
-  (setq org-agenda-files (dl/define-agenda-files))
+  (setq org-agenda-files "~/State/Areas/Writing/Notebook/20220419121404-todo.org" )
 
   (defun org-global-props (&optional property buffer)
     "Helper function to grab org properties"
@@ -686,6 +523,7 @@ This block sets the ~org-agenda-prefix-format~ in an friendly way for org-roam (
 
 **** org-transclusion
 Let's us move text but still see it in another file. I primarily use this to move text around in my journal.
+
 #+NAME::org-transclusion
 #+BEGIN_SRC emacs-lisp
 (use-package org-transclusion
@@ -725,8 +563,193 @@ Setup for org-super-agenda and org-ql.
      (org-super-agenda-mode)
 #+END_SRC
 
+*** Install package
+If you haven't heard of org mode, go watch [[https://www.youtube.com/watch?v=SzA2YODtgK4][this]] talk and come back when you are finished.
+
+**** Leader key shortcuts
+#+NAME::org-mode-quick-entry
+#+BEGIN_SRC emacs-lisp
+(defvar current-time-format "%H:%M:%S"
+  "Format of date to insert with `insert-current-time' func.
+Note the weekly scope of the command's precision.")
+
+(defun dl/load-buffer-with-emacs-config ()
+  "Open the emacs configuration"
+  (interactive)
+  (find-file "~/State/Projects/Code/nixos-config/common/config/emacs/Emacs.org"))
+
+(defun dl/load-buffer-with-todo ()
+  "Open the emacs configuration"
+  (interactive)
+  (find-file "~/State/Areas/Writing/Notebook/20220419121404-todo.org"))
+
+(defun dl/reload-emacs ()
+  "Reload the emacs configuration"
+  (interactive)
+  (load "~/.emacs"))
+
+(defun dl/insert-current-time ()
+  "Insert the current time (1-week scope) into the current buffer."
+       (interactive)
+       (insert "** ")
+       (insert (format-time-string current-time-format (current-time)))
+       (insert "\n"))
+
+  "A few of my own personal shortcuts"
+ (dl/leader-keys
+  ","  '(dl/insert-current-time :which-key "current time")
+  "e"  '(dl/load-buffer-with-emacs-config :which-key "open emacs config")
+  "d"  '(dl/load-buffer-with-todo :which-key "open todo"))
+
+#+END_SRC
+
+***** Snippets
+#+NAME::yasnippet
+#+BEGIN_SRC emacs-lisp
+  (use-package yasnippet)
+  (yas-global-mode 1)
+#+END_SRC
+
+***** Roam capture templates
+These are templates used to create new notes.
+
+#+NAME::roam-templates
+#+BEGIN_SRC emacs-lisp
+  (setq org-roam-capture-templates
+   '(("d" "default" plain
+      "%?"
+      :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n\n")
+      :unnarrowed t)
+     ("p" "people" plain
+      "#+filetags: People CRM\n\n* Contacts\n\nRelationship: %^{Relationship}\n\n* Notes\n\n %?"
+      :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}")
+      :unnarrowed t)
+     ("i" "institution" plain
+      "#+filetags: Institution CRM\n\n* Contacts\n\nRelationship: %^{Relationship}\n\n %?"
+      :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}")
+      :unnarrowed t)))
+#+END_SRC
+
+**** Org Roam
+***** Install package
+#+NAME::org-roam-package
+#+BEGIN_SRC emacs-lisp
+  (require 'ucs-normalize)
+  (use-package org-roam
+    :straight (:host github :repo "dustinlyons/org-roam"
+               :branch "master"
+               :files (:defaults "extensions/*")
+    :build (:not compile))
+    :init
+      (setq org-roam-v2-ack t) ;; Turn off v2 warning
+      (setq org-roam-mode-section-functions
+        (list #'org-roam-backlinks-section
+              #'org-roam-reflinks-section
+              #'org-roam-unlinked-references-section))
+        (add-to-list 'display-buffer-alist
+             '("\\*org-roam\\*"
+               (display-buffer-in-direction)
+               (direction . right)
+               (window-width . 0.33)
+               (window-height . fit-window-to-buffer)))
+    :custom
+      (org-roam-directory (file-truename "~/State/Areas/Writing/Notebook"))
+      (org-roam-dailies-directory "daily/")
+      (org-roam-completion-everywhere t)
+    :bind
+      (("C-c r b" . org-roam-buffer-toggle)
+       ("C-c r t" . org-roam-dailies-goto-today)
+       ("C-c r y" . org-roam-dailies-goto-yesterday)
+       ("C-M-n" . org-roam-node-insert)
+         :map org-mode-map
+       ("C-M-i"   . completion-at-point)
+       ("C-M-f" . org-roam-node-find)
+       ("C-M-c" . dl/org-roam-create-id)
+       ("C-<left>" . org-roam-dailies-goto-previous-note)
+       ("C-`" . org-roam-buffer-toggle)
+       ("C-<right>" . org-roam-dailies-goto-next-note)))
+  (org-roam-db-autosync-mode)
+#+END_SRC
+
+***** Configure templates
+#+NAME::org-roam-templates
+#+BEGIN_SRC emacs-lisp
+  (setq org-roam-dailies-capture-templates
+    '(("d" "default" entry
+       "* %?"
+       :if-new (file+head "%<%Y-%m-%d>.org"
+                          "#+TITLE: %<%Y-%m-%d>\n#+filetags: Daily\n* Log\n\n* %<%Y-%m-%d>"))))
+#+END_SRC
+
+***** Extending Roam
+Here we add additional function to org-roam to either do something specific for more workflow, or otherwise make ~org-roam~ more full featured.
+
+****** Set CREATED and LAST_MODIFIED filetags on save
+Sets timestamps in the Properties drawer of files. I intend to use this one day when rendering these notes as HTML, to quickly see files last touched.
+
+#+NAME::org-roam-set-timestamps-on-save
+#+BEGIN_SRC emacs-lisp
+  (defvar dl/org-created-property-name "CREATED")
+
+  (defun dl/org-set-created-property (&optional active name)
+    (interactive)
+    (let* ((created (or name dl/org-created-property-name))
+           (fmt (if active "<%s>" "[%s]"))
+           (now (format fmt (format-time-string "%Y-%m-%d %a %H:%M"))))
+      (unless (org-entry-get (point) created nil)
+        (org-set-property created now)
+        now)))
+
+  (defun dl/org-find-time-file-property (property &optional anywhere)
+    (save-excursion
+      (goto-char (point-min))
+      (let ((first-heading
+             (save-excursion
+               (re-search-forward org-outline-regexp-bol nil t))))
+        (when (re-search-forward (format "^#\\+%s:" property)
+                                 (if anywhere nil first-heading) t)
+          (point)))))
+
+  (defun dl/org-has-time-file-property-p (property &optional anywhere)
+    (when-let ((pos (dl/org-find-time-file-property property anywhere)))
+      (save-excursion
+        (goto-char pos)
+        (if (and (looking-at-p " ")
+                 (progn (forward-char)
+                        (org-at-timestamp-p 'lax)))
+            pos -1))))
+
+  (defun dl/org-set-time-file-property (property &optional anywhere pos)
+    (when-let ((pos (or pos
+                        (dl/org-find-time-file-property property))))
+      (save-excursion
+        (goto-char pos)
+        (if (looking-at-p " ")
+            (forward-char)
+          (insert " "))
+        (delete-region (point) (line-end-position))
+        (let* ((now (format-time-string "[%Y-%m-%d %a %H:%M]")))
+          (insert now)))))
+
+  (defun dl/org-set-last-modified ()
+    "Update the LAST_MODIFIED file property in the preamble."
+    (when (derived-mode-p 'org-mode)
+      (dl/org-set-time-file-property "LAST_MODIFIED")))
+#+END_SRC
+
+****** Set CREATED on node creation
+#+NAME::org-roam-set-timestamps-on-save
+#+BEGIN_SRC emacs-lisp
+  (defun dl/org-roam-create-id ()
+  "Add created date to org-roam node."
+    (interactive)
+    (org-id-get-create)
+    (dl/org-set-created-property))
+#+END_SRC
+
 *** UI improvements
 Anything related to making org mode pretty.
+
 **** Change color of ivy window selection
 #+NAME::ivy-window-selection
 #+BEGIN_SRC emacs-lisp
@@ -734,7 +757,6 @@ Anything related to making org mode pretty.
 #+END_SRC
 
 **** Change default bullets to be pretty
-
 Replaces the standard org-mode header asterisks with dots.
 #+NAME::org-mode-visuals
 #+BEGIN_SRC emacs-lisp
@@ -951,6 +973,7 @@ These settings keep emacs from littering the filesystem with buffer backups. The
 ** Managing projects
 *** Projectile
 Projectile enables me to organize projects with a killer grep interface.
+
 #+NAME: projectile
 #+BEGIN_SRC emacs-lisp
   (use-package projectile
@@ -963,13 +986,19 @@ Projectile enables me to organize projects with a killer grep interface.
     :init
 	    (when (file-directory-p "mnt/state/Projects/Code")
 	      (setq projectile-project-search-path "mnt/state/Projects/Code"))
+	    (when (file-directory-p "/Users/dustin/State/Projects/Code")
+	      (setq projectile-project-search-path "/Users/dustin/State/Projects/Code"))
 	    (setq projectile-switch-project-action #'projectile-dired))
 
   ;; Gives me Ivy options in the Projectile menus
   (use-package counsel-projectile
     :after projectile
     :config (counsel-projectile-mode))
+
+  (setq counsel-projectile-sort-files nil)
+  (setq counsel-projectile-find-file-matcher #'ivy--re-filter)
 #+END_SRC
+
 ** Writing
 *** Spell Check / Flycheck Mode
 Everything related to spell and grammar checking.
@@ -1014,8 +1043,9 @@ Everything related to M-x compile.
 (add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
 
 #+END_SRC
+
 *** LSP
-#+NAME: javascript
+#+NAME: lsp-mode
 #+BEGIN_SRC emacs-lisp
   (use-package lsp-mode
     :commands lsp lsp-deferred
@@ -1059,6 +1089,7 @@ Everything related to M-x compile.
       ("\\.markdown\\'" . markdown-mode))
     :init (setq markdown-command "pandoc"))
 #+END_SRC
+
 **** HTML
 ***** Emmet mode
 Emmet mode gives autocompletion for HTML tags using short hand notations, which for I use the TAB key.
@@ -1072,6 +1103,7 @@ Emmet mode gives autocompletion for HTML tags using short hand notations, which 
 (define-key emmet-mode-keymap [tab] 'emmet-expand-line)
 
 #+END_SRC
+
 ***** Web mode
 Emmet mode gives autocompletion for HTML tags using short hand notations, which for I use the TAB key.
 
@@ -1085,6 +1117,7 @@ Emmet mode gives autocompletion for HTML tags using short hand notations, which 
 (add-to-list 'emmet-jsx-major-modes 'jsx-mode)
 
 #+END_SRC
+
 ***** Rainbow mode
 Rainbow mode is an Emacs minor mode to highlight the color shown by a RGB hex triplet (example #FFFFFF).
 
@@ -1092,6 +1125,7 @@ Rainbow mode is an Emacs minor mode to highlight the color shown by a RGB hex tr
 #+BEGIN_SRC emacs-lisp
   (use-package rainbow-mode)
 #+END_SRC
+
 **** golang
 #+NAME: golang-config
 #+BEGIN_SRC emacs-lisp
@@ -1158,6 +1192,7 @@ Rainbow mode is an Emacs minor mode to highlight the color shown by a RGB hex tr
   (use-package magit
     :commands (magit-status magit-get-current-branch))
 #+END_SRC
+
 *** Infrastructure
 **** Nix
 Nix is my package manager and operating system of choice; this mode enables me to have a better time writing Nix expressions.
