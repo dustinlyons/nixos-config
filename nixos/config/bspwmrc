@@ -30,4 +30,6 @@ bspc rule --add vlc desktop='media' follow=on
 bspc rule --add feh state=floating
 bspc rule --add Keepassx state=floating
 
+# Set background and top bar
 feh --bg-scale $HOME/.config/wallpaper/active.png
+systemctl --user start polybar

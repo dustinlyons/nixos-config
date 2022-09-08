@@ -2,7 +2,11 @@
 
 let
   home = builtins.getEnv "HOME";
-  common-programs = import ../common/home-manager.nix { pkgs = pkgs; lib = lib; }; in
+  common-programs = import ../common/home-manager.nix { pkgs = pkgs; lib = lib; };
+  polybar-bars = builtins.readFile ./config/polybar/bars.ini;
+  polybar-colors = builtins.readFile ./config/polybar/colors.ini;
+  polybar-modules = builtins.readFile ./config/polybar/modules.ini;
+  polybar-user_modules = builtins.readFile ./config/polybar/user_modules.ini; in
 {
   home = {
     enableNixpkgsReleaseCheck = false;
@@ -10,8 +14,7 @@ let
     username = "dustin";
     homeDirectory = "/home/dustin";
     stateVersion = "21.05";
-
- };
+  };
 
   # Use a dark theme
   gtk = {
@@ -41,8 +44,10 @@ let
 
   services.polybar = {
     enable = true;
+    config = ./config/polybar/config.ini;
+    extraConfig = polybar-bars + polybar-colors + polybar-modules + polybar-user_modules;
     package = pkgs.polybarFull;
-    script = "polybar top &";
+    script = "polybar main &";
   };
 
   services.dunst = {
