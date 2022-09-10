@@ -55,8 +55,9 @@
     # Local global npm packages
     alias yarn=$HOME/.npm-new-global/bin/yarn
 
-    # bat is a better cat
+    # bat all the things
     alias cat=bat
+    alias more=bat
 
     # Always color ls
     alias ls='ls --color'
