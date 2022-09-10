@@ -22,13 +22,12 @@ bspc config pointer_action1 move
 bspc config pointer_action2 resize_side
 bspc config pointer_action2 resize_corner
 
-bspc rule -a Gimp desktop='media' follow=on
 bspc rule -a discord desktop='chat' follow=on
 bspc rule -a google-chrome-stable desktop='daily' follow=on
-bspc rule -a emacs desktop='daily' follow=on
-bspc rule --add vlc desktop='media' follow=on
-bspc rule --add feh state=floating
-bspc rule --add Keepassx state=floating
+bspc rule -a vlc desktop='media' follow=on
+bspc rule -a spotify desktop='media' follow=on
+bspc rule -a keepassxc state=floating follow=on
+bspc rule -a feh state=floating
 
 # Set background and top bar
 feh --bg-scale $HOME/.config/wallpaper/active.png
