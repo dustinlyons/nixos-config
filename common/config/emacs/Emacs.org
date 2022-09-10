@@ -81,7 +81,7 @@ Ivy and associated helpers that uses the minibuffer. Ivy describes itself as "a 
 
   (use-package prescient
     :config
-      (prescient-persist-mode))
+      (prescient-persist-mode 1))
 
   (use-package ivy
     :bind (("C-s" . swiper)
@@ -106,13 +106,16 @@ Ivy and associated helpers that uses the minibuffer. Ivy describes itself as "a 
       (setq ivy-count-format "(%d/%d) ")
       (setq enable-recursive-minibuffers t))
 
-;;  (use-package ivy-rich
-;;    :init (ivy-rich-mode 1))
+  (use-package ivy-rich
+    :init (ivy-rich-mode 1))
 
   (use-package ivy-prescient
-    :after counsel
+    :after ivy
+    :custom
+      (prescient-save-file "~/.emacs.d/prescient-data")
+      (prescient-filter-method 'fuzzy)
     :config
-      (ivy-prescient-mode))
+      (ivy-prescient-mode t))
 
   (use-package all-the-icons-ivy
     :init (add-hook 'after-init-hook 'all-the-icons-ivy-setup))
@@ -1077,6 +1080,16 @@ Everything related to M-x compile.
 #+END_SRC
 
 *** Languages
+**** Grammarly
+#+NAME: grammarly-mode
+#+BEGIN_SRC emacs-lisp
+(use-package lsp-grammarly
+  :ensure t
+  :hook (text-mode . (lambda ()
+                       (require 'lsp-grammarly)
+                       (lsp))))  ; or lsp-deferred
+#+END_SRC
+
 **** Markdown
 #+NAME: markdown-mode
 #+BEGIN_SRC emacs-lisp
@@ -1174,15 +1187,20 @@ Rainbow mode is an Emacs minor mode to highlight the color shown by a RGB hex tr
     (setq web-mode-markup-indent-offset 2))
   (add-hook 'web-mode-hook  'web-mode-init-hook)
 
+  ;; Vue.js / Nuxt.js Language Server
   (straight-use-package
    '(lsp-volar :type git :host github :repo "jadestrong/lsp-volar"))
-
   (use-package lsp-volar
     :straight t)
 
   ;; React snippets
   (load "~/State/Projects/Code/nixos-config/common/snippets/react-snippets/react-snippets.el")
 
+  ;; Keeps indentation organized across these modes
+  (use-package prettier-js)
+  (add-hook 'js2-mode-hook 'prettier-js-mode)
+  (add-hook 'web-mode-hook 'prettier-js-mode)
+  (add-hook 'css-mode-hook 'prettier-js-mode)
 #+END_SRC
 
 *** Git
