@@ -1208,6 +1208,7 @@ Rainbow mode is an Emacs minor mode to highlight the color shown by a RGB hex tr
 #+BEGIN_SRC emacs-lisp
   (use-package magit
     :commands (magit-status magit-get-current-branch))
+  (define-key magit-hunk-section-map (kbd "RET") 'magit-diff-visit-file-other-window)
 #+END_SRC
 
 *** Infrastructure

@@ -46,6 +46,7 @@ common-packages ++ [
   # inotifywait, inotifywatch
   # For file system events
   inotify-tools
+  libnotify
 
   imagemagick
   keepassxc
@@ -70,6 +71,7 @@ common-packages ++ [
   qmk
   rofi
   rnix-lsp # lsp-mode for nix
+  screenkey
   spotify
   sqlite
   tree

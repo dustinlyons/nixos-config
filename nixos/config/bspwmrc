@@ -28,6 +28,7 @@ bspc rule -a vlc desktop='media' follow=on
 bspc rule -a spotify desktop='media' follow=on
 bspc rule -a keepassxc state=floating follow=on
 bspc rule -a feh state=floating
+bspc rule -a alacritty-readonly state=floating follow=on
 
 # Set background and top bar
 feh --bg-scale $HOME/.config/wallpaper/active.png

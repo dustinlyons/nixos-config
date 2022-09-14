@@ -10,6 +10,7 @@ with pkgs; [
   bats # A bash testing framework
   btop
   coreutils
+  difftastic
   du-dust
   docker
   docker-compose
@@ -21,6 +22,7 @@ with pkgs; [
   gcc
   gh
   git-filter-repo
+  glow
   gnupg
   google-cloud-sdk
   gopls
@@ -51,6 +53,7 @@ with pkgs; [
   slack
   sqlite
   ssm-session-manager-plugin
+  tealdeer
   terraform
   terraform-ls
   tree

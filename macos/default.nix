@@ -25,13 +25,21 @@
   # Turn off NIX_PATH warnings now that we're using flakes
   system.checks.verifyNixPath = false;
 
-  environment.systemPackages = with pkgs; [
-    (emacsWithPackagesFromUsePackage {
-      config = ../common/config/emacs/Emacs.org;
-      package = emacsNativeComp;
-      alwaysEnsure = true;
-    })
-  ] ++ (import ../common/packages.nix { pkgs = pkgs; });
+  services.emacs = {
+    enable = true;
+    package = pkgs.emacsWithPackagesFromUsePackage {
+     config = ../common/config/emacs/Emacs.org;
+     package = pkgs.emacsNativeComp;
+     alwaysEnsure = true;
+   };
+  };
+
+  environment.systemPackages = with pkgs; [] ++ (import ../common/packages.nix { pkgs = pkgs; });
+#    (emacsWithPackagesFromUsePackage {
+#      config = ../common/config/emacs/Emacs.org;
+#     package = emacsNativeComp;
+#     alwaysEnsure = true;
+#   })
 
   # Enable fonts dir
   fonts.fontDir.enable = true;

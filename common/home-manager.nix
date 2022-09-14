@@ -59,6 +59,9 @@
     alias cat=bat
     alias more=bat
 
+    # Use difftastic, syntax-aware diffing
+    alias diff=difft
+
     # Always color ls
     alias ls='ls --color'
 
