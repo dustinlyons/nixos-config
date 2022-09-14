@@ -5,7 +5,7 @@
 ** About Emacs
 This is my emacs config file. Yes, in emacs you can write configuration like a Google Doc and get away with it. It's called [[https://en.wikipedia.org/wiki/Literate_programming]["literate programming"]].
 
-Emacs is more than an editor, it's a whole damn operating system. This file is evidence of that. This configuration drives how I interact with my journal, complete and organize tasks, develop and write blog posts, write code and ship new stuff, etc. etc. etc. list goes on. I've yet to jump into EXWM, but if one is so inclined, Emacs can expand beyond an application into all software.
+This configuration drives how I interact with my journal, complete and organize tasks, develop and write blog posts, and write code. Other stuff too. If I can do it in Emacs, I generally do. 
 
 ** Personal Information
 Just me!
