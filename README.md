@@ -4,11 +4,11 @@
 
 ## Overview
 
-These are [my](https://twitter.com/dustinhlyons) "dotfiles" written as Nix derivations. My setup involves a Macbook Pro, a NixOS workstation, and a home-lab server running Nix virtual machines. The home-lab server helps me [run my own Dropbox](https://github.com/dustinlyons/nixos-config/blob/34ef42b35b4320c1487ad795a5a34f8a65aefc2d/vm/syncthing/configuration.nix), host my own CI infrastructure, keep spam out of my house, automate stuff, etc. etc. Anyway, it's all here.
+These are [my](https://twitter.com/dustinhlyons) "dotfiles" written as Nix derivations. My setup involves a Macbook Pro, a NixOS workstation, and a home-lab server running Nix virtual machines. The home-lab server helps me [run my own Dropbox](https://github.com/dustinlyons/nixos-config/blob/main/vm/syncthing/configuration.nix), host my own CI infrastructure, keep spam out of my house, automate stuff, etc. etc. Anyway, it's all here.
 
 Some helpful links:
-* [My steps to bootrap a new virtual machine](https://github.com/dustinlyons/nixos-config/tree/34ef42b35b4320c1487ad795a5a34f8a65aefc2d/vm). The same steps apply if you're starting from scratch on bare metal (i.e no hard disk partition).
-* My Emacs [literate configuration](https://github.com/dustinlyons/nixos-config/blob/34ef42b35b4320c1487ad795a5a34f8a65aefc2d/common/config/emacs/Emacs.org)
+* [My steps to bootrap a new virtual machine](https://github.com/dustinlyons/nixos-config/blob/main/vm/README.md). The same steps apply if you're starting from scratch on bare metal (i.e no hard disk partition).
+* My Emacs [literate configuration](https://github.com/dustinlyons/nixos-config/blob/main/common/config/emacs/Emacs.org)
 
 This is over a year's work of continuing to abstract and evolve my day-to-day life, both personally and professionally. Nix and the [communities](https://github.com/nix-community/emacs-overlay) around [nixpkg](https://github.com/NixOS/nixpkgs) really make it enjoyable!
 
