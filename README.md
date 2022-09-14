@@ -2,36 +2,13 @@
 
 ## Overview
 
-These are my "dotfiles" contained within Nix derivations that drive the setup and configuration of
+These are [my](https://twitter.com/dustinhlyons) "dotfiles" written as Nix derivations. My setup involves a Macbook Pro, a NixOS workstation, and a home-lab server running Nix virtual machines. The home-lab server helps me [run my own Dropbox](https://github.com/dustinlyons/nixos-config/blob/34ef42b35b4320c1487ad795a5a34f8a65aefc2d/vm/syncthing/configuration.nix), host my own CI infrastructure, keep spam out of my house, automate stuff, etc. etc. Anyway, it's all here.
 
-* my Macbook Pro
-* a NixOS workstation sitting on my desk at home
-* an old Thinkpad I use as an air-gapped machine
-* virtual machines running on my home-lab Proxmox server
+Some helpful links:
+* [My steps to bootrap a new virtual machine](https://github.com/dustinlyons/nixos-config/tree/34ef42b35b4320c1487ad795a5a34f8a65aefc2d/vm). The same applies for bare metal.
+* My Emacs [literate configuration](https://github.com/dustinlyons/nixos-config/blob/34ef42b35b4320c1487ad795a5a34f8a65aefc2d/common/config/emacs/Emacs.org)
 
-Why do this? Why spend the hours to learn Nix and the nuances of getting it all to work across various architectures?
-
-Well, it's pretty magical, honestly.
-
-Years of honing my environment, making tiny optimizations to my workflow and development environment, are now codified and reproducible by a machine.
-
-I'll never experience a day, _sans hardware failure_, where everything is borked and I can't work, thanks to the declarative nature of Nix, the Nix Store, and its update and rollback features.
-
-I can magically update everything, everywhere, by typing `nix flake update; nixos-rebuild switch`. 
-
-Done. 
-
-It's great.
-
-I do this frequently, _because it's so damn cheap_, but mainly I get to leverage the work from _hundreds_ of people, all contributing pull requests in harmony to maintain a global set of software that's highly secure, efficient, and workable. 
-
-Sometimes I go to update, and the build fails. That's okay. Nix doesn't apply the update to your machine until everything works.
-
-So usually, I just wait a few days for the community to patch it and move on. I can count on one finger the times I've had an issue, and there wasn't already an active discussion.
-
-The [nixpkgs](https://github.com/NixOS/nixpkgs) repository and other groups within [nix-community](https://github.com/nix-community/), like [emacs-overlay](https://github.com/nix-community/emacs-overlay), are some of the best examples of open source at scale. PRs are merged multiple times an hour (over 150,000 😱 closed), and you get all of that with a simple `nix flake update`. 
-
-I encourage you to give Nix a try. Look around, and if you have questions, I'm on [Twitter](https://twitter.com/dustinhlyons).
+This is over a year's work of continuing to abstract and evolve my day-to-day life, both personally and professionally. Nix and the [communities](https://github.com/nix-community/emacs-overlay) around [nixpkg](https://github.com/NixOS/nixpkgs) really make it enjoyable!
 
 ## Update Computer
 
