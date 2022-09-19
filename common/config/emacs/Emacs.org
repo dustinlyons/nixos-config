@@ -1080,6 +1080,16 @@ Everything related to M-x compile.
 #+END_SRC
 
 *** Languages
+**** Python
+#+NAME: python
+#+BEGIN_SRC emacs-lisp
+(use-package lsp-pyright
+  :ensure t
+  :hook (python-mode . (lambda ()
+    (require 'lsp-pyright)
+    (lsp-deferred))))  ; or lsp-deferred
+#+END_SRC
+
 **** Grammarly
 #+NAME: grammarly-mode
 #+BEGIN_SRC emacs-lisp
