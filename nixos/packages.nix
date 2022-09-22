@@ -81,6 +81,11 @@ common-packages ++ [
   xdg_utils
   vlc
   wineWowPackages.stable
+
+  # I use yad-calendar with polybar
+  yad
+  xdotool 
+
   yubikey-manager
   yubikey-manager-qt
   yubikey-agent
