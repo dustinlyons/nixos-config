@@ -4,13 +4,19 @@
 
 # Overview
 
-These are [my](https://twitter.com/dustinhlyons) "dotfiles" written as Nix derivations. My setup involves a Macbook Pro, a NixOS workstation, and a home-lab server running Nix virtual machines. The home-lab server helps me [run my own Dropbox](https://github.com/dustinlyons/nixos-config/blob/main/vm/syncthing/configuration.nix), host my own CI infrastructure, keep spam out of my house, automate stuff, etc. etc. Anyway, it's all here.
+These are "dotfiles" for my
+
+* M1 Macbook Pro, 
+* NixOS workstation, 
+* and VMs running in my home-lab
+
+Continue reading for step-by-step instructions on bootstrapping your first NixOS machine, or use this code as an example.
 
 Some helpful links:
-* [My steps to bootrap a new virtual machine](https://github.com/dustinlyons/nixos-config/blob/main/vm/README.md). The same steps apply if you're starting from scratch on bare metal (i.e no hard disk partition).
+* [My steps to bootstrap a new virtual machine](https://github.com/dustinlyons/nixos-config/blob/main/vm/README.md). The same steps apply if you're starting from scratch on bare metal (i.e, no hard disk partition).
 * My Emacs [literate configuration](https://github.com/dustinlyons/nixos-config/blob/main/common/config/emacs/Emacs.org)
 
-This is over a year's work of continuing to abstract and evolve my day-to-day life, both personally and professionally. Nix and the [communities](https://github.com/nix-community/emacs-overlay) around [nixpkg](https://github.com/NixOS/nixpkgs) really make it enjoyable!
+My NixOS configuration is over a year of continuing to abstract and evolve my daily life, personally and professionally. Nix and the [communities](https://github.com/nix-community/emacs-overlay) around [nixpkg](https://github.com/NixOS/nixpkgs) make it enjoyable!
 
 # Files
 
@@ -20,9 +26,9 @@ This is over a year's work of continuing to abstract and evolve my day-to-day li
 ├── common       # Baseline configurations applicable to all machines
 ├── hardware     # Hardware-specific configuration
 ├── macos        # MacOS and nix-darwin configuration
-├── nixos        # My NixOS desktop related configuration
-├── overlays     # Drop an overlay and it runs. Mainly patches.
-└── vms          # VM specific configs running in my home-lab
+├── nixos        # My NixOS desktop-related configuration
+├── overlays     # Drop an overlay, and it runs. Mainly patches.
+└── vms          # VM-specific configs running in my home-lab
 ```
 
 # Bootstrap New Computer
@@ -40,7 +46,7 @@ nix-channel --update
 ```
 
 
-## Step 2 - For NixOS, create disk partition and install media
+## Step 2 - For NixOS, create a disk partition and install media
 Follow this [step-by-step guide](https://github.com/dustinlyons/nixos-config/blob/main/vm/README.md) for instructions to install using `ZFS` or `ext3`.
 
 
@@ -86,11 +92,11 @@ That's it. You're done.
 
 # Update Computer
 
-## Download latest updates and update lock file
+## Download the latest updates and update lock file
 ```sh
 nix flake update
 ```
-## Run platform specific build
+## Run platform-specific build
 ```sh
 ./bin/darwin-build
 ```
@@ -98,3 +104,6 @@ or
 ```sh
 ./bin/nixos-build
 ```
+
+## You made it this far
+Add me on [Twitter](https://twitter.com/dustinhlyons).
