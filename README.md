@@ -18,7 +18,7 @@ Some helpful links:
 
 My NixOS configuration is over a year of continuing to abstract and evolve my daily life, personally and professionally. Nix and the [communities](https://github.com/nix-community/emacs-overlay) around [nixpkg](https://github.com/NixOS/nixpkgs) make it enjoyable!
 
-# Files
+# Layout
 
 ```
 .
