@@ -5,7 +5,7 @@
 ** About Emacs
 This is my emacs config file. Yes, in emacs you can write configuration like a Google Doc and get away with it. It's called [[https://en.wikipedia.org/wiki/Literate_programming]["literate programming"]].
 
-This configuration drives how I interact with my journal, complete and organize tasks, develop and write blog posts, and write code. Other stuff too. If I can do it in Emacs, I generally do. 
+I do a lot in Emacs. Write and record notes in my journal, complete and organize tasks, develop and write blog posts, and write code. Other stuff too. If I can do it in Emacs, I generally do. 
 
 ** Personal Information
 Just me!
