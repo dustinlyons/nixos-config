@@ -1,11 +1,11 @@
-# Install
+# Installing NixOS from bare metal or virtual machine
 
 ## Overview
 These instructions create the _install media_ used to bootstrap a virtual machine or new computer from USB stick. The instructions below walk you through building and creating the initial install from scratch. Later, we update the machine with all of it's software.
 
 ## Steps to install
 
-First, build the image with `nix-build install-media.nix`. Then, boot the ISO image in your hypervisor of choice.
+First, build the image with `nix-build install-media.nix`. Then, boot the ISO image in your hypervisor of choice or burn to a USB.
 
 For our installation, we need to configure our installation system so that Nix has _just enough_ information to go on, and no more. Nix will detect most settings and do the final heavy lifting.
 
@@ -15,7 +15,7 @@ Don't worry, I go into more detail below.
 
 ### Boot the VM
 ### Partition disks
-I use ZFS, but you can just as easily use ```ext4``` with ```fdisk```. Our first step is to just verify we're ready to work. The _install media_ has everything available for these commands by default. _(If it doesn't, please open an Issue)._
+I use ZFS, but you can just as easily use ```ext4``` with ```fdisk```. Our first step is to just verify we're ready to work. The _install media_ has everything available for these commands by default.
 
 #### Verify we see a disk with no partition
 
@@ -25,13 +25,14 @@ $ lsblk -p
 > Note: You are logged-in automatically as `nixos`. The nixos user account has an empty password so you can use `sudo` without a password.
 
 #### Create and format disk partitions
-Next, let's create our first partition. Move over to `sudo` and bring `sgdisk` into your path.
+Next, let's create our first partition. Move over to `sudo` and bring `sgdisk` into your path. 
+> We're running `nix-shell` here which will magically bring in our dependencies.
 
 ```sh
 $ sudo su -
 $ nix-shell -p gptfdisk
 ```
-We want to create a small partition for the MBR and leave the rest to ZFS. Note, I said MBR, _not_ UEFI. More later. 
+We want to create a small partition for the MBR and leave the rest to ZFS. Note, I said MBR, _not_ UEFI. More later. You'll also want to change the `/dev/disk/by-id` path to whatever you see when viewing the directory in your local terminal.
 
 ```sh
 $ sgdisk -a1 -n2:34:2047 -t2:EF02 /dev/disk/by-id/scsi-0QEMU_QEMU_HARDDISK_drive-scsi0
@@ -46,11 +47,12 @@ This command is a bit archaic so let me breakdown what we're doing.
 
 > As I mentioned, these VMs use the old BIOS MBR, not UEFI. 
 > Why? I use Proxmox and by default it prefers virtual machines use SeaBIOS. I like defaults, so I keep it.
-
-[Learn more](https://pve.proxmox.com/wiki/ZFS_on_Linux) about Proxmox and ZFS.
+> [Learn more](https://pve.proxmox.com/wiki/ZFS_on_Linux) about Proxmox and ZFS.
 
 #### Configure ZFS
 Okay, we have some empty partitions. What next? Let's create the filesystem, which in our case is ZFS. In practice this means creating a "zpool" and ZFS "datasets", which is just ZFS jargon for the basic "container" of filesystems and the filesystems themselves.
+
+> If you don't want ZFS, the most common linux filesystem is ext3. Use `mkfs -t ext3 /dev/path/to/your/partition`. I found [this guide](https://www.computernetworkingnotes.com/linux-tutorials/manage-linux-disk-partition-with-gdisk-command.html). Good luck.
 
 ##### Create zpool
 Create a zpool at the root of `/mnt` using the partition we just created. 
@@ -94,7 +96,7 @@ $ nixos-generate-config --root /mnt
 ```
 
 ### Edit final configuration
-Open the configuration and add any remaining packages, configuration, etc. 99% of the time Nix doesn't detect everything and I have to add in packages or other services.
+Open the configuration and add any remaining packages, configuration, etc. 99% of the time Nix doesn't detect everything and I have to add in packages or other services. Here are [some configs](https://github.com/dustinlyons/nixos-config/tree/main/vm) I use.
 
 > Note: `hardware-configuration.nix` should have all ZFS datasets.
 
