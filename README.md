@@ -25,24 +25,9 @@ This is over a year's work of continuing to abstract and evolve my day-to-day li
 └── vms          # VM specific configs running in my home-lab
 ```
 
-# Update Computer
-
-## Download latest updates and update lock file
-```sh
-nix flake update
-```
-## Run platform specific build
-```sh
-./bin/darwin-build
-```
-or
-```sh
-./bin/nixos-build
-```
-
 # Bootstrap New Computer
 
-## Step 1 - For foreign distros (namely macOS), install Nix package manager
+## Step 1 - For MacOS, install Nix package manager
 Install the nix package manager, add unstable channel:
 ```sh
 sh <(curl -L https://nixos.org/nix/install) --daemon
@@ -98,3 +83,18 @@ ssh-keygen -t ecdsa-sk
 
 ## Step 7 - Reboot computer
 That's it. You're done.
+
+# Update Computer
+
+## Download latest updates and update lock file
+```sh
+nix flake update
+```
+## Run platform specific build
+```sh
+./bin/darwin-build
+```
+or
+```sh
+./bin/nixos-build
+```
