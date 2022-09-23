@@ -1,7 +1,7 @@
 # Install
 
 ## Overview
-These Nix derivations create the _install media_ used to bootstrap a virtual machine. The instructions below walk you through building and creating a VM from scratch.
+These instructions create the _install media_ used to bootstrap a virtual machine or new computer from USB stick. The instructions below walk you through building and creating the initial install from scratch. Later, we update the machine with all of it's software.
 
 ## Steps to install
 
@@ -15,7 +15,7 @@ Don't worry, I go into more detail below.
 
 ### Boot the VM
 ### Partition disks
-I use ZFS, but you can just as easily use ```ext4``` with ```fdisk```. Our first step is to just verify we're ready to work.
+I use ZFS, but you can just as easily use ```ext4``` with ```fdisk```. Our first step is to just verify we're ready to work. The _install media_ has everything available for these commands by default. _(If it doesn't, please open an Issue)._
 
 #### Verify we see a disk with no partition
 
@@ -44,7 +44,8 @@ This command is a bit archaic so let me breakdown what we're doing.
 * `-n2:34:2047` and `-n1:0:0` describes a new partition followed by the assigned number, start and end sectors. So in our example, partition 2 starts at sector 34 and ends at 2047. Partition 1 (the MBR) starts at sector 0 and ends at sector 0 (it's 512 bytes). 
 * `-t1:BF01` and `-t2:EF02` define the partition's type code. For a full list, sgdisk -L. We use `EF02` (BIOS Boot) and `EF02` (Solaris & Apple ZFS).
 
-As I mentioned, these VMs use the old BIOS MBR, not UEFI. Why? I use Proxmox and by default it prefers virtual machines use SeaBIOS. I like defaults, so I keep it.
+> As I mentioned, these VMs use the old BIOS MBR, not UEFI. 
+> Why? I use Proxmox and by default it prefers virtual machines use SeaBIOS. I like defaults, so I keep it.
 
 [Learn more](https://pve.proxmox.com/wiki/ZFS_on_Linux) about Proxmox and ZFS.
 
