@@ -10,7 +10,7 @@ These are "dotfiles" for my
 * NixOS workstation, 
 * and VMs running in my home-lab
 
-Continue reading for step-by-step instructions on bootstrapping your first NixOS machine, or use this code as an example.
+Continue reading to configure your own Nix or NixOS install, or use this code as an example.
 
 Some helpful links:
 * [My steps to bootstrap a new virtual machine](https://github.com/dustinlyons/nixos-config/blob/main/vm/README.md). The same steps apply if you're starting from scratch on bare metal (i.e, no hard disk partition).
