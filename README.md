@@ -59,7 +59,7 @@ nix-channel --add https://github.com/nix-community/home-manager/archive/master.t
 nix-channel --update
 ```
 
-## Step 4 - If macOS, install Darwin dependencies
+## Step 4 - If MacOS, install Darwin dependencies
 Install Xcode CLI tools and nix-darwin:
 ```sh
 xcode-select --install
