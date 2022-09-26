@@ -1,7 +1,7 @@
 # Installing NixOS from bare metal or virtual machine
 
 ## Overview
-These instructions create the _install media_ used to bootstrap a virtual machine or new computer from USB stick. The instructions below walk you through building and creating the initial install from scratch. Later, we update the machine with all of it's software.
+The instructions below walk you through building and creating a NixOS install from scratch. Later, we update the machine with all of it's software.
 
 ## Steps to install
 
@@ -13,7 +13,7 @@ What are we looking to do?
 4. Make final edits and install NixOS
 
 ## 1. Boot NixOS from an ISO, either VM or USB stick
-First, build the image from this directory with `nix-build install/install-media.nix`. This assumes you have Nix installed and are targeting a virtual machine.
+First, build the image with `nix-build install/install-media.nix`. This assumes you have Nix installed and are targeting a virtual machine.
 
 Don't have Nix to run `nix-build`? [Check out the official NixOS ISO.](https://nixos.org/download.html) Burn this ISO to USB, boot it, and get to a terminal screen to continue on with the steps below.
 
@@ -75,7 +75,7 @@ $ zpool create -O mountpoint=none -O atime=off -O compression=on -O xattr=sa -O 
 * Nix doesn’t use `atime`, so `atime=off` on the /nix dataset is fine.
 
 > What is a zpool? ZFS filesystems are built on top of virtual storage pools called zpools. A zpool is constructed of virtual devices (vdevs), which are themselves constructed of block devices: files, hard drive partitions, or entire drives.
-> 
+
 ### Create datasets
 Nix requires `legacy` mountpoint for ZFS so that everything boots in the correct order. `legacy` just means we use "legacy" tools `mount` and `umount` (a few steps down).
 
