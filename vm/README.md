@@ -5,13 +5,15 @@ These instructions create the _install media_ used to bootstrap a virtual machin
 
 ## Steps to install
 
-First, build the image with `nix-build install-media.nix`. Then, boot the ISO image in your hypervisor of choice or burn to a USB.
+First, build the image with `nix-build install-media.nix`. Then, boot the ISO image as a VM in your hypervisor of choice (I use Proxmox) or burn to a USB.
 
-For our installation, we need to configure our installation system so that Nix has _just enough_ information to go on, and no more. Nix will detect most settings and do the final heavy lifting.
+Don't have Nix to run `nix-build`? [Check out the official NixOS ISO.](https://nixos.org/download.html) Burn this ISO to USB, boot it, and get to a terminal screen to continue on with the steps below.
 
-What does this mean in practice? Basically, we need to ensure our disks are partitioned with the filesystem we want and we need to mount our initial NixOS system. Afterwards, running the installer will copy our Nix media from memory to a durable location, i.e the hard disk.
+For our installation, we need to configure our system so that Nix has _just enough_ information to go on, and no more. Nix will detect most settings and do the final heavy lifting.
 
-Don't worry, I go into more detail below.
+> What does this mean in practice? Basically, we need to ensure our disks are partitioned with the filesystem we want and we need to mount our initial NixOS system. 
+> Afterwards, running the installer will copy our Nix media from memory to a durable location, i.e the hard disk.
+> Don't worry, I go into more detail below.
 
 ### Boot the VM
 ### Partition disks
