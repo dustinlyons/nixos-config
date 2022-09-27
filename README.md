@@ -23,7 +23,7 @@ My NixOS configuration is over a year of continuing to abstract and evolve my da
 ```
 .
 ├── bin          # Simple scripts used to wrap the build
-├── common       # Baseline configurations applicable to all machines
+├── common       # Shared configurations applicable to all machines
 ├── hardware     # Hardware-specific configuration
 ├── macos        # MacOS and nix-darwin configuration
 ├── nixos        # My NixOS desktop-related configuration
