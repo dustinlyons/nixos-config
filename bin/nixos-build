@@ -5,6 +5,6 @@ export RED_TERMINAL_OUTPUT='\033[1;31m'
 export CLEAR='\033[0m'
 
 echo -e "${GREEN_TERMINAL_OUTPUT}Starting...${CLEAR}"
-sudo -E nixos-rebuild switch $1
+sudo -E /run/current-system/sw/bin/nixos-rebuild switch $1
 
 echo -e "${GREEN_TERMINAL_OUTPUT}Done!${CLEAR}"
