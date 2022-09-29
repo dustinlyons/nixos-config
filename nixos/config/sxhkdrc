@@ -99,6 +99,9 @@ super + y
 super + @space
 	rofi -config -no-lazy-grab -show drun -modi drun -theme ~/State/Projects/Code/nixos-config/nixos/config/rofi/launcher.rasi
 
+super + c
+	rofi -show calc -modi calc -no-show-match -no-sort -theme ~/State/Projects/Code/nixos-config/nixos/config/rofi/launcher.rasi
+
 # Terminal emulator
 super + Return
 	alacritty
