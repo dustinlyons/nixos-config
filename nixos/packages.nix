@@ -48,7 +48,7 @@ common-packages ++ [
   inotify-tools
   libnotify
 
-  notion-app-enhanced 
+  notion-app-enhanced
   imagemagick
   keepassxc
   libreoffice
