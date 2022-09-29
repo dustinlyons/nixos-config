@@ -48,6 +48,7 @@ common-packages ++ [
   inotify-tools
   libnotify
 
+  notion-app-enhanced 
   imagemagick
   keepassxc
   libreoffice
@@ -70,6 +71,7 @@ common-packages ++ [
 
   qmk
   rofi
+  rofi-calc
   rnix-lsp # lsp-mode for nix
   screenkey
   spotify
@@ -78,7 +80,7 @@ common-packages ++ [
   tdesktop # telegram desktop
   unixtools.ifconfig
   unixtools.netstat
-  xdg_utils
+  xdg-utils
   vlc
   wineWowPackages.stable
 
