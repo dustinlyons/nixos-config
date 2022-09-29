@@ -62,7 +62,6 @@ with pkgs; [
   unrar
   unzip
   vim
-  vscode
   wget
   zip
   zsh-powerlevel10k
