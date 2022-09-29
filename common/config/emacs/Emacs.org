@@ -2,10 +2,16 @@
 #+STARTUP: content
 
 * Configuration   :emacs:
-** About Emacs
-This is my emacs config file. Yes, in emacs you can write configuration like a Google Doc and get away with it. It's called [[https://en.wikipedia.org/wiki/Literate_programming]["literate programming"]].
+** About my Emacs
+This is my detailed Emacs configuration. It's an ~org~ file that is transpiled to ~emacs-lisp~ as part of the Nix build process. 
 
-This configuration drives how I interact with my journal, complete and organize tasks, develop and write blog posts, and write code. Other stuff too. If I can do it in Emacs, I generally do. 
+#+BEGIN_QUOTE
+Why an org file? My Emacs config is large, and this enables me to greatly improve readability of its documentation. Sounds complicated, but it's really not; [[https://github.com/dustinlyons/nixos-config/blob/main/nixos/default.nix#L215][just one line]] in my Nix config. [[https://github.com/dustinlyons/nixos-config/blob/main/macos/default.nix#L28][MacOS too.]] 
+#+END_QUOTE
+
+/Each block of code below is the actual Emacs configuration./
+
+Formally, this style of configuration is called [[https://en.wikipedia.org/wiki/Literate_programming]["literate programming"]]. It's also popular for large Notebook-style projects used by Data Scientists.
 
 ** Personal Information
 Just me!

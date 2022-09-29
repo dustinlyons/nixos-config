@@ -1,37 +1,47 @@
-# Install
+# Installing NixOS from bare metal or virtual machine
 
 ## Overview
-These Nix derivations create the _install media_ used to bootstrap a virtual machine. The instructions below walk you through building and creating a VM from scratch.
+The instructions below walk you through building and creating a NixOS install from scratch. Later, we update the machine with all of it's software.
 
 ## Steps to install
 
-First, build the image with `nix-build install-media.nix`. Then, boot the ISO image in your hypervisor of choice.
+What are we looking to do?
 
-For our installation, we need to configure our installation system so that Nix has _just enough_ information to go on, and no more. Nix will detect most settings and do the final heavy lifting.
+1. Boot NixOS from an ISO, either VM or USB stick
+2. Partition and format your hard drive
+3. Mount the new partition
+4. Make final edits and install NixOS
 
-What does this mean in practice? Basically, we need to ensure our disks are partitioned with the filesystem we want and we need to mount our initial NixOS system. Afterwards, running the installer will copy our Nix media from memory to a durable location, i.e the hard disk.
+## 1. Boot NixOS from an ISO, either VM or USB stick
+First, build the image with `nix-build install/install-media.nix`. This assumes you have Nix installed and are targeting a virtual machine.
 
-Don't worry, I go into more detail below.
+Don't have Nix to run `nix-build`? [Check out the official NixOS ISO.](https://nixos.org/download.html) Burn this ISO to USB, boot it, and get to a terminal screen to continue on with the steps below.
 
-### Boot the VM
-### Partition disks
-I use ZFS, but you can just as easily use ```ext4``` with ```fdisk```. Our first step is to just verify we're ready to work.
+For our installation, we need to configure our system so that Nix has _just enough_ information to go on, and no more. Nix will detect most settings and do the final heavy lifting.
 
-#### Verify we see a disk with no partition
+> What does this mean in practice? Basically, we need to ensure our disks are partitioned with the filesystem we want and we need to mount our initial NixOS system. 
+> Afterwards, running the installer will copy our Nix media from memory to a durable location, i.e the hard disk.
+> Don't worry, I go into more detail below.
+
+## 2. Partition and format your hard drive
+I use ZFS, but you can just as easily use ```ext4``` with ```fdisk```. Our first step is to just verify we're ready to work. The _install media_ has everything available for these commands by default.
+
+### Verify we see a disk with no partition
 
 ```sh
 $ lsblk -p
 ```
 > Note: You are logged-in automatically as `nixos`. The nixos user account has an empty password so you can use `sudo` without a password.
 
-#### Create and format disk partitions
-Next, let's create our first partition. Move over to `sudo` and bring `sgdisk` into your path.
+### Create and format disk partitions
+Next, let's create our first partition. Move over to `sudo` and bring `sgdisk` into your path. 
+> We're running `nix-shell` here which will magically bring in our dependencies.
 
 ```sh
 $ sudo su -
 $ nix-shell -p gptfdisk
 ```
-We want to create a small partition for the MBR and leave the rest to ZFS. Note, I said MBR, _not_ UEFI. More later. 
+We want to create a small partition for the MBR and leave the rest to ZFS. Note, I said MBR, _not_ UEFI. More later. You'll also want to change the `/dev/disk/by-id` path to whatever you see when viewing the directory in your local terminal.
 
 ```sh
 $ sgdisk -a1 -n2:34:2047 -t2:EF02 /dev/disk/by-id/scsi-0QEMU_QEMU_HARDDISK_drive-scsi0
@@ -44,14 +54,15 @@ This command is a bit archaic so let me breakdown what we're doing.
 * `-n2:34:2047` and `-n1:0:0` describes a new partition followed by the assigned number, start and end sectors. So in our example, partition 2 starts at sector 34 and ends at 2047. Partition 1 (the MBR) starts at sector 0 and ends at sector 0 (it's 512 bytes). 
 * `-t1:BF01` and `-t2:EF02` define the partition's type code. For a full list, sgdisk -L. We use `EF02` (BIOS Boot) and `EF02` (Solaris & Apple ZFS).
 
-As I mentioned, these VMs use the old BIOS MBR, not UEFI. Why? I use Proxmox and by default it prefers virtual machines use SeaBIOS. I like defaults, so I keep it.
+> As I mentioned, these VMs use the old BIOS MBR, not UEFI. 
+> Why? I use Proxmox and by default it prefers virtual machines use SeaBIOS. I like defaults, so I keep it.
+> [Learn more](https://pve.proxmox.com/wiki/ZFS_on_Linux) about Proxmox and ZFS.
 
-[Learn more](https://pve.proxmox.com/wiki/ZFS_on_Linux) about Proxmox and ZFS.
-
-#### Configure ZFS
+### Configure ZFS
 Okay, we have some empty partitions. What next? Let's create the filesystem, which in our case is ZFS. In practice this means creating a "zpool" and ZFS "datasets", which is just ZFS jargon for the basic "container" of filesystems and the filesystems themselves.
 
-##### Create zpool
+> If you don't want ZFS, the most common linux filesystem is ext3. Use `mkfs -t ext3 /dev/path/to/your/partition`. I found [this guide](https://www.computernetworkingnotes.com/linux-tutorials/manage-linux-disk-partition-with-gdisk-command.html). Good luck.
+
 Create a zpool at the root of `/mnt` using the partition we just created. 
 
 Note, we choose `/mnt` as the root (-R) because by default, NixOS will look for a mounted partition at this location to perform install. This happens on our final step, `nixos-install`.
@@ -63,7 +74,9 @@ $ zpool create -O mountpoint=none -O atime=off -O compression=on -O xattr=sa -O 
 * The dataset containing journald’s logs (where /var lives) should have `xattr=sa` and `acltype=posixacl` set to allow regular users to read their journal.
 * Nix doesn’t use `atime`, so `atime=off` on the /nix dataset is fine.
 
-##### Create datasets
+> What is a zpool? ZFS filesystems are built on top of virtual storage pools called zpools. A zpool is constructed of virtual devices (vdevs), which are themselves constructed of block devices: files, hard drive partitions, or entire drives.
+
+### Create datasets
 Nix requires `legacy` mountpoint for ZFS so that everything boots in the correct order. `legacy` just means we use "legacy" tools `mount` and `umount` (a few steps down).
 
 ```sh
@@ -72,8 +85,8 @@ $ zfs create -o mountpoint=legacy rpool/root/nixos
 $ zfs create -o mountpoint=legacy rpool/home
 $ zfs create -o mountpoint=legacy rpool/data
 ```
-
-##### Mount datasets
+## 3. Mount the new partition
+### Mount datasets
 We need to grab the NixOS installation media and mount it locally, so that Nix can detect it. Additionally, we need to mount our other datasets.
 
 ```sh
@@ -85,7 +98,7 @@ $ mount -t zfs rpool/home /mnt/home
 $ mount -t zfs rpool/data /mnt/data
 ```
 
-### Generate Nix configuration
+## 4. Make final edits and install NixOS
 Generate the configuration at `/mnt`, where the filesystem was mounted for Nix to do it's installation.
 
 ```sh
@@ -93,7 +106,7 @@ $ nixos-generate-config --root /mnt
 ```
 
 ### Edit final configuration
-Open the configuration and add any remaining packages, configuration, etc. 99% of the time Nix doesn't detect everything and I have to add in packages or other services.
+Open the configuration and add any remaining packages, configuration, etc. 99% of the time Nix doesn't detect everything and I have to add in packages or other services. Here are [some configs](https://github.com/dustinlyons/nixos-config/tree/main/vm) I use.
 
 > Note: `hardware-configuration.nix` should have all ZFS datasets.
 
