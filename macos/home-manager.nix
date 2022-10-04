@@ -51,7 +51,7 @@ let
   homebrew.enable = true;
   homebrew.onActivation = {
 	autoUpdate = true;
-	cleanup = "uninstall";
+	cleanup = "zap";
 	upgrade = true;
   };
   homebrew.brewPrefix = "/opt/homebrew/bin";
