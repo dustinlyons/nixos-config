@@ -66,6 +66,9 @@ common-packages ++ [
   pinentry-curses
   postgresql
 
+  # games
+  steam
+
   # Our file browser
   pcmanfm
 
