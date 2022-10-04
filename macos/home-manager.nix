@@ -62,7 +62,6 @@ let
     "hidden-bar" = 1452453066;
     "tailscale" = 1475387142;
     "yoink" = 457622435;
-    "calendars" = 608834326;
   };
 
   home-manager = {
