@@ -90,7 +90,7 @@ Ivy and associated helpers that uses the minibuffer. Ivy describes itself as "a 
       (prescient-persist-mode 1))
 
   (use-package ivy
-    :bind (("C-s" . swiper)
+    :bind (("C-s" . swiper-all)
     :map ivy-minibuffer-map
       ("TAB" . ivy-partial-or-done)
       ("C-f" . ivy-alt-done)
@@ -1101,7 +1101,7 @@ Everything related to M-x compile.
 #+BEGIN_SRC emacs-lisp
 (use-package lsp-grammarly
   :ensure t
-  :hook (text-mode . (lambda ()
+  :hook (markdown-mode . (lambda ()
                        (require 'lsp-grammarly)
                        (lsp))))  ; or lsp-deferred
 #+END_SRC
