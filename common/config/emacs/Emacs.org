@@ -145,6 +145,16 @@ I use general.el to define groups of keybindings under my 'leader' definition. Y
         :prefix ","))
 #+END_SRC
 
+**** Emacs cleanup
+Helpful keybindings to help keep Emacs sane.
+
+#+NAME: emacs-cleanup
+#+BEGIN_SRC emacs-lisp
+  (dl/leader-keys
+    "k"  '(:ignore k :which-key "cleanup")
+    "kk" '(kill-some-buffers :which-key "cleanup buffers"))
+#+END_SRC
+
 **** Toggles
 Turn UI things on and off, scale things up and down.
 
