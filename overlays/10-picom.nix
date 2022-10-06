@@ -1,10 +1,10 @@
 final: prev: {
   picom = prev.picom.overrideAttrs (old: {
     src = prev.fetchFromGitHub {
-      owner = "mebenstein";
+      owner = "dccsillag";
       repo = "picom";
-      rev = "b68488273e3274436eda1b714d1fa57824cf9e4a";
-      sha256 = "HIZ9/zKlpgwogue/ranOlVpWSCoZ+xhLVx245QlgTIU=";
+      rev = "51b21355696add83f39ccdb8dd82ff5009ba0ae5";
+      sha256 = "crCwRJd859DCIC0pEerpDqdX2j8ZrNAzVaSSB3mTPN8=";
     };
   });
 }
