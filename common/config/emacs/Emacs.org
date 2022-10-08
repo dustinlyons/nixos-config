@@ -48,6 +48,7 @@ This associates our package manager with the right source (MELPA).
 
 *** System Definitions
 **** Conditionals
+
 #+BEGIN_SRC emacs-lisp
 (defun system-is-mac ()
   "Return true if system is darwin-based (Mac OS X)"
@@ -194,42 +195,6 @@ Various helpers and packages I find useful for window management.
 *** Gutter
 **** Line numbers
 These functions define vim-style relative line numbers.
-
-#+NAME: line-numbers
-#+BEGIN_SRC emacs-lisp
-  (global-linum-mode 1)
-
-  (when (system-is-linux)
-    (set-face-attribute 'linum nil :font "Hack" :foreground "#757b8a" :height 100))
-  (when (system-is-mac)
-    (set-face-attribute 'linum nil :font "Hack" :foreground "#757b8a" :height 130))
-
-  (defvar my-linum-current-line-number 0)
-  (setq linum-format 'my-linum-relative-line-numbers)
-
-  ;; This fancy function handles the math behind relative line numbers
-  (defun my-linum-relative-line-numbers (line-number)
-  (let ((y (1+ (- line-number my-linum-current-line-number))))
-      (propertize
-      (number-to-string
-          (cond ((<= y 0) (abs (- y 2))) ((> y 0) y)))
-          'face 'linum)))
-
-  (defadvice linum-update (around my-linum-update)
-  (let ((my-linum-current-line-number (line-number-at-pos)))
-      ad-do-it))
-
-  ;; Turn it on
-  (ad-activate 'linum-update)
-
-  ;; Disable line numbers for some modes
-  (dolist (mode '(org-mode-hook
-                  term-mode-hook
-                  treemacs-mode-hook
-                  shell-mode-hook
-                  eshell-mode-hook))
-    (add-hook mode (lambda () (linum-mode 0))))
-#+END_SRC
 
 *** Modes
 **** Window minor modes
