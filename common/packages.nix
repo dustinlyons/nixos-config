@@ -43,10 +43,11 @@ with pkgs; [
   nodePackages.live-server
   nodePackages.npm
   nodejs
+  ngrok
   openssh
   pandoc
   pinentry
-  python3Full
+  python3
   virtualenv
   ranger
   ripgrep
