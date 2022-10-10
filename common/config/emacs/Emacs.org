@@ -171,6 +171,7 @@ Turn UI things on and off, scale things up and down.
     "t"  '(:ignore t :which-key "toggles")
     "tt" '(treemacs :which-key "toggle treemacs")
     "to" '(treemacs-select-window :which-key "select treemacs")
+    "tw" '(treemacs-toggle-fixed-width :which-key "size treemacs")
     "th" '(counsel-load-theme :which-key "choose theme")
     "tl" '(flymake-show-buffer-diagnostics :which-key "lsp buffer")
     "ts" '(hydra-text-scale/body :which-key "scale text"))
@@ -1074,11 +1075,7 @@ Everything related to M-x compile.
 **** Grammarly
 #+NAME: grammarly-mode
 #+BEGIN_SRC emacs-lisp
-(use-package lsp-grammarly
-  :ensure t
-  :hook (markdown-mode . (lambda ()
-                       (require 'lsp-grammarly)
-                       (lsp))))  ; or lsp-deferred
+(use-package lsp-grammarly)
 #+END_SRC
 
 **** Markdown
