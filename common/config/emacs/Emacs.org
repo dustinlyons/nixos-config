@@ -208,7 +208,7 @@ I like these window related minor modes.
   ;; move these into custom file and set variable custom-file
   (column-number-mode)
   (scroll-bar-mode 0)
-  (menu-bar-mode 0)
+  (menu-bar-mode -1)
   (tool-bar-mode 0)
   (winner-mode 1) ;; ctrl-c left, ctrl-c right for window undo/redo
 #+END_SRC
@@ -1004,7 +1004,8 @@ Everything related to spell and grammar checking.
 
   (add-hook 'git-commit-mode-hook 'turn-on-flyspell)
   (add-hook 'text-mode-hook 'flyspell-mode)
-  (add-hook 'org-mode-hook 'flyspell-mode)
+  ;; Disable this for now, doesn't play well with long literate configuration
+  ;;(add-hook 'org-mode-hook 'flyspell-mode)
   (add-hook 'prog-mode-hook 'flyspell-prog-mode)
 
   (defun spell() (interactive) (flyspell-mode 1))
@@ -1164,6 +1165,11 @@ Rainbow mode is an Emacs minor mode to highlight the color shown by a RGB hex tr
 **** Javascript / Typescript
 #+NAME: javascript
 #+BEGIN_SRC emacs-lisp
+  (straight-use-package
+   '(prisma-mode :type git :host github :repo "pimeys/emacs-prisma-mode"))
+  (use-package prisma-mode
+    :straight t)
+
   (use-package web-mode
     :hook (web-mode . lsp-deferred))
 
