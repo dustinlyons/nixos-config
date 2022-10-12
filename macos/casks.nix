@@ -14,7 +14,6 @@
   "diffusionbee"
   "shottr"
   "telegram"
-  "homebrew/cask/transmission"
   "vlc"
   "visual-studio-code"
 ]
