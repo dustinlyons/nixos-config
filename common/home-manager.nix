@@ -76,7 +76,7 @@
     enable = true;
     ignores = [ "*.swp" ];
     userName = "Dustin Lyons";
-    userEmail = "hello@dustinlyons.co";
+    userEmail = "dustin@dlyons.dev";
     lfs = {
       enable = true;
     };
@@ -87,6 +87,7 @@
 	editor = "vim";
         autocrlf = "input";
       };
+      commit.gpgsign = true;
       pull.rebase = true;
       rebase.autoStash = true;
     };
