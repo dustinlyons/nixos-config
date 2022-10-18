@@ -60,14 +60,6 @@ This associates our package manager with the right source (MELPA).
 
 #+END_SRC
 
-*** Hydra framework
-Hydra enables me drop into quick keybinding modes. See [[https://github.com/abo-abo/hydra][here]].
-
-#+NAME: hydra
-#+BEGIN_SRC emacs-lisp
-(use-package hydra)
-#+END_SRC
-
 *** Counsel/Ivy framework
 Ivy and associated helpers that uses the minibuffer. Ivy describes itself as "a generic completion mechanism for Emacs." Basically, it's a prettier popup window to input Emacs commands. I've defined this to show at the bottom of the screen, which is conveniently also the default.
 
@@ -161,12 +153,6 @@ Turn UI things on and off, scale things up and down.
 
 #+NAME: ui-toggles
 #+BEGIN_SRC emacs-lisp
-  (defhydra hydra-text-scale (:timeout 4)
-    "scale text"
-    ("j" text-scale-increase "big")
-    ("k" text-scale-decrease "small")
-    ("q" nil "quit" :exit t))
-
   (dl/leader-keys
     "t"  '(:ignore t :which-key "toggles")
     "tt" '(treemacs :which-key "toggle treemacs")
@@ -174,7 +160,6 @@ Turn UI things on and off, scale things up and down.
     "tw" '(treemacs-toggle-fixed-width :which-key "size treemacs")
     "th" '(counsel-load-theme :which-key "choose theme")
     "tl" '(flymake-show-buffer-diagnostics :which-key "lsp buffer")
-    "ts" '(hydra-text-scale/body :which-key "scale text"))
 #+END_SRC
 
 ***** Rotate windows
@@ -318,29 +303,29 @@ Sets some reasonable defaults.
 
 #+NAME: windows-reasonable-defaults
 #+BEGIN_SRC emacs-lisp
-  (when window-system (set-frame-size (selected-frame) 120 60))
-    (setq use-dialog-box nil
-        use-file-dialog nil
-        cursor-type 'bar)
-    (add-to-list 'default-frame-alist '(height . 80))
-    (add-to-list 'default-frame-alist '(width . 160))
-
-  (setq default-background (face-attribute 'default :background))
-
-  (defun set-window-padding ()
-    (setq-default left-margin-width 2 right-margin-width 2) ; Define new widths.
-    (set-window-buffer nil (current-buffer)) ; Use them now
-    (set-face-background 'header-line default-background))
-    (when (system-is-linux)
-      (setq header-line-format " "))
-    (set-face-attribute 'header-line nil :height 1.0)
-
-  (add-hook 'org-mode-hook 'set-window-padding)
-  (add-hook 'conf-mode-hook 'set-window-padding)
-  (add-hook 'prog-mode-hook 'set-window-padding)
-  (add-hook 'flymake-buffer-diagnostic-mode-hook 'set-window-padding)
-  (add-hook 'text-mode-hook 'set-window-padding)
-  (add-hook 'treemacs-mode-hook 'set-window-padding)
+;;  (when window-system (set-frame-size (selected-frame) 120 60))
+;;    (setq use-dialog-box nil
+;;        use-file-dialog nil
+;;        cursor-type 'bar)
+;;    (add-to-list 'default-frame-alist '(height . 80))
+;;    (add-to-list 'default-frame-alist '(width . 160))
+;;
+;;  (setq default-background (face-attribute 'default :background))
+;;
+;;  (defun set-window-padding ()
+;;    (setq-default left-margin-width 2 right-margin-width 2) ; Define new widths.
+;;    (set-window-buffer nil (current-buffer)) ; Use them now
+;;    (set-face-background 'header-line default-background))
+;;    (when (system-is-linux)
+;;      (setq header-line-format " "))
+;;    (set-face-attribute 'header-line nil :height 1.0)
+;;
+;;  (add-hook 'org-mode-hook 'set-window-padding)
+;;  (add-hook 'conf-mode-hook 'set-window-padding)
+;;  (add-hook 'prog-mode-hook 'set-window-padding)
+;;  (add-hook 'flymake-buffer-diagnostic-mode-hook 'set-window-padding)
+;;  (add-hook 'text-mode-hook 'set-window-padding)
+;;  (add-hook 'treemacs-mode-hook 'set-window-padding)
 #+END_SRC
 
 **** Fonts
@@ -929,6 +914,7 @@ Configuration related to filesystem, either basic IO and interaction from emacs 
 #+END_SRC
 
 *** Images
+Quickly work with images over drag-and-drop or the clipboard. [[https://github.com/abo-abo/org-download][Link to Project README]].
 #+NAME: org-download-copy
 #+BEGIN_SRC emacs-lisp
   (use-package org-download)
@@ -1058,8 +1044,8 @@ Everything related to M-x compile.
     :hook (company-mode . company-box-mode))
 
   ;; bug in emacs https://github.com/emacs-lsp/lsp-mode/issues/2525
-  (setq lsp-headerline-breadcrumb-enable nil)
-  (add-hook 'lsp-mode-hook #'lsp-headerline-breadcrumb-mode)
+  ;;(setq lsp-headerline-breadcrumb-enable nil)
+  ;;(add-hook 'lsp-mode-hook #'lsp-headerline-breadcrumb-mode)
 #+END_SRC
 
 *** Languages
@@ -1092,31 +1078,16 @@ Everything related to M-x compile.
 #+END_SRC
 
 **** HTML
-***** Emmet mode
-Emmet mode gives autocompletion for HTML tags using short hand notations, which for I use the TAB key.
-
-#+NAME: html-auto-completion
-#+BEGIN_SRC emacs-lisp
-
-(use-package emmet-mode)
-(add-hook 'sgml-mode-hook 'emmet-mode)
-(add-hook 'css-mode-hook  'emmet-mode)
-(define-key emmet-mode-keymap [tab] 'emmet-expand-line)
-
-#+END_SRC
-
 ***** Web mode
 Emmet mode gives autocompletion for HTML tags using short hand notations, which for I use the TAB key.
 
 #+NAME: html-auto-completion
 #+BEGIN_SRC emacs-lisp
-
 (use-package emmet-mode)
 (add-hook 'sgml-mode-hook 'emmet-mode)
 (add-hook 'css-mode-hook  'emmet-mode)
 (define-key emmet-mode-keymap [tab] 'emmet-expand-line)
 (add-to-list 'emmet-jsx-major-modes 'jsx-mode)
-
 #+END_SRC
 
 ***** Rainbow mode
@@ -1232,16 +1203,6 @@ Nix is my package manager and operating system of choice; this mode enables me t
   (add-to-list 'auto-mode-alist '("\\.tf?$" . terraform-mode)) ;; auto-enable for .tf files
 #+END_SRC
 
-** Writing
-*** Update Table of Contents on Save
-
-I use =org-make-toc= to automatically update the Table of Contents in any header with a property named =TOC=.
-
-#+begin_src emacs-lisp
-  (use-package org-make-toc)
-  (add-hook 'org-mode-hook #'org-make-toc-mode)
-#+end_src
-
 ** Learning Emacs
 These packages may come and go, but ultimately aid in my understanding of emacs and emacs lisp.
 
@@ -1260,8 +1221,8 @@ These packages may come and go, but ultimately aid in my understanding of emacs 
 
 **** Indent blocks, set max region of output
 #+BEGIN_SRC emacs-lisp
-  (setq org-src-tab-acts-natively nil)
-  (setq org-table-convert-region-max-lines 9999)
+  ;;(setq org-src-tab-acts-natively nil)
+  ;;(setq org-table-convert-region-max-lines 9999)
 #+END_SRC
 
 **** ANSI color codes in org babel shell output
@@ -1284,7 +1245,6 @@ Found [[https://emacs.stackexchange.com/questions/44664/apply-ansi-color-escape-
   ;; Gives me a fancy list of commands I run
   (use-package command-log-mode)
   (setq global-command-log-mode t)
-  ;; TODO Install package that lets you define help screens for keymaps
 #+END_SRC
 
 *** Panel popup to show key bindings
