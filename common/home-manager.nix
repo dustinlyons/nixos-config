@@ -57,7 +57,6 @@
 
     # bat all the things
     alias cat=bat
-    alias more=bat
 
     # Use difftastic, syntax-aware diffing
     alias diff=difft
