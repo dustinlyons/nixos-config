@@ -36,12 +36,6 @@
 
   environment.systemPackages = with pkgs; [] ++ (import ../common/packages.nix { pkgs = pkgs; });
 
-#    (emacsWithPackagesFromUsePackage {
-#      config = ../common/config/emacs/Emacs.org;
-#     package = emacsNativeComp;
-#     alwaysEnsure = true;
-#   })
-
   # Enable fonts dir
   fonts.fontDir.enable = true;
 
