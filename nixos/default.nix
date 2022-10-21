@@ -39,7 +39,8 @@
   services.xserver.enable = true;
   services.xserver.videoDrivers = [ "nvidia" ];
 
-  # Sometimes I need to SSH into this machine
+  # Sometimes I need to SSH into this machine, usually to reboot into Windows
+  # from my couch for better SteamOS compatibility
   services.openssh = {
     enable = true;
     passwordAuthentication = false;

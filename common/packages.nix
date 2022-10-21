@@ -20,14 +20,13 @@ with pkgs; [
   fzf
   font-awesome
   gcc
-  gh
+  gh # github
   git-filter-repo
-  glow
+  glow # CLI markdown viewer
   gnupg
   google-cloud-sdk
   gopls
   hack-font
-  highlight
   home-manager
   htop
   hunspell
@@ -49,13 +48,11 @@ with pkgs; [
   pinentry
   python3
   virtualenv
-  ranger
   ripgrep
   roboto
   slack
   sqlite
   ssm-session-manager-plugin
-  tealdeer
   terraform
   terraform-ls
   tree
@@ -66,5 +63,5 @@ with pkgs; [
   wget
   zip
   zsh-powerlevel10k
-  meslo-lgs-nf
+  meslo-lgs-nf # Meslo Nerd Font patch for powerlevel10
 ]
