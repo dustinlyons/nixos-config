@@ -6,6 +6,6 @@ export CLEAR='\033[0m'
 
 echo -e "${GREEN_TERMINAL_OUTPUT}Starting...${CLEAR}"
 /run/current-system/sw/bin/nix flake update
-/run/current-system/sw/bin/nixos-rebuild switch $1
+/run/current-system/sw/bin/nixos-rebuild switch $@
 
 echo -e "${GREEN_TERMINAL_OUTPUT}Done!${CLEAR}"
