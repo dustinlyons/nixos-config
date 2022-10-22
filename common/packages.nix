@@ -59,7 +59,6 @@ with pkgs; [
   tmux
   unrar
   unzip
-  vim
   wget
   zip
   zsh-powerlevel10k
