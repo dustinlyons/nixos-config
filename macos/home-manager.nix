@@ -1,7 +1,7 @@
 { config, pkgs, lib, ... }:
 
 let
-  common-programs = import ../common/home-manager.nix { pkgs = pkgs; lib = lib; }; in
+  common-programs = import ../common/home-manager.nix { config = config; pkgs = pkgs; lib = lib; }; in
 {
   imports = [
     <home-manager/nix-darwin>

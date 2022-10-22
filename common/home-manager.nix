@@ -285,7 +285,7 @@
         # Use XDG data directory
         # https://github.com/tmux-plugins/tmux-resurrect/issues/348
         extraConfig = ''
-          set -g @resurrect-dir '${config.home.homeDirectory}/State/.tmux/resurrect'
+          set -g @resurrect-dir '$HOME/State/.tmux/resurrect'
           set -g @resurrect-capture-pane-contents 'on'
           set -g @resurrect-strategy-vim 'session'
           set -g @resurrect-pane-contents-area 'visible'
