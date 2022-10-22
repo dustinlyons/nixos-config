@@ -1,7 +1,6 @@
-{ pkgs, lib, ... }:
+{ config, pkgs, lib, ... }:
 
 {
-
   go.enable = true;
   zsh.enable = true;
   zsh.autocd = false;
@@ -269,9 +268,39 @@
 
   tmux = {
     enable = true;
-    plugins = with pkgs.tmuxPlugins; [ vim-tmux-navigator sensible yank continuum resurrect ];
+    plugins = with pkgs.tmuxPlugins; [
+      vim-tmux-navigator
+      sensible
+      yank
+      prefix-highlight
+      {
+        plugin = power-theme;
+        extraConfig = ''
+           set -g @tmux_power_theme 'gold'
+        '';
+      }
+      {
+        plugin = resurrect; # Used by tmux-continuum
+
+        # Use XDG data directory
+        # https://github.com/tmux-plugins/tmux-resurrect/issues/348
+        extraConfig = ''
+          set -g @resurrect-dir '${config.home.homeDirectory}/State/.tmux/resurrect'
+          set -g @resurrect-capture-pane-contents 'on'
+          set -g @resurrect-strategy-vim 'session'
+          set -g @resurrect-pane-contents-area 'visible'
+        '';
+      }
+      {
+        plugin = continuum;
+        extraConfig = ''
+          set -g @continuum-restore 'on'
+          set -g @continuum-save-interval '20' # minutes
+        '';
+      }
+    ];
     terminal = "screen-256color";
-    prefix = "`";
+    prefix = "C-x";
     escapeTime = 10;
     historyLimit = 50000;
     extraConfig = ''
@@ -290,18 +319,18 @@
       unbind '"'
       unbind %
 
-      # Split panes
+      # Split panes, vertical or horizontal
       bind-key x split-window -v
       bind-key v split-window -h
 
-      # Move around panes with ALT + arrow keys
-      bind-key -n M-Up select-pane -U
-      bind-key -n M-Left select-pane -L
-      bind-key -n M-Down select-pane -D
-      bind-key -n M-Right select-pane -R
+      # Move around panes with vim-like bindings (h,j,k,l)
+      bind-key -n M-k select-pane -U
+      bind-key -n M-h select-pane -L
+      bind-key -n M-j select-pane -D
+      bind-key -n M-l select-pane -R
 
       # Smart pane switching with awareness of Vim splits.
-      # See: https://github.com/christoomey/vim-tmux-navigator
+      # This is copy paste from https://github.com/christoomey/vim-tmux-navigator
       is_vim="ps -o state= -o comm= -t '#{pane_tty}' \
         | grep -iqE '^[^TXZ ]+ +(\\S+\\/)?g?(view|n?vim?x?)(diff)?$'"
       bind-key -n 'C-h' if-shell "$is_vim" 'send-keys C-h'  'select-pane -L'

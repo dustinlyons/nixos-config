@@ -1,8 +1,8 @@
-{ pkgs, lib, ... }:
+{ config, pkgs, lib, ... }:
 
 let
   home = builtins.getEnv "HOME";
-  common-programs = import ../common/home-manager.nix { pkgs = pkgs; lib = lib; };
+  common-programs = import ../common/home-manager.nix { config = config; pkgs = pkgs; lib = lib; };
   polybar-bars = builtins.readFile ./config/polybar/bars.ini;
   polybar-colors = builtins.readFile ./config/polybar/colors.ini;
   polybar-modules = builtins.readFile ./config/polybar/modules.ini;
