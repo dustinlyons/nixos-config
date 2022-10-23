@@ -2,7 +2,6 @@
 
 [
   "appcleaner"
-  "brave-browser"
   "discord"
   "homebrew/cask/docker"
   "google-chrome"
@@ -12,11 +11,9 @@
   "raycast"
   "slack"
   "syncthing"
+  "diffusionbee"
   "shottr"
-  "spotify"
-  "sunsama"
   "telegram"
-  "homebrew/cask/transmission"
   "vlc"
   "visual-studio-code"
 ]

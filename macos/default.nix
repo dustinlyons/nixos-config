@@ -9,15 +9,14 @@
 
   # Auto upgrade nix package and the daemon service.
   services.nix-daemon.enable = true;
-  services.activate-system.enable = true;
 
   # Setup user, packages, programs
   nix = {
-    trustedUsers = [ "@admin" "dustin" ];
     package = pkgs.nixUnstable;
+    settings.trusted-users = [ "@admin" "dustin" ];
     gc.user = "root";
-    # Highly recommend adding these to save keystrokes
-    # at the command line
+
+    # Turn this on to make command line easier
     extraOptions = ''
       experimental-features = nix-command flakes
     '';
@@ -26,13 +25,16 @@
   # Turn off NIX_PATH warnings now that we're using flakes
   system.checks.verifyNixPath = false;
 
-  environment.systemPackages = with pkgs; [
-    (emacsWithPackagesFromUsePackage {
-      config = ../common/config/emacs/Emacs.org;
-      package = emacsGcc;
-      alwaysEnsure = true;
-    })
-  ] ++ (import ../common/packages.nix { pkgs = pkgs; });
+  services.emacs = {
+    enable = true;
+    package = pkgs.emacsWithPackagesFromUsePackage {
+     config = ../common/config/emacs/Emacs.org;
+     package = pkgs.emacsNativeComp;
+     alwaysEnsure = true;
+   };
+  };
+
+  environment.systemPackages = with pkgs; [] ++ (import ../common/packages.nix { pkgs = pkgs; });
 
   # Enable fonts dir
   fonts.fontDir.enable = true;
@@ -58,7 +60,7 @@
         InitialKeyRepeat = 15;
 
         "com.apple.mouse.tapBehavior" = 1;
-        "com.apple.sound.beep.volume" = "0.0";
+        "com.apple.sound.beep.volume" = 0.0;
         "com.apple.sound.beep.feedback" = 0;
       };
 

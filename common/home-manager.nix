@@ -1,20 +1,28 @@
-{ pkgs, ... }:
+{ config, pkgs, lib, ... }:
 
 {
-
   go.enable = true;
-
   zsh.enable = true;
   zsh.autocd = false;
   zsh.cdpath = [ "~/State/Projects/Code/" ];
 
   zsh.dirHashes = {
-    Code = "$HOME/State/Projects/Code";
-    Config = "$HOME/State/Projects/Code/nixos-config";
-    Downloads = "$HOME/State/Inbox/Downloads";
-    Screenshots = "$HOME/State/Inbox/Screenshots";
-    Wallpaper = "$HOME/State/Resources/Wallpaper";
+    code = "$HOME/State/Projects/Code";
+    nixos-config = "$HOME/State/Projects/Code/nixos-config";
   };
+
+  zsh.plugins = [
+    {
+        name = "powerlevel10k";
+        src = pkgs.zsh-powerlevel10k;
+        file = "share/zsh-powerlevel10k/powerlevel10k.zsh-theme";
+    }
+    {
+        name = "powerlevel10k-config";
+        src = lib.cleanSource ./config;
+        file = "p10k.zsh";
+    }
+  ];
 
   zsh.initExtraFirst = ''
     if [[ -f /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh ]]; then
@@ -27,19 +35,30 @@
     export NVM_DIR="$HOME/.nvm"
     [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
 
-    # Open file window from within terminal
-    if [[ uname != "Darwin" ]]; then
-      alias open='nautilus --browser . > /dev/null 2>&1 &'
-    fi
+    # Cypress is a dev toom for end-to-end testing
+    export CYPRESS_INSTALL_BINARY=0
+    export CYPRESS_RUN_BINARY=$(which Cypress)
 
-    # Ranger is a terminal app to browse files
-    alias r='ranger'
+    # Remove history data we don't want to see
+    export HISTIGNORE="pwd:ls:cd"
 
-    # javascript things
-    alias yarn=~/.npm-new-global/bin/yarn
+    # Emacs is my editor
+    export ALTERNATE_EDITOR=""
+    export EDITOR="emacsclient -t"
+    export VISUAL="emacsclient -c -a emacs"
+    alias e='emacsclient -t'
 
-    # bat is a better cat
+    # Enter nix-shell
+    alias s="nix-shell '<nixpkgs>' -A $1"
+
+    # Local global npm packages
+    alias yarn=$HOME/.npm-new-global/bin/yarn
+
+    # bat all the things
     alias cat=bat
+
+    # Use difftastic, syntax-aware diffing
+    alias diff=difft
 
     # Always color ls
     alias ls='ls --color'
@@ -47,25 +66,15 @@
     # Weather report in your terminal
     alias weather='curl http://wttr.in'
 
-    # Run sunsama quietly and as system user
-    alias sunsama='sunsama > /dev/null 2>&1 &; disown'
-
-    # One-liners
-    rm-trailing-whitespace(){ sed -i 's/[[:space:]]*$//' $1 ; }
-
-    # Cypress is a dev tool for end-to-end testing
-    export CYPRESS_INSTALL_BINARY=0
-    export CYPRESS_RUN_BINARY=$(which Cypress)
-
-    # Remove history data we don't want to see
-    export HISTIGNORE="pwd:ls:cd"
+    # Reboot into Windows for Steam Big Picture
+    alias windows='systemctl reboot --boot-loader-entry=auto-windows'
   '';
 
   git = {
     enable = true;
     ignores = [ "*.swp" ];
     userName = "Dustin Lyons";
-    userEmail = "hello@dustinlyons.co";
+    userEmail = "dustin@dlyons.dev";
     lfs = {
       enable = true;
     };
@@ -73,13 +82,124 @@
       credential.helper = "netlify";
       init.defaultBranch = "main";
       core = { 
-	editor = "vim";
+	    editor = "vim";
         autocrlf = "input";
       };
+      commit.gpgsign = true;
       pull.rebase = true;
       rebase.autoStash = true;
     };
   };
+
+  vim = {
+    enable = true;
+    plugins = with pkgs.vimPlugins; [ vim-airline vim-airline-themes vim-startify vim-tmux-navigator ];
+    settings = { ignorecase = true; };
+    extraConfig = ''
+      "" General
+      set number
+      set history=1000
+      set nocompatible
+      set modelines=0
+      set encoding=utf-8
+      set scrolloff=3
+      set showmode
+      set showcmd
+      set hidden
+      set wildmenu
+      set wildmode=list:longest
+      set cursorline
+      set ttyfast
+      set nowrap
+      set ruler
+      set backspace=indent,eol,start
+      set laststatus=2
+      set clipboard=unnamedplus
+
+      " Dir stuff
+      set nobackup
+      set nowritebackup
+      set noswapfile
+      set backupdir=~/.config/vim/backups
+      set directory=~/.config/vim/swap
+
+      " Relative line numbers for easy movement
+      set relativenumber
+      set rnu
+
+      "" Whitespace rules
+      set tabstop=8
+      set shiftwidth=2
+      set softtabstop=2
+      set expandtab
+
+      "" Searching
+      set incsearch
+      set gdefault
+
+      "" Statusbar
+      set nocompatible " Disable vi-compatibility
+      set laststatus=2 " Always show the statusline
+      let g:airline_theme='bubblegum'
+      let g:airline_powerline_fonts = 1
+
+      "" Local keys and such
+      let mapleader=","
+      let maplocalleader=" "
+
+      "" Change cursor on mode
+      :autocmd InsertEnter * set cul
+      :autocmd InsertLeave * set nocul
+
+      "" File-type highlighting and configuration
+      syntax on
+      filetype on
+      filetype plugin on
+      filetype indent on
+
+      "" Paste from clipboard
+      nnoremap <Leader>, "+gP
+
+      "" Copy from clipboard
+      xnoremap <Leader>. "+y
+
+      "" Move cursor by display lines when wrapping
+      nnoremap j gj
+      nnoremap k gk
+
+      "" Map leader-q to quit out of window
+      nnoremap <leader>q :q<cr>
+
+      "" Move around split
+      nnoremap <C-h> <C-w>h
+      nnoremap <C-j> <C-w>j
+      nnoremap <C-k> <C-w>k
+      nnoremap <C-l> <C-w>l
+
+      "" Easier to yank entire line
+      nnoremap Y y$
+
+      "" Move buffers
+      nnoremap <tab> :bnext<cr>
+      nnoremap <S-tab> :bprev<cr>
+
+      "" Like a boss, sudo AFTER opening the file to write
+      cmap w!! w !sudo tee % >/dev/null
+
+      let g:startify_lists = [
+        \ { 'type': 'dir',       'header': ['   Current Directory '. getcwd()] },
+        \ { 'type': 'sessions',  'header': ['   Sessions']       },
+        \ { 'type': 'bookmarks', 'header': ['   Bookmarks']      }
+        \ ]
+
+      let g:startify_bookmarks = [
+        \ '~/State/Projects/Code',
+        \ ]
+
+      let g:airline_theme='bubblegum'
+      let g:airline_powerline_fonts = 1
+      '';
+     };
 
   alacritty = {
     enable = true;
@@ -91,19 +211,20 @@
       window = {
         opacity = 1.0;
         padding = {
-          x = 8;
-          y = 8;
+          x = 24;
+          y = 24;
         };
       };
 
       font = {
         normal = {
-          family = "Hack";
+          family = "MesloLGS NF";
           style = "Regular";
         };
-
-        size = 14;
-
+        size = lib.mkMerge [
+          (lib.mkIf pkgs.stdenv.hostPlatform.isLinux 10)
+          (lib.mkIf pkgs.stdenv.hostPlatform.isDarwin 14)
+        ];
       };
 
       dynamic_padding = true;
@@ -144,4 +265,89 @@
       };
     };
   };
+
+  tmux = {
+    enable = true;
+    plugins = with pkgs.tmuxPlugins; [
+      vim-tmux-navigator
+      sensible
+      yank
+      prefix-highlight
+      {
+        plugin = power-theme;
+        extraConfig = ''
+           set -g @tmux_power_theme 'gold'
+        '';
+      }
+      {
+        plugin = resurrect; # Used by tmux-continuum
+
+        # Use XDG data directory
+        # https://github.com/tmux-plugins/tmux-resurrect/issues/348
+        extraConfig = ''
+          set -g @resurrect-dir '$HOME/State/.tmux/resurrect'
+          set -g @resurrect-capture-pane-contents 'on'
+          set -g @resurrect-strategy-vim 'session'
+          set -g @resurrect-pane-contents-area 'visible'
+        '';
+      }
+      {
+        plugin = continuum;
+        extraConfig = ''
+          set -g @continuum-restore 'on'
+          set -g @continuum-save-interval '20' # minutes
+        '';
+      }
+    ];
+    terminal = "screen-256color";
+    prefix = "C-x";
+    escapeTime = 10;
+    historyLimit = 50000;
+    extraConfig = ''
+      # Remove Vim mode delays
+      set -g focus-events on
+
+      # Enable full mouse support
+      set -g mouse on
+
+      # -----------------------------------------------------------------------------
+      # Key bindings
+      # -----------------------------------------------------------------------------
+
+      # Unbind default keys
+      unbind C-b
+      unbind '"'
+      unbind %
+
+      # Split panes, vertical or horizontal
+      bind-key x split-window -v
+      bind-key v split-window -h
+
+      # Move around panes with vim-like bindings (h,j,k,l)
+      bind-key -n M-k select-pane -U
+      bind-key -n M-h select-pane -L
+      bind-key -n M-j select-pane -D
+      bind-key -n M-l select-pane -R
+
+      # Smart pane switching with awareness of Vim splits.
+      # This is copy paste from https://github.com/christoomey/vim-tmux-navigator
+      is_vim="ps -o state= -o comm= -t '#{pane_tty}' \
+        | grep -iqE '^[^TXZ ]+ +(\\S+\\/)?g?(view|n?vim?x?)(diff)?$'"
+      bind-key -n 'C-h' if-shell "$is_vim" 'send-keys C-h'  'select-pane -L'
+      bind-key -n 'C-j' if-shell "$is_vim" 'send-keys C-j'  'select-pane -D'
+      bind-key -n 'C-k' if-shell "$is_vim" 'send-keys C-k'  'select-pane -U'
+      bind-key -n 'C-l' if-shell "$is_vim" 'send-keys C-l'  'select-pane -R'
+      tmux_version='$(tmux -V | sed -En "s/^tmux ([0-9]+(.[0-9]+)?).*/\1/p")'
+      if-shell -b '[ "$(echo "$tmux_version < 3.0" | bc)" = 1 ]' \
+        "bind-key -n 'C-\\' if-shell \"$is_vim\" 'send-keys C-\\'  'select-pane -l'"
+      if-shell -b '[ "$(echo "$tmux_version >= 3.0" | bc)" = 1 ]' \
+        "bind-key -n 'C-\\' if-shell \"$is_vim\" 'send-keys C-\\\\'  'select-pane -l'"
+
+      bind-key -T copy-mode-vi 'C-h' select-pane -L
+      bind-key -T copy-mode-vi 'C-j' select-pane -D
+      bind-key -T copy-mode-vi 'C-k' select-pane -U
+      bind-key -T copy-mode-vi 'C-l' select-pane -R
+      bind-key -T copy-mode-vi 'C-\' select-pane -l
+      '';
+    };
 }

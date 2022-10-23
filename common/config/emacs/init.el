@@ -16,6 +16,14 @@
 (setq use-package-always-ensure t)
 (require 'use-package)
 
+;; Copy $PATH from our environment to Emacs process
+(use-package exec-path-from-shell)
+(when (memq window-system '(mac ns x))
+  (exec-path-from-shell-initialize))
+
+(when (daemonp)
+  (exec-path-from-shell-initialize))
+
 ;; This sets up straight.el, a git package manager
 (defvar bootstrap-version)
 (let ((bootstrap-file
@@ -34,10 +42,12 @@
 
 ;; I load org-mode here, outside of my Emacs.org file, as I like to generate
 ;; the _*.el file when Emacs loads, instead of relying on save hooks or
-;; manually running some command
+;; manually running some command.
+
 ;; The tradeoff is some org-mode config lives here and not in my
 ;; master literate config (Emacs.org).  I could probably slim it down more
 ;; from what you see here but I'm lazy -DL, 2/14/22
+
 (defun dl/org-mode-setup ()
   (org-indent-mode)
   (variable-pitch-mode 1)

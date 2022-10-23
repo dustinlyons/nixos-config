@@ -10,5 +10,5 @@ in {
   inherit imports;
 
   # Set list of cache
-  nix.binaryCaches = ["https://cache.nixos.org/"];
+  nix.settings.substituters = ["https://cache.nixos.org/"];
 }

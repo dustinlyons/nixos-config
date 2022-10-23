@@ -1,56 +1,39 @@
+<img src="https://user-images.githubusercontent.com/1292576/190241835-41469235-f65d-4d4b-9760-372cdff7a70f.png" width="48">
+
 # Dustin's Nix / NixOS config
 
-## Overview
+# Overview
 
-These are my "dotfiles" contained within Nix derivations that drive the setup and configuration of
+These are "dotfiles" for my
 
-* my Macbook Pro
-* a NixOS workstation sitting on my desk at home
-* an old Thinkpad I use as an air-gapped machine
-* virtual machines running on my home-lab Proxmox server
+* M1 Macbook Pro, 
+* NixOS workstation, 
+* and VMs running in my home-lab
 
-Why do this? Why spend the hours to learn Nix and the nuances of getting it all to work across various architectures?
+Continue reading to configure your own Nix or NixOS installation, or use this code as an example.
 
-Well, it's pretty magical, honestly.
+Some helpful links:
+* [My steps to bootstrap a new virtual machine](https://github.com/dustinlyons/nixos-config/blob/main/vm/README.md). The same steps apply if you're starting from scratch on bare metal (i.e, no hard disk partition).
+* My Emacs [literate configuration](https://github.com/dustinlyons/nixos-config/blob/main/common/config/emacs/Emacs.org)
 
-Years of honing my environment, making tiny optimizations to my workflow and development environment, are now codified and reproducible by a machine.
+My NixOS configuration is over a year of continuing to abstract and evolve my daily life, personally and professionally. Nix and the [communities](https://github.com/nix-community/emacs-overlay) around [nixpkg](https://github.com/NixOS/nixpkgs) make it enjoyable!
 
-I'll never experience a day, _sans hardware failure_, where everything is borked and I can't work, thanks to the declarative nature of Nix, the Nix Store, and its update and rollback features.
+# Layout
 
-I can magically update everything, everywhere, by typing `nix flake update; nixos-rebuild switch`. 
-
-Done. 
-
-It's great.
-
-I do this frequently, _because it's so damn cheap_, but mainly I get to leverage the work from _hundreds_ of people, all contributing pull requests in harmony to maintain a global set of software that's highly secure, efficient, and workable. 
-
-Sometimes I go to update, and the build fails. That's okay. Nix doesn't apply the update to your machine until everything works.
-
-So usually, I just wait a few days for the community to patch it and move on. I can count on one finger the times I've had an issue, and there wasn't already an active discussion.
-
-The [nixpkgs](https://github.com/NixOS/nixpkgs) repository and other groups within [nix-community](https://github.com/nix-community/), like [emacs-overlay](https://github.com/nix-community/emacs-overlay), are some of the best examples of open source at scale. PRs are merged multiple times an hour (over 150,000 😱 closed), and you get all of that with a simple `nix flake update`. 
-
-I encourage you to give Nix a try. Look around, and if you have questions, I'm on [Twitter](https://twitter.com/dustinhlyons).
-
-## Update Computer
-
-### Download latest updates and update lock file
-```sh
-nix flake update
 ```
-### Run platform specific build
-```sh
-./bin/darwin-build
-```
-or
-```sh
-./bin/nixos-build
+.
+├── bin          # Simple scripts used to wrap the build
+├── common       # Shared configurations applicable to all machines
+├── hardware     # Hardware-specific configuration
+├── macos        # MacOS and nix-darwin configuration
+├── nixos        # My NixOS desktop-related configuration
+├── overlays     # Drop an overlay, and it runs. Mainly patches.
+└── vms          # VM-specific configs running in my home-lab
 ```
 
-## Bootstrap New Computer
+# Bootstrap New Computer
 
-### Step 1 - For foreign distros (namely macOS), install Nix package manager
+## Step 1 - For MacOS, install Nix package manager
 Install the nix package manager, add unstable channel:
 ```sh
 sh <(curl -L https://nixos.org/nix/install) --daemon
@@ -62,7 +45,12 @@ nix-channel --add https://nixos.org/channels/nixpkgs-unstable nixpkgs
 nix-channel --update
 ```
 
-### Step 2 - Install home-manager
+
+## Step 2 - For NixOS, create a disk partition and install media
+Follow this [step-by-step guide](https://github.com/dustinlyons/nixos-config/blob/main/vm/README.md) for instructions to install using `ZFS` or `ext3`.
+
+
+## Step 3 - Install home-manager
 Add the home-manager channel and install it:
 ```sh
 nix-channel --add https://github.com/nix-community/home-manager/archive/master.tar.gz home-manager
@@ -71,7 +59,7 @@ nix-channel --add https://github.com/nix-community/home-manager/archive/master.t
 nix-channel --update
 ```
 
-### Step 3 - If macOS, install Darwin dependencies
+## Step 4 - If MacOS, install Darwin dependencies
 Install Xcode CLI tools and nix-darwin:
 ```sh
 xcode-select --install
@@ -83,7 +71,7 @@ nix-build https://github.com/LnL7/nix-darwin/archive/master.tar.gz -A installer
 ./result/bin/darwin-installer
 ```
 
-### Step 4 - Build the environment
+## Step 5 - Build the environment
 Download this repo and run:
 ```sh
 ./bin/darwin-build
@@ -93,11 +81,29 @@ or
 ./bin/nixos-build
 ```
 
-### Step 5 - Add Yubikey and generate key
+## Step 6 - Add Yubikey and generate key
 Insert Yubikey and generate private keys
 ```sh
 ssh-keygen -t ecdsa-sk
 ```
 
-### Step 6 - Reboot computer
+## Step 7 - Reboot computer
 That's it. You're done.
+
+# Update Computer
+
+## Download the latest updates and update lock file
+```sh
+nix flake update
+```
+## Run platform-specific build
+```sh
+./bin/darwin-build
+```
+or
+```sh
+./bin/nixos-build
+```
+
+## You made it this far
+Add me on [Twitter](https://twitter.com/dustinhlyons).

@@ -4,8 +4,8 @@ export GREEN_TERMINAL_OUTPUT='\033[1;32m'
 export RED_TERMINAL_OUTPUT='\033[1;31m'
 export CLEAR='\033[0m'
 
-sudo echo
 echo -e "${GREEN_TERMINAL_OUTPUT}Starting...${CLEAR}"
-sudo -E /run/current-system/sw/bin/nixos-rebuild switch $@
+/run/current-system/sw/bin/nix flake update
+/run/current-system/sw/bin/nixos-rebuild switch $@
 
 echo -e "${GREEN_TERMINAL_OUTPUT}Done!${CLEAR}"

@@ -2,18 +2,26 @@
 #+STARTUP: content
 
 * Configuration   :emacs:
-** About Emacs
-This is my emacs config file. Yes, in emacs you can write configuration like a Google Doc and get away with it. It's called [[https://en.wikipedia.org/wiki/Literate_programming]["literate programming"]].
+** About my Emacs
+This is my detailed Emacs configuration. It's an ~org~ file that is transpiled to ~emacs-lisp~ as part of the Nix build process. 
 
-Emacs is more than an editor, it's a whole damn operating system. This file is evidence of that. This configuration drives how I interact with my journal, complete and organize tasks, develop and write blog posts, write code and ship new stuff, etc. etc. etc. list goes on. I've yet to jump into EXWM, but if one is so inclined, Emacs can expand beyond an application into all software.
+#+BEGIN_QUOTE
+Why an org file? My Emacs config is large, and this enables me to greatly improve readability of its documentation. Sounds complicated, but it's really not; [[https://github.com/dustinlyons/nixos-config/blob/main/nixos/default.nix#L215][just one line]] in my Nix config. [[https://github.com/dustinlyons/nixos-config/blob/main/macos/default.nix#L28][MacOS too.]] 
+#+END_QUOTE
+
+/Each block of code below is the actual Emacs configuration./
+
+Formally, this style of configuration is called [[https://en.wikipedia.org/wiki/Literate_programming]["literate programming"]]. It's also popular for large Notebook-style projects used by Data Scientists.
+
 ** Personal Information
 Just me!
 
 #+NAME: personal-info
 #+BEGIN_SRC emacs-lisp
   (setq user-full-name "Dustin Lyons"
-    user-mail-address "hello@dustinlyons.co")
+    user-mail-address "dustin@dlyons.dev")
 #+END_SRC
+
 ** Initialization
 *** Booting up
 Mainly splash screen settings. In the future we may look to optimize performance here.
@@ -26,6 +34,7 @@ Mainly splash screen settings. In the future we may look to optimize performance
   ;; Confirm before exiting Emacs
   (setq confirm-kill-emacs #'yes-or-no-p)
 #+END_SRC
+
 *** Add package sources
 This associates our package manager with the right source (MELPA).
 
@@ -36,8 +45,10 @@ This associates our package manager with the right source (MELPA).
   (unless (assoc-default "nongnu" package-archives)
     (add-to-list 'package-archives '("nongnu" . "https://elpa.nongnu.org/nongnu/") t))
 #+END_SRC
+
 *** System Definitions
 **** Conditionals
+
 #+BEGIN_SRC emacs-lisp
 (defun system-is-mac ()
   "Return true if system is darwin-based (Mac OS X)"
@@ -48,13 +59,7 @@ This associates our package manager with the right source (MELPA).
   (string-equal system-type "gnu/linux"))
 
 #+END_SRC
-*** Hydra framework
-Hydra enables me drop into quick keybinding modes. See [[https://github.com/abo-abo/hydra][here]].
 
-#+NAME: hydra
-#+BEGIN_SRC emacs-lisp
-(use-package hydra)
-#+END_SRC
 *** Counsel/Ivy framework
 Ivy and associated helpers that uses the minibuffer. Ivy describes itself as "a generic completion mechanism for Emacs." Basically, it's a prettier popup window to input Emacs commands. I've defined this to show at the bottom of the screen, which is conveniently also the default.
 
@@ -73,10 +78,14 @@ Ivy and associated helpers that uses the minibuffer. Ivy describes itself as "a 
     :config
       (setq ivy-initial-inputs-alist nil)) ;; Don't start searches with ^
 
+  (use-package prescient
+    :config
+      (prescient-persist-mode 1))
+
   (use-package ivy
-    :bind (("C-s" . swiper)
+    :bind (("C-s" . swiper-all)
     :map ivy-minibuffer-map
-      ("TAB" . ivy-alt-done)
+      ("TAB" . ivy-partial-or-done)
       ("C-f" . ivy-alt-done)
       ("C-l" . ivy-alt-done)
       ("C-j" . ivy-next-line)
@@ -99,10 +108,19 @@ Ivy and associated helpers that uses the minibuffer. Ivy describes itself as "a 
   (use-package ivy-rich
     :init (ivy-rich-mode 1))
 
+  (use-package ivy-prescient
+    :after ivy
+    :custom
+      (prescient-save-file "~/.emacs.d/prescient-data")
+      (prescient-filter-method 'fuzzy)
+    :config
+      (ivy-prescient-mode t))
+
   (use-package all-the-icons-ivy
     :init (add-hook 'after-init-hook 'all-the-icons-ivy-setup))
 
 #+END_SRC
+
 *** Leader keys
 I use general.el to define groups of keybindings under my 'leader' definition. You will see these definitions sprinkled throughout this file; my own private collection of fast shit. For more info, [[https://medium.com/usevim/vim-101-what-is-the-leader-key-f2f5c1fa610f][here]] is a good explanation on leader keys.
 
@@ -119,24 +137,29 @@ I use general.el to define groups of keybindings under my 'leader' definition. Y
         :keymaps '(normal visual emacs)
         :prefix ","))
 #+END_SRC
+
+**** Emacs cleanup
+Helpful keybindings to help keep Emacs sane.
+
+#+NAME: emacs-cleanup
+#+BEGIN_SRC emacs-lisp
+  (dl/leader-keys
+    "k"  '(:ignore k :which-key "cleanup")
+    "kk" '(kill-some-buffers :which-key "cleanup buffers"))
+#+END_SRC
+
 **** Toggles
 Turn UI things on and off, scale things up and down.
 
 #+NAME: ui-toggles
 #+BEGIN_SRC emacs-lisp
-  (defhydra hydra-text-scale (:timeout 4)
-    "scale text"
-    ("j" text-scale-increase "big")
-    ("k" text-scale-decrease "small")
-    ("q" nil "quit" :exit t))
-
   (dl/leader-keys
     "t"  '(:ignore t :which-key "toggles")
     "tt" '(treemacs :which-key "toggle treemacs")
     "to" '(treemacs-select-window :which-key "select treemacs")
-    "tl" '(lsp :which-key "lsp")
+    "tw" '(treemacs-toggle-fixed-width :which-key "size treemacs")
     "th" '(counsel-load-theme :which-key "choose theme")
-    "ts" '(hydra-text-scale/body :which-key "scale text"))
+    "tl" '(flymake-show-buffer-diagnostics :which-key "lsp buffer"))
 #+END_SRC
 
 ***** Rotate windows
@@ -154,47 +177,13 @@ Various helpers and packages I find useful for window management.
     "rl"  '(rotate-layout :which-key "rotate layout"))
 
 #+END_SRC
-**** Gutter
-***** Line numbers
+
+*** Gutter
+**** Line numbers
 These functions define vim-style relative line numbers.
 
-#+NAME: line-numbers
-#+BEGIN_SRC emacs-lisp
-  (global-linum-mode 1)
-
-  (when (system-is-linux)
-    (set-face-attribute 'linum nil :font "Hack" :foreground "#757b8a" :height 100))
-  (when (system-is-mac)
-    (set-face-attribute 'linum nil :font "Hack" :foreground "#757b8a" :height 130))
-
-  (defvar my-linum-current-line-number 0)
-  (setq linum-format 'my-linum-relative-line-numbers)
-
-  ;; This fancy function handles the math behind relative line numbers
-  (defun my-linum-relative-line-numbers (line-number)
-  (let ((y (1+ (- line-number my-linum-current-line-number))))
-      (propertize
-      (number-to-string
-          (cond ((<= y 0) (abs (- y 2))) ((> y 0) y)))
-          'face 'linum)))
-
-  (defadvice linum-update (around my-linum-update)
-  (let ((my-linum-current-line-number (line-number-at-pos)))
-      ad-do-it))
-
-  ;; Turn it on
-  (ad-activate 'linum-update)
-
-  ;; Disable line numbers for some modes
-  (dolist (mode '(org-mode-hook
-                  term-mode-hook
-                  treemacs-mode-hook
-                  shell-mode-hook
-                  eshell-mode-hook))
-    (add-hook mode (lambda () (linum-mode 0))))
-#+END_SRC
-**** Modes
-***** Window minor modes
+*** Modes
+**** Window minor modes
 I like these window related minor modes.
 
 #+NAME: windows-ui-settings
@@ -204,11 +193,12 @@ I like these window related minor modes.
   ;; move these into custom file and set variable custom-file
   (column-number-mode)
   (scroll-bar-mode 0)
-  (menu-bar-mode 0)
+  (menu-bar-mode -1)
   (tool-bar-mode 0)
   (winner-mode 1) ;; ctrl-c left, ctrl-c right for window undo/redo
 #+END_SRC
-***** Set mode margins
+
+**** Set mode margins
 This is used primarily to center org mode text.
 
 #+NAME: mode-margins
@@ -221,7 +211,8 @@ This is used primarily to center org mode text.
   :defer t
   :hook (org-mode . dl/org-mode-visual-fill))
 #+END_SRC
-***** Don't blink the cursor
+
+**** Don't blink the cursor
 #+NAME: cursor-mode
 #+BEGIN_SRC emacs-lisp
 (blink-cursor-mode -1)
@@ -236,6 +227,7 @@ Makes my lisp parens pretty, and easy to spot.
   (use-package rainbow-delimiters
     :hook (prog-mode . rainbow-delimiters-mode))
 #+END_SRC
+
 ***** Color definitions
 Define a global set of colors to be used everywhere in Emacs.
 
@@ -251,6 +243,7 @@ Define a global set of colors to be used everywhere in Emacs.
 (defvar dl/light-grey-color "#C0C5CE")
 (defvar dl/dark-grey-color "#65737E")
 #+END_SRC
+
 **** Addons
 ***** "Powerline"
 Keeps info at my fingertips. Modeline is much better than Vim's Powerline (sorry Vim).
@@ -263,6 +256,7 @@ Keeps info at my fingertips. Modeline is much better than Vim's Powerline (sorry
     :ensure t
     :init (doom-modeline-mode 1))
 #+END_SRC
+
 ***** Treemacs
 Although I'm primarily a keyboard user and use Projectile for quickly finding files, I still find the need to browse through files in a more visual way. Treemacs does the job, and beautifully might I add.
 
@@ -281,6 +275,7 @@ Although I'm primarily a keyboard user and use Projectile for quickly finding fi
   (use-package treemacs-magit)
   (use-package treemacs-evil)
 #+END_SRC
+
 **** Easy window motions with ace-window
 Predefine windows with hotkeys and jump to them.
 
@@ -298,22 +293,39 @@ Predefine windows with hotkeys and jump to them.
   :config
     (ace-window-display-mode 1))
 #+END_SRC
+
 *** Package managers
-Using straighel under the hood of use-package enables us to download packages using git. This is preferred for easier hacking; I maintain my own org-roam fork, for example, and it's just another directory where I organize code. I configure straight.el with one line to use it.
+Using straight.el under the hood of use-package enables us to download packages using git. This is preferred for easier hacking; I maintain my own org-roam fork, for example, and it's just another directory where I organize code. I configure straight.el with one line to use it.
+
 *** Windows
-**** Defaults
+**** Default sizes
 Sets some reasonable defaults.
 
 #+NAME: windows-reasonable-defaults
 #+BEGIN_SRC emacs-lisp
-  ;; Maximize window on initialize
-  ;; (add-hook 'window-setup-hook 'toggle-frame-maximized t)
-  (when window-system (set-frame-size (selected-frame) 120 60))
-  (setq use-dialog-box nil
-      use-file-dialog nil
-      cursor-type 'bar)
-  (add-to-list 'default-frame-alist '(height . 80))
-  (add-to-list 'default-frame-alist '(width . 160))
+;;  (when window-system (set-frame-size (selected-frame) 120 60))
+;;    (setq use-dialog-box nil
+;;        use-file-dialog nil
+;;        cursor-type 'bar)
+;;    (add-to-list 'default-frame-alist '(height . 80))
+;;    (add-to-list 'default-frame-alist '(width . 160))
+;;
+;;  (setq default-background (face-attribute 'default :background))
+;;
+;;  (defun set-window-padding ()
+;;    (setq-default left-margin-width 2 right-margin-width 2) ; Define new widths.
+;;    (set-window-buffer nil (current-buffer)) ; Use them now
+;;    (set-face-background 'header-line default-background))
+;;    (when (system-is-linux)
+;;      (setq header-line-format " "))
+;;    (set-face-attribute 'header-line nil :height 1.0)
+;;
+;;  (add-hook 'org-mode-hook 'set-window-padding)
+;;  (add-hook 'conf-mode-hook 'set-window-padding)
+;;  (add-hook 'prog-mode-hook 'set-window-padding)
+;;  (add-hook 'flymake-buffer-diagnostic-mode-hook 'set-window-padding)
+;;  (add-hook 'text-mode-hook 'set-window-padding)
+;;  (add-hook 'treemacs-mode-hook 'set-window-padding)
 #+END_SRC
 
 **** Fonts
@@ -335,11 +347,12 @@ Sets some reasonable defaults.
 
   ;; Set the variable pitch face
   (when (system-is-linux)
-    (set-face-attribute 'variable-pitch nil :font "Cantarell" :weight 'medium :height 120))
+    (set-face-attribute 'variable-pitch nil :font "Helvetica LT Std Condensed" :weight 'normal :height 140))
   (when (system-is-mac)
     (set-face-attribute 'variable-pitch nil :font "Helvetica" :weight 'normal :height 170))
 
 #+END_SRC
+
 ** Keybindings
 *** Spaces over tabs
 We use two spaces in place of tabs.
@@ -350,11 +363,13 @@ We use two spaces in place of tabs.
                 js-indent-level 2
                 tab-width 2)
 #+END_SRC
+
 *** Buffers
 #+NAME: next-buffer
 #+BEGIN_SRC emacs-lisp
   (global-set-key (kbd "<C-tab>") 'next-buffer)
 #+END_SRC
+
 ** Display options
 *** Themes
 Some my own, some from others.
@@ -364,15 +379,11 @@ Some my own, some from others.
 (use-package doom-themes
   :ensure t
   :config
-  ;; Global settings (defaults)
-  (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
-        doom-themes-enable-italic t) ; if nil, italics is universally disabled
-
-  (load-theme 'doom-sourcerer t)
-
-  ;; Enable flashing mode-line on errors
-  (doom-themes-visual-bell-config)
-  (doom-themes-org-config))
+    (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
+          doom-themes-enable-italic t) ; if nil, italics is universally disabled
+    (load-theme 'doom-material-dark t)
+    (doom-themes-visual-bell-config)
+    (doom-themes-org-config))
 #+END_SRC
 
 ** Global Settings
@@ -392,14 +403,160 @@ I like these modes, what can I say. They're good to me.
 #+END_SRC
 
 ** Org mode
+*** Agenda
+**** Filter out files that don't include tasks in org-agenda
+I use org-roam to take notes, which keeps many small files in the style of Zettelkasten. However, org-agenda doesn't perform well in this scenario. To fix this, we filter out all files from org-agenda that don't contain a ~TODO~.
+
+#+NAME::org-mode-filter
+#+BEGIN_SRC emacs-lisp
+  (setq org-agenda-files "~/State/Areas/Writing/Notebook/20220419121404-todo.org" )
+
+  (defun org-global-props (&optional property buffer)
+    "Helper function to grab org properties"
+    (unless property (setq property "PROPERTY"))
+    (with-current-buffer (or buffer (current-buffer))
+      (org-element-map (org-element-parse-buffer) 'keyword
+      (lambda (el) (when (string-match property (org-element-property :key el)) el)))))
+
+  (defun dl/refile-and-transclude ()
+    "Move file and add transclude link with header"
+  (interactive)
+    (org-roam-refile)
+    (insert "#+transclude: [[file:~/State/Areas/Writing/Notebook/20220419121404-todo.org::*" (org-element-property :value (car (org-global-props "TITLE"))) "][Transclude]]"))
+
+  (dl/leader-keys
+    "a"  '(:ignore t :which-key "manage org-agenda")
+    "aa"  '(dl/define-agenda-files :which-key "refresh agenda db")
+    "ar"  '(dl/refile-and-transclude :which-key "move buffer to TODO.org and insert transclude link"))
+#+END_SRC
+
+**** Set org faces
+Set various face colors for org-mode.
+
+#+NAME::org-mode-faces
+#+BEGIN_SRC emacs-lisp
+  ;; Fast access to tag common contexts I use
+  (setq org-tag-persistent-alist
+    '(("home" . ?h) ("batch" . ?b) ("bn" . ?n) ("usf" . ?u) ("agency" . ?a)))
+
+  (setq org-todo-keyword-faces
+    `(("NEXT" . ,dl/yellow-color)
+     ("WAITING" . ,dl/light-grey-color)
+     ("SOMEDAY" . ,dl/dark-grey-color)))
+
+  (setq org-tag-faces
+    `(("batch" . ,dl/yellow-color)
+     ("bn" . ,dl/purple-color)
+     ("home" . ,dl/blue-color)
+     ("usf" . ,dl/teal-color)
+     ("agency" . ,dl/blue-color)))
+#+END_SRC
+
+**** Remove noise from org-agenda views
+This block sets the ~org-agenda-prefix-format~ in an friendly way for org-roam (credit to [[https://d12frosted.io/posts/2020-06-24-task-management-with-roam-vol2.html][this post)]]. It truncates long filenames and removes the org-roam timestamp slug.
+
+#+NAME::remove-noise-from-org-agenda
+#+BEGIN_SRC emacs-lisp
+  (defun dl/buffer-prop-get (name)
+    "Get a buffer property called NAME as a string."
+    (org-with-point-at 1
+      (when (re-search-forward (concat "^#\\+" name ": \\(.*\\)")
+                               (point-max) t)
+        (buffer-substring-no-properties
+         (match-beginning 1)
+         (match-end 1)))))
+
+  (defun dl/agenda-category (&optional len)
+    "Get category of item at point for agenda."
+    (let* ((file-name (when buffer-file-name
+                        (file-name-sans-extension
+                         (file-name-nondirectory buffer-file-name))))
+           (title (dl/buffer-prop-get "title"))
+           (category (org-get-category))
+           (result
+            (or (if (and
+                     title
+                     (string-equal category file-name))
+                    title
+                  category)
+                )))
+      (if (numberp len)
+          (s-truncate len (s-pad-right len " " result))
+        result)))
+  (setq org-agenda-hide-tags-regexp (regexp-opt '("Todo" "agency" "home" "braeview" "bn" "batch")))
+  (setq org-agenda-prefix-format
+        '((agenda . " %i %(dl/agenda-category 12)%?-32t% s")
+          (todo . " %i %(dl/agenda-category 32) ")
+          (tags . " %i %(dl/agenda-category 32) ")
+          (search . " %i %(dl/agenda-category 32) ")))
+#+END_SRC
+
+**** org-transclusion
+Let's us move text but still see it in another file. I primarily use this to move text around in my journal.
+
+#+NAME::org-transclusion
+#+BEGIN_SRC emacs-lisp
+(use-package org-transclusion
+  :after org
+  :hook (org-mode . org-transclusion-mode))
+#+END_SRC
+
+**** org-super-agenda views
+Setup for org-super-agenda and org-ql.
+
+#+NAME::org-super-agenda
+#+BEGIN_SRC emacs-lisp
+    (use-package org-super-agenda
+       :after org-agenda
+       :init
+         (setq org-agenda-dim-blocked-tasks nil))
+
+     ;; Dashboard View
+     (setq org-super-agenda-groups
+          '((:name "Batch"
+                   :tag "batch")
+            (:name "Now"
+                   :todo "NEXT")
+            (:name "Waiting"
+                   :todo "WAITING")
+            (:name "Bitcoin Noobs"
+                   :tag "bn")
+            (:name "Agency"
+                   :tag "agency")
+            (:name "Student Capstone Projects"
+                   :tag "usf")
+            (:name "Home"
+                   :tag "home")
+            (:name "Someday"
+                   :todo "SOMEDAY")))
+
+     (org-super-agenda-mode)
+#+END_SRC
+
 *** Install package
 If you haven't heard of org mode, go watch [[https://www.youtube.com/watch?v=SzA2YODtgK4][this]] talk and come back when you are finished.
+
 **** Leader key shortcuts
 #+NAME::org-mode-quick-entry
 #+BEGIN_SRC emacs-lisp
 (defvar current-time-format "%H:%M:%S"
   "Format of date to insert with `insert-current-time' func.
 Note the weekly scope of the command's precision.")
+
+(defun dl/load-buffer-with-emacs-config ()
+  "Open the emacs configuration"
+  (interactive)
+  (find-file "~/State/Projects/Code/nixos-config/common/config/emacs/Emacs.org"))
+
+(defun dl/load-buffer-with-todo ()
+  "Open the emacs configuration"
+  (interactive)
+  (find-file "~/State/Areas/Writing/Notebook/20220419121404-todo.org"))
+
+(defun dl/load-buffer-with-nix-config ()
+  "Open the emacs configuration"
+  (interactive)
+  (find-file "~/State/Projects/Code/nixos-config/common/home-manager.nix"))
 
 (defun dl/reload-emacs ()
   "Reload the emacs configuration"
@@ -415,7 +572,10 @@ Note the weekly scope of the command's precision.")
 
   "A few of my own personal shortcuts"
  (dl/leader-keys
-  ","  '(dl/insert-current-time :which-key "current time"))
+  ","  '(dl/insert-current-time :which-key "current time")
+  "e"  '(dl/load-buffer-with-emacs-config :which-key "open emacs config")
+  "n"  '(dl/load-buffer-with-nix-config :which-key "open nix config")
+  "d"  '(dl/load-buffer-with-todo :which-key "open todo"))
 
 #+END_SRC
 
@@ -428,6 +588,7 @@ Note the weekly scope of the command's precision.")
 
 ***** Roam capture templates
 These are templates used to create new notes.
+
 #+NAME::roam-templates
 #+BEGIN_SRC emacs-lisp
   (setq org-roam-capture-templates
@@ -493,11 +654,12 @@ These are templates used to create new notes.
     '(("d" "default" entry
        "* %?"
        :if-new (file+head "%<%Y-%m-%d>.org"
-                          "#+TITLE: %<%Y-%m-%d>\n#+filetags: Daily\n* Log\n\n"))))
+                          "#+TITLE: %<%Y-%m-%d>\n#+filetags: Daily\n* Log\n\n* %<%Y-%m-%d>"))))
 #+END_SRC
 
 ***** Extending Roam
 Here we add additional function to org-roam to either do something specific for more workflow, or otherwise make ~org-roam~ more full featured.
+
 ****** Set CREATED and LAST_MODIFIED filetags on save
 Sets timestamps in the Properties drawer of files. I intend to use this one day when rendering these notes as HTML, to quickly see files last touched.
 
@@ -550,6 +712,7 @@ Sets timestamps in the Properties drawer of files. I intend to use this one day 
     (when (derived-mode-p 'org-mode)
       (dl/org-set-time-file-property "LAST_MODIFIED")))
 #+END_SRC
+
 ****** Set CREATED on node creation
 #+NAME::org-roam-set-timestamps-on-save
 #+BEGIN_SRC emacs-lisp
@@ -559,162 +722,10 @@ Sets timestamps in the Properties drawer of files. I intend to use this one day 
     (org-id-get-create)
     (dl/org-set-created-property))
 #+END_SRC
-*** Agenda
-**** Filter out files that don't include tasks in org-agenda
-I use org-roam to take notes, which keeps many small files in the style of Zettelkasten. However, org-agenda doesn't perform well in this scenario. To fix this, we filter out all files from org-agenda that don't contain a ~TODO~.
-
-#+NAME::org-mode-filter
-#+BEGIN_SRC emacs-lisp
-  (defun dl/define-agenda-files ()
-    "Return a list of note files containing 'Todo' property.
-      We could just read the file but this query helps keep this flexible."
-  (interactive)
-    (seq-uniq
-     (seq-map
-      #'car
-      (org-roam-db-query
-       [:select [nodes:file]
-        :from tags
-        :left-join nodes
-        :on (= tags:node-id nodes:id)
-        :where (in tag $v1)] '(["Todo"])))))
-  (setq org-agenda-files (dl/define-agenda-files))
-
-  (defun org-global-props (&optional property buffer)
-    "Helper function to grab org properties"
-    (unless property (setq property "PROPERTY"))
-    (with-current-buffer (or buffer (current-buffer))
-      (org-element-map (org-element-parse-buffer) 'keyword
-      (lambda (el) (when (string-match property (org-element-property :key el)) el)))))
-
-  (defun dl/refile-and-transclude ()
-    "Move file and add transclude link with header"
-  (interactive)
-    (org-roam-refile)
-    (insert "#+transclude: [[file:~/State/Areas/Writing/Notebook/20220419121404-todo.org::*" (org-element-property :value (car (org-global-props "TITLE"))) "][Transclude]]"))
-
-  (dl/leader-keys
-    "a"  '(:ignore t :which-key "manage org-agenda")
-    "aa"  '(dl/define-agenda-files :which-key "refresh agenda db")
-    "ar"  '(dl/refile-and-transclude :which-key "refile TODOs and insert transclude link"))
-
-#+END_SRC
-
-**** Set org faces
-Set various face colors for org-mode.
-
-#+NAME::org-mode-faces
-#+BEGIN_SRC emacs-lisp
-  ;; Fast access to tag common contexts I use
-  (setq org-tag-persistent-alist
-    '(("@Home" . ?h) ("@Errands" . ?e) ("@Office" . ?o) ("@Phone" . ?p)))
-
-  (setq org-todo-keyword-faces
-    `(("NEXT" . ,dl/yellow-color)
-     ("WAITING" . ,dl/light-grey-color)
-     ("SOMEDAY" . ,dl/dark-grey-color)))
-
-  (setq org-tag-faces
-    `(("@Home" . ,dl/green-color)
-     ("@Errands" . ,dl/purple-color)
-     ("@Office" . ,dl/teal-color)
-     ("@Phone" . ,dl/purple-color)
-     ("Inbox" . ,dl/blue-color)))
-#+END_SRC
-
-**** Remove noise from org-agenda views
-This block sets the ~org-agenda-prefix-format~ in an friendly way for org-roam (credit to [[https://d12frosted.io/posts/2020-06-24-task-management-with-roam-vol2.html][this post)]]. It truncates long filenames and removes the org-roam timestamp slug.
-
-#+NAME::remove-noise-from-org-agenda
-#+BEGIN_SRC emacs-lisp
-  (defun dl/buffer-prop-get (name)
-    "Get a buffer property called NAME as a string."
-    (org-with-point-at 1
-      (when (re-search-forward (concat "^#\\+" name ": \\(.*\\)")
-                               (point-max) t)
-        (buffer-substring-no-properties
-         (match-beginning 1)
-         (match-end 1)))))
-
-  (defun dl/agenda-category (&optional len)
-    "Get category of item at point for agenda."
-    (let* ((file-name (when buffer-file-name
-                        (file-name-sans-extension
-                         (file-name-nondirectory buffer-file-name))))
-           (title (dl/buffer-prop-get "title"))
-           (category (org-get-category))
-           (result
-            (or (if (and
-                     title
-                     (string-equal category file-name))
-                    title
-                  category)
-                "")))
-      (if (numberp len)
-          (s-truncate len (s-pad-right len " " result))
-        result)))
-
-  (setq org-agenda-prefix-format
-        '((agenda . " %i %(dl/agenda-category 32)%?-32t% s")
-          (todo . " %i %(dl/agenda-category 32) ")
-          (tags . " %i %(dl/agenda-category 32) ")
-          (search . " %i %(dl/agenda-category 32) ")))
-#+END_SRC
-
-**** org-transclusion
-Let's us move text but still see it in another file. I primarily use this to move text around in my journal.
-#+NAME::org-transclusion
-#+BEGIN_SRC emacs-lisp
-(use-package org-transclusion
-  :after org
-  :hook (org-mode . org-transclusion-mode))
-#+END_SRC
-
-
-**** org-super-agenda views
-Setup for org-super-agenda and org-ql.
-
-#+NAME::org-super-agenda
-#+BEGIN_SRC emacs-lisp
-    (use-package org-super-agenda
-       :after org-agenda
-       :init
-         (setq org-agenda-dim-blocked-tasks nil))
-
-     ;; Dashboard View
-     (setq org-super-agenda-groups
-          '((:name "Priority"
-                   :priority "A")
-            (:name "Inbox"
-                   :tag ("Inbox" "Daily"))
-            (:name "Next Actions at Office"
-                   :and (
-                   :todo ("NEXT")
-                   :tag ("Active")
-                   :tag ("@Office")))
-            (:name "Next Actions at Home"
-                   :and (
-                   :todo ("NEXT")
-                   :tag ("Active")
-                   :tag ("@Home")))
-            (:name "Waiting"
-                   :todo "WAITING")
-            (:name "Home"
-                   :tag "@Home")
-            (:name "Office"
-                   :tag "@Office")
-            (:name "Braeview"
-                   :tag "Braeview")
-            (:name "Productivity"
-                   :tag "Productivity")
-            (:name "Someday"
-                   :todo "SOMEDAY")))
-
-     (org-super-agenda-mode)
-#+END_SRC
 
 *** UI improvements
 Anything related to making org mode pretty.
+
 **** Change color of ivy window selection
 #+NAME::ivy-window-selection
 #+BEGIN_SRC emacs-lisp
@@ -722,7 +733,6 @@ Anything related to making org mode pretty.
 #+END_SRC
 
 **** Change default bullets to be pretty
-
 Replaces the standard org-mode header asterisks with dots.
 #+NAME::org-mode-visuals
 #+BEGIN_SRC emacs-lisp
@@ -733,6 +743,7 @@ Replaces the standard org-mode header asterisks with dots.
       (org-superstar-remove-leading-stars t)
       (org-superstar-headline-bullets-list '("•" "•" "•" "◦" "◦" "◦" "◦")))
 #+END_SRC
+
 **** Fonts
 #+NAME::org-mode-variable-width-fonts
 #+BEGIN_SRC emacs-lisp
@@ -748,7 +759,7 @@ Replaces the standard org-mode header asterisks with dots.
   (set-face-attribute 'org-meta-line nil :inherit '(font-lock-comment-face fixed-pitch))
   (set-face-attribute 'org-checkbox nil :inherit 'fixed-pitch)
   (when (system-is-linux)
-    (set-face-attribute 'org-document-title nil :font "Cantarell" :weight 'bold :height 1.2))
+    (set-face-attribute 'org-document-title nil :font "Helvetica LT Std Condensed" :weight 'bold :height 1.2))
   (when (system-is-mac)
     (set-face-attribute 'variable-pitch nil :font "Helvetica" :height 120))
   (dolist (face '((org-level-1 . 1.2)
@@ -760,17 +771,17 @@ Replaces the standard org-mode header asterisks with dots.
                   (org-level-7 . 1.0)
                   (org-level-8 . 1.0)))
  (when (system-is-linux)
-   (set-face-attribute (car face) nil :font "Cantarell" :weight 'medium :height (cdr face)))
+   (set-face-attribute (car face) nil :font "Helvetica LT Std Condensed" :weight 'medium :height (cdr face)))
  (when (system-is-mac)
    (set-face-attribute 'variable-pitch nil :font "Helvetica" :weight 'medium :height 170)))
 #+END_SRC
+
 ** Evil mode (aka Vim mode)
 *** Install package
 This is what makes emacs possible for me. All evil mode packages and related configuration.
 
 #+NAME: evil-packages
 #+BEGIN_SRC emacs-lisp
-
 
 (defun dl/evil-hook ()
   (dolist (mode '(eshell-mode
@@ -824,32 +835,25 @@ This is what makes emacs possible for me. All evil mode packages and related con
   (evil-set-undo-system 'undo-tree)
   (global-undo-tree-mode 1))
 
+;; Keep undo files from littering directories
+(setq undo-tree-history-directory-alist '(("." . "~/.emacs.d/undo")))
+#+END_SRC
+
+** Terminal
+#+NAME: vterm
+#+BEGIN_SRC emacs-lisp
+  (use-package vterm
+    :commands vterm
+    :config
+      (setq term-prompt-regexp "^[^#$%>\n]*[#$%>] *")
+      (setq vterm-shell "zsh")
+      (setq vterm-max-scrollback 10000))
 #+END_SRC
 
 ** Managing files
 Configuration related to filesystem, either basic IO and interaction from emacs or directly moving files around where it makes sense.
-*** Backups and auto-save
-These settings keep emacs from littering the filesystem with buffer backups. These files look like ~~yourfilename.txt~ or ~#yourfilename.txt#~ and would otherwise be dropped in your working directory.
-
-#+NAME: backup-files
-#+BEGIN_SRC emacs-lisp
-(setq backup-directory-alist
-      `((".*" . "~/State/.emacs/"))
-      backup-by-copying t    ; Don't delink hardlinks
-      version-control t      ; Use version numbers on backups
-      delete-old-versions t) ; Automatically delete excess backups
-#+END_SRC
-
-#+NAME: local-file-transforms
-#+BEGIN_SRC emacs-lisp
-(setq auto-save-file-name-transforms
-      `((".*" "~/State/.emacs/" t)))
-(setq lock-file-name-transforms
-      `((".*" "~/State/.emacs/lock-files/" t)))
-#+END_SRC
-
 *** File browser
-Convenient helpers and keybindings when browsing files in Emacs.
+`dired` provides a more visual interface to browsing files; similar to terminal programs like `ranger`.
 
 #+BEGIN_SRC emacs-lisp
   (use-package all-the-icons-dired)
@@ -896,9 +900,58 @@ Convenient helpers and keybindings when browsing files in Emacs.
     (setq insert-directory-program
       (expand-file-name ".nix-profile/bin/ls" (getenv "HOME"))))
 #+END_SRC
+
+**** Quick shortcuts for common file tasks
+#+NAME::buffer-and-file-movement
+#+BEGIN_SRC emacs-lisp
+(defun er-delete-file-and-buffer ()
+  "Kill the current buffer and deletes the file it is visiting."
+  (interactive)
+  (let ((filename (buffer-file-name)))
+    (when filename
+      (if (vc-backend filename)
+          (vc-delete-file filename)
+        (progn
+          (delete-file filename)
+          (message "Deleted file %s" filename)
+          (kill-buffer))))))
+
+(global-set-key (kbd "C-c D")  #'er-delete-file-and-buffer)
+#+END_SRC
+
+*** Images
+Quickly work with images over drag-and-drop or the clipboard. [[https://github.com/abo-abo/org-download][Link to Project README]].
+#+NAME: org-download-copy
+#+BEGIN_SRC emacs-lisp
+  (use-package org-download)
+  ;; Drag-and-drop to `dired`
+  (add-hook 'dired-mode-hook 'org-download-enable)
+#+END_SRC
+
+*** Backups and auto-save
+These settings keep emacs from littering the filesystem with buffer backups. These files look like ~~yourfilename.txt~ or ~#yourfilename.txt#~ and would otherwise be dropped in your working directory.
+
+#+NAME: backup-files
+#+BEGIN_SRC emacs-lisp
+(setq backup-directory-alist
+      `((".*" . "~/State/.emacs/"))
+      backup-by-copying t    ; Don't delink hardlinks
+      version-control t      ; Use version numbers on backups
+      delete-old-versions t) ; Automatically delete excess backups
+#+END_SRC
+
+#+NAME: local-file-transforms
+#+BEGIN_SRC emacs-lisp
+(setq auto-save-file-name-transforms
+      `((".*" "~/State/.emacs/" t)))
+(setq lock-file-name-transforms
+      `((".*" "~/State/.emacs/lock-files/" t)))
+#+END_SRC
+
 ** Managing projects
 *** Projectile
 Projectile enables me to organize projects with a killer grep interface.
+
 #+NAME: projectile
 #+BEGIN_SRC emacs-lisp
   (use-package projectile
@@ -909,15 +962,19 @@ Projectile enables me to organize projects with a killer grep interface.
     :bind-keymap
 	    ("C-c p" . projectile-command-map)
     :init
-	    (when (file-directory-p "mnt/state/Projects/Code")
-	      (setq projectile-project-search-path "mnt/state/Projects/Code"))
-	    (setq projectile-switch-project-action #'projectile-dired))
+      (setq projectile-enable-caching t)
+      (setq projectile-switch-project-action #'projectile-dired))
+      (when (file-directory-p "mnt/state/Projects/Code")
+        (setq projectile-project-search-path "mnt/state/Projects/Code"))
+      (when (file-directory-p "/Users/dustin/State/Projects/Code")
+        (setq projectile-project-search-path "/Users/dustin/State/Projects/Code"))
 
   ;; Gives me Ivy options in the Projectile menus
   (use-package counsel-projectile
     :after projectile
     :config (counsel-projectile-mode))
 #+END_SRC
+
 ** Writing
 *** Spell Check / Flycheck Mode
 Everything related to spell and grammar checking.
@@ -939,7 +996,8 @@ Everything related to spell and grammar checking.
 
   (add-hook 'git-commit-mode-hook 'turn-on-flyspell)
   (add-hook 'text-mode-hook 'flyspell-mode)
-  (add-hook 'org-mode-hook 'flyspell-mode)
+  ;; Disable this for now, doesn't play well with long literate configuration
+  ;;(add-hook 'org-mode-hook 'flyspell-mode)
   (add-hook 'prog-mode-hook 'flyspell-prog-mode)
 
   (defun spell() (interactive) (flyspell-mode 1))
@@ -962,7 +1020,57 @@ Everything related to M-x compile.
 (add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
 
 #+END_SRC
+
+*** LSP
+#+NAME: lsp-mode
+#+BEGIN_SRC emacs-lisp
+  (use-package lsp-mode
+    :commands lsp lsp-deferred
+    :init
+      (setq lsp-keymap-prefix "C-c l")
+      (setq lsp-enable-which-key-integration t))
+
+  (use-package lsp-ui
+    :hook (lsp-mode . lsp-ui-mode)
+    :custom
+      (lsp-ui-doc-position 'bottom))
+
+  (use-package company
+    :after lsp-mode
+    :hook (lsp-mode . company-mode)
+    :bind (:map company-active-map
+          ("<tab>" . company-complete-selection))
+          (:map lsp-mode-map
+          ("<tab>" . company-indent-or-complete-common))
+     :custom
+       (company-minimum-prefix-length 1)
+       (company-idle-delay 0.0))
+
+  (use-package company-box
+    :hook (company-mode . company-box-mode))
+
+  ;; bug in emacs https://github.com/emacs-lsp/lsp-mode/issues/2525
+  ;;(setq lsp-headerline-breadcrumb-enable nil)
+  ;;(add-hook 'lsp-mode-hook #'lsp-headerline-breadcrumb-mode)
+#+END_SRC
+
 *** Languages
+**** Python
+#+NAME: python
+#+BEGIN_SRC emacs-lisp
+(use-package lsp-pyright
+  :ensure t
+  :hook (python-mode . (lambda ()
+    (require 'lsp-pyright)
+    (lsp-deferred))))  ; or lsp-deferred
+#+END_SRC
+
+**** Grammarly
+#+NAME: grammarly-mode
+#+BEGIN_SRC emacs-lisp
+(use-package lsp-grammarly)
+#+END_SRC
+
 **** Markdown
 #+NAME: markdown-mode
 #+BEGIN_SRC emacs-lisp
@@ -974,44 +1082,26 @@ Everything related to M-x compile.
       ("\\.markdown\\'" . markdown-mode))
     :init (setq markdown-command "pandoc"))
 #+END_SRC
+
 **** HTML
-***** Emmet mode
-Emmet mode gives autocompletion for HTML tags using short hand notations, which for I use the TAB key.
-
-#+NAME: html-auto-completion
-#+BEGIN_SRC emacs-lisp
-
-(use-package emmet-mode)
-(add-hook 'sgml-mode-hook 'emmet-mode)
-(add-hook 'css-mode-hook  'emmet-mode)
-(define-key emmet-mode-keymap [tab] 'emmet-expand-line)
-
-#+END_SRC
 ***** Web mode
 Emmet mode gives autocompletion for HTML tags using short hand notations, which for I use the TAB key.
 
 #+NAME: html-auto-completion
 #+BEGIN_SRC emacs-lisp
-
 (use-package emmet-mode)
 (add-hook 'sgml-mode-hook 'emmet-mode)
 (add-hook 'css-mode-hook  'emmet-mode)
 (define-key emmet-mode-keymap [tab] 'emmet-expand-line)
 (add-to-list 'emmet-jsx-major-modes 'jsx-mode)
-
 #+END_SRC
+
 ***** Rainbow mode
 Rainbow mode is an Emacs minor mode to highlight the color shown by a RGB hex triplet (example #FFFFFF).
 
 #+NAME: rainbow-mode
 #+BEGIN_SRC emacs-lisp
   (use-package rainbow-mode)
-#+END_SRC
-**** CSS
-#+NAME: lsp-tailwindcss
-#+BEGIN_SRC emacs-lisp
-(use-package lsp-tailwindcss
-        :straight (:host github :repo "merrickluo/lsp-tailwindcss"))
 #+END_SRC
 
 **** golang
@@ -1049,57 +1139,39 @@ Rainbow mode is an Emacs minor mode to highlight the color shown by a RGB hex tr
   ;; (load "~/State/Projects/Code/nixos-config/common/snippets/go-snippets/go-snippets.el")
 #+END_SRC
 
-**** Javascript
+**** Javascript / Typescript
 #+NAME: javascript
 #+BEGIN_SRC emacs-lisp
-  (use-package typescript-mode
-    :mode (rx ".ts" string-end)
-    :hook (typescript-mode . lsp-deferred)
-    :init
-      (define-derived-mode typescript-tsx-mode typescript-mode "typescript-tsx")
-      (add-to-list 'auto-mode-alist (cons (rx ".tsx" string-end) #'typescript-tsx-mode)))
+  (straight-use-package
+   '(prisma-mode :type git :host github :repo "pimeys/emacs-prisma-mode"))
+  (use-package prisma-mode
+    :straight t)
 
-  (use-package vue-mode)
-  (use-package web-mode)
+  (use-package web-mode
+    :hook (web-mode . lsp-deferred))
 
   (add-to-list 'auto-mode-alist '("\\.jsx?$" . web-mode)) ;; auto-enable for .js/.jsx files
-  (setq web-mode-content-types-alist '(("jsx" . "\\.js[x]?\\'")))
+  (add-to-list 'auto-mode-alist '("\\.vue\\'" . web-mode))
+
   (defun web-mode-init-hook ()
     "Hooks for Web mode.  Adjust indent."
-    (setq web-mode-markup-indent-offset 4))
-
+    (setq web-mode-markup-indent-offset 2))
   (add-hook 'web-mode-hook  'web-mode-init-hook)
+
+  ;; Vue.js / Nuxt.js Language Server
+  (straight-use-package
+   '(lsp-volar :type git :host github :repo "jadestrong/lsp-volar"))
+  (use-package lsp-volar
+    :straight t)
+
   ;; React snippets
   (load "~/State/Projects/Code/nixos-config/common/snippets/react-snippets/react-snippets.el")
-#+END_SRC
 
-*** LSP
-#+NAME: javascript
-#+BEGIN_SRC emacs-lisp
-  (use-package lsp-mode
-    :commands lsp lsp-deferred
-    :init
-    (setq lsp-keymap-prefix "C-c l")
-    (setq lsp-enable-which-key-integration t))
-
-  (use-package lsp-ui
-    :hook (lsp-mode . lsp-ui-mode)
-    :custom
-      (lsp-ui-doc-position 'bottom))
-
-  (use-package company
-    :after lsp-mode
-    :hook (lsp-mode . company-mode)
-    :bind (:map company-active-map
-          ("<tab>" . company-complete-selection))
-          (:map lsp-mode-map
-          ("<tab>" . company-indent-or-complete-common))
-     :custom
-       (company-minimum-prefix-length 1)
-       (company-idle-delay 0.0))
-
-  (use-package company-box
-    :hook (company-mode . company-box-mode))
+  ;; Keeps indentation organized across these modes
+  (use-package prettier-js)
+  (add-hook 'js2-mode-hook 'prettier-js-mode)
+  (add-hook 'web-mode-hook 'prettier-js-mode)
+  (add-hook 'css-mode-hook 'prettier-js-mode)
 #+END_SRC
 
 *** Git
@@ -1107,53 +1179,35 @@ Rainbow mode is an Emacs minor mode to highlight the color shown by a RGB hex tr
 #+BEGIN_SRC emacs-lisp
   (use-package magit
     :commands (magit-status magit-get-current-branch))
+  (define-key magit-hunk-section-map (kbd "RET") 'magit-diff-visit-file-other-window)
 #+END_SRC
+
 *** Infrastructure
 **** Nix
 Nix is my package manager and operating system of choice; this mode enables me to have a better time writing Nix expressions.
 
+#+NAME: nix-mode
 #+begin_src emacs-lisp
 (use-package nix-mode
   :mode "\\.nix\\'")
-(add-to-list 'lsp-language-id-configuration '(nix-mode . "nix"))
-(lsp-register-client
- (make-lsp-client :new-connection (lsp-stdio-connection '("rnix-lsp"))
-                  :major-modes '(nix-mode)
-                  :server-id 'nix))
 #+end_src
+
 **** Docker mode
 #+NAME: dockerfile-mode
 #+BEGIN_SRC emacs-lisp
   ;; This uses dockerfile-mode for Docker files
   (use-package dockerfile-mode)
   (put 'dockerfile-image-name 'safe-local-variable #'stringp)
+  (add-to-list 'auto-mode-alist '("\\Dockerfile?$" . dockerfile-mode)) ;; auto-enable for Dockerfiles
 #+END_SRC
 
 **** Terraform
-#+NAME: lsp-terraform
+#+NAME: terraform-mode
 #+BEGIN_SRC emacs-lisp
   (use-package terraform-mode
     :hook (terraform-mode . lsp-deferred))
+  (add-to-list 'auto-mode-alist '("\\.tf?$" . terraform-mode)) ;; auto-enable for .tf files
 #+END_SRC
-
-*** Quality of Life
-
-Delete trailing whitespace on save.
-
-#+NAME: trailing-whitespace-on-save
-#+BEGIN_SRC emacs-lisp
-  (add-hook 'before-save-hook 'delete-trailing-whitespace)
-#+END_SRC
-
-** Writing
-*** Update Table of Contents on Save
-
-I use =org-make-toc= to automatically update the Table of Contents in any header with a property named =TOC=.
-
-#+begin_src emacs-lisp
-  (use-package org-make-toc)
-  (add-hook 'org-mode-hook #'org-make-toc-mode)
-#+end_src
 
 ** Learning Emacs
 These packages may come and go, but ultimately aid in my understanding of emacs and emacs lisp.
@@ -1173,8 +1227,8 @@ These packages may come and go, but ultimately aid in my understanding of emacs 
 
 **** Indent blocks, set max region of output
 #+BEGIN_SRC emacs-lisp
-  (setq org-src-tab-acts-natively nil)
-  (setq org-table-convert-region-max-lines 9999)
+  ;;(setq org-src-tab-acts-natively nil)
+  ;;(setq org-table-convert-region-max-lines 9999)
 #+END_SRC
 
 **** ANSI color codes in org babel shell output
@@ -1197,7 +1251,6 @@ Found [[https://emacs.stackexchange.com/questions/44664/apply-ansi-color-escape-
   ;; Gives me a fancy list of commands I run
   (use-package command-log-mode)
   (setq global-command-log-mode t)
-  ;; TODO Install package that lets you define help screens for keymaps
 #+END_SRC
 
 *** Panel popup to show key bindings
@@ -1212,19 +1265,18 @@ Found [[https://emacs.stackexchange.com/questions/44664/apply-ansi-color-escape-
 #+END_SRC
 
 *** Helpful documentation strings for common functions
-
 #+NAME: helpful
 #+BEGIN_SRC emacs-lisp
   (use-package helpful
     :custom
-    ;; Remap Counsel help functions
-    (counsel-describe-function-function #'helpful-callable)
-    (counsel-describe-variable-function #'helpful-variable)
-      :bind
-    ;; Remap default help functions
-    ([remap describe-function] . helpful-function)
-    ([remap describe-symbol] . helpful-symbol)
-    ([remap describe-variable] . helpful-variable)
-    ([remap describe-command] . helpful-command)
-    ([remap describe-key] . helpful-key))
+      ;; Remap Counsel help functions
+      (counsel-describe-function-function #'helpful-callable)
+      (counsel-describe-variable-function #'helpful-variable)
+    :bind
+      ;; Remap default help functions
+      ([remap describe-function] . helpful-function)
+      ([remap describe-symbol] . helpful-symbol)
+      ([remap describe-variable] . helpful-variable)
+      ([remap describe-command] . helpful-command)
+      ([remap describe-key] . helpful-key))
 #+END_SRC
