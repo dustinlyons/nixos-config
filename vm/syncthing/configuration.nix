@@ -39,7 +39,7 @@
     extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
   };
 
-  # Every hour - Run my custom Readwise <> org-roam importer
+  # Every minute - Run my custom Readwise <> org-roam importer
   # 12:00 - Snapshot data with current date
   # 2:00 - Destroy anything older than 30 days
   # 2:00 - Incrementally send today's changes to mirrored pool
@@ -47,11 +47,11 @@
   services.cron = {
     enable = true;
     systemCronJobs = [
-      "0  * * * *  root    python /root/import-readwise/app.py | logger -t cron"
-      "0  3 * * *  root    zfs snapshot rpool/data@`date +\\%Y-\\%m-\\%d` | logger -t cron"
-      "0  4 * * *  root    zfs destroy rpool/data@`date -d -30days +\\%Y-\\%m-\\%d` | logger -t cron"
-      "0  4 * * *  root    zfs send -i rpool/data@`date -d -1days +\\%Y-\\%m-\\%d` rpool/data@`date +\\%Y-\\%m-\\%d` | ssh dustin@192.168.0.223 zfs recv rpool/backups | logger -t cron"
-      "0  4 * * *  root    ssh dustin@192.168.0.223 zfs destroy rpool/data@`date -d -30days +\\%Y-\\%m-\\%d` | logger -t cron"
+      "* * * * *  root    python /root/import-readwise/app.py | logger -t cron"
+      "0 3 * * *  root    zfs snapshot rpool/data@`date +\\%Y-\\%m-\\%d` | logger -t cron"
+      "0 4 * * *  root    zfs destroy rpool/data@`date -d -30days +\\%Y-\\%m-\\%d` | logger -t cron"
+      "0 4 * * *  root    zfs send -i rpool/data@`date -d -1days +\\%Y-\\%m-\\%d` rpool/data@`date +\\%Y-\\%m-\\%d` | ssh dustin@192.168.0.223 zfs recv rpool/backups | logger -t cron"
+      "0 4 * * *  root    ssh dustin@192.168.0.223 zfs destroy rpool/data@`date -d -30days +\\%Y-\\%m-\\%d` | logger -t cron"
     ];
 
   };
