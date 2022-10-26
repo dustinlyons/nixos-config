@@ -95,6 +95,7 @@ common-packages ++ [
   yubikey-manager-qt
   yubikey-agent
 
+  xclip
   # PDF viewer
   zathura
 ]
