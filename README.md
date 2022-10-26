@@ -16,7 +16,7 @@ Some helpful links:
 * [My steps to bootstrap a new virtual machine](https://github.com/dustinlyons/nixos-config/blob/main/vm/README.md). The same steps apply if you're starting from scratch on bare metal (i.e, no hard disk partition).
 * My Emacs [literate configuration](https://github.com/dustinlyons/nixos-config/blob/main/common/config/emacs/Emacs.org)
 
-My NixOS configuration is over a year of continuing to abstract and evolve my daily life, personally and professionally. Nix and the [communities](https://github.com/nix-community/emacs-overlay) around [nixpkg](https://github.com/NixOS/nixpkgs) make it enjoyable!
+My NixOS configuration is over a year of continuing to abstract and evolve my daily life, personally and professionally. It's been a lot of fun, thanks to Nix and the [communities](https://github.com/nix-community/emacs-overlay) around [nixpkg](https://github.com/NixOS/nixpkgs). If you have any questions about the project, feel free to open an Issue.
 
 # Layout
 
@@ -27,7 +27,7 @@ My NixOS configuration is over a year of continuing to abstract and evolve my da
 ├── hardware     # Hardware-specific configuration
 ├── macos        # MacOS and nix-darwin configuration
 ├── nixos        # My NixOS desktop-related configuration
-├── overlays     # Drop an overlay, and it runs. Mainly patches.
+├── overlays     # Drop an overlay file in this dir, and it runs. So far mainly patches.
 └── vms          # VM-specific configs running in my home-lab
 ```
 
