@@ -29,35 +29,24 @@ bspc rule -a KeePassXC state=floating follow=on
 bspc rule -a feh state=floating
 bspc rule -a Peek state=floating follow=on
 
-## First Desktop
+## Set desktops
 killall -qw google-chrome-stable
+killall -qw tmux
+killall -qw emacsclient
+killall -qw slack
+killall -qw telegram-desktop
+killall -qw cider
+killall -qw btop
+killall -qw pcmanfm
 bspc rule -a google-chrome-stable -o desktop='daily' && /etc/profiles/per-user/dustin/bin/google-chrome-stable "https://calendar.google.com/calendar/u/0/r" "https://www.fastmail.com"
 bspc rule -a google-chrome-stable -o desktop='daily' && /etc/profiles/per-user/dustin/bin/google-chrome-stable "https://www.techmeme.com" "https://news.ycombinator.com/"
-
-## Second Desktop
-killall -qw tmux
+bspc rule -a google-chrome-stable -o desktop='finance' && /etc/profiles/per-user/dustin/bin/google-chrome-stable "https://www.tradingview.com" "https://www.bloomberg.com"
 bspc rule -a Alacritty -o desktop='dev' && /etc/profiles/per-user/dustin/bin/alacritty -e tmux
-killall -qw emacsclient
-bspc rule -a emacs -o desktop='dev' && /run/current-system/sw/bin/emacsclient -c -a emacs
-
-## Third Desktop
-killall -qw slack
+bspc rule -a emacs -o desktop='dev' && /run/current-system/sw/bin/emacsclient -c
 bspc rule -a Slack -o desktop='chat' && /etc/profiles/per-user/dustin/bin/slack
-killall -qw telegram-desktop
 bspc rule -a Telegram -o desktop='chat' && /etc/profiles/per-user/dustin/bin/telegram-desktop
-
-## Fourth Desktop
-killall -qw cider
 bspc rule -a cider -o desktop='media' && /etc/profiles/per-user/dustin/bin/cider
-
-## Fifth Desktop
-killall -qw google-chrome-stable
-bspc rule -a google-chrome-stable -o desktop='finance' && /etc/profiles/per-user/dustin/bin/google-chrome-stable https://www.tradingview.com https://www.bloomberg.com
-
-## Sixth Desktop
-killall -qw btop
 bspc rule -a Alacritty -o desktop='system' && /etc/profiles/per-user/dustin/bin/alacritty -e btop
-killall -qw pcmanfm
 bspc rule -a pcmanfm -o desktop='system' && /etc/profiles/per-user/dustin/bin/pcmanfm
 
 # Set background and top bar
