@@ -1,7 +1,7 @@
 #! /bin/sh
 pgrep -x sxhkd > /dev/null || sxhkd &
 
-bspc monitor --reset-desktops daily dev chat media finance misc
+bspc monitor --reset-desktops daily dev chat media finance system
 bspc config border_width         0
 bspc config window_gap          16
 
@@ -22,34 +22,44 @@ bspc config pointer_action1 move
 bspc config pointer_action2 resize_side
 bspc config pointer_action2 resize_corner
 
-bspc rule -a discord desktop='chat' follow=on
-bspc rule -a google-chrome-stable desktop='daily' follow=on
-bspc rule -a vlc desktop='media' follow=on
-bspc rule -a cider desktop='media' follow=on
-bspc rule -a keepassxc state=floating follow=on
-bspc rule -a peek state=floating
+bspc rule -a Discord desktop='chat' follow=on
+bspc rule -a vlc state=floating desktop='media' follow=on
+bspc rule -a Cider desktop='media' follow=on
+bspc rule -a KeePassXC state=floating follow=on
 bspc rule -a feh state=floating
+bspc rule -a Peek state=floating follow=on
 
 # Set background and top bar
 feh --bg-scale $HOME/.config/wallpaper/active.png
 systemctl --user start polybar
 
 ## First Desktop
+killall -qw google-chrome-stable
+bspc rule -a google-chrome-stable -o desktop='daily' && /etc/profiles/per-user/dustin/bin/google-chrome-stable https://calendar.google.com/calendar/u/0/r https://www.fastmail.com
+bspc rule -a google-chrome-stable -o desktop='daily' && /etc/profiles/per-user/dustin/bin/google-chrome-stable https://www.techmeme.com https://news.ycombinator.com/
 
 ## Second Desktop
-
 killall -qw tmux
-bspc rule -a Alacritty -o desktop=2 && /run/current-system/sw/bin/alacritty -e tmux attach
+bspc rule -a Alacritty -o desktop='dev' && /etc/profiles/per-user/dustin/bin/alacritty -e tmux attach
 killall -qw emacsclient
-bspc rule -a emacs -o desktop=2 && /run/current-system/sw/bin/emacsclient -c -a emacs
+bspc rule -a emacs -o desktop='dev' && /run/current-system/sw/bin/emacsclient -c -a emacs
 
 ## Third Desktop
+killall -qw slack
+bspc rule -a Slack -o desktop='chat' && /etc/profiles/per-user/dustin/bin/slack
+killall -qw telegram-desktop
+bspc rule -a Telegram -o desktop='chat' && /etc/profiles/per-user/dustin/bin/telegram-desktop
 
 ## Fourth Desktop
+killall -qw cider
+bspc rule -a cider -o desktop='media' && /etc/profiles/per-user/dustin/bin/cider
 
 ## Fifth Desktop
+killall -qw google-chrome-stable
+bspc rule -a google-chrome-stable -o desktop='finance' && /etc/profiles/per-user/dustin/bin/google-chrome-stable https://www.tradingview.com https://www.bloomberg.com
 
+## Sixth Desktop
 killall -qw btop
-bspc rule -a Alacritty -o desktop=5 && /run/current-system/sw/bin/alacritty -e btop
+bspc rule -a Alacritty -o desktop='system' && /etc/profiles/per-user/dustin/bin/alacritty -e btop
 killall -qw pcmanfm
-bspc rule -a pcmanfm -o desktop=5 && /run/current-system/sw/bin/pcmanfm
+bspc rule -a pcmanfm -o desktop='system' && /etc/profiles/per-user/dustin/bin/pcmanfm
