@@ -29,18 +29,14 @@ bspc rule -a KeePassXC state=floating follow=on
 bspc rule -a feh state=floating
 bspc rule -a Peek state=floating follow=on
 
-# Set background and top bar
-feh --bg-scale $HOME/.config/wallpaper/active.png
-systemctl --user start polybar
-
 ## First Desktop
 killall -qw google-chrome-stable
-bspc rule -a google-chrome-stable -o desktop='daily' && /etc/profiles/per-user/dustin/bin/google-chrome-stable https://calendar.google.com/calendar/u/0/r https://www.fastmail.com
-bspc rule -a google-chrome-stable -o desktop='daily' && /etc/profiles/per-user/dustin/bin/google-chrome-stable https://www.techmeme.com https://news.ycombinator.com/
+bspc rule -a google-chrome-stable -o desktop='daily' && /etc/profiles/per-user/dustin/bin/google-chrome-stable "https://calendar.google.com/calendar/u/0/r" "https://www.fastmail.com"
+bspc rule -a google-chrome-stable -o desktop='daily' && /etc/profiles/per-user/dustin/bin/google-chrome-stable "https://www.techmeme.com" "https://news.ycombinator.com/"
 
 ## Second Desktop
 killall -qw tmux
-bspc rule -a Alacritty -o desktop='dev' && /etc/profiles/per-user/dustin/bin/alacritty -e tmux attach
+bspc rule -a Alacritty -o desktop='dev' && /etc/profiles/per-user/dustin/bin/alacritty -e tmux
 killall -qw emacsclient
 bspc rule -a emacs -o desktop='dev' && /run/current-system/sw/bin/emacsclient -c -a emacs
 
@@ -63,3 +59,7 @@ killall -qw btop
 bspc rule -a Alacritty -o desktop='system' && /etc/profiles/per-user/dustin/bin/alacritty -e btop
 killall -qw pcmanfm
 bspc rule -a pcmanfm -o desktop='system' && /etc/profiles/per-user/dustin/bin/pcmanfm
+
+# Set background and top bar
+feh --bg-scale $HOME/.config/wallpaper/active.png
+systemctl --user start polybar
