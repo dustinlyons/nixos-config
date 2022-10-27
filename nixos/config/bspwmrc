@@ -25,11 +25,31 @@ bspc config pointer_action2 resize_corner
 bspc rule -a discord desktop='chat' follow=on
 bspc rule -a google-chrome-stable desktop='daily' follow=on
 bspc rule -a vlc desktop='media' follow=on
-bspc rule -a spotify desktop='media' follow=on
+bspc rule -a cider desktop='media' follow=on
 bspc rule -a keepassxc state=floating follow=on
+bspc rule -a peek state=floating
 bspc rule -a feh state=floating
-bspc rule -a alacritty-readonly state=floating follow=on
 
 # Set background and top bar
 feh --bg-scale $HOME/.config/wallpaper/active.png
 systemctl --user start polybar
+
+## First Desktop
+
+## Second Desktop
+
+killall -qw tmux
+bspc rule -a Alacritty -o desktop=2 && /run/current-system/sw/bin/alacritty -e tmux attach
+killall -qw emacsclient
+bspc rule -a emacs -o desktop=2 && /run/current-system/sw/bin/emacsclient -c -a emacs
+
+## Third Desktop
+
+## Fourth Desktop
+
+## Fifth Desktop
+
+killall -qw btop
+bspc rule -a Alacritty -o desktop=5 && /run/current-system/sw/bin/alacritty -e btop
+killall -qw pcmanfm
+bspc rule -a pcmanfm -o desktop=5 && /run/current-system/sw/bin/pcmanfm
