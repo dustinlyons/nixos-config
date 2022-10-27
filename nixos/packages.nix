@@ -34,8 +34,9 @@ common-packages ++ [
   # Matrix.org messaging app
   fractal
 
-  # Screenshot tool
+  # Screenshot tools
   flameshot
+  peek
 
   gimp
   gnumake
@@ -87,15 +88,15 @@ common-packages ++ [
   vlc
   wineWowPackages.stable
 
-  # I use yad-calendar with polybar
-  yad
+  yad # I use yad-calendar with polybar
   xdotool 
 
   yubikey-manager
   yubikey-manager-qt
   yubikey-agent
 
-  xclip
+  xclip # For the org-download package in Emacs
+  xorg.xwininfo # Provides a cursor to click and learn about windows
   # PDF viewer
   zathura
 ]
