@@ -1221,6 +1221,7 @@ These packages may come and go, but ultimately aid in my understanding of emacs 
     '(
       (emacs-lisp . t)
       (python . t)
+      (sql . t)
       (shell . t)))
    )
 #+END_SRC
