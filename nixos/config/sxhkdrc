@@ -104,11 +104,13 @@ super + c
 
 # Terminal emulator
 super + Return
-	alacritty
+	bspc rule -a Alacritty -o state=floating rectangle=1024x768x0x0 center=true && /etc/profiles/per-user/dustin/bin/alacritty
+super + t
+	bspc desktop --focus ^2
 
 # Keepass XC
-super + k
-	keepassxc
+super + shift + x
+	/etc/profiles/per-user/dustin/bin/keepassxc
 
 # Emacs
 # -c flag is --create-frame

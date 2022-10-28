@@ -1,10 +1,14 @@
 #! /bin/sh
+#
+# Set the number of workspaces
+bspc monitor -d 1 2 3 4 5 6
+
+# Launch keybindings daemon
 pgrep -x sxhkd > /dev/null || sxhkd &
 
-bspc monitor --reset-desktops daily dev chat media finance system
+# Window configurations
 bspc config border_width         0
 bspc config window_gap          16
-
 bspc config split_ratio          0.52
 bspc config borderless_monocle   true
 bspc config gapless_monocle      true
@@ -22,15 +26,18 @@ bspc config pointer_action1 move
 bspc config pointer_action2 resize_side
 bspc config pointer_action2 resize_corner
 
-bspc rule -a Discord desktop='chat' follow=on
-bspc rule -a vlc state=floating desktop='media' follow=on
-bspc rule -a Cider desktop='media' follow=on
-bspc rule -a KeePassXC state=floating follow=on
-bspc rule -a feh state=floating
+# Floating windows
+bspc rule -a vlc desktop='^4' follow=on
+bspc rule -a KeePassXC state=floating center=true rectangle=909x625+0+0
+bspc rule -a feh state=floating center=true
 bspc rule -a Peek state=floating follow=on
 
+# Misc rules
+bspc rule -a Discord desktop='^3' follow=on
+bspc rule -a Alacritty desktop='^2' follow=on
+
 ## Set desktops
-killall -qw google-chrome-stable
+killall -qw chrome
 killall -qw tmux
 killall -qw emacsclient
 killall -qw slack
@@ -38,17 +45,54 @@ killall -qw telegram-desktop
 killall -qw cider
 killall -qw btop
 killall -qw pcmanfm
-bspc rule -a google-chrome-stable -o desktop='daily' && /etc/profiles/per-user/dustin/bin/google-chrome-stable "https://calendar.google.com/calendar/u/0/r" "https://www.fastmail.com"
-bspc rule -a google-chrome-stable -o desktop='daily' && /etc/profiles/per-user/dustin/bin/google-chrome-stable "https://www.techmeme.com" "https://news.ycombinator.com/"
-bspc rule -a google-chrome-stable -o desktop='finance' && /etc/profiles/per-user/dustin/bin/google-chrome-stable "https://www.tradingview.com" "https://www.bloomberg.com"
-bspc rule -a Alacritty -o desktop='dev' && /etc/profiles/per-user/dustin/bin/alacritty -e tmux
-bspc rule -a emacs -o desktop='dev' && /run/current-system/sw/bin/emacsclient -c
-bspc rule -a Slack -o desktop='chat' && /etc/profiles/per-user/dustin/bin/slack
-bspc rule -a Telegram -o desktop='chat' && /etc/profiles/per-user/dustin/bin/telegram-desktop
-bspc rule -a cider -o desktop='media' && /etc/profiles/per-user/dustin/bin/cider
-bspc rule -a Alacritty -o desktop='system' && /etc/profiles/per-user/dustin/bin/alacritty -e btop
-bspc rule -a pcmanfm -o desktop='system' && /etc/profiles/per-user/dustin/bin/pcmanfm
 
 # Set background and top bar
 feh --bg-scale $HOME/.config/wallpaper/active.png
 systemctl --user start polybar
+
+sleep .25
+
+# Launch these when script runs
+# -o means "one shot", meaning the rule goes away after launching the app
+bspc rule -a Google-chrome -o desktop='^1'
+/etc/profiles/per-user/dustin/bin/google-chrome-stable "https://www.fastmail.com" "https://calendar.google.com/calendar/u/0/r" &!
+
+sleep 1
+
+bspc rule -a Google-chrome -o desktop='^1'
+/etc/profiles/per-user/dustin/bin/google-chrome-stable --new-window "https://www.techmeme.com" "https://news.ycombinator.com/" &!
+
+sleep 1
+
+bspc rule -a Alacritty -o desktop='^2'
+/etc/profiles/per-user/dustin/bin/alacritty -e tmux attach &!
+
+sleep 1
+
+bspc rule -a Emacs -o desktop='^2'
+/run/current-system/sw/bin/emacsclient -c &!
+
+sleep .5
+
+bspc rule -a Slack -o desktop='^3'
+/etc/profiles/per-user/dustin/bin/slack &!
+
+sleep .5
+
+bspc rule -a TelegramDesktop -o desktop='^3'
+/etc/profiles/per-user/dustin/bin/telegram-desktop &!
+
+sleep .5
+
+bspc rule -a Google-chrome -o desktop='^5'
+/etc/profiles/per-user/dustin/bin/google-chrome-stable --new-window "https://www.tradingview.com" "https://www.bloomberg.com" &!
+
+sleep .5
+
+bspc rule -a Alacritty -o desktop='^6'
+/etc/profiles/per-user/dustin/bin/alacritty -e btop &!
+
+sleep .25
+
+bspc rule -a Cider -o desktop='^4'
+/etc/profiles/per-user/dustin/bin/cider &!
