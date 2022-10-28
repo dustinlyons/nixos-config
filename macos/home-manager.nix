@@ -8,6 +8,7 @@ let
   #  ./dock
   ];
 
+
   # local.dock.enable = true;
   # local.dock.entries = [
   #   { path = "/Applications/Slack.app/"; }
@@ -64,12 +65,17 @@ let
     "yoink" = 457622435;
   };
 
+
   home-manager = {
     useGlobalPkgs = true;
     users.dustin = { pkgs, lib, ... }: {
       home.enableNixpkgsReleaseCheck = false;
       home.packages = pkgs.callPackage ./packages.nix {};
       programs = common-programs // {};
+
+      # https://github.com/nix-community/home-manager/issues/3344
+      # Marked broken Oct 20th, check later to remove this
+      manual.manpages.enable = false;
     };
   };
 }
