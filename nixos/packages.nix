@@ -8,6 +8,8 @@ common-packages ++ [
   betterlockscreen
   brlaser # printer driver
 
+  bc
+
   # Terminal audio visualizer
   cava
 
