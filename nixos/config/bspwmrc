@@ -32,10 +32,6 @@ bspc rule -a KeePassXC state=floating center=true rectangle=909x625+0+0
 bspc rule -a feh state=floating center=true
 bspc rule -a Peek state=floating follow=on
 
-# Misc rules
-bspc rule -a Discord desktop='^3' follow=on
-bspc rule -a Alacritty desktop='^2' follow=on
-
 ## Set desktops
 killall -qw chrome
 killall -qw tmux
@@ -79,8 +75,10 @@ bspc rule -a Slack -o desktop='^3'
 
 sleep .5
 
-bspc rule -a TelegramDesktop -o desktop='^3'
-/etc/profiles/per-user/dustin/bin/telegram-desktop &!
+bspc rule -a Discord -o desktop='^3'
+/etc/profiles/per-user/dustin/bin/discord &!
+#bspc rule -a TelegramDesktop -o desktop='^3'
+#/etc/profiles/per-user/dustin/bin/telegram-desktop &!
 
 sleep .5
 

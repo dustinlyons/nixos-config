@@ -99,14 +99,18 @@ super + y
 super + @space
 	rofi -config -no-lazy-grab -show drun -modi drun -theme ~/State/Projects/Code/nixos-config/nixos/config/rofi/launcher.rasi
 
-super + c
-	rofi -show calc -modi calc -no-show-match -no-sort -theme ~/State/Projects/Code/nixos-config/nixos/config/rofi/launcher.rasi
-
 # Terminal emulator
 super + Return
 	bspc rule -a Alacritty -o state=floating rectangle=1024x768x0x0 center=true && /etc/profiles/per-user/dustin/bin/alacritty
+
+# Jump to workspaces
 super + t
 	bspc desktop --focus ^2
+super + b
+	bspc desktop --focus ^1
+super + c
+	bspc desktop --focus ^4
+
 
 # Keepass XC
 super + shift + x
