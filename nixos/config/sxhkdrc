@@ -108,7 +108,7 @@ super + t
 	bspc desktop --focus ^2
 super + b
 	bspc desktop --focus ^1
-super + c
+super + w
 	bspc desktop --focus ^4
 
 
