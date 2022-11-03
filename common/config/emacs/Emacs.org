@@ -1071,6 +1071,14 @@ Everything related to M-x compile.
 (use-package lsp-grammarly)
 #+END_SRC
 
+**** YAML
+#+NAME: yaml-mode
+#+BEGIN_SRC emacs-lisp
+  (use-package yaml-mode
+    :commands (markdown-mode gfm-mode)
+    :mode (("\\.yml\\'" . yaml-mode)))
+#+END_SRC
+
 **** Markdown
 #+NAME: markdown-mode
 #+BEGIN_SRC emacs-lisp
