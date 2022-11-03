@@ -114,7 +114,7 @@
       set ruler
       set backspace=indent,eol,start
       set laststatus=2
-      set clipboard=unnamedplus
+      set clipboard=autoselect
 
       " Dir stuff
       set nobackup
@@ -285,9 +285,8 @@
         # Use XDG data directory
         # https://github.com/tmux-plugins/tmux-resurrect/issues/348
         extraConfig = ''
-          set -g @resurrect-dir '${HOME}/.cache/tmux/resurrect'
+          set -g @resurrect-dir '$HOME/.cache/tmux/resurrect'
           set -g @resurrect-capture-pane-contents 'on'
-          set -g @resurrect-strategy-vim 'session'
           set -g @resurrect-pane-contents-area 'visible'
         '';
       }
