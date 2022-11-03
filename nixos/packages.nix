@@ -70,6 +70,7 @@ common-packages ++ [
   postgresql
 
   # games
+  lutris
   steam
 
   # Our file browser
