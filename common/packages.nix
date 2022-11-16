@@ -46,7 +46,7 @@ with pkgs; [
   openssh
   pandoc
   pinentry
-  python3
+  python3.9
   virtualenv
   ripgrep
   roboto
