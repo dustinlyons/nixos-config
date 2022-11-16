@@ -409,7 +409,7 @@ I use org-roam to take notes, which keeps many small files in the style of Zette
 
 #+NAME::org-mode-filter
 #+BEGIN_SRC emacs-lisp
-  (setq org-agenda-files "~/State/Areas/Writing/Notebook/20220419121404-todo.org" )
+  (setq org-agenda-files "~/.config/emacs/agenda.txt" )
 
   (defun org-global-props (&optional property buffer)
     "Helper function to grab org properties"
@@ -654,7 +654,7 @@ These are templates used to create new notes.
     '(("d" "default" entry
        "* %?"
        :if-new (file+head "%<%Y-%m-%d>.org"
-                          "#+TITLE: %<%Y-%m-%d>\n#+filetags: Daily\n* Log\n\n* %<%Y-%m-%d>"))))
+                          "#+TITLE: %<%Y-%m-%d>\n#+filetags: Daily\n\n* %<%Y-%m-%d>\n\n* Log\n\n* Import"))))
 #+END_SRC
 
 ***** Extending Roam
