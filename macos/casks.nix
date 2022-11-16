@@ -13,6 +13,7 @@
   "syncthing"
   "diffusionbee"
   "shottr"
+  "steam"
   "telegram"
   "vlc"
   "visual-studio-code"
