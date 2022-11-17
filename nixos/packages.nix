@@ -4,6 +4,7 @@ with pkgs;
 let common-packages = import ../common/packages.nix { pkgs = pkgs; }; in
 common-packages ++ [
   _1password-gui
+
   appimage-run
   betterlockscreen
   brlaser # printer driver
@@ -26,6 +27,9 @@ common-packages ++ [
 
   # Emoji picker
   emote
+
+  # Chat
+  hexchat
 
   # Manage wallpapers
   feh
