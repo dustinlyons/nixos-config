@@ -99,6 +99,10 @@ super + @space
 super + Return
 	bspc rule -a Alacritty -o state=floating rectangle=1024x768x0x0 center=true && /etc/profiles/per-user/dustin/bin/alacritty
 
+# Terminal emulator
+super + ctrl + Return
+	/etc/profiles/per-user/dustin/bin/alacritty
+
 # Jump to workspaces
 super + t
 	bspc desktop --focus ^2
@@ -106,6 +110,8 @@ super + b
 	bspc desktop --focus ^1
 super + w
 	bspc desktop --focus ^4
+super + Tab
+        bspc {node,desktop} -f last
 
 
 # Keepass XC
