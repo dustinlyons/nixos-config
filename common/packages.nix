@@ -47,7 +47,7 @@ with pkgs; [
   pandoc
   pinentry
   python39
-  virtualenv
+  python39Packages.virtualenv
   ripgrep
   roboto
   slack
