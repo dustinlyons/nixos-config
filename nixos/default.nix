@@ -119,7 +119,6 @@
   #
   services.picom = {
     enable = true;
-    experimentalBackends = true;
     settings = {
       animations = true;
       animation-stiffness = 300.0;
