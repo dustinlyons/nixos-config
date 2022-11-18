@@ -16,7 +16,7 @@ Some helpful links:
 * [My steps to bootstrap a new virtual machine](https://github.com/dustinlyons/nixos-config/blob/main/vm/README.md). The same steps apply if you're starting from scratch on bare metal (i.e, no hard disk partition).
 * My Emacs [literate configuration](https://github.com/dustinlyons/nixos-config/blob/main/common/config/emacs/Emacs.org)
 
-My NixOS configuration is over a year of continuing to abstract and evolve my daily life, personally and professionally. It's been a lot of fun, thanks to Nix and the [communities](https://github.com/nix-community/emacs-overlay) around [nixpkg](https://github.com/NixOS/nixpkgs). If you have any questions about the project, feel free to open an Issue.
+My NixOS configuration is over a year of continuing to abstract and evolve my daily life, personally and professionally. It's been a lot of fun, thanks to Nix and the [communities](https://github.com/nix-community/emacs-overlay) around [nixpkg](https://github.com/NixOS/nixpkgs). If you have any questions about the project, feel free to open a Github Issue.
 
 # Layout
 
