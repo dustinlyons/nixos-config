@@ -106,6 +106,7 @@
 
   # Add docker daemon
   virtualisation.docker.enable = true;
+  virtualisation.docker.logDriver = "json-file";
 
   # Picom, my window compositor with fancy effects
   #
