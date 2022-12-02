@@ -17,4 +17,5 @@
   "telegram"
   "vlc"
   "visual-studio-code"
+  "zoom"
 ]
