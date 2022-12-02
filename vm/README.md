@@ -19,10 +19,6 @@ Don't have Nix to run `nix-build`? [Check out the official NixOS ISO.](https://n
 
 For our installation, we need to configure our system so that Nix has _just enough_ information to go on, and no more. Nix will detect most settings and do the final heavy lifting.
 
-> What does this mean in practice? Basically, we need to ensure our disks are partitioned with the filesystem we want and we need to mount our initial NixOS system. 
-> Afterwards, running the installer will copy our Nix media from memory to a durable location, i.e the hard disk.
-> Don't worry, I go into more detail below.
-
 ## 2. Partition and format your hard drive
 I use ZFS, but you can just as easily use ```ext4``` with ```fdisk```. Our first step is to just verify we're ready to work. The _install media_ has everything available for these commands by default.
 
