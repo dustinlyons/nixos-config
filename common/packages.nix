@@ -7,7 +7,6 @@ with pkgs; [
   awscli2
   bash-completion
   bat # A cat(1) clone with syntax highlighting
-  bats # A bash testing framework
   btop
   coreutils
   difftastic
