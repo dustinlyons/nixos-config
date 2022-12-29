@@ -19,6 +19,7 @@ common-packages ++ [
 
   # Functional testing framework using headless chrome
   cypress
+  chromedriver
 
   cmake
   direnv
