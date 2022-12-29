@@ -1065,10 +1065,10 @@ Everything related to M-x compile.
     (lsp-deferred))))  ; or lsp-deferred
 #+END_SRC
 
-**** Grammarly
+**** Shell scripts
 #+NAME: grammarly-mode
 #+BEGIN_SRC emacs-lisp
-(use-package lsp-grammarly)
+(add-to-list 'auto-mode-alist '("\\.env" . shell-script-mode))
 #+END_SRC
 
 **** YAML
@@ -1110,6 +1110,12 @@ Rainbow mode is an Emacs minor mode to highlight the color shown by a RGB hex tr
 #+NAME: rainbow-mode
 #+BEGIN_SRC emacs-lisp
   (use-package rainbow-mode)
+#+END_SRC
+
+**** Grammarly
+#+NAME: grammarly-mode
+#+BEGIN_SRC emacs-lisp
+(use-package lsp-grammarly)
 #+END_SRC
 
 **** golang
