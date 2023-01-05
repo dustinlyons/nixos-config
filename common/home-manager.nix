@@ -51,6 +51,9 @@
     # Enter nix-shell
     alias s="nix-shell '<nixpkgs>' -A $1"
 
+    # pnpm is a javascript package manager
+    alias pn=pnpm
+
     # Local global npm packages
     alias yarn=$HOME/.npm-new-global/bin/yarn
 
