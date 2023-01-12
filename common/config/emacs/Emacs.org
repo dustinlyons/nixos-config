@@ -359,9 +359,9 @@ We use two spaces in place of tabs.
 
 #+NAME: next-buffer
 #+BEGIN_SRC emacs-lisp
-  (setq-default indent-tabs-mode nil
-                js-indent-level 2
-                tab-width 2)
+  ;;(setq-default indent-tabs-mode nil
+  ;;              js-indent-level 2
+  ;;              tab-width 2)
 #+END_SRC
 
 *** Buffers
@@ -1146,7 +1146,7 @@ Rainbow mode is an Emacs minor mode to highlight the color shown by a RGB hex tr
   (add-hook 'go-mode-hook 'dl/go-mode-hook)
 
   ; Little hack to bring in my shell path on Mac where gopls and other binaries complained
-  (when (system-is-mac)
+  ;;(when (system-is-mac)
   ;;(setq exec-path (append '("/Users/dustin/bin" "/profile/bin" "/Users/dustin/.npm-packages/bin" "/Users/dustin/.nix-profile/bin" "/nix/var/nix/profiles/default/bin" "/usr/local/bin") exec-path)))
 
   ;; golang related yasnippets
@@ -1156,11 +1156,6 @@ Rainbow mode is an Emacs minor mode to highlight the color shown by a RGB hex tr
 **** Javascript / Typescript
 #+NAME: javascript
 #+BEGIN_SRC emacs-lisp
-  (straight-use-package
-   '(prisma-mode :type git :host github :repo "pimeys/emacs-prisma-mode"))
-  (use-package prisma-mode
-    :straight t)
-
   (use-package web-mode
     :hook (web-mode . lsp-deferred))
 
