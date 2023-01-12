@@ -63,8 +63,8 @@
     # Use difftastic, syntax-aware diffing
     alias diff=difft
 
-    # Always color ls
-    alias ls='ls --color'
+    # Always color ls and group directories
+    alias ls='ls --group-directories-first --color --human-readable --sort=ext'
 
     # Weather report in your terminal
     alias weather='curl http://wttr.in'
