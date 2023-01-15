@@ -1,6 +1,7 @@
 { pkgs }:
 
 with pkgs; [
+  act # run github actions locally
   alacritty
   aspell
   aspellDicts.en
