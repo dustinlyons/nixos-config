@@ -82,7 +82,6 @@
       enable = true;
     };
     extraConfig = {
-      credential.helper = "netlify";
       init.defaultBranch = "main";
       core = { 
 	    editor = "vim";
