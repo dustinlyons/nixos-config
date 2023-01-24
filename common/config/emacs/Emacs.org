@@ -1146,8 +1146,8 @@ Rainbow mode is an Emacs minor mode to highlight the color shown by a RGB hex tr
   (add-hook 'go-mode-hook 'dl/go-mode-hook)
 
   ; Little hack to bring in my shell path on Mac where gopls and other binaries complained
-  ;;(when (system-is-mac)
-  ;;(setq exec-path (append '("/Users/dustin/bin" "/profile/bin" "/Users/dustin/.npm-packages/bin" "/Users/dustin/.nix-profile/bin" "/nix/var/nix/profiles/default/bin" "/usr/local/bin") exec-path)))
+  (when (system-is-mac)
+  (setq exec-path (append '("/Users/dustin/bin" "/profile/bin" "/Users/dustin/.npm-packages/bin" "/Users/dustin/.nix-profile/bin" "/nix/var/nix/profiles/default/bin" "/usr/local/bin") exec-path)))
 
   ;; golang related yasnippets
   ;; (load "~/State/Projects/Code/nixos-config/common/snippets/go-snippets/go-snippets.el")
