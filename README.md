@@ -9,9 +9,9 @@ Welcome to my Nix and NixOS configuration! Here, you'll find "dotfiles" I share 
 * NixOS workstation
 * VMs running in my home-lab
 
-Whether you're looking to configure your own Nix or NixOS installation or simply want to use this code as an example, I hope you'll find this repository a valuable resource.
+Whether you're looking to configure your own Nix or NixOS installation or just use this code as an example, stay awahile. There's probably something here you'll find interesting.
 
-I've put in a lot of time and effort to make my NixOS configuration as efficient and user-friendly as possible. It's been a year-long journey of continuing to abstract and evolve my daily life, both personally and professionally, and I've had a blast doing it! Nix and the [communities](https://github.com/nix-community/emacs-overlay) around [nixpkg](https://github.com/NixOS/nixpkgs) have made it all possible.
+I've put in a lot of time and effort to make my NixOS configuration as simple and user-friendly as possible. It's been a year-long journey of continuing to abstract and evolve my daily life, both personally and professionally, and I've had a blast doing it! Nix and the [communities](https://github.com/nix-community/emacs-overlay) around [nixpkg](https://github.com/NixOS/nixpkgs) have made it all possible.
 
 To help you get started, you'll find my [steps for bootstrapping a new virtual machine](https://github.com/dustinlyons/nixos-config/blob/main/vm/README.md), which can also be applied to a bare metal (i.e, no hard disk partition) setup. For MacOS instructions, see details further below. Additionally, if you don't know much about Emacs, take a look at my [literate configuration](https://github.com/dustinlyons/nixos-config/blob/main/common/config/emacs/Emacs.org). You'll get a sense of what Emacs can do (spoiler: it's not just an IDE.)
 
