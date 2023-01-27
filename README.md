@@ -9,7 +9,7 @@ Welcome to my Nix and NixOS configuration! Here, you'll find "dotfiles" I share 
 * NixOS workstation
 * VMs running in my home-lab
 
-Whether you're looking to configure your own Nix or NixOS installation or just use this code as an example, stay awahile. There's probably something here you'll find interesting.
+Whether you're looking to configure your own Nix or NixOS installation or just use this code as an example-- stay awhile. There's hopefully something here you'll find interesting.
 
 I've put in a lot of time and effort to make my NixOS configuration as simple and user-friendly as possible. It's been a year-long journey of continuing to abstract and evolve my daily life, both personally and professionally, and I've had a blast doing it! Nix and the [communities](https://github.com/nix-community/emacs-overlay) around [nixpkg](https://github.com/NixOS/nixpkgs) have made it all possible.
 
