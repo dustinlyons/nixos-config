@@ -3,20 +3,21 @@
 # Dustin's Nix / NixOS config
 
 # Overview
+Welcome to my Nix and NixOS configuration! Here, you'll find "dotfiles" I share across various machines. This includes
 
-These are "dotfiles" for my
+* M1 Macbook Pro
+* NixOS workstation
+* VMs running in my home-lab
 
-* M1 Macbook Pro, 
-* NixOS workstation, 
-* and VMs running in my home-lab
+Whether you're looking to configure your own Nix or NixOS installation or simply want to use this code as an example, I hope you'll find this repository a valuable resource.
 
-Continue reading to configure your own Nix or NixOS installation, or use this code as an example.
+I've put in a lot of time and effort to make my NixOS configuration as efficient and user-friendly as possible. It's been a year-long journey of continuing to abstract and evolve my daily life, both personally and professionally, and I've had a blast doing it! Nix and the [communities](https://github.com/nix-community/emacs-overlay) around [nixpkg](https://github.com/NixOS/nixpkgs) have made it all possible.
 
-Some helpful links:
-* [My steps to bootstrap a new virtual machine](https://github.com/dustinlyons/nixos-config/blob/main/vm/README.md). The same steps apply if you're starting from scratch on bare metal (i.e, no hard disk partition).
-* My Emacs [literate configuration](https://github.com/dustinlyons/nixos-config/blob/main/common/config/emacs/Emacs.org)
+To help you get started, you'll find my [steps for bootstrapping a new virtual machine](https://github.com/dustinlyons/nixos-config/blob/main/vm/README.md), which can also be applied to a bare metal (i.e, no hard disk partition) setup. For MacOS instructions, see details further below. Additionally, if you don't know much about Emacs, take a look at my [literate configuration](https://github.com/dustinlyons/nixos-config/blob/main/common/config/emacs/Emacs.org). You'll get a sense of what Emacs can do (spoiler: it's not just an IDE.)
 
-My NixOS configuration is over a year of continuing to abstract and evolve my daily life, personally and professionally. It's been a lot of fun, thanks to Nix and the [communities](https://github.com/nix-community/emacs-overlay) around [nixpkg](https://github.com/NixOS/nixpkgs). If you have any questions about the project, feel free to open a Github Issue.
+Tools like Nix and Emacs make it all possible for me.
+
+If you have any questions about the project or run into any issues, please don't hesitate to open a Github Issue. I'm always happy to help and offer my support. So, let's dive in and start configuring!
 
 # Layout
 
