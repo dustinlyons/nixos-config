@@ -3,7 +3,7 @@
 # Dustin's Nix / NixOS config
 
 # Overview
-Welcome to my Nix and NixOS configuration! Here, you'll find "dotfiles" I share across various machines. This includes
+Welcome to my Nix and NixOS configuration! Here, you'll find "dotfiles" I share across my personal machines and servers. This includes
 
 * M1 Macbook Pro
 * NixOS workstation
