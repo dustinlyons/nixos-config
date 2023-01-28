@@ -43,7 +43,7 @@
   # from my couch for better SteamOS compatibility
   services.openssh = {
     enable = true;
-    passwordAuthentication = false;
+    settings.passwordAuthentication = false;
   };
 
   # This helps fix tearing of windows
