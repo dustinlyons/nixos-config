@@ -58,6 +58,10 @@ This associates our package manager with the right source (MELPA).
   "Return true if system is GNU/Linux-based"
   (string-equal system-type "gnu/linux"))
 
+;; Set path for darwin
+(when (system-is-mac)
+  (setenv "PATH" (concat (getenv "PATH") ":/Users/dustin/.nix-profile/bin"))
+  (setq exec-path (append '("/Users/dustin/bin" "/profile/bin" "/Users/dustin/.npm-packages/bin" "/Users/dustin/.nix-profile/bin" "/nix/var/nix/profiles/default/bin" "/usr/local/bin") exec-path)))
 #+END_SRC
 
 *** Counsel/Ivy framework
