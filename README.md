@@ -3,21 +3,13 @@
 # Dustin's Nix / NixOS config
 
 # Overview
-Welcome to my Nix and NixOS configuration! Here, you'll find "dotfiles" I share across my personal machines and servers. This includes
+Hey there! Welcome to my Nix and NixOS configuration. Here you'll find my "dotfiles" that I use on my personal machines and servers, like my M1 Macbook Pro, my NixOS workstation, and even the VMs running in my home-lab.
 
-* M1 Macbook Pro
-* NixOS workstation
-* VMs running in my home-lab
+Whether you're looking to set up your own Nix or NixOS installation or just want to take a look at my code for inspiration, you're in the right place. I've spent a lot of time making my NixOS config as simple and user-friendly as possible, and it's been a blast. Nix and the [communities](https://github.com/nix-community/emacs-overlay) around [nixpkg](https://github.com/NixOS/nixpkgs) have made it all possible.
 
-Whether you're looking to configure your own Nix or NixOS installation or just use this code as an example-- stay awhile. There's hopefully something here you'll find interesting.
+To get you started, I've included my [steps for bootstrapping a new virtual machine](https://github.com/dustinlyons/nixos-config/blob/main/vm/README.md) that also work for a bare metal setup. For MacOS instructions, just check out the details further below. And if you're new to Emacs, take a look at my [literate config](https://github.com/dustinlyons/nixos-config/blob/main/common/config/emacs/Emacs.org). I love hacking Emacs and you'll see it's much more than an IDE.
 
-I've put in a lot of time and effort to make my NixOS configuration as simple and user-friendly as possible. It's been a year-long journey of continuing to abstract and evolve my daily life, both personally and professionally, and I've had a blast doing it! Nix and the [communities](https://github.com/nix-community/emacs-overlay) around [nixpkg](https://github.com/NixOS/nixpkgs) have made it all possible.
-
-To help you get started, you'll find my [steps for bootstrapping a new virtual machine](https://github.com/dustinlyons/nixos-config/blob/main/vm/README.md), which can also be applied to a bare metal (i.e, no hard disk partition) setup. For MacOS instructions, see details further below. Additionally, if you don't know much about Emacs, take a look at my [literate configuration](https://github.com/dustinlyons/nixos-config/blob/main/common/config/emacs/Emacs.org). You'll get a sense of what Emacs can do (spoiler: it's not just an IDE.)
-
-Tools like Nix and Emacs make it all possible for me.
-
-If you have any questions about the project or run into any issues, please don't hesitate to open a Github Issue. I'm always happy to help and offer my support. So, let's dive in and start configuring!
+I've been using tools like Nix and Emacs to make my daily life both personally and professionally better, and I hope you'll find something here that will help you too. If you have any questions or run into any issues, feel free to open a Github issue. I'm always happy to help.
 
 # Layout
 
@@ -45,7 +37,6 @@ nix-channel --add https://nixos.org/channels/nixpkgs-unstable nixpkgs
 ```sh
 nix-channel --update
 ```
-
 
 ## Step 2 - For NixOS, create a disk partition and install media
 Follow this [step-by-step guide](https://github.com/dustinlyons/nixos-config/blob/main/vm/README.md) for instructions to install using `ZFS` or `ext3`.
@@ -75,11 +66,7 @@ nix-build https://github.com/LnL7/nix-darwin/archive/master.tar.gz -A installer
 ## Step 5 - Build the environment
 Download this repo and run:
 ```sh
-./bin/darwin-build
-```
-or
-```sh
-./bin/nixos-build
+./bin/build
 ```
 
 ## Step 6 - Add Yubikey and generate key
@@ -97,13 +84,9 @@ That's it. You're done.
 ```sh
 nix flake update
 ```
-## Run platform-specific build
+## Run  build
 ```sh
-./bin/darwin-build
-```
-or
-```sh
-./bin/nixos-build
+./bin/build
 ```
 
 ## You made it this far
