@@ -75,10 +75,21 @@ bspc rule -a Slack -o desktop='^3'
 
 sleep .5
 
-bspc rule -a Discord -o desktop='^3'
+bspc rule -a Google-chrome -o desktop='^3'
+/etc/profiles/per-user/dustin/bin/google-chrome-stable --new-window "https://chat.openai.com" "https://console.cloud.google.com/" &!
+
+sleep .5
+
+bspc rule -a Discord -o desktop='^4'
 /etc/profiles/per-user/dustin/bin/discord &!
-#bspc rule -a TelegramDesktop -o desktop='^3'
-#/etc/profiles/per-user/dustin/bin/telegram-desktop &!
+
+bspc rule -a TelegramDesktop -o desktop='^4'
+/etc/profiles/per-user/dustin/bin/telegram-desktop &!
+
+sleep .5
+
+bspc rule -a Cider -o desktop='^5'
+/etc/profiles/per-user/dustin/bin/cider &!
 
 sleep .5
 
@@ -89,8 +100,3 @@ sleep .5
 
 bspc rule -a Alacritty -o desktop='^6'
 /etc/profiles/per-user/dustin/bin/alacritty -e btop &!
-
-sleep .25
-
-bspc rule -a Cider -o desktop='^4'
-/etc/profiles/per-user/dustin/bin/cider &!
