@@ -339,15 +339,15 @@ Sets some reasonable defaults.
 #+BEGIN_SRC emacs-lisp
   ;; Set the default pitch face
   (when (system-is-linux)
-    (set-face-attribute 'default nil :font "Fira Code" :height 100))
+    (set-face-attribute 'default nil :font "JetBrains Mono" :height 100))
   (when (system-is-mac)
-    (set-face-attribute 'default nil :font "Fira Code" :height 130))
+    (set-face-attribute 'default nil :font "JetBrains Mono" :height 130))
 
   ;; Set the fixed pitch face
   (when (system-is-linux)
-    (set-face-attribute 'fixed-pitch nil :font "Fira Code" :weight 'normal :height 100))
+    (set-face-attribute 'fixed-pitch nil :font "JetBrains Mono" :weight 'normal :height 100))
   (when (system-is-mac)
-    (set-face-attribute 'fixed-pitch nil :font "Fira Code" :weight 'normal :height 140))
+    (set-face-attribute 'fixed-pitch nil :font "JetBrains Mono" :weight 'normal :height 140))
 
   ;; Set the variable pitch face
   (when (system-is-linux)

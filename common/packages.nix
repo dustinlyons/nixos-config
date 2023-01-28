@@ -14,7 +14,6 @@ with pkgs; [
   du-dust
   docker
   docker-compose
-  fira-code
   flyctl
   fd
   fzf
@@ -31,6 +30,7 @@ with pkgs; [
   htop
   hunspell
   iftop
+  jetbrains-mono
   jq
 
   # This is broken on MacOS for now
@@ -49,7 +49,6 @@ with pkgs; [
   python39
   python39Packages.virtualenv
   ripgrep
-  roboto
   slack
   sqlite
   ssm-session-manager-plugin
