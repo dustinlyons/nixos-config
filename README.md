@@ -3,7 +3,7 @@
 # Dustin's Nix / NixOS config
 
 # Overview
-Hey there! Welcome to my Nix and NixOS configuration. Here you'll find my "dotfiles" that I use on my personal machines and servers, like my M1 Macbook Pro, my NixOS workstation, and even the VMs running in my home-lab.
+Hey there! Welcome to my Nix and NixOS configuration. Here you'll find my "dotfiles" that I use on my personal machines and servers, like my M1 Macbook Pro, my NixOS workstation, and the VMs running in my home-lab.
 
 Whether you're looking to set up your own Nix or NixOS installation or just want to take a look at my code for inspiration, you're in the right place. I've spent a lot of time making my NixOS config as simple and user-friendly as possible, and it's been a blast. Nix and the [communities](https://github.com/nix-community/emacs-overlay) around [nixpkg](https://github.com/NixOS/nixpkgs) have made it all possible.
 
