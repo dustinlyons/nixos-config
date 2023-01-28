@@ -1,0 +1,23 @@
+#!/bin/sh -e
+#
+# Copyright (c) 2022 Dustin Lyons <dustin@zeroedlabs.com>
+
+VERSION=1.0
+
+GREEN='\033[1;32m'
+YELLOW='\033[1;33m'
+BOLD='\033[1m'
+RED='\033[1;31m'
+CLEAR='\033[0m'
+
+build() {
+    if [ "$(uname)" == "Darwin" ]; then
+       ./bin/darwin-build $@
+    elif [ "$(uname)" == "Linux" ]; then
+       ./bin/nixos-build $@
+    else
+       echo "Unknown platform"
+    fi
+}
+
+build
