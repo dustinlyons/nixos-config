@@ -20,7 +20,7 @@ Don't have Nix to run `nix-build`? [Check out the official NixOS ISO.](https://n
 For our installation, we need to configure our system so that Nix has _just enough_ information to go on, and no more. Nix will detect most settings and do the final heavy lifting.
 
 ## 2. Partition and format your hard drive
-I use ZFS, but you can just as easily use ```ext4``` with ```fdisk```. Our first step is to just verify we're ready to work. The _install media_ has everything available for these commands by default.
+I use ZFS, but you can just as easily use ```ext3``` with ```fdisk```. Our first step is to just verify we're ready to work. The _install media_ has everything available for these commands by default.
 
 ### Verify we see a disk with no partition
 
