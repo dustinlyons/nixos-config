@@ -9,6 +9,7 @@ git -C ~/State/Projects/Code/nixpkgs merge upstream/master master
 git -C ~/State/Projects/Code/nixpkgs push origin master
 git -C ~/State/Projects/Code/emacs-overlay merge upstream/master master
 git -C ~/State/Projects/Code/emacs-overlay push origin master
+
 echo -e "${GREEN_TERMINAL_OUTPUT}Updating flake...${CLEAR}"
 nix flake update
 
