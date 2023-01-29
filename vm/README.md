@@ -50,8 +50,7 @@ This command is a bit archaic so let me breakdown what we're doing.
 * `-n2:34:2047` and `-n1:0:0` describes a new partition followed by the assigned number, start and end sectors. So in our example, partition 2 starts at sector 34 and ends at 2047. Partition 1 (the MBR) starts at sector 0 and ends at sector 0 (it's 512 bytes). 
 * `-t1:BF01` and `-t2:EF02` define the partition's type code. For a full list, sgdisk -L. We use `EF02` (BIOS Boot) and `EF02` (Solaris & Apple ZFS).
 
-> As I mentioned, these VMs use the old BIOS MBR, not UEFI. 
-> Why? I use Proxmox and by default it prefers virtual machines use SeaBIOS. I like defaults, so I keep it.
+> As I mentioned, these VMs use the old BIOS MBR, not UEFI, as Proxmox by default uses SeaBIOS which prefers MBR.
 > [Learn more](https://pve.proxmox.com/wiki/ZFS_on_Linux) about Proxmox and ZFS.
 
 ### Configure ZFS
