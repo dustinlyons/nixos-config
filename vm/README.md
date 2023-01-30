@@ -20,7 +20,7 @@ Don't have Nix to run `nix-build`? [Check out the official NixOS ISO.](https://n
 For our installation, we need to configure our system so that Nix has _just enough_ information to go on, and no more. Nix will detect most settings and do the final heavy lifting.
 
 ## 2. Partition and format your hard drive
-I use ZFS, but you can just as easily use ```ext4``` with ```fdisk```. Our first step is to just verify we're ready to work. The _install media_ has everything available for these commands by default.
+I use ZFS, but you can just as easily use ```ext3``` with ```fdisk```. Our first step is to just verify we're ready to work. The _install media_ has everything available for these commands by default.
 
 ### Verify we see a disk with no partition
 
@@ -37,7 +37,7 @@ Next, let's create our first partition. Move over to `sudo` and bring `sgdisk` i
 $ sudo su -
 $ nix-shell -p gptfdisk
 ```
-We want to create a small partition for the MBR and leave the rest to ZFS. Note, I said MBR, _not_ UEFI. More later. You'll also want to change the `/dev/disk/by-id` path to whatever you see when viewing the directory in your local terminal.
+We want to create a small partition for the MBR and leave the rest to ZFS. Note, I said MBR, _not_ UEFI. I use Proxmox and by default these VMs prefer MBR. You'll also want to change the `/dev/disk/by-id` path to whatever you see when viewing the directory in your local terminal.
 
 ```sh
 $ sgdisk -a1 -n2:34:2047 -t2:EF02 /dev/disk/by-id/scsi-0QEMU_QEMU_HARDDISK_drive-scsi0
@@ -50,8 +50,8 @@ This command is a bit archaic so let me breakdown what we're doing.
 * `-n2:34:2047` and `-n1:0:0` describes a new partition followed by the assigned number, start and end sectors. So in our example, partition 2 starts at sector 34 and ends at 2047. Partition 1 (the MBR) starts at sector 0 and ends at sector 0 (it's 512 bytes). 
 * `-t1:BF01` and `-t2:EF02` define the partition's type code. For a full list, sgdisk -L. We use `EF02` (BIOS Boot) and `EF02` (Solaris & Apple ZFS).
 
-> As I mentioned, these VMs use the old BIOS MBR, not UEFI. 
-> Why? I use Proxmox and by default it prefers virtual machines use SeaBIOS. I like defaults, so I keep it.
+> As I mentioned, these VMs use the old BIOS MBR, not UEFI, as Proxmox by default uses SeaBIOS which prefers MBR.
+> 
 > [Learn more](https://pve.proxmox.com/wiki/ZFS_on_Linux) about Proxmox and ZFS.
 
 ### Configure ZFS
