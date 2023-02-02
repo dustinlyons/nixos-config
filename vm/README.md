@@ -51,7 +51,7 @@ This command is a bit archaic so let me breakdown what we're doing.
 * `-t1:BF01` and `-t2:EF02` define the partition's type code. For a full list, sgdisk -L. We use `EF02` (BIOS Boot) and `EF02` (Solaris & Apple ZFS).
 
 > As I mentioned, these VMs use the old BIOS MBR, not UEFI, as Proxmox by default uses SeaBIOS which prefers MBR.
-> 
+>
 > [Learn more](https://pve.proxmox.com/wiki/ZFS_on_Linux) about Proxmox and ZFS.
 
 ### Configure ZFS
