@@ -71,6 +71,11 @@
 
     # Reboot into Windows for Steam Big Picture
     alias windows='systemctl reboot --boot-loader-entry=auto-windows'
+
+    # Some useful docker commands
+    alias docker_clean_images='docker rmi $(docker images -a --filter=dangling=true -q)'
+    alias docker_clean_ps='docker rm $(docker ps --filter=status=exited --filter=status=created -q)'
+
   '';
 
   git = {
