@@ -54,12 +54,12 @@ sleep .25
 # Desktop 1
 # Email, Calendar, News (General)
 bspc rule -a Google-chrome -o desktop='^1'
-/etc/profiles/per-user/dustin/bin/google-chrome-stable "https://www.fastmail.com" "https://calendar.google.com/calendar/u/0/r" &!
+/etc/profiles/per-user/dustin/bin/google-chrome-stable --profile-directory=Default "https://www.fastmail.com" "https://calendar.google.com/calendar/u/0/r" &!
 
 sleep 1
 
 bspc rule -a Google-chrome -o desktop='^1'
-/etc/profiles/per-user/dustin/bin/google-chrome-stable --new-window "https://www.techmeme.com" "https://www.inoreader.com/" &!
+/etc/profiles/per-user/dustin/bin/google-chrome-stable --profile-directory=Default --new-window "https://www.techmeme.com" "https://www.inoreader.com/" &!
 
 sleep 1
 
@@ -83,7 +83,7 @@ bspc rule -a Slack -o desktop='^3'
 sleep .5
 
 bspc rule -a Google-chrome -o desktop='^3'
-/etc/profiles/per-user/dustin/bin/google-chrome-stable --new-window "https://chat.openai.com" "https://console.cloud.google.com/" &!
+/etc/profiles/per-user/dustin/bin/google-chrome-stable --profile-directory=Profile\ 2 --new-window "https://chat.openai.com" "https://console.cloud.google.com/" &!
 
 sleep .5
 
@@ -100,7 +100,7 @@ bspc rule -a TelegramDesktop -o desktop='^4'
 sleep .5
 
 bspc rule -a Google-chrome -o desktop='^4'
-/etc/profiles/per-user/dustin/bin/google-chrome-stable --new-window "https://www.tradingview.com" "https://www.bloomberg.com" &!
+/etc/profiles/per-user/dustin/bin/google-chrome-stable --profile-directory=Default --new-window "https://www.tradingview.com" "https://www.bloomberg.com" &!
 
 sleep .5
 
