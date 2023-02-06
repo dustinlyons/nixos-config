@@ -1,16 +1,28 @@
 #!/bin/sh -e
+#
+# Copyright (c) 2022 Dustin Lyons <dustin@zeroedlabs.com>
+
+VERSION=1.0
+
+_print() {
+    if [ "$(uname)" == "Darwin" ]; then
+       echo $@
+    else
+       echo -e $@
+    fi
+}
 
 export GREEN_TERMINAL_OUTPUT='\033[1;32m'
 export RED_TERMINAL_OUTPUT='\033[1;31m'
 export CLEAR='\033[0m'
 
-echo -e "${GREEN_TERMINAL_OUTPUT}Running git commands...${CLEAR}"
+_print "${GREEN_TERMINAL_OUTPUT}Running git commands...${CLEAR}"
 git -C ~/State/Projects/Code/nixpkgs merge upstream/master master
 git -C ~/State/Projects/Code/nixpkgs push origin master
 git -C ~/State/Projects/Code/emacs-overlay merge upstream/master master
 git -C ~/State/Projects/Code/emacs-overlay push origin master
 
-echo -e "${GREEN_TERMINAL_OUTPUT}Updating flake...${CLEAR}"
+_print "${GREEN_TERMINAL_OUTPUT}Updating flake...${CLEAR}"
 nix flake update
 
-echo -e "${GREEN_TERMINAL_OUTPUT}Done!${CLEAR}"
+_print "${GREEN_TERMINAL_OUTPUT}Done!${CLEAR}"
