@@ -60,8 +60,8 @@ This associates our package manager with the right source (MELPA).
 
 ;; Set path for darwin
 (when (system-is-mac)
-  (setenv "PATH" (concat (getenv "PATH") ":/Users/dustin/.nix-profile/bin"))
-  (setq exec-path (append '("/Users/dustin/bin" "/profile/bin" "/Users/dustin/.npm-packages/bin" "/Users/dustin/.nix-profile/bin" "/nix/var/nix/profiles/default/bin" "/usr/local/bin") exec-path)))
+  (setenv "PATH" (concat (getenv "PATH") ":/Users/dustin/.nix-profile/bin:/usr/bin"))
+  (setq exec-path (append '("/Users/dustin/bin" "/profile/bin" "/Users/dustin/.npm-packages/bin" "/Users/dustin/.nix-profile/bin" "/nix/var/nix/profiles/default/bin" "/usr/local/bin" "/usr/bin") exec-path)))
 #+END_SRC
 
 *** Counsel/Ivy framework
@@ -968,15 +968,14 @@ Projectile enables me to organize projects with a killer grep interface.
     :init
       (setq projectile-enable-caching t)
       (setq projectile-switch-project-action #'projectile-dired))
-      (when (file-directory-p "mnt/state/Projects/Code")
-        (setq projectile-project-search-path "mnt/state/Projects/Code"))
-      (when (file-directory-p "/Users/dustin/State/Projects/Code")
+      (when (system-is-linux)
+        (setq projectile-project-search-path "/mnt/state/Projects/Code"))
+      (when (system-is-mac)
         (setq projectile-project-search-path "/Users/dustin/State/Projects/Code"))
 
   ;; Gives me Ivy options in the Projectile menus
-  (use-package counsel-projectile
-    :after projectile
-    :config (counsel-projectile-mode))
+  (use-package counsel-projectile :after projectile)
+
 #+END_SRC
 
 ** Writing
