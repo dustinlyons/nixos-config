@@ -1,7 +1,7 @@
 <img src="https://user-images.githubusercontent.com/1292576/190241835-41469235-f65d-4d4b-9760-372cdff7a70f.png" width="48">
 
 # Dustin's Nix / NixOS config
-
+![GitHub last commit](https://img.shields.io/github/last-commit/dustinlyons/nixos-config?style=plastic)
 # Overview
 Hey there! Welcome to my Nix and NixOS configuration. Here you'll find my "dotfiles" that I use on my personal machines and servers, like my M1 Macbook Pro, my NixOS workstation, and the VMs running in my home-lab.
 
