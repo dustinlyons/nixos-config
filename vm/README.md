@@ -27,10 +27,10 @@ I use ZFS, but you can just as easily use ```ext3``` with ```fdisk```. Our first
 ```sh
 $ lsblk -p
 ```
-> Note: You are logged-in automatically as `nixos`. The nixos user account has an empty password so you can use `sudo` without a password.
+> Note: You are logged-in automatically as `nixos`. The `nixos` user account has an empty password so you can use `sudo` without a password.
 
 ### Create and format disk partitions
-Next, let's create our first partition. Move over to `sudo` and bring `sgdisk` into your path. 
+Next, let's create our first partition. Use `sudo` to act as root and bring `sgdisk` into your path. 
 > We're running `nix-shell` here which will magically bring in our dependencies.
 
 ```sh
@@ -57,7 +57,7 @@ This command is a bit archaic so let me breakdown what we're doing.
 ### Configure ZFS
 Okay, we have some empty partitions. What next? Let's create the filesystem, which in our case is ZFS. In practice this means creating a "zpool" and ZFS "datasets", which is just ZFS jargon for the basic "container" of filesystems and the filesystems themselves.
 
-> If you don't want ZFS, the most common linux filesystem is ext3. Use `mkfs -t ext3 /dev/path/to/your/partition`. I found [this guide](https://www.computernetworkingnotes.com/linux-tutorials/manage-linux-disk-partition-with-gdisk-command.html). Good luck.
+> If you don't want ZFS, the most common linux filesystem is ext3. Use `mkfs -t ext3 /dev/path/to/your/partition`. In this step, we're just looking to get to a working filesystem. So format your drive accordingly. I found [this guide](https://www.computernetworkingnotes.com/linux-tutorials/manage-linux-disk-partition-with-gdisk-command.html) if you're interested. Good luck.
 
 Create a zpool at the root of `/mnt` using the partition we just created. 
 
@@ -100,9 +100,10 @@ Generate the configuration at `/mnt`, where the filesystem was mounted for Nix t
 ```sh
 $ nixos-generate-config --root /mnt
 ```
+This creates your `configuration.nix` file that is read by the NixOS installer.
 
 ### Edit final configuration
-Open the configuration and add any remaining packages, configuration, etc. 99% of the time Nix doesn't detect everything and I have to add in packages or other services. Here are [some configs](https://github.com/dustinlyons/nixos-config/tree/main/vm) I use.
+Open the configuration and add any remaining packages, configuration, etc. I add in packages or other services relevant to the machine. Here are [some configs](https://github.com/dustinlyons/nixos-config/tree/main/vm) I'm currently using.
 
 > Note: `hardware-configuration.nix` should have all ZFS datasets.
 
@@ -118,6 +119,4 @@ $ nixos-install
 
 Reboot and enjoy your new VM. 
 
-I'll usually checkout this repo, symlink the running `/etc/nixos` to one of the directories listed here, and then I'll run my first `nixos-rebuild switch` to install final packagess.
-
-For example, one of my VMs runs syncthing and some assocaited bash scripts, another hosts docker containers. I built those with the instructions above using `install-media.nix`, cloned this repo on the VM after is was running and symlinked the final configuration. By doing it this way I can manage everything centrally in this repository.
+For the final steps, I'll usually login to the machine as my user, checkout this repo and create symlinks from a [VM-specific configuration](https://github.com/dustinlyons/nixos-config/tree/main/vm) to the running `configuration.nix` in `/etc/nixos`. Then I'll run my first `nixos-rebuild switch` to install any final packages.
