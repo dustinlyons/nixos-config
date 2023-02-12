@@ -27,7 +27,7 @@ I use ZFS, but you can just as easily use ```ext3``` with ```fdisk```. Our first
 ```sh
 $ lsblk -p
 ```
-> Note: You are logged-in automatically as `nixos`. The nixos user account has an empty password so you can use `sudo` without a password.
+> Note: You are logged-in automatically as `nixos`. The `nixos` user account has an empty password so you can use `sudo` without a password.
 
 ### Create and format disk partitions
 Next, let's create our first partition. Move over to `sudo` and bring `sgdisk` into your path. 
