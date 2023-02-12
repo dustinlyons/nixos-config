@@ -30,7 +30,7 @@ $ lsblk -p
 > Note: You are logged-in automatically as `nixos`. The `nixos` user account has an empty password so you can use `sudo` without a password.
 
 ### Create and format disk partitions
-Next, let's create our first partition. Move over to `sudo` and bring `sgdisk` into your path. 
+Next, let's create our first partition. Use `sudo` to act as root and bring `sgdisk` into your path. 
 > We're running `nix-shell` here which will magically bring in our dependencies.
 
 ```sh
