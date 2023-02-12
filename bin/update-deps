@@ -12,17 +12,17 @@ _print() {
     fi
 }
 
-export GREEN_TERMINAL_OUTPUT='\033[1;32m'
-export RED_TERMINAL_OUTPUT='\033[1;31m'
-export CLEAR='\033[0m'
+GREEN='\033[1;32m'
+RED='\033[1;31m'
+CLEAR='\033[0m'
 
-_print "${GREEN_TERMINAL_OUTPUT}Running git commands...${CLEAR}"
+_print "${GREEN}Running git commands...${CLEAR}"
 git -C ~/State/Projects/Code/nixpkgs merge upstream/master master
 git -C ~/State/Projects/Code/nixpkgs push origin master
 git -C ~/State/Projects/Code/emacs-overlay merge upstream/master master
 git -C ~/State/Projects/Code/emacs-overlay push origin master
 
-_print "${GREEN_TERMINAL_OUTPUT}Updating flake...${CLEAR}"
+_print "${GREEN}Updating flake...${CLEAR}"
 nix flake update
 
-_print "${GREEN_TERMINAL_OUTPUT}Done!${CLEAR}"
+_print "${GREEN}Done!${CLEAR}"

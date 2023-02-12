@@ -1,11 +1,15 @@
 #!/bin/sh -e
+#
+# Copyright (c) 2022 Dustin Lyons <dustin@zeroedlabs.com>
 
-export GREEN_TERMINAL_OUTPUT='\033[1;32m'
-export RED_TERMINAL_OUTPUT='\033[1;31m'
-export CLEAR='\033[0m'
+VERSION=1.0
+
+GREEN='\033[1;32m'
+RED='\033[1;31m'
+CLEAR='\033[0m'
 
 sudo echo
-echo -e "${GREEN_TERMINAL_OUTPUT}Starting...${CLEAR}"
-sudo -E /run/current-system/sw/bin/nixos-rebuild switch $@
+echo -e "${GREEN}Starting...${CLEAR}"
 
-echo -e "${GREEN_TERMINAL_OUTPUT}Done!${CLEAR}"
+sudo -E /run/current-system/sw/bin/nixos-rebuild switch $@
+echo -e "${GREEN}Done!${CLEAR}"

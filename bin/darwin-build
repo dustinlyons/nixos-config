@@ -1,18 +1,22 @@
 #!/bin/sh -e
+#
+# Copyright (c) 2022 Dustin Lyons <dustin@zeroedlabs.com>
 
+VERSION=1.0
 
-export GREEN_TERMINAL_OUTPUT='\033[1;32m'
-export RED_TERMINAL_OUTPUT='\033[1;31m'
-export CLEAR='\033[0m'
+GREEN='\033[1;32m'
+RED='\033[1;31m'
+CLEAR='\033[0m'
+
 export NIXPKGS_ALLOW_UNFREE=1
 
-echo "${GREEN_TERMINAL_OUTPUT}Starting...${CLEAR}"
+echo "${GREEN}Starting...${CLEAR}"
 nix --experimental-features 'nix-command flakes' build .#darwinConfigurations.Dustins-MBP.system --impure $@
 
-echo "${GREEN_TERMINAL_OUTPUT}Switching to new generation...${CLEAR}"
+echo "${GREEN}Switching to new generation...${CLEAR}"
 ./result/sw/bin/darwin-rebuild switch --flake .#Dustins-MBP --impure $@
 
-echo "${GREEN_TERMINAL_OUTPUT}Cleaning up...${CLEAR}"
+echo "${GREEN}Cleaning up...${CLEAR}"
 rm -rf ./result
 
-echo "${GREEN_TERMINAL_OUTPUT}Done!${CLEAR}"
+echo "${GREEN}Done!${CLEAR}"
