@@ -39,6 +39,7 @@ with pkgs; [
 
   killall
   libfido2
+  neofetch
   nodePackages.live-server
   nodePackages.npm
   nodejs
