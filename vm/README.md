@@ -100,6 +100,7 @@ Generate the configuration at `/mnt`, where the filesystem was mounted for Nix t
 ```sh
 $ nixos-generate-config --root /mnt
 ```
+This creates your `configuration.nix` file that is read by the NixOS installer.
 
 ### Edit final configuration
 Open the configuration and add any remaining packages, configuration, etc. 99% of the time Nix doesn't detect everything and I have to add in packages or other services. Here are [some configs](https://github.com/dustinlyons/nixos-config/tree/main/vm) I use.
