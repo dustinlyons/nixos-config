@@ -57,7 +57,7 @@ This command is a bit archaic so let me breakdown what we're doing.
 ### Configure ZFS
 Okay, we have some empty partitions. What next? Let's create the filesystem, which in our case is ZFS. In practice this means creating a "zpool" and ZFS "datasets", which is just ZFS jargon for the basic "container" of filesystems and the filesystems themselves.
 
-> If you don't want ZFS, the most common linux filesystem is ext3. Use `mkfs -t ext3 /dev/path/to/your/partition`. I found [this guide](https://www.computernetworkingnotes.com/linux-tutorials/manage-linux-disk-partition-with-gdisk-command.html). Good luck.
+> If you don't want ZFS, the most common linux filesystem is ext3. Use `mkfs -t ext3 /dev/path/to/your/partition`. In this step, we're just looking to get to a working filesystem. So format your drive accordingly. I found [this guide](https://www.computernetworkingnotes.com/linux-tutorials/manage-linux-disk-partition-with-gdisk-command.html) if you're interested. Good luck.
 
 Create a zpool at the root of `/mnt` using the partition we just created. 
 
