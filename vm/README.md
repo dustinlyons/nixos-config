@@ -119,6 +119,4 @@ $ nixos-install
 
 Reboot and enjoy your new VM. 
 
-I'll usually checkout this repo, symlink the running `/etc/nixos` to one of the directories listed here, and then I'll run my first `nixos-rebuild switch` to install final packagess.
-
-For example, one of my VMs runs syncthing and some assocaited bash scripts, another hosts docker containers. I built those with the instructions above using `install-media.nix`, cloned this repo on the VM after is was running and symlinked the final configuration. By doing it this way I can manage everything centrally in this repository.
+For the final steps, I'll usually login to the machine as my user, checkout this repo and create symlinks from a [VM-specific configuration](https://github.com/dustinlyons/nixos-config/tree/main/vm) to the running `configuration.nix` in `/etc/nixos`. Then I'll run my first `nixos-rebuild switch` to install any final packages.
