@@ -43,7 +43,7 @@ killall -qw btop
 killall -qw pcmanfm
 
 # Set background and top bar
-feh --bg-scale $HOME/.config/wallpaper/active.png
+feh --bg-scale $HOME/.config/wallpaper/active
 systemctl --user start polybar
 
 sleep .25
