@@ -10,7 +10,7 @@ Well, well, well, look who we have here! 🤓
 
 You've stumbled upon my personal journey with Nix. For over a year, I've been hacking away on the configuration that drives the machines and servers I use every day. From my M1 Macbook Pro to my NixOS workstation and VMs in my home lab, I've developed this code with simplicity in mind - for both future me and readers like you.
 
-To get you started, I've included my [steps for bootstrapping a new virtual machine](https://github.com/dustinlyons/nixos-config/blob/main/vm/README.md) that also work on bare metal. For MacOS, there are a few dependencies you need to install which I've detailed below. And if you're new to Emacs, check out my [literate configuration](https://github.com/dustinlyons/nixos-config/blob/main/common/config/emacs/Emacs.org). Emacs is at the core of my workflow and is much more than just an IDE.
+To get you started, I've included my [steps for bootstrapping a new virtual machine](https://github.com/dustinlyons/nixos-config/blob/main/vm/README.md) that also works on bare metal. For MacOS, there are a few dependencies you need to install which I've detailed below. And if you're new to Emacs, check out my [literate configuration](https://github.com/dustinlyons/nixos-config/blob/main/common/config/emacs/Emacs.org). Emacs is at the core of my workflow and is much more than just an IDE.
 
 # Layout
 
