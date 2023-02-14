@@ -6,11 +6,13 @@
 # Overview
 > "All we have to decide is what to do with the time that is given us." - J.R.R. Tolkien, The Fellowship of the Ring
 
-Well hello, traveler! I promise you're in the right place. You've stumbled upon the results of my multi-year long journey learning Nix, building my personal machines and servers, like my M1 Macbook Pro, NixOS workstation, and the VMs running in my home-lab. I hope you stay a while. 
+Well hello there! I promise you're in the right place. You've stumbled upon the results of my multi-year long journey learning Nix, building my personal machines and servers, like my M1 Macbook Pro, NixOS workstation, and the VMs running in my home-lab. Further below, I've got instructions for setting up your own Nix or NixOS installation, or feel free to just poke around and take the bits you like. 
 
-Whether you're looking to set up your own Nix or NixOS installation or just want to take a look at my code for inspiration, I'm sure you'll find something. My focus has been on making my environment robust, reproducible, and as drop dead simple as possible. Nix and the [communities](https://github.com/nix-community/emacs-overlay) around [nixpkg](https://github.com/NixOS/nixpkgs) have made it all possible.
+I started with Nix because was I enticed by a functional operating system and the great synergy between MacOS and x86 PCs. This was important; I still use a clunky linux box in my office when I'm at home, and a Macbook for when I'm out. I've tried other laptops on the market, including the linux-friendly ones like System76, but everything is still subpar to the Macbook. Quality is unrivaled.
 
-To get you started, I've included my [steps for bootstrapping a new virtual machine](https://github.com/dustinlyons/nixos-config/blob/main/vm/README.md) that also work for a bare metal setup. For MacOS instructions, just check out the details further below. And if you're new to Emacs, take a look at my [literate config](https://github.com/dustinlyons/nixos-config/blob/main/common/config/emacs/Emacs.org). I love hacking Emacs and you'll see it's much more than an IDE.
+So Nix, with this cool property of being both a package manager and an OS, was perfect. And to this today, that still holds true. You'll see I share almost 80% of config between the machines I use, and syncthing is used to manage state. The result is a seamless, single environment across my two machines that just works. 
+
+To get you started, I've included my [steps for bootstrapping a new virtual machine](https://github.com/dustinlyons/nixos-config/blob/main/vm/README.md) that also work for a bare metal setup. For MacOS instructions, you'll need to install a few dependencies I've listed below. And if you're new to Emacs, take a look at my [literate config](https://github.com/dustinlyons/nixos-config/blob/main/common/config/emacs/Emacs.org). I love hacking Emacs and you'll see it's much more than just an IDE. 🤓
 
 # Layout
 
@@ -92,3 +94,5 @@ nix flake update
 
 ## You made it this far
 Add me on [Twitter](https://twitter.com/dustinhlyons).
+
+Thank you Nix and the [communities](https://github.com/nix-community/emacs-overlay) around [nixpkg](https://github.com/NixOS/nixpkgs).
