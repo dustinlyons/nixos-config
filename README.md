@@ -2,14 +2,15 @@
 
 # Dustin's Nix / NixOS config
 ![GitHub last commit](https://img.shields.io/github/last-commit/dustinlyons/nixos-config?style=plastic)
-# Overview
-Hey there! Welcome to my Nix and NixOS configuration. Here you'll find my "dotfiles" that I use on my personal machines and servers, like my M1 Macbook Pro, my NixOS workstation, and the VMs running in my home-lab.
 
-Whether you're looking to set up your own Nix or NixOS installation or just want to take a look at my code for inspiration, you're in the right place. I've spent a lot of time making my NixOS config as simple and user-friendly as possible, and it's been a blast. Nix and the [communities](https://github.com/nix-community/emacs-overlay) around [nixpkg](https://github.com/NixOS/nixpkgs) have made it all possible.
+# Overview
+> "All we have to decide is what to do with the time that is given us." - J.R.R. Tolkien, The Fellowship of the Ring
+
+Well hello, traveler! I promise you're in the right place. You've stumbled upon the results of my multi-year long journey learning Nix, building my personal machines and servers, like my M1 Macbook Pro, NixOS workstation, and the VMs running in my home-lab. I hope you stay a while. 
+
+Whether you're looking to set up your own Nix or NixOS installation or just want to take a look at my code for inspiration, I'm sure you'll find something. My focus has been on making my environment robust, reproducible, and as drop dead simple as possible. Nix and the [communities](https://github.com/nix-community/emacs-overlay) around [nixpkg](https://github.com/NixOS/nixpkgs) have made it all possible.
 
 To get you started, I've included my [steps for bootstrapping a new virtual machine](https://github.com/dustinlyons/nixos-config/blob/main/vm/README.md) that also work for a bare metal setup. For MacOS instructions, just check out the details further below. And if you're new to Emacs, take a look at my [literate config](https://github.com/dustinlyons/nixos-config/blob/main/common/config/emacs/Emacs.org). I love hacking Emacs and you'll see it's much more than an IDE.
-
-I've been using tools like Nix and Emacs to make my daily life both personally and professionally better, and I hope you'll find something here that will help you too. If you have any questions or run into any issues, feel free to open a Github issue. I'm always happy to help.
 
 # Layout
 
