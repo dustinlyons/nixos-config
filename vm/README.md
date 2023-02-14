@@ -68,7 +68,7 @@ $ zpool create -O mountpoint=none -O atime=off -O compression=on -O xattr=sa -O 
 * The dataset containing journald’s logs (where /var lives) should have `xattr=sa` and `acltype=posixacl` set to allow regular users to read their journal.
 * Nix doesn’t use `atime`, so `atime=off` on the /nix dataset is fine.
 
-> What is a zpool? ZFS filesystems are built on top of virtual storage pools called zpools. A zpool is constructed of virtual devices (vdevs), which are themselves constructed of block devices: files, hard drive partitions, or entire drives.
+> What is a zpool? After you partition and format a drive as ZFS, you're creating a filesystem that needs/depends on a "zpool". Filesystems belong to zpools. A zpool itself is constructed of virtual devices (named vdevs), which are themselves constructed of block devices: files, hard drive partitions, or entire drives. So the order is your hard drive -> logically defined "vdev" -> logically defined "zpool" -> you using your filesystem.
 
 ### Create datasets
 Nix requires `legacy` mountpoint for ZFS so that everything boots in the correct order. `legacy` just means we use "legacy" tools `mount` and `umount` (a few steps down).
