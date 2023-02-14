@@ -6,11 +6,15 @@
 # Overview
 > "All we have to decide is what to do with the time that is given us." - J.R.R. Tolkien, The Fellowship of the Ring
 
-Well hello there! I promise you're in the right place. You've stumbled upon the results of my multi-year long journey learning Nix, building my personal machines and servers, like my M1 Macbook Pro, NixOS workstation, and the VMs running in my home-lab. Further below, I've got instructions for setting up your own Nix or NixOS installation, or feel free to just poke around and take the bits you like. 
+Well hello there! 
 
-I started with Nix because was I enticed by a functional operating system and the great synergy between MacOS and x86 PCs. This was important; I still use a clunky linux box in my office when I'm at home, and a Macbook for when I'm out. I've tried other laptops on the market, including the linux-friendly ones like System76, but everything is still subpar to the Macbook. Quality is unrivaled.
+I promise you're in the right place. You've stumbled upon the results of my multi-year long journey learning Nix, building my personal machines and servers, like my M1 Macbook Pro, NixOS workstation, and the VMs running in my home-lab. Developing these dotfiles, the focus has been on keeping it as simple as possible. For future me, and readers like you. I hope you'll see that in how I've organized the code. 
 
-So Nix, with this cool property of being both a package manager and an OS, was perfect. And to this today, that still holds true. You'll see I share almost 80% of config between the machines I use, and syncthing is used to manage state. The result is a seamless, single environment across my two machines that just works. 
+Further below you'll find instructions for setting up a Nix or NixOS installation from scratch, or feel free to just poke around and take the bits you like. 
+
+I started with Nix because was I enticed by a functional operating system and the great synergy between MacOS and x86 PCs. This was important; I still use a clunky linux box in my office when I'm at home, and a Macbook for when I'm out. I've tried other laptops on the market, including the linux-friendly ones like System76, but they just don't cut it. Everything is still subpar to the Macbook. Quality and M1/M2 is unrivaled.
+
+So Nix, with this cool property of being both a package manager and an OS, was perfect. And to this today, that still holds true. You'll see I share almost 80% of config between the machines I use, and Nix makes this rock solid. I also use syncthing to manage state which helps provide the final seamless, single environment I use across both of my machines. 
 
 To get you started, I've included my [steps for bootstrapping a new virtual machine](https://github.com/dustinlyons/nixos-config/blob/main/vm/README.md) that also work for a bare metal setup. For MacOS instructions, you'll need to install a few dependencies I've listed below. And if you're new to Emacs, take a look at my [literate config](https://github.com/dustinlyons/nixos-config/blob/main/common/config/emacs/Emacs.org). I love hacking Emacs and you'll see it's much more than just an IDE. 🤓
 
