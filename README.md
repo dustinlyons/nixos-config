@@ -16,7 +16,7 @@ I started with Nix because was I enticed by a functional operating system and th
 
 So Nix, with this cool property of being both a package manager and an OS, was perfect. And to this today, that still holds true. You'll see I share almost 80% of config between the machines I use, and Nix makes this rock solid. I also use syncthing to manage state which helps provide the final seamless, single environment I use across both of my machines. 
 
-To get you started, I've included my [steps for bootstrapping a new virtual machine](https://github.com/dustinlyons/nixos-config/blob/main/vm/README.md) that also work for a bare metal setup. For MacOS instructions, you'll need to install a few dependencies I've listed below. And if you're new to Emacs, take a look at my [literate config](https://github.com/dustinlyons/nixos-config/blob/main/common/config/emacs/Emacs.org). I love hacking Emacs and you'll see it's much more than just an IDE. 🤓
+To get you started, I've included my [steps for bootstrapping a new virtual machine](https://github.com/dustinlyons/nixos-config/blob/main/vm/README.md) that also work for a bare metal setup. For MacOS instructions, you'll need to install a few dependencies I've listed below. And if you're new to Emacs, take a look at my [literate configuration](https://github.com/dustinlyons/nixos-config/blob/main/common/config/emacs/Emacs.org). I love hacking Emacs and you'll see it's much more than just an IDE. 🤓
 
 # Layout
 
