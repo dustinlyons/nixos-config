@@ -8,5 +8,5 @@
 ├── home-manager.nix   # Defines user programs
 ├── nix-communty.nix   # Where to download cachix builds
 ├── casks.nix          # List of homebrew casks
-├── packages.nix       # List of packages to install for NixOS
+├── packages.nix       # List of packages to install for MacOS
 ```
