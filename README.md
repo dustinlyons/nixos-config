@@ -6,11 +6,11 @@
 # Overview
 > "All we have to decide is what to do with the time that is given us." - J.R.R. Tolkien
 
-Hello there!
+Well, well, well, look who we have here! 🤓
 
-Well, well, well, look who we have here! You've stumbled upon my personal journey with Nix. For over a year, I've been hacking away on the configuration that drives the machines and servers I use every day. From my M1 Macbook Pro to my NixOS workstation and VMs in my home lab, I've developed this code with simplicity in mind - for both future me and readers like you.
+You've stumbled upon my personal journey with Nix. For over a year, I've been hacking away on the configuration that drives the machines and servers I use every day. From my M1 Macbook Pro to my NixOS workstation and VMs in my home lab, I've developed this code with simplicity in mind - for both future me and readers like you.
 
-To get you started, I've included my [steps for bootstrapping a new virtual machine](https://github.com/dustinlyons/nixos-config/blob/main/vm/README.md) that also work for a bare metal setup. For MacOS instructions, you'll need to install a few dependencies I've listed below. And if you're new to Emacs, check out my [literate configuration](https://github.com/dustinlyons/nixos-config/blob/main/common/config/emacs/Emacs.org). I love hacking Emacs, and you'll see it's much more than just an IDE. 🤓
+To get you started, I've included my [steps for bootstrapping a new virtual machine](https://github.com/dustinlyons/nixos-config/blob/main/vm/README.md) that also work on bare metal. For MacOS, there are a few dependencies to install which I've detailed further below. And if you're new to Emacs, check out my [literate configuration](https://github.com/dustinlyons/nixos-config/blob/main/common/config/emacs/Emacs.org) - you'll discover that Emacs is much more than just an IDE.
 
 # Layout
 
