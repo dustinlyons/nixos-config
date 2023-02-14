@@ -8,11 +8,9 @@
 
 Hello there!
 
-Welcome to my personal journey with Nix, where I've spent the past year learning and building the machines and servers I use daily. From my M1 Macbook Pro to my NixOS workstation and VMs in my home lab, I've developed this Nix code with simplicity in mind - for both future me and readers like you.
+Well, well, well, look who we have here! You've stumbled upon my personal journey with Nix. For over a year, I've been hacking away on the configuration that drives the machines and servers I use every day. From my M1 Macbook Pro to my NixOS workstation and VMs in my home lab, I've developed this Nix code with simplicity in mind - for both future me and readers like you.
 
-I was initially drawn to Nix because of its functional operating system and compatibility with MacOS and x86 PCs. I use a clunky Linux box in my office at home and a Macbook when I'm out and about, so effectively managing dependencies across both was important. 
-
-So Nix, with this unique property of being both a package manager and an OS, was perfect for managing my machines. And in conjunction with using syncthing to manage my data (state), the result is a seamless, single environment I use across all my devices.
+I was initially drawn to Nix because of its functional operating system and compatibility with MacOS and x86 PCs. I use a clunky Linux box in my office at home and a Macbook when I'm out and about, so effectively managing dependencies across both was important. Nix, with this unique property of being both a package manager and an OS, was perfect for managing my machines. And in conjunction with using syncthing to manage my data, I've found Nix to be a joy to use, as it provides a seamless, single environment I use across all my devices. It just works.
 
 To get you started, I've included my [steps for bootstrapping a new virtual machine](https://github.com/dustinlyons/nixos-config/blob/main/vm/README.md) that also work for a bare metal setup. For MacOS instructions, you'll need to install a few dependencies I've listed below. And if you're new to Emacs, check out my [literate configuration](https://github.com/dustinlyons/nixos-config/blob/main/common/config/emacs/Emacs.org). I love hacking Emacs, and you'll see it's much more than just an IDE. 🤓
 
