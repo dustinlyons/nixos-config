@@ -19,7 +19,8 @@
 
       ++ [(import (builtins.fetchTarball { 
 	       url = "https://github.com/dustinlyons/emacs-overlay/archive/refs/heads/master.tar.gz";
-               sha256 = "17qnic8bz5grrlczw8q3gjw16gykx01g7p81ngnzi8a5y8as3c44";
+               # sha256 = "17qnic8bz5grrlczw8q3gjw16gykx01g7p81ngnzi8a5y8as3c44";
+               sha256 = "1nrpw2w2jfpgf85lxwddnnl0s8sv2j5pq0rb5jmgy65644skrsfq";
 	}))]; 
   };
 }
