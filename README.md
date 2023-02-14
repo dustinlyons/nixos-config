@@ -8,7 +8,7 @@
 
 Hello there!
 
-Welcome to my personal journey with Nix, where I've spent the past year learning and building my own machines and servers. From my M1 Macbook Pro to my NixOS workstation and VMs in my home-lab, I've developed this Nix code with simplicity in mind - for both future me and readers like you. I hope this is evident while browsing the repo.
+Welcome to my personal journey with Nix, where I've spent the past year learning and building my own machines and servers. From my M1 Macbook Pro to my NixOS workstation and VMs in my home-lab, I've developed this Nix code with simplicity in mind - for both future me and readers like you. I hope you'll find this true as well.
 
 I was initially drawn to Nix because of its functional operating system and compatibility with both MacOS and x86 PCs. This was important to me, as I use a clunky linux box in my office at home and a Macbook when I'm out and about. I've tried other laptops on the market, including linux-friendly ones like System76, but nothing compares to the quality and performance of the Macbook, especially with the M1/M2 chip.
 
