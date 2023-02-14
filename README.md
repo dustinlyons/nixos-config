@@ -4,7 +4,7 @@
 ![GitHub last commit](https://img.shields.io/github/last-commit/dustinlyons/nixos-config?style=plastic)
 
 # Overview
-> "All we have to decide is what to do with the time that is given us." - J.R.R. Tolkien, The Fellowship of the Ring
+> "All we have to decide is what to do with the time that is given us." - J.R.R. Tolkien
 
 Well hello there! 
 
