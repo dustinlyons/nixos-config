@@ -1,11 +1,13 @@
+## Common
+This gets imported by both MacOS and NixOS modules. Some examples of configuration include git, zsh, vim.
+
 ## Layout
 ```
 .
-├── cachix             # Config related to using cached builds
 ├── config             # Config files not written in Nix
-├── default.nix        # Defines module, system-level config, 
-├── home-manager.nix   # Defines user programs
-├── nix-communty.nix   # Where to download cachix builds
-├── packages.nix       # List of packages to install for NixOS
+├── snippets           # Git submodules of Emacs snippets
+├── default.nix        # Defines how we import overlays 
+├── home-manager.nix   # The goods; most all shared config lives here
+├── packages.nix       # List of packages to share
 
 ```
