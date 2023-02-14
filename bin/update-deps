@@ -4,6 +4,10 @@
 
 VERSION=1.0
 
+GREEN='\033[1;32m'
+RED='\033[1;31m'
+CLEAR='\033[0m'
+
 _print() {
     if [ "$(uname)" == "Darwin" ]; then
        echo $@
@@ -11,10 +15,6 @@ _print() {
        echo -e $@
     fi
 }
-
-GREEN='\033[1;32m'
-RED='\033[1;31m'
-CLEAR='\033[0m'
 
 _print "${GREEN}Running git commands...${CLEAR}"
 git -C ~/State/Projects/Code/nixpkgs merge upstream/master master
