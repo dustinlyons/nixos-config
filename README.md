@@ -8,13 +8,13 @@
 
 Hello there!
 
-Welcome to my personal journey with Nix, where I've spent the past year learning and building my own machines and servers. From my M1 Macbook Pro to my NixOS workstation and VMs in my home-lab, I've developed this Nix code with simplicity in mind - for both future me and readers like you. I hope you'll find this true as well.
+Welcome to my personal journey with Nix, where I've spent the past year learning and building the machines and servers I use daily. From my M1 Macbook Pro to my NixOS workstation and VMs in my home lab, I've developed this Nix code with simplicity in mind - for both future me and readers like you.
 
-I was initially drawn to Nix because of its functional operating system and compatibility with both MacOS and x86 PCs. This was important to me, as I use a clunky linux box in my office at home and a Macbook when I'm out and about. I've tried other laptops on the market, including linux-friendly ones like System76, but nothing compares to the quality and performance of the Macbook, especially with the M1/M2 chip.
+I was initially drawn to Nix because of its functional operating system and compatibility with MacOS and x86 PCs. I use a clunky Linux box in my office at home and a Macbook when I'm out and about, so effectively managing dependencies across both was important. 
 
-So Nix, with this amazing property of being both a package manager and an OS, was perfect to manage my machines. And in conjunction with syncthing to help manage state, the result is a seamless, single environment across any device I use.
+So Nix, with this unique property of being both a package manager and an OS, was perfect for managing my machines. And in conjunction with using syncthing to manage my data (state), the result is a seamless, single environment I use across all my devices.
 
-To get you started, I've included my [steps for bootstrapping a new virtual machine](https://github.com/dustinlyons/nixos-config/blob/main/vm/README.md) that also work for a bare metal setup. For MacOS instructions, you'll need to install a few dependencies I've listed below. And if you're new to Emacs, take a look at my [literate configuration](https://github.com/dustinlyons/nixos-config/blob/main/common/config/emacs/Emacs.org). I love hacking Emacs and you'll see it's much more than just an IDE. 🤓
+To get you started, I've included my [steps for bootstrapping a new virtual machine](https://github.com/dustinlyons/nixos-config/blob/main/vm/README.md) that also work for a bare metal setup. For MacOS instructions, you'll need to install a few dependencies I've listed below. And if you're new to Emacs, check out my [literate configuration](https://github.com/dustinlyons/nixos-config/blob/main/common/config/emacs/Emacs.org). I love hacking Emacs, and you'll see it's much more than just an IDE. 🤓
 
 # Layout
 
