@@ -1,5 +1,5 @@
+## Layout
 ```
-Layout
 .
 ├── cachix             # Config related to using cached builds
 ├── config             # Config files not written in Nix
