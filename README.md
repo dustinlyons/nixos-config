@@ -93,4 +93,4 @@ nix flake update
 ## You made it this far
 Add me on [Twitter](https://twitter.com/dustinhlyons).
 
-_Thank you Nix and the [communities](https://github.com/nix-community/emacs-overlay) around [nixpkg](https://github.com/NixOS/nixpkgs)._
+_Thank you Nix and the [communities](https://github.com/nix-community/emacs-overlay) around [nixpkgs](https://github.com/NixOS/nixpkgs)._
