@@ -103,7 +103,7 @@ $ nixos-generate-config --root /mnt
 This creates your `configuration.nix` file that is read by the NixOS installer.
 
 ### Edit final configuration
-Open the configuration and add any remaining packages, configuration, etc. I add in packages or other services relevant to the machine. Here are [some configs](https://github.com/dustinlyons/nixos-config/tree/main/vm) I'm currently using.
+Open the configuration and add any remaining packages, configuration, etc. I add in packages or other services relevant to the machine. [The configs listed in this directory](https://github.com/dustinlyons/nixos-config/tree/main/vm) are what I'm currently using.
 
 > Note: `hardware-configuration.nix` should have all ZFS datasets.
 
