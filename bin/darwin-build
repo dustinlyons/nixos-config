@@ -8,13 +8,16 @@ GREEN='\033[1;32m'
 RED='\033[1;31m'
 CLEAR='\033[0m'
 
+FLAKE="Dustins-MBP"
+SYSTEM="#darwinConfigurations.$FLAKE.system"
+
 export NIXPKGS_ALLOW_UNFREE=1
 
 echo "${GREEN}Starting...${CLEAR}"
-nix --experimental-features 'nix-command flakes' build .#darwinConfigurations.Dustins-MBP.system --impure $@
+nix --experimental-features 'nix-command flakes' build ."$SYSTEM" --impure $@
 
 echo "${GREEN}Switching to new generation...${CLEAR}"
-./result/sw/bin/darwin-rebuild switch --flake .#Dustins-MBP --impure $@
+./result/sw/bin/darwin-rebuild switch --flake ."$FLAKE" --impure $@
 
 echo "${GREEN}Cleaning up...${CLEAR}"
 rm -rf ./result

@@ -8,6 +8,9 @@ GREEN='\033[1;32m'
 RED='\033[1;31m'
 CLEAR='\033[0m'
 
+NIXPKGS_PATH=~/State/Projects/Code/nixpkgs
+EMACS_OVERLAY_PATH=~/State/Projects/Code/emacs-overlay
+
 _print() {
     if [ "$(uname)" == "Darwin" ]; then
        echo $@
@@ -16,11 +19,13 @@ _print() {
     fi
 }
 
-_print "${GREEN}Running git commands...${CLEAR}"
-git -C ~/State/Projects/Code/nixpkgs merge upstream/master master
-git -C ~/State/Projects/Code/nixpkgs push origin master
-git -C ~/State/Projects/Code/emacs-overlay merge upstream/master master
-git -C ~/State/Projects/Code/emacs-overlay push origin master
+_print "${GREEN}Updating nixpkgs...${CLEAR}"
+git -C $NIXPKGS_PATH merge upstream/master master
+git -C $NIXPKGS_PATH push origin master
+
+_print "${GREEN}Updating emacs-overlay...${CLEAR}"
+git -C $EMACS_OVERLAY_PATH merge upstream/master master
+git -C $EMACS_OVERLAY_PATH push origin master
 
 _print "${GREEN}Updating flake...${CLEAR}"
 nix flake update
