@@ -59,9 +59,7 @@ Okay, we have some empty partitions. What next? Let's create the filesystem, whi
 
 > If you don't want ZFS, the most common linux filesystem is ext3. Use `mkfs -t ext3 /dev/path/to/your/partition`. In this step, we're just looking to get to a working filesystem. So format your drive accordingly. I found [this guide](https://www.computernetworkingnotes.com/linux-tutorials/manage-linux-disk-partition-with-gdisk-command.html) if you're interested. Good luck.
 
-Create a zpool at the root of `/mnt` using the partition we just created. 
-
-Note, we choose `/mnt` as the root (-R) because by default, NixOS will look for a mounted partition at this location to perform install. This happens on our final step, `nixos-install`.
+Create a zpool at the root of `/mnt` using the partition we just created. Note, we choose `/mnt` as the root (-R) because by default, NixOS will look for a mounted partition at this location to perform install. Defaults save us time. 
 
 ```sh
 $ zpool create -O mountpoint=none -O atime=off -O compression=on -O xattr=sa -O acltype=posixacl -R /mnt rpool /dev/disk/by-id/scsi-0QEMU_QEMU_HARDDISK_drive-scsi0-part1
