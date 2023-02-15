@@ -6,11 +6,20 @@
 # Overview
 > "All we have to decide is what to do with the time that is given us." - J.R.R. Tolkien
 
-Well, well, well, look who we have here! 🤓
+Hello there 🤓
 
-You've stumbled upon my personal journey with Nix. For over a year, I've been hacking away on this configuration. It drives the machines I use daily, my office PC and laptop, in addition to the VMs running in my home lab. As a guiding principle, I've done my best to keep it as simple as possible - for both future me and readers like you. I hope you'll discover this in how I've organized the code.
+You've stumbled upon my personal journey with Nix. For over a year, I've been hacking away on this configuration. It drives my desktop PC, Macbook, and virtual machines in my home lab. Along with syncthing to manage data, this Nix configuration guarantees I have a working, seamless experience across each machine I use. 
 
-To get you started, I've included my [steps for bootstrapping a new virtual machine](https://github.com/dustinlyons/nixos-config/blob/main/vm/README.md) that also work on bare metal. If you're on MacOS, there are a few additional steps I've detailed below. And if you're new to Emacs, check out my [literate configuration](https://github.com/dustinlyons/nixos-config/blob/main/common/config/emacs/Emacs.org). Emacs is at the core of how I work and is much more than just an IDE.
+While developing this code,  I've done my best to keep it as simple as possible - for both future me and readers like you. You'll see that in how I've organized code, for example, as I keep file naming convetions the same across modules.
+
+You can follow instructions I've listed below, step-by-step, to run your own Nix environment after you have a running Nix install.
+
+# Installation
+### NixOS
+Check out my [steps for bootstrapping a new virtual machine](https://github.com/dustinlyons/nixos-config/blob/main/vm/README.md) that covers building your filesystem, creating the initial config, and saving it all to disk. These steps also work from bare metal.
+
+### MacOS
+You must install some depdendencies, which are detailed below. Keep in mind, Nix will create a new volume on your machine to keep the Nix Store, so be prepared to follow through (or have some annoying rollback steps).
 
 # Layout
 
