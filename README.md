@@ -14,7 +14,7 @@ While developing this code,  I've done my best to keep it as simple as possible 
 
 You can follow instructions I've listed below, step-by-step, to run your own Nix environment after you have a running Nix install.
 
-# Installation
+# Installing Nix
 ### NixOS
 Check out my [steps for bootstrapping a new virtual machine](https://github.com/dustinlyons/nixos-config/blob/main/vm/README.md) that covers building your filesystem, creating the initial config, and saving it all to disk. These steps also work from bare metal.
 
