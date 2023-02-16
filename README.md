@@ -12,7 +12,7 @@ You've stumbled upon my personal journey with Nix. For over a year, I've been ha
 
 While developing, I've done my best to keep it as simple as possible - for both future me and readers like you. You'll see that in how I've organized code, for example, as I keep file naming convetions the same across modules.
 
-To get started, check out my step-by-step instructions below. 
+To get started, check out my step-by-step instructions to boostrap a new machine below. 
 
 # Layout
 
