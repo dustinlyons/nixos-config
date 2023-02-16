@@ -12,9 +12,9 @@ You've stumbled upon my personal journey with Nix. For over a year, I've been ha
 
 Immutable, reproducible infrastructure rocks.
 
-While developing, I've done my best to keep it simple - for both future me and readers like you. You'll see that in how I've organized code, for example. I keep filename convetions the same across modules. 
+While developing, I've done my best to keep it simple - for both future me and readers like you. You'll see that in how I've organized code, for example. I keep filename convetions the same across modules. And to get you started, I've included step-by-step instructions on bootstrapping a new machine below.
 
-To get you started, I've included step-by-step instructions on bootstrapping a new machine. Feel free to open a Github Issue if you run into any problems or have questions. Enjoy Nix!
+Feel free to open a Github Issue if you run into any problems or have questions. Enjoy Nix!
 
 # Layout
 
