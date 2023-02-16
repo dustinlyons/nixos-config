@@ -10,7 +10,7 @@ Hello there 🤓
 
 You've stumbled upon my personal journey with Nix. For over a year, I've been hacking away on this configuration. It drives my desktop PC, Macbook, and virtual machines in my home lab. Along with syncthing to manage data, this Nix configuration guarantees I have a working, seamless experience across each machine I use. 
 
-While developing this code,  I've done my best to keep it as simple as possible - for both future me and readers like you. You'll see that in how I've organized code, for example, as I keep file naming convetions the same across modules.
+While developing, I've done my best to keep it as simple as possible - for both future me and readers like you. You'll see that in how I've organized code, for example, as I keep file naming convetions the same across modules.
 
 You can follow instructions I've listed below, step-by-step, to run your own Nix environment after you have a running Nix install.
 
