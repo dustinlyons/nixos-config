@@ -14,7 +14,7 @@ Immutable, reproducible infrastructure rocks.
 
 While developing, I've done my best to keep it simple - for both future me and readers like you. You'll see that in how I've organized code, for example. I keep filename convetions the same across modules. 
 
-To get you started, I've included step-by-step instructions on bootstrapping a new machine below. 
+To get you started, I've included step-by-step instructions on bootstrapping a new machine below. Feel free to open a Github Issue if you run into any problems or have questions. I'm happy to help.
 
 # Layout
 
