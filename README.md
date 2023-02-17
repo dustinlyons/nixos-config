@@ -8,18 +8,13 @@
 
 Hello there 🤓
 
-You've stumbled upon my personal journey with Nix. For over a year, I've been hacking away on this configuration. It drives my desktop PC, Macbook, and virtual machines in my home lab. Along with syncthing to manage data, this Nix configuration guarantees I have a working, seamless experience across each machine I use. 
+You've stumbled upon my personal journey with Nix. For over a year, I've been hacking away on this configuration. It drives my office PC, Macbook, and virtual machines in my home lab. Along with syncthing to manage data, this Nix configuration guarantees I have a working, seamless experience across each machine I use. 
 
-While developing, I've done my best to keep it as simple as possible - for both future me and readers like you. You'll see that in how I've organized code, for example, as I keep file naming convetions the same across modules.
+Immutable, reproducible infrastructure rocks.
 
-You can follow instructions I've listed below, step-by-step, to run your own Nix environment after you have a running Nix install.
+While developing, I've done my best to keep it simple - for both future me and readers like you. You'll see that in how I've organized code, for example, as I keep filename convetions the same across modules. To get you started, I've included step-by-step instructions on bootstrapping a new machine below.
 
-# Installing Nix
-### NixOS
-Check out my [steps for bootstrapping a new virtual machine](https://github.com/dustinlyons/nixos-config/blob/main/vm/README.md) that covers building your filesystem, creating the initial config, and saving it all to disk. These steps also work from bare metal.
-
-### MacOS
-You must install some depdendencies, which are detailed below. Keep in mind, Nix will create a new volume on your machine to keep the Nix Store, so be prepared to follow through (or have some annoying rollback steps).
+Feel free to open a Github Issue if you run into any problems or have questions. Enjoy Nix!
 
 # Layout
 
