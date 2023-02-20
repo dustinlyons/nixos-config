@@ -8,8 +8,7 @@ common-packages ++ [
   appimage-run
   betterlockscreen
   brlaser # printer driver
-
-  bc
+  bc # old school calculator
 
   # Terminal audio visualizer
   cava
@@ -105,6 +104,7 @@ common-packages ++ [
 
   xclip # For the org-download package in Emacs
   xorg.xwininfo # Provides a cursor to click and learn about windows
+  
   # PDF viewer
   zathura
 ]
