@@ -16,6 +16,24 @@ While developing, I've done my best to keep it simple - for both future me and r
 
 Feel free to open a Github Issue if you run into any problems or have questions. Enjoy Nix!
 
+# Features
+* Multiple Nix and NixOS configurations, including desktop, laptop, server
+* Support for MacOS, even managing Mac App Store apps!
+* Fully managed [homebrew](https://github.com/dustinlyons/nixos-config/blob/main/macos/home-manager.nix#L51) environment
+* Optimized for simplicity and readability in all cases 
+* Basic shell scripts to build and update running systems
+* Easily [share](https://github.com/dustinlyons/nixos-config/tree/main/common) config across Linux and Mac, both nix and home-manager
+* Extensively configured NixOS environment with clean aesthetic + window animations
+* Large Emacs [literate configuration](https://github.com/dustinlyons/nixos-config/blob/main/common/config/emacs/Emacs.org) to explore
+* Auto-loading of Nix [overlays](https://github.com/dustinlyons/nixos-config/tree/main/overlays): drop a file in a dir and it runs (great for patches!)
+* Step-by-step instructions to start from zero, both x86 and MacOS platforms
+* Defined using a single flake with focus on simplicity (for learning!)
+
+## Coming Soon
+* Opt-in persistence ([impermanence](https://github.com/nix-community/impermanence)) and snapshot reset with `btrfs`
+* Moving user state to follow [XDG conventions](https://specifications.freedesktop.org/basedir-spec/basedir-spec-latest.html)
+* Managing secrets with `sops-nix`
+
 # Layout
 
 ```
