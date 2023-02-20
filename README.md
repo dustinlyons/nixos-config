@@ -30,9 +30,9 @@ Feel free to open a Github Issue if you run into any problems or have questions.
 * Defined using a single flake and two targets, not many small files spread across modules
 
 ## Coming Soon
-* Opt-in persistence ([impermanence](https://github.com/nix-community/impermanence)) and snapshot reset with `btrfs`
-* Moving user state to follow [XDG conventions](https://specifications.freedesktop.org/basedir-spec/basedir-spec-latest.html)
-* Managing secrets with `sops-nix`
+* Opt-in persistence using [impermanence](https://github.com/nix-community/impermanence) and snapshot reset with `btrfs`
+* Persistence defined under [XDG conventions](https://specifications.freedesktop.org/basedir-spec/basedir-spec-latest.html)
+* Secrets managed with `sops-nix`
 
 # Layout
 
