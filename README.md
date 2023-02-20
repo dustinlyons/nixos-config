@@ -31,7 +31,7 @@ Feel free to open a Github Issue if you run into any problems or have questions.
 
 ## Coming Soon
 * Opt-in persistence using [impermanence](https://github.com/nix-community/impermanence) and snapshot reset with `btrfs`
-* Persistence defined under [XDG conventions](https://specifications.freedesktop.org/basedir-spec/basedir-spec-latest.html)
+* Persistence defined under [XDG](https://specifications.freedesktop.org/basedir-spec/basedir-spec-latest.html)
 * Secrets managed with `sops-nix`
 
 # Layout
