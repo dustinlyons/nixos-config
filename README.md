@@ -29,7 +29,7 @@ Feel free to open a Github Issue if you run into any problems or have questions.
 * Step-by-step instructions to start from zero, both x86 and MacOS platforms
 * Defined using a single flake and two targets, not small files spread across collections of modules
 
-## Coming Soon
+### Coming Soon
 * Opt-in persistence using [impermanence](https://github.com/nix-community/impermanence) and snapshot reset with `btrfs` ([#8](https://github.com/dustinlyons/nixos-config/issues/8))
 * Persistence defined under [XDG](https://specifications.freedesktop.org/basedir-spec/basedir-spec-latest.html) ([#5](https://github.com/dustinlyons/nixos-config/issues/5))
 * Secrets managed with `sops-nix` ([#6](https://github.com/dustinlyons/nixos-config/issues/6))
