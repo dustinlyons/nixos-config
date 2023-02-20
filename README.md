@@ -23,7 +23,7 @@ Feel free to open a Github Issue if you run into any problems or have questions.
 * Optimized for simplicity and readability in all cases 
 * Minimal shell scripts covering basic functions for running systems
 * Easily [share](https://github.com/dustinlyons/nixos-config/tree/main/common) config across Linux and Mac with both Nix and Home Manager
-* Extensively configured NixOS environment with clean aesthetic + window animations
+* Extensively configured NixOS environment including clean aesthetic + window animations
 * Large Emacs [literate configuration](https://github.com/dustinlyons/nixos-config/blob/main/common/config/emacs/Emacs.org) to explore
 * Auto-loading of Nix [overlays](https://github.com/dustinlyons/nixos-config/tree/main/overlays): drop a file in a dir and it runs (great for patches!)
 * Step-by-step instructions to start from zero, both x86 and MacOS platforms
