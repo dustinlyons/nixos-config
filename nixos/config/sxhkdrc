@@ -113,7 +113,6 @@ super + w
 super + Tab
         bspc {node,desktop} -f last
 
-
 # Keepass XC
 super + shift + x
 	/etc/profiles/per-user/dustin/bin/keepassxc
