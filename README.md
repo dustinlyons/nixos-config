@@ -22,7 +22,7 @@ Feel free to open a Github Issue if you run into any problems or have questions.
 * Fully managed [homebrew](https://github.com/dustinlyons/nixos-config/blob/main/macos/home-manager.nix#L51) environment
 * Optimized for simplicity and readability in all cases 
 * Basic shell scripts to build and update running systems
-* Easily [share](https://github.com/dustinlyons/nixos-config/tree/main/common) config across Linux and Mac, both nix and home-manager
+* Easily [share](https://github.com/dustinlyons/nixos-config/tree/main/common) config across Linux and Mac, both Nix and Home Manager
 * Extensively configured NixOS environment with clean aesthetic + window animations
 * Large Emacs [literate configuration](https://github.com/dustinlyons/nixos-config/blob/main/common/config/emacs/Emacs.org) to explore
 * Auto-loading of Nix [overlays](https://github.com/dustinlyons/nixos-config/tree/main/overlays): drop a file in a dir and it runs (great for patches!)
