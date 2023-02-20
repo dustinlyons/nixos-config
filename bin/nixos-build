@@ -12,4 +12,4 @@ sudo echo
 echo -e "${GREEN}Starting...${CLEAR}"
 
 sudo -E /run/current-system/sw/bin/nixos-rebuild switch $@
-echo -e "${GREEN}Done!${CLEAR}"
+echo -e "${GREEN}Complete${CLEAR}"
