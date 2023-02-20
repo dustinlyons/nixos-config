@@ -27,7 +27,7 @@ Feel free to open a Github Issue if you run into any problems or have questions.
 * Large Emacs [literate configuration](https://github.com/dustinlyons/nixos-config/blob/main/common/config/emacs/Emacs.org) to explore
 * Auto-loading of Nix [overlays](https://github.com/dustinlyons/nixos-config/tree/main/overlays): drop a file in a dir and it runs (great for patches!)
 * Step-by-step instructions to start from zero, both x86 and MacOS platforms
-* Defined using a single flake and two targets, not many small files spread across modules
+* Defined using a single flake and two targets, not small files spread across collections of modules
 
 ## Coming Soon
 * Opt-in persistence using [impermanence](https://github.com/nix-community/impermanence) and snapshot reset with `btrfs`
