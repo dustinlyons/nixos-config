@@ -93,7 +93,7 @@ Download this repo and run:
 ```
 
 ## Step 6 - Add Yubikey and generate key
-Insert Yubikey and generate private keys
+Insert [Yubikey](https://www.yubico.com/) and generate private keys
 ```sh
 ssh-keygen -t ecdsa-sk
 ```
