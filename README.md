@@ -10,7 +10,7 @@ Hey, thanks for showing up! 🤓
 
 You've stumbled upon my personal journey with Nix. For over a year, I've been hacking away on this configuration. It drives my office PC, Macbook, and virtual machines in my home lab. Along with syncthing to manage data, this Nix configuration guarantees I have a working, seamless experience across each machine I use. 
 
-Immutable, reproducible infrastructure rocks!
+Immutable, reproducible infrastructure rocks! It's game changing and I'll never go back to typing commands in a terminal.
 
 While developing, I've done my best to keep it simple - for both future me and readers like you. You'll see that in how I've organized code, for example, as I keep filename conventions the same across modules. To get you started, I've included step-by-step instructions on bootstrapping a new machine below.
 
