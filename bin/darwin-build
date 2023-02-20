@@ -22,4 +22,4 @@ echo "${GREEN}Switching to new generation...${CLEAR}"
 echo "${GREEN}Cleaning up...${CLEAR}"
 rm -rf ./result
 
-echo "${GREEN}Done!${CLEAR}"
+echo "${GREEN}Complete${CLEAR}"
