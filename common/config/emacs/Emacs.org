@@ -334,7 +334,6 @@ Sets some reasonable defaults.
 #+END_SRC
 
 **** Fonts
-[[https://sourcefoundry.org/hack/][Fira Code]] is a code-friendly typeface. I dig it.
 
 #+NAME: fonts
 #+BEGIN_SRC emacs-lisp
