@@ -363,7 +363,7 @@ We use two spaces in place of tabs.
 
 #+NAME: next-buffer
 #+BEGIN_SRC emacs-lisp
-  ;;(setq-default indent-tabs-mode nil
+  ;; (setq-default indent-tabs-mode nil
   ;;              js-indent-level 2
   ;;              tab-width 2)
 #+END_SRC
@@ -1000,7 +1000,7 @@ Everything related to spell and grammar checking.
   (add-hook 'git-commit-mode-hook 'turn-on-flyspell)
   (add-hook 'text-mode-hook 'flyspell-mode)
   ;; Disable this for now, doesn't play well with long literate configuration
-  ;;(add-hook 'org-mode-hook 'flyspell-mode)
+  ;; (add-hook 'org-mode-hook 'flyspell-mode)
   (add-hook 'prog-mode-hook 'flyspell-prog-mode)
 
   (defun spell() (interactive) (flyspell-mode 1))
@@ -1053,8 +1053,8 @@ Everything related to M-x compile.
     :hook (company-mode . company-box-mode))
 
   ;; bug in emacs https://github.com/emacs-lsp/lsp-mode/issues/2525
-  ;;(setq lsp-headerline-breadcrumb-enable nil)
-  ;;(add-hook 'lsp-mode-hook #'lsp-headerline-breadcrumb-mode)
+  ;; (setq lsp-headerline-breadcrumb-enable nil)
+  ;; (add-hook 'lsp-mode-hook #'lsp-headerline-breadcrumb-mode)
 #+END_SRC
 
 *** Languages
@@ -1237,8 +1237,8 @@ These packages may come and go, but ultimately aid in my understanding of emacs 
 
 **** Indent blocks, set max region of output
 #+BEGIN_SRC emacs-lisp
-  ;;(setq org-src-tab-acts-natively nil)
-  ;;(setq org-table-convert-region-max-lines 9999)
+  ;; (setq org-src-tab-acts-natively nil)
+  ;; (setq org-table-convert-region-max-lines 9999)
 #+END_SRC
 
 **** ANSI color codes in org babel shell output
