@@ -933,7 +933,7 @@ Quickly work with images over drag-and-drop or the clipboard. [[https://github.c
 #+END_SRC
 
 *** Backups and auto-save
-These settings keep emacs from littering the filesystem with buffer backups. These files look like ~~yourfilename.txt~~ or ~#yourfilename.txt#~ and would otherwise be dropped in your working directory.
+These settings keep emacs from littering the filesystem with buffer backups. These files look like ~#yourfilename.txt#~ and would otherwise be dropped in your working directory.
 
 #+NAME: backup-files
 #+BEGIN_SRC emacs-lisp
