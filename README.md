@@ -19,7 +19,7 @@ Feel free to open a Github Issue if you run into any problems or have questions.
 # Features
 * Multiple Nix and NixOS configurations, including desktop, laptop, server
 * Step-by-step instructions to start from zero, both x86 and MacOS platforms
-* Fully declarative Mac dock and Mac App Store apps
+* Fully declarative MacOS dock and MacOS App Store apps
 * Defined using a single flake and two targets, not small files spread across collections of modules
 * Fully managed, auto-updating [homebrew](https://github.com/dustinlyons/nixos-config/blob/main/macos/home-manager.nix#L51) environment
 * Easily [share](https://github.com/dustinlyons/nixos-config/tree/main/common) config across Linux and Mac with both Nix and Home Manager
