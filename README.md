@@ -18,17 +18,17 @@ Feel free to open a Github Issue if you run into any problems or have questions.
 
 # Features
 * Multiple Nix and NixOS configurations, including desktop, laptop, server
-* Support for MacOS, even managing Mac App Store apps!
-* A declarative MacOS dock, supporting dynamic paths from the Nix Store
-* Fully managed, auto-updating [homebrew](https://github.com/dustinlyons/nixos-config/blob/main/macos/home-manager.nix#L51) environment
-* Minimal shell scripts covering basic functions for running systems
-* Easily [share](https://github.com/dustinlyons/nixos-config/tree/main/common) config across Linux and Mac with both Nix and Home Manager
-* Extensively configured NixOS environment including clean aesthetic + window animations
-* Large Emacs [literate configuration](https://github.com/dustinlyons/nixos-config/blob/main/common/config/emacs/Emacs.org) to explore
-* Auto-loading of Nix [overlays](https://github.com/dustinlyons/nixos-config/tree/main/overlays): drop a file in a dir and it runs (great for patches!)
 * Step-by-step instructions to start from zero, both x86 and MacOS platforms
-* Optimized for simplicity and readability in all cases
+* Fully declarative Mac dock and Mac App Store apps
 * Defined using a single flake and two targets, not small files spread across collections of modules
+* Fully managed, auto-updating [homebrew](https://github.com/dustinlyons/nixos-config/blob/main/macos/home-manager.nix#L51) environment
+* Easily [share](https://github.com/dustinlyons/nixos-config/tree/main/common) config across Linux and Mac with both Nix and Home Manager
+* Minimal shell scripts covering basic functions for running systems
+* Bleeding edge Emacs that fixes itself, thanks to a community [overlay](https://github.com/nix-community/emacs-overlay)
+* Extensively configured NixOS environment including clean aesthetic + window animations
+* Auto-loading of Nix [overlays](https://github.com/dustinlyons/nixos-config/tree/main/overlays): drop a file in a dir and it runs (great for patches!)
+* Large Emacs [literate configuration](https://github.com/dustinlyons/nixos-config/blob/main/common/config/emacs/Emacs.org) to explore (if that's your thing)
+* Optimized for simplicity and readability in all cases
 
 ### Coming Soon
 * Opt-in persistence using [impermanence](https://github.com/nix-community/impermanence) and `btrfs` snapshot reset ([#8](https://github.com/dustinlyons/nixos-config/issues/8))
@@ -115,5 +115,3 @@ nix flake update
 
 ## You made it this far
 Add me on [Twitter](https://twitter.com/dustinhlyons).
-
-_Thank you Nix and the [communities](https://github.com/nix-community/emacs-overlay) around [nixpkgs](https://github.com/NixOS/nixpkgs)._
