@@ -18,7 +18,7 @@ Feel free to open a Github Issue if you run into any problems or have questions.
 
 # Features
 * Multiple Nix and NixOS configurations, including desktop, laptop, server
-* Support for MacOS, even managing Mac App Store apps!
+* Support for MacOS and managing Mac App Store apps
 * A declarative MacOS dock, supporting dynamic paths from the Nix Store
 * Fully managed, auto-updating [homebrew](https://github.com/dustinlyons/nixos-config/blob/main/macos/home-manager.nix#L51) environment
 * Minimal shell scripts covering basic functions for running systems
