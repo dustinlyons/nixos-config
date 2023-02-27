@@ -22,6 +22,7 @@ Feel free to open a Github Issue if you run into any problems or have questions.
 * A declarative MacOS dock, supporting dynamic paths from the Nix Store
 * Fully managed, auto-updating [homebrew](https://github.com/dustinlyons/nixos-config/blob/main/macos/home-manager.nix#L51) environment
 * Minimal shell scripts covering basic functions for running systems
+# Bleeding edge Emacs that fixes itself, thanks to a community [overlay](https://github.com/nix-community/emacs-overlay)
 * Easily [share](https://github.com/dustinlyons/nixos-config/tree/main/common) config across Linux and Mac with both Nix and Home Manager
 * Extensively configured NixOS environment including clean aesthetic + window animations
 * Large Emacs [literate configuration](https://github.com/dustinlyons/nixos-config/blob/main/common/config/emacs/Emacs.org) to explore
@@ -115,5 +116,3 @@ nix flake update
 
 ## You made it this far
 Add me on [Twitter](https://twitter.com/dustinhlyons).
-
-_Thank you Nix and the [communities](https://github.com/nix-community/emacs-overlay) around [nixpkgs](https://github.com/NixOS/nixpkgs)._
