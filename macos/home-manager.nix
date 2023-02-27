@@ -15,12 +15,10 @@ let
     { path = "/System/Applications/Messages.app/"; }
     { path = "/System/Applications/Facetime.app/"; }
     { path = "/Applications/Telegram.app/"; }
-    { path = "/Applications/Notion.app/"; }
     { path = "${pkgs.alacritty}/Applications/Alacritty.app/"; }
     { path = "/Applications/Discord.app/"; }
     { path = "${pkgs.emacs}/Applications/Emacs.app/"; }
-    { path = "/Applications/Music.app/"; }
-    { path = "/Applications/Steam.app/"; }
+    { path = "/System/Applications/Music.app/"; }
     { path = "/System/Applications/News.app/"; }
     { path = "/System/Applications/Photos.app/"; }
     { path = "/System/Applications/Photo Booth.app/"; }
@@ -49,11 +47,18 @@ let
   # We use Homebrew to install impure software only (Mac Apps)
   homebrew.enable = true;
   homebrew.onActivation = {
-	autoUpdate = true;
-	cleanup = "zap";
-	upgrade = true;
+    autoUpdate = true;
+    cleanup = "zap";
+    upgrade = true;
   };
   homebrew.brewPrefix = "/opt/homebrew/bin";
+
+  # These app IDs are from using the mas CLI app
+  # mas = mac app store
+  # https://github.com/mas-cli/mas
+  #
+  # $ mas search <app name>
+  #
   homebrew.casks = pkgs.callPackage ./casks.nix {};
   homebrew.masApps = {
     "1password" = 1333542190;
