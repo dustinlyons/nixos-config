@@ -18,18 +18,17 @@ Feel free to open a Github Issue if you run into any problems or have questions.
 
 # Features
 * Multiple Nix and NixOS configurations, including desktop, laptop, server
-* Support for MacOS and managing Mac App Store apps
-* A declarative MacOS dock, supporting dynamic paths from the Nix Store
+* Step-by-step instructions to start from zero, both x86 and MacOS platforms
+* Fully declarative Mac dock and Mac App Store apps
+* Defined using a single flake and two targets, not small files spread across collections of modules
 * Fully managed, auto-updating [homebrew](https://github.com/dustinlyons/nixos-config/blob/main/macos/home-manager.nix#L51) environment
+* Easily [share](https://github.com/dustinlyons/nixos-config/tree/main/common) config across Linux and Mac with both Nix and Home Manager
 * Minimal shell scripts covering basic functions for running systems
 * Bleeding edge Emacs that fixes itself, thanks to a community [overlay](https://github.com/nix-community/emacs-overlay)
-* Easily [share](https://github.com/dustinlyons/nixos-config/tree/main/common) config across Linux and Mac with both Nix and Home Manager
 * Extensively configured NixOS environment including clean aesthetic + window animations
-* Large Emacs [literate configuration](https://github.com/dustinlyons/nixos-config/blob/main/common/config/emacs/Emacs.org) to explore
 * Auto-loading of Nix [overlays](https://github.com/dustinlyons/nixos-config/tree/main/overlays): drop a file in a dir and it runs (great for patches!)
-* Step-by-step instructions to start from zero, both x86 and MacOS platforms
+* Large Emacs [literate configuration](https://github.com/dustinlyons/nixos-config/blob/main/common/config/emacs/Emacs.org) to explore (if that's your thing)
 * Optimized for simplicity and readability in all cases
-* Defined using a single flake and two targets, not small files spread across collections of modules
 
 ### Coming Soon
 * Opt-in persistence using [impermanence](https://github.com/nix-community/impermanence) and `btrfs` snapshot reset ([#8](https://github.com/dustinlyons/nixos-config/issues/8))
