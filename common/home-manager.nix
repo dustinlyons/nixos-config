@@ -121,7 +121,7 @@
       set ruler
       set backspace=indent,eol,start
       set laststatus=2
-      set clipboard=autoselect
+      set clipboard=unnamed
 
       " Dir stuff
       set nobackup
