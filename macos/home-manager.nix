@@ -8,6 +8,7 @@ let
    ./dock
   ];
 
+  # Fully declarative dock using the latest from Nix Store
   local.dock.enable = true;
   local.dock.entries = [
     { path = "/Applications/Slack.app/"; }
@@ -61,7 +62,6 @@ let
     "tailscale" = 1475387142;
     "yoink" = 457622435;
   };
-
 
   home-manager = {
     useGlobalPkgs = true;
