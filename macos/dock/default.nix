@@ -52,7 +52,7 @@ in
         in
         {
           system.activationScripts.postUserActivation.text = ''
-            echo >&2 "Setting up persistent dock items..."
+            echo >&2 "Setting up the Dock..."
             haveURIs="$(${dockutil}/bin/dockutil --list | ${pkgs.coreutils}/bin/cut -f2)"
             if ! diff -wu <(echo -n "$haveURIs") <(echo -n '${wantURIs}') >&2 ; then
               echo >&2 "Resetting Dock."
@@ -60,7 +60,7 @@ in
               ${createEntries}
               killall Dock
             else
-              echo >&2 "Dock is how we want it."
+              echo >&2 "Dock setup complete."
             fi
           '';
         }
