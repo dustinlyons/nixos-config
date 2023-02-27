@@ -39,7 +39,6 @@ in
         let
           normalize = path: if hasSuffix ".app" path then path + "/" else path;
           entryURI = path: "file://" + (builtins.replaceStrings
-            # TODO: This is entirely too naive and works only with the bundles that I have seen on my system so far:
             [" "   "!"   "\""  "#"   "$"   "%"   "&"   "'"   "("   ")"]
             ["%20" "%21" "%22" "%23" "%24" "%25" "%26" "%27" "%28" "%29"]
             (normalize path)
