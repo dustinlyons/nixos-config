@@ -35,4 +35,4 @@ git -C $EMACS_OVERLAY_PATH push origin master
 _print "${GREEN}Updating flake...${CLEAR}"
 nix flake update
 
-_print "${GREEN}Completed${CLEAR}"
+_print "${GREEN}Done${CLEAR}"
