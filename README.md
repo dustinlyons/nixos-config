@@ -6,7 +6,7 @@
 # Overview
 > "All we have to decide is what to do with the time that is given us." - J.R.R. Tolkien
 
-Hey, thanks for showing up! 🤓
+Hey, you made it! Welcome. 🤓
 
 You've stumbled upon my personal journey with Nix. For over a year, I've been hacking away on this configuration. It drives my office PC, Macbook, and virtual machines in my home lab. Along with syncthing to manage data, this Nix configuration guarantees I have a working, seamless experience across each machine I use. 
 
