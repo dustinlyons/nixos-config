@@ -25,10 +25,12 @@ _print() {
 }
 
 _print "${GREEN}Updating nixpkgs...${CLEAR}"
+git -C $NIXPKGS_PATH pull origin master
 git -C $NIXPKGS_PATH merge upstream/master master
 git -C $NIXPKGS_PATH push origin master
 
 _print "${GREEN}Updating emacs-overlay...${CLEAR}"
+git -C $EMACS_OVERLAY_PATH pull origin master
 git -C $EMACS_OVERLAY_PATH merge upstream/master master
 git -C $EMACS_OVERLAY_PATH push origin master
 

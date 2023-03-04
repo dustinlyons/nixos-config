@@ -27,11 +27,19 @@
         "utils": "utils"
       },
       "locked": {
+<<<<<<< Updated upstream
         "lastModified": 1677533532,
         "narHash": "sha256-2Ie47MONhIFOxvbLmwhmCCe/IoVDVd7YnoK61vu5Xy8=",
         "owner": "nix-community",
         "repo": "home-manager",
         "rev": "305daba44a9df57738cffc67c08129005a25579a",
+=======
+        "lastModified": 1677756477,
+        "narHash": "sha256-EZzkIti0a7Xlmuzx0ECXmiBIxz3mXrIS4ppb8eqshWE=",
+        "owner": "nix-community",
+        "repo": "home-manager",
+        "rev": "547a3bc8d464cb2a22e4cf0dbbb746f8c654151a",
+>>>>>>> Stashed changes
         "type": "github"
       },
       "original": {
@@ -58,11 +66,19 @@
     },
     "nixpkgs_2": {
       "locked": {
+<<<<<<< Updated upstream
         "lastModified": 1677466509,
         "narHash": "sha256-xKt5lnFE0kvUV6NUcUxQhfxz2N7urNJv10miQlK+6g4=",
         "owner": "dustinlyons",
         "repo": "nixpkgs",
         "rev": "aea0e9ef9497fb0c4de08b01ebcf54f24a068811",
+=======
+        "lastModified": 1677772797,
+        "narHash": "sha256-6wqQrFa+VWFhwZ8i1kr/wV39Rhkbnwg7iXiSq6vS+tE=",
+        "owner": "dustinlyons",
+        "repo": "nixpkgs",
+        "rev": "f2a67f8b6963da92256d1fcf4160dbbb18b55cd8",
+>>>>>>> Stashed changes
         "type": "github"
       },
       "original": {
