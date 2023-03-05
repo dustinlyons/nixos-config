@@ -34,11 +34,15 @@
    };
   };
 
+  # Load configuration that is shared across systems
   environment.systemPackages = with pkgs; [] ++ (import ../common/packages.nix { pkgs = pkgs; });
 
   # Enable fonts dir
   fonts.fontDir.enable = true;
 
+  # Confusing, I know. Nix has too many ways to get stuff done.
+  # This is nix-darwin's programs attrset. We don't use it.
+  # Instead, we use home-manager to manage program settings.
   programs = { };
 
   system = {
