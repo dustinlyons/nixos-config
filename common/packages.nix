@@ -24,6 +24,7 @@ with pkgs; [
   glow # CLI markdown viewer
   gnupg
   google-cloud-sdk
+  go
   gopls
   hack-font
   home-manager

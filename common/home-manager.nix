@@ -1,16 +1,13 @@
 { config, pkgs, lib, ... }:
-
 {
-  go.enable = true;
+  # Shared shell configuration
   zsh.enable = true;
   zsh.autocd = false;
   zsh.cdpath = [ "~/State/Projects/Code/" ];
-
   zsh.dirHashes = {
     code = "$HOME/State/Projects/Code";
     nixos-config = "$HOME/State/Projects/Code/nixos-config";
   };
-
   zsh.plugins = [
     {
         name = "powerlevel10k";
@@ -23,7 +20,6 @@
         file = "p10k.zsh";
     }
   ];
-
   zsh.initExtraFirst = ''
     if [[ -f /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh ]]; then
       . /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh

@@ -28,7 +28,7 @@
   services.emacs = {
     enable = true;
     package = pkgs.emacsWithPackagesFromUsePackage {
-     config = ../common/config/emacs/Emacs.org;
+     config = ../common/config/emacs/config.org;
      package = pkgs.emacsNativeComp;
      alwaysEnsure = true;
    };

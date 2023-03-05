@@ -71,13 +71,12 @@ let
   home-manager = {
     useGlobalPkgs = true;
     users.dustin = { pkgs, lib, ... }: {
-      home.enableNixpkgsReleaseCheck = false;
-      home.packages = pkgs.callPackage ./packages.nix {};
-      programs = common-programs // {};
-
-      # https://github.com/nix-community/home-manager/issues/3344
-      # Marked broken Oct 20th, check later to remove this
-      manual.manpages.enable = false;
+      home = {
+        enableNixpkgsReleaseCheck = false;
+        packages = pkgs.callPackage ./packages.nix {};
+        programs = common-programs // {};
+        file.".emacs.d/init.el".text = builtins.readFile ../common/config/emacs/init.el;
+      };
     };
   };
 }

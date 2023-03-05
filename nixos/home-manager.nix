@@ -10,9 +10,10 @@ let
 {
   home = {
     enableNixpkgsReleaseCheck = false;
-    packages = pkgs.callPackage ./packages.nix {};
     username = "dustin";
     homeDirectory = "/home/dustin";
+    packages = pkgs.callPackage ./packages.nix {};
+    file.".emacs.d/init.el".text = builtins.readFile ../common/config/emacs/init.el;
     stateVersion = "21.05";
   };
 
