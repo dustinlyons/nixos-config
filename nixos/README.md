@@ -6,7 +6,6 @@
 ├── default.nix        # Defines module, system-level config, 
 ├── home-manager.nix   # Defines user programs
 ├── files.nix          # Defines user files
-├── nix-communty.nix   # Where to download cachix builds
 ├── packages.nix       # List of packages to install for NixOS
 
 ```
