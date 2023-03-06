@@ -1,7 +1,8 @@
 { config, pkgs, lib, ... }:
 
 let
-  common-programs = import ../common/home-manager.nix { config = config; pkgs = pkgs; lib = lib; }; in
+  common-programs = import ../common/home-manager.nix { config = config; pkgs = pkgs; lib = lib; };
+  common-files = import ../common/files.nix {}; in
 {
   imports = [
     <home-manager/nix-darwin>
@@ -73,7 +74,7 @@ let
     users.dustin = { pkgs, lib, ... }: {
       home.enableNixpkgsReleaseCheck = false;
       home.packages = pkgs.callPackage ./packages.nix {};
-      home.file.".emacs.d/init.el".text = builtins.readFile ../common/config/emacs/init.el;
+      home.file = common-files // import ./files.nix { pkgs = pkgs; };
       programs = common-programs // {};
 
       # https://github.com/nix-community/home-manager/issues/3344

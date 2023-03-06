@@ -3,6 +3,7 @@
 let
   home = builtins.getEnv "HOME";
   common-programs = import ../common/home-manager.nix { config = config; pkgs = pkgs; lib = lib; };
+  common-files = import ../common/files.nix {};
   polybar-bars = builtins.readFile ./config/polybar/bars.ini;
   polybar-colors = builtins.readFile ./config/polybar/colors.ini;
   polybar-modules = builtins.readFile ./config/polybar/modules.ini;
@@ -13,7 +14,7 @@ let
     username = "dustin";
     homeDirectory = "/home/dustin";
     packages = pkgs.callPackage ./packages.nix {};
-    file.".emacs.d/init.el".text = builtins.readFile ../common/config/emacs/init.el;
+    files = common-files // import ./files.nix {};
     stateVersion = "21.05";
   };
 
