@@ -59,4 +59,4 @@
     (("C-c a" . org-agenda)))
 
 (require 'org-install)
-(org-babel-load-file "~/State/Projects/Code/nixos-config/common/config/emacs/config.org")
+(org-babel-load-file "~/.local/share/src/nixos-config/common/config/emacs/config.org")

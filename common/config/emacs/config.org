@@ -426,7 +426,7 @@ I use org-roam to take notes, which keeps many small files in the style of Zette
     "Move file and add transclude link with header"
   (interactive)
     (org-roam-refile)
-    (insert "#+transclude: [[file:~/State/Areas/Writing/Notebook/20220419121404-todo.org::*" (org-element-property :value (car (org-global-props "TITLE"))) "][Transclude]]"))
+    (insert "#+transclude: [[file:~/.local/share/org-roam/20220419121404-todo.org::*" (org-element-property :value (car (org-global-props "TITLE"))) "][Transclude]]"))
 
   (dl/leader-keys
     "a"  '(:ignore t :which-key "manage org-agenda")
@@ -550,17 +550,17 @@ Note the weekly scope of the command's precision.")
 (defun dl/load-buffer-with-emacs-config ()
   "Open the emacs configuration"
   (interactive)
-  (find-file "~/State/Projects/Code/nixos-config/common/config/emacs/config.org"))
+  (find-file "~/.local/share/src/nixos-config/common/config/emacs/config.org"))
 
 (defun dl/load-buffer-with-todo ()
   "Open the emacs configuration"
   (interactive)
-  (find-file "~/State/Areas/Writing/Notebook/20220419121404-todo.org"))
+  (find-file "~/.local/share/org-roam/20220419121404-todo.org"))
 
 (defun dl/load-buffer-with-nix-config ()
   "Open the emacs configuration"
   (interactive)
-  (find-file "~/State/Projects/Code/nixos-config/common/home-manager.nix"))
+  (find-file "~/.local/share/src/nixos-config/common/home-manager.nix"))
 
 (defun dl/reload-emacs ()
   "Reload the emacs configuration"
@@ -633,7 +633,7 @@ These are templates used to create new notes.
                (window-width . 0.33)
                (window-height . fit-window-to-buffer)))
     :custom
-      (org-roam-directory (file-truename "~/State/Areas/Writing/Notebook"))
+      (org-roam-directory (file-truename "~/.local/share/org-roam"))
       (org-roam-dailies-directory "daily/")
       (org-roam-completion-everywhere t)
     :bind
@@ -938,7 +938,7 @@ These settings keep emacs from littering the filesystem with buffer backups. The
 #+NAME: backup-files
 #+BEGIN_SRC emacs-lisp
 (setq backup-directory-alist
-      `((".*" . "~/State/.emacs/"))
+      `((".*" . "~/.local/state/emacs/"))
       backup-by-copying t    ; Don't delink hardlinks
       version-control t      ; Use version numbers on backups
       delete-old-versions t) ; Automatically delete excess backups
@@ -947,9 +947,9 @@ These settings keep emacs from littering the filesystem with buffer backups. The
 #+NAME: local-file-transforms
 #+BEGIN_SRC emacs-lisp
 (setq auto-save-file-name-transforms
-      `((".*" "~/State/.emacs/" t)))
+      `((".*" "~/.local/state/emacs/" t)))
 (setq lock-file-name-transforms
-      `((".*" "~/State/.emacs/lock-files/" t)))
+      `((".*" "~/.local/state/emacs/lock-files/" t)))
 #+END_SRC
 
 ** Managing projects
@@ -969,9 +969,9 @@ Projectile enables me to organize projects with a killer grep interface.
       (setq projectile-enable-caching t)
       (setq projectile-switch-project-action #'projectile-dired))
       (when (system-is-linux)
-        (setq projectile-project-search-path "/mnt/state/Projects/Code"))
+        (setq projectile-project-search-path "/home/dustin/.local/share/src"))
       (when (system-is-mac)
-        (setq projectile-project-search-path "/Users/dustin/State/Projects/Code"))
+        (setq projectile-project-search-path "/Users/dustin/.local/share/src"))
 
   ;; Gives me Ivy options in the Projectile menus
   (use-package counsel-projectile :after projectile)
@@ -1185,7 +1185,7 @@ Rainbow mode is an Emacs minor mode to highlight the color shown by a RGB hex tr
     :straight t)
 
   ;; React snippets
-  (load "~/State/Projects/Code/nixos-config/common/snippets/react-snippets/react-snippets.el")
+  (load "~/.local/share/src/nixos-config/common/snippets/react-snippets/react-snippets.el")
 
   ;; Keeps indentation organized across these modes
   (use-package prettier-js)

@@ -25,12 +25,12 @@ let
     { path = "/Applications/Drafts.app/"; }
     { path = "/System/Applications/Home.app/"; }
     {
-      path = "/Users/dustin/State/";
+      path = "/Users/dustin/.local/share/";
       section = "others";
       options = "--sort name --view grid --display folder";
     }
     {
-      path = "/Users/dustin/State/Inbox/Downloads";
+      path = "/Users/dustin/.local/share/downloads";
       section = "others";
       options = "--sort name --view grid --display stack";
     }

@@ -3,10 +3,10 @@
   # Shared shell configuration
   zsh.enable = true;
   zsh.autocd = false;
-  zsh.cdpath = [ "~/State/Projects/Code/" ];
+  zsh.cdpath = [ "~/.local/share/src" ];
   zsh.dirHashes = {
-    code = "$HOME/State/Projects/Code";
-    nixos-config = "$HOME/State/Projects/Code/nixos-config";
+    code = "$HOME/.local/share/src";
+    nixos-config = "$HOME/.local/share/src/nixos-config";
   };
   zsh.plugins = [
     {
@@ -196,7 +196,7 @@
         \ ]
 
       let g:startify_bookmarks = [
-        \ '~/State/Projects/Code',
+        \ '~/.local/share/src',
         \ ]
 
       let g:airline_theme='bubblegum'

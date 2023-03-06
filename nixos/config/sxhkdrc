@@ -93,7 +93,7 @@ super + y
 
 # Program launcher
 super + @space
-	rofi -config -no-lazy-grab -show drun -modi drun -theme ~/State/Projects/Code/nixos-config/nixos/config/rofi/launcher.rasi
+	rofi -config -no-lazy-grab -show drun -modi drun -theme ~/.local/share/src/nixos-config/nixos/config/rofi/launcher.rasi
 
 # Terminal emulator
 super + Return
@@ -136,7 +136,7 @@ super + shift + @space
 
 # Take a screenshot with PrintSc
 Print
- 	flameshot gui -c -p $HOME/State/Inbox/Screenshots
+        flameshot gui -c -p $HOME/.local/share/img/screenshots
 
 # Lock the screen
 ctrl + alt + BackSpace

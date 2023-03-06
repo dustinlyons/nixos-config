@@ -13,8 +13,8 @@ GREEN='\033[1;32m'
 RED='\033[1;31m'
 CLEAR='\033[0m'
 
-NIXPKGS_PATH=~/State/Projects/Code/nixpkgs
-EMACS_OVERLAY_PATH=~/State/Projects/Code/emacs-overlay
+NIXPKGS_PATH=~/.local/share/src/nixpkgs
+EMACS_OVERLAY_PATH=~/.local/share/src/emacs-overlay
 
 _print() {
     if [ "$(uname)" == "Darwin" ]; then
