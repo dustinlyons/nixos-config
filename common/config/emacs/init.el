@@ -40,14 +40,6 @@
 (setq straight-use-package-by-default t)
 (package-initialize)
 
-;; I load org-mode here, outside of my config.org file, as I like to generate
-;; the _*.el file when Emacs loads, instead of relying on save hooks or
-;; manually running some command.
-
-;; The tradeoff is some org-mode config lives here and not in my
-;; master literate config (config.org).  I could probably slim it down more
-;; from what you see here but I'm lazy -DL, 2/14/22
-
 (defun dl/org-mode-setup ()
   (org-indent-mode)
   (variable-pitch-mode 1)
@@ -65,15 +57,6 @@
       org-hide-block-startup nil) ;; Don't start org mode with blocks folded
   :bind
     (("C-c a" . org-agenda)))
-    (setq org-todo-keywords
-     '((sequence "TODO(t)"
-                 "NEXT(n)"
-                 "ACTIVE(a)"
-                 "WAITING(w)"
-                 "SOMEDAY(s)"
-                 "|"
-                 "CANCELED(c)"
-                 "DONE(d)")))
 
 (require 'org-install)
 (org-babel-load-file "~/State/Projects/Code/nixos-config/common/config/emacs/config.org")
