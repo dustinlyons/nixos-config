@@ -1057,6 +1057,18 @@ Everything related to M-x compile.
   ;; (add-hook 'lsp-mode-hook #'lsp-headerline-breadcrumb-mode)
 #+END_SRC
 
+**** Shortcuts
+Leader keys for lsp-mode.
+
+#+NAME: lsp-leader-keys
+#+BEGIN_SRC emacs-lisp
+  (dl/leader-keys
+    "l"  '(:ignore t :which-key "lsp")
+    "ll" '(lsp :which-key "enable lsp mode")
+    "lr" '(lsp-rename which-key "rename")
+    "ld" '(lsp-find-definition :which-key "goto definition"))
+#+END_SRC
+
 *** Languages
 **** Python
 #+NAME: python
