@@ -8,7 +8,7 @@
 
 Hey, you made it! Welcome. 🤓
 
-You've stumbled upon my personal journey with Nix. For over a year, I've been hacking away on this configuration. It drives my office PC, Macbook, and virtual machines in my home lab. Along with syncthing to manage data, this Nix configuration guarantees I have a working, seamless experience across each machine I use. 
+You've stumbled upon my personal journey with Nix. For over a year, I've been hacking away on this configuration. It drives my office PC, M1 Macbook, and virtual machines in my home lab. Along with syncthing to manage data, this Nix configuration guarantees I have a working, seamless experience across each machine I use. 
 
 Immutable, reproducible infrastructure rocks! It's game changing and I'll never go back to typing commands in a terminal.
 
@@ -31,8 +31,8 @@ Feel free to open a Github Issue if you run into any problems or have questions.
 * Optimized for simplicity and readability in all cases
 
 ### Coming Soon
+* ✅ ~Persistence defined under [XDG](https://specifications.freedesktop.org/basedir-spec/basedir-spec-latest.html) ([#5](https://github.com/dustinlyons/nixos-config/issues/5))~
 * Opt-in persistence using [impermanence](https://github.com/nix-community/impermanence) and `btrfs` snapshot reset ([#8](https://github.com/dustinlyons/nixos-config/issues/8)
-* ~Persistence defined under [XDG]~(https://specifications.freedesktop.org/basedir-spec/basedir-spec-latest.html) ([#5](https://github.com/dustinlyons/nixos-config/issues/5))
 * Secrets managed with `sops-nix` ([#6](https://github.com/dustinlyons/nixos-config/issues/6))
 
 # Layout
