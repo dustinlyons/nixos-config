@@ -27,11 +27,11 @@ Feel free to open a Github Issue if you run into any problems or have questions.
 * Bleeding edge Emacs that fixes itself, thanks to a community [overlay](https://github.com/nix-community/emacs-overlay)
 * Extensively configured NixOS environment including clean aesthetic + [window animations](https://github.com/dustinlyons/nixos-config/blob/main/nixos/default.nix#L121)
 * Auto-loading of Nix [overlays](https://github.com/dustinlyons/nixos-config/tree/main/overlays): drop a file in a dir and it runs _(great for patches!)_
-* Large Emacs [literate configuration](https://github.com/dustinlyons/nixos-config/blob/main/common/config/emacs/Emacs.org) to explore (if that's your thing)
+* Large Emacs [literate configuration](https://github.com/dustinlyons/nixos-config/blob/main/common/config/emacs/config.org) to explore (if that's your thing)
 * Optimized for simplicity and readability in all cases
 
 ### Coming Soon
-* Opt-in persistence using [impermanence](https://github.com/nix-community/impermanence) and `btrfs` snapshot reset ([#8](https://github.com/dustinlyons/nixos-config/issues/8))
+* Opt-in persistence using [impermanence](https://github.com/nix-community/impermanence) and `btrfs` snapshot reset ([#8](https://github.com/dustinlyons/nixos-config/issues/8)
 * Persistence defined under [XDG](https://specifications.freedesktop.org/basedir-spec/basedir-spec-latest.html) ([#5](https://github.com/dustinlyons/nixos-config/issues/5))
 * Secrets managed with `sops-nix` ([#6](https://github.com/dustinlyons/nixos-config/issues/6))
 
