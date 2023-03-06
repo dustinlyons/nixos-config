@@ -32,7 +32,7 @@ Feel free to open a Github Issue if you run into any problems or have questions.
 
 ### Coming Soon
 * Opt-in persistence using [impermanence](https://github.com/nix-community/impermanence) and `btrfs` snapshot reset ([#8](https://github.com/dustinlyons/nixos-config/issues/8)
-* Persistence defined under [XDG](https://specifications.freedesktop.org/basedir-spec/basedir-spec-latest.html) ([#5](https://github.com/dustinlyons/nixos-config/issues/5))
+* ~Persistence defined under [XDG]~(https://specifications.freedesktop.org/basedir-spec/basedir-spec-latest.html) ([#5](https://github.com/dustinlyons/nixos-config/issues/5))
 * Secrets managed with `sops-nix` ([#6](https://github.com/dustinlyons/nixos-config/issues/6))
 
 # Layout
