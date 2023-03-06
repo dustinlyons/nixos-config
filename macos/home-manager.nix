@@ -69,12 +69,13 @@ let
     "yoink" = 457622435;
   };
 
+  # Enable home-manager to manage the XDG standard
   home-manager = {
     useGlobalPkgs = true;
-    users.dustin = { pkgs, lib, ... }: {
+    users.dustin = {
       home.enableNixpkgsReleaseCheck = false;
       home.packages = pkgs.callPackage ./packages.nix {};
-      home.file = common-files // import ./files.nix { pkgs = pkgs; };
+      home.file = common-files // import ./files.nix { config = config; pkgs = pkgs; };
       programs = common-programs // {};
 
       # https://github.com/nix-community/home-manager/issues/3344
