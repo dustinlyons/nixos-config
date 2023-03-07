@@ -9,6 +9,14 @@ let
    ./dock
   ];
 
+  # It me
+  users.users.dustin = {
+    name = "dustin";
+    home = "/Users/dustin";
+    isHidden = false;
+    shell = pkgs.zsh;
+  };
+
   # Fully declarative dock using the latest from Nix Store
   local.dock.enable = true;
   local.dock.entries = [
@@ -18,7 +26,6 @@ let
     { path = "/Applications/Telegram.app/"; }
     { path = "${pkgs.alacritty}/Applications/Alacritty.app/"; }
     { path = "/Applications/Discord.app/"; }
-    { path = "${pkgs.emacs}/Applications/Emacs.app/"; }
     { path = "/System/Applications/Music.app/"; }
     { path = "/System/Applications/News.app/"; }
     { path = "/System/Applications/Photos.app/"; }
@@ -26,24 +33,20 @@ let
     { path = "/Applications/Drafts.app/"; }
     { path = "/System/Applications/Home.app/"; }
     {
-      path = "/Users/dustin/.local/share/";
+      path = "${config.users.users.dustin.home}/.local/share/bin/emacs-launcher.command";
+      section = "others";
+    }
+    {
+      path = "${config.users.users.dustin.home}/.local/share/";
       section = "others";
       options = "--sort name --view grid --display folder";
     }
     {
-      path = "/Users/dustin/.local/share/downloads";
+      path = "${config.users.users.dustin.home}/.local/share/downloads";
       section = "others";
       options = "--sort name --view grid --display stack";
     }
   ];
-
-  # It me
-  users.users.dustin = {
-    name = "dustin";
-    home = "/Users/dustin";
-    isHidden = false;
-    shell = pkgs.zsh;
-  };
 
   # We use Homebrew to install impure software only (Mac Apps)
   homebrew.enable = true;
