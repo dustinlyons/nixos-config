@@ -25,14 +25,14 @@
   # Turn off NIX_PATH warnings now that we're using flakes
   system.checks.verifyNixPath = false;
 
-  # Where does emacs related config live?
-  #
-  # init.el is the first step, which lives in common/files.nix.
-  # It tangles and loads config.org, which lives in common/config.
-  #
-  # Emacs also runs as a daemon. I have a Raycast script
-  # that lives in macos/files.nix for quick launch.
-  services.emacs.package = pkgs.emacsUnstable;
+  services.emacs = {
+    enable = true;
+    package = pkgs.emacsWithPackagesFromUsePackage {
+     config = ../common/config/emacs/config.org;
+     package = pkgs.emacsNativeComp;
+     alwaysEnsure = true;
+   };
+  };
 
   # Load configuration that is shared across systems
   environment.systemPackages = with pkgs; [] ++ (import ../common/packages.nix { pkgs = pkgs; });
