@@ -14,8 +14,6 @@ While developing, I've done my best to keep it simple - for both future me and r
 
 Feel free to open a Github Issue if you run into any problems or have questions. Enjoy Nix!
 
-> Psst! Want me to help deploy Nix in your company? Or streamline your team's development environment? <a href="https://github.com/dustinlyons">Get in touch.</a>
-
 # Features
 * Multiple Nix and NixOS configurations, including desktop, laptop, server
 * [Step-by-step instructions](https://github.com/dustinlyons/nixos-config/blob/main/nixos/default.nix#L121) to start from zero, both x86 and MacOS platforms
