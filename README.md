@@ -4,8 +4,6 @@
 ![GitHub last commit](https://img.shields.io/github/last-commit/dustinlyons/nixos-config?style=plastic)
 
 # Overview
-> "All we have to decide is what to do with the time that is given us." - J.R.R. Tolkien
-
 Hey, you made it! Welcome. 🤓
 
 You've stumbled upon my personal journey with Nix. For over a year, I've been hacking away on this configuration. It drives my office PC, M1 Macbook, and virtual machines in my home lab. Along with syncthing to manage data, this Nix configuration guarantees I have a working, seamless experience across each machine I use. 
@@ -15,6 +13,8 @@ Immutable, reproducible infrastructure rocks! It's game changing and I'll never 
 While developing, I've done my best to keep it simple - for both future me and readers like you. You'll see that in how I've organized code, as I keep filename conventions the same across modules. To get you started, I've included step-by-step instructions on bootstrapping a new machine below.
 
 Feel free to open a Github Issue if you run into any problems or have questions. Enjoy Nix!
+
+> Psst! Want me to help deploy Nix in your company? Or streamline your team's development environment? <a href="https://github.com/dustinlyons">Hire me</a>.
 
 # Features
 * Multiple Nix and NixOS configurations, including desktop, laptop, server
@@ -115,3 +115,4 @@ nix flake update
 
 ## You made it this far
 Add me on [Twitter](https://twitter.com/dustinhlyons).
+> "All we have to decide is what to do with the time that is given us." - J.R.R. Tolkien
