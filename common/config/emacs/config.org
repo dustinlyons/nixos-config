@@ -6,7 +6,11 @@
 This is my detailed Emacs configuration. It's an ~org~ file that is transpiled to ~emacs-lisp~ as part of the Nix build process. 
 
 #+BEGIN_QUOTE
-Why an org file? My Emacs config is large, and this enables me to greatly improve readability of its documentation. Sounds complicated, but it's really not; [[https://github.com/dustinlyons/nixos-config/blob/main/nixos/default.nix#L215][just one line]] in my Nix config. [[https://github.com/dustinlyons/nixos-config/blob/main/macos/default.nix#L28][MacOS too.]] 
+Why an org file? My Emacs config is large, and this enables me to greatly improve readability of its documentation. I edit this file the same way you're reading it (nicely formatted) as I use Emacs and Emacs speaks org.
+
+Sounds complicated, but it's really not; [[https://github.com/dustinlyons/nixos-config/blob/main/nixos/default.nix#L215][just a few lines]] in my Nix config. [[https://github.com/dustinlyons/nixos-config/blob/main/macos/default.nix#L28][MacOS too.]]
+
+I also create a basic ~init.el~ that bootstraps ~org-mode~  first, before this file is read. I guess that's the tradeoff. That's defined [[https://github.com/dustinlyons/nixos-config/blob/main/common/files.nix#L5][here]].
 #+END_QUOTE
 
 /Each block of code below is the actual Emacs configuration./
@@ -126,7 +130,7 @@ Ivy and associated helpers that uses the minibuffer. Ivy describes itself as "a 
 #+END_SRC
 
 *** Leader keys
-I use general.el to define groups of keybindings under my 'leader' definition. You will see these definitions sprinkled throughout this file; my own private collection of fast shit. For more info, [[https://medium.com/usevim/vim-101-what-is-the-leader-key-f2f5c1fa610f][here]] is a good explanation on leader keys.
+I use ~general.el~ to define groups of keybindings under my 'leader' definition. You will see these definitions sprinkled throughout this file; they are just quick shortcuts. For more info, [[https://medium.com/usevim/vim-101-what-is-the-leader-key-f2f5c1fa610f][here]] is a good explanation on leader keys.
 
 #+NAME: keybindings
 #+BEGIN_SRC emacs-lisp
@@ -177,7 +181,7 @@ Various helpers and packages I find useful for window management.
     :config)
 
   (dl/leader-keys
-    "r"  '(:ignore t :which-key "rotate")
+    "r"   '(:ignore t :which-key "rotate")
     "rw"  '(rotate-window :which-key "rotate window")
     "rl"  '(rotate-layout :which-key "rotate layout"))
 
@@ -308,33 +312,26 @@ Sets some reasonable defaults.
 
 #+NAME: windows-reasonable-defaults
 #+BEGIN_SRC emacs-lisp
-;;  (when window-system (set-frame-size (selected-frame) 120 60))
-;;    (setq use-dialog-box nil
-;;        use-file-dialog nil
-;;        cursor-type 'bar)
-;;    (add-to-list 'default-frame-alist '(height . 80))
-;;    (add-to-list 'default-frame-alist '(width . 160))
-;;
-;;  (setq default-background (face-attribute 'default :background))
-;;
-;;  (defun set-window-padding ()
-;;    (setq-default left-margin-width 2 right-margin-width 2) ; Define new widths.
-;;    (set-window-buffer nil (current-buffer)) ; Use them now
-;;    (set-face-background 'header-line default-background))
-;;    (when (system-is-linux)
-;;      (setq header-line-format " "))
-;;    (set-face-attribute 'header-line nil :height 1.0)
-;;
-;;  (add-hook 'org-mode-hook 'set-window-padding)
-;;  (add-hook 'conf-mode-hook 'set-window-padding)
-;;  (add-hook 'prog-mode-hook 'set-window-padding)
-;;  (add-hook 'flymake-buffer-diagnostic-mode-hook 'set-window-padding)
-;;  (add-hook 'text-mode-hook 'set-window-padding)
-;;  (add-hook 'treemacs-mode-hook 'set-window-padding)
+  (setq default-background (face-attribute 'default :background))
+
+  (defun set-window-padding ()
+    (setq-default left-margin-width 2 right-margin-width 2)
+    (set-window-buffer nil (current-buffer))
+    (set-face-background 'header-line default-background))
+    (when (system-is-linux)
+      (setq header-line-format " "))
+    (set-face-attribute 'header-line nil :height 1.0)
+
+  (add-hook 'org-mode-hook 'set-window-padding)
+  (add-hook 'conf-mode-hook 'set-window-padding)
+  (add-hook 'prog-mode-hook 'set-window-padding)
+  (add-hook 'flymake-buffer-diagnostic-mode-hook 'set-window-padding)
+  (add-hook 'text-mode-hook 'set-window-padding)
+  (add-hook 'treemacs-mode-hook 'set-window-padding)
 #+END_SRC
 
 **** Fonts
-
+Honestly, this most disorganized part of my entire configuration. I need to get my act together.
 #+NAME: fonts
 #+BEGIN_SRC emacs-lisp
   ;; Set the default pitch face
@@ -363,9 +360,9 @@ We use two spaces in place of tabs.
 
 #+NAME: next-buffer
 #+BEGIN_SRC emacs-lisp
-   (setq-default indent-tabs-mode nil
-                js-indent-level 2
-                tab-width 2)
+(setq-default indent-tabs-mode nil
+              js-indent-level 2
+              tab-width 2)
 #+END_SRC
 
 *** Buffers
@@ -441,19 +438,11 @@ Set various face colors for org-mode.
 #+BEGIN_SRC emacs-lisp
   ;; Fast access to tag common contexts I use
   (setq org-tag-persistent-alist
-    '(("home" . ?h) ("batch" . ?b) ("bn" . ?n) ("usf" . ?u) ("agency" . ?a)))
-
-  (setq org-todo-keyword-faces
-    `(("NEXT" . ,dl/yellow-color)
-     ("WAITING" . ,dl/light-grey-color)
-     ("SOMEDAY" . ,dl/dark-grey-color)))
+    '(("home" . ?h) ("work" . ?w)))
 
   (setq org-tag-faces
-    `(("batch" . ,dl/yellow-color)
-     ("bn" . ,dl/purple-color)
-     ("home" . ,dl/blue-color)
-     ("usf" . ,dl/teal-color)
-     ("agency" . ,dl/blue-color)))
+    `(("home" . ,dl/blue-color)
+     ("work" . ,dl/teal-color)))
 #+END_SRC
 
 **** Remove noise from org-agenda views
@@ -487,7 +476,7 @@ This block sets the ~org-agenda-prefix-format~ in an friendly way for org-roam (
       (if (numberp len)
           (s-truncate len (s-pad-right len " " result))
         result)))
-  (setq org-agenda-hide-tags-regexp (regexp-opt '("Todo" "agency" "home" "braeview" "bn" "batch")))
+  (setq org-agenda-hide-tags-regexp (regexp-opt '("Todo" "home" "work" "batch")))
   (setq org-agenda-prefix-format
         '((agenda . " %i %(dl/agenda-category 12)%?-32t% s")
           (todo . " %i %(dl/agenda-category 32) ")
@@ -523,12 +512,8 @@ Setup for org-super-agenda and org-ql.
                    :todo "NEXT")
             (:name "Waiting"
                    :todo "WAITING")
-            (:name "Bitcoin Noobs"
-                   :tag "bn")
-            (:name "Agency"
-                   :tag "agency")
-            (:name "Student Capstone Projects"
-                   :tag "usf")
+            (:name "Work"
+                   :tag "work")
             (:name "Home"
                    :tag "home")
             (:name "Someday"
@@ -565,7 +550,7 @@ Note the weekly scope of the command's precision.")
 (defun dl/reload-emacs ()
   "Reload the emacs configuration"
   (interactive)
-  (load "~/.emacs"))
+  (load "~/.emacs.d"))
 
 (defun dl/insert-current-time ()
   "Insert the current time (1-week scope) into the current buffer."
@@ -574,16 +559,23 @@ Note the weekly scope of the command's precision.")
        (insert (format-time-string current-time-format (current-time)))
        (insert "\n"))
 
+"Emacs relates shortcuts"
+ (dl/leader-keys
+  "e"  '(:ignore t :which-key "emacs")
+  "ee" '(dl/load-buffer-with-emacs-config :which-key "open emacs config")
+  "er" '(dl/reload-emacs :which-key "reload emacs"))
+
   "A few of my own personal shortcuts"
  (dl/leader-keys
   ","  '(dl/insert-current-time :which-key "current time")
-  "e"  '(dl/load-buffer-with-emacs-config :which-key "open emacs config")
   "n"  '(dl/load-buffer-with-nix-config :which-key "open nix config")
   "d"  '(dl/load-buffer-with-todo :which-key "open todo"))
 
 #+END_SRC
 
 ***** Snippets
+Manages my ability to use code snippets.
+
 #+NAME::yasnippet
 #+BEGIN_SRC emacs-lisp
   (use-package yasnippet)
@@ -728,7 +720,7 @@ Sets timestamps in the Properties drawer of files. I intend to use this one day 
 #+END_SRC
 
 *** UI improvements
-Anything related to making org mode pretty.
+Anything related to improving org mode's appearance.
 
 **** Change color of ivy window selection
 #+NAME::ivy-window-selection
@@ -1144,6 +1136,7 @@ Rainbow mode is an Emacs minor mode to highlight the color shown by a RGB hex tr
   (defun lsp-go-install-save-hooks ()
     (add-hook 'before-save-hook #'lsp-format-buffer t t)
     (add-hook 'before-save-hook #'lsp-organize-imports t t))
+
   (add-hook 'go-mode-hook #'lsp-go-install-save-hooks)
   (add-hook 'go-mode-hook #'lsp-deferred)
 
@@ -1158,6 +1151,7 @@ Rainbow mode is an Emacs minor mode to highlight the color shown by a RGB hex tr
     (local-set-key (kbd "M-.") 'godef-jump)
     ;; pop-tag-mark moves back before jump, to undo M-,
     (local-set-key (kbd "M-*") 'pop-tag-mark))
+
   (add-hook 'go-mode-hook 'dl/go-mode-hook)
 
 #+END_SRC
@@ -1245,12 +1239,6 @@ These packages may come and go, but ultimately aid in my understanding of emacs 
       (sql . t)
       (shell . t)))
    )
-#+END_SRC
-
-**** Indent blocks, set max region of output
-#+BEGIN_SRC emacs-lisp
-  ;; (setq org-src-tab-acts-natively nil)
-  ;; (setq org-table-convert-region-max-lines 9999)
 #+END_SRC
 
 **** ANSI color codes in org babel shell output
