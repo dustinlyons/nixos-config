@@ -28,7 +28,7 @@ let
         ${pkgs.emacs}/bin/emacsclient -t $@
       else
         # GUI mode
-        ${pkgs.emacs}/bin/emacsclient -c $@
+        ${pkgs.emacs}/bin/emacsclient -c -n $@
       fi
     '';
   };
