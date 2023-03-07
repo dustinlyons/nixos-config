@@ -14,7 +14,7 @@ While developing, I've done my best to keep it simple - for both future me and r
 
 Feel free to open a Github Issue if you run into any problems or have questions. Enjoy Nix!
 
-> Psst! Want me to help deploy Nix in your company? Or streamline your team's development environment? <a href="https://github.com/dustinlyons">Hire me</a>.
+> Psst! Want me to help deploy Nix in your company? Or streamline your team's development environment? <a href="https://github.com/dustinlyons">Get in touch.</a>
 
 # Features
 * Multiple Nix and NixOS configurations, including desktop, laptop, server
