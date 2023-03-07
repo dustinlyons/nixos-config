@@ -14,7 +14,13 @@
   nix = {
     package = pkgs.nixUnstable;
     settings.trusted-users = [ "@admin" "dustin" ];
-    gc.user = "root";
+
+    gc = {
+      user = "root";
+      automatic = true;
+      interval = { Weekday = 0; Hour = 2; Minute = 0; };
+      options = "--delete-older-than 30d";
+    };
 
     # Turn this on to make command line easier
     extraOptions = ''
@@ -44,6 +50,41 @@
   # This is nix-darwin's programs attrset. We don't use it.
   # Instead, we use home-manager to manage program settings.
   programs = { };
+
+  # WIP
+  launchd.user.agents.emacs.serviceConfig = {
+    KeepAlive = true;
+    ProgramArguments = [
+      "/bin/sh"
+      "-c"
+      ''
+        /bin/wait4path ${pkgs.emacs}/bin/emacs && \
+          exec ${pkgs.emacs}/bin/emacs --fg-daemon
+      ''
+    ];
+    StandardErrorPath = "/tmp/emacs.err.log";
+    StandardOutPath = "/tmp/emacs.out.log";
+  };
+
+  # WIP
+  launchd.daemons."nix-store-optimise".serviceConfig = {
+    ProgramArguments = [
+      "/bin/sh"
+      "-c"
+      ''
+        /bin/wait4path ${config.nix.package}/bin/nix && \
+          exec ${config.nix.package}/bin/nix store optimise
+      ''
+    ];
+    StartCalendarInterval = [
+      {
+        Hour = 2;
+        Minute = 30;
+      }
+    ];
+    StandardErrorPath = "/tmp/nix-store.err.log";
+    StandardOutPath = "/tmp/nix-store.out.log";
+  };
 
   system = {
     stateVersion = 4;
