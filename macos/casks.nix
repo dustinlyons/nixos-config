@@ -12,6 +12,7 @@
   "slack"
   "syncthing"
   "diffusionbee"
+  "postico"
   "shottr"
   "steam"
   "telegram"
