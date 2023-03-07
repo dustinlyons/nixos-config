@@ -354,6 +354,28 @@ Honestly, this most disorganized part of my entire configuration. I need to get 
 
 #+END_SRC
 
+*** Dashboard
+#+NAME: dashboard-settings
+#+BEGIN_SRC emacs-lisp
+(use-package dashboard
+  :ensure t
+  :config
+  (dashboard-setup-startup-hook)
+  (setq dashboard-startup-banner 'logo
+        dashboard-center-content t
+        dashboard-items '((projects . 5)
+                           (recents  . 5)))
+  (setq dashboard-set-footer nil))
+
+(setq dashboard-banner-logo-title "Welcome to your life")
+(setq dashboard-set-file-icons t)
+(setq dashboard-projects-backend 'projectile)
+
+(setq initial-buffer-choice (lambda ()
+                                (get-buffer-create "*dashboard*")
+                                (dashboard-refresh-buffer)))
+#+END_SRC
+
 ** Keybindings
 *** Spaces over tabs
 We use two spaces in place of tabs.
@@ -550,7 +572,7 @@ Note the weekly scope of the command's precision.")
 (defun dl/reload-emacs ()
   "Reload the emacs configuration"
   (interactive)
-  (load "~/.emacs.d"))
+  (load "~/.emacs.d/init.el"))
 
 (defun dl/insert-current-time ()
   "Insert the current time (1-week scope) into the current buffer."
@@ -961,9 +983,9 @@ Projectile enables me to organize projects with a killer grep interface.
       (setq projectile-enable-caching t)
       (setq projectile-switch-project-action #'projectile-dired))
       (when (system-is-linux)
-        (setq projectile-project-search-path "/home/dustin/.local/share/src"))
+        (setq projectile-project-search-path '("/home/dustin/.local/share/src")))
       (when (system-is-mac)
-        (setq projectile-project-search-path "/Users/dustin/.local/share/src"))
+        (setq projectile-project-search-path '("/Users/dustin/.local/share/src")))
 
   ;; Gives me Ivy options in the Projectile menus
   (use-package counsel-projectile :after projectile)
