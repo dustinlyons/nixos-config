@@ -1182,6 +1182,9 @@ Rainbow mode is an Emacs minor mode to highlight the color shown by a RGB hex tr
 #+NAME: javascript
 #+BEGIN_SRC emacs-lisp
   (use-package pnpm-mode)
+  (use-package prisma-mode
+    :straight (:host github :repo "pimeys/emacs-prisma-mode"
+               :branch "main"))
   (use-package web-mode
     :hook (web-mode . lsp-deferred))
 
