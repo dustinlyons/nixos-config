@@ -16,14 +16,14 @@ Feel free to open a Github Issue if you run into any problems or have questions.
 
 # Features
 * Multiple Nix and NixOS configurations, including desktop, laptop, server
-* [Step-by-step instructions](https://github.com/dustinlyons/nixos-config/blob/main/nixos/default.nix#L121) to start from zero, both x86 and MacOS platforms
-* Fully declarative [MacOS dock](https://github.com/dustinlyons/nixos-config/blob/main/macos/home-manager.nix#L12) and MacOS [App Store apps](https://github.com/dustinlyons/nixos-config/blob/main/macos/home-manager.nix#L63)
+* [Step-by-step instructions](https://github.com/dustinlyons/nixos-config/blob/main/README.md?plain=1#L50) to start from zero, both x86 and MacOS platforms
+* Fully declarative [MacOS dock](https://github.com/dustinlyons/nixos-config/blob/main/macos/home-manager.nix) and MacOS [App Store apps](https://github.com/dustinlyons/nixos-config/blob/main/macos/home-manager.nix)
 * Defined using a [single flake](https://github.com/dustinlyons/nixos-config/blob/main/flake.nix) and two targets, not small files spread across collections of modules
-* Fully managed, auto-updating [homebrew](https://github.com/dustinlyons/nixos-config/blob/main/macos/home-manager.nix#L51) environment
+* Fully managed, auto-updating [homebrew](https://github.com/dustinlyons/nixos-config/blob/main/macos/home-manager.nix) environment
 * Easily [share](https://github.com/dustinlyons/nixos-config/tree/main/common) config across Linux and Mac with both Nix and Home Manager
 * Minimal [shell scripts](https://github.com/dustinlyons/nixos-config/tree/main/bin) covering basic functions for running systems
 * Bleeding edge Emacs that fixes itself, thanks to a community [overlay](https://github.com/nix-community/emacs-overlay)
-* Extensively configured NixOS environment including clean aesthetic + [window animations](https://github.com/dustinlyons/nixos-config/blob/main/nixos/default.nix#L121)
+* Extensively configured NixOS environment including clean aesthetic + [window animations](https://github.com/dustinlyons/nixos-config/blob/main/nixos/default.nix)
 * Auto-loading of Nix [overlays](https://github.com/dustinlyons/nixos-config/tree/main/overlays): drop a file in a dir and it runs _(great for patches!)_
 * Large Emacs [literate configuration](https://github.com/dustinlyons/nixos-config/blob/main/common/config/emacs/config.org) to explore (if that's your thing)
 * Optimized for simplicity and readability in all cases
