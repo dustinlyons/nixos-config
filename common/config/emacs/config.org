@@ -307,29 +307,6 @@ Predefine windows with hotkeys and jump to them.
 Using straight.el under the hood of use-package enables us to download packages using git. This is preferred for easier hacking; I maintain my own org-roam fork, for example, and it's just another directory where I organize code. I configure straight.el with one line to use it.
 
 *** Windows
-**** Default sizes
-Sets some reasonable defaults.
-
-#+NAME: windows-reasonable-defaults
-#+BEGIN_SRC emacs-lisp
-  (setq default-background (face-attribute 'default :background))
-
-  (defun set-window-padding ()
-    (setq-default left-margin-width 2 right-margin-width 2)
-    (set-window-buffer nil (current-buffer))
-    (set-face-background 'header-line default-background))
-    (when (system-is-linux)
-      (setq header-line-format " "))
-    (set-face-attribute 'header-line nil :height 1.0)
-
-  (add-hook 'org-mode-hook 'set-window-padding)
-  (add-hook 'conf-mode-hook 'set-window-padding)
-  (add-hook 'prog-mode-hook 'set-window-padding)
-  (add-hook 'flymake-buffer-diagnostic-mode-hook 'set-window-padding)
-  (add-hook 'text-mode-hook 'set-window-padding)
-  (add-hook 'treemacs-mode-hook 'set-window-padding)
-#+END_SRC
-
 **** Fonts
 Honestly, this most disorganized part of my entire configuration. I need to get my act together.
 #+NAME: fonts
@@ -1185,6 +1162,7 @@ Rainbow mode is an Emacs minor mode to highlight the color shown by a RGB hex tr
   (use-package prisma-mode
     :straight (:host github :repo "pimeys/emacs-prisma-mode"
                :branch "main"))
+
   (use-package web-mode
     :hook (web-mode . lsp-deferred))
 
