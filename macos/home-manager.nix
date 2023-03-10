@@ -2,7 +2,8 @@
 
 let
   common-programs = import ../common/home-manager.nix { config = config; pkgs = pkgs; lib = lib; };
-  common-files = import ../common/files.nix {}; in
+  common-files = import ../common/files.nix {};
+  user = "dustin"; in
 {
   imports = [
     <home-manager/nix-darwin>
@@ -10,9 +11,9 @@ let
   ];
 
   # It me
-  users.users.dustin = {
-    name = "dustin";
-    home = "/Users/dustin";
+  users.users.${user} = {
+    name = "${user}";
+    home = "/Users/${user}";
     isHidden = false;
     shell = pkgs.zsh;
   };
@@ -33,16 +34,16 @@ let
     { path = "/Applications/Drafts.app/"; }
     { path = "/System/Applications/Home.app/"; }
     {
-      path = "${config.users.users.dustin.home}/.local/share/bin/emacs-launcher.command";
+      path = "${config.users.users.${user}.home}/.local/share/bin/emacs-launcher.command";
       section = "others";
     }
     {
-      path = "${config.users.users.dustin.home}/.local/share/";
+      path = "${config.users.users.${user}.home}/.local/share/";
       section = "others";
       options = "--sort name --view grid --display folder";
     }
     {
-      path = "${config.users.users.dustin.home}/.local/share/downloads";
+      path = "${config.users.users.${user}.home}/.local/share/downloads";
       section = "others";
       options = "--sort name --view grid --display stack";
     }
@@ -75,7 +76,7 @@ let
   # Enable home-manager to manage the XDG standard
   home-manager = {
     useGlobalPkgs = true;
-    users.dustin = {
+    users.${user} = {
       home.enableNixpkgsReleaseCheck = false;
       home.packages = pkgs.callPackage ./packages.nix {};
       home.file = common-files // import ./files.nix { config = config; pkgs = pkgs; };

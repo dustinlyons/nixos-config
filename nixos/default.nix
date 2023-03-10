@@ -1,5 +1,8 @@
-# Dustin's NixOS configuration
+# Your NixOS configuration
 { config, inputs, pkgs, ... }:
+
+let user = "dustin";
+    keys = [ "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOoC9CTKaguJf4cktkbVfU4+KdVL/kTg1XqIIwxwh/85" ]; in
 {
   imports = [
     ./cachix
@@ -23,7 +26,7 @@
 
   # Turn on flag for proprietary software
   nix = {
-    settings.allowed-users = [ "dustin" ];
+    settings.allowed-users = [ "${user}" ];
     package = pkgs.nixUnstable;
     extraOptions = ''
       experimental-features = nix-command flakes
@@ -44,6 +47,7 @@
   services.openssh = {
     enable = true;
     settings.passwordAuthentication = false;
+    openssh.authorizedKeys.keys = keys;
   };
 
   # This helps fix tearing of windows
@@ -99,9 +103,9 @@
   # Sync state between machines
   services.syncthing = {
     enable = true;
-    user = "dustin";
-    dataDir = "/home/dustin/.config/syncthing";
-    configDir = "/home/dustin/.config/syncthing";
+    user = "${user}";
+    dataDir = "/home/${user}/.local/share/syncthing";
+    configDir = "/home/${user}/.config/syncthing";
   };
 
   # Add docker daemon
@@ -200,16 +204,13 @@
   };
 
   # It's me
-  users.users.dustin = {
+  users.users.${user} = {
     isNormalUser = true;
     extraGroups = [
       "wheel" # Enable ‘sudo’ for the user.
       "docker"
     ];
     shell = pkgs.zsh;
-    openssh.authorizedKeys.keys = [
-      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOoC9CTKaguJf4cktkbVfU4+KdVL/kTg1XqIIwxwh/85"
-    ];
   };
 
   # My editor runs as a daemon

@@ -1,4 +1,7 @@
 { config, pkgs, lib, ... }:
+
+let name = "Dustin Lyons";
+    email = "dustin@dlyons.dev"; in
 {
   # Shared shell configuration
   zsh.enable = true;
@@ -77,8 +80,8 @@
   git = {
     enable = true;
     ignores = [ "*.swp" ];
-    userName = "Dustin Lyons";
-    userEmail = "dustin@dlyons.dev";
+    userName = name;
+    userEmail = email;
     lfs = {
       enable = true;
     };

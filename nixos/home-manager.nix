@@ -2,6 +2,7 @@
 
 let
   home = builtins.getEnv "HOME";
+  user = "dustin";
   common-programs = import ../common/home-manager.nix { config = config; pkgs = pkgs; lib = lib; };
   common-files = import ../common/files.nix {};
   polybar-bars = builtins.readFile ./config/polybar/bars.ini;
@@ -11,8 +12,8 @@ let
 {
   home = {
     enableNixpkgsReleaseCheck = false;
-    username = "dustin";
-    homeDirectory = "/home/dustin";
+    username = "${user}";
+    homeDirectory = "/home/${user}";
     packages = pkgs.callPackage ./packages.nix {};
     files = common-files // import ./files.nix {};
     stateVersion = "21.05";

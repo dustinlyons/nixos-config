@@ -1,4 +1,6 @@
 { config, pkgs, nixpkgs, ... }:
+
+let user = "dustin"; in
 {
 
   imports = [
@@ -13,7 +15,7 @@
   # Setup user, packages, programs
   nix = {
     package = pkgs.nixUnstable;
-    settings.trusted-users = [ "@admin" "dustin" ];
+    settings.trusted-users = [ "@admin" "${user}" ];
 
     gc = {
       user = "root";
