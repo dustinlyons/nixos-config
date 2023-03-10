@@ -1,5 +1,7 @@
 { config, lib, pkgs, modulesPath, ... }:
 
+# This file is generated during the initial installation process
+# See the README
 {
   imports =
     [ (modulesPath + "/installer/scan/not-detected.nix")

@@ -34,7 +34,7 @@ let name = "Dustin Lyons";
     export NVM_DIR="$HOME/.nvm"
     [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
 
-    # Cypress is a dev toom for end-to-end testing
+    # Cypress is a dev tool for end-to-end testing
     export CYPRESS_INSTALL_BINARY=0
     export CYPRESS_RUN_BINARY=$(which Cypress)
 
@@ -48,13 +48,11 @@ let name = "Dustin Lyons";
     alias e='emacsclient -t $@'
 
     # Enter nix-shell
-    alias s="nix-shell '<nixpkgs>' -A $1"
+    alias shell="nix-shell '<nixpkgs>' -A $1"
 
     # pnpm is a javascript package manager
     alias pn=pnpm
-
-    # Local global npm packages
-    alias yarn=$HOME/.npm-new-global/bin/yarn
+    alias px=pnpx
 
     # bat all the things
     alias cat=bat
@@ -70,10 +68,6 @@ let name = "Dustin Lyons";
 
     # Reboot into Windows for Steam Big Picture
     alias windows='systemctl reboot --boot-loader-entry=auto-windows'
-
-    # Some useful docker commands
-    alias docker_clean_images='docker rmi $(docker images -a --filter=dangling=true -q)'
-    alias docker_clean_ps='docker rm $(docker ps --filter=status=exited --filter=status=created -q)'
 
   '';
 
