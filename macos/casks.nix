@@ -5,6 +5,7 @@
   "discord"
   "homebrew/cask/docker"
   "google-chrome"
+  "insomnia"
   "loom"
   "notion"
   "ngrok"
