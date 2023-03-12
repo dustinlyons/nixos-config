@@ -73,10 +73,6 @@ common-packages ++ [
   pinentry-curses
   postgresql
 
-  # games
-  lutris
-  steam
-
   # Our file browser
   pcmanfm
 
