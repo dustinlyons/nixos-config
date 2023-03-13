@@ -1181,9 +1181,6 @@ Rainbow mode is an Emacs minor mode to highlight the color shown by a RGB hex tr
   (use-package lsp-volar
     :straight t)
 
-  ;; React snippets
-  (load "~/.local/share/src/nixos-config/common/snippets/react-snippets/react-snippets.el")
-
   ;; Keeps indentation organized across these modes
   (use-package prettier-js)
   (add-hook 'js2-mode-hook 'prettier-js-mode)

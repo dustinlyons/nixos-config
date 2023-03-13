@@ -1,6 +1,0 @@
-[submodule "go-snippets"]
-	path = common/snippets/go-snippets
-	url = git@github.com:toumorokoshi/go-snippets.git 
-[submodule "common/snippets/react-snippets"]
-	path = common/snippets/react-snippets
-	url = git@github.com:johnmastro/react-snippets.el.git
