@@ -37,7 +37,7 @@ let user = "dustin"; in
     enable = true;
     package = pkgs.emacsWithPackagesFromUsePackage {
      config = ../common/config/emacs/config.org;
-     package = pkgs.emacsNativeComp;
+     package = pkgs.emacsUnstable;
      alwaysEnsure = true;
    };
   };
@@ -53,30 +53,22 @@ let user = "dustin"; in
   # Instead, we use home-manager to manage program settings.
   programs = { };
 
-  # WIP
   launchd.user.agents.emacs.serviceConfig = {
     KeepAlive = true;
     ProgramArguments = [
       "/bin/sh"
       "-c"
-      ''
-        /bin/wait4path ${pkgs.emacs}/bin/emacs && \
-          exec ${pkgs.emacs}/bin/emacs --fg-daemon
-      ''
+      "/bin/wait4path ${pkgs.emacs}/bin/emacs && exec ${pkgs.emacs}/bin/emacs --fg-daemon"
     ];
     StandardErrorPath = "/tmp/emacs.err.log";
     StandardOutPath = "/tmp/emacs.out.log";
   };
 
-  # WIP
   launchd.daemons."nix-store-optimise".serviceConfig = {
     ProgramArguments = [
       "/bin/sh"
       "-c"
-      ''
-        /bin/wait4path ${config.nix.package}/bin/nix && \
-          exec ${config.nix.package}/bin/nix store optimise
-      ''
+      "/bin/wait4path ${config.nix.package}/bin/nix && exec ${config.nix.package}/bin/nix store optimise"
     ];
     StartCalendarInterval = [
       {
