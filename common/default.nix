@@ -1,7 +1,7 @@
 { config, pkgs, ...}:
 let
-  emacsOverlaySha256 = if config.system == "x86_64-darwin"
-    then "17qnic8bz5grrlczw8q3gjw16gykx01g7p81ngnzi8a5y8as3c44"
+  emacsOverlaySha256 = if builtins.currentSystem  == "aarch64-darwin"
+    then "07ks98m0zj61jz20fw2vqax1c61374hr06fzmw9c9xq70bsx1y9l"
     else "1nrpw2w2jfpgf85lxwddnnl0s8sv2j5pq0rb5jmgy65644skrsfq";
 in
 {
