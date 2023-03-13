@@ -24,19 +24,24 @@ let name = "Dustin Lyons";
     }
   ];
   zsh.initExtraFirst = ''
-    if [[ -f /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh ]]; then
-      . /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
-      . /nix/var/nix/profiles/default/etc/profile.d/nix.sh
-    fi
-    export PATH=$HOME/.npm-packages/bin:$PATH
-    export PATH=$NIX_USER_PROFILE_DIR/profile/bin:$PATH
-    export PATH=$HOME/bin:$PATH
-    export NVM_DIR="$HOME/.nvm"
-    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+    # Exit immediately if any command fails
+    set -e
 
-    # Cypress is a dev tool for end-to-end testing
+    if [[ -f "$NIX_USER_PROFILE_DIR/etc/profile.d/nix-daemon.sh" ]]; then
+        . "$NIX_USER_PROFILE_DIR/etc/profile.d/nix-daemon.sh"
+        . "$NIX_USER_PROFILE_DIR/etc/profile.d/nix.sh"
+    fi
+
+    # Define variables for directories
+    export PATH="$HOME/.npm-packages/bin:$NIX_USER_PROFILE_DIR/profile/bin:$HOME/bin:$PATH"
+    export NVM_DIR="$HOME/.nvm"
+
+    # Cypress
+    # Skip installation
     export CYPRESS_INSTALL_BINARY=0
-    export CYPRESS_RUN_BINARY=$(which Cypress)
+
+    # Run binary
+    export CYPRESS_RUN_BINARY="$(command -v Cypress)"
 
     # Remove history data we don't want to see
     export HISTIGNORE="pwd:ls:cd"
@@ -45,28 +50,36 @@ let name = "Dustin Lyons";
     export ALTERNATE_EDITOR=""
     export EDITOR="emacsclient -t"
     export VISUAL="emacsclient -c -a emacs"
-    alias e='emacsclient -t $@'
+    e() {
+        emacsclient -t "$@"
+    }
 
-    # Enter nix-shell
-    alias shell="nix-shell '<nixpkgs>' -A $1"
+    # nix shortcuts
+    shell() {
+        nix-shell '<nixpkgs>' -A "$1"
+    }
+
+    # git shortcuts
+    alias gm="git merge --rebase"
+    alias gp="git pull origin"
 
     # pnpm is a javascript package manager
     alias pn=pnpm
     alias px=pnpx
 
-    # bat all the things
+    # bat makes cat pretty
     alias cat=bat
 
     # Use difftastic, syntax-aware diffing
     alias diff=difft
 
     # Always color ls and group directories
-    alias ls='ls --group-directories-first --color --human-readable --sort=ext'
+    alias ls='ls --group-directories-first --color=auto --human-readable --sort=extension'
 
     # Weather report in your terminal
-    alias weather='curl http://wttr.in'
+    alias weather='curl "http://wttr.in"'
 
-    # Reboot into Windows for Steam Big Picture
+    # Reboot into my dual boot Windows partition
     alias windows='systemctl reboot --boot-loader-entry=auto-windows'
 
   '';
