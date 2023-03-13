@@ -24,16 +24,13 @@ let name = "Dustin Lyons";
     }
   ];
   zsh.initExtraFirst = ''
-    # Exit immediately if any command fails
-    set -e
-
-    if [[ -f "$NIX_USER_PROFILE_DIR/etc/profile.d/nix-daemon.sh" ]]; then
-        . "$NIX_USER_PROFILE_DIR/etc/profile.d/nix-daemon.sh"
-        . "$NIX_USER_PROFILE_DIR/etc/profile.d/nix.sh"
+    if [[ -f /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh ]]; then
+      . /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
+      . /nix/var/nix/profiles/default/etc/profile.d/nix.sh
     fi
 
     # Define variables for directories
-    export PATH="$HOME/.npm-packages/bin:$NIX_USER_PROFILE_DIR/profile/bin:$HOME/bin:$PATH"
+    export PATH=$HOME/.npm-packages/bin:$HOME/bin:$PATH
     export NVM_DIR="$HOME/.nvm"
 
     # Cypress
@@ -74,14 +71,13 @@ let name = "Dustin Lyons";
     alias diff=difft
 
     # Always color ls and group directories
-    alias ls='ls --group-directories-first --color=auto --human-readable --sort=extension'
+    alias ls='ls --color=auto'
 
     # Weather report in your terminal
     alias weather='curl "http://wttr.in"'
 
     # Reboot into my dual boot Windows partition
     alias windows='systemctl reboot --boot-loader-entry=auto-windows'
-
   '';
 
   git = {
