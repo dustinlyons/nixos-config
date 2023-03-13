@@ -44,24 +44,5 @@
         };
       };
     };
-
-    apps = {
-      repl-darwin = flake-utils.lib.mkApp {
-        drv = nixpkgs.legacyPackages.aarch64-darwin.pkgs.writeShellScriptBin "repl-aarch64-darwin" ''
-          deps=$(mktemp)
-          echo "builtins.getFlake (toString $(git rev-parse --show-toplevel))" >$deps
-          trap "rm $deps" EXIT
-          nix repl $deps
-        '';
-      };
-      repl-linux = flake-utils.lib.mkApp {
-        drv = nixpkgs.legacyPackages.x86_64-linux.pkgs.writeShellScriptBin "repl-x86_64-linux" ''
-          deps=$(mktemp)
-          echo "builtins.getFlake (toString $(git rev-parse --show-toplevel))" >$deps
-          trap "rm $deps" EXIT
-          nix repl $deps
-        '';
-      };
-    };
   };
 }
