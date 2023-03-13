@@ -33,17 +33,8 @@ let user = "dustin"; in
   # Turn off NIX_PATH warnings now that we're using flakes
   system.checks.verifyNixPath = false;
 
-  services.emacs = {
-    enable = true;
-    package = pkgs.emacsWithPackagesFromUsePackage {
-     config = ../common/config/emacs/config.org;
-     package = pkgs.emacsUnstable;
-     alwaysEnsure = true;
-   };
-  };
-
   # Load configuration that is shared across systems
-  environment.systemPackages = with pkgs; [] ++ (import ../common/packages.nix { pkgs = pkgs; });
+  environment.systemPackages = with pkgs; [ emacsUnstable ] ++ (import ../common/packages.nix { pkgs = pkgs; });
 
   # Enable fonts dir
   fonts.fontDir.enable = true;
@@ -53,6 +44,7 @@ let user = "dustin"; in
   # Instead, we use home-manager to manage program settings.
   programs = { };
 
+  launchd.user.agents.emacs.path = [ config.environment.systemPath ];
   launchd.user.agents.emacs.serviceConfig = {
     KeepAlive = true;
     ProgramArguments = [
