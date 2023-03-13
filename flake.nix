@@ -1,9 +1,10 @@
 {
-
   description = "Dustin's NixOS and MacOS configuration";
 
   inputs = {
-    nixpkgs.url = "github:dustinlyons/nixpkgs/master";
+    nixpkgs = {
+      url = "github:dustinlyons/nixpkgs/master";
+    };
     home-manager = {
       url = "github:nix-community/home-manager";
     };
@@ -13,8 +14,7 @@
     };
   };
 
-  outputs = { self, darwin, home-manager, nixpkgs, ... }@inputs: {
-
+  outputs = { self, flake-utils, darwin, home-manager, nixpkgs, ... }@inputs: {
     # My Macbook Pro 16"
     darwinConfigurations = {
       "Dustins-MBP" = darwin.lib.darwinSystem {
@@ -39,10 +39,28 @@
             home-manager.users.dustin = import ./nixos/home-manager.nix;
           }
         ];
-       specialArgs = {
-        inherit inputs;
-       };
+        specialArgs = {
+          inherit inputs;
+        };
+      };
+    };
 
+    apps = {
+      repl-darwin = flake-utils.lib.mkApp {
+        drv = nixpkgs.legacyPackages.aarch64-darwin.pkgs.writeShellScriptBin "repl-aarch64-darwin" ''
+          deps=$(mktemp)
+          echo "builtins.getFlake (toString $(git rev-parse --show-toplevel))" >$deps
+          trap "rm $deps" EXIT
+          nix repl $deps
+        '';
+      };
+      repl-linux = flake-utils.lib.mkApp {
+        drv = nixpkgs.legacyPackages.x86_64-linux.pkgs.writeShellScriptBin "repl-x86_64-linux" ''
+          deps=$(mktemp)
+          echo "builtins.getFlake (toString $(git rev-parse --show-toplevel))" >$deps
+          trap "rm $deps" EXIT
+          nix repl $deps
+        '';
       };
     };
   };
