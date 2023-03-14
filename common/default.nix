@@ -1,9 +1,6 @@
 { config, pkgs, ...}:
 let
-<<<<<<< Updated upstream
-  emacsOverlaySha256 = if builtins.currentSystem  == "aarch64-darwin"
-    then "07ks98m0zj61jz20fw2vqax1c61374hr06fzmw9c9xq70bsx1y9l"
-    else "1nrpw2w2jfpgf85lxwddnnl0s8sv2j5pq0rb5jmgy65644skrsfq";
+  emacsOverlaySha256 = "07ks98m0zj61jz20fw2vqax1c61374hr06fzmw9c9xq70bsx1y9l";
 in
 {
   nixpkgs = {
