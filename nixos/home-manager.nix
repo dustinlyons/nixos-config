@@ -15,7 +15,7 @@ let
     username = "${user}";
     homeDirectory = "/home/${user}";
     packages = pkgs.callPackage ./packages.nix {};
-    files = common-files // import ./files.nix {};
+    file = common-files // import ./files.nix {};
     stateVersion = "21.05";
   };
 
