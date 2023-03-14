@@ -120,7 +120,7 @@ super + shift + x
 # Emacs
 # -c flag is --create-frame
 # -a flag is fallback to plain emacs if daemon fails
-super + shift + Return
+super + alt + Return
 	emacsclient -c -a emacs
 super + shift + e
       systemctl --user restart emacs.service && \
