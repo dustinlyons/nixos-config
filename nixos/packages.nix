@@ -42,7 +42,7 @@ common-packages ++ [
 
   # Screenshot tools
   flameshot
-  peek
+  simplescreenrecorder
 
   gimp
   gnumake
