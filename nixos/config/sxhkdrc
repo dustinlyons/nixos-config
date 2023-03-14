@@ -122,9 +122,10 @@ super + shift + x
 # -a flag is fallback to plain emacs if daemon fails
 super + alt + Return
 	emacsclient -c -a emacs
-super + shift + e
+
+super + alt + e
       systemctl --user restart emacs.service && \
-      emacsclient -c
+      emacsclient -c -a emacs
 
 # Web browser
 ctrl + alt + Return
