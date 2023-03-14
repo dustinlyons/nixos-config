@@ -47,7 +47,6 @@ let user = "dustin";
   services.openssh = {
     enable = true;
     settings.passwordAuthentication = false;
-    openssh.authorizedKeys.keys = keys;
   };
 
   # This helps fix tearing of windows
@@ -211,6 +210,7 @@ let user = "dustin";
       "docker"
     ];
     shell = pkgs.zsh;
+    openssh.authorizedKeys.keys = keys;
   };
 
   # My editor runs as a daemon
