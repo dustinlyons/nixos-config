@@ -1219,9 +1219,10 @@ Nix is my package manager and operating system of choice; this mode enables me t
 #+NAME: terraform-mode
 #+BEGIN_SRC emacs-lisp
   (use-package terraform-mode
-    :hook (terraform-mode . lsp-deferred))
-  (add-to-list 'auto-mode-alist '("\\.tf?$'" . terraform-mode))
-  (add-to-list 'auto-mode-alist '("\\.tf?$'" . terraform-format-on-save-mode))
+    :hook ((terraform-mode . lsp-deferred)
+           (terraform-mode . terraform-format-on-save-mode)))
+
+  (add-to-list 'auto-mode-alist '("\\.tf\\'" . terraform-mode))
 #+END_SRC
 
 ** Learning Emacs
