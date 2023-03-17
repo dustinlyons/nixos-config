@@ -964,6 +964,9 @@ Projectile enables me to organize projects with a killer grep interface.
       (when (system-is-mac)
         (setq projectile-project-search-path '("/Users/dustin/.local/share/src")))
 
+  (setq projectile-project-root-files-bottom-up '("package.json" ".projectile" ".project" ".git"))
+  (setq projectile-ignored-projects '("~/.emacs.d/"))
+
   ;; Gives me Ivy options in the Projectile menus
   (use-package counsel-projectile :after projectile)
 
