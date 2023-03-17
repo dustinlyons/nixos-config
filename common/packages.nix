@@ -56,6 +56,7 @@ with pkgs; [
   ssm-session-manager-plugin
   terraform
   terraform-ls
+  tflint
   tree
   tmux
   unrar
