@@ -24,17 +24,22 @@ _print() {
     fi
 }
 
+# Navigate to the directory of this script
+cd $(dirname $(readlink -f $0))
+cd ..
+
 _print "${GREEN}Updating nixpkgs...${CLEAR}"
 git -C $NIXPKGS_PATH pull origin master --rebase
 git -C $NIXPKGS_PATH merge upstream/master master
-git -C $NIXPKGS_PATH push origin master --rebase
+git -C $NIXPKGS_PATH push origin master
 
 _print "${GREEN}Updating emacs-overlay...${CLEAR}"
 git -C $EMACS_OVERLAY_PATH pull origin master --rebase
 git -C $EMACS_OVERLAY_PATH merge upstream/master master
-git -C $EMACS_OVERLAY_PATH push origin master --rebase
+git -C $EMACS_OVERLAY_PATH push origin master
 
 _print "${GREEN}Updating flake...${CLEAR}"
 nix flake update
 
-_print "${GREEN}Done${CLEAR}"
+_print "${GREEN}Building new generation...${CLEAR}"
+./bin/build
