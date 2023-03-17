@@ -43,6 +43,9 @@ let name = "Dustin Lyons";
     # Remove history data we don't want to see
     export HISTIGNORE="pwd:ls:cd"
 
+    # Don't grep inside node_modules
+    GREP_OPTIONS="--exclude-dir=\.node_modules"
+
     # Emacs is my editor
     export ALTERNATE_EDITOR=""
     export EDITOR="emacsclient -t"
