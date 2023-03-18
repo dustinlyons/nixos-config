@@ -13,6 +13,10 @@ SYSTEM="darwinConfigurations.$FLAKE.system"
 
 export NIXPKGS_ALLOW_UNFREE=1
 
+# Navigate to the directory of this script
+cd $(dirname $(readlink -f $0))
+cd ..
+
 echo "${GREEN}Starting...${CLEAR}"
 nix --experimental-features 'nix-command flakes' build .#$SYSTEM --impure $@
 

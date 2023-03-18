@@ -4,6 +4,10 @@
 
 VERSION=1.0
 
+# Navigate to the directory of this script
+cd $(dirname $(readlink -f $0))
+cd ..
+
 build() {
     if [ "$(uname)" == "Darwin" ]; then
        ./bin/darwin-build $@
