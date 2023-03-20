@@ -20,7 +20,7 @@
       "Dustins-MBP" = darwin.lib.darwinSystem {
         system = "aarch64-darwin";
         modules = [
-          ./macos
+          ./darwin
         ];
         inputs = { inherit darwin home-manager nixpkgs; };
       };

@@ -5,8 +5,8 @@ let user = "dustin";
     keys = [ "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOoC9CTKaguJf4cktkbVfU4+KdVL/kTg1XqIIwxwh/85" ]; in
 {
   imports = [
-    ./cachix
     ../common
+    ../common/cachix
   ];
 
   # Use the systemd-boot EFI boot loader.
@@ -216,11 +216,7 @@ let user = "dustin";
   # My editor runs as a daemon
   services.emacs = {
     enable = true;
-    package = pkgs.emacsWithPackagesFromUsePackage {
-      config = ../common/config/emacs/config.org;
-      package = pkgs.emacsUnstable;
-      alwaysEnsure = true;
-    };
+    package = pkgs.emacsUnstable;
   };
 
   environment.systemPackages = with pkgs; [

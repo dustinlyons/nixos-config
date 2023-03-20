@@ -17,9 +17,9 @@ Feel free to open a Github Issue if you run into any problems or have questions.
 # Features
 * Multiple Nix and NixOS configurations, including desktop, laptop, server
 * [Step-by-step instructions](https://github.com/dustinlyons/nixos-config/blob/main/README.md?plain=1#L50) to start from zero, both x86 and MacOS platforms
-* Fully declarative [MacOS dock](https://github.com/dustinlyons/nixos-config/blob/main/macos/home-manager.nix) and MacOS [App Store apps](https://github.com/dustinlyons/nixos-config/blob/main/macos/home-manager.nix)
+* Fully declarative [MacOS dock](https://github.com/dustinlyons/nixos-config/blob/main/darwin/home-manager.nix) and MacOS [App Store apps](https://github.com/dustinlyons/nixos-config/blob/main/darwin/home-manager.nix)
 * Defined using a [single flake](https://github.com/dustinlyons/nixos-config/blob/main/flake.nix) and two targets, not small files spread across collections of modules
-* Fully managed, auto-updating [homebrew](https://github.com/dustinlyons/nixos-config/blob/main/macos/home-manager.nix) environment
+* Fully managed, auto-updating [homebrew](https://github.com/dustinlyons/nixos-config/blob/main/darwin/home-manager.nix) environment
 * Easily [share](https://github.com/dustinlyons/nixos-config/tree/main/common) config across Linux and Mac with both Nix and Home Manager
 * Minimal [shell scripts](https://github.com/dustinlyons/nixos-config/tree/main/bin) covering basic functions for running systems
 * Bleeding edge Emacs that fixes itself, thanks to a community [overlay](https://github.com/nix-community/emacs-overlay)
@@ -40,7 +40,7 @@ Feel free to open a Github Issue if you run into any problems or have questions.
 ├── bin          # Simple scripts used to wrap the build
 ├── common       # Shared configurations applicable to all machines
 ├── hardware     # Hardware-specific configuration
-├── macos        # MacOS and nix-darwin configuration
+├── darwin       # MacOS and nix-darwin configuration
 ├── nixos        # My NixOS desktop-related configuration
 ├── overlays     # Drop an overlay file in this dir, and it runs. So far mainly patches.
 └── vms          # VM-specific configs running in my home-lab

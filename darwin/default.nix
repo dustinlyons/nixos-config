@@ -5,7 +5,7 @@ let user = "dustin"; in
 
   imports = [
     ../common
-    ./cachix
+    ../common/cachix
     ./home-manager.nix
   ];
 
