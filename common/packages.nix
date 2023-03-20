@@ -11,9 +11,11 @@ with pkgs; [
   btop
   coreutils
   difftastic
-  du-dust
+  dejavu_fonts
   docker
   docker-compose
+  du-dust
+  emacs-all-the-icons-fonts
   flyctl
   fd
   fzf
@@ -44,6 +46,8 @@ with pkgs; [
   nodePackages.live-server
   nodePackages.npm
   nodejs
+  noto-fonts
+  noto-fonts-emoji
   ngrok
   openssh
   pandoc
