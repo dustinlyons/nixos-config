@@ -8,7 +8,7 @@ This is my detailed Emacs configuration. It's an ~org~ file that is transpiled t
 #+BEGIN_QUOTE
 Why an org file? My Emacs config is large, and this enables me to greatly improve readability of its documentation. I edit this file the same way you're reading it (nicely formatted) as I use Emacs and Emacs speaks org.
 
-Sounds complicated, but it's really not; [[https://github.com/dustinlyons/nixos-config/blob/main/nixos/default.nix#L215][just a few lines]] in my Nix config. [[https://github.com/dustinlyons/nixos-config/blob/main/macos/default.nix#L28][MacOS too.]]
+Sounds complicated, but it's really not; [[https://github.com/dustinlyons/nixos-config/blob/main/nixos/default.nix#L215][just a few lines]] in my Nix config. [[https://github.com/dustinlyons/nixos-config/blob/main/darwin/default.nix#L28][MacOS too.]]
 
 I also create a basic ~init.el~ that bootstraps ~org-mode~  first, before this file is read. I guess that's the tradeoff. That's defined [[https://github.com/dustinlyons/nixos-config/blob/main/common/files.nix#L5][here]].
 #+END_QUOTE
