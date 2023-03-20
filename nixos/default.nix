@@ -216,11 +216,7 @@ let user = "dustin";
   # My editor runs as a daemon
   services.emacs = {
     enable = true;
-    package = pkgs.emacsWithPackagesFromUsePackage {
-      config = ../common/config/emacs/config.org;
-      package = pkgs.emacsUnstable;
-      alwaysEnsure = true;
-    };
+    package = pkgs.emacsUnstable;
   };
 
   environment.systemPackages = with pkgs; [
