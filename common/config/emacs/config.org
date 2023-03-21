@@ -831,7 +831,7 @@ This is what makes emacs possible for me. All evil mode packages and related con
   (global-undo-tree-mode 1))
 
 ;; Keep undo files from littering directories
-(setq undo-tree-history-directory-alist '(("." . "~/.emacs.d/undo")))
+(setq undo-tree-history-directory-alist '(("." . "~/local/state/emacs/undo")))
 #+END_SRC
 
 ** Terminal
@@ -929,7 +929,7 @@ These settings keep emacs from littering the filesystem with buffer backups. The
 #+NAME: backup-files
 #+BEGIN_SRC emacs-lisp
 (setq backup-directory-alist
-      `((".*" . "~/.local/state/emacs/"))
+      `((".*" . "~/.local/state/emacs/backup"))
       backup-by-copying t    ; Don't delink hardlinks
       version-control t      ; Use version numbers on backups
       delete-old-versions t) ; Automatically delete excess backups
