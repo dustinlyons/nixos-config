@@ -34,6 +34,7 @@ common-packages ++ [
   # Manage wallpapers
   feh
 
+  feather-font
   fontconfig
   font-manager
 
@@ -55,7 +56,6 @@ common-packages ++ [
   inotify-tools
   libnotify
 
-  notion-app-enhanced
   imagemagick
   keepassxc
   libreoffice

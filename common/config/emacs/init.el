@@ -17,8 +17,10 @@
 (require 'use-package)
 
 ;; Copy $PATH from our environment to Emacs process
-(use-package exec-path-from-shell)
-(when (memq window-system '(mac ns x))
+(use-package exec-path-from-shell
+  :if (memq window-system '(mac ns x))
+  :config
+  (setq exec-path-from-shell-variables '("PATH" "GOPATH"))
   (exec-path-from-shell-initialize))
 
 (when (daemonp)

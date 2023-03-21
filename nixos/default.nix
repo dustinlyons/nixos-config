@@ -219,6 +219,17 @@ let user = "dustin";
     package = pkgs.emacsUnstable;
   };
 
+  fonts.fonts = with pkgs; [
+    dejavu_fonts
+    emacs-all-the-icons-fonts
+    feather-font
+    jetbrains-mono
+    hack-font
+    font-awesome
+    noto-fonts
+    noto-fonts-emoji
+  ];
+
   environment.systemPackages = with pkgs; [
     gitAndTools.gitFull
     inetutils
