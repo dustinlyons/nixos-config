@@ -1,7 +1,4 @@
 { config, pkgs, ...}:
-let
-  emacsOverlaySha256 = "07ks98m0zj61jz20fw2vqax1c61374hr06fzmw9c9xq70bsx1y9l";
-in
 {
   nixpkgs = {
     config = {
@@ -21,7 +18,7 @@ in
 
       ++ [(import (builtins.fetchTarball {
                url = "https://github.com/dustinlyons/emacs-overlay/archive/refs/heads/master.tar.gz";
-               sha256 = emacsOverlaySha256;
+               sha256 = "0a48fq06hfn9r5yfhl1s23h296czlr5kz4xdm0brbi46dpds9n8k";
            }))];
   };
 }

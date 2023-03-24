@@ -7,12 +7,6 @@ let
   common-programs = import ../common/home-manager.nix { config = config; pkgs = pkgs; lib = lib; };
   common-files = import ../common/files.nix {};
 
-  # Replace polybar-pulseaudio-sink with the results of your speakers from running `pacmd list-sinks`
-  polybar-modules = builtins.readFile (pkgs.substituteAll {
-    src = ./config/polybar/modules.ini;
-    pulseaudiosink = "alsa_output.usb-Audioengine_Audioengine_2_-00.analog-stereo";
-  });
-
   polybar-user_modules = builtins.readFile (pkgs.substituteAll {
     src = ./config/polybar/user_modules.ini;
     packages = "${xdg_configHome}/polybar/bin/check-nixos-updates.sh";
@@ -28,6 +22,7 @@ let
       font1 = "feather:size=12;3";
   });
 
+  polybar-modules = builtins.readFile ./config/polybar/modules.ini;
   polybar-bars = builtins.readFile ./config/polybar/bars.ini;
   polybar-colors = builtins.readFile ./config/polybar/colors.ini;
 in
