@@ -39,11 +39,6 @@ let user = "dustin"; in
   # Enable fonts dir
   fonts.fontDir.enable = true;
 
-  # Confusing, I know. Nix has too many ways to get stuff done.
-  # This is nix-darwin's programs attrset. We don't use it.
-  # Instead, we use home-manager to manage program settings.
-  programs = { };
-
   launchd.user.agents.emacs.path = [ config.environment.systemPath ];
   launchd.user.agents.emacs.serviceConfig = {
     KeepAlive = true;
