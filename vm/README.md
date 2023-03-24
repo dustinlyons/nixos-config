@@ -17,9 +17,13 @@ First, build the image inside `install-media`. From the project root:
 ```
 $ nix-build vm/install/install-media.nix
 ```
-This assumes you have Nix installed and are targeting a virtual machine. Don't have Nix to run `nix-build`? [Check out the official NixOS ISO.](https://nixos.org/download.html) Burn this ISO to USB, boot it, and get to a terminal screen to continue on with the steps below.
+> This assumes you have Nix installed and are targeting a virtual machine. Don't have Nix to run `nix-build`? [Check out the official NixOS ISO.](https://nixos.org/download.html) 
 
-For our installation, we need to configure our system so that Nix has _just enough_ information to go on, and no more. Nix will detect most settings and do the final heavy lifting.
+The build produces an ISO. Burn it to USB with your tool of choice, like `dd`. In this example, replace `/dev/sdX` with the linux path to your USB device.
+```
+$ dd if=result.iso of=/dev/sdX
+```
+Next, boot the USB and get to a terminal screen to continue on with the steps below.
 
 ## 2. Partition and format your hard drive
 I use ZFS, but you can just as easily use ```ext3``` with ```fdisk```. Our first step is to just verify we're ready to work. The _install media_ has everything available for these commands by default.
