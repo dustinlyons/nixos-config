@@ -51,22 +51,6 @@ let user = "dustin"; in
     StandardOutPath = "/tmp/emacs.out.log";
   };
 
-  launchd.daemons."nix-store-optimise".serviceConfig = {
-    ProgramArguments = [
-      "/bin/sh"
-      "-c"
-      "/bin/wait4path ${config.nix.package}/bin/nix && exec ${config.nix.package}/bin/nix store optimise"
-    ];
-    StartCalendarInterval = [
-      {
-        Hour = 2;
-        Minute = 30;
-      }
-    ];
-    StandardErrorPath = "/tmp/nix-store.err.log";
-    StandardOutPath = "/tmp/nix-store.out.log";
-  };
-
   system = {
     stateVersion = 4;
 
