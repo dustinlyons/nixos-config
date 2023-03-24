@@ -50,6 +50,7 @@ let name = "Dustin Lyons";
     export ALTERNATE_EDITOR=""
     export EDITOR="emacsclient -t"
     export VISUAL="emacsclient -c -a emacs"
+
     e() {
         emacsclient -t "$@"
     }

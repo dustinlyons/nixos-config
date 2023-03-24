@@ -1170,7 +1170,10 @@ Rainbow mode is an Emacs minor mode to highlight the color shown by a RGB hex tr
     :hook (web-mode . lsp-deferred))
 
   (add-to-list 'auto-mode-alist '("\\.jsx?$" . web-mode)) ;; auto-enable for .ts
+  (add-to-list 'auto-mode-alist '("\\.tsx$" . web-mode)) ;; auto-enable for .js/.jsx files
   (add-to-list 'auto-mode-alist '("\\.ts$" . web-mode)) ;; auto-enable for .js/.jsx files
+  (add-to-list 'auto-mode-alist '("\\.js$" . web-mode)) ;; auto-enable for .js/.jsx files
+  (add-to-list 'auto-mode-alist '("\\.html$" . web-mode)) ;; auto-enable for .js/.jsx files
   (add-to-list 'auto-mode-alist '("\\.vue\\'" . web-mode))
 
   (defun web-mode-init-hook ()
