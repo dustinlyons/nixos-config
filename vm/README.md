@@ -13,9 +13,11 @@ What are we looking to do?
 4. Make final edits and install NixOS
 
 ## 1. Boot NixOS from an ISO, either VM or USB stick
-First, build the image with `nix-build install/install-media.nix`. This assumes you have Nix installed and are targeting a virtual machine.
-
-Don't have Nix to run `nix-build`? [Check out the official NixOS ISO.](https://nixos.org/download.html) Burn this ISO to USB, boot it, and get to a terminal screen to continue on with the steps below.
+First, build the image inside `install-media`. From the project root:
+```
+$ nix-build vm/install/install-media.nix
+```
+This assumes you have Nix installed and are targeting a virtual machine. Don't have Nix to run `nix-build`? [Check out the official NixOS ISO.](https://nixos.org/download.html) Burn this ISO to USB, boot it, and get to a terminal screen to continue on with the steps below.
 
 For our installation, we need to configure our system so that Nix has _just enough_ information to go on, and no more. Nix will detect most settings and do the final heavy lifting.
 
