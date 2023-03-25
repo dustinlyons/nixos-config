@@ -1,6 +1,4 @@
 #!/bin/sh -e
-#
-# Copyright (c) 2022 Dustin Lyons <dustin@zeroedlabs.com>
 
 VERSION=1.0
 
