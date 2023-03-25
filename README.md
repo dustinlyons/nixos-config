@@ -16,7 +16,7 @@ Feel free to open a Github Issue if you run into any problems or have questions.
 
 # Features
 * Multiple Nix and NixOS configurations, including desktop, laptop, server
-* [Step-by-step instructions](https://github.com/dustinlyons/nixos-config/blob/main/README.md?plain=1#L50) to start from zero, both x86 and MacOS platforms
+* [Step-by-step instructions](https://github.com/dustinlyons/nixos-config/tree/main#bootstrap-new-computer) to start from zero, both x86 and MacOS platforms
 * Fully declarative [MacOS dock](https://github.com/dustinlyons/nixos-config/blob/main/darwin/home-manager.nix) and MacOS [App Store apps](https://github.com/dustinlyons/nixos-config/blob/main/darwin/home-manager.nix)
 * Defined using a [single flake](https://github.com/dustinlyons/nixos-config/blob/main/flake.nix) and two targets, not small files spread across collections of modules
 * Fully managed, auto-updating [homebrew](https://github.com/dustinlyons/nixos-config/blob/main/darwin/home-manager.nix) environment
