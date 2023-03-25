@@ -91,13 +91,7 @@ Download this repo and run:
 ./bin/build
 ```
 
-## Step 6 - Add Yubikey and generate key
-Insert [Yubikey](https://www.yubico.com/) and generate private keys
-```sh
-ssh-keygen -t ecdsa-sk
-```
-
-## Step 7 - Reboot computer
+## Step 6 - Reboot computer
 That's it. You're done.
 
 # Update Computer
