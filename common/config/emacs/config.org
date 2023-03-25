@@ -5,13 +5,9 @@
 ** About my Emacs
 This is my detailed Emacs configuration. It's an ~org~ file that is transpiled to ~emacs-lisp~ as part of the Nix build process. 
 
-#+BEGIN_QUOTE
-Why an org file? My Emacs config is large, and this enables me to greatly improve readability of its documentation. I edit this file the same way you're reading it (nicely formatted) as I use Emacs and Emacs speaks org.
+Why an org file? My Emacs config is large, and this enables me to greatly improve readability of its documentation. I edit this file the same way you're reading it (nicely formatted) as I use Emacs and Emacs speaks org. Sounds complicated, but it's really not; [[https://github.com/dustinlyons/nixos-config/blob/main/nixos/default.nix#L215][just a few lines]] in my Nix config. [[https://github.com/dustinlyons/nixos-config/blob/main/darwin/default.nix#L28][MacOS too.]]
 
-Sounds complicated, but it's really not; [[https://github.com/dustinlyons/nixos-config/blob/main/nixos/default.nix#L215][just a few lines]] in my Nix config. [[https://github.com/dustinlyons/nixos-config/blob/main/darwin/default.nix#L28][MacOS too.]]
-
-I also create a basic ~init.el~ that bootstraps ~org-mode~  first, before this file is read. I guess that's the tradeoff. That's defined [[https://github.com/dustinlyons/nixos-config/blob/main/common/files.nix#L5][here]].
-#+END_QUOTE
+This is the main configuration, but there also exists one more init file, ~init.el~ , that bootstraps ~org-mode~ before this file is interpreted. That's defined [[https://github.com/dustinlyons/nixos-config/blob/main/common/files.nix#L5][here]].
 
 /Each block of code below is the actual Emacs configuration./
 
@@ -315,13 +311,13 @@ Honestly, this most disorganized part of my entire configuration. I need to get 
   (when (system-is-linux)
     (set-face-attribute 'default nil :font "JetBrainsMono" :height 100))
   (when (system-is-mac)
-    (set-face-attribute 'default nil :font "JetBrains Mono" :height 130))
+    (set-face-attribute 'default nil :font "JetBrains Mono" :height 140))
 
   ;; Set the fixed pitch face
   (when (system-is-linux)
     (set-face-attribute 'fixed-pitch nil :font "JetBrainsMono" :weight 'normal :height 100))
   (when (system-is-mac)
-    (set-face-attribute 'fixed-pitch nil :font "JetBrains Mono" :weight 'normal :height 140))
+    (set-face-attribute 'fixed-pitch nil :font "JetBrains Mono" :weight 'normal :height 150))
 
   ;; Set the variable pitch face
   (when (system-is-linux)
@@ -338,7 +334,7 @@ Honestly, this most disorganized part of my entire configuration. I need to get 
   :ensure t
   :config
   (dashboard-setup-startup-hook)
-  (setq dashboard-startup-banner 'logo
+  (setq dashboard-startup-banner 'ascii
         dashboard-center-content t
         dashboard-items '((projects . 5)
                            (recents  . 5)))
@@ -351,6 +347,7 @@ Honestly, this most disorganized part of my entire configuration. I need to get 
 (setq initial-buffer-choice (lambda ()
                                 (get-buffer-create "*dashboard*")
                                 (dashboard-refresh-buffer)))
+(setq dashboard-projects-switch-function 'counsel-projectile-switch-project-by-name)
 #+END_SRC
 
 ** Keybindings
@@ -863,6 +860,7 @@ Configuration related to filesystem, either basic IO and interaction from emacs 
       (setq dired-omit-files "^\\.[^.].*")
       (setq dired-omit-verbose nil)
       (setq dired-hide-details-hide-symlink-targets nil)
+      (put 'dired-find-alternate-file 'disabled nil)
       (setq delete-by-moving-to-trash t)
       (autoload 'dired-omit-mode "dired-x")
       (add-hook 'dired-load-hook
