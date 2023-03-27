@@ -163,8 +163,7 @@ Turn UI things on and off, scale things up and down.
     "ty" '(term :which-key "toggle term")
     "to" '(treemacs-select-window :which-key "select treemacs")
     "tw" '(treemacs-toggle-fixed-width :which-key "size treemacs")
-    "th" '(counsel-load-theme :which-key "choose theme")
-    "tl" '(flymake-show-buffer-diagnostics :which-key "lsp buffer"))
+    "th" '(counsel-load-theme :which-key "choose theme"))
 #+END_SRC
 
 ***** Rotate windows
@@ -304,7 +303,6 @@ Using straight.el under the hood of use-package enables us to download packages 
 
 *** Windows
 **** Fonts
-Honestly, this most disorganized part of my entire configuration. I need to get my act together.
 #+NAME: fonts
 #+BEGIN_SRC emacs-lisp
   ;; Set the default pitch face
@@ -956,6 +954,7 @@ Projectile enables me to organize projects with a killer grep interface.
 	    ("C-c p" . projectile-command-map)
     :init
       (setq projectile-enable-caching t)
+      (setq projectile-sort-order 'recently-active)
       (setq projectile-switch-project-action #'projectile-dired))
       (when (system-is-linux)
         (setq projectile-project-search-path '("/home/dustin/.local/share/src")))
@@ -1015,6 +1014,20 @@ Everything related to M-x compile.
 (add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
 
 #+END_SRC
+*** Tide
+#+NAME: tide-mode
+#+BEGIN_SRC emacs-lisp
+(use-package tide
+  :ensure t
+  :after (typescript-mode company flycheck)
+  :hook ((typescript-mode . tide-setup)
+         (typescript-mode . tide-hl-identifier-mode)
+         (before-save . tide-format-before-save)))
+
+(setq tide-format-options
+      '(:insertSpaceAfterFunctionKeywordForAnonymousFunctions t
+        :placeOpenBraceOnNewLineForFunctions nil))
+#+END_SRC
 
 *** LSP
 #+NAME: lsp-mode
@@ -1023,12 +1036,18 @@ Everything related to M-x compile.
     :commands lsp lsp-deferred
     :init
       (setq lsp-keymap-prefix "C-c l")
+      (setq lsp-keep-workspace-alive nil)
+      (setq lsp-restart 'ignore)
+      (setq lsp-headerline-breadcrumb-enable nil)
       (setq lsp-enable-which-key-integration t))
 
   (use-package lsp-ui
     :hook (lsp-mode . lsp-ui-mode)
     :custom
       (lsp-ui-doc-position 'bottom))
+
+  (use-package lsp-treemacs
+    :after lsp)
 
   (use-package company
     :after lsp-mode
@@ -1044,9 +1063,7 @@ Everything related to M-x compile.
   (use-package company-box
     :hook (company-mode . company-box-mode))
 
-  ;; bug in emacs https://github.com/emacs-lsp/lsp-mode/issues/2525
-  ;; (setq lsp-headerline-breadcrumb-enable nil)
-  ;; (add-hook 'lsp-mode-hook #'lsp-headerline-breadcrumb-mode)
+  (add-hook 'lsp-mode-hook #'lsp-headerline-breadcrumb-mode)
 #+END_SRC
 
 **** Shortcuts
@@ -1055,10 +1072,17 @@ Leader keys for lsp-mode.
 #+NAME: lsp-leader-keys
 #+BEGIN_SRC emacs-lisp
   (dl/leader-keys
-    "l"  '(:ignore t :which-key "lsp")
-    "ll" '(lsp :which-key "enable lsp mode")
-    "lr" '(lsp-rename which-key "rename")
-    "ld" '(lsp-find-definition :which-key "goto definition"))
+   "l"  '(:ignore t :which-key "lsp")
+   "lf" '(lsp-find-references :which-key "find references")
+   "lc" '(lsp-find-implementation :which-key "find implementation")
+   "ls" '(lsp-treemacs-symbols :which-key "list symbols")
+   "lt" '(list-flycheck-errors :which-key "list errors")
+   "lh" '(lsp-treemacs-call-hierarchy :which-key "call hierarchy")
+   "lF" '(lsp-format-buffer :which-key "format buffer")
+   "li" '(lsp-organize-imports :which-key "organize imports")
+   "ll" '(lsp :which-key "enable lsp mode")
+   "lr" '(lsp-rename which-key "rename")
+   "ld" '(lsp-find-definition :which-key "goto definition"))
 #+END_SRC
 
 *** Languages
@@ -1184,6 +1208,8 @@ Rainbow mode is an Emacs minor mode to highlight the color shown by a RGB hex tr
    '(lsp-volar :type git :host github :repo "jadestrong/lsp-volar"))
   (use-package lsp-volar
     :straight t)
+
+  (add-hook 'typescript-mode-hook #'lsp-deferred)
 
   ;; Keeps indentation organized across these modes
   (use-package prettier-js)
