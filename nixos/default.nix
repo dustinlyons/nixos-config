@@ -40,6 +40,10 @@ let user = "dustin";
   programs.dconf.enable = true;
 
   services.xserver.enable = true;
+
+  # Uncomment these for AMD GPU
+  # boot.initrd.kernelModules = [ "amdgpu" ];
+  # services.xserver.videoDrivers = [ "amdgpu" ];
   services.xserver.videoDrivers = [ "nvidia" ];
 
   # Sometimes I need to SSH into this machine, usually to reboot into Windows
@@ -49,7 +53,8 @@ let user = "dustin";
     settings.passwordAuthentication = false;
   };
 
-  # This helps fix tearing of windows
+  # Comment this for AMD GPU
+  # This helps fix tearing of windows for Nvidia cards
   services.xserver.screenSection = ''
     Option       "metamodes" "nvidia-auto-select +0+0 {ForceFullCompositionPipeline=On}"
     Option       "AllowIndirectGLXProtocol" "off"
