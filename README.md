@@ -14,6 +14,10 @@ While developing, I've done my best to keep it simple - for both future me and r
 
 Feel free to open a Github Issue if you run into any problems or have questions. Enjoy Nix!
 
+# Video
+
+https://user-images.githubusercontent.com/1292576/229024755-c44f80a8-9257-4d6b-be7c-e37d3a325dd0.mp4
+
 # Features
 * Multiple Nix and NixOS configurations, including desktop, laptop, server
 * [Step-by-step instructions](https://github.com/dustinlyons/nixos-config/tree/main#bootstrap-new-computer) to start from zero, both x86 and MacOS platforms
