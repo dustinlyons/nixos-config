@@ -1327,7 +1327,7 @@ Nix is my package manager and operating system of choice; this mode enables me t
   (require 'org-ai)
   (add-hook 'org-mode-hook #'org-ai-mode)
   (org-ai-install-yasnippets) ;; if you are using yasnippet and want `ai` snippets
-  (setq org-ai-openai-api-token "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")
+  (setq org-ai-openai-api-token "")
 
   (add-to-list 'load-path "/Users/dustin/.local/share/src/whisper.el")
   (require 'whisper)
