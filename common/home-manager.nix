@@ -44,7 +44,7 @@ let name = "Dustin Lyons";
     export HISTIGNORE="pwd:ls:cd"
 
     # Don't grep inside node_modules
-    GREP_OPTIONS="--exclude-dir=\.node_modules"
+    alias rg=rg -p $1 . | less -R
 
     # Emacs is my editor
     export ALTERNATE_EDITOR=""
