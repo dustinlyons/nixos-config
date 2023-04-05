@@ -149,7 +149,9 @@ Helpful keybindings to help keep Emacs sane.
 #+BEGIN_SRC emacs-lisp
   (dl/leader-keys
     "k"  '(:ignore k :which-key "cleanup")
+    "ko" '(kill-buffer-and-window :which-key "kill buffer and window")
     "kk" '(kill-some-buffers :which-key "cleanup buffers"))
+  (global-set-key (kbd "C-x -") 'kill-buffer-and-window)
 #+END_SRC
 
 **** Toggles
@@ -170,7 +172,6 @@ Turn UI things on and off, scale things up and down.
 Various helpers and packages I find useful for window management.
 
 #+BEGIN_SRC emacs-lisp
-
   ;; Rotates windows and layouts
   (use-package rotate
     :config)
@@ -420,9 +421,13 @@ I use org-roam to take notes, which keeps many small files in the style of Zette
     (insert "#+transclude: [[file:~/.local/share/org-roam/20220419121404-todo.org::*" (org-element-property :value (car (org-global-props "TITLE"))) "][Transclude]]"))
 
   (dl/leader-keys
-    "a"  '(:ignore t :which-key "manage org-agenda")
-    "aa"  '(dl/define-agenda-files :which-key "refresh agenda db")
-    "ar"  '(dl/refile-and-transclude :which-key "move buffer to TODO.org and insert transclude link"))
+    "a"  '(:ignore t :which-key "org-ai")
+    "ae"  '(org-ai-explain-code :which-key "explain code")
+    "as"  '(org-ai-summarize :which-key "summarize block")
+    "ar"  '(org-ai-on-region :which-key "run prompt on region")
+    "ac"  '(org-ai-refactor-code :which-key "refactor code"))
+
+  (global-set-key (kbd "C-c y") 'whisper-run)
 #+END_SRC
 
 **** Set org faces
@@ -945,6 +950,7 @@ Projectile enables me to organize projects with a killer grep interface.
 
 #+NAME: projectile
 #+BEGIN_SRC emacs-lisp
+  (use-package ripgrep)
   (use-package projectile
     :diminish projectile-mode
     :config (projectile-mode)
@@ -963,6 +969,7 @@ Projectile enables me to organize projects with a killer grep interface.
 
   (setq projectile-project-root-files-bottom-up '("package.json" ".projectile" ".project" ".git"))
   (setq projectile-ignored-projects '("~/.emacs.d/"))
+  (setq projectile-globally-ignored-directories '("dist" "node_modules" ".log" ".git"))
 
   ;; Gives me Ivy options in the Projectile menus
   (use-package counsel-projectile :after projectile)
@@ -1036,9 +1043,10 @@ Everything related to M-x compile.
     :commands lsp lsp-deferred
     :init
       (setq lsp-keymap-prefix "C-c l")
-      (setq lsp-keep-workspace-alive nil)
-      (setq lsp-restart 'ignore)
+      ;;(setq lsp-keep-workspace-alive nil)
+      ;;(setq lsp-restart 'ignore)
       (setq lsp-headerline-breadcrumb-enable nil)
+      (setq lsp-auto-guess-root t)
       (setq lsp-enable-which-key-integration t))
 
   (use-package lsp-ui
@@ -1146,7 +1154,7 @@ Rainbow mode is an Emacs minor mode to highlight the color shown by a RGB hex tr
 **** Grammarly
 #+NAME: grammarly-mode
 #+BEGIN_SRC emacs-lisp
-(use-package lsp-grammarly)
+;; (use-package lsp-grammarly)
 #+END_SRC
 
 **** golang
@@ -1206,8 +1214,6 @@ Rainbow mode is an Emacs minor mode to highlight the color shown by a RGB hex tr
   ;; Vue.js / Nuxt.js Language Server
   (straight-use-package
    '(lsp-volar :type git :host github :repo "jadestrong/lsp-volar"))
-  (use-package lsp-volar
-    :straight t)
 
   (add-hook 'typescript-mode-hook #'lsp-deferred)
 
@@ -1253,6 +1259,90 @@ Nix is my package manager and operating system of choice; this mode enables me t
            (terraform-mode . terraform-format-on-save-mode)))
 
   (add-to-list 'auto-mode-alist '("\\.tf\\'" . terraform-mode))
+#+END_SRC
+
+** AI
+
+#+BEGIN_SRC emacs-lisp
+  (defun dl/get-ffmpeg-device ()
+    "Gets the list of devices available to ffmpeg.
+     The output of the ffmpeg command is pretty messy, e.g.
+       [AVFoundation indev @ 0x7f867f004580] AVFoundation video devices:
+       [AVFoundation indev @ 0x7f867f004580] [0] FaceTime HD Camera (Built-in)
+       [AVFoundation indev @ 0x7f867f004580] AVFoundation audio devices:
+       [AVFoundation indev @ 0x7f867f004580] [0] Cam Link 4K
+       [AVFoundation indev @ 0x7f867f004580] [1] MacBook Pro Microphone
+     The return value contains two lists, one for video devices and one for audio devices.
+     Each list contains a list of cons cells, where the car is the device number and the cdr is the device name."
+    (unless (system-is-mac)
+      (error "This function is currently only supported on macOS"))
+
+    (let ((lines (string-split (shell-command-to-string "ffmpeg -list_devices true -f avfoundation -i dummy || true") "\n")))
+      (cl-loop with at-video-devices = nil
+               with at-audio-devices = nil
+               with video-devices = nil
+               with audio-devices = nil
+               for line in lines
+               when (string-match "AVFoundation video devices:" line)
+               do (setq at-video-devices t
+                        at-audio-devices nil)
+               when (string-match "AVFoundation audio devices:" line)
+               do (setq at-audio-devices t
+                        at-video-devices nil)
+               when (and at-video-devices
+                       (string-match "\\[\\([0-9]+\\)\\] \\(.+\\)" line))
+               do (push (cons (string-to-number (match-string 1 line)) (match-string 2 line)) video-devices)
+               when (and at-audio-devices
+                       (string-match "\\[\\([0-9]+\\)\\] \\(.+\\)" line))
+               do (push (cons (string-to-number (match-string 1 line)) (match-string 2 line)) audio-devices)
+               finally return (list (nreverse video-devices) (nreverse audio-devices)))))
+
+  (defun dl/find-device-matching (string type)
+  "Get the devices from `dl/get-ffmpeg-device' and look for a device
+   matching `STRING'. `TYPE' can be :video or :audio."
+
+    (let* ((devices (dl/get-ffmpeg-device))
+           (device-list (if (eq type :video)
+                            (car devices)
+                            (cadr devices))))
+    (cl-loop for device in device-list
+             when (string-match-p string (cdr device))
+             return (car device))))
+
+  (defcustom dl/default-audio-device nil
+    "The default audio device to use for whisper.el and outher audio processes."
+    :type 'string)
+
+  (defun dl/select-default-audio-device (&optional device-name)
+    (interactive)
+    (let* ((audio-devices (cadr (dl/get-ffmpeg-device)))
+           (indexes (mapcar #'car audio-devices))
+           (names (mapcar #'cdr audio-devices))
+           (name (or device-name (completing-read "Select audio device: " names nil t))))
+      (setq dl/default-audio-device (dl/find-device-matching name :audio))
+      (when (boundp 'whisper--ffmpeg-input-device)
+        (setq whisper--ffmpeg-input-device (format ":%s" dl/default-audio-device)))))
+
+  (add-to-list 'load-path "/Users/dustin/.local/share/src/org-ai")
+  (require 'org-ai)
+  (add-hook 'org-mode-hook #'org-ai-mode)
+  (org-ai-install-yasnippets) ;; if you are using yasnippet and want `ai` snippets
+  (setq org-ai-openai-api-token "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")
+
+  (add-to-list 'load-path "/Users/dustin/.local/share/src/whisper.el")
+  (require 'whisper)
+  (setq whisper-model "base"
+        whisper-language "en"
+        whisper-install-directory "/Users/dustin/.local/share/whisper"
+        whisper-translate nil)
+  (when (system-is-mac)
+    (dl/select-default-audio-device "Dustin's Airpods")
+    (when dl/default-audio-device)
+      (setq whisper--ffmpeg-input-device (format ":%s" dl/default-audio-device)))
+
+(use-package greader :ensure)
+(require 'org-ai-talk)
+(setq whisper--ffmpeg-input-device ":0")
 #+END_SRC
 
 ** Learning Emacs
