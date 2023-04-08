@@ -154,18 +154,23 @@ Helpful keybindings to help keep Emacs sane.
   (global-set-key (kbd "C-x -") 'kill-buffer-and-window)
 #+END_SRC
 
-**** Toggles
-Turn UI things on and off, scale things up and down.
-
-#+NAME: ui-toggles
+**** Treemacs
+#+NAME: treemacs
 #+BEGIN_SRC emacs-lisp
   (dl/leader-keys
-    "t"  '(:ignore t :which-key "toggles")
+    "t"  '(:ignore t :which-key "treemacs")
     "tt" '(treemacs :which-key "toggle treemacs")
-    "ty" '(term :which-key "toggle term")
+    "tx" '(treemacs-collapse-all-projects :which-key "collapse projects")
     "to" '(treemacs-select-window :which-key "select treemacs")
-    "tw" '(treemacs-toggle-fixed-width :which-key "size treemacs")
-    "th" '(counsel-load-theme :which-key "choose theme"))
+    "tw" '(treemacs-toggle-fixed-width :which-key "size treemacs"))
+#+END_SRC
+
+**** Toggles
+Various UI related toggles
+#+NAME: toggles-ui
+#+BEGIN_SRC emacs-lisp
+  (dl/leader-keys
+    "hh" '(counsel-load-theme :which-key "choose theme"))
 #+END_SRC
 
 ***** Rotate windows

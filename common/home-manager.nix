@@ -43,8 +43,8 @@ let name = "Dustin Lyons";
     # Remove history data we don't want to see
     export HISTIGNORE="pwd:ls:cd"
 
-    # Don't grep inside node_modules
-    alias rg=rg -p $1 . | less -R
+    # Ripgrep alias
+    alias search=rg -p $1 .
 
     # Emacs is my editor
     export ALTERNATE_EDITOR=""
