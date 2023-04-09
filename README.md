@@ -34,7 +34,7 @@ https://user-images.githubusercontent.com/1292576/229024755-c44f80a8-9257-4d6b-b
 
 ### Coming Soon
 * ✅ ~Persistence defined under [XDG](https://specifications.freedesktop.org/basedir-spec/basedir-spec-latest.html) ([#5](https://github.com/dustinlyons/nixos-config/issues/5))~
-* Opt-in persistence using [impermanence](https://github.com/nix-community/impermanence) and `btrfs` snapshot reset ([#8](https://github.com/dustinlyons/nixos-config/issues/8)
+* Opt-in persistence using [impermanence](https://github.com/nix-community/impermanence) and `zfs` snapshot reset ([#8](https://github.com/dustinlyons/nixos-config/issues/8))
 * Secrets managed with `sops-nix` ([#6](https://github.com/dustinlyons/nixos-config/issues/6))
 
 # Layout
