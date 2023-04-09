@@ -14,7 +14,7 @@ While developing, I've done my best to keep it simple - for both future me and r
 
 Feel free to open a Github Issue if you run into any problems or have questions. Enjoy Nix!
 
-# NixOS Video
+# Video (NixOS)
 
 https://user-images.githubusercontent.com/1292576/229024755-c44f80a8-9257-4d6b-be7c-e37d3a325dd0.mp4
 
