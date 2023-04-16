@@ -9,6 +9,7 @@ with pkgs; [
   bash-completion
   bat # A cat(1) clone with syntax highlighting
   btop
+  cloudflared
   coreutils
   difftastic
   dejavu_fonts
