@@ -836,7 +836,7 @@ This is what makes emacs possible for me. All evil mode packages and related con
   (global-undo-tree-mode 1))
 
 ;; Keep undo files from littering directories
-(setq undo-tree-history-directory-alist '(("." . "~/local/state/emacs/undo")))
+(setq undo-tree-history-directory-alist '(("." . "~/.local/state/emacs/undo")))
 #+END_SRC
 
 ** Terminal
