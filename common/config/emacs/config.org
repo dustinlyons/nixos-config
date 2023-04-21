@@ -991,7 +991,8 @@ Everything related to spell and grammar checking.
     (with-eval-after-load "ispell"
       (setq ispell-program-name
         (expand-file-name ".nix-profile/bin/hunspell" (getenv "HOME")))
-      (setq ispell-dictionary "en_US")))
+      (setq ispell-dictionary "en_US"))
+    (setq ispell-personal-dictionary "~/.local/share/dict/user/hunspell_en_US"))
 
   (use-package flyspell-correct
     :after flyspell
