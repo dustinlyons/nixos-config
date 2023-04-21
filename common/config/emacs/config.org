@@ -1270,85 +1270,10 @@ Nix is my package manager and operating system of choice; this mode enables me t
 ** AI
 
 #+BEGIN_SRC emacs-lisp
-  (defun dl/get-ffmpeg-device ()
-    "Gets the list of devices available to ffmpeg.
-     The output of the ffmpeg command is pretty messy, e.g.
-       [AVFoundation indev @ 0x7f867f004580] AVFoundation video devices:
-       [AVFoundation indev @ 0x7f867f004580] [0] FaceTime HD Camera (Built-in)
-       [AVFoundation indev @ 0x7f867f004580] AVFoundation audio devices:
-       [AVFoundation indev @ 0x7f867f004580] [0] Cam Link 4K
-       [AVFoundation indev @ 0x7f867f004580] [1] MacBook Pro Microphone
-     The return value contains two lists, one for video devices and one for audio devices.
-     Each list contains a list of cons cells, where the car is the device number and the cdr is the device name."
-    (unless (system-is-mac)
-      (error "This function is currently only supported on macOS"))
-
-    (let ((lines (string-split (shell-command-to-string "ffmpeg -list_devices true -f avfoundation -i dummy || true") "\n")))
-      (cl-loop with at-video-devices = nil
-               with at-audio-devices = nil
-               with video-devices = nil
-               with audio-devices = nil
-               for line in lines
-               when (string-match "AVFoundation video devices:" line)
-               do (setq at-video-devices t
-                        at-audio-devices nil)
-               when (string-match "AVFoundation audio devices:" line)
-               do (setq at-audio-devices t
-                        at-video-devices nil)
-               when (and at-video-devices
-                       (string-match "\\[\\([0-9]+\\)\\] \\(.+\\)" line))
-               do (push (cons (string-to-number (match-string 1 line)) (match-string 2 line)) video-devices)
-               when (and at-audio-devices
-                       (string-match "\\[\\([0-9]+\\)\\] \\(.+\\)" line))
-               do (push (cons (string-to-number (match-string 1 line)) (match-string 2 line)) audio-devices)
-               finally return (list (nreverse video-devices) (nreverse audio-devices)))))
-
-  (defun dl/find-device-matching (string type)
-  "Get the devices from `dl/get-ffmpeg-device' and look for a device
-   matching `STRING'. `TYPE' can be :video or :audio."
-
-    (let* ((devices (dl/get-ffmpeg-device))
-           (device-list (if (eq type :video)
-                            (car devices)
-                            (cadr devices))))
-    (cl-loop for device in device-list
-             when (string-match-p string (cdr device))
-             return (car device))))
-
-  (defcustom dl/default-audio-device nil
-    "The default audio device to use for whisper.el and outher audio processes."
-    :type 'string)
-
-  (defun dl/select-default-audio-device (&optional device-name)
-    (interactive)
-    (let* ((audio-devices (cadr (dl/get-ffmpeg-device)))
-           (indexes (mapcar #'car audio-devices))
-           (names (mapcar #'cdr audio-devices))
-           (name (or device-name (completing-read "Select audio device: " names nil t))))
-      (setq dl/default-audio-device (dl/find-device-matching name :audio))
-      (when (boundp 'whisper--ffmpeg-input-device)
-        (setq whisper--ffmpeg-input-device (format ":%s" dl/default-audio-device)))))
-
-  (add-to-list 'load-path "/Users/dustin/.local/share/src/org-ai")
-  (require 'org-ai)
-  (add-hook 'org-mode-hook #'org-ai-mode)
-  (org-ai-install-yasnippets) ;; if you are using yasnippet and want `ai` snippets
-  (setq org-ai-openai-api-token "")
-
-  (add-to-list 'load-path "/Users/dustin/.local/share/src/whisper.el")
-  (require 'whisper)
-  (setq whisper-model "base"
-        whisper-language "en"
-        whisper-install-directory "/Users/dustin/.local/share/whisper"
-        whisper-translate nil)
-  (when (system-is-mac)
-    (dl/select-default-audio-device "Dustin's Airpods")
-    (when dl/default-audio-device)
-      (setq whisper--ffmpeg-input-device (format ":%s" dl/default-audio-device)))
-
-(use-package greader :ensure)
-(require 'org-ai-talk)
-(setq whisper--ffmpeg-input-device ":0")
+(use-package copilot
+  :straight (:host github :repo "zerolfx/copilot.el" :files ("dist" "*.el"))
+  :ensure t)
+(add-hook 'prog-mode-hook 'copilot-mode)
 #+END_SRC
 
 ** Learning Emacs
