@@ -30,7 +30,7 @@ let name = "Dustin Lyons";
     fi
 
     # Define variables for directories
-    export PATH=$HOME/.pnpm-packages/bin:$HOME/.pnpm-packages
+    export PATH=$HOME/.pnpm-packages/bin:$HOME/.pnpm-packages:$PATH
     export PATH=$HOME/.npm-packages/bin:$HOME/bin:$PATH
     export NVM_DIR="$HOME/.nvm"
 
