@@ -25,7 +25,9 @@
   )
 
   # Right prompt segments.
-  typeset -g POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=()
+  typeset -g POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(
+      nix_shell_with_name
+  )
 
   # Defines character set used by powerlevel10k.
   typeset -g POWERLEVEL9K_MODE=nerdfont-complete
@@ -96,6 +98,23 @@
   typeset -g POWERLEVEL9K_VCS_UNTRACKED_FOREGROUND=2
   typeset -g POWERLEVEL9K_VCS_CONFLICTED_FOREGROUND=3
   typeset -g POWERLEVEL9K_VCS_LOADING_FOREGROUND=8
+
+  # Nix shell color.
+  typeset -g POWERLEVEL9K_NIX_SHELL_FOREGROUND=0
+  typeset -g POWERLEVEL9K_NIX_SHELL_BACKGROUND=4
+
+  # Tip: If you want to see just the icon without "pure" and "impure", uncomment the next line.
+  typeset -g POWERLEVEL9K_NIX_SHELL_CONTENT_EXPANSION=
+
+  function prompt_nix_shell_with_name() {
+    if [[ -n "${IN_NIX_SHELL-}" ]]; then
+      if [[ "${name-nix-shell}" != nix-shell ]] && [ "${name-shell}" != shell ]; then
+        p10k segment -b 4 -f 15 -r -i NIX_SHELL_ICON -t "$name"
+      else
+        p10k segment -b 4 -f 15 -r -i NIX_SHELL_ICON
+      fi
+    fi
+  }
 
   # VCS_STATUS_* parameters are set by gitstatus plugin. See reference:
   # https://github.com/romkatv/gitstatus/blob/master/gitstatus.plugin.zsh.
