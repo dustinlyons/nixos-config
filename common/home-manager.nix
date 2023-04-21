@@ -30,14 +30,12 @@ let name = "Dustin Lyons";
     fi
 
     # Define variables for directories
+    export PATH=$HOME/.pnpm-packages/bin:$HOME/.pnpm-packages
     export PATH=$HOME/.npm-packages/bin:$HOME/bin:$PATH
     export NVM_DIR="$HOME/.nvm"
 
     # Cypress
-    # Skip installation
     export CYPRESS_INSTALL_BINARY=0
-
-    # Run binary
     export CYPRESS_RUN_BINARY="$(command -v Cypress)"
 
     # Remove history data we don't want to see
