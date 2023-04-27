@@ -1274,6 +1274,8 @@ Nix is my package manager and operating system of choice; this mode enables me t
   :straight (:host github :repo "zerolfx/copilot.el" :files ("dist" "*.el"))
   :ensure t)
 (add-hook 'prog-mode-hook 'copilot-mode)
+(define-key copilot-completion-map (kbd "<tab>") 'copilot-accept-completion)
+(define-key copilot-completion-map (kbd "TAB") 'copilot-accept-completion)
 #+END_SRC
 
 ** Learning Emacs

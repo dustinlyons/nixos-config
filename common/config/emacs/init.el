@@ -42,6 +42,17 @@
 (setq straight-use-package-by-default t)
 (package-initialize)
 
+(defun dl/window-setup ()
+  (column-number-mode)
+  (scroll-bar-mode 0)
+  (menu-bar-mode -1)
+  (tool-bar-mode 0)
+  (winner-mode 1)
+  (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
+  (add-to-list 'default-frame-alist '(ns-appearance . dark)) ;; assuming you are using a dark theme
+  (setq ns-use-proxy-icon nil)
+  (setq frame-title-format nil))
+
 (defun dl/org-mode-setup ()
   (org-indent-mode)
   (variable-pitch-mode 1)
@@ -60,10 +71,7 @@
   :bind
     (("C-c a" . org-agenda)))
 
-(add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
-(add-to-list 'default-frame-alist '(ns-appearance . dark)) ;; assuming you are using a dark theme
-(setq ns-use-proxy-icon nil)
-(setq frame-title-format nil)
+(dl/window-setup)
 
 (require 'org-install)
 (org-babel-load-file "~/.local/share/src/nixos-config/common/config/emacs/config.org")
