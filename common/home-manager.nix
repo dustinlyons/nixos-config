@@ -32,7 +32,7 @@ let name = "Dustin Lyons";
     # Define variables for directories
     export PATH=$HOME/.pnpm-packages/bin:$HOME/.pnpm-packages:$PATH
     export PATH=$HOME/.npm-packages/bin:$HOME/bin:$PATH
-    export NVM_DIR="$HOME/.nvm"
+    export PNPM_HOME=~/.pnpm-packages
 
     # Cypress
     export CYPRESS_INSTALL_BINARY=0
