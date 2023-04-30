@@ -31,7 +31,7 @@ let
     text = ''
       #!/bin/sh
 
-      /run/current-system/sw/bin/git -C ~${xdg_dataHome} ~/.local/share/src/nixpkgs fetch upstream master
+      /run/current-system/sw/bin/git -C ~/.local/share/src/nixpkgs fetch upstream master
       UPDATES=$(/run/current-system/sw/bin/git -C ~/.local/share/src/nixpkgs rev-list origin/master..upstream/master --count 2>/dev/null);
       /run/current-system/sw/bin/echo " $UPDATES"; # Extra space for presentation with icon
       /run/current-system/sw/bin/sleep 1800;
