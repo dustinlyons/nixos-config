@@ -41,6 +41,16 @@ let name = "Dustin Lyons";
     # Remove history data we don't want to see
     export HISTIGNORE="pwd:ls:cd"
 
+    # Define a custom history function that defaults to showing the last 1000 entries
+    show_history() {
+      if [ "$#" -eq 0 ]; then
+        history 1000
+      else
+        history "$@"
+      fi
+    }
+    alias history='show_history'
+
     # Ripgrep alias
     alias search=rg -p $1 .
 
