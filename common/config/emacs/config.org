@@ -382,7 +382,8 @@ Some my own, some from others.
   :config
     (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
           doom-themes-enable-italic t) ; if nil, italics is universally disabled
-    (load-theme 'doom-material-dark t)
+    (load-theme 'doom-monokai-machine t)
+    ;;(load-theme 'doom-material-dark t)
     (doom-themes-visual-bell-config)
     (doom-themes-org-config))
 #+END_SRC
@@ -835,6 +836,11 @@ This is what makes emacs possible for me. All evil mode packages and related con
   (evil-set-undo-system 'undo-tree)
   (global-undo-tree-mode 1))
 
+(use-package evil-commentary
+  :after evil
+  :config
+  (evil-commentary-mode))
+
 ;; Keep undo files from littering directories
 (setq undo-tree-history-directory-alist '(("." . "~/.local/state/emacs/undo")))
 #+END_SRC
@@ -968,9 +974,9 @@ Projectile enables me to organize projects with a killer grep interface.
       (setq projectile-sort-order 'recently-active)
       (setq projectile-switch-project-action #'projectile-dired))
       (when (system-is-linux)
-        (setq projectile-project-search-path '("/home/dustin/.local/share/src")))
+        (setq projectile-project-search-path '("/home/dustin/.local/share/src/good-data-lol")))
       (when (system-is-mac)
-        (setq projectile-project-search-path '("/Users/dustin/.local/share/src")))
+        (setq projectile-project-search-path '("/Users/dustin/.local/share/src/good-data-lol")))
 
   (setq projectile-project-root-files-bottom-up '("package.json" ".projectile" ".project" ".git"))
   (setq projectile-ignored-projects '("~/.emacs.d/"))
