@@ -218,6 +218,9 @@ let user = "dustin";
     openssh.authorizedKeys.keys = keys;
   };
 
+  # My shell
+  programs.zsh.enable = true;
+
   # My editor runs as a daemon
   services.emacs = {
     enable = true;
