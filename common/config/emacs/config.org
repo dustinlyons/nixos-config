@@ -382,7 +382,7 @@ Some my own, some from others.
   :config
     (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
           doom-themes-enable-italic t) ; if nil, italics is universally disabled
-    (load-theme 'doom-monokai-machine t)
+    (load-theme 'doom-spacegrey t)
     ;;(load-theme 'doom-material-dark t)
     (doom-themes-visual-bell-config)
     (doom-themes-org-config))
@@ -552,6 +552,11 @@ Note the weekly scope of the command's precision.")
   (interactive)
   (find-file "~/.local/share/src/nixos-config/common/home-manager.nix"))
 
+(defun dl/load-buffer-with-good-data-lol ()
+  "Open the emacs configuration"
+  (interactive)
+  (find-file "~/.local/share/src/good-data-lol/apps/orchestrator/src/index.ts"))
+
 (defun dl/reload-emacs ()
   "Reload the emacs configuration"
   (interactive)
@@ -574,6 +579,7 @@ Note the weekly scope of the command's precision.")
  (dl/leader-keys
   ","  '(dl/insert-current-time :which-key "current time")
   "n"  '(dl/load-buffer-with-nix-config :which-key "open nix config")
+  "g"  '(dl/load-buffer-with-good-data-lol :which-key "open good data")
   "d"  '(dl/load-buffer-with-todo :which-key "open todo"))
 
 #+END_SRC
@@ -1274,14 +1280,61 @@ Nix is my package manager and operating system of choice; this mode enables me t
 #+END_SRC
 
 ** AI
-
 #+BEGIN_SRC emacs-lisp
-(use-package copilot
-  :straight (:host github :repo "zerolfx/copilot.el" :files ("dist" "*.el"))
-  :ensure t)
-(add-hook 'prog-mode-hook 'copilot-mode)
-(define-key copilot-completion-map (kbd "<tab>") 'copilot-accept-completion)
-(define-key copilot-completion-map (kbd "TAB") 'copilot-accept-completion)
+  (use-package copilot
+    :straight (:host github :repo "zerolfx/copilot.el" :files ("dist" "*.el"))
+    :ensure t)
+  (add-hook 'prog-mode-hook 'copilot-mode)
+  (define-key copilot-completion-map (kbd "<tab>") 'copilot-accept-completion)
+  (define-key copilot-completion-map (kbd "TAB") 'copilot-accept-completion)
+
+  (defun fetch-add-feature-prompt ()
+    (interactive)
+    (let ((current-buffer-contents (buffer-string))
+            (prompt-contents (with-temp-buffer
+                            (insert-file-contents "~/.local/share/src/good-data-lol/prompts/feature-prompt.txt")
+                            (buffer-string)))
+            (project-root "~/.local/share/src/good-data-lol/apps/orchestrator"))
+        (let* ((file1 (read-file-name "Select first file: " project-root))
+            (file2 (read-file-name "Select second file: " project-root))
+            (file3 (read-file-name "Select third file: " project-root))
+            (file1-contents (with-temp-buffer
+                                (insert-file-contents file1)
+                                (let ((lines (split-string (buffer-string) "\n")))
+                                (concat (mapconcat 'identity (seq-take lines 150) "\n")
+                                        (when (> (length lines) 150) "\n...")))))
+            (file2-contents (with-temp-buffer
+                                (insert-file-contents file2)
+                                (let ((lines (split-string (buffer-string) "\n")))
+                                (concat (mapconcat 'identity (seq-take lines 150) "\n")
+                                        (when (> (length lines) 150) "\n...")))))
+            (file3-contents (with-temp-buffer
+                                (insert-file-contents file3)
+                                (let ((lines (split-string (buffer-string) "\n")))
+                                (concat (mapconcat 'identity (seq-take lines 150) "\n")
+                                        (when (> (length lines) 150) "\n...")))))
+            (tree-output (shell-command-to-string "tree -L 2 ~/.local/share/src/good-data-lol | grep -v 'node_modules\\|tmp'"))
+            (all-files (concat prompt-contents "\n" current-buffer-contents "\n\nResources:\n\n"
+                                "---\n" file1 "\n---\n" file1-contents "\n\n"
+                                "---\n" file2 "\n---\n" file2-contents "\n\n"
+                                "---\n" file3 "\n---\n" file3-contents "\n\n"
+                                tree-output)))
+        (with-temp-buffer
+            (insert all-files)
+            (clipboard-kill-ring-save (point-min) (point-max))))))
+
+  (defun apply-clipboard-patch ()
+    (interactive)
+    (let* ((temp-file (make-temp-file "/tmp/clipboard-patch-" nil ".patch"))
+            (clipboard-contents (current-kill 0)))
+        (with-temp-file temp-file
+        (insert clipboard-contents))
+        (magit-apply-patch temp-file)))
+
+  (dl/leader-keys
+    "c"  '(:ignore c :which-key "chatgpt")
+    "cf" '(fetch-add-feature-prompt :which-key "add feature")
+    "cp" '(apply-clipboard-patch :which-key "apply clipboard patch"))
 #+END_SRC
 
 ** Learning Emacs
