@@ -52,7 +52,7 @@ let name = "Dustin Lyons";
     alias history='show_history'
 
     # Ripgrep alias
-    alias search=rg -p $1 .
+    alias search=rg -p --glob '!node_modules/*'  $@
 
     # Emacs is my editor
     export ALTERNATE_EDITOR=""
