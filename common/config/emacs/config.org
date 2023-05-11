@@ -50,18 +50,18 @@ This associates our package manager with the right source (MELPA).
 **** Conditionals
 
 #+BEGIN_SRC emacs-lisp
-(defun system-is-mac ()
-  "Return true if system is darwin-based (Mac OS X)"
-  (string-equal system-type "darwin"))
+  (defun system-is-mac ()
+    "Return true if system is darwin-based (Mac OS X)"
+    (string-equal system-type "darwin"))
 
-(defun system-is-linux ()
-  "Return true if system is GNU/Linux-based"
-  (string-equal system-type "gnu/linux"))
+  (defun system-is-linux ()
+    "Return true if system is GNU/Linux-based"
+    (string-equal system-type "gnu/linux"))
 
-;; Set path for darwin
-(when (system-is-mac)
-  (setenv "PATH" (concat (getenv "PATH") ":/Users/dustin/.nix-profile/bin:/usr/bin"))
-  (setq exec-path (append '("/Users/dustin/bin" "/profile/bin" "/Users/dustin/.npm-packages/bin" "/Users/dustin/.nix-profile/bin" "/nix/var/nix/profiles/default/bin" "/usr/local/bin" "/usr/bin") exec-path)))
+  ;; Set path for darwin
+  (when (system-is-mac)
+    (setenv "PATH" (concat (getenv "PATH") ":/Users/dustin/.nix-profile/bin:/usr/bin"))
+    (setq exec-path (append '("/Users/dustin/bin" "/profile/bin" "/Users/dustin/.npm-packages/bin" "/Users/dustin/.nix-profile/bin" "/nix/var/nix/profiles/default/bin" "/usr/local/bin" "/usr/bin") exec-path)))
 #+END_SRC
 
 *** Counsel/Ivy framework
@@ -213,19 +213,19 @@ This is used primarily to center org mode text.
 
 #+NAME: mode-margins
 #+BEGIN_SRC emacs-lisp
-(defun dl/org-mode-visual-fill ()
-  (setq visual-fill-column-width 110
+  (defun dl/org-mode-visual-fill ()
+    (setq visual-fill-column-width 110
         visual-fill-column-center-text t))
 
-(use-package visual-fill-column
-  :defer t
-  :hook (org-mode . dl/org-mode-visual-fill))
+  (use-package visual-fill-column
+    :defer t
+    :hook (org-mode . dl/org-mode-visual-fill))
 #+END_SRC
 
 **** Don't blink the cursor
 #+NAME: cursor-mode
 #+BEGIN_SRC emacs-lisp
-(blink-cursor-mode -1)
+  (blink-cursor-mode -1)
 #+END_SRC
 
 **** Colors
@@ -243,15 +243,15 @@ Define a global set of colors to be used everywhere in Emacs.
 
 #+NAME: color-definitions
 #+BEGIN_SRC emacs-lisp
-(defvar dl/black-color "#1F2528")
-(defvar dl/red-color "#EC5F67")
-(defvar dl/yellow-color "#FAC863")
-(defvar dl/blue-color "#6699CC")
-(defvar dl/green-color "#99C794")
-(defvar dl/purple-color "#C594C5")
-(defvar dl/teal-color "#5FB3B3")
-(defvar dl/light-grey-color "#C0C5CE")
-(defvar dl/dark-grey-color "#65737E")
+  (defvar dl/black-color "#1F2528")
+  (defvar dl/red-color "#EC5F67")
+  (defvar dl/yellow-color "#FAC863")
+  (defvar dl/blue-color "#6699CC")
+  (defvar dl/green-color "#99C794")
+  (defvar dl/purple-color "#C594C5")
+  (defvar dl/teal-color "#5FB3B3")
+  (defvar dl/light-grey-color "#C0C5CE")
+  (defvar dl/dark-grey-color "#65737E")
 #+END_SRC
 
 **** Addons
@@ -344,14 +344,14 @@ Using straight.el under the hood of use-package enables us to download packages 
                            (recents  . 5)))
   (setq dashboard-set-footer nil))
 
-(setq dashboard-banner-logo-title "Welcome to your life")
-(setq dashboard-set-file-icons t)
-(setq dashboard-projects-backend 'projectile)
+  (setq dashboard-banner-logo-title "Welcome to your life")
+  (setq dashboard-set-file-icons t)
+  (setq dashboard-projects-backend 'projectile)
 
-(setq initial-buffer-choice (lambda ()
-                                (get-buffer-create "*dashboard*")
-                                (dashboard-refresh-buffer)))
-(setq dashboard-projects-switch-function 'counsel-projectile-switch-project-by-name)
+  (setq initial-buffer-choice (lambda ()
+                                  (get-buffer-create "*dashboard*")
+                                  (dashboard-refresh-buffer)))
+  (setq dashboard-projects-switch-function 'counsel-projectile-switch-project-by-name)
 #+END_SRC
 
 ** Keybindings
@@ -360,9 +360,10 @@ We use two spaces in place of tabs.
 
 #+NAME: next-buffer
 #+BEGIN_SRC emacs-lisp
-(setq-default indent-tabs-mode nil
+  (setq-default indent-tabs-mode nil
               js-indent-level 2
               tab-width 2)
+  (setq-default evil-shift-width 2)
 #+END_SRC
 
 *** Buffers
@@ -1097,18 +1098,33 @@ Leader keys for lsp-mode.
 
 #+NAME: lsp-leader-keys
 #+BEGIN_SRC emacs-lisp
+  (defun dl/lsp-find-references-other-window ()
+    (interactive)
+    (switch-to-buffer-other-window (current-buffer))
+    (lsp-find-references))
+
+  (defun dl/lsp-find-implementation-other-window ()
+    (interactive)
+    (switch-to-buffer-other-window (current-buffer))
+    (lsp-find-implementation))
+
+  (defun dl/lsp-find-definition-other-window ()
+    (interactive)
+    (switch-to-buffer-other-window (current-buffer))
+    (lsp-find-definition))
+
   (dl/leader-keys
-   "l"  '(:ignore t :which-key "lsp")
-   "lf" '(lsp-find-references :which-key "find references")
-   "lc" '(lsp-find-implementation :which-key "find implementation")
-   "ls" '(lsp-treemacs-symbols :which-key "list symbols")
-   "lt" '(list-flycheck-errors :which-key "list errors")
-   "lh" '(lsp-treemacs-call-hierarchy :which-key "call hierarchy")
-   "lF" '(lsp-format-buffer :which-key "format buffer")
-   "li" '(lsp-organize-imports :which-key "organize imports")
-   "ll" '(lsp :which-key "enable lsp mode")
-   "lr" '(lsp-rename which-key "rename")
-   "ld" '(lsp-find-definition :which-key "goto definition"))
+  "l"  '(:ignore t :which-key "lsp")
+  "lf" '(dl/lsp-find-references-other-window :which-key "find references")
+  "lc" '(dl/lsp-find-implementation-other-window :which-key "find implementation")
+  "ls" '(lsp-treemacs-symbols :which-key "list symbols")
+  "lt" '(list-flycheck-errors :which-key "list errors")
+  "lh" '(lsp-treemacs-call-hierarchy :which-key "call hierarchy")
+  "lF" '(lsp-format-buffer :which-key "format buffer")
+  "li" '(lsp-organize-imports :which-key "organize imports")
+  "ll" '(lsp :which-key "enable lsp mode")
+  "lr" '(lsp-rename :which-key "rename")
+  "ld" '(dl/lsp-find-definition-other-window :which-key "goto definition"))
 #+END_SRC
 
 *** Languages
@@ -1256,8 +1272,8 @@ Nix is my package manager and operating system of choice; this mode enables me t
 
 #+NAME: nix-mode
 #+begin_src emacs-lisp
-(use-package nix-mode
-  :mode "\\.nix\\'")
+  (use-package nix-mode
+    :mode "\\.nix\\'")
 #+end_src
 
 **** Docker mode
@@ -1326,10 +1342,10 @@ Nix is my package manager and operating system of choice; this mode enables me t
   (defun apply-clipboard-patch ()
     (interactive)
     (let* ((temp-file (make-temp-file "/tmp/clipboard-patch-" nil ".patch"))
-            (clipboard-contents (current-kill 0)))
-        (with-temp-file temp-file
+           (clipboard-contents (current-kill 0)))
+      (with-temp-file temp-file
         (insert clipboard-contents))
-        (magit-apply-patch temp-file)))
+    (shell-command (concat "cd " (shell-quote-argument (file-name-directory (buffer-file-name))) " && patch < " (shell-quote-argument temp-file)))))
 
   (dl/leader-keys
     "c"  '(:ignore c :which-key "chatgpt")
@@ -1357,15 +1373,15 @@ These packages may come and go, but ultimately aid in my understanding of emacs 
 **** ANSI color codes in org babel shell output
 Found [[https://emacs.stackexchange.com/questions/44664/apply-ansi-color-escape-sequences-for-org-babel-results][here]].
 #+BEGIN_SRC emacs-lisp
-(defun dl/babel-ansi ()
-  (when-let ((beg (org-babel-where-is-src-block-result nil nil)))
-    (save-excursion
-      (goto-char beg)
-      (when (looking-at org-babel-result-regexp)
-        (let ((end (org-babel-result-end))
-              (ansi-color-context-region nil))
-          (ansi-color-apply-on-region beg end))))))
-(add-hook 'org-babel-after-execute-hook 'dl/babel-ansi)
+  (defun dl/babel-ansi ()
+    (when-let ((beg (org-babel-where-is-src-block-result nil nil)))
+      (save-excursion
+        (goto-char beg)
+        (when (looking-at org-babel-result-regexp)
+          (let ((end (org-babel-result-end))
+                (ansi-color-context-region nil))
+            (ansi-color-apply-on-region beg end))))))
+  (add-hook 'org-babel-after-execute-hook 'dl/babel-ansi)
 #+END_SRC
 
 *** Show real-time key bindings in a separate buffer
