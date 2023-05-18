@@ -1308,7 +1308,7 @@ Nix is my package manager and operating system of choice; this mode enables me t
     (interactive)
     (let ((current-buffer-contents (buffer-string))
             (prompt-contents (with-temp-buffer
-                            (insert-file-contents "~/.local/share/src/good-data-lol/prompts/feature-prompt.txt")
+                            (insert-file-contents "~/.local/share/prompts/feature-prompt.txt")
                             (buffer-string)))
             (project-root "~/.local/share/src/good-data-lol/apps/orchestrator"))
         (let* ((file1 (read-file-name "Select first file: " project-root))
