@@ -3,6 +3,7 @@
 # Dustin's Nix / NixOS config
 ![GitHub last commit](https://img.shields.io/github/last-commit/dustinlyons/nixos-config?style=plastic)
 
+_Psst: want me to help write Nix at your company? <a href="https://twitter.com/dustinhlyons">Get in touch.</a>_
 # Overview
 Hey, you made it! Welcome. 🤓
 
