@@ -1,9 +1,4 @@
 #!/bin/sh -e
-# 
-# This script assumes you're managing your own fork of both
-# nixpkgs and emacs-overlay
-#
-# If you're not, just delete the relevant sections below
 
 VERSION=1.0
 
@@ -26,7 +21,9 @@ _print() {
 cd $(dirname $(readlink -f $0))
 cd ..
 
-# Delete this block if not managing your own local fork
+# ! ! !
+# DELETE THIS BLOCK IF NOT MANAGING YOUR OWN LOCAL FORK
+# ! ! !
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
 _print "${GREEN}Updating nixpkgs...${CLEAR}"
 git -C $NIXPKGS_PATH fetch upstream
@@ -40,6 +37,7 @@ git -C $EMACS_OVERLAY_PATH pull origin master --rebase
 git -C $EMACS_OVERLAY_PATH merge upstream/master master
 git -C $EMACS_OVERLAY_PATH push origin master
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
+
 _print "${GREEN}Updating flake...${CLEAR}"
 nix flake update
 
