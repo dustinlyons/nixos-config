@@ -113,3 +113,8 @@ nix flake update
 ## You made it this far
 Add me on [Twitter](https://twitter.com/dustinhlyons).
 > "All we have to decide is what to do with the time that is given us." - J.R.R. Tolkien
+
+## Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=dustinlyons/nixos-config&type=Date)](https://star-history.com/#dustinlyons/nixos-config&Date)
+
