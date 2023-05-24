@@ -5,8 +5,9 @@ This gets imported by both MacOS and NixOS modules. Some examples of configurati
 ```
 .
 ├── config             # Config files not written in Nix
-├── snippets           # Git submodules of Emacs snippets
+├── cachix             # Defines cachix, a global cache for builds
 ├── default.nix        # Defines how we import overlays 
+├── files.nix          # Some non-nix, static configuration files go here 
 ├── home-manager.nix   # The goods; most all shared config lives here
 ├── packages.nix       # List of packages to share
 
