@@ -1,11 +1,11 @@
 ## Layout
 ```
 .
-├── cachix             # Config related to using cached builds
+├── cachix             # Uses cachix, a global cache for builds
 ├── config             # Config files not written in Nix
 ├── default.nix        # Defines module, system-level config, 
 ├── home-manager.nix   # Defines user programs
-├── files.nix          # Defines user files
+├── files.nix          # Non-Nix, static configuration files
 ├── packages.nix       # List of packages to install for NixOS
 
 ```
