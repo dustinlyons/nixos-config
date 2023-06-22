@@ -7,7 +7,6 @@ RED='\033[1;31m'
 CLEAR='\033[0m'
 
 NIXPKGS_PATH=~/.local/share/src/nixpkgs
-EMACS_OVERLAY_PATH=~/.local/share/src/emacs-overlay
 
 _print() {
     if [ "$(uname)" == "Darwin" ]; then
@@ -21,21 +20,19 @@ _print() {
 cd $(dirname $(readlink -f $0))
 cd ..
 
+# # # # # # # # # # # # # # # # # # # # # # # # # # # #
 # ! ! !
 # DELETE THIS BLOCK IF NOT MANAGING YOUR OWN LOCAL FORK
 # ! ! !
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
-_print "${GREEN}Updating nixpkgs...${CLEAR}"
+_print "${GREEN}Fetching nixpkgs upstream...${CLEAR}"
 git -C $NIXPKGS_PATH fetch upstream
+_print "${GREEN}Pulling master from origin...${CLEAR}"
 git -C $NIXPKGS_PATH pull origin master --rebase
+_print "${GREEN}Merging upstream...${CLEAR}"
 git -C $NIXPKGS_PATH merge upstream/master master
+_print "${GREEN}Pushing back to master...${CLEAR}"
 git -C $NIXPKGS_PATH push origin master
-
-_print "${GREEN}Updating emacs-overlay...${CLEAR}"
-git -C $EMACS_OVERLAY_PATH fetch upstream
-git -C $EMACS_OVERLAY_PATH pull origin master --rebase
-git -C $EMACS_OVERLAY_PATH merge upstream/master master
-git -C $EMACS_OVERLAY_PATH push origin master
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
 
 _print "${GREEN}Updating flake...${CLEAR}"
