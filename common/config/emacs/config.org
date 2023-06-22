@@ -122,7 +122,6 @@ Ivy and associated helpers that uses the minibuffer. Ivy describes itself as "a 
 
   (use-package all-the-icons-ivy
     :init (add-hook 'after-init-hook 'all-the-icons-ivy-setup))
-
 #+END_SRC
 
 *** Leader keys
