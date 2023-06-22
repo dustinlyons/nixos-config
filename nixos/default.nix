@@ -218,7 +218,7 @@ let user = "dustin";
   # My editor runs as a daemon
   services.emacs = {
     enable = true;
-    package = pkgs.emacsUnstable;
+    package = pkgs.emacs-unstable;
   };
 
   fonts.fonts = with pkgs; [
