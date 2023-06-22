@@ -47,6 +47,7 @@ with pkgs; [
   neofetch
   nodePackages.live-server
   nodePackages.nodemon
+  nodePackages.prettier
   nodePackages.npm
   nodejs
   noto-fonts
