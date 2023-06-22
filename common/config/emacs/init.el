@@ -1,4 +1,6 @@
 ; list the repositories containing them
+(require 'package)
+
 (setq package-archives '(("melpa" . "https://melpa.org/packages/")
                          ("gnu" . "http://elpa.gnu.org/packages/")))
 
@@ -6,6 +8,8 @@
   (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t))
 (unless (assoc-default "org" package-archives)
   (add-to-list 'package-archives '("org" . "https://orgmode.org/elpa/") t))
+
+(setq package-enable-at-startup nil)
 
 ;; use-package package provides common package import functions
 ;; fetch the list of packages available
@@ -27,18 +31,21 @@
   (exec-path-from-shell-initialize))
 
 ;; This sets up straight.el, a git package manager
+;; We use it under the hood of use-package
+;; This lets us clone git repos easily if we so choose
 (defvar bootstrap-version)
 (let ((bootstrap-file
-	(expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
-      (bootstrap-version 5))
+  (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
+    (bootstrap-version 6))
   (unless (file-exists-p bootstrap-file)
     (with-current-buffer
       (url-retrieve-synchronously
-	"https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
-	'silent 'inhibit-cookies)
+        "https://raw.githubusercontent.com/radian-software/straight.el/develop/install.el"
+        'silent 'inhibit-cookies)
       (goto-char (point-max))
       (eval-print-last-sexp)))
   (load bootstrap-file nil 'nomessage))
+
 (setq straight-use-package-by-default t)
 (package-initialize)
 
