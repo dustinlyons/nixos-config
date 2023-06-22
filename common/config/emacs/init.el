@@ -79,6 +79,4 @@
     (("C-c a" . org-agenda)))
 
 (dl/window-setup)
-
-(require 'org-install)
 (org-babel-load-file "~/.local/share/src/nixos-config/common/config/emacs/config.org")
