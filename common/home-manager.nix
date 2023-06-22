@@ -40,6 +40,7 @@ let name = "Dustin Lyons";
 
     # Remove history data we don't want to see
     export HISTIGNORE="pwd:ls:cd"
+    export HISTFILE=$HOME/.local/share/zsh/history
 
     # Define a custom history function that defaults to showing the last 1000 entries
     show_history() {
