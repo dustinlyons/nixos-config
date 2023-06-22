@@ -11,6 +11,7 @@ let user = "dustin";
 
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
+  boot.loader.systemd-boot.configurationLimit = 42;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
@@ -45,13 +46,6 @@ let user = "dustin";
   # boot.initrd.kernelModules = [ "amdgpu" ];
   # services.xserver.videoDrivers = [ "amdgpu" ];
   services.xserver.videoDrivers = [ "nvidia" ];
-
-  # Sometimes I need to SSH into this machine, usually to reboot into Windows
-  # from my couch for better SteamOS compatibility
-  services.openssh = {
-    enable = true;
-    settings.passwordAuthentication = false;
-  };
 
   # Comment this for AMD GPU
   # This helps fix tearing of windows for Nvidia cards
