@@ -1,14 +1,13 @@
-; list the repositories containing them
+; setup package manager
 (require 'package)
-
 (setq package-archives '(("melpa" . "https://melpa.org/packages/")
                          ("gnu" . "http://elpa.gnu.org/packages/")))
-
 (unless (assoc-default "melpa" package-archives)
   (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t))
 (unless (assoc-default "org" package-archives)
   (add-to-list 'package-archives '("org" . "https://orgmode.org/elpa/") t))
 
+; turn this off, can conflict with straight.el
 (setq package-enable-at-startup nil)
 
 ;; use-package package provides common package import functions
@@ -49,6 +48,7 @@
 (setq straight-use-package-by-default t)
 (package-initialize)
 
+; configure the initial Emacs window
 (defun dl/window-setup ()
   (column-number-mode)
   (scroll-bar-mode 0)
@@ -60,6 +60,7 @@
   (setq ns-use-proxy-icon nil)
   (setq frame-title-format nil))
 
+; configure org-mode here, so we can use it in config.org
 (defun dl/org-mode-setup ()
   (org-indent-mode)
   (variable-pitch-mode 1)
@@ -78,5 +79,6 @@
   :bind
     (("C-c a" . org-agenda)))
 
+; set the window and load the config file
 (dl/window-setup)
 (org-babel-load-file "~/.local/share/src/nixos-config/common/config/emacs/config.org")
