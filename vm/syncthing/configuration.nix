@@ -39,11 +39,14 @@
     extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
   };
 
-  # Every minute - Run my custom Readwise <> org-roam importer
-  # 12:00 - Snapshot data with current date
-  # 2:00 - Destroy anything older than 30 days
-  # 2:00 - Incrementally send today's changes to mirrored pool
-  # 2:00 - Destroy anything older than 30 days on mirrored pool
+  # Cron schedule:
+  #
+  # - Every minute - Run my custom Readwise <> org-roam importer
+  # - 12:00 - Snapshot data with current date
+  # - 2:00 - Destroy anything older than 30 days
+  # - 2:00 - Incrementally send today's changes to mirrored pool
+  # - 2:00 - Destroy anything older than 30 days on mirrored pool
+  #
   services.cron = {
     enable = true;
     systemCronJobs = [

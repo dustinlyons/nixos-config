@@ -1,4 +1,5 @@
 { config, pkgs, ... }:
+
 let
   emacsOverlaySha256 =
     #"1a3zyiha8vszaj04r14ryphri6cpbqk6inrbs7cybrc6m2kq8y17"

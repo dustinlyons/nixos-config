@@ -76,7 +76,7 @@ let user = "dustin";
 
   # Enable CUPS to print documents
   services.printing.enable = true;
-  services.printing.drivers = [ pkgs.brlaser ];
+  services.printing.drivers = [ pkgs.brlaser ]; # Brother printer driver
 
   # Enable sound
   sound.enable = true;
