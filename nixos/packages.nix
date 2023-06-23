@@ -60,7 +60,6 @@ common-packages ++ [
 
   imagemagick
   keepassxc
-  libreoffice
   libusb1 # for Xbox controller
   libtool # for Emacs vterm
   ledger-live-desktop
