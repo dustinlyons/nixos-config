@@ -1,5 +1,6 @@
 { pkgs }:
 
+# These packages are shared across all my machines
 with pkgs; [
   act # run github actions locally
   alacritty
