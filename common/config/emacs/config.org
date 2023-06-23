@@ -9,9 +9,7 @@ Why an org file? My Emacs config is large, and this enables me to greatly improv
 
 This is the main configuration, but there also exists one more init file, ~init.el~ , that bootstraps ~org-mode~ before this file is interpreted. That's defined [[https://github.com/dustinlyons/nixos-config/blob/main/common/files.nix#L5][here]].
 
-/Each block of code below is the actual Emacs configuration./
-
-Formally, this style of configuration is called [[https://en.wikipedia.org/wiki/Literate_programming]["literate programming"]]. It's also popular for large Notebook-style projects used by Data Scientists.
+/Each block of code below is the actual Emacs configuration./ Formally, this style of configuration is named [[https://en.wikipedia.org/wiki/Literate_programming]["literate programming"]].
 
 ** Personal Information
 Just me!
@@ -373,8 +371,7 @@ We use two spaces in place of tabs.
 
 ** Display options
 *** Themes
-Some my own, some from others.
-
+**** Doom Emacs
 #+NAME: themes-autothemer
 #+BEGIN_SRC emacs-lisp
 (use-package doom-themes
@@ -1285,61 +1282,16 @@ Nix is my package manager and operating system of choice; this mode enables me t
 #+END_SRC
 
 ** AI
+*** Copilot
 #+BEGIN_SRC emacs-lisp
   (use-package copilot
     :straight (:host github :repo "zerolfx/copilot.el" :files ("dist" "*.el"))
     :ensure t)
+
   (add-hook 'prog-mode-hook 'copilot-mode)
+
   (define-key copilot-completion-map (kbd "<tab>") 'copilot-accept-completion)
   (define-key copilot-completion-map (kbd "TAB") 'copilot-accept-completion)
-
-  (defun fetch-add-feature-prompt ()
-    (interactive)
-    (let ((current-buffer-contents (buffer-string))
-            (prompt-contents (with-temp-buffer
-                            (insert-file-contents "~/.local/share/prompts/feature-prompt.txt")
-                            (buffer-string)))
-            (project-root "~/.local/share/src/good-data-lol/apps/orchestrator"))
-        (let* ((file1 (read-file-name "Select first file: " project-root))
-            (file2 (read-file-name "Select second file: " project-root))
-            (file3 (read-file-name "Select third file: " project-root))
-            (file1-contents (with-temp-buffer
-                                (insert-file-contents file1)
-                                (let ((lines (split-string (buffer-string) "\n")))
-                                (concat (mapconcat 'identity (seq-take lines 150) "\n")
-                                        (when (> (length lines) 150) "\n...")))))
-            (file2-contents (with-temp-buffer
-                                (insert-file-contents file2)
-                                (let ((lines (split-string (buffer-string) "\n")))
-                                (concat (mapconcat 'identity (seq-take lines 150) "\n")
-                                        (when (> (length lines) 150) "\n...")))))
-            (file3-contents (with-temp-buffer
-                                (insert-file-contents file3)
-                                (let ((lines (split-string (buffer-string) "\n")))
-                                (concat (mapconcat 'identity (seq-take lines 150) "\n")
-                                        (when (> (length lines) 150) "\n...")))))
-            (tree-output (shell-command-to-string "tree -L 2 ~/.local/share/src/good-data-lol | grep -v 'node_modules\\|tmp'"))
-            (all-files (concat prompt-contents "\n" current-buffer-contents "\n\nResources:\n\n"
-                                "---\n" file1 "\n---\n" file1-contents "\n\n"
-                                "---\n" file2 "\n---\n" file2-contents "\n\n"
-                                "---\n" file3 "\n---\n" file3-contents "\n\n"
-                                tree-output)))
-        (with-temp-buffer
-            (insert all-files)
-            (clipboard-kill-ring-save (point-min) (point-max))))))
-
-  (defun apply-clipboard-patch ()
-    (interactive)
-    (let* ((temp-file (make-temp-file "/tmp/clipboard-patch-" nil ".patch"))
-           (clipboard-contents (current-kill 0)))
-      (with-temp-file temp-file
-        (insert clipboard-contents))
-    (shell-command (concat "cd " (shell-quote-argument (file-name-directory (buffer-file-name))) " && patch < " (shell-quote-argument temp-file)))))
-
-  (dl/leader-keys
-    "c"  '(:ignore c :which-key "chatgpt")
-    "cf" '(fetch-add-feature-prompt :which-key "add feature")
-    "cp" '(apply-clipboard-patch :which-key "apply clipboard patch"))
 #+END_SRC
 
 ** Learning Emacs
