@@ -30,6 +30,7 @@ bspc config pointer_action2 resize_corner
 bspc rule -a vlc desktop='^4' follow=on
 bspc rule -a KeePassXC state=floating center=true rectangle=909x625+0+0
 bspc rule -a feh state=floating center=true
+bspc rule -a galculator state=floating
 bspc rule -a Peek state=floating follow=on
 
 ## Set desktops
@@ -49,7 +50,7 @@ systemctl --user start polybar
 sleep .25
 
 # Launch these when script runs
-# bspc rule with -o option means "one shot", meaning the rule goes away after launching the app
+# -o option means "one shot", meaning the rule goes away after launching the app
 
 # Desktop 1
 # Email, Calendar, News (General)

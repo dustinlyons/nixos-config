@@ -34,6 +34,8 @@ common-packages ++ [
   # Manage wallpapers
   feh
 
+  galculator
+
   feather-font
   fontconfig
   font-manager
