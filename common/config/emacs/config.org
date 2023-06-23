@@ -789,7 +789,6 @@ This is what makes emacs possible for me. All evil mode packages and related con
 
 #+NAME: evil-packages
 #+BEGIN_SRC emacs-lisp
-
 (defun dl/evil-hook ()
   (dolist (mode '(eshell-mode
                   git-rebase-mode
@@ -990,7 +989,6 @@ Projectile enables me to organize projects with a killer grep interface.
 
   ;; Gives me Ivy options in the Projectile menus
   (use-package counsel-projectile :after projectile)
-
 #+END_SRC
 
 ** Writing
@@ -1037,7 +1035,6 @@ Everything related to M-x compile.
   (let ((inhibit-read-only t))
     (ansi-color-apply-on-region (point-min) (point-max))))
 (add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
-
 #+END_SRC
 *** Tide
 #+NAME: tide-mode
@@ -1130,17 +1127,17 @@ Leader keys for lsp-mode.
 **** Python
 #+NAME: python
 #+BEGIN_SRC emacs-lisp
-(use-package lsp-pyright
-  :ensure t
-  :hook (python-mode . (lambda ()
-    (require 'lsp-pyright)
-    (lsp-deferred))))  ; or lsp-deferred
+  (use-package lsp-pyright
+    :ensure t
+    :hook (python-mode . (lambda ()
+      (require 'lsp-pyright)
+      (lsp-deferred))))  ; or lsp-deferred
 #+END_SRC
 
 **** Shell scripts
 #+NAME: shell-scripts
 #+BEGIN_SRC emacs-lisp
-(add-to-list 'auto-mode-alist '("\\.env" . shell-script-mode))
+  (add-to-list 'auto-mode-alist '("\\.env" . shell-script-mode))
 #+END_SRC
 
 **** YAML
@@ -1169,11 +1166,11 @@ Emmet mode gives autocompletion for HTML tags using short hand notations, which 
 
 #+NAME: html-auto-completion
 #+BEGIN_SRC emacs-lisp
-(use-package emmet-mode)
-(add-hook 'sgml-mode-hook 'emmet-mode)
-(add-hook 'css-mode-hook  'emmet-mode)
-(define-key emmet-mode-keymap [tab] 'emmet-expand-line)
-(add-to-list 'emmet-jsx-major-modes 'jsx-mode)
+  (use-package emmet-mode)
+  (add-hook 'sgml-mode-hook 'emmet-mode)
+  (add-hook 'css-mode-hook  'emmet-mode)
+  (define-key emmet-mode-keymap [tab] 'emmet-expand-line)
+  (add-to-list 'emmet-jsx-major-modes 'jsx-mode)
 #+END_SRC
 
 ***** Rainbow mode
@@ -1182,12 +1179,6 @@ Rainbow mode is an Emacs minor mode to highlight the color shown by a RGB hex tr
 #+NAME: rainbow-mode
 #+BEGIN_SRC emacs-lisp
   (use-package rainbow-mode)
-#+END_SRC
-
-**** Grammarly
-#+NAME: grammarly-mode
-#+BEGIN_SRC emacs-lisp
-;; (use-package lsp-grammarly)
 #+END_SRC
 
 **** golang
@@ -1218,7 +1209,6 @@ Rainbow mode is an Emacs minor mode to highlight the color shown by a RGB hex tr
     (local-set-key (kbd "M-*") 'pop-tag-mark))
 
   (add-hook 'go-mode-hook 'dl/go-mode-hook)
-
 #+END_SRC
 
 **** Javascript / Typescript
@@ -1232,11 +1222,11 @@ Rainbow mode is an Emacs minor mode to highlight the color shown by a RGB hex tr
   (use-package web-mode
     :hook (web-mode . lsp-deferred))
 
-  (add-to-list 'auto-mode-alist '("\\.jsx?$" . web-mode)) ;; auto-enable for .ts
-  (add-to-list 'auto-mode-alist '("\\.tsx$" . web-mode)) ;; auto-enable for .js/.jsx files
-  (add-to-list 'auto-mode-alist '("\\.ts$" . web-mode)) ;; auto-enable for .js/.jsx files
-  (add-to-list 'auto-mode-alist '("\\.js$" . web-mode)) ;; auto-enable for .js/.jsx files
-  (add-to-list 'auto-mode-alist '("\\.html$" . web-mode)) ;; auto-enable for .js/.jsx files
+  (add-to-list 'auto-mode-alist '("\\.jsx?$" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.tsx$" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.ts$" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.js$" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.html$" . web-mode))
   (add-to-list 'auto-mode-alist '("\\.vue\\'" . web-mode))
 
   (defun web-mode-init-hook ()
