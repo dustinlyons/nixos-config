@@ -101,7 +101,7 @@ That's it. You're done.
 
 # Update Computer
 
-## Update dependicies
+## Update dependencies
 ```sh
 nix flake update
 ```
