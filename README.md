@@ -101,7 +101,7 @@ That's it. You're done.
 
 # Update Computer
 
-## Download the latest updates and update lock file
+## Update dependencies
 ```sh
 nix flake update
 ```
