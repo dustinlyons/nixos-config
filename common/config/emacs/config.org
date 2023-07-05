@@ -163,7 +163,7 @@ Helpful keybindings to help keep Emacs sane.
 #+END_SRC
 
 **** Toggles
-Various UI related toggles
+Various UI related toggles.
 #+NAME: toggles-ui
 #+BEGIN_SRC emacs-lisp
   (dl/leader-keys
@@ -187,7 +187,7 @@ Various helpers and packages I find useful for window management.
 
 *** Gutter
 **** Line numbers
-These functions define vim-style relative line numbers.
+These functions define vim-style relative line numbers. This means my line numbers look like -1, -2, 0, 1, 2...
 
 *** Modes
 **** Window minor modes
@@ -302,7 +302,7 @@ Predefine windows with hotkeys and jump to them.
 #+END_SRC
 
 *** Package managers
-Using straight.el under the hood of use-package enables us to download packages using git. This is preferred for easier hacking; I maintain my own org-roam fork, for example, and it's just another directory where I organize code. I configure straight.el with one line to use it.
+Using ~straight.el~ under the hood of ~use-package~ enables us to download packages using ~git~. This is preferred for easier hacking; I maintain my own ~org-roam~ fork, for example, and it's just another directory where I organize code. I configure ~straight.el~ with one line to use it.
 
 *** Windows
 **** Fonts
@@ -353,7 +353,7 @@ Using straight.el under the hood of use-package enables us to download packages 
 
 ** Keybindings
 *** Spaces over tabs
-We use two spaces in place of tabs.
+We use two spaces in place of tabs. I don't even want to hear it.
 
 #+NAME: next-buffer
 #+BEGIN_SRC emacs-lisp
@@ -404,7 +404,7 @@ I like these modes, what can I say. They're good to me.
 ** Org mode
 *** Agenda
 **** Filter out files that don't include tasks in org-agenda
-I use org-roam to take notes, which keeps many small files in the style of Zettelkasten. However, org-agenda doesn't perform well in this scenario. To fix this, we filter out all files from org-agenda that don't contain a ~TODO~.
+I use ~org-roam~ to take notes, which keeps many small files in the style of Zettelkasten. However, ~org-agenda~ doesn't perform well in this scenario. To fix this, we filter out all files from ~org-agenda~ that don't contain a ~TODO~.
 
 #+NAME::org-mode-filter
 #+BEGIN_SRC emacs-lisp
@@ -434,7 +434,7 @@ I use org-roam to take notes, which keeps many small files in the style of Zette
 #+END_SRC
 
 **** Set org faces
-Set various face colors for org-mode.
+Set various face colors for ~org-mode~.
 
 #+NAME::org-mode-faces
 #+BEGIN_SRC emacs-lisp
@@ -448,7 +448,7 @@ Set various face colors for org-mode.
 #+END_SRC
 
 **** Remove noise from org-agenda views
-This block sets the ~org-agenda-prefix-format~ in an friendly way for org-roam (credit to [[https://d12frosted.io/posts/2020-06-24-task-management-with-roam-vol2.html][this post)]]. It truncates long filenames and removes the org-roam timestamp slug.
+This block sets the ~org-agenda-prefix-format~ in an friendly way for ~org-roam~ (credit to [[https://d12frosted.io/posts/2020-06-24-task-management-with-roam-vol2.html][this post)]]. It truncates long filenames and removes the ~org-roam~ timestamp slug.
 
 #+NAME::remove-noise-from-org-agenda
 #+BEGIN_SRC emacs-lisp
@@ -456,29 +456,27 @@ This block sets the ~org-agenda-prefix-format~ in an friendly way for org-roam (
     "Get a buffer property called NAME as a string."
     (org-with-point-at 1
       (when (re-search-forward (concat "^#\\+" name ": \\(.*\\)")
-                               (point-max) t)
+                              (point-max) t)
         (buffer-substring-no-properties
-         (match-beginning 1)
-         (match-end 1)))))
+        (match-beginning 1)
+        (match-end 1)))))
 
   (defun dl/agenda-category (&optional len)
     "Get category of item at point for agenda."
     (let* ((file-name (when buffer-file-name
                         (file-name-sans-extension
-                         (file-name-nondirectory buffer-file-name))))
-           (title (dl/buffer-prop-get "title"))
-           (category (org-get-category))
-           (result
-            (or (if (and
-                     title
-                     (string-equal category file-name))
-                    title
-                  category)
-                )))
+                        (file-name-nondirectory buffer-file-name))))
+          (title (dl/buffer-prop-get "title"))
+          (category (org-get-category))
+          (result (or (if (and title (string-equal category file-name))
+                          title
+                        category))))
       (if (numberp len)
           (s-truncate len (s-pad-right len " " result))
         result)))
+
   (setq org-agenda-hide-tags-regexp (regexp-opt '("Todo" "home" "work" "batch")))
+
   (setq org-agenda-prefix-format
         '((agenda . " %i %(dl/agenda-category 12)%?-32t% s")
           (todo . " %i %(dl/agenda-category 32) ")
@@ -491,37 +489,37 @@ Let's us move text but still see it in another file. I primarily use this to mov
 
 #+NAME::org-transclusion
 #+BEGIN_SRC emacs-lisp
-(use-package org-transclusion
-  :after org
-  :hook (org-mode . org-transclusion-mode))
+  (use-package org-transclusion
+    :after org
+    :hook (org-mode . org-transclusion-mode))
 #+END_SRC
 
 **** org-super-agenda views
-Setup for org-super-agenda and org-ql.
+Setup for ~org-super-agenda~ and ~org-ql~.
 
 #+NAME::org-super-agenda
 #+BEGIN_SRC emacs-lisp
-    (use-package org-super-agenda
-       :after org-agenda
-       :init
-         (setq org-agenda-dim-blocked-tasks nil))
+  (use-package org-super-agenda
+     :after org-agenda
+     :init
+       (setq org-agenda-dim-blocked-tasks nil))
 
-     ;; Dashboard View
-     (setq org-super-agenda-groups
-          '((:name "Batch"
-                   :tag "batch")
-            (:name "Now"
-                   :todo "NEXT")
-            (:name "Waiting"
-                   :todo "WAITING")
-            (:name "Work"
-                   :tag "work")
-            (:name "Home"
-                   :tag "home")
-            (:name "Someday"
-                   :todo "SOMEDAY")))
+   ;; Dashboard View
+   (setq org-super-agenda-groups
+     '((:name "Batch"
+              :tag "batch")
+       (:name "Now"
+              :todo "NEXT")
+       (:name "Waiting"
+              :todo "WAITING")
+       (:name "Work"
+              :tag "work")
+       (:name "Home"
+              :tag "home")
+       (:name "Someday"
+              :todo "SOMEDAY")))
 
-     (org-super-agenda-mode)
+   (org-super-agenda-mode)
 #+END_SRC
 
 *** Install package
@@ -530,56 +528,58 @@ If you haven't heard of org mode, go watch [[https://www.youtube.com/watch?v=SzA
 **** Leader key shortcuts
 #+NAME::org-mode-quick-entry
 #+BEGIN_SRC emacs-lisp
-(defvar current-time-format "%H:%M:%S"
-  "Format of date to insert with `insert-current-time' func.
-Note the weekly scope of the command's precision.")
+  (defvar current-time-format "%H:%M:%S"
+    "Format of date to insert with `insert-current-time' func.
+  Note the weekly scope of the command's precision.")
 
-(defun dl/load-buffer-with-emacs-config ()
-  "Open the emacs configuration"
-  (interactive)
-  (find-file "~/.local/share/src/nixos-config/common/config/emacs/config.org"))
+  (defun dl/find-file (path)
+    "Helper function to open a file in a buffer"
+    (interactive)
+    (find-file path))
 
-(defun dl/load-buffer-with-todo ()
-  "Open the emacs configuration"
-  (interactive)
-  (find-file "~/.local/share/org-roam/20220419121404-todo.org"))
+  (defun dl/load-buffer-with-emacs-config ()
+    "Open the emacs configuration"
+    (interactive)
+    (dl/find-file "~/.local/share/src/nixos-config/common/config/emacs/config.org"))
 
-(defun dl/load-buffer-with-nix-config ()
-  "Open the emacs configuration"
-  (interactive)
-  (find-file "~/.local/share/src/nixos-config/common/home-manager.nix"))
+  (defun dl/load-buffer-with-todo ()
+    "Open the emacs configuration"
+    (interactive)
+    (dl/find-file "~/.local/share/org-roam/20220419121404-todo.org"))
 
-(defun dl/load-buffer-with-good-data-lol ()
-  "Open the emacs configuration"
-  (interactive)
-  (find-file "~/.local/share/src/good-data-lol/apps/orchestrator/src/index.ts"))
+  (defun dl/load-buffer-with-nix-config ()
+    "Open the emacs configuration"
+    (interactive)
+    (dl/find-file "~/.local/share/src/nixos-config/common/home-manager.nix"))
 
-(defun dl/reload-emacs ()
-  "Reload the emacs configuration"
-  (interactive)
-  (load "~/.emacs.d/init.el"))
+  (defun dl/load-buffer-with-good-data-lol ()
+    "Open the emacs configuration"
+    (interactive)
+    (dl/find-file "~/.local/share/src/good-data-lol/apps/orchestrator/src/index.ts"))
 
-(defun dl/insert-current-time ()
-  "Insert the current time (1-week scope) into the current buffer."
-       (interactive)
-       (insert "** ")
-       (insert (format-time-string current-time-format (current-time)))
-       (insert "\n"))
+  (defun dl/reload-emacs ()
+    "Reload the emacs configuration"
+    (interactive)
+    (load "~/.emacs.d/init.el"))
 
-"Emacs relates shortcuts"
- (dl/leader-keys
+  (defun dl/insert-current-time ()
+    "Insert the current time (1-week scope) into the current buffer."
+    (interactive)
+    (insert (format "** %s\n" (format-time-string current-time-format (current-time)))))
+
+  "Emacs relates shortcuts"
+  (dl/leader-keys
   "e"  '(:ignore t :which-key "emacs")
   "ee" '(dl/load-buffer-with-emacs-config :which-key "open emacs config")
   "er" '(dl/reload-emacs :which-key "reload emacs"))
 
   "A few of my own personal shortcuts"
- (dl/leader-keys
+  (dl/leader-keys
   ","  '(dl/insert-current-time :which-key "current time")
   "n"  '(dl/load-buffer-with-nix-config :which-key "open nix config")
   "g"  '(dl/load-buffer-with-good-data-lol :which-key "open good data")
   "d"  '(dl/load-buffer-with-todo :which-key "open todo"))
-
-#+END_SRC
+  #+END_SRC
 
 ***** Snippets
 Manages my ability to use code snippets.
@@ -662,7 +662,7 @@ These are templates used to create new notes.
 #+END_SRC
 
 ***** Extending Roam
-Here we add additional function to org-roam to either do something specific for more workflow, or otherwise make ~org-roam~ more full featured.
+Here we add additional function to ~org-roam~ to either do something specific for more workflow, or otherwise make ~org-roam~ more full featured.
 
 ****** Set CREATED and LAST_MODIFIED filetags on save
 Sets timestamps in the Properties drawer of files. I intend to use this one day when rendering these notes as HTML, to quickly see files last touched.
@@ -815,36 +815,36 @@ This is what makes emacs possible for me. All evil mode packages and related con
     (evil-set-initial-state 'message-buffer-mode 'normal)
     (evil-set-initial-state 'dashboard-mode 'normal))
 
-;; Gives me vim bindings elsewhere in emacs
-(use-package evil-collection
-  :after evil
-  :config
-  (evil-collection-init))
+  ;; Gives me vim bindings elsewhere in emacs
+  (use-package evil-collection
+    :after evil
+    :config
+    (evil-collection-init))
 
-;; Keybindings in org mode
-(use-package evil-org
-  :after evil
-  :hook
-    (org-mode . (lambda () evil-org-mode))
-  :config
-    (require 'evil-org-agenda)
-    (evil-org-agenda-set-keys))
+  ;; Keybindings in org mode
+  (use-package evil-org
+    :after evil
+    :hook
+      (org-mode . (lambda () evil-org-mode))
+    :config
+      (require 'evil-org-agenda)
+      (evil-org-agenda-set-keys))
 
-;; Branching undo system
-(use-package undo-tree
-  :after evil
-  :diminish
-  :config
-  (evil-set-undo-system 'undo-tree)
-  (global-undo-tree-mode 1))
+  ;; Branching undo system
+  (use-package undo-tree
+    :after evil
+    :diminish
+    :config
+    (evil-set-undo-system 'undo-tree)
+    (global-undo-tree-mode 1))
 
-(use-package evil-commentary
-  :after evil
-  :config
-  (evil-commentary-mode))
+  (use-package evil-commentary
+    :after evil
+    :config
+    (evil-commentary-mode))
 
-;; Keep undo files from littering directories
-(setq undo-tree-history-directory-alist '(("." . "~/.local/state/emacs/undo")))
+  ;; Keep undo files from littering directories
+  (setq undo-tree-history-directory-alist '(("." . "~/.local/state/emacs/undo")))
 #+END_SRC
 
 ** Terminal
@@ -861,7 +861,7 @@ This is what makes emacs possible for me. All evil mode packages and related con
 ** Managing files
 Configuration related to filesystem, either basic IO and interaction from emacs or directly moving files around where it makes sense.
 *** File browser
-`dired` provides a more visual interface to browsing files; similar to terminal programs like `ranger`.
+~dired~ provides a more visual interface to browsing files; similar to terminal programs like ~ranger~.
 
 #+BEGIN_SRC emacs-lisp
   (use-package all-the-icons-dired)
@@ -1049,6 +1049,8 @@ Everything related to M-x compile.
 #+END_SRC
 
 *** LSP
+This is my IDE. It includes the same engine that powers VS Code, in addition to Github Copilot.
+
 #+NAME: lsp-mode
 #+BEGIN_SRC emacs-lisp
   (use-package lsp-mode
