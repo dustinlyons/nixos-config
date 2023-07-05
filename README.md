@@ -111,7 +111,9 @@ nix flake update
 ```
 
 ## Read my occasional musings on Nix
+
 [![Follow @dustinhlyons](https://github.com/dustinlyons/dustinlyons/assets/1292576/3d214b95-6c93-4967-8c72-862fa494e664)](https://www.twitter.com/dustinhlyons)
+
 
 > "All we have to decide is what to do with the time that is given us." - J.R.R. Tolkien
 
