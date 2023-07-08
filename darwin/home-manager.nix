@@ -69,7 +69,6 @@ let
     "1password" = 1333542190;
     "drafts" = 1435957248;
     "hidden-bar" = 1452453066;
-    "tailscale" = 1475387142;
     "yoink" = 457622435;
   };
 
