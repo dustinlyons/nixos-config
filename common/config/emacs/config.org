@@ -562,23 +562,39 @@ If you haven't heard of org mode, go watch [[https://www.youtube.com/watch?v=SzA
     (interactive)
     (load "~/.emacs.d/init.el"))
 
-  (defun dl/insert-current-time ()
-    "Insert the current time (1-week scope) into the current buffer."
+  (defun dl/insert-header ()
+    "Insert a header indented one level from the current header."
     (interactive)
-    (insert (format "** %s\n" (format-time-string current-time-format (current-time)))))
+    (let* ((level (org-current-level))
+           (next-level (1+ level)))
+      (end-of-line)
+      (newline)
+      (insert (make-string next-level ?*))
+      (insert " ")))
+
+  (defun dl/insert-current-time ()
+    "Insert the current time into the current buffer, at a level one deeper than the current heading."
+    (interactive)
+    (let* ((level (org-current-level))
+           (next-level (1+ level)))
+      (end-of-line)
+      (newline)
+      (insert (make-string next-level ?*))
+      (insert " " (format-time-string "%H:%M:%S" (current-time)) "\n")))
 
   "Emacs relates shortcuts"
   (dl/leader-keys
-  "e"  '(:ignore t :which-key "emacs")
-  "ee" '(dl/load-buffer-with-emacs-config :which-key "open emacs config")
-  "er" '(dl/reload-emacs :which-key "reload emacs"))
+    "e"  '(:ignore t :which-key "emacs")
+    "ee" '(dl/load-buffer-with-emacs-config :which-key "open emacs config")
+    "er" '(dl/reload-emacs :which-key "reload emacs"))
 
   "A few of my own personal shortcuts"
   (dl/leader-keys
-  ","  '(dl/insert-current-time :which-key "current time")
-  "n"  '(dl/load-buffer-with-nix-config :which-key "open nix config")
-  "g"  '(dl/load-buffer-with-good-data-lol :which-key "open good data")
-  "d"  '(dl/load-buffer-with-todo :which-key "open todo"))
+    ","  '(dl/insert-header :which-key "insert header")
+    "<"  '(dl/insert-current-time :which-key "insert header with current time")
+    "n"  '(dl/load-buffer-with-nix-config :which-key "open nix config")
+    "g"  '(dl/load-buffer-with-good-data-lol :which-key "open good data")
+    "d"  '(dl/load-buffer-with-todo :which-key "open todo"))
   #+END_SRC
 
 ***** Snippets
