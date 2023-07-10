@@ -167,7 +167,7 @@ Various UI related toggles.
 #+NAME: toggles-ui
 #+BEGIN_SRC emacs-lisp
   (dl/leader-keys
-    "hh" '(counsel-load-theme :which-key "choose theme"))
+    "h" '(counsel-load-theme :which-key "choose theme"))
 #+END_SRC
 
 ***** Rotate windows
