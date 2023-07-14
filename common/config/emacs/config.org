@@ -403,54 +403,118 @@ I like these modes, what can I say. They're good to me.
 
 ** Org mode
 *** Agenda
-**** Filter out files that don't include tasks in org-agenda
-I use ~org-roam~ to take notes, which keeps many small files in the style of Zettelkasten. However, ~org-agenda~ doesn't perform well in this scenario. To fix this, we filter out all files from ~org-agenda~ that don't contain a ~TODO~.
-
-#+NAME::org-mode-filter
+Initialize org-agenda file and set some key bindings to create tasks.
+#+NAME::org-mode-agenda
 #+BEGIN_SRC emacs-lisp
-  (setq org-agenda-files "~/.config/emacs/agenda.txt" )
+  (setq org-agenda-files "~/.emacs.d/agenda.txt" )
+  (setq org-archive-location "~/.local/share/org-roam/20220318132418-archive.org::")
 
-  (defun org-global-props (&optional property buffer)
-    "Helper function to grab org properties"
-    (unless property (setq property "PROPERTY"))
-    (with-current-buffer (or buffer (current-buffer))
-      (org-element-map (org-element-parse-buffer) 'keyword
-      (lambda (el) (when (string-match property (org-element-property :key el)) el)))))
+  (defun my-org-insert-subheading (heading-type)
+  "Inserts a new org heading with unique ID and creation date.
+  The type of heading (TODO, PROJECT, etc.) is specified by HEADING-TYPE."
+    (let ((uuid (org-id-uuid))
+          (date (format-time-string "[%Y-%m-%d %a %H:%M]")))
+      (org-end-of-line) ;; Make sure we are at the end of the line
+      (unless (looking-at-p "\n") (insert "\n")) ;; Insert newline if next character is not a newline
+      (org-insert-subheading t) ;; Insert a subheading instead of a heading
+      (insert (concat heading-type " "))
+      (save-excursion
+        (org-set-property "ID" uuid)
+        (org-set-property "CREATED" date))))
 
-  (defun dl/refile-and-transclude ()
-    "Move file and add transclude link with header"
-  (interactive)
-    (org-roam-refile)
-    (insert "#+transclude: [[file:~/.local/share/org-roam/20220419121404-todo.org::*" (org-element-property :value (car (org-global-props "TITLE"))) "][Transclude]]"))
+  (defun my-org-insert-todo ()
+    "Inserts a new TODO heading with unique ID and creation date."
+    (interactive)
+    (my-org-insert-subheading "TODO"))
 
-  (dl/leader-keys
-    "a"  '(:ignore t :which-key "org-ai")
-    "ae"  '(org-ai-explain-code :which-key "explain code")
-    "as"  '(org-ai-summarize :which-key "summarize block")
-    "ar"  '(org-ai-on-region :which-key "run prompt on region")
-    "ac"  '(org-ai-refactor-code :which-key "refactor code"))
+  (defun my-org-insert-project ()
+    "Inserts a new PROJECT heading with unique ID and creation date."
+    (interactive)
+    (my-org-insert-subheading "PROJECT"))
 
-  (global-set-key (kbd "C-c y") 'whisper-run)
+  (defun my-org-copy-link-from-id ()
+    "Copies a link to the current Org mode item by its ID to clipboard"
+    (interactive)
+    (when (org-at-heading-p)
+      (let* ((element (org-element-at-point))
+             (title (org-element-property :title element))
+             (id (org-entry-get nil "ID"))
+             (link (format "[[id:%s][%s]]" id title)))
+        (when id
+          (kill-new link)
+          (message "Link saved to clipboard")))))
+
+  (define-prefix-command 'my-org-todo-prefix)
+
+  (global-set-key (kbd "C-c c") 'org-capture)
+  (global-set-key (kbd "C-c t") 'my-org-todo-prefix)
+
+  (define-key 'my-org-todo-prefix (kbd "t") 'my-org-insert-todo)
+  (define-key 'my-org-todo-prefix (kbd "p") 'my-org-insert-project)
+
+  (define-key org-mode-map (kbd "C-c l") 'my-org-copy-link-from-id)
+#+END_SRC
+
+**** Capture templates
+#+NAME::org-capture-templates
+#+BEGIN_SRC emacs-lisp
+  (setq org-capture-templates
+      `(("t" "Todo" entry (file+headline ,"~/.local/share/org-roam/20220419121404-todo.org" "Tasks")
+         "* TODO %?\n:PROPERTIES:\n:ID:       %(org-id-uuid)\n:CREATED:  %U\n:SOURCE:  %a\n:END:\n\n%i")
+        ("p" "Project" entry (file+headline ,"~/.local/share/org-roam/20220419121404-todo.org" "Projects")
+         "* PROJECT %?\n:PROPERTIES:\n:ID:       %(org-id-uuid)\n:CREATED:  %U\n:SOURCE:  %a\n:END:\n\n%i")
+        ("h" "Health" entry (file+headline ,"~/.local/share/org-roam/20230712154159-health.org" "Tasks")
+         "* TODO %?\n:PROPERTIES:\n:ID:       %(org-id-uuid)\n:CREATED:  %U\n:SOURCE:  %a\n:END:\n\n%i")
+        ("H" "Health Project" entry (file+headline ,"~/.local/share/org-roam/20230712154159-health.org" "Projects")
+         "* PROJECT %?\n:PROPERTIES:\n:ID:       %(org-id-uuid)\n:CREATED:  %U\n:SOURCE:  %a\n:END:\n\n%i")
+        ("f" "Family/Social" entry (file+headline ,"~/.local/share/org-roam/20230712154441-family_social.org" "Tasks")
+         "* TODO %?\n:PROPERTIES:\n:ID:       %(org-id-uuid)\n:CREATED:  %U\n:SOURCE:  %a\n:END:\n\n%i")
+        ("F" "Family/Social Project" entry (file+headline ,"~/.local/share/org-roam/20230712154441-family_social.org" "Projects")
+         "* PROJECT %?\n:PROPERTIES:\n:ID:       %(org-id-uuid)\n:CREATED:  %U\n:SOURCE:  %a\n:END:\n\n%i")
+        ("b" "Business" entry (file+headline ,"~/.local/share/org-roam/20230712154303-business.org" "Tasks")
+         "* TODO %?\n:PROPERTIES:\n:ID:       %(org-id-uuid)\n:CREATED:  %U\n:SOURCE:  %a\n:END:\n\n%i")
+        ("B" "Business Project" entry (file+headline ,"~/.local/share/org-roam/20230712154303-business.org" "Projects")
+         "* PROJECT %?\n:PROPERTIES:\n:ID:       %(org-id-uuid)\n:CREATED:  %U\n:SOURCE:  %a\n:END:\n\n%i")
+        ("l" "Home Lab" entry (file+headline ,"~/.local/share/org-roam/20210919225144-home_lab.org" "Tasks")
+         "* TODO %?\n:PROPERTIES:\n:ID:       %(org-id-uuid)\n:CREATED:  %U\n:SOURCE:  %a\n:END:\n\n%i")
+        ("L" "Home Lab Project" entry (file+headline ,"~/.local/share/org-roam/20210919225144-home_lab.org" "Projects")
+         "* PROJECT %?\n:PROPERTIES:\n:ID:       %(org-id-uuid)\n:CREATED:  %U\n:SOURCE:  %a\n:END:\n\n%i")
+        ("v" "Braeview" entry (file+headline ,"~/.local/share/org-roam/20210814100042-braeview.org" "Tasks")
+         "* TODO %?\n:PROPERTIES:\n:ID:       %(org-id-uuid)\n:CREATED:  %U\n:SOURCE:  %a\n:END:\n\n%i")
+        ("V" "Braeview Project" entry (file+headline ,"~/.local/share/org-roam/20210814100042-braeview.org" "Projects")
+         "* PROJECT %?\n:PROPERTIES:\n:ID:       %(org-id-uuid)\n:CREATED:  %U\n:SOURCE:  %a]\n:END:\n\n%i")))
 #+END_SRC
 
 **** Set org faces
-Set various face colors for ~org-mode~.
+Set various types and colors for ~org-mode~.
 
 #+NAME::org-mode-faces
 #+BEGIN_SRC emacs-lisp
   ;; Fast access to tag common contexts I use
-  (setq org-tag-persistent-alist
-    '(("home" . ?h) ("work" . ?w)))
+  (setq org-todo-keywords
+   '((sequence "TODO(t)" "STARTED(s)" "WAITING(w@/!)"
+               "DELEGATED(g@/!)" "DEFERRED(r)" "SOMEDAY(y)"
+               "|" "DONE(d@)" "CANCELED(x@)")
+     (sequence "PROJECT(p)" "|" "DONE(d@)" "CANCELED(x@)")
+     (sequence "APPT(a)" "|" "DONE(d@)" "CANCELED(x@)")))
 
-  (setq org-tag-faces
-    `(("home" . ,dl/blue-color)
-     ("work" . ,dl/teal-color)))
+  (setq org-todo-keyword-faces
+    `(("TODO" . ,dl/green-color)
+      ("STARTED" . ,dl/yellow-color)
+      ("WAITING" . ,dl/light-grey-color)
+      ("DELEGATED" . ,dl/teal-color)
+      ("DEFERRED" . ,dl/dark-grey-color)
+      ("SOMEDAY" . ,dl/purple-color)
+      ("DONE" . ,dl/dark-grey-color)
+      ("CANCELED" . ,dl/dark-grey-color)
+      ("PROJECT" . ,dl/blue-color)
+      ("APPT" . ,dl/green-color)))
 #+END_SRC
 
-**** Remove noise from org-agenda views
+**** Format org-agenda views
 This block sets the ~org-agenda-prefix-format~ in an friendly way for ~org-roam~ (credit to [[https://d12frosted.io/posts/2020-06-24-task-management-with-roam-vol2.html][this post)]]. It truncates long filenames and removes the ~org-roam~ timestamp slug.
 
-#+NAME::remove-noise-from-org-agenda
+#+NAME::org-agenda-prefixes
 #+BEGIN_SRC emacs-lisp
   (defun dl/buffer-prop-get (name)
     "Get a buffer property called NAME as a string."
@@ -482,16 +546,11 @@ This block sets the ~org-agenda-prefix-format~ in an friendly way for ~org-roam~
           (todo . " %i %(dl/agenda-category 32) ")
           (tags . " %i %(dl/agenda-category 32) ")
           (search . " %i %(dl/agenda-category 32) ")))
-#+END_SRC
 
-**** org-transclusion
-Let's us move text but still see it in another file. I primarily use this to move text around in my journal.
-
-#+NAME::org-transclusion
-#+BEGIN_SRC emacs-lisp
-  (use-package org-transclusion
-    :after org
-    :hook (org-mode . org-transclusion-mode))
+  (evil-set-initial-state 'org-agenda-mode 'normal)
+  (with-eval-after-load 'org-agenda
+    (define-key org-agenda-mode-map (kbd "j") 'org-agenda-next-line)
+    (define-key org-agenda-mode-map (kbd "k") 'org-agenda-previous-line))
 #+END_SRC
 
 **** org-super-agenda views
@@ -520,6 +579,29 @@ Setup for ~org-super-agenda~ and ~org-ql~.
               :todo "SOMEDAY")))
 
    (org-super-agenda-mode)
+#+END_SRC
+
+**** org-transclusion
+Let's us move text but still see it in another file. I primarily use this to move text around in my journal.
+
+#+NAME::org-transclusion
+#+BEGIN_SRC emacs-lisp
+  (use-package org-transclusion
+    :after org
+    :hook (org-mode . org-transclusion-mode))
+
+  (defun org-global-props (&optional property buffer)
+    "Helper function to grab org properties"
+    (unless property (setq property "PROPERTY"))
+    (with-current-buffer (or buffer (current-buffer))
+      (org-element-map (org-element-parse-buffer) 'keyword
+      (lambda (el) (when (string-match property (org-element-property :key el)) el)))))
+
+  (defun dl/refile-and-transclude ()
+    "Move file and add transclude link with header"
+  (interactive)
+    (org-roam-refile)
+    (insert "#+transclude: [[file:~/.local/share/org-roam/20220419121404-todo.org::*" (org-element-property :value (car (org-global-props "TITLE"))) "][Transclude]]"))
 #+END_SRC
 
 *** Install package
@@ -563,10 +645,13 @@ If you haven't heard of org mode, go watch [[https://www.youtube.com/watch?v=SzA
     (load "~/.emacs.d/init.el"))
 
   (defun dl/insert-header ()
-    "Insert a header indented one level from the current header."
+    "Insert a header indented one level from the current header, unless the current header is a timestamp."
     (interactive)
     (let* ((level (org-current-level))
-           (next-level (1+ level)))
+          (headline (org-get-heading t t t t))
+          (next-level (if (string-match "^\\([0-9]\\{2\\}:[0-9]\\{2\\}:[0-9]\\{2\\}\\)" headline)
+                          (1+ level)
+                        level)))
       (end-of-line)
       (newline)
       (insert (make-string next-level ?*))
@@ -615,14 +700,6 @@ These are templates used to create new notes.
    '(("d" "default" plain
       "%?"
       :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n\n")
-      :unnarrowed t)
-     ("p" "people" plain
-      "#+filetags: People CRM\n\n* Contacts\n\nRelationship: %^{Relationship}\n\n* Notes\n\n %?"
-      :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}")
-      :unnarrowed t)
-     ("i" "institution" plain
-      "#+filetags: Institution CRM\n\n* Contacts\n\nRelationship: %^{Relationship}\n\n %?"
-      :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}")
       :unnarrowed t)))
 #+END_SRC
 
@@ -674,7 +751,10 @@ These are templates used to create new notes.
     '(("d" "default" entry
        "* %?"
        :if-new (file+head "%<%Y-%m-%d>.org"
-                          "#+TITLE: %<%Y-%m-%d>\n#+filetags: Daily\n\n* %<%Y-%m-%d>\n\n* Log\n\n* Import"))))
+                          (concat ":PROPERTIES:\n:ID:       " (org-id-new) "\n:END:\n"
+                                  "#+TITLE: %<%Y-%m-%d>\n#+filetags: Daily\n"
+                                  "[[id:F355F26D-E4E5-4CF5-99EA-E77846D47FAF][Workflow]]\n\n"
+                                  "* Log\n")))))
 #+END_SRC
 
 ***** Extending Roam
@@ -929,19 +1009,32 @@ Configuration related to filesystem, either basic IO and interaction from emacs 
 **** Quick shortcuts for common file tasks
 #+NAME::buffer-and-file-movement
 #+BEGIN_SRC emacs-lisp
-(defun er-delete-file-and-buffer ()
-  "Kill the current buffer and deletes the file it is visiting."
-  (interactive)
-  (let ((filename (buffer-file-name)))
-    (when filename
-      (if (vc-backend filename)
-          (vc-delete-file filename)
-        (progn
-          (delete-file filename)
-          (message "Deleted file %s" filename)
-          (kill-buffer))))))
+  (defun my-org-archive-done-tasks ()
+    "Archive all DONE tasks in the current buffer."
+    (interactive)
+    (org-map-entries
+    (lambda ()
+      (org-archive-subtree)
+      (setq org-map-continue-from (outline-previous-heading)))
+    "/DONE" 'tree))
 
-(global-set-key (kbd "C-c D")  #'er-delete-file-and-buffer)
+  (defun er-delete-file-and-buffer ()
+    "Kill the current buffer and deletes the file it is visiting."
+    (interactive)
+    (let ((filename (buffer-file-name)))
+      (when filename
+        (if (yes-or-no-p (concat "Do you really want to delete file: " filename "? ")) ; Ask for confirmation
+            (if (vc-backend filename)
+                (vc-delete-file filename)
+              (progn
+                (delete-file filename)
+                (message "Deleted file %s" filename)
+                (kill-buffer)))
+          (message "Aborted"))))) ; Abort message
+
+  (define-key org-mode-map (kbd "C-c D") 'my-org-archive-done-tasks)
+  (define-key org-mode-map (kbd "C-c d") 'org-archive-subtree)
+  (global-set-key (kbd "C-c x")  #'er-delete-file-and-buffer)
 #+END_SRC
 
 *** Images
