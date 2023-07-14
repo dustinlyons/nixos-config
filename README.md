@@ -14,10 +14,14 @@ Immutable, reproducible infrastructure rocks! It's game changing and I'll never 
 While developing, I've done my best to keep it simple - for both future me and readers like you. You'll see that in how I've organized code, as I keep filename conventions the same across modules. To get you started, I've included step-by-step instructions on bootstrapping a new machine below.
 
 Feel free to open a Github Issue if you run into any problems or have questions. Enjoy Nix!
-
-# Video (NixOS)
-
+# Videos 
+## NixOS
 https://user-images.githubusercontent.com/1292576/229024755-c44f80a8-9257-4d6b-be7c-e37d3a325dd0.mp4
+
+## MacOS
+https://github.com/dustinlyons/nixos-config/assets/1292576/30550473-ed22-46a9-b277-e6a56fd67f51
+
+https://github.com/dustinlyons/nixos-config/assets/1292576/66922503-944e-47dd-849d-6baf3e0952a1.mp4
 
 # Features
 * Multiple Nix and NixOS configurations, including desktop, laptop, server
