@@ -19,8 +19,11 @@ Feel free to open a Github Issue if you run into any problems or have questions.
 https://user-images.githubusercontent.com/1292576/229024755-c44f80a8-9257-4d6b-be7c-e37d3a325dd0.mp4
 
 ## MacOS
+### Updating dependencies with one command
+
 https://github.com/dustinlyons/nixos-config/assets/1292576/30550473-ed22-46a9-b277-e6a56fd67f51
 
+### Instant Emacs 29 thanks to daemon mode
 https://github.com/dustinlyons/nixos-config/assets/1292576/66922503-944e-47dd-849d-6baf3e0952a1.mp4
 
 # Features
