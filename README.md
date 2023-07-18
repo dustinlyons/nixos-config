@@ -20,7 +20,6 @@ https://user-images.githubusercontent.com/1292576/229024755-c44f80a8-9257-4d6b-b
 
 ## MacOS
 ### Updating dependencies with one command
-
 https://github.com/dustinlyons/nixos-config/assets/1292576/30550473-ed22-46a9-b277-e6a56fd67f51
 
 ### Instant Emacs 29 thanks to daemon mode
