@@ -509,6 +509,23 @@ Set various types and colors for ~org-mode~.
       ("CANCELED" . ,dl/dark-grey-color)
       ("PROJECT" . ,dl/blue-color)
       ("APPT" . ,dl/green-color)))
+
+  (defface my-org-agenda-face-1-2
+    '((t (:inherit default :height 1.2)))
+    "Face for org-agenda mode.")
+
+  (defun my-set-org-agenda-font ()
+    "Set the font for `org-agenda-mode'."
+    (buffer-face-set 'my-org-agenda-face-1-2))
+
+  (add-hook 'org-agenda-mode-hook 'my-set-org-agenda-font)
+
+  (setq display-buffer-alist
+      `((".*Org Agenda.*"
+         (display-buffer-below-selected)
+         (inhibit-same-window . t)
+         (window-height . 0.5))))
+
 #+END_SRC
 
 **** Format org-agenda views
@@ -551,6 +568,8 @@ This block sets the ~org-agenda-prefix-format~ in an friendly way for ~org-roam~
   (with-eval-after-load 'org-agenda
     (define-key org-agenda-mode-map (kbd "j") 'org-agenda-next-line)
     (define-key org-agenda-mode-map (kbd "k") 'org-agenda-previous-line))
+
+  (setq org-agenda-todo-ignore-keywords '("PROJECT"))
 #+END_SRC
 
 **** org-super-agenda views
@@ -565,16 +584,16 @@ Setup for ~org-super-agenda~ and ~org-ql~.
 
    ;; Dashboard View
    (setq org-super-agenda-groups
-     '((:name "Batch"
-              :tag "batch")
-       (:name "Now"
-              :todo "NEXT")
+     '((:name "Started"
+              :todo "STARTED")
        (:name "Waiting"
               :todo "WAITING")
-       (:name "Work"
-              :tag "work")
-       (:name "Home"
-              :tag "home")
+       (:name "Tasks"
+              :todo "TODO")
+       (:name "Learn"
+              :tag "learn")
+       (:name "Braeview"
+              :tag "braeview")
        (:name "Someday"
               :todo "SOMEDAY")))
 
@@ -747,14 +766,14 @@ These are templates used to create new notes.
 ***** Configure templates
 #+NAME::org-roam-templates
 #+BEGIN_SRC emacs-lisp
-  (setq org-roam-dailies-capture-templates
-    '(("d" "default" entry
-       "* %?"
-       :if-new (file+head "%<%Y-%m-%d>.org"
-                          (concat ":PROPERTIES:\n:ID:       " (org-id-new) "\n:END:\n"
-                                  "#+TITLE: %<%Y-%m-%d>\n#+filetags: Daily\n"
-                                  "[[id:F355F26D-E4E5-4CF5-99EA-E77846D47FAF][Workflow]]\n\n"
-                                  "* Log\n")))))
+(setq org-roam-dailies-capture-templates
+  '(("d" "default" entry
+     "* %?"
+     :if-new (file+head "%<%Y-%m-%d>.org"
+                        (lambda () (concat ":PROPERTIES:\n:ID:       " (org-id-new) "\n:END:\n"
+                                           "#+TITLE: %<%Y-%m-%d>\n#+filetags: Daily \n" ; Added space here
+                                           "[[id:F355F26D-E4E5-4CF5-99EA-E77846D47FAF][Workflow]]\n\n"
+                                           "* Log\n"))))))
 #+END_SRC
 
 ***** Extending Roam
