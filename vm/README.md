@@ -47,7 +47,8 @@ sudo diskutil unmountDisk /dev/disk4 \
 dd if=nixos-minimal-23.05.2385.48e82fe1b1c-x86_64-linux of=/dev/disk4
 ```
 
-Next, boot the USB and get to a terminal screen to continue on with the steps below. If you're doing this on bare metal and have an Nvidia card, select 'nomodeset' as the option.
+Next, boot the USB and get to a terminal screen to continue on with the steps below. 
+> Note: If you have an Nvidia card, select 'nomodeset' if prompted in the installer.
 
 ## 2. Partition and format your hard drive
 I use ZFS, but you can just as easily use ```ext3``` with ```fdisk```. Our first step is to just verify we're ready to work. The _install media_ has everything available for these commands by default.
