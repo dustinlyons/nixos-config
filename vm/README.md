@@ -15,7 +15,7 @@ What are we looking to do?
 ## 1. Boot NixOS from an ISO, either VM or USB stick
 First, build the image inside `install-media`. From the project root:
 ```
-$ nix-build vm/install/install-media.nix
+nix-build vm/install/install-media.nix
 ```
 > This assumes you have Nix installed and are targeting a virtual machine. Don't have Nix to run `nix-build`? [Check out the official NixOS ISO.](https://nixos.org/download.html) 
 
