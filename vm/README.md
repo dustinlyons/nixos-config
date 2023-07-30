@@ -23,6 +23,9 @@ The build produces an ISO. Burn it to USB with your tool of choice, like `dd`. I
 ```
 diskutil list
 ```
+
+Mine looks like this:
+
 ```
 /dev/disk4 (external, physical):
    #:     TYPE NAME                                      SIZE       IDENTIFIER
@@ -30,16 +33,21 @@ diskutil list
    1:     Windows_FAT_32 SAMSUNGBOOT                     34.4 GB    disk4s1
           (free space)                                   93.7 GB    -
 ```
+
+Then something like this if I'm bootstrapping a VM:
 ```
-sudo diskutil unmountDisk /dev/disk4 \
+sudo diskutil unmountDisk /dev/sda \
 dd if=nresult.iso of=/dev/disk4
 ```
-or
+
+or this if it's bare metal:
+
 ```
 sudo diskutil unmountDisk /dev/disk4 \
 dd if=nixos-minimal-23.05.2385.48e82fe1b1c-x86_64-linux of=/dev/disk4
 ```
-Next, boot the USB and get to a terminal screen to continue on with the steps below.
+
+Next, boot the USB and get to a terminal screen to continue on with the steps below. If you're doing this on bare metal and have an Nvidia card, select 'nomodeset' as the option.
 
 ## 2. Partition and format your hard drive
 I use ZFS, but you can just as easily use ```ext3``` with ```fdisk```. Our first step is to just verify we're ready to work. The _install media_ has everything available for these commands by default.
