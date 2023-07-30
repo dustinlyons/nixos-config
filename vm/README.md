@@ -19,9 +19,19 @@ $ nix-build vm/install/install-media.nix
 ```
 > This assumes you have Nix installed and are targeting a virtual machine. Don't have Nix to run `nix-build`? [Check out the official NixOS ISO.](https://nixos.org/download.html) 
 
-The build produces an ISO. Burn it to USB with your tool of choice, like `dd`. In this example, replace `/dev/sdX` with the linux path to your USB device.
+The build produces an ISO. Burn it to USB with your tool of choice, like `dd`. If you're doing this on a Macbook, you can use `diskutil` to find your device path.
 ```
-$ dd if=result.iso of=/dev/sdX
+$ diskutil list
+
+/dev/disk4 (external, physical):
+   #:                       TYPE NAME                    SIZE       IDENTIFIER
+   0:     FDisk_partition_scheme                        *128.0 GB   disk4
+   1:             Windows_FAT_32 SAMSUNGBOOT             34.4 GB    disk4s1
+                    (free space)                         93.7 GB    -
+```
+```
+$ sudo diskutil unmountDisk /dev/disk4
+$ dd if=nixos-minimal-23.05.2385.48e82fe1b1c-x86_64-linux of=/dev/disk4
 ```
 Next, boot the USB and get to a terminal screen to continue on with the steps below.
 
