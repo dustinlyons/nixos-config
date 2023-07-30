@@ -68,7 +68,7 @@ Next, let's create our first partition. Use `sudo` to act as root and bring `sgd
 $ sudo su -
 $ nix-shell -p gptfdisk
 ```
-We want to create a small partition for the MBR and leave the rest to ZFS. Note, I said MBR, _not_ UEFI. I use Proxmox and by default these VMs prefer MBR. You'll also want to change the `/dev/disk/by-id` path to whatever you see when viewing the directory in your local terminal.
+We want to create a small partition for the MBR and leave the rest to ZFS. Note, I said MBR, _not_ UEFI. I use Proxmox and by default these VMs prefer MBR. You'll also want to change the `/dev/disk/by-id` path to whatever you see when viewing the `/dev` directory in your local terminal.
 
 ```sh
 $ sgdisk -a1 -n2:34:2047 -t2:EF02 /dev/disk/by-id/scsi-0QEMU_QEMU_HARDDISK_drive-scsi0
