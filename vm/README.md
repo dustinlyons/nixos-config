@@ -21,8 +21,9 @@ $ nix-build vm/install/install-media.nix
 
 The build produces an ISO. Burn it to USB with your tool of choice, like `dd`. If you're doing this on a Macbook, you can use `diskutil` to find your device path.
 ```
-$ diskutil list
-
+diskutil list
+```
+```
 /dev/disk4 (external, physical):
    #:     TYPE NAME                                      SIZE       IDENTIFIER
    0:     FDisk_partition_scheme                        *128.0 GB   disk4
@@ -30,8 +31,13 @@ $ diskutil list
           (free space)                                   93.7 GB    -
 ```
 ```
-$ sudo diskutil unmountDisk /dev/disk4
-$ dd if=nixos-minimal-23.05.2385.48e82fe1b1c-x86_64-linux of=/dev/disk4
+sudo diskutil unmountDisk /dev/disk4 \
+dd if=nresult.iso of=/dev/disk4
+```
+or
+```
+sudo diskutil unmountDisk /dev/disk4 \
+dd if=nixos-minimal-23.05.2385.48e82fe1b1c-x86_64-linux of=/dev/disk4
 ```
 Next, boot the USB and get to a terminal screen to continue on with the steps below.
 
