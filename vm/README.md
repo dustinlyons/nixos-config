@@ -24,10 +24,10 @@ The build produces an ISO. Burn it to USB with your tool of choice, like `dd`. I
 $ diskutil list
 
 /dev/disk4 (external, physical):
-   #:                       TYPE NAME                    SIZE       IDENTIFIER
+   #:     TYPE NAME                                      SIZE       IDENTIFIER
    0:     FDisk_partition_scheme                        *128.0 GB   disk4
-   1:             Windows_FAT_32 SAMSUNGBOOT             34.4 GB    disk4s1
-                    (free space)                         93.7 GB    -
+   1:     Windows_FAT_32 SAMSUNGBOOT                     34.4 GB    disk4s1
+          (free space)                                   93.7 GB    -
 ```
 ```
 $ sudo diskutil unmountDisk /dev/disk4
