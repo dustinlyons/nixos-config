@@ -82,7 +82,7 @@ Follow this [step-by-step guide](https://github.com/dustinlyons/nixos-config/blo
 nix flake update
 ```
 ```sh
-./bin/update
+./bin/build
 ```
 
 ## Read my occasional musings on Nix
