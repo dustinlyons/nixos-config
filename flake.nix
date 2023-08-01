@@ -2,6 +2,9 @@
   description = "Dustin's NixOS and MacOS configuration";
 
   inputs = {
+    nixos = {
+     url = "github:nixos/nixpkgs/nixos-unstable";
+    };
     nixpkgs = {
       url = "github:dustinlyons/nixpkgs/master";
     };
@@ -12,9 +15,13 @@
       url = "github:LnL7/nix-darwin/master";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    disko = {
+      url = "github:nix-community/disko";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = { self, flake-utils, darwin, home-manager, nixpkgs, ... }@inputs: {
+  outputs = { self, flake-utils, darwin, home-manager, nixos, nixpkgs, disko, ... }@inputs: {
     # My Macbook Pro 16"
     darwinConfigurations = {
       "Dustins-MBP" = darwin.lib.darwinSystem {
@@ -26,22 +33,26 @@
       };
      };
 
-    # My NixOS machine
-    nixosConfigurations = {
-      felix = nixpkgs.lib.nixosSystem {
+    # The PC in my office
+    nixosConfigurations = let
+      felixDefault = {
         system = "x86_64-linux";
         modules = [
           ./nixos
-          ./hardware/felix.nix
+          disko.nixosModules.disko
           home-manager.nixosModules.home-manager {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
             home-manager.users.dustin = import ./nixos/home-manager.nix;
           }
         ];
-        specialArgs = {
-          inherit inputs;
-        };
+      };
+
+    in {
+      felix = nixpkgs.lib.nixosSystem {
+        inherit (felixDefault) system;
+        modules = felixDefault.modules ++ [
+        ];
       };
     };
   };

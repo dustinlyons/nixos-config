@@ -5,6 +5,7 @@ let user = "dustin";
     keys = [ "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOoC9CTKaguJf4cktkbVfU4+KdVL/kTg1XqIIwxwh/85" ]; in
 {
   imports = [
+    ./disk-config.nix
     ../common
     ../common/cachix
   ];
@@ -13,6 +14,7 @@ let user = "dustin";
   boot.loader.systemd-boot.enable = true;
   boot.loader.systemd-boot.configurationLimit = 42;
   boot.loader.efi.canTouchEfiVariables = true;
+  boot.initrd.availableKernelModules = [ "xhci_pci" "ahci" "nvme" "usbhid" "usb_storage" "sd_mod" ];
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
   # Set your time zone.
@@ -212,6 +214,14 @@ let user = "dustin";
     openssh.authorizedKeys.keys = keys;
   };
 
+  # Root user
+  users.users.root = {
+    openssh.authorizedKeys.keys = keys;
+  };
+
+  # Let's be able to SSH into this machine
+  services.openssh.enable = true;
+
   # My shell
   programs.zsh.enable = true;
 
@@ -221,12 +231,13 @@ let user = "dustin";
     package = pkgs.emacs-unstable;
   };
 
+  # Note, feather-font comes from _my_ nixpkgs fork
+  #   github.com/dustinlyons/nixpkgs
   fonts.fonts = with pkgs; [
     dejavu_fonts
     emacs-all-the-icons-fonts
     feather-font
     jetbrains-mono
-    hack-font
     font-awesome
     noto-fonts
     noto-fonts-emoji

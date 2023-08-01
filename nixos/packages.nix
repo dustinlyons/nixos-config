@@ -58,7 +58,6 @@ common-packages ++ [
   inotify-tools
   libnotify
 
-  imagemagick
   keepassxc
   libusb1 # for Xbox controller
   libtool # for Emacs vterm

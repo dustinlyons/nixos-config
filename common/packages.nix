@@ -19,7 +19,6 @@ with pkgs; [
   du-dust
   emacs-all-the-icons-fonts
   flyctl
-  ffmpeg
   fd
   fzf
   font-awesome
