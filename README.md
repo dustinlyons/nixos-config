@@ -60,10 +60,10 @@ https://github.com/dustinlyons/nixos-config/assets/1292576/66922503-944e-47dd-84
 
 ## For MacOS, install Nix package manager and dependencies
 ```sh
-sh <(curl -L https://nixos.org/nix/install) --daemon
+xcode-select --install
 ```
 ```sh
-xcode-select --install
+sh <(curl -L https://nixos.org/nix/install) --daemon
 ```
 ```sh
 nix run nix-darwin -- switch --flake ~/.config/nix-darwin
@@ -72,26 +72,21 @@ nix run nix-darwin -- switch --flake ~/.config/nix-darwin
 ## For NixOS, create a disk partition and install media
 Follow this [step-by-step guide](https://github.com/dustinlyons/nixos-config/blob/main/vm/README.md) for instructions to install using `ZFS` or `ext3`.
 
-## Build the environment with flakes
+## How to build the environment
 ```sh
 ./bin/build
 ```
 
-# Update Computer
-
-## Update dependencies
+## How to update the environment
 ```sh
 nix flake update
 ```
-## Run  build
 ```sh
-./bin/build
+./bin/update
 ```
 
 ## Read my occasional musings on Nix
-
 [![Follow @dustinhlyons](https://github.com/dustinlyons/dustinlyons/assets/1292576/3d214b95-6c93-4967-8c72-862fa494e664)](https://www.twitter.com/dustinhlyons)
-
 
 > "All we have to decide is what to do with the time that is given us." - J.R.R. Tolkien
 
