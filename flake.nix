@@ -2,9 +2,6 @@
   description = "Dustin's NixOS and MacOS configuration";
 
   inputs = {
-    nixos = {
-     url = "github:nixos/nixpkgs/nixos-unstable";
-    };
     nixpkgs = {
       url = "github:dustinlyons/nixpkgs/master";
     };
@@ -21,7 +18,7 @@
     };
   };
 
-  outputs = { self, flake-utils, darwin, home-manager, nixos, nixpkgs, disko, ... }@inputs: {
+  outputs = { self, flake-utils, darwin, home-manager, nixpkgs, disko, ... }@inputs: {
     # My Macbook Pro 16"
     darwinConfigurations = {
       "Dustins-MBP" = darwin.lib.darwinSystem {
