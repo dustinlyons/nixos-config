@@ -58,17 +58,10 @@ https://github.com/dustinlyons/nixos-config/assets/1292576/66922503-944e-47dd-84
 
 # Bootstrap New Computer
 
-## Step 1 - For MacOS, install Nix package manager
-Install the nix package manager:
+## For MacOS, install Nix package manager and dependencies
 ```sh
 sh <(curl -L https://nixos.org/nix/install) --daemon
 ```
-
-## Step 2 - For NixOS, create a disk partition and install media
-Follow this [step-by-step guide](https://github.com/dustinlyons/nixos-config/blob/main/vm/README.md) for instructions to install using `ZFS` or `ext3`.
-
-## Step 3 - If MacOS, install Darwin dependencies
-Install Xcode CLI tools and nix-darwin:
 ```sh
 xcode-select --install
 ```
@@ -76,8 +69,10 @@ xcode-select --install
 nix run nix-darwin -- switch --flake ~/.config/nix-darwin
 ```
 
-## Step 4 - Build the environment with flakes
-Download this repo and run:
+## For NixOS, create a disk partition and install media
+Follow this [step-by-step guide](https://github.com/dustinlyons/nixos-config/blob/main/vm/README.md) for instructions to install using `ZFS` or `ext3`.
+
+## Build the environment with flakes
 ```sh
 ./bin/build
 ```
