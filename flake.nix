@@ -57,8 +57,6 @@
           reboot
         '')}/bin/bootstrap-nixos";
       };
-
-      default = config.apps.bootstrap-nixos;
     };
   };
 }
