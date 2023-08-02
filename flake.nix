@@ -44,7 +44,7 @@
         program = "${(nixpkgs.legacyPackages.x86_64-linux.writeShellScriptBin "bootstrap-nixos" ''
           set -e
 
-          sudo nix run --extra-experimental-features 'nix-command flakes' ${disko} run-command -- --mode zap_create_mount --flake ${self}#nixosConfigurations.felix
+          sudo nix run --extra-experimental-features \'nix-command flakes\' ${disko} run-command -- --mode zap_create_mount --flake ${self}#nixosConfigurations.felix
 
           mkdir -p ~/.local/share/src/
           if ! git clone https://github.com/dustinlyons/nixos-config ~/.local/share/src/nixos-config; then
