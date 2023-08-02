@@ -2,7 +2,7 @@
   description = "Dustin's NixOS and MacOS configuration";
 
   inputs = {
-    nixpkgs = {
+    pkgs = {
       url = "github:dustinlyons/nixpkgs/master";
     };
     home-manager = {
@@ -10,19 +10,19 @@
     };
     darwin = {
       url = "github:LnL7/nix-darwin/master";
-      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.pkgs.follows = "nixpkgs";
     };
     disko = {
       url = "github:nix-community/disko";
-      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.pkgs.follows = "nixpkgs";
     };
   };
 
-  outputs = { self, flake-utils, darwin, home-manager, nixpkgs, pkgs, disko, ... }@inputs:
+  outputs = { self, flake-utils, darwin, home-manager, pkgs, disko, ... }@inputs:
 
   let
     bootstrapCommand = pkgs.writeShellScriptBin "bootstrap-nixos" ''
-      sudo nix run ${disko} --extra-experimental-features run-command --extra-experimental-features flakes -- --mode zap_create_mount --flake ${self}#felix
+      sudo nix run ${disko} run-command -- --mode zap_create_mount --flake ${self}#felix
 
       mkdir -p ~/.local/share/src/
       git clone https://github.com/dustinlyons/nixos-config ~/.local/share/src/nixos-config
@@ -39,7 +39,7 @@
         modules = [
           ./darwin
         ];
-        inputs = { inherit darwin home-manager nixpkgs; };
+        inputs = { inherit darwin home-manager pkgs; };
       };
     };
 
@@ -57,7 +57,7 @@
         ];
       };
       in {
-        felix = nixpkgs.lib.nixosSystem {
+        felix = pkgs.lib.nixosSystem {
           inherit (felixDefault) system;
           modules = felixDefault.modules;
         };
