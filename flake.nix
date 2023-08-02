@@ -18,13 +18,21 @@
     };
   };
 
-  apps.x86_64-linux.bootstrap = {
-    type = "app";
-    program = "${self.bootstrapCommand}";
-  };
+  outputs = { self, flake-utils, darwin, home-manager, nixpkgs, disko, ... }@inputs:
 
-  outputs = { self, flake-utils, darwin, home-manager, nixpkgs, disko, ... }@inputs: {
-    # My Macbook Pro 16"
+  let
+    bootstrapCommand = nixpkgs.writeShellScriptBin "bootstrap-nixos" ''
+      sudo nix run ${disko} --extra-experimental-features run-command --extra-experimental-features flakes -- --mode zap_create_mount --flake ${self}#felix
+
+      mkdir -p ~/.local/share/src/
+      git clone https://github.com/dustinlyons/nixos-config ~/.local/share/src/nixos-config
+      ln -s ~/.local/share/src/nixos-config/flake.nix /mnt/etc/nixos/flake.nix
+
+      sudo nixos-install --flake /mnt/etc/nixos/#felix
+      reboot
+    '';
+
+  in {
     darwinConfigurations = {
       "Dustins-MBP" = darwin.lib.darwinSystem {
         system = "aarch64-darwin";
@@ -33,9 +41,8 @@
         ];
         inputs = { inherit darwin home-manager nixpkgs; };
       };
-     };
+    };
 
-    # The PC in my office
     nixosConfigurations = let
       felixDefault = {
         system = "x86_64-linux";
@@ -49,29 +56,18 @@
           }
         ];
       };
+      in {
+        felix = nixpkgs.lib.nixosSystem {
+          inherit (felixDefault) system;
+          modules = felixDefault.modules;
+        };
+      };
 
-    in {
-      felix = nixpkgs.lib.nixosSystem {
-        inherit (felixDefault) system;
-        modules = felixDefault.modules ++ [
-        ];
+    apps = {
+      x86_64-linux.bootstrap = {
+        type = "app";
+        program = bootstrapCommand;
       };
     };
-
-    # Add this inside your outputs
-    bootstrapCommand = nixpkgs.writeShellScriptBin "bootstrap-nixos" ''
-      # your commands go here
-      sudo nix run ${disko} --extra-experimental-features run-command --extra-experimental-features flakes -- --mode zap_create_mount --flake ${self}#felix
-
-      # Link your configuration
-      mkdir -p ~/.local/share/src/
-      git clone https://github.com/dustinlyons/nixos-config ~/.local/share/src/nixos-config
-      ln -s ~/.local/share/src/nixos-config/flake.nix /mnt/etc/nixos/flake.nix
-
-      # Install and reboot
-      sudo nixos-install --flake /mnt/etc/nixos/#felix
-      reboot
-    '';
-
   };
 }
