@@ -9,5 +9,5 @@ CLEAR='\033[0m'
 sudo echo
 echo -e "${GREEN}Starting...${CLEAR}"
 
-sudo -E /run/current-system/sw/bin/nixos-rebuild switch $@
+sudo -E /run/current-system/sw/bin/nixos-rebuild switch --flake .#felix $@
 echo -e "${GREEN}Done${CLEAR}"

@@ -18,6 +18,11 @@
     };
   };
 
+  apps.x86_64-linux.bootstrap = {
+    type = "app";
+    program = "${self.bootstrapCommand}";
+  };
+
   outputs = { self, flake-utils, darwin, home-manager, nixpkgs, disko, ... }@inputs: {
     # My Macbook Pro 16"
     darwinConfigurations = {
@@ -52,5 +57,21 @@
         ];
       };
     };
+
+    # Add this inside your outputs
+    bootstrapCommand = pkgs.writeShellScriptBin "bootstrap-nixos" ''
+      # your commands go here
+      sudo nix run ${disko} --extra-experimental-features run-command --extra-experimental-features flakes -- --mode zap_create_mount --flake ${self}#felix
+
+      # Link your configuration
+      mkdir -p ~/.local/share/src/
+      git clone https://github.com/dustinlyons/nixos-config ~/.local/share/src/nixos-config
+      ln -s ~/.local/share/src/nixos-config/flake.nix /mnt/etc/nixos/flake.nix
+
+      # Install and reboot
+      sudo nixos-install --flake /mnt/etc/nixos/#felix
+      reboot
+    '';
+
   };
 }
