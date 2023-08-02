@@ -39,7 +39,7 @@
     };
 
     apps = {
-      bootstrap-nixos = {
+      x86_64-linux.bootstrap-nixos = {
         type = "app";
         program = "${(nixpkgs.legacyPackages.x86_64-linux.writeShellScriptBin "bootstrap-nixos" ''
           set -e
