@@ -7,13 +7,12 @@ _Psst: I can help write Nix at your company. <a href="https://twitter.com/dustin
 # Overview
 Hey, you made it! Welcome. 🤓
 
-You've stumbled upon my personal journey with Nix. For over a year, I've been hacking away on this configuration. It drives my office PC, M1 Macbook, and virtual machines in my home lab. Along with syncthing to manage data, this Nix configuration guarantees I have a working, seamless experience across each machine I use. 
+You've stumbled upon my personal journey with Nix. For over a year, I've been hacking away at this configuration. Using 100% Nix flakes, this repository drives my office PC, M1 Macbook, and virtual machines in my home lab. Along with syncthing to manage data, this Nix configuration guarantees I have a working, seamless experience across each machine I use. 
 
-Immutable, reproducible infrastructure rocks! It's game changing and I'll never go back to typing commands in a terminal.
+Immutable, reproducible infrastructure rocks! It's game-changing and I'll never go back to typing commands in a terminal.
 
 While developing, I've done my best to keep it simple - for both future me and readers like you. You'll see that in how I've organized code, as I keep filename conventions the same across modules. To get you started, I've included step-by-step instructions on bootstrapping a new machine below.
 
-Feel free to open a Github Issue if you run into any problems or have questions. Enjoy Nix!
 # Videos 
 ## NixOS
 https://user-images.githubusercontent.com/1292576/229024755-c44f80a8-9257-4d6b-be7c-e37d3a325dd0.mp4
@@ -59,67 +58,35 @@ https://github.com/dustinlyons/nixos-config/assets/1292576/66922503-944e-47dd-84
 
 # Bootstrap New Computer
 
-## Step 1 - For MacOS, install Nix package manager
-Install the nix package manager, add unstable channel:
-```sh
-sh <(curl -L https://nixos.org/nix/install) --daemon
-```
-```sh
-nix-channel --add https://nixos.org/channels/nixpkgs-unstable nixpkgs
-```
-```sh
-nix-channel --update
-```
-
-## Step 2 - For NixOS, create a disk partition and install media
-Follow this [step-by-step guide](https://github.com/dustinlyons/nixos-config/blob/main/vm/README.md) for instructions to install using `ZFS` or `ext3`.
-
-
-## Step 3 - Install home-manager
-Add the home-manager channel and install it:
-```sh
-nix-channel --add https://github.com/nix-community/home-manager/archive/master.tar.gz home-manager
-```
-```sh
-nix-channel --update
-```
-
-## Step 4 - If MacOS, install Darwin dependencies
-Install Xcode CLI tools and nix-darwin:
+## For MacOS, install Nix package manager and dependencies
 ```sh
 xcode-select --install
 ```
 ```sh
-nix-build https://github.com/LnL7/nix-darwin/archive/master.tar.gz -A installer
+sh <(curl -L https://nixos.org/nix/install) --daemon
 ```
 ```sh
-./result/bin/darwin-installer
+nix run nix-darwin -- switch --flake ~/.config/nix-darwin
 ```
 
-## Step 5 - Build the environment
-Download this repo and run:
+## For NixOS, create a disk partition and install media
+Follow this [step-by-step guide](https://github.com/dustinlyons/nixos-config/blob/main/vm/README.md) for instructions to install using `ZFS` or `ext3`.
+
+## How to build the environment
 ```sh
 ./bin/build
 ```
 
-## Step 6 - Reboot computer
-That's it. You're done.
-
-# Update Computer
-
-## Update dependencies
+## How to update the environment
 ```sh
 nix flake update
 ```
-## Run  build
 ```sh
 ./bin/build
 ```
 
 ## Read my occasional musings on Nix
-
 [![Follow @dustinhlyons](https://github.com/dustinlyons/dustinlyons/assets/1292576/3d214b95-6c93-4967-8c72-862fa494e664)](https://www.twitter.com/dustinhlyons)
-
 
 > "All we have to decide is what to do with the time that is given us." - J.R.R. Tolkien
 
