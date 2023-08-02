@@ -21,7 +21,9 @@
   outputs = { self, flake-utils, darwin, home-manager, nixpkgs, disko, ... }@inputs:
 
   let
-    pkgs = import nixpkgs;
+    emacsOverlaySha256 = "1xz956v01l3d1nzmcjbn016sn669mfq2wx9asgl85yyvvz7m7f38";
+    pkgs = import nixpkgs {};
+
     bootstrapCommand = pkgs.writeShellScriptBin "bootstrap-nixos" ''
       sudo nix run ${disko} run-command -- --mode zap_create_mount --flake ${self}#felix
 
@@ -46,6 +48,7 @@
 
     nixosConfigurations = let
       felixDefault = {
+        inputs = { inherit nixpkgs; };
         system = "x86_64-linux";
         modules = [
           ./nixos
