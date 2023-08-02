@@ -55,13 +55,6 @@
       };
     };
 
-    apps = {
-      x86_64-linux.bootstrap-nixos = {
-        type = "app";
-        program = "${bootstrapScript}/bin/bootstrap-nixos";
-      };
-    };
-
     defaultApp.x86_64-linux = bootstrapScript;
   };
 }
