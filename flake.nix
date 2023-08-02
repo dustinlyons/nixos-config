@@ -59,7 +59,7 @@
     };
 
     # Add this inside your outputs
-    bootstrapCommand = pkgs.writeShellScriptBin "bootstrap-nixos" ''
+    bootstrapCommand = nixpkgs.writeShellScriptBin "bootstrap-nixos" ''
       # your commands go here
       sudo nix run ${disko} --extra-experimental-features run-command --extra-experimental-features flakes -- --mode zap_create_mount --flake ${self}#felix
 
