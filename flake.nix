@@ -2,7 +2,7 @@
   description = "Dustin's NixOS and MacOS configuration";
 
   inputs = {
-    pkgs = {
+    nixpkgs = {
       url = "github:dustinlyons/nixpkgs/master";
     };
     home-manager = {
@@ -10,18 +10,18 @@
     };
     darwin = {
       url = "github:LnL7/nix-darwin/master";
-      inputs.pkgs.follows = "nixpkgs";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
     disko = {
       url = "github:nix-community/disko";
-      inputs.pkgs.follows = "nixpkgs";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
   };
 
-  outputs = { self, flake-utils, darwin, home-manager, pkgs, disko, ... }@inputs:
+  outputs = { self, flake-utils, darwin, home-manager, nixpkgs, disko, ... }@inputs:
 
   let
-    bootstrapCommand = pkgs.writeShellScriptBin "bootstrap-nixos" ''
+    bootstrapCommand = nixpkgs.writeShellScriptBin "bootstrap-nixos" ''
       sudo nix run ${disko} run-command -- --mode zap_create_mount --flake ${self}#felix
 
       mkdir -p ~/.local/share/src/
@@ -39,7 +39,7 @@
         modules = [
           ./darwin
         ];
-        inputs = { inherit darwin home-manager pkgs; };
+        inputs = { inherit darwin home-manager nixpkgs; };
       };
     };
 
@@ -57,7 +57,7 @@
         ];
       };
       in {
-        felix = pkgs.lib.nixosSystem {
+        felix = nixpkgs.lib.nixosSystem {
           inherit (felixDefault) system;
           modules = felixDefault.modules;
         };
