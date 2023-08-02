@@ -18,10 +18,10 @@
     };
   };
 
-  outputs = { self, flake-utils, darwin, home-manager, nixpkgs, disko, ... }@inputs:
+  outputs = { self, flake-utils, darwin, home-manager, nixpkgs, pkgs, disko, ... }@inputs:
 
   let
-    bootstrapCommand = nixpkgs.writeShellScriptBin "bootstrap-nixos" ''
+    bootstrapCommand = pkgs.writeShellScriptBin "bootstrap-nixos" ''
       sudo nix run ${disko} --extra-experimental-features run-command --extra-experimental-features flakes -- --mode zap_create_mount --flake ${self}#felix
 
       mkdir -p ~/.local/share/src/
