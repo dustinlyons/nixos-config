@@ -34,17 +34,6 @@
       system = "x86_64-linux"; 
       pkgs = nixpkgs.legacyPackages.${system};
 
-      bootstrapCommand = pkgs.writeShellScriptBin "bootstrap-nixos" ''
-        sudo nix run ${disko} run-command -- --mode zap_create_mount --flake ${self}#felix
-
-        mkdir -p ~/.local/share/src/
-        git clone https://github.com/dustinlyons/nixos-config ~/.local/share/src/nixos-config
-        ln -s ~/.local/share/src/nixos-config/flake.nix /mnt/etc/nixos/flake.nix
-
-        sudo nixos-install --flake /mnt/etc/nixos/#felix
-        reboot
-      '';
-
       felixDefault = {
         inputs = { inherit nixpkgs; };
         system = system;
@@ -59,13 +48,33 @@
         ];
       };
 
-      in {
+      nixosConfig = {
         felix = nixpkgs.lib.nixosSystem {
           inherit (felixDefault) system;
-          modules = felixDefault.modules ++ [
-            { apps.x86_64-linux.bootstrap = { type = "app"; program = bootstrapCommand; }; }
-          ];
+          modules = felixDefault.modules ++ [];
         };
       };
+
+    in nixosConfig;
+
+    apps = {
+      x86_64-linux.bootstrap = {
+        type = "app";
+        program = (let 
+                    system = "x86_64-linux"; 
+                    pkgs = nixpkgs.legacyPackages.${system};
+                  in
+                  pkgs.writeShellScriptBin "bootstrap-nixos" ''
+                    sudo nix run ${disko} run-command -- --mode zap_create_mount --flake ${self}#felix
+
+                    mkdir -p ~/.local/share/src/
+                    git clone https://github.com/dustinlyons/nixos-config ~/.local/share/src/nixos-config
+                    ln -s ~/.local/share/src/nixos-config/flake.nix /mnt/etc/nixos/flake.nix
+
+                    sudo nixos-install --flake /mnt/etc/nixos/#nixosConfig.felix
+                    reboot
+                  '');
+      };
+    };
   };
 }
