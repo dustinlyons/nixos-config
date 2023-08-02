@@ -41,33 +41,16 @@
         "type": "github"
       }
     },
-    "flake-utils": {
-      "inputs": {
-        "systems": "systems"
-      },
-      "locked": {
-        "lastModified": 1689068808,
-        "narHash": "sha256-6ixXo3wt24N/melDWjq70UuHQLxGV8jZvooRanIHXw0=",
-        "owner": "numtide",
-        "repo": "flake-utils",
-        "rev": "919d646de7be200f3bf08cb76ae1f09402b6f9b4",
-        "type": "github"
-      },
-      "original": {
-        "id": "flake-utils",
-        "type": "indirect"
-      }
-    },
     "home-manager": {
       "inputs": {
         "nixpkgs": "nixpkgs"
       },
       "locked": {
-        "lastModified": 1690846837,
-        "narHash": "sha256-ZZ8YPOEdZG0zz61U4sfUAx28oEdqLdtG1iWTTH/98uc=",
+        "lastModified": 1690910850,
+        "narHash": "sha256-diLPKIDpR9zubqGl0wPFKMNPV9QpT/eNkqUN2dSt19o=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "4fd794d3df88735dcf9662155d77b08a2e2dde29",
+        "rev": "8c731978f0916b9a904d67a0e53744ceff47882c",
         "type": "github"
       },
       "original": {
@@ -94,15 +77,15 @@
     },
     "nixpkgs_2": {
       "locked": {
-        "lastModified": 1690841314,
-        "narHash": "sha256-a53wWVnDIHdDzKFuJmDbrJz4z6gPcqIK++a0RDja/UI=",
-        "owner": "dustinlyons",
+        "lastModified": 1690946171,
+        "narHash": "sha256-dX4Gk0HreY4qkENgZ7KloPRoAKpQpqQR1VlFpDtdzEI=",
+        "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "2bdbb8bdae4240956c4173cf0a35d1de52d6b3bc",
+        "rev": "cf6c3918387253e938d6fbdccf67694fe96bf733",
         "type": "github"
       },
       "original": {
-        "owner": "dustinlyons",
+        "owner": "NixOS",
         "ref": "master",
         "repo": "nixpkgs",
         "type": "github"
@@ -112,24 +95,8 @@
       "inputs": {
         "darwin": "darwin",
         "disko": "disko",
-        "flake-utils": "flake-utils",
         "home-manager": "home-manager",
         "nixpkgs": "nixpkgs_2"
-      }
-    },
-    "systems": {
-      "locked": {
-        "lastModified": 1681028828,
-        "narHash": "sha256-Vy1rq5AaRuLzOxct8nz4T6wlgyUR7zLU309k9mBC768=",
-        "owner": "nix-systems",
-        "repo": "default",
-        "rev": "da67096a3b9bf56a91d16901293e51ba5b49a27e",
-        "type": "github"
-      },
-      "original": {
-        "owner": "nix-systems",
-        "repo": "default",
-        "type": "github"
       }
     }
   },
