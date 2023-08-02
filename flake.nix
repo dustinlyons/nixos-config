@@ -18,24 +18,8 @@
     };
   };
 
-  outputs = { self, flake-utils, darwin, home-manager, nixpkgs, disko, ... }@inputs:
+  outputs = { self, flake-utils, darwin, home-manager, nixpkgs, disko, ... }@inputs: {
 
-  let
-    emacsOverlaySha256 = "1xz956v01l3d1nzmcjbn016sn669mfq2wx9asgl85yyvvz7m7f38";
-    pkgs = import nixpkgs {};
-
-    bootstrapCommand = pkgs.writeShellScriptBin "bootstrap-nixos" ''
-      sudo nix run ${disko} run-command -- --mode zap_create_mount --flake ${self}#felix
-
-      mkdir -p ~/.local/share/src/
-      git clone https://github.com/dustinlyons/nixos-config ~/.local/share/src/nixos-config
-      ln -s ~/.local/share/src/nixos-config/flake.nix /mnt/etc/nixos/flake.nix
-
-      sudo nixos-install --flake /mnt/etc/nixos/#felix
-      reboot
-    '';
-
-  in {
     darwinConfigurations = {
       "Dustins-MBP" = darwin.lib.darwinSystem {
         system = "aarch64-darwin";
@@ -47,9 +31,23 @@
     };
 
     nixosConfigurations = let
+      system = "x86_64-linux"; 
+      pkgs = nixpkgs.legacyPackages.${system};
+
+      bootstrapCommand = pkgs.writeShellScriptBin "bootstrap-nixos" ''
+        sudo nix run ${disko} run-command -- --mode zap_create_mount --flake ${self}#felix
+
+        mkdir -p ~/.local/share/src/
+        git clone https://github.com/dustinlyons/nixos-config ~/.local/share/src/nixos-config
+        ln -s ~/.local/share/src/nixos-config/flake.nix /mnt/etc/nixos/flake.nix
+
+        sudo nixos-install --flake /mnt/etc/nixos/#felix
+        reboot
+      '';
+
       felixDefault = {
         inputs = { inherit nixpkgs; };
-        system = "x86_64-linux";
+        system = system;
         modules = [
           ./nixos
           disko.nixosModules.disko
@@ -60,17 +58,14 @@
           }
         ];
       };
+
       in {
         felix = nixpkgs.lib.nixosSystem {
           inherit (felixDefault) system;
-          modules = felixDefault.modules;
+          modules = felixDefault.modules ++ [
+            { apps.x86_64-linux.bootstrap = { type = "app"; program = bootstrapCommand; }; }
+          ];
         };
-      };
-
-    apps = {
-      x86_64-linux.bootstrap = {
-        type = "app";
-        program = bootstrapCommand;
       };
     };
   };
