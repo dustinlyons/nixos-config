@@ -14,8 +14,25 @@
     };
   };
 
-  outputs = { self, darwin, home-manager, nixpkgs, disko, ... }@inputs: {
+  outputs = { self, darwin, home-manager, nixpkgs, disko, ... }@inputs:
+  let
+    bootstrapScript = nixpkgs.legacyPackages.x86_64-linux.writeShellScriptBin "bootstrap-nixos" ''
+      set -e
+      sudo nix run ${disko} run-command -- --mode zap_create_mount --flake ${self}#nixosConfigurations.felix
 
+      mkdir -p ~/.local/share/src/
+      if ! git clone https://github.com/dustinlyons/nixos-config ~/.local/share/src/nixos-config; then
+        echo "Git clone failed!" >&2
+        exit 1
+      fi
+          
+      ln -s ~/.local/share/src/nixos-config/flake.nix /mnt/etc/nixos/flake.nix
+
+      sudo nixos-install --flake /mnt/etc/nixos/#nixosConfigurations.felix
+      reboot
+    '';
+  in
+  {
     darwinConfigurations = {
       "Dustins-MBP" = darwin.lib.darwinSystem {
         system = "aarch64-darwin";
@@ -41,22 +58,10 @@
     apps = {
       x86_64-linux.bootstrap-nixos = {
         type = "app";
-        program = "${(nixpkgs.legacyPackages.x86_64-linux.writeShellScriptBin "bootstrap-nixos" ''
-          set -e
-          sudo nix run ${disko} run-command -- --mode zap_create_mount --flake ${self}#nixosConfigurations.felix
-
-          mkdir -p ~/.local/share/src/
-          if ! git clone https://github.com/dustinlyons/nixos-config ~/.local/share/src/nixos-config; then
-            echo "Git clone failed!" >&2
-            exit 1
-          fi
-          
-          ln -s ~/.local/share/src/nixos-config/flake.nix /mnt/etc/nixos/flake.nix
-
-          sudo nixos-install --flake /mnt/etc/nixos/#nixosConfigurations.felix
-          reboot
-        '')}/bin/bootstrap-nixos";
+        program = "${bootstrapScript}/bin/bootstrap-nixos";
       };
     };
+
+    defaultApp.x86_64-linux = bootstrapScript;
   };
 }
