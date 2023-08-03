@@ -67,7 +67,7 @@ nix run nix-darwin -- switch --flake ~/.config/nix-darwin
 ```
 
 ## For NixOS, one command does the trick
-First download and burn [the minimal ISO image](https://nixos.org/download.html). Boot it, and be sure to select the 2nd option (`nomodeset`) if you're using an Nvidia card. Then run:
+First download and burn [the minimal ISO image](https://nixos.org/download.html). Boot it, and be sure to select the 2nd option `nomodeset` if you're using an Nvidia card. Then run:
  
 > [!WARNING]
 > Running this command will reformat your entire drive to the ext4 filesystem.
