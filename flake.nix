@@ -39,6 +39,10 @@
     };
 
     apps = {
+      # Boot into the NixOS installer environment from the Minimal ISO image here: https://nixos.org/download.html
+      #
+      # Then run:
+      #   sudo nix run --extra-experimental-features nix-command --extra-experimental-features flakes github:dustinlyons/nixos-config#bootstrap
       x86_64-linux.bootstrap = {
         type = "app";
         program = "${(nixpkgs.legacyPackages.x86_64-linux.writeShellScriptBin "bootstrap" ''
@@ -80,8 +84,9 @@
         * ) echo -e "\033[1;33mReboot skipped.\033[0m";;
         esac
 
-        '')}/bin/bootstrap-nixos";
+        '')}/bin/bootstrap";
       };
     };
   };
 }
+
