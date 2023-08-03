@@ -67,7 +67,7 @@
         curl -LJ0 https://github.com/dustinlyons/nixos-config/archive/main.zip -o nixos-config-main.zip || { echo -e "\033[1;31mDownload failed!\033[0m"; exit 1; }
         echo -e "\033[1;32mDownload complete.\033[0m"
 
-        unzip nixos-config-main.zip && mv nixos-config-main nixos-config || { echo -e "\033[1;31mExtraction or moving failed!\033[0m"; exit 1; }
+        unzip nixos-config-main.zip && mv nixos-config-main nixos-config && cd nixos-config || { echo -e "\033[1;31mExtraction or moving failed!\033[0m"; exit 1; }
 
         echo -e "\033[1;33mRunning disko...\033[0m"
         sudo nix run --extra-experimental-features nix-command --extra-experimental-features flakes github:nix-community/disko -- --mode zap_create_mount ./nixos/disk-config.nix || { echo -e "\033[1;31mDisko run failed!\033[0m"; exit 1; }
