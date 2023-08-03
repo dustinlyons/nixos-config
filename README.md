@@ -70,7 +70,7 @@ nix run nix-darwin -- switch --flake ~/.config/nix-darwin
 Download and burn [the minimal ISO image](https://nixos.org/download.html), then run: 
 > [!IMPORTANT]
 > For Nvidia cards, select the second option `nomodeset` when booting the installer.
-> 
+
 > [!WARNING]
 > Running this command will reformat your entire drive to the ext4 filesystem.
 
