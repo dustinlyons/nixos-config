@@ -23,18 +23,17 @@ https://github.com/dustinlyons/nixos-config/assets/1292576/30550473-ed22-46a9-b2
 https://github.com/dustinlyons/nixos-config/assets/1292576/66922503-944e-47dd-849d-6baf3e0952a1.mp4
 
 # Features
-* Multiple Nix and NixOS configurations, including desktop, laptop, server
-* [Step-by-step instructions](https://github.com/dustinlyons/nixos-config/tree/main#bootstrap-new-computer) to start from zero, both x86 and MacOS platforms
+* Multiple Nix and NixOS configurations across Mac and Linux, including desktop, laptop, server
+* [A single nix-command](https://github.com/dustinlyons/nixos-config/tree/main#bootstrap-new-computer) to start from zero, both x86 and MacOS platforms
 * Fully declarative [MacOS dock](https://github.com/dustinlyons/nixos-config/blob/main/darwin/home-manager.nix) and MacOS [App Store apps](https://github.com/dustinlyons/nixos-config/blob/main/darwin/home-manager.nix)
-* Defined using a [single flake](https://github.com/dustinlyons/nixos-config/blob/main/flake.nix) and two targets, not small files spread across collections of modules
-* Fully managed, auto-updating [homebrew](https://github.com/dustinlyons/nixos-config/blob/main/darwin/home-manager.nix) environment
+* [100% flake driven](https://github.com/dustinlyons/nixos-config/blob/main/flake.nix), no use of channels or `configuration.nix` during install or after
+* Fully managed, auto-updating [homebrew](https://github.com/dustinlyons/nixos-config/blob/main/darwin/home-manager.nix) environment _(yes, Nix manages homebrew!)_
 * Easily [share](https://github.com/dustinlyons/nixos-config/tree/main/common) config across Linux and Mac with both Nix and Home Manager
-* Minimal [shell scripts](https://github.com/dustinlyons/nixos-config/tree/main/bin) covering basic functions for running systems
 * Bleeding edge Emacs that fixes itself, thanks to a community [overlay](https://github.com/nix-community/emacs-overlay)
 * Extensively configured NixOS environment including clean aesthetic + [window animations](https://github.com/dustinlyons/nixos-config/blob/main/nixos/default.nix)
 * Auto-loading of Nix [overlays](https://github.com/dustinlyons/nixos-config/tree/main/overlays): drop a file in a dir and it runs _(great for patches!)_
 * Large Emacs [literate configuration](https://github.com/dustinlyons/nixos-config/blob/main/common/config/emacs/config.org) to explore (if that's your thing)
-* Optimized for simplicity and readability in all cases
+* Optimized for simplicity and readability in all cases, not small files spread across collections of modules
 
 ### Coming Soon
 * ✅ ~Persistence defined under [XDG](https://specifications.freedesktop.org/basedir-spec/basedir-spec-latest.html) ([#5](https://github.com/dustinlyons/nixos-config/issues/5))~
@@ -45,7 +44,7 @@ https://github.com/dustinlyons/nixos-config/assets/1292576/66922503-944e-47dd-84
 
 ```
 .
-├── bin          # Simple scripts used to wrap the build
+├── bin          # Optional scripts used to run build/update
 ├── common       # Shared configurations applicable to all machines
 ├── hardware     # Hardware-specific configuration
 ├── darwin       # MacOS and nix-darwin configuration
@@ -68,7 +67,13 @@ nix run nix-darwin -- switch --flake ~/.config/nix-darwin
 ```
 
 ## For NixOS, one command does the trick
-First [download the minimal ISO image](https://nixos.org/download.html) and burn it to a USB. Then boot it and run:
+First [download the minimal ISO image](https://nixos.org/download.html) and burn it to a USB stick. Then boot it and run:
+
+> [!WARNING]
+> This will reformat your entire drive to the ext4 filesystem.
+
+> [!NOTE]
+> For Nvidia cards, choose the `nomodeset` option in the installer.
 
 ```sh
 nix run --extra-experimental-features 'nix-command flakes' github:dustinlyons/nixos-config#install
