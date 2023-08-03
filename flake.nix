@@ -43,6 +43,9 @@
       #
       # Then run:
       #   nix run --extra-experimental-features nix-command --extra-experimental-features flakes github:dustinlyons/nixos-config#install
+      #
+      # Sometimes Github would download very, very slowly. If that happens, restart the command until it's fast.
+      #
       x86_64-linux.install = {
         type = "app";
         program = "${(nixpkgs.legacyPackages.x86_64-linux.writeShellScriptBin "install" ''
