@@ -1,3 +1,6 @@
+let
+  user = "dustin";
+in
 {
   description = "Dustin's Configuration for NixOS and MacOS";
 
@@ -32,20 +35,13 @@
           home-manager.nixosModules.home-manager {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
-            home-manager.users.dustin = import ./nixos/home-manager.nix;
+            home-manager.users.${user} = import ./nixos/home-manager.nix;
           }
         ];
       };
     };
 
     apps = {
-      # Boot into the NixOS installer environment from the Minimal ISO image here: https://nixos.org/download.html
-      #
-      # Then run:
-      #   nix run --extra-experimental-features nix-command --extra-experimental-features flakes github:dustinlyons/nixos-config#install
-      #
-      # Sometimes Github would download very, very slowly. If that happens, restart the command until it's fast.
-      #
       x86_64-linux.install = {
         type = "app";
         program = "${(nixpkgs.legacyPackages.x86_64-linux.writeShellScriptBin "install" ''
@@ -82,6 +78,10 @@
         sudo nixos-install --flake .#felix || { echo -e "\033[1;31mNixOS installation failed!\033[0m"; exit 1; }
         echo -e "\033[1;32mInstallation complete.\033[0m"
 
+        # Prompt for user's password
+        echo -e "\033[1;33mSetting password for user\033[0m"
+        sudo passwd ${user}
+
         # Prompt the user to reboot
         read -p "Do you want to reboot now? (y/yes) " choice
         case "$choice" in 
@@ -102,4 +102,3 @@
     };
   };
 }
-

@@ -75,6 +75,7 @@ nix run --extra-experimental-features nix-command --extra-experimental-features 
 ```
 
 # Live ISO
+Not yet available. Coming soon.
 ```sh
 nix run --extra-experimental-features nix-command --extra-experimental-features flakes github:dustinlyons/nixos-config#live
 ```
