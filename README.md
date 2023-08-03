@@ -76,16 +76,19 @@ nix run --extra-experimental-features 'nix-command flakes' github:dustinlyons/ni
 
 # Live ISO
 Not yet available. Coming soon.
+
 ```sh
 nix run --extra-experimental-features 'nix-command flakes' github:dustinlyons/nixos-config#live
 ```
 
 # Making changes
+You can edit your configuration and save the changes.
+
 ## Build and switch to new generation
 ### On Mac
 ```sh
-nix --experimental-features 'nix-command flakes' build .#darwinConfigurations.Dustins-MBP.system --impure \
-./result/sw/bin/darwin-rebuild switch --flake .#Dustins-MBP --impure \
+nix --experimental-features 'nix-command flakes' build .#darwinConfigurations.Dustins-MBP.system --impure && \
+./result/sw/bin/darwin-rebuild switch --flake .#Dustins-MBP --impure && \
 unlink ./result
 ```
 ### On NixOS
