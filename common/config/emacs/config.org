@@ -23,6 +23,7 @@ Just me!
 ** Initialization
 *** Booting up
 Mainly splash screen settings. In the future we may look to optimize performance here.
+
 #+NAME: startup
 #+BEGIN_SRC emacs-lisp
   ;; Turn off the splash screen
@@ -31,7 +32,34 @@ Mainly splash screen settings. In the future we may look to optimize performance
   (setq initial-scratch-message nil)
   ;; Confirm before exiting Emacs
   (setq confirm-kill-emacs #'yes-or-no-p)
-#+END_SRC
+  ;; Set default frame size and position
+
+  (defun adjust-frame-size-and-position (&optional frame)
+    "Adjust size and position of FRAME based on its type."
+    (if (display-graphic-p frame)
+        (let* ((w 150)  ; Set to desired width in characters
+              (h 50)   ; Set to desired height in lines
+              (width (* w (frame-char-width frame)))
+              (height (* h (frame-char-height frame)))
+              (left (max 0 (floor (/ (- (x-display-pixel-width) width) 2))))
+              (top (max 0 (floor (/ (- (x-display-pixel-height) height) 2)))))
+
+          (set-frame-size frame w h)
+          (set-frame-position frame left top))
+      ;; Ensure the menu bar is off in terminal mode
+      (when (and (not (display-graphic-p frame))
+                (menu-bar-mode 1))
+        (menu-bar-mode -1))))
+
+  (if (daemonp)
+      (add-hook 'after-make-frame-functions
+                (lambda (frame)
+                  (select-frame frame)
+                  (adjust-frame-size-and-position frame)
+                  ;; Load other GUI-related configurations here
+                  ))
+    (adjust-frame-size-and-position))
+  #+END_SRC
 
 *** Add package sources
 This associates our package manager with the right source (MELPA).
@@ -379,7 +407,8 @@ We use two spaces in place of tabs. I don't even want to hear it.
   :config
     (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
           doom-themes-enable-italic t) ; if nil, italics is universally disabled
-    (load-theme 'doom-spacegrey t)
+    (load-theme 'doom-horizon t)
+    ;; (load-theme 'doom-spacegrey t)
     ;;(load-theme 'doom-material-dark t)
     (doom-themes-visual-bell-config)
     (doom-themes-org-config))
