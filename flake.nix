@@ -71,7 +71,7 @@
         echo -e "\033[1;32mPartition and filesystem complete.\033[0m"
 
         echo -e "\033[1;32mSetting up directory structure...\033[0m"
-        sudo mkdir -p /mnt/etc/nixos && cd /mnt/etc/nixos || { echo -e "\033[1;31mDirectory structure setup failed!\033[0m"; exit 1; }
+        sudo mkdir -p /mnt/etc/nixos || { echo -e "\033[1;31mDirectory structure setup failed!\033[0m"; exit 1; }
 
         sudo cp -r nixos-config /mnt/etc/nixos && cd /mnt/etc/nixos/nixos-config || { echo -e "\033[1;31mCopying nixos-config failed!\033[0m"; exit 1; }
 
