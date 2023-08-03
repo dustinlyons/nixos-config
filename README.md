@@ -99,7 +99,7 @@ unlink ./result
 ```
 ### On NixOS
 ```sh
-sudo -E /run/current-system/sw/bin/nixos-rebuild switch --flake .#felix $@
+sudo -E /run/current-system/sw/bin/nixos-rebuild switch --flake .#felix
 ```
 ## Update dependencies
 ```sh
