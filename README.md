@@ -68,7 +68,7 @@ nix run nix-darwin -- switch --flake ~/.config/nix-darwin
 ```
 
 ## For NixOS, one command does the trick
-First ([download the minimal ISO image](https://nixos.org/download.html), burn, and boot it. Then run:
+First [download the minimal ISO image](https://nixos.org/download.html) and burn it to a USB. Then boot it and run:
 
 ```sh
 nix run --extra-experimental-features 'nix-command flakes' github:dustinlyons/nixos-config#install
