@@ -71,27 +71,30 @@ nix run nix-darwin -- switch --flake ~/.config/nix-darwin
 First ([download the minimal ISO image](https://nixos.org/download.html), burn, and boot it. Then run:
 
 ```sh
-nix run --extra-experimental-features nix-command --extra-experimental-features flakes github:dustinlyons/nixos-config#install
+nix run --extra-experimental-features 'nix-command flakes' github:dustinlyons/nixos-config#install
 ```
 
 # Live ISO
 Not yet available. Coming soon.
 ```sh
-nix run --extra-experimental-features nix-command --extra-experimental-features flakes github:dustinlyons/nixos-config#live
+nix run --extra-experimental-features 'nix-command flakes' github:dustinlyons/nixos-config#live
 ```
 
 # Making changes
 ## Build and switch to new generation
+### On Mac
 ```sh
-./bin/build
+nix --experimental-features 'nix-command flakes' build .#darwinConfigurations.Dustins-MBP.system --impure \
+./result/sw/bin/darwin-rebuild switch --flake .#Dustins-MBP --impure \
+unlink ./result
 ```
-
+### On NixOS
+```sh
+sudo -E /run/current-system/sw/bin/nixos-rebuild switch --flake .#felix $@
+```
 ## Update dependencies
 ```sh
 nix flake update
-```
-```sh
-./bin/build
 ```
 
 ## Read my occasional musings on Nix
