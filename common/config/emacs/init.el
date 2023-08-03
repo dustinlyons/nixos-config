@@ -81,4 +81,4 @@
 
 ; set the window and load the config file
 (dl/window-setup)
-(org-babel-load-file "~/.local/share/src/nixos-config/common/config/emacs/config.org")
+(org-babel-load-file "/etc/nixos/common/config/emacs/config.org")
