@@ -13,7 +13,7 @@ let user = "dustin";
   # Allow user to edit configuration
   system.activationScripts.setPerms = ''
     #!/bin/sh
-    chown -R ${user}:${user} /etc/nixos
+    chown -R ${user} /etc/nixos
   '';
 
   # Use the systemd-boot EFI boot loader.
