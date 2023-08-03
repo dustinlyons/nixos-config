@@ -83,7 +83,7 @@
         echo -e "\033[1;32mInstallation complete.\033[0m"
 
         # Prompt the user to reboot
-        read -p "\033[1;32mDo you want to reboot now? (y/yes)\033[0m " choice
+        read -p "Do you want to reboot now? (y/yes) " choice
         case "$choice" in 
         y|Y|yes|YES ) echo -e "\033[1;32mRebooting...\033[0m" && sudo reboot;;
         * ) echo -e "\033[1;33mReboot skipped.\033[0m";;
@@ -91,6 +91,14 @@
 
         '')}/bin/install";
       };
+
+      aarch64-darwin.install = {
+        type = "app";
+        program = "${(nixpkgs.legacyPackages.x86_64-linux.writeShellScriptBin "install" ''
+
+        @todo: bootstrap darwin environment
+
+        '')}/bin/install";
     };
   };
 }

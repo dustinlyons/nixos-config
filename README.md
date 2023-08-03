@@ -7,11 +7,9 @@ _Psst: I can help write Nix at your company. <a href="https://twitter.com/dustin
 # Overview
 Hey, you made it! Welcome. 🤓
 
-You've stumbled upon my personal journey with Nix. For over a year, I've been hacking away at this configuration. Using 100% Nix flakes, this repository drives my office PC, M1 Macbook, and virtual machines in my home lab. Along with syncthing to manage data, this Nix configuration guarantees I have a working, seamless experience across each machine I use. 
+You've stumbled upon my personal journey with Nix. For over a year, I've been hacking away at this configuration. This repository drives my office PC, M1 Macbook, and virtual machines in my home lab. Along with syncthing to manage data, this Nix configuration guarantees I have a working, seamless experience across each machine I use.
 
-Immutable, reproducible infrastructure rocks! It's game-changing and I'll never go back to typing commands in a terminal.
-
-While developing, I've done my best to keep it simple - for both future me and readers like you. You'll see that in how I've organized code, as I keep filename conventions the same across modules. To get you started, I've included step-by-step instructions on bootstrapping a new machine below.
+While developing, I've done my best to keep it simple - for both future me and readers like you. You'll see that in how I've organized code, as I keep filename conventions the same across modules. To get started, you can bootstrap from bare metal, run on your Mac, or try out a live ISO. See below.
 
 # Videos 
 ## NixOS
@@ -69,15 +67,25 @@ sh <(curl -L https://nixos.org/nix/install) --daemon
 nix run nix-darwin -- switch --flake ~/.config/nix-darwin
 ```
 
-## For NixOS, create a disk partition and install media
-Follow this [step-by-step guide](https://github.com/dustinlyons/nixos-config/blob/main/vm/README.md) for instructions to install using `ZFS` or `ext3`.
+## For NixOS, one command does the trick
+First ([download the minimal ISO image](https://nixos.org/download.html), burn, and boot it. Then run:
 
-## How to build the environment
+```sh
+nix run --extra-experimental-features nix-command --extra-experimental-features flakes github:dustinlyons/nixos-config#install
+```
+
+# Live ISO
+```sh
+nix run --extra-experimental-features nix-command --extra-experimental-features flakes github:dustinlyons/nixos-config#live
+```
+
+# Making changes
+## Build and switch to new generation
 ```sh
 ./bin/build
 ```
 
-## How to update the environment
+## Update dependencies
 ```sh
 nix flake update
 ```
