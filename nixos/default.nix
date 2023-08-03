@@ -10,12 +10,6 @@ let user = "dustin";
     ../common/cachix
   ];
 
-  # Allow user to edit configuration
-  system.activationScripts.setPerms = ''
-    #!/bin/sh
-    chown -R ${user}:${user} /etc/nixos
-  '';
-
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.systemd-boot.configurationLimit = 42;

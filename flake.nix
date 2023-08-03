@@ -75,6 +75,8 @@
 
         echo -e "\033[1;33mInstalling NixOS...\033[0m"
         sudo nixos-install --flake .#felix || { echo -e "\033[1;31mNixOS installation failed!\033[0m"; exit 1; }
+        echo -e "\033[1;33mSetting group permissions...\033[0m"
+        sudo chmod -R 775 /mnt/etc/nixos || { echo -e "\033[1;31mFailed to set group permissions on /mnt/etc/nixos!\033[0m"; exit 1; }"
         echo -e "\033[1;32mInstallation complete.\033[0m"
 
         # Prompt for user's password
