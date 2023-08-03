@@ -1,4 +1,3 @@
-# Your NixOS configuration
 { config, inputs, pkgs, ... }:
 
 let user = "dustin";
