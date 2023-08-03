@@ -10,7 +10,8 @@ let user = "dustin";
     ../common/cachix
   ];
 
-  system.activationScripts.setPerms = pkgs.writeScript "set-perms" ''
+  # Allow user to edit configuration
+  system.activationScripts.setPerms = ''
     #!/bin/sh
     chown -R ${user}:${user} /etc/nixos
   '';
