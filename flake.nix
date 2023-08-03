@@ -42,7 +42,6 @@
       x86_64-linux.install = let user = "dustin"; in {
         type = "app";
         program = "${(nixpkgs.legacyPackages.x86_64-linux.writeShellScriptBin "install" ''
-  program = "${(nixpkgs.legacyPackages.x86_64-linux.writeShellScriptBin "install" ''
 
         #!/usr/bin/env bash
         set -e
