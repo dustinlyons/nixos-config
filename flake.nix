@@ -39,54 +39,51 @@
     };
 
     apps = {
-      x86_64-linux.bootstrap-nixos = {
+      x86_64-linux.bootstrap = {
         type = "app";
-        program = "${(nixpkgs.legacyPackages.x86_64-linux.writeShellScriptBin "bootstrap-nixos" ''
-                    #!/bin/sh -e
+        program = "${(nixpkgs.legacyPackages.x86_64-linux.writeShellScriptBin "bootstrap" ''
 
-                    GREEN='\033[1;32m'
-                    YELLOW='\033[1;33m'
-                    RED='\033[1;31m'
-                    CLEAR='\033[0m'
+        #!/usr/bin/env bash
+        set -e
+        trap 'echo -e "\033[1;31mError occurred!\033[0m"' ERR
 
-                    set -e
-                    trap 'echo -e "${RED}Error occurred!${CLEAR}"' ERR
+        if [ -e /etc/NIXOS ]; then
+            echo -e "\033[1;32mRunning in the NixOS installer environment.\033[0m"
+        else
+            echo -e "\033[1;31mNot running in the NixOS installer environment.\033[0m"
+        fi
 
-                    if [ -e /etc/NIXOS ]; then
-                        echo -e "${GREEN}Running in the NixOS installer environment.${CLEAR}"
-                    else
-                        echo -e "${RED}Not running in the NixOS installer environment.${CLEAR}"
-                    fi
+        echo -e "\033[1;32mSetting up directory structure...\033[0m"
+        sudo mkdir -p /mnt/etc/nixos && cd /mnt/etc/nixos || { echo -e "\033[1;31mDirectory structure setup failed!\033[0m"; exit 1; }
 
-                    echo -e "${GREEN}Setting up directory structure...${CLEAR}"
-                    sudo mkdir -p /mnt/etc/nixos && cd /mnt/etc/nixos || { echo -e "${RED}Directory structure setup failed!${CLEAR}"; exit 1; }
+        echo -e "\033[1;32mCleaning previous configuration...\033[0m"
+        rm -rf nixos-config-main.zip && rm -rf nixos-config-main && rm -rf nixos-config
 
-                    echo -e "${GREEN}Cleaning previous configuration...${CLEAR}"
-                    rm -rf nixos-config-main.zip && rm -rf nixos-config-main && rm -rf nixos-config
+        echo -e "\033[1;33mDownloading nixos-config from Github...\033[0m"
+        curl -LJ0 https://github.com/dustinlyons/nixos-config/archive/main.zip -o nixos-config-main.zip || { echo -e "\033[1;31mDownload failed!\033[0m"; exit 1; }
+        echo -e "\033[1;32mDownload complete.\033[0m"
 
-                    echo -e "${YELLOW}Downloading nixos-config from Github...${CLEAR}"
-                    curl -LJ0 https://github.com/dustinlyons/nixos-config/archive/main.zip -o nixos-config-main.zip || { echo -e "${RED}Download failed!${CLEAR}"; exit 1; }
-                    echo -e "${GREEN}Download complete.${CLEAR}"
+        unzip nixos-config-main.zip && mv nixos-config-main nixos-config || { echo -e "\033[1;31mExtraction or moving failed!\033[0m"; exit 1; }
 
-                    unzip nixos-config-main.zip && mv nixos-config-main nixos-config || { echo -e "${RED}Extraction or moving failed!${CLEAR}"; exit 1; }
+        echo -e "\033[1;33mRunning disko...\033[0m"
+        sudo nix run --extra-experimental-features nix-command --extra-experimental-features flakes github:nix-community/disko -- --mode zap_create_mount ./nixos/disk-config.nix || { echo -e "\033[1;31mDisko run failed!\033[0m"; exit 1; }
+        echo -e "\033[1;32mPartition and filesystem complete.\033[0m"
 
-                    echo -e "${YELLOW}Running disko...${CLEAR}"
-                    sudo nix run --extra-experimental-features nix-command --extra-experimental-features flakes github:nix-community/disko -- --mode zap_create_mount ./nixos/disk-config.nix || { echo -e "${RED}Disko run failed!${CLEAR}"; exit 1; }
-                    echo -e "${GREEN}Partition and filesystem complete.${CLEAR}"
+        echo -e "\033[1;33mInstalling NixOS...\033[0m"
+        sudo nixos-install --flake .#felix || { echo -e "\033[1;31mNixOS installation failed!\033[0m"; exit 1; }
+        echo -e "\033[1;32mInstallation complete.\033[0m"
 
-                    echo -e "${YELLOW}Installing NixOS...${CLEAR}"
-                    sudo nixos-install --flake .#felix || { echo -e "${RED}NixOS installation failed!${CLEAR}"; exit 1; }
-                    echo -e "${GREEN}Installation complete.${CLEAR}"
-
-                    # Prompt the user to reboot
-                    read -p "${GREEN}Do you want to reboot now? (y/yes)${CLEAR} " choice
-                    case "$choice" in 
-                    y|Y|yes|YES ) echo -e "${GREEN}Rebooting...${CLEAR}" && sudo reboot;;
-                    * ) echo -e "${YELLOW}Reboot skipped.${CLEAR}";;
-                    esac
+        # Prompt the user to reboot
+        read -p "\033[1;32mDo you want to reboot now? (y/yes)\033[0m " choice
+        case "$choice" in 
+        y|Y|yes|YES ) echo -e "\033[1;32mRebooting...\033[0m" && sudo reboot;;
+        * ) echo -e "\033[1;33mReboot skipped.\033[0m";;
+        esac
 
         '')}/bin/bootstrap-nixos";
       };
     };
   };
 }
+
+sudo nix run --extra-experimental-features nix-command --extra-experimental-features flakes github:dustinlyons/nixos-config#bootstrap
