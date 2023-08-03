@@ -42,10 +42,10 @@
       # Boot into the NixOS installer environment from the Minimal ISO image here: https://nixos.org/download.html
       #
       # Then run:
-      #   sudo nix run --extra-experimental-features nix-command --extra-experimental-features flakes github:dustinlyons/nixos-config#install
+      #   nix run --extra-experimental-features nix-command --extra-experimental-features flakes github:dustinlyons/nixos-config#install
       x86_64-linux.install = {
         type = "app";
-        program = "${(nixpkgs.legacyPackages.x86_64-linux.writeShellScriptBin "bootstrap" ''
+        program = "${(nixpkgs.legacyPackages.x86_64-linux.writeShellScriptBin "install" ''
 
         #!/usr/bin/env bash
         set -e
