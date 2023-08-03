@@ -14,7 +14,6 @@
   "syncthing"
   "diffusionbee"
   "postico"
-  "shottr"
   "steam"
   "telegram"
   "vlc"
