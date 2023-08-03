@@ -1,47 +1,64 @@
 {
   description = "Dustin's Configuration for NixOS and MacOS";
 
-  inputs = { nixpkgs.url = "github:dustinlyons/nixpkgs/master"; #
-    @todo: submit packages upstream home-manager.url =
-    "github:nix-community/home-manager"; darwin = { url =
-    "github:LnL7/nix-darwin/master"; inputs.nixpkgs.follows =
-    "nixpkgs"; }; disko = { url = "github:nix-community/disko";
-    inputs.nixpkgs.follows = "nixpkgs"; }; };
+  inputs = {
+    nixpkgs.url = "github:dustinlyons/nixpkgs/master"; # @todo: submit packages upstream
+    home-manager.url = "github:nix-community/home-manager";
+    darwin = {
+      url = "github:LnL7/nix-darwin/master";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    disko = {
+      url = "github:nix-community/disko";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+  };
 
-  outputs = { self, darwin, home-manager, nixpkgs, disko,
-  ... }@inputs: {
+  outputs = { self, darwin, home-manager, nixpkgs, disko, ... }@inputs: {
 
-    darwinConfigurations = { "Dustins-MBP" = darwin.lib.darwinSystem {
-      system = "aarch64-darwin"; modules = [ ./darwin ]; }; };
+    darwinConfigurations = {
+      "Dustins-MBP" = darwin.lib.darwinSystem {
+        system = "aarch64-darwin";
+        modules = [ ./darwin ];
+      };
+    };
 
-    nixosConfigurations = { felix = nixpkgs.lib.nixosSystem { system =
-      "x86_64-linux"; modules = [ ./nixos disko.nixosModules.disko
-      home-manager.nixosModules.home-manager {
-      home-manager.useGlobalPkgs = true; home-manager.useUserPackages
-      = true; home-manager.users.dustin = import
-      ./nixos/home-manager.nix; } ]; }; };
+    nixosConfigurations = {
+      felix = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        modules = [
+          ./nixos
+          disko.nixosModules.disko
+          home-manager.nixosModules.home-manager {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.users.dustin = import ./nixos/home-manager.nix;
+          }
+        ];
+      };
+    };
 
-    apps = { # Boot into the NixOS installer environment from the
-    Minimal ISO image here: https://nixos.org/download.html
+    apps = {
+      # Boot into the NixOS installer environment from the Minimal ISO image here: https://nixos.org/download.html
       #
-      # Then run: sudo nix run --extra-experimental-features
-      #   nix-command --extra-experimental-features flakes
-      #   github:dustinlyons/nixos-config#install x86_64-linux.install
-      #   = { type = "app"; program =
-      #   "${(nixpkgs.legacyPackages.x86_64-linux.writeShellScriptBin
-      #   "bootstrap" ''
+      # Then run:
+      #   sudo nix run --extra-experimental-features nix-command --extra-experimental-features flakes github:dustinlyons/nixos-config#install
+      x86_64-linux.install = {
+        type = "app";
+        program = "${(nixpkgs.legacyPackages.x86_64-linux.writeShellScriptBin "bootstrap" ''
 
-        #!/usr/bin/env bash set -e trap 'echo -e "\033[1;31mError
-        occurred!\033[0m"' ERR
+        #!/usr/bin/env bash
+        set -e
+        trap 'echo -e "\033[1;31mError occurred!\033[0m"' ERR
 
-        if [ -e /etc/NIXOS ]; then echo -e "\033[1;32mRunning in the
-            NixOS installer environment.\033[0m" else echo -e
-            "\033[1;31mNot running in the NixOS installer
-            environment.\033[0m" fi
+        if [ -e /etc/NIXOS ]; then
+            echo -e "\033[1;32mRunning in the NixOS installer environment.\033[0m"
+        else
+            echo -e "\033[1;31mNot running in the NixOS installer environment.\033[0m"
+        fi
 
         echo -e "\033[1;32mCleaning previous configuration...\033[0m"
-        rm -rf nixos-config-main.zip && rm -rf nixos-config-main && rm
-        -rf nixos-config
+        rm -rf nixos-config-main.zip && rm -rf nixos-config-main && rm -rf nixos-config
 
         echo -e "\033[1;33mDownloading nixos-config from Github...\033[0m"
         curl -LJ0 https://github.com/dustinlyons/nixos-config/archive/main.zip -o nixos-config-main.zip || { echo -e "\033[1;31mDownload failed!\033[0m"; exit 1; }
@@ -56,7 +73,7 @@
         echo -e "\033[1;32mSetting up directory structure...\033[0m"
         sudo mkdir -p /mnt/etc/nixos || { echo -e "\033[1;31mDirectory structure setup failed!\033[0m"; exit 1; }
 
-        sudo cp -r nixos-config/ /mnt/etc/nixos && cd /mnt/etc/nixos/nixos-config || { echo -e "\033[1;31mCopying nixos-config failed!\033[0m"; exit 1; }
+        sudo cp -r nixos-config/* /mnt/etc/nixos && cd /mnt/etc/nixos || { echo -e "\033[1;31mCopying nixos-config failed!\033[0m"; exit 1; }
 
         echo -e "\033[1;33mInstalling NixOS...\033[0m"
         sudo nixos-install --flake .#felix || { echo -e "\033[1;31mNixOS installation failed!\033[0m"; exit 1; }
