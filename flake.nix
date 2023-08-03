@@ -85,5 +85,3 @@
     };
   };
 }
-
-sudo nix run --extra-experimental-features nix-command --extra-experimental-features flakes github:dustinlyons/nixos-config#bootstrap
