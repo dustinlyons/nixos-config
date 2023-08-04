@@ -73,7 +73,7 @@ Download and burn [the minimal ISO image](https://nixos.org/download.html), then
 > For Nvidia cards, select the second option `nomodeset` when booting the installer.
 
 > [!NOTE]
-> Until I ship `sops-nix`, you'll need to `Ctrl-Alt-F2` into another shell to log in as root and set the user on first boot. `Ctrl-Alt-F7` gets back to the login screen.
+> Until I ship `sops-nix`, you'll need to set the user password on first boot. `Ctrl-Alt-F2` gives you another shell where you can login as root and run `passwd <user>`. `Ctrl-Alt-F7` gets back to the login screen.
 
 > [!WARNING]
 > Running this command will reformat your entire drive to the ext4 filesystem.
