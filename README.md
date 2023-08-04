@@ -17,10 +17,14 @@ https://user-images.githubusercontent.com/1292576/229024755-c44f80a8-9257-4d6b-b
 
 ## MacOS
 ### Updating dependencies with one command
-https://github.com/dustinlyons/nixos-config/assets/1292576/30550473-ed22-46a9-b277-e6a56fd67f51
+https://github.com/dustinlyons/nixos-config/assets/1292576/2168d482-6eea-4b51-adc1-2ef1291b6598
 
 ### Instant Emacs 29 thanks to daemon mode
-https://github.com/dustinlyons/nixos-config/assets/1292576/66922503-944e-47dd-849d-6baf3e0952a1.mp4
+#### GUI
+https://github.com/dustinlyons/nixos-config/assets/1292576/66001066-2bbf-4492-bc9e-60ea1abeb987
+
+#### Terminal
+https://github.com/dustinlyons/nixos-config/assets/1292576/d96f59ce-f540-4f14-bc61-6126a74f9f52
 
 # Features
 * Multiple Nix and NixOS configurations across Mac and Linux, including desktop, laptop, server
