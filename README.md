@@ -13,14 +13,18 @@ While developing, I've done my best to keep it simple - for both future me and r
 
 # Videos 
 ## NixOS
-https://user-images.githubusercontent.com/1292576/229024755-c44f80a8-9257-4d6b-be7c-e37d3a325dd0.mp4
+https://github.com/dustinlyons/nixos-config/assets/1292576/fa54a87f-5971-41ee-98ce-09be048018b8
 
 ## MacOS
 ### Updating dependencies with one command
-https://github.com/dustinlyons/nixos-config/assets/1292576/30550473-ed22-46a9-b277-e6a56fd67f51
+https://github.com/dustinlyons/nixos-config/assets/1292576/2168d482-6eea-4b51-adc1-2ef1291b6598
 
 ### Instant Emacs 29 thanks to daemon mode
-https://github.com/dustinlyons/nixos-config/assets/1292576/66922503-944e-47dd-849d-6baf3e0952a1.mp4
+#### GUI
+https://github.com/dustinlyons/nixos-config/assets/1292576/66001066-2bbf-4492-bc9e-60ea1abeb987
+
+#### Terminal
+https://github.com/dustinlyons/nixos-config/assets/1292576/d96f59ce-f540-4f14-bc61-6126a74f9f52
 
 # Features
 * Multiple Nix and NixOS configurations across Mac and Linux, including desktop, laptop, server
@@ -72,6 +76,8 @@ Download and burn [the minimal ISO image](https://nixos.org/download.html), then
 > [!IMPORTANT]
 > For Nvidia cards, select the second option `nomodeset` when booting the installer.
 
+> [!NOTE]
+> Until I ship `sops-nix`, you'll need to set the user password on first boot. `Ctrl-Alt-F2` gives you another shell where you can login as root and run `passwd <user>`. `Ctrl-Alt-F7` gets back to the login screen.
 
 > [!WARNING]
 > Running this command will reformat your entire drive to the ext4 filesystem.
