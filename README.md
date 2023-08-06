@@ -69,6 +69,11 @@ sh <(curl -L https://nixos.org/nix/install) --daemon
 ```sh
 nix run nix-darwin -- switch --flake ~/.config/nix-darwin
 ```
+```sh
+nix --experimental-features 'nix-command flakes' build .#darwinConfigurations.Dustins-MBP.system --impure && \
+./result/sw/bin/darwin-rebuild switch --flake .#Dustins-MBP --impure && \
+unlink ./result
+```
 
 ## For NixOS, one command does the trick
 Download and burn [the minimal ISO image](https://nixos.org/download.html), then run:
