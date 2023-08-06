@@ -60,6 +60,7 @@ https://github.com/dustinlyons/nixos-config/assets/1292576/d96f59ce-f540-4f14-bc
 # Bootstrap New Computer
 
 ## For MacOS, install Nix package manager and dependencies
+### Install dependencies
 ```sh
 xcode-select --install
 ```
@@ -69,6 +70,7 @@ sh <(curl -L https://nixos.org/nix/install) --daemon
 ```sh
 nix run nix-darwin -- switch --flake ~/.config/nix-darwin
 ```
+### Install config
 ```sh
 nix --experimental-features 'nix-command flakes' build .#darwinConfigurations.Dustins-MBP.system --impure && \
 ./result/sw/bin/darwin-rebuild switch --flake .#Dustins-MBP --impure && \
