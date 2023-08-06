@@ -59,7 +59,7 @@ https://github.com/dustinlyons/nixos-config/assets/1292576/d96f59ce-f540-4f14-bc
 
 # Bootstrap New Computer
 
-## For MacOS, install Nix package manager and dependencies
+## For MacOS
 ### Install dependencies
 ```sh
 xcode-select --install
