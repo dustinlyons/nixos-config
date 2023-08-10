@@ -97,10 +97,7 @@
 
             echo -e "\033[1;32mSetting up directory structure...\033[0m"
             sudo mkdir -p /mnt/etc/nixos || { echo -e "\033[1;31mDirectory structure setup failed!\033[0m"; exit 1; }
-
             sudo cp -r nixos-config/* /mnt/etc/nixos && cd /mnt/etc/nixos || { echo -e "\033[1;31mCopying nixos-config failed!\033[0m"; exit 1; }
-
-            export SSH_AUTH_SOCK=$(sudo -u $SUDO_USER env | grep SSH_AUTH_SOCK | cut -d= -f2-)
 
             # Ensure known_hosts file exists and add GitHub to known hosts
             echo -e "\033[1;32mSaving Github public key...\033[0m"
@@ -108,19 +105,21 @@
             touch /root/.ssh/known_hosts
             ssh-keyscan -t ed25519 github.com >> /root/.ssh/known_hosts
 
+            echo -e "\033[1;33mCopy keys...\033[0m"
+            sudo cp /root/.ssh/id_ed25519_agenix /mnt/home/${user}/id_ed25519 || { echo -e "\033[1;31mFailed to copy private key!\033[0m"; exit 1; }
+            sudo cp /root/.ssh/id_ed25519_agenix.pub /mnt/home/${user}/id_ed25119.pub || { echo -e "\033[1;31mFailed to copy public key!\033[0m"; exit 1; }
+            chmod 644 /mnt/home/${user}/.ssh/id_ed25519.pub || { echo -e "\033[1;31mFailed to set permissions on public key!\033[0m"; exit 1; }
+            chmod 600 /mnt/home/${user}/.ssh/id_ed25519 || { echo -e "\033[1;31mFailed to set permissions on private key!\033[0m"; exit 1; }
+            chown ${user} /mnt/home/${user}/.ssh/id_ed25519.pub || { echo -e "\033[1;31mFailed to set ownership on private key!\033[0m"; exit 1; }
+            chown ${user} /mnt/home/${user}/.ssh/id_ed25519 || { echo -e "\033[1;31mFailed to set ownership on private key!\033[0m"; exit 1; }
+            sudo ln -s /mnt/home/dustin /home/dustin # Used to grab initial secrets
+            echo -e "\033[1;32mKeys copied.\033[0m"
+ 
             echo -e "\033[1;33mInstalling NixOS...\033[0m"
             sudo nixos-install --flake .#felix || { echo -e "\033[1;31mNixOS installation failed!\033[0m"; exit 1; }
             echo -e "\033[1;33mSetting group permissions...\033[0m"
             sudo chmod -R 775 /mnt/etc/nixos || { echo -e "\033[1;31mFailed to set group permissions on /mnt/etc/nixos!\033[0m"; exit 1; }
             echo -e "\033[1;32mInstallation complete.\033[0m"
-            echo -e "\033[1;33mCopy keys...\033[0m"
-            sudo cp /root/.ssh/id_ed25519_agenix /mnt/home/${user}/id_ed25519 || { echo -e "\033[1;31mFailed to copy private key!\033[0m"; exit 1; }
-            sudo cp /root/.ssh/id_ed25519_agenix.pub /mnt/home/${user}/id_ed25119.pub || { echo -e "\033[1;31mFailed to copy public key!\033[0m"; exit 1; }
-            chmod 644 /mnt/home/${user}/id_ed25519.pub || { echo -e "\033[1;31mFailed to set permissions on public key!\033[0m"; exit 1; }
-            chmod 600 /mnt/home/${user}/id_ed25519 || { echo -e "\033[1;31mFailed to set permissions on private key!\033[0m"; exit 1; }
-            chown ${user} /mnt/home/${user}/id_ed25519.pub || { echo -e "\033[1;31mFailed to set ownership on private key!\033[0m"; exit 1; }
-            chown ${user} /mnt/home/${user}/id_ed25519 || { echo -e "\033[1;31mFailed to set ownership on private key!\033[0m"; exit 1; }
-            echo -e "\033[1;32mKeys copied.\033[0m"
 
             # Prompt the user to reboot
             read -p "Do you want to reboot now? (y/yes) " choice
