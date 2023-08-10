@@ -114,8 +114,13 @@
             sudo chmod -R 775 /mnt/etc/nixos || { echo -e "\033[1;31mFailed to set group permissions on /mnt/etc/nixos!\033[0m"; exit 1; }
             echo -e "\033[1;32mInstallation complete.\033[0m"
             echo -e "\033[1;33mCopy keys...\033[0m"
-            sudo cp /home/root/.ssh/id_ed25519 /mnt/home/${user} || { echo -e "\033[1;31mFailed to copy private key!\033[0m"; exit 1; }
-            sudo cp /home/root/.ssh/id_ed25519.pub /mnt/home/${user} || { echo -e "\033[1;31mFailed to copy public key!\033[0m"; exit 1; }
+            sudo cp /home/root/.ssh/id_ed25519_agenix /mnt/home/${user}/id_ed25519 || { echo -e "\033[1;31mFailed to copy private key!\033[0m"; exit 1; }
+            sudo cp /home/root/.ssh/id_ed25519_agenix.pub /mnt/home/${user}/id_ed25119.pub || { echo -e "\033[1;31mFailed to copy public key!\033[0m"; exit 1; }
+            chmod 644 /mnt/home/${user}/id_ed25519.pub || { echo -e "\033[1;31mFailed to set permissions on public key!\033[0m"; exit 1; }
+            chmod 600 /mnt/home/${user}/id_ed25519 || { echo -e "\033[1;31mFailed to set permissions on private key!\033[0m"; exit 1; }
+            chown ${user} /mnt/home/${user}/id_ed25519.pub || { echo -e "\033[1;31mFailed to set ownership on private key!\033[0m"; exit 1; }
+            chown ${user} /mnt/home/${user}/id_ed25519 || { echo -e "\033[1;31mFailed to set ownership on private key!\033[0m"; exit 1; }
+            echo -e "\033[1;32mKeys copied.\033[0m"
 
             # Prompt the user to reboot
             read -p "Do you want to reboot now? (y/yes) " choice
@@ -163,27 +168,27 @@
             mkdir -p $SSH_DIR
 
             # Copying the .pub files
-            cp /mnt/usb/id_ed25519_github.pub $SSH_DIR || { echo -e "\033[0;31mCopying id_ed25519_github.pub failed!\033[0m"; exit 1; }
-            cp /mnt/usb/id_ed25519_agenix.pub $SSH_DIR/id_ed25519.pub || { echo -e "\033[0;31mCopying id_ed25519_agenix.pub failed!\033[0m"; exit 1; }
+            cp /mnt/usb/id_ed25519_github.pub $SSH_DIR/id_ed25519.pub || { echo -e "\033[0;31mCopying id_ed25519.pub failed!\033[0m"; exit 1; }
+            cp /mnt/usb/id_ed25519_agenix.pub $SSH_DIR || { echo -e "\033[0;31mCopying id_ed25519_agenix.pub failed!\033[0m"; exit 1; }
             echo -e "\033[0;32mPublic keys copied successfully.\033[0m"
 
             # Copying the private keys
-            cp /mnt/usb/id_ed25519_github $SSH_DIR || { echo -e "\033[0;31mCopying id_ed25519_github failed!\033[0m"; exit 1; }
-            cp /mnt/usb/id_ed25519_agenix $SSH_DIR/id_ed25519 || { echo -e "\033[0;31mCopying id_ed25519_agenix failed!\033[0m"; exit 1; }
+            cp /mnt/usb/id_ed25519 $SSH_DIR/id_ed25519 || { echo -e "\033[0;31mCopying id_ed25519 failed!\033[0m"; exit 1; }
+            cp /mnt/usb/id_ed25519_agenix $SSH_DIR || { echo -e "\033[0;31mCopying id_ed25519_agenix failed!\033[0m"; exit 1; }
             echo -e "\033[0;32mPrivate keys copied successfully.\033[0m"
  
             # Setting permissions for the public keys
-            chmod 644 $SSH_DIR/id_ed25519_github.pub || { echo -e "\033[0;31mSetting permissions for id_ed25519_github failed!\033[0m"; exit 1; }
             chmod 644 $SSH_DIR/id_ed25519.pub || { echo -e "\033[0;31mSetting permissions for id_ed25519 failed!\033[0m"; exit 1; }
+            chmod 644 $SSH_DIR/id_ed25519_agenix.pub || { echo -e "\033[0;31mSetting permissions for id_ed25519_agenix failed!\033[0m"; exit 1; }
             echo -e "\033[0;32mKey permissions set successfully.\033[0m"
 
             # Setting permissions for the private keys
-            chmod 600 $SSH_DIR/id_ed25519_github || { echo -e "\033[0;31mSetting permissions for id_ed25519_github failed!\033[0m"; exit 1; }
             chmod 600 $SSH_DIR/id_ed25519 || { echo -e "\033[0;31mSetting permissions for id_ed25519 failed!\033[0m"; exit 1; }
+            chmod 600 $SSH_DIR/id_ed25519_agenix || { echo -e "\033[0;31mSetting permissions for id_ed25519_agenix failed!\033[0m"; exit 1; }
             echo -e "\033[0;32mPrivate key permissions set successfully.\033[0m"
 
             # Changing ownership of the keys to user
-            chown root:wheel $SSH_DIR/id_ed25519_github $SSH_DIR/id_ed25519_github.pub $SSH_DIR/id_ed25519 $SSH_DIR/id_ed25519.pub || { echo -e "\033[0;31mChanging ownership failed!\033[0m"; exit 1; }
+            chown nixos:wheel $SSH_DIR/id_ed25519 $SSH_DIR/id_ed25519.pub $SSH_DIR/id_ed25519_agenix $SSH_DIR/id_ed25519_agenix.pub || { echo -e "\033[0;31mChanging ownership failed!\033[0m"; exit 1; }
             echo -e "\033[0;32mKeys ownership changed successfully.\033[0m"
 
             # Unmounting the USB stick
