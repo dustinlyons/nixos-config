@@ -70,11 +70,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1691672939,
-        "narHash": "sha256-MvDfQ3PEDDLc5Pa46rmbH/ULrc7LztRxeVui5aOae4k=",
+        "lastModified": 1691699380,
+        "narHash": "sha256-Yc3Q1IgnpwvdwiDLupCrzsUf6CfQoe3yTU65GZDq3cE=",
         "owner": "nix-community",
         "repo": "disko",
-        "rev": "32e7d56c080e1b07c5f3d3ed6063c3ec64c5a8f8",
+        "rev": "ceabbec3150c84168ae0e10241779f5b083cf32f",
         "type": "github"
       },
       "original": {
@@ -183,11 +183,11 @@
     "secrets": {
       "flake": false,
       "locked": {
-        "lastModified": 1691532567,
-        "narHash": "sha256-OCNxCFTVCo6bwKHlLnWELncd9e8KRMgokbm6VGQRhrU=",
+        "lastModified": 1691699198,
+        "narHash": "sha256-S6VASJVFFdTbZjPSpb0PXgqMW+dcrbSR4IXK4lgRi2I=",
         "ref": "refs/heads/main",
-        "rev": "b86b780a8460ded04613084707a3da4139367f58",
-        "revCount": 3,
+        "rev": "efa7b25ce575af07ed882120b8b5a98f71e5e515",
+        "revCount": 8,
         "type": "git",
         "url": "ssh://git@github.com/dustinlyons/nix-secrets.git"
       },
