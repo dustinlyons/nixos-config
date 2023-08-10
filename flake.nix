@@ -132,6 +132,7 @@
               trap 'echo -e "${red}Error occurred!${reset}"' ERR
 
               # Mounting USB stick
+              mkdir -p /mnt/usb
               mount /dev/sdc /mnt/usb || { echo -e "${red}Mounting USB stick failed!${reset}"; exit 1; }
               echo -e "${green}USB stick mounted successfully.${reset}"
 
