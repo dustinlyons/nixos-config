@@ -189,8 +189,8 @@
             }
 
             set_keys() {
-              cp /mnt/usb/id_ed25519_github.pub $SSH_DIR/id_e25519.pub || { echo -e "\e[0;31mSetting public keys failed!\e[0m"; exit 1; }
-              cp /mnt/usb/id_ed25519_github $SSH_DIR/id_e25519 || { echo -e "\e[0;31mSetting private keys failed!\e[0m"; exit 1; }
+              cp /mnt/usb/id_ed25519_github.pub $SSH_DIR/id_ed25519.pub || { echo -e "\e[0;31mSetting public keys failed!\e[0m"; exit 1; }
+              cp /mnt/usb/id_ed25519_github $SSH_DIR/id_ed25519 || { echo -e "\e[0;31mSetting private keys failed!\e[0m"; exit 1; }
             }
 
             set_permissions() {
