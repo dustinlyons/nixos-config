@@ -5,7 +5,6 @@
     nixpkgs.url = "github:dustinlyons/nixpkgs/master";
     agenix.url = "github:ryantm/agenix";
     home-manager.url = "github:nix-community/home-manager";
-    utils.url = "github:numtide/flake-utils";
     darwin = {
       url = "github:LnL7/nix-darwin/master";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -20,7 +19,7 @@
     };
   };
 
-  outputs = { self, darwin, home-manager, nixpkgs, disko, agenix, secrets, utils } @inputs:
+  outputs = { self, darwin, home-manager, nixpkgs, disko, agenix, secrets } @inputs:
     let
       systems = [ "x86_64-linux" "aarch64-darwin" ];
       forAllSystems = f: nixpkgs.lib.genAttrs systems (system: f system);
