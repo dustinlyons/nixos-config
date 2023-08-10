@@ -109,11 +109,11 @@
         "nixpkgs": "nixpkgs_2"
       },
       "locked": {
-        "lastModified": 1691506824,
-        "narHash": "sha256-Z2Ms7036CCEAfCmDBDy+sFauO6/7fx2UN3aoPCpp4tA=",
+        "lastModified": 1691599243,
+        "narHash": "sha256-Lw3VRCFFbjQLxZu37rL/o2RBb95VG8iThEhEkqo3SV8=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "7b8d43fbaf8450c30caaed5eab876897d0af891b",
+        "rev": "a8f8f48320c64bd4e3a266a850bbfde2c6fe3a04",
         "type": "github"
       },
       "original": {
@@ -156,11 +156,11 @@
     },
     "nixpkgs_3": {
       "locked": {
-        "lastModified": 1691237930,
-        "narHash": "sha256-GSYcGQ0Y3w3nh7hpkubpBD9KUZwqkdnDZlO1ny4LqFQ=",
+        "lastModified": 1691637614,
+        "narHash": "sha256-ICkfbiFHN7I9SgrsV4/v21br0ZuDVoXt0OnNJHn0ybk=",
         "owner": "dustinlyons",
         "repo": "nixpkgs",
-        "rev": "feec20801fc55b747bf67e9832b3c233e2f34a87",
+        "rev": "86cb56c7cd3704ab4665a1fce4df7700f739bf77",
         "type": "github"
       },
       "original": {
@@ -184,11 +184,11 @@
     "secrets": {
       "flake": false,
       "locked": {
-        "lastModified": 1691531856,
-        "narHash": "sha256-/VLcUaXyt142INpxL7KHDPhxVpckXVCY0/VhlbsR76g=",
+        "lastModified": 1691532567,
+        "narHash": "sha256-OCNxCFTVCo6bwKHlLnWELncd9e8KRMgokbm6VGQRhrU=",
         "ref": "refs/heads/main",
-        "rev": "d245c1728eeeeb7f52b1827648eb5d50605445bb",
-        "revCount": 2,
+        "rev": "b86b780a8460ded04613084707a3da4139367f58",
+        "revCount": 3,
         "type": "git",
         "url": "ssh://git@github.com/dustinlyons/nix-secrets.git"
       },
