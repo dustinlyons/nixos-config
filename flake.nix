@@ -79,12 +79,15 @@
           echo "${green}USB stick unmounted successfully.${reset}"
           EOF
 
-          chmod +x $out/bin/decrypt
+        '';
 
+        postFixup = ''
+          mkdir -p $out/bin
+          chmod +x $out/bin/decrypt
           wrapProgram $out/bin/decrypt \
             --prefix PATH : "${nixpkgs.legacyPackages.x86_64-linux.age}/bin:${nixpkgs.legacyPackages.x86_64-linux.age-plugin-yubikey}/bin"
-
         '';
+
       };
     in
     {
