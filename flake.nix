@@ -149,7 +149,8 @@
             ENV=$(nix build --extra-experimental-features nix-command --extra-experimental-features flakes $FLAKEDIR#packages.x86_64-linux.ageWithYubikey)
 
             # Use the environment for the rest of your script
-              sudo nix run --extra-experimental-features nix-command --extra-experimental-features flakes $ENV -- bash -c '
+            sudo $ENV/bin/bash -c '
+
               # Mounting USB stick
               mkdir -p /mnt/usb
               mount /dev/sdc /mnt/usb || { echo "${red}Mounting USB stick failed!${reset}"; exit 1; }
