@@ -23,7 +23,7 @@
 (use-package exec-path-from-shell
   :if (memq window-system '(mac ns x))
   :config
-  (setq exec-path-from-shell-variables '("PATH" "GOPATH"))
+  (setq exec-path-from-shell-variables '("PATH" "GOPATH" "PNPM_HOME"))
   (exec-path-from-shell-initialize))
 
 (when (daemonp)
@@ -86,12 +86,9 @@
   "Return true if system is darwin-based (Mac OS X)"
   (string-equal system-type "darwin"))
 
-(defun system-is-linux ()
-  "Return true if system is GNU/Linux-based"
-  (string-equal system-type "gnu/linux"))
-
 (let ((org-config-path (if (system-is-mac)
-                           "~/.local/share/src/nixos-config/common/config/emacs/config.org"
+                         "~/.local/share/src/nixos-config/common/config/emacs/config.org"
                          "/etc/nixos/common/config/emacs/config.org")))
-  "Load our main config file"
-  (org-babel-load-file org-config-path))
+
+"Load our main config file"
+(org-babel-load-file org-config-path))
