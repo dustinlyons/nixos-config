@@ -146,7 +146,7 @@
             EOF
 
             # Build the environment
-            ENV=$(nix build $FLAKEDIR#packages.x86_64-linux.ageWithYubikey)
+            ENV=$(nix build --extra-expiermental-features nix-command --extra-experimental-features flakes $FLAKEDIR#packages.x86_64-linux.ageWithYubikey)
 
             # Use the environment for the rest of your script
             sudo nix run --extra-experimental-features nix-command --extra-experimental-features flakes $ENV -c bash -c '
