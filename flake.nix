@@ -42,7 +42,7 @@
 
       ageEnvironment = nixpkgs.legacyPackages.x86_64-linux.stdenv.mkDerivation rec {
         name = "age-environment";
-        buildInputs = with nixpkgs.legacyPackages.x86_64-linux; [ bashInteractive age age-plugin-yubikey pcscd makeWrapper ];
+        buildInputs = with nixpkgs.legacyPackages.x86_64-linux; [ bashInteractive age age-plugin-yubikey pcsclite makeWrapper ];
         buildCommand = ''
           mkdir -p $out/bin
 
