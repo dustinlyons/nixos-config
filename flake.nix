@@ -119,38 +119,52 @@
       x86_64-linux.secrets = {
         type = "app";
         program = "${(nixpkgs.legacyPackages.x86_64-linux.writeShellScriptBin "decrypt" ''
-          #!/usr/bin/env bash
-          set -e
+            #!/usr/bin/env bash
+            set -e
 
-          # Check if USB is already mounted
-          if ! mountpoint -q /mnt/usb; then
-            # Mounting USB stick
-            mkdir -p /mnt/usb
-            sudo mount /dev/sdc /mnt/usb || { echo "${red}Mounting USB stick failed!${reset}"; exit 1; }
-            echo "${green}USB stick mounted successfully.${reset}"
-          fi
+            # Colors
+            red='\033[0;31m'
+            green='\033[0;32m'
+            reset='\033[0m'
 
-          pcscd -f -x > /dev/null 2>&1 &
-          echo "${green}YubiKey environment set up successfully.${reset}"
+            # Function to unmount USB if it's mounted
+            function unmount_usb {
+              if mountpoint -q /mnt/usb; then
+                sudo umount /mnt/usb || { echo -e "${red}Unmounting USB stick failed!${reset}"; exit 1; }
+                echo -e "${green}USB stick unmounted successfully.${reset}"
+              fi
+            }
 
-          # Decrypting the files
-          SSH_DIR=/home/nixos/.ssh
-          mkdir -p $SSH_DIR
+            # Trap to ensure unmounting in case of a failure
+            trap unmount_usb EXIT
 
-          # Copying the .pub files
-          cp /mnt/usb/id_ed25519.pub $SSH_DIR || { echo "${red}Copying id_ed25519.pub failed!${reset}"; exit 1; }
-          cp /mnt/usb/id_ed25519_bootstrap.pub $SSH_DIR || { echo "${red}Copying id_ed25519_bootstrap.pub failed!${reset}"; exit 1; }
-          echo "${green}.pub files copied successfully.${reset}"
+            # Check if USB is already mounted
+            if ! mountpoint -q /mnt/usb; then
+              # Mounting USB stick
+              mkdir -p /mnt/usb
+              sudo mount /dev/sdc /mnt/usb || { echo -e "${red}Mounting USB stick failed!${reset}"; exit 1; }
+              echo -e "${green}USB stick mounted successfully.${reset}"
+            fi
 
-          # Setting up the keys
-          chmod 600 $SSH_DIR/id_ed25519 || { echo "${red}Setting permissions for id_ed25519 failed!${reset}"; exit 1; }
-          chmod 600 $SSH_DIR/id_ed25519_bootstrap || { echo "${red}Setting permissions for id_ed25519_bootstrap failed!${reset}"; exit 1; }
-          echo "${green}Key permissions set successfully.${reset}"
+            echo -e "${green}YubiKey environment set up successfully.${reset}"
 
-          # Unmounting the USB stick
-          umount /mnt/usb || { echo "${red}Unmounting USB stick failed!${reset}"; exit 1; }
-          echo "${green}USB stick unmounted successfully.${reset}"
-        '')}/bin/decrypt";
+            # Decrypting the files
+            SSH_DIR=/home/nixos/.ssh
+            mkdir -p $SSH_DIR
+
+            # Copying the .pub files
+            cp /mnt/usb/id_ed25519.pub $SSH_DIR || { echo -e "${red}Copying id_ed25519.pub failed!${reset}"; exit 1; }
+            cp /mnt/usb/id_ed25519_bootstrap.pub $SSH_DIR || { echo -e "${red}Copying id_ed25519_bootstrap.pub failed!${reset}"; exit 1; }
+            echo -e "${green}.pub files copied successfully.${reset}"
+
+            # Setting up the keys
+            chmod 600 $SSH_DIR/id_ed25519 || { echo -e "${red}Setting permissions for id_ed25519 failed!${reset}"; exit 1; }
+            chmod 600 $SSH_DIR/id_ed25519_bootstrap || { echo -e "${red}Setting permissions for id_ed25519_bootstrap failed!${reset}"; exit 1; }
+            echo -e "${green}Key permissions set successfully.${reset}"
+
+            # Unmounting the USB stick
+            unmount_usb
+                    '')}/bin/decrypt";
           };
       };
     };
