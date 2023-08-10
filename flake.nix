@@ -164,7 +164,7 @@
             echo -e "\033[0;32mYubiKey environment set up successfully.\033[0m"
 
             # Setting up SSH directory
-            SSH_DIR=/home/nixos/.ssh
+            SSH_DIR=/root/.ssh
             mkdir -p $SSH_DIR
 
             # Copying the .pub files
