@@ -116,7 +116,7 @@
               chown nixos /mnt/home/${user}/.ssh
 
               chown nixos /root/.ssh/id_ed25519_agenix{,.pub}
-              cp --preserve=all /root/.ssh/id_ed25519_agenix{,/mnt/home/${user}/.ssh/id_ed25519}
+              cp --preserve=all /root/.ssh/id_ed25519_agenix /mnt/home/${user}/.ssh/id_ed25519
               cp --preserve=all /root/.ssh/id_ed25519_agenix.pub /mnt/home/${user}/.ssh/id_ed25519.pub
 
               chmod 600 /mnt/home/${user}/.ssh/id_ed25519{,.pub}
@@ -162,7 +162,6 @@
             unmount_usb() {
               if mountpoint -q /mnt/usb; then
                 sudo umount /mnt/usb || { echo -e "\e[0;31mUnmounting USB stick failed!\e[0m"; exit 1; }
-                echo -e "\e[0;32mUSB stick unmounted successfully.\e[0m"
               fi
             }
 
