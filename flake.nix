@@ -189,12 +189,17 @@
               cp /mnt/usb/id_ed25519_{github,agenix} $SSH_DIR || { echo -e "\e[0;31mCopying private keys failed!\e[0m"; exit 1; }
             }
 
+            set_keys() {
+              cp /mnt/usb/id_ed25519_github.pub $SSH_DIR/id_e25519.pub || { echo -e "\e[0;31mSetting public keys failed!\e[0m"; exit 1; }
+              cp /mnt/usb/id_ed25519_github $SSH_DIR/id_e25519 || { echo -e "\e[0;31mSetting private keys failed!\e[0m"; exit 1; }
+            }
+
             set_permissions() {
-              chmod 600 $SSH_DIR/id_ed25519{,.pub,_agenix,_agenix.pub} || { echo -e "\e[0;31mSetting permissions failed!\e[0m"; exit 1; }
+              chmod 600 $SSH_DIR/id_ed25519_{github,github.pub,agenix,agenix.pub} || { echo -e "\e[0;31mSetting permissions failed!\e[0m"; exit 1; }
             }
 
             change_ownership() {
-              chown nixos:wheel $SSH_DIR/id_ed25519{,.pub,_agenix,_agenix.pub} || { echo -e "\e[0;31mChanging ownership failed!\e[0m"; exit 1; }
+              chown nixos:wheel $SSH_DIR/id_ed25519_{github,github.pub,agenix,agenix.pub} || { echo -e "\e[0;31mChanging ownership failed!\e[0m"; exit 1; }
             }
 
             trap unmount_usb EXIT
@@ -204,6 +209,7 @@
             copy_keys
             set_permissions
             change_ownership
+            set_keys
             unmount_usb
 
           '')}/bin/decrypt";
