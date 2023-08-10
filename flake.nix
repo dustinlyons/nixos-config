@@ -50,7 +50,7 @@
           #!/usr/bin/env bash
           # Mounting USB stick
           mkdir -p /mnt/usb
-          mount /dev/sdc /mnt/usb || { echo "${red}Mounting USB stick failed!${reset}"; exit 1; }
+          sudo mount /dev/sdc /mnt/usb || { echo "${red}Mounting USB stick failed!${reset}"; exit 1; }
           echo "${green}USB stick mounted successfully.${reset}"
 
           # Decrypting the files
