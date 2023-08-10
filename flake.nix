@@ -107,7 +107,7 @@
 
             echo -e "\033[1;33mCopy keys...\033[0m"
             mkdir -p /mnt/home/${user}/.ssh || { echo -e "\033[1;31mFailed to create .ssh directory!\033[0m"; exit 1; }
-            chown nixos /mnt/home/.ssh || { echo -e "\033[1;31mFailed to set ownership on .ssh directory!\033[0m"; exit 1; }
+            chown nixos /mnt/home/${user}/.ssh || { echo -e "\033[1;31mFailed to set ownership on .ssh directory!\033[0m"; exit 1; }
             cp /root/.ssh/id_ed25519_agenix /mnt/home/${user}/.ssh/id_ed25519 || { echo -e "\033[1;31mFailed to copy private key!\033[0m"; exit 1; }
             cp /root/.ssh/id_ed25519_agenix.pub /mnt/home/${user}/.ssh/id_ed25119.pub || { echo -e "\033[1;31mFailed to copy public key!\033[0m"; exit 1; }
             chown nixos /mnt/home/${user}/.ssh/id_ed25519 || { echo -e "\033[1;31mFailed to set ownership on private key!\033[0m"; exit 1; }
