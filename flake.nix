@@ -97,7 +97,6 @@
             echo -e "\033[1;33mRunning disko...\033[0m"
             sudo nix run --extra-experimental-features nix-command --extra-experimental-features flakes \
               github:nix-community/disko -- --mode zap_create_mount ./nixos-config/nixos/disk-config.nix || { echo -e "\033[1;31mDisko run failed!\033[0m"; exit 1; }
-
             echo -e "\033[1;32mPartition and filesystem complete.\033[0m"
 
             echo -e "\033[1;32mSetting up directory structure...\033[0m"
@@ -161,7 +160,7 @@
             echo -e "\033[0;32mYubiKey environment set up successfully.\033[0m"
 
             # Setting up SSH directory
-            SSH_DIR=/home/nixos/.ssh
+            SSH_DIR=/root/.ssh
             mkdir -p $SSH_DIR
 
             # Copying the .pub files
@@ -185,7 +184,7 @@
             echo -e "\033[0;32mPrivate key permissions set successfully.\033[0m"
 
             # Changing ownership of the keys to user
-            chown nixos:wheel $SSH_DIR/id_ed25519 $SSH_DIR/id_ed25519.pub $SSH_DIR/id_ed25519_bootstrap $SSH_DIR/id_ed25519_bootstrap.pub || { echo -e "\033[0;31mChanging ownership failed!\033[0m"; exit 1; }
+            chown root:wheel $SSH_DIR/id_ed25519 $SSH_DIR/id_ed25519.pub $SSH_DIR/id_ed25519_bootstrap $SSH_DIR/id_ed25519_bootstrap.pub || { echo -e "\033[0;31mChanging ownership failed!\033[0m"; exit 1; }
             echo -e "\033[0;32mKeys ownership changed successfully.\033[0m"
 
             # Unmounting the USB stick
