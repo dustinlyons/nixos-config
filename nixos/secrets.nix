@@ -25,11 +25,11 @@ let user = "dustin"; in
   # };
 
    age.secrets."rootPassword" = {
-     file = "${secrets}/nixos/root-password.age";
+     file = "${secrets}/root-password.age";
    };
 
    age.secrets."userPassword" = {
-     file = "${secrets}/nixos/user-password.age";
+     file = "${secrets}/user-password.age";
    };
 
 }
