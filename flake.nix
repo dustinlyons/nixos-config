@@ -76,62 +76,57 @@
             #!/usr/bin/env bash
             set -e
             if [ -e /etc/NIXOS ]; then
-                echo "${green}Running in the NixOS installer environment.${reset}"
+                echo -e "\033[1;32mRunning in the NixOS installer environment.\033[0m"
             else
-                echo "${red}Not running in the NixOS installer environment.${reset}"
+                echo -e "\033[1;31mNot running in the NixOS installer environment.\033[0m"
             fi
 
-            echo "${green}Cleaning previous configuration...${reset}"
+            echo -e "\033[1;32mCleaning previous configuration...\033[0m"
             rm -rf nixos-config-main.zip && rm -rf nixos-config-main && rm -rf nixos-config
 
-            echo "${yellow}Downloading nixos-config from Github...${reset}"
-            curl -LJ0 https://github.com/dustinlyons/nixos-config/archive/main.zip -o nixos-config-main.zip || { echo "${red}Download failed!${reset}"; exit 1; }
-            echo "${green}Download complete.${reset}"
+            echo -e "\033[1;33mDownloading nixos-config from Github...\033[0m"
+            curl -LJ0 https://github.com/dustinlyons/nixos-config/archive/main.zip -o nixos-config-main.zip || { echo -e "\033[1;31mDownload failed!\033[0m"; exit 1; }
+            echo -e "\033[1;32mDownload complete.\033[0m"
 
-            unzip nixos-config-main.zip && mv nixos-config-main nixos-config || { echo "${red}Extraction or moving failed!${reset}"; exit 1; }
+            unzip nixos-config-main.zip && mv nixos-config-main nixos-config || { echo -e "\033[1;31mExtraction or moving failed!\033[0m"; exit 1; }
 
-            echo "${yellow}Running disko...${reset}"
+            echo -e "\033[1;33mRunning disko...\033[0m"
             sudo nix run --extra-experimental-features nix-command --extra-experimental-features flakes \
-              github:nix-community/disko -- --mode zap_create_mount ./nixos-config/nixos/disk-config.nix || { echo "${red}Disko run failed!${reset}"; exit 1; }
+              github:nix-community/disko -- --mode zap_create_mount ./nixos-config/nixos/disk-config.nix || { echo -e "\033[1;31mDisko run failed!\033[0m"; exit 1; }
 
-            echo "${green}Partition and filesystem complete.${reset}"
+            echo -e "\033[1;32mPartition and filesystem complete.\033[0m"
 
-            echo "${green}Setting up directory structure...${reset}"
-            sudo mkdir -p /mnt/etc/nixos || { echo "${red}Directory structure setup failed!${reset}"; exit 1; }
+            echo -e "\033[1;32mSetting up directory structure...\033[0m"
+            sudo mkdir -p /mnt/etc/nixos || { echo -e "\033[1;31mDirectory structure setup failed!\033[0m"; exit 1; }
 
-            sudo cp -r nixos-config/* /mnt/etc/nixos && cd /mnt/etc/nixos || { echo "${red}Copying nixos-config failed!${reset}"; exit 1; }
+            sudo cp -r nixos-config/* /mnt/etc/nixos && cd /mnt/etc/nixos || { echo -e "\033[1;31mCopying nixos-config failed!\033[0m"; exit 1; }
 
-            echo "${yellow}Installing NixOS...${reset}"
-            sudo nixos-install --flake .#felix || { echo "${red}NixOS installation failed!${reset}"; exit 1; }
-            echo "${yellow}Setting group permissions...${reset}"
-            sudo chmod -R 775 /mnt/etc/nixos || { echo "${red}Failed to set group permissions on /mnt/etc/nixos!${reset}"; exit 1; }
-            echo "${green}Installation complete.${reset}"
+            echo -e "\033[1;33mInstalling NixOS...\033[0m"
+            sudo nixos-install --flake .#felix || { echo -e "\033[1;31mNixOS installation failed!\033[0m"; exit 1; }
+            echo -e "\033[1;33mSetting group permissions...\033[0m"
+            sudo chmod -R 775 /mnt/etc/nixos || { echo -e "\033[1;31mFailed to set group permissions on /mnt/etc/nixos!\033[0m"; exit 1; }
+            echo -e "\033[1;32mInstallation complete.\033[0m"
 
             # Prompt the user to reboot
             read -p "Do you want to reboot now? (y/yes) " choice
             case "$choice" in
-            y|Y|yes|YES ) echo "${green}Rebooting...${reset}" && sudo reboot;;
-            * ) echo "${yellow}Reboot skipped.${reset}";;
+            y|Y|yes|YES ) echo -e "\033[1;32mRebooting...\033[0m" && sudo reboot;;
+            * ) echo -e "\033[1;33mReboot skipped.\033[0m";;
             esac
           '')}/bin/install";
         };
 
-      x86_64-linux.secrets = {
-        type = "app";
-        program = "${(nixpkgs.legacyPackages.x86_64-linux.writeShellScriptBin "decrypt" ''
+        x86_64-linux.secrets = {
+          type = "app";
+          program = "${(nixpkgs.legacyPackages.x86_64-linux.writeShellScriptBin "decrypt" ''
             #!/usr/bin/env bash
             set -e
-
-            # Colors
-            red='\033[0;31m'
-            green='\033[0;32m'
-            reset='\033[0m'
 
             # Function to unmount USB if it's mounted
             function unmount_usb {
               if mountpoint -q /mnt/usb; then
-                sudo umount /mnt/usb || { echo -e "${red}Unmounting USB stick failed!${reset}"; exit 1; }
-                echo -e "${green}USB stick unmounted successfully.${reset}"
+                sudo umount /mnt/usb || { echo -e "\033[0;31mUnmounting USB stick failed!\033[0m"; exit 1; }
+                echo -e "\033[0;32mUSB stick unmounted successfully.\033[0m"
               fi
             }
 
@@ -140,37 +135,51 @@
 
             # Check if USB is already mounted
             if mountpoint -q /mnt/usb; then
-              echo -e "${green}USB stick already mounted.${reset}"
+              echo -e "\033[0;32mUSB stick already mounted.\033[0m"
             else
               # Attempt to mount the USB stick by checking sdc, sdd, sde, etc.
               for dev in sdc sdd sde sdf sdg sdh sdi sdj sdk sdl; do
                 if sudo blkid /dev/$dev | grep -iq 'TYPE="vfat"'; then
                   # Mounting USB stick
                   mkdir -p /mnt/usb
-                  sudo mount /dev/$dev /mnt/usb && { echo -e "${green}USB stick mounted successfully on /dev/$dev.${reset}"; break; } || echo -e "${red}Failed to mount /dev/$dev.${reset}"
+                  sudo mount /dev/$dev /mnt/usb && { echo -e "\033[0;32mUSB stick mounted successfully on /dev/$dev.\033[0m"; break; } || echo -e "\033[0;31mFailed to mount /dev/$dev.\033[0m"
                 fi
               done
             fi
-            echo -e "${green}YubiKey environment set up successfully.${reset}"
+            echo -e "\033[0;32mYubiKey environment set up successfully.\033[0m"
 
             # Decrypting the files
             SSH_DIR=/home/nixos/.ssh
             mkdir -p $SSH_DIR
 
             # Copying the .pub files
-            cp /mnt/usb/id_ed25519.pub $SSH_DIR || { echo -e "${red}Copying id_ed25519.pub failed!${reset}"; exit 1; }
-            cp /mnt/usb/id_ed25519_bootstrap.pub $SSH_DIR || { echo -e "${red}Copying id_ed25519_bootstrap.pub failed!${reset}"; exit 1; }
-            echo -e "${green}.pub files copied successfully.${reset}"
+            cp /mnt/usb/id_ed25519.pub $SSH_DIR || { echo -e "\033[0;31mCopying id_ed25519.pub failed!\033[0m"; exit 1; }
+            cp /mnt/usb/id_ed25519_bootstrap.pub $SSH_DIR || { echo -e "\033[0;31mCopying id_ed25519_bootstrap.pub failed!\033[0m"; exit 1; }
+            echo -e "\033[0;32m.pub files copied successfully.\033[0m"
 
-            # Setting up the keys
-            chmod 600 $SSH_DIR/id_ed25519 || { echo -e "${red}Setting permissions for id_ed25519 failed!${reset}"; exit 1; }
-            chmod 600 $SSH_DIR/id_ed25519_bootstrap || { echo -e "${red}Setting permissions for id_ed25519_bootstrap failed!${reset}"; exit 1; }
-            echo -e "${green}Key permissions set successfully.${reset}"
+            # Setting up the public keys
+            chmod 600 $SSH_DIR/id_ed25519 || { echo -e "\033[0;31mSetting permissions for id_ed25519 failed!\033[0m"; exit 1; }
+            chmod 600 $SSH_DIR/id_ed25519_bootstrap || { echo -e "\033[0;31mSetting permissions for id_ed25519_bootstrap failed!\033[0m"; exit 1; }
+            echo -e "\033[0;32mKey permissions set successfully.\033[0m"
+
+            # Copying the private keys
+            cp /mnt/usb/id_ed25519 $SSH_DIR || { echo -e "\033[0;31mCopying id_ed25519 failed!\033[0m"; exit 1; }
+            cp /mnt/usb/id_ed25519_bootstrap $SSH_DIR || { echo -e "\033[0;31mCopying id_ed25519_bootstrap failed!\033[0m"; exit 1; }
+            echo -e "\033[0;32mPrivate keys copied successfully.\033[0m"
+
+            # Setting permissions for the private keys
+            chmod 600 $SSH_DIR/id_ed25519 || { echo -e "\033[0;31mSetting permissions for id_ed25519 failed!\033[0m"; exit 1; }
+            chmod 600 $SSH_DIR/id_ed25519_bootstrap || { echo -e "\033[0;31mSetting permissions for id_ed25519_bootstrap failed!\033[0m"; exit 1; }
+            echo -e "\033[0;32mPrivate key permissions set successfully.\033[0m"
+
+            # Changing ownership of the keys to user
+            chown nixos:nixos $SSH_DIR/id_ed25519 $SSH_DIR/id_ed25519.pub $SSH_DIR/id_ed25519_bootstrap $SSH_DIR/id_ed25519_bootstrap.pub || { echo -e "\033[0;31mChanging ownership failed!\033[0m"; exit 1; }
+            echo -e "\033[0;32mKeys ownership changed successfully.\033[0m"
 
             # Unmounting the USB stick
             unmount_usb
-                    '')}/bin/decrypt";
-          };
+          '')}/bin/decrypt";
+        };
       };
     };
 }
