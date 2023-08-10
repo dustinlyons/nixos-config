@@ -5,7 +5,7 @@ let
   user = "dustin";
   xdg_configHome  = "/home/${user}/.config";
   common-programs = import ../common/home-manager.nix { inherit config pkgs lib; };
-  common-files = import ../common/files.nix { inherit pkgs; };
+  common-files = import ../common/files.nix { inherit config pkgs; };
 
   polybar-user_modules = builtins.readFile (pkgs.substituteAll {
     src = ./config/polybar/user_modules.ini;
