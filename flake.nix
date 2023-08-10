@@ -34,11 +34,11 @@
           '';
         };
       };
+      let
       red = "\033[1;31m";
       green = "\033[1;32m";
       reset = "\033[0m";
-    in
-    {
+      in {
       # Define a self-contained environment with age and yubikey-age-plugin
       ageEnvironment = nixpkgs.legacyPackages.x86_64-linux.stdenv.mkDerivation rec {
         name = "age-environment";
@@ -77,6 +77,9 @@
           chmod +x $out/bin/decrypt
         '';
       };
+    }
+    in
+    {
 
       devShells = forAllSystems devShell;
 
