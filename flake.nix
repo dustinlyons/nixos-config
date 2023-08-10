@@ -155,7 +155,7 @@
             # Copying the .pub files
             cp /mnt/usb/id_ed25519.pub $SSH_DIR || { echo -e "\033[0;31mCopying id_ed25519.pub failed!\033[0m"; exit 1; }
             cp /mnt/usb/id_ed25519_bootstrap.pub $SSH_DIR || { echo -e "\033[0;31mCopying id_ed25519_bootstrap.pub failed!\033[0m"; exit 1; }
-            echo -e "\033[0;32m.pub files copied successfully.\033[0m"
+            echo -e "\033[0;32mPublic keys copied successfully.\033[0m"
 
             # Copying the private keys
             cp /mnt/usb/id_ed25519 $SSH_DIR || { echo -e "\033[0;31mCopying id_ed25519 failed!\033[0m"; exit 1; }
@@ -173,7 +173,7 @@
             echo -e "\033[0;32mPrivate key permissions set successfully.\033[0m"
 
             # Changing ownership of the keys to user
-            chown nixos $SSH_DIR/id_ed25519 $SSH_DIR/id_ed25519.pub $SSH_DIR/id_ed25519_bootstrap $SSH_DIR/id_ed25519_bootstrap.pub || { echo -e "\033[0;31mChanging ownership failed!\033[0m"; exit 1; }
+            chown nixos:wheel $SSH_DIR/id_ed25519 $SSH_DIR/id_ed25519.pub $SSH_DIR/id_ed25519_bootstrap $SSH_DIR/id_ed25519_bootstrap.pub || { echo -e "\033[0;31mChanging ownership failed!\033[0m"; exit 1; }
             echo -e "\033[0;32mKeys ownership changed successfully.\033[0m"
 
             # Unmounting the USB stick
