@@ -58,9 +58,6 @@
           fi
 
           pcscd -f -x > /dev/null 2>&1 &
-
-          # Enabling yubikey-agent
-          systemctl --user enable --now yubikey-agent.socket || { echo "${red}Enabling yubikey-agent failed!${reset}"; exit 1; }
           echo "${green}YubiKey environment set up successfully.${reset}"
 
           # Decrypting the files
