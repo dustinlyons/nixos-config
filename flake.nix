@@ -75,6 +75,10 @@
           program = "${(nixpkgs.legacyPackages.x86_64-linux.writeShellScriptBin "install" ''
             #!/usr/bin/env bash
             set -e
+
+            # Add Git to the PATH
+            PATH=${nixpkgs.legacyPackages.x86_64-linux.git}/bin:$PATH
+
             if [ -e /etc/NIXOS ]; then
                 echo -e "\033[1;32mRunning in the NixOS installer environment.\033[0m"
             else
