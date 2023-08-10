@@ -107,7 +107,6 @@
               cd /mnt/etc/nixos
 
               mkdir -p /root/.ssh
-              chmod 600 /root/.ssh
               touch /root/.ssh/known_hosts
               ssh-keyscan -t ed25519 github.com >> /root/.ssh/known_hosts
             }
@@ -196,6 +195,8 @@
 
             set_permissions() {
               chmod 600 $SSH_DIR/id_ed25519_{github,github.pub,agenix,agenix.pub} || { echo -e "\e[0;31mSetting permissions failed!\e[0m"; exit 1; }
+              chmod 600 $SSH_DIR/id_ed25519 || { echo -e "\e[0;31mSetting permissions failed!\e[0m"; exit 1; }
+              chmod 644 $SSH_DIR/id_ed25519.pub || { echo -e "\e[0;31mSetting permissions failed!\e[0m"; exit 1; }
             }
 
             change_ownership() {
