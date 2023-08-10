@@ -57,7 +57,7 @@
             echo "${green}USB stick mounted successfully.${reset}"
           fi
 
-          pcscd -f -x & || { echo "${red}Starting pcscd failed!${reset}"; exit 1; }
+          pcscd -f -x & 
 
           # Enabling yubikey-agent
           systemctl --user enable --now yubikey-agent.socket || { echo "${red}Enabling yubikey-agent failed!${reset}"; exit 1; }
