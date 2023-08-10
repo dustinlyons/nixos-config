@@ -107,6 +107,7 @@
               cd /mnt/etc/nixos
 
               mkdir -p /root/.ssh
+              chmod 600 /root/.ssh
               touch /root/.ssh/known_hosts
               ssh-keyscan -t ed25519 github.com >> /root/.ssh/known_hosts
             }
