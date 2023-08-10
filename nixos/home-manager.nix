@@ -4,7 +4,7 @@ let
 
   user = "dustin";
   xdg_configHome  = "/home/${user}/.config";
-  common-programs = import ../common/home-manager.nix { config = config; pkgs = pkgs; lib = lib; };
+  common-programs = import ../common/home-manager.nix { inherit config pkgs lib; };
   common-files = import ../common/files.nix {};
 
   polybar-user_modules = builtins.readFile (pkgs.substituteAll {
@@ -16,11 +16,11 @@ let
     calendar = "${xdg_configHome}/polybar/bin/popup-calendar.sh";
   });
 
-  polybar-config = (pkgs.substituteAll {
+  polybar-config = pkgs.substituteAll {
       src = ./config/polybar/config.ini;
       font0 = "DejaVu Sans:size=12;3";
       font1 = "feather:size=12;3";
-  });
+  };
 
   polybar-modules = builtins.readFile ./config/polybar/modules.ini;
   polybar-bars = builtins.readFile ./config/polybar/bars.ini;
@@ -32,7 +32,7 @@ in
     username = "${user}";
     homeDirectory = "/home/${user}";
     packages = pkgs.callPackage ./packages.nix {};
-    file = common-files // import ./files.nix { user = user; };
+    file = common-files // import ./files.nix { inherit user; };
     stateVersion = "21.05";
   };
 

@@ -1,22 +1,36 @@
-{ ... }:
+{}:
 
 [
-  "appcleaner"
-  "discord"
+  # Development Tools
   "homebrew/cask/docker"
-  "google-chrome"
   "insomnia"
+  "ngrok"
+  "postico"
+  "visual-studio-code"
+
+  # Communication Tools
+  "discord"
   "loom"
   "notion"
-  "ngrok"
-  "raycast"
   "slack"
-  "syncthing"
-  "diffusionbee"
-  "postico"
-  "steam"
   "telegram"
-  "vlc"
-  "visual-studio-code"
   "zoom"
+
+  # Utility Tools
+  "appcleaner"
+  "syncthing"
+
+  # Entertainment Tools
+  "steam"
+  "vlc"
+
+  # Productivity Tools
+  "raycast"
+  "asana"
+
+  # Browsers
+  "google-chrome"
+
+  # AI
+  "diffusionbee"
 ]

@@ -1,8 +1,7 @@
 { config, pkgs, lib, ... }:
 
 let
-  common-programs = import ../common/home-manager.nix { config = config; pkgs = pkgs; lib = lib; };
-  common-files = import ../common/files.nix {};
+  common-files = import ../common/files.nix { inherit config pkgs; };
   user = "dustin"; in
 {
   imports = [
@@ -79,8 +78,8 @@ let
     users.${user} = {
       home.enableNixpkgsReleaseCheck = false;
       home.packages = pkgs.callPackage ./packages.nix {};
-      home.file = common-files // import ./files.nix { config = config; pkgs = pkgs; };
-      programs = common-programs // {};
+      home.file = common-files // import ./files.nix { inherit config pkgs; };
+      programs = {} // import ../common/home-manager.nix { inherit config pkgs lib; };
 
       # https://github.com/nix-community/home-manager/issues/3344
       # Marked broken Oct 20, 2022 check later to remove this

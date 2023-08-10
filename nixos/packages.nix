@@ -1,107 +1,93 @@
 { pkgs }:
 
 with pkgs;
-let common-packages = import ../common/packages.nix { pkgs = pkgs; }; in
+let common-packages = import ../common/packages.nix { inherit pkgs; }; in
 common-packages ++ [
+
+  # Security and authentication
   _1password-gui
+  yubikey-manager
+  yubikey-manager-qt
+  yubikey-agent
+  keepassxc
 
+  # App and package management
   appimage-run
-  betterlockscreen
-  brlaser # printer driver
-  bc # old school calculator
-
-  # Terminal audio visualizer
-  cava
-
-  # Apple Music on Linux
-  cider
-
-  # Functional testing framework using headless chrome
-  cypress
-  chromedriver
-
+  gnumake
   cmake
-  direnv
-  discord
-  electrum
+  home-manager
 
-  # Emoji picker
-  emote
-
-  # Chat
-  hexchat
-
-  # Manage wallpapers
-  feh
-
-  galculator
-
+  # Media and design tools
+  betterlockscreen
+  gimp
+  vlc
+  wineWowPackages.stable
   feather-font
   fontconfig
   font-manager
 
-  # Matrix.org messaging app
-  fractal
+  # Printers and drivers
+  brlaser # printer driver
 
-  # Screenshot tools
-  flameshot
-  simplescreenrecorder
+  # Calculators
+  bc # old school calculator
+  galculator
 
-  gimp
-  gnumake
-  gnugrep
-  google-chrome
-  home-manager
+  # Audio tools
+  cava # Terminal audio visualizer
+  pavucontrol # Pulse audio controls
 
-  # inotifywait, inotifywatch
-  # For file system events
-  inotify-tools
-  libnotify
+  # Messaging and chat applications
+  cider # Apple Music on Linux
+  discord
+  hexchat # Chat
+  fractal # Matrix.org messaging app
+  tdesktop # telegram desktop
 
-  keepassxc
-  libusb1 # for Xbox controller
-  libtool # for Emacs vterm
-  ledger-live-desktop
-  openssh
-
-  # Pulse audio controls
-  pavucontrol
-
-  # Control media players from command line
-  # Used by other tools
-  playerctl
-
-  pinentry-curses
-  postgresql
-
-  # Our file browser
-  pcmanfm
-
-  qmk
+  # Testing and development tools
+  cypress # Functional testing framework using headless chrome
+  chromedriver
+  direnv
   rofi
   rofi-calc
   rnix-lsp # lsp-mode for nix
+  qmk
+  postgresql
+  libusb1 # for Xbox controller
+  libtool # for Emacs vterm
+
+  # Screenshot and recording tools
+  flameshot
+  simplescreenrecorder
+
+  # Text and terminal utilities
+  emote # Emoji picker
+  feh # Manage wallpapers
   screenkey
-  spotify
-  sqlite
   tree
-  tdesktop # telegram desktop
   unixtools.ifconfig
   unixtools.netstat
-  xdg-utils
-  vlc
-  wineWowPackages.stable
-
-  yad # I use yad-calendar with polybar
-  xdotool 
-
-  yubikey-manager
-  yubikey-manager-qt
-  yubikey-agent
-
   xclip # For the org-download package in Emacs
   xorg.xwininfo # Provides a cursor to click and learn about windows
-  
+
+  # File and system utilities
+  inotify-tools # inotifywait, inotifywatch - For file system events
+  libnotify
+  ledger-live-desktop
+  playerctl # Control media players from command line
+  pinentry-curses
+  pcmanfm # Our file browser
+  sqlite
+  xdg-utils
+
+  # Other utilities
+  yad # I use yad-calendar with polybar
+  xdotool
+  google-chrome
+
   # PDF viewer
   zathura
+
+  # Music and entertainment
+  spotify
 ]

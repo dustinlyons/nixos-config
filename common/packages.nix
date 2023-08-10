@@ -1,77 +1,89 @@
 { pkgs }:
 
-# These packages are shared across all my machines
 with pkgs; [
-  act # run github actions locally
+  # General packages for development and system management
+  act
   alacritty
   aspell
   aspellDicts.en
-  awscli2
   bash-completion
-  bat # A cat(1) clone with syntax highlighting
+  bat
   btop
-  cloudflared
   coreutils
   difftastic
-  dejavu_fonts
+  du-dust
+  gcc
+  git-filter-repo
+  killall
+  neofetch
+  openssh
+  pandoc
+  sqlite
+  wget
+  zip
+
+  # Encryption and security tools
+  _1password
+  age
+  age-plugin-yubikey
+  gnupg
+  libfido2
+  pinentry
+  yubikey-manager
+
+  # Cloud-related tools and SDKs
   docker
   docker-compose
-  du-dust
-  emacs-all-the-icons-fonts
+  awscli2
+  cloudflared
   flyctl
-  ffmpeg
-  fd
-  fzf
-  font-awesome
-  gcc
-  gh # github
-  git-filter-repo
-  glow # CLI markdown viewer
-  gnupg
   google-cloud-sdk
   go
   gopls
+  ngrok
+  ssm-session-manager-plugin
+  terraform
+  terraform-ls
+  tflint
+
+  # Media-related packages
+  emacs-all-the-icons-fonts
+  dejavu_fonts
+  ffmpeg
+  fd
+  font-awesome
+  glow
   hack-font
-  home-manager
-  htop
-  hunspell
-  iftop
-  jetbrains-mono
-  jq
+  noto-fonts
+  noto-fonts-emoji
+  meslo-lgs-nf
 
-  # This is broken on MacOS for now
-  # https://github.com/NixOS/nixpkgs/issues/172165 
-  # keepassxc
-
-  killall
-  libfido2
-  neofetch
+  # Node.js development tools
+  fzf
   nodePackages.live-server
   nodePackages.nodemon
   nodePackages.prettier
   nodePackages.npm
   nodejs
-  noto-fonts
-  noto-fonts-emoji
-  ngrok
-  openssh
-  pandoc
-  pinentry
-  python39
-  python39Packages.virtualenv
+
+  # Source code management, Git, GitHub tools
+  gh
+
+  # Text and terminal utilities
+  htop
+  hunspell
+  iftop
+  jetbrains-mono
+  jq
   ripgrep
   slack
-  sqlite
-  ssm-session-manager-plugin
-  terraform
-  terraform-ls
-  tflint
   tree
   tmux
   unrar
   unzip
-  wget
-  zip
   zsh-powerlevel10k
-  meslo-lgs-nf # Meslo Nerd Font patch for powerlevel10
+
+  # Python packages
+  python39
+  python39Packages.virtualenv
 ]

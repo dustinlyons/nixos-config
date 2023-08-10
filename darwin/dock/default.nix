@@ -2,8 +2,7 @@
 with lib;
 let
   cfg = config.local.dock;
-  stdenv = pkgs.stdenv;
-  dockutil = pkgs.dockutil;
+  inherit (pkgs) stdenv dockutil;
 in
 {
   options = {
@@ -34,7 +33,7 @@ in
   };
 
   config =
-    mkIf (cfg.enable)
+    mkIf cfg.enable
       (
         let
           normalize = path: if hasSuffix ".app" path then path + "/" else path;

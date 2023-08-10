@@ -1,12 +1,14 @@
-{ config, pkgs, nixpkgs, ... }:
+{ agenix, config, pkgs, ... }:
 
 let user = "dustin"; in
 {
 
   imports = [
+    ./secrets.nix
+    ./home-manager.nix
     ../common
     ../common/cachix
-    ./home-manager.nix
+     agenix.darwinModules.default
   ];
 
   # Auto upgrade nix package and the daemon service.
@@ -34,7 +36,10 @@ let user = "dustin"; in
   system.checks.verifyNixPath = false;
 
   # Load configuration that is shared across systems
-  environment.systemPackages = with pkgs; [ emacs-unstable ] ++ (import ../common/packages.nix { pkgs = pkgs; });
+  environment.systemPackages = with pkgs; [
+    emacs-unstable
+    agenix.packages."${pkgs.system}".default
+  ] ++ (import ../common/packages.nix { inherit pkgs; });
 
   # Enable fonts dir
   fonts.fontDir.enable = true;

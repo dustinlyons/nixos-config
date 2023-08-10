@@ -40,17 +40,6 @@ let name = "Dustin Lyons";
 
     # Remove history data we don't want to see
     export HISTIGNORE="pwd:ls:cd"
-    export HISTFILE=$HOME/.local/share/zsh/history
-
-    # Define a custom history function that defaults to showing the last 1000 entries
-    show_history() {
-      if [ "$#" -eq 0 ]; then
-        history 1000
-      else
-        history "$@"
-      fi
-    }
-    alias history='show_history'
 
     # Ripgrep alias
     alias search=rg -p --glob '!node_modules/*'  $@
@@ -68,25 +57,15 @@ let name = "Dustin Lyons";
         nix-shell '<nixpkgs>' -A "$1"
     }
 
-    # git shortcuts
-    alias gm="git merge --rebase"
-    alias gp="git pull origin"
-
     # pnpm is a javascript package manager
     alias pn=pnpm
     alias px=pnpx
-
-    # bat makes cat pretty
-    alias cat=bat
 
     # Use difftastic, syntax-aware diffing
     alias diff=difft
 
     # Always color ls and group directories
     alias ls='ls --color=auto'
-
-    # Weather report in your terminal
-    alias weather='curl "http://wttr.in"'
 
     # Reboot into my dual boot Windows partition
     alias windows='systemctl reboot --boot-loader-entry=auto-windows'
@@ -285,6 +264,16 @@ let name = "Dustin Lyons";
         };
       };
     };
+  };
+
+  ssh = {
+    enable = true;
+    extraConfig = ''
+      Host github.com
+        Hostname github.com
+        IdentityFile ~/.ssh/id_github
+        IdentitiesOnly yes
+      '';
   };
 
   tmux = {

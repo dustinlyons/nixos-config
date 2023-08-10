@@ -1,5 +1,7 @@
-{ ... }:
+{ pkgs, config, ... }:
 
+let
+  githubPublicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOk8iAnIaa1deoc7jw8YACPNVka1ZFJxhnU4G74TmS+p dustin@Dustins-MBP.localdomain"; in
 {
   # Initializes Emacs with org-mode so we can tangle the main config
   #
@@ -7,6 +9,10 @@
   # Emacs 29 includes org-mode now
   ".emacs.d/init.el" = {
     text = builtins.readFile ../common/config/emacs/init.el;
+  };
+
+  ".ssh/id_github.pub" = {
+    text = githubPublicKey;
   };
 
   # Used in Emacs config.org to load projects and tasks in org-agenda
