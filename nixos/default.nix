@@ -213,13 +213,13 @@ let user = "dustin";
     ];
     shell = pkgs.zsh;
     openssh.authorizedKeys.keys = keys;
-    #passwordFile = config.age.secrets.userPassword.path;
+    passwordFile = config.age.secrets.userPassword.path;
   };
 
   # Root user
   users.users.root = {
     openssh.authorizedKeys.keys = keys;
-    #passwordFile = config.age.secrets.rootPassword.path;
+    passwordFile = config.age.secrets.rootPassword.path;
   };
 
   # Let's be able to SSH into this machine

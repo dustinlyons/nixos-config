@@ -32,7 +32,7 @@ in
     username = "${user}";
     homeDirectory = "/home/${user}";
     packages = pkgs.callPackage ./packages.nix {};
-    file = common-files // import ./files.nix { inherit user; };
+    file = common-files // import ./files.nix { inherit pkgs user; };
     stateVersion = "21.05";
   };
 
