@@ -118,6 +118,45 @@
 
             '')}/bin/install";
         };
+
+        x86_64-linux.secrets = let
+            red = "\033[1;31m";
+            green = "\033[1;32m";
+            yellow = "\033[1;33m";
+            reset = "\033[0m";
+          in {
+            type = "app";
+            program = "${(nixpkgs.legacyPackages.x86_64-linux.writeShellScriptBin "secrets" ''
+              #!/usr/bin/env bash
+              set -e
+              trap 'echo -e "${red}Error occurred!${reset}"' ERR
+
+              # Mounting USB stick
+              mount /dev/sdc /mnt/usb || { echo -e "${red}Mounting USB stick failed!${reset}"; exit 1; }
+              echo -e "${green}USB stick mounted successfully.${reset}"
+
+              # Decrypting the files
+              age-plugin-yubikey --identity > identity 2>/dev/null
+              cat /mnt/usb/id_ed25519_dustin.age | age -d -i identity > ~/.ssh/id_ed25519 || { echo -e "${red}Decryption of id_ed25519_dustin.age failed!${reset}"; exit 1; }
+              cat /mnt/usb/id_ed25519_bootstrap.age | age -d -i identity > ~/.ssh/id_ed25519_bootstrap || { echo -e "${red}Decryption of id_ed25519_bootstrap.age failed!${reset}"; exit 1; }
+              echo -e "${green}Decryption complete.${reset}"
+
+              # Copying the .pub files
+              cp /mnt/usb/id_ed25519.pub ~/.ssh/ || { echo -e "${red}Copying id_ed25519.pub failed!${reset}"; exit 1; }
+              cp /mnt/usb/id_ed25519_bootstrap.pub ~/.ssh/ || { echo -e "${red}Copying id_ed25519_bootstrap.pub failed!${reset}"; exit 1; }
+              echo -e "${green}.pub files copied successfully.${reset}"
+
+              # Setting up the keys
+              chmod 600 ~/.ssh/id_ed25519 || { echo -e "${red}Setting permissions for id_ed25519 failed!${reset}"; exit 1; }
+              chmod 600 ~/.ssh/id_ed25519_bootstrap || { echo -e "${red}Setting permissions for id_ed25519_bootstrap failed!${reset}"; exit 1; }
+              echo -e "${green}Permissions set successfully.${reset}"
+
+              # Unmounting the USB stick
+              umount /mnt/usb || { echo -e "${red}Unmounting USB stick failed!${reset}"; exit 1; }
+              echo -e "${green}USB stick unmounted successfully.${reset}"
+
+            '')}/bin/secrets";
+          };
       };
     };
 }
