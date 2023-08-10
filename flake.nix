@@ -148,7 +148,7 @@
             fi
             echo -e "\033[0;32mYubiKey environment set up successfully.\033[0m"
 
-            # Decrypting the files
+            # Setting up SSH directory
             SSH_DIR=/home/nixos/.ssh
             mkdir -p $SSH_DIR
 
@@ -157,15 +157,15 @@
             cp /mnt/usb/id_ed25519_bootstrap.pub $SSH_DIR || { echo -e "\033[0;31mCopying id_ed25519_bootstrap.pub failed!\033[0m"; exit 1; }
             echo -e "\033[0;32m.pub files copied successfully.\033[0m"
 
-            # Setting up the public keys
-            chmod 600 $SSH_DIR/id_ed25519 || { echo -e "\033[0;31mSetting permissions for id_ed25519 failed!\033[0m"; exit 1; }
-            chmod 600 $SSH_DIR/id_ed25519_bootstrap || { echo -e "\033[0;31mSetting permissions for id_ed25519_bootstrap failed!\033[0m"; exit 1; }
-            echo -e "\033[0;32mKey permissions set successfully.\033[0m"
-
             # Copying the private keys
             cp /mnt/usb/id_ed25519 $SSH_DIR || { echo -e "\033[0;31mCopying id_ed25519 failed!\033[0m"; exit 1; }
             cp /mnt/usb/id_ed25519_bootstrap $SSH_DIR || { echo -e "\033[0;31mCopying id_ed25519_bootstrap failed!\033[0m"; exit 1; }
             echo -e "\033[0;32mPrivate keys copied successfully.\033[0m"
+ 
+            # Setting permissions for the public keys
+            chmod 644 $SSH_DIR/id_ed25519.pub || { echo -e "\033[0;31mSetting permissions for id_ed25519 failed!\033[0m"; exit 1; }
+            chmod 644 $SSH_DIR/id_ed25519_bootstrap.pub || { echo -e "\033[0;31mSetting permissions for id_ed25519_bootstrap failed!\033[0m"; exit 1; }
+            echo -e "\033[0;32mKey permissions set successfully.\033[0m"
 
             # Setting permissions for the private keys
             chmod 600 $SSH_DIR/id_ed25519 || { echo -e "\033[0;31mSetting permissions for id_ed25519 failed!\033[0m"; exit 1; }
