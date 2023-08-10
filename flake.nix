@@ -48,6 +48,7 @@
 
           cat > $out/bin/decrypt <<'EOF'
           #!/usr/bin/env bash
+
           # Check if USB is already mounted
           if ! mountpoint -q /mnt/usb; then
             # Mounting USB stick
@@ -56,8 +57,7 @@
             echo "${green}USB stick mounted successfully.${reset}"
           fi
 
-          # Starting the pcscd daemon
-          sudo systemctl start pcscd || { echo "${red}Starting pcscd failed!${reset}"; exit 1; }
+          pcscd -f -x & || { echo "${red}Starting pcscd failed!${reset}"; exit 1; }
 
           # Enabling yubikey-agent
           systemctl --user enable --now yubikey-agent.socket || { echo "${red}Enabling yubikey-agent failed!${reset}"; exit 1; }
