@@ -75,45 +75,43 @@
           program = "${(nixpkgs.legacyPackages.x86_64-linux.writeShellScriptBin "install" ''
             #!/usr/bin/env bash
             set -e
-            trap 'echo -e "${red}Error occurred!${reset}"' ERR
-
             if [ -e /etc/NIXOS ]; then
-                echo -e "${green}Running in the NixOS installer environment.${reset}"
+                echo "${green}Running in the NixOS installer environment.${reset}"
             else
-                echo -e "${red}Not running in the NixOS installer environment.${reset}"
+                echo "${red}Not running in the NixOS installer environment.${reset}"
             fi
 
-            echo -e "${green}Cleaning previous configuration...${reset}"
+            echo "${green}Cleaning previous configuration...${reset}"
             rm -rf nixos-config-main.zip && rm -rf nixos-config-main && rm -rf nixos-config
 
-            echo -e "${yellow}Downloading nixos-config from Github...${reset}"
-            curl -LJ0 https://github.com/dustinlyons/nixos-config/archive/main.zip -o nixos-config-main.zip || { echo -e "${red}Download failed!${reset}"; exit 1; }
-            echo -e "${green}Download complete.${reset}"
+            echo "${yellow}Downloading nixos-config from Github...${reset}"
+            curl -LJ0 https://github.com/dustinlyons/nixos-config/archive/main.zip -o nixos-config-main.zip || { echo "${red}Download failed!${reset}"; exit 1; }
+            echo "${green}Download complete.${reset}"
 
-            unzip nixos-config-main.zip && mv nixos-config-main nixos-config || { echo -e "${red}Extraction or moving failed!${reset}"; exit 1; }
+            unzip nixos-config-main.zip && mv nixos-config-main nixos-config || { echo "${red}Extraction or moving failed!${reset}"; exit 1; }
 
-            echo -e "${yellow}Running disko...${reset}"
+            echo "${yellow}Running disko...${reset}"
             sudo nix run --extra-experimental-features nix-command --extra-experimental-features flakes \
-              github:nix-community/disko -- --mode zap_create_mount ./nixos-config/nixos/disk-config.nix || { echo -e "${red}Disko run failed!${reset}"; exit 1; }
+              github:nix-community/disko -- --mode zap_create_mount ./nixos-config/nixos/disk-config.nix || { echo "${red}Disko run failed!${reset}"; exit 1; }
 
-            echo -e "${green}Partition and filesystem complete.${reset}"
+            echo "${green}Partition and filesystem complete.${reset}"
 
-            echo -e "${green}Setting up directory structure...${reset}"
-            sudo mkdir -p /mnt/etc/nixos || { echo -e "${red}Directory structure setup failed!${reset}"; exit 1; }
+            echo "${green}Setting up directory structure...${reset}"
+            sudo mkdir -p /mnt/etc/nixos || { echo "${red}Directory structure setup failed!${reset}"; exit 1; }
 
-            sudo cp -r nixos-config/* /mnt/etc/nixos && cd /mnt/etc/nixos || { echo -e "${red}Copying nixos-config failed!${reset}"; exit 1; }
+            sudo cp -r nixos-config/* /mnt/etc/nixos && cd /mnt/etc/nixos || { echo "${red}Copying nixos-config failed!${reset}"; exit 1; }
 
-            echo -e "${yellow}Installing NixOS...${reset}"
-            sudo nixos-install --flake .#felix || { echo -e "${red}NixOS installation failed!${reset}"; exit 1; }
-            echo -e "${yellow}Setting group permissions...${reset}"
-            sudo chmod -R 775 /mnt/etc/nixos || { echo -e "${red}Failed to set group permissions on /mnt/etc/nixos!${reset}"; exit 1; }
-            echo -e "${green}Installation complete.${reset}"
+            echo "${yellow}Installing NixOS...${reset}"
+            sudo nixos-install --flake .#felix || { echo "${red}NixOS installation failed!${reset}"; exit 1; }
+            echo "${yellow}Setting group permissions...${reset}"
+            sudo chmod -R 775 /mnt/etc/nixos || { echo "${red}Failed to set group permissions on /mnt/etc/nixos!${reset}"; exit 1; }
+            echo "${green}Installation complete.${reset}"
 
             # Prompt the user to reboot
             read -p "Do you want to reboot now? (y/yes) " choice
             case "$choice" in
-            y|Y|yes|YES ) echo -e "${green}Rebooting...${reset}" && sudo reboot;;
-            * ) echo -e "${yellow}Reboot skipped.${reset}";;
+            y|Y|yes|YES ) echo "${green}Rebooting...${reset}" && sudo reboot;;
+            * ) echo "${yellow}Reboot skipped.${reset}";;
             esac
 
             '')}/bin/install";
@@ -126,36 +124,57 @@
             reset = "\033[0m";
           in {
             type = "app";
-            program = "${(nixpkgs.legacyPackages.x86_64-linux.writeShellScriptBin "secrets" ''
-              #!/usr/bin/env bash
-              set -e
-              trap 'echo -e "${red}Error occurred!${reset}"' ERR
+            program = o"${(nixpkgs.legacyPackages.x86_64-linux.writeShellScriptBin "secrets" ''
+            #!/usr/bin/env bash
+            set -e
+            trap 'echo "${red}Error occurred!${reset}"' ERR
 
+            # Create a temporary directory for the flake
+            FLAKEDIR=$(mktemp -d)
+            cat > $FLAKEDIR/flake.nix <<EOF
+            {
+              description = "Environment with crypto-related tools age and yubikey-age-plugin";
+
+              inputs.nixpkgs.url = "nixpkgs/nixos-unstable";
+
+              outputs = { self, nixpkgs }: {
+                packages.x86_64-linux.ageWithYubikey = with nixpkgs.legacyPackages.x86_64-linux; mkShell {
+                  buildInputs = [ age age-plugin-yubikey ];
+                };
+              };
+            }
+            EOF
+
+            # Build the environment
+            ENV=$(nix build $FLAKEDIR#packages.x86_64-linux.ageWithYubikey)
+
+            # Use the environment for the rest of your script
+            nix run $ENV -c bash -c '
               # Mounting USB stick
               mkdir -p /mnt/usb
-              mount /dev/sdc /mnt/usb || { echo -e "${red}Mounting USB stick failed!${reset}"; exit 1; }
-              echo -e "${green}USB stick mounted successfully.${reset}"
+              mount /dev/sdc /mnt/usb || { echo "${red}Mounting USB stick failed!${reset}"; exit 1; }
+              echo "${green}USB stick mounted successfully.${reset}"
 
               # Decrypting the files
               age-plugin-yubikey --identity > identity 2>/dev/null
-              cat /mnt/usb/id_ed25519_dustin.age | age -d -i identity > ~/.ssh/id_ed25519 || { echo -e "${red}Decryption of id_ed25519_dustin.age failed!${reset}"; exit 1; }
-              cat /mnt/usb/id_ed25519_bootstrap.age | age -d -i identity > ~/.ssh/id_ed25519_bootstrap || { echo -e "${red}Decryption of id_ed25519_bootstrap.age failed!${reset}"; exit 1; }
-              echo -e "${green}Decryption complete.${reset}"
+              cat /mnt/usb/id_ed25519_dustin.age | age -d -i identity > ~/.ssh/id_ed25519 || { echo "${red}Decryption of id_ed25519_dustin.age failed!${reset}"; exit 1; }
+              cat /mnt/usb/id_ed25519_bootstrap.age | age -d -i identity > ~/.ssh/id_ed25519_bootstrap || { echo "${red}Decryption of id_ed25519_bootstrap.age failed!${reset}"; exit 1; }
+              echo "${green}Decryption complete.${reset}"
 
               # Copying the .pub files
-              cp /mnt/usb/id_ed25519.pub ~/.ssh/ || { echo -e "${red}Copying id_ed25519.pub failed!${reset}"; exit 1; }
-              cp /mnt/usb/id_ed25519_bootstrap.pub ~/.ssh/ || { echo -e "${red}Copying id_ed25519_bootstrap.pub failed!${reset}"; exit 1; }
-              echo -e "${green}.pub files copied successfully.${reset}"
+              cp /mnt/usb/id_ed25519.pub ~/.ssh/ || { echo "${red}Copying id_ed25519.pub failed!${reset}"; exit 1; }
+              cp /mnt/usb/id_ed25519_bootstrap.pub ~/.ssh/ || { echo "${red}Copying id_ed25519_bootstrap.pub failed!${reset}"; exit 1; }
+              echo "${green}.pub files copied successfully.${reset}"
 
               # Setting up the keys
-              chmod 600 ~/.ssh/id_ed25519 || { echo -e "${red}Setting permissions for id_ed25519 failed!${reset}"; exit 1; }
-              chmod 600 ~/.ssh/id_ed25519_bootstrap || { echo -e "${red}Setting permissions for id_ed25519_bootstrap failed!${reset}"; exit 1; }
-              echo -e "${green}Permissions set successfully.${reset}"
+              chmod 600 ~/.ssh/id_ed25519 || { echo "${red}Setting permissions for id_ed25519 failed!${reset}"; exit 1; }
+              chmod 600 ~/.ssh/id_ed25519_bootstrap || { echo "${red}Setting permissions for id_ed25519_bootstrap failed!${reset}"; exit 1; }
+              echo "${green}Key permissions set successfully.${reset}"
 
               # Unmounting the USB stick
-              umount /mnt/usb || { echo -e "${red}Unmounting USB stick failed!${reset}"; exit 1; }
-              echo -e "${green}USB stick unmounted successfully.${reset}"
-
+              umount /mnt/usb || { echo "${red}Unmounting USB stick failed!${reset}"; exit 1; }
+              echo "${green}USB stick unmounted successfully.${reset}"
+            '
             '')}/bin/secrets";
           };
       };
