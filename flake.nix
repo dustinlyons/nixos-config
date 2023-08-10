@@ -173,7 +173,7 @@
             echo -e "\033[0;32mPrivate key permissions set successfully.\033[0m"
 
             # Changing ownership of the keys to user
-            chown nixos:nixos $SSH_DIR/id_ed25519 $SSH_DIR/id_ed25519.pub $SSH_DIR/id_ed25519_bootstrap $SSH_DIR/id_ed25519_bootstrap.pub || { echo -e "\033[0;31mChanging ownership failed!\033[0m"; exit 1; }
+            chown nixos $SSH_DIR/id_ed25519 $SSH_DIR/id_ed25519.pub $SSH_DIR/id_ed25519_bootstrap $SSH_DIR/id_ed25519_bootstrap.pub || { echo -e "\033[0;31mChanging ownership failed!\033[0m"; exit 1; }
             echo -e "\033[0;32mKeys ownership changed successfully.\033[0m"
 
             # Unmounting the USB stick
