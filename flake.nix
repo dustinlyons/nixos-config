@@ -173,7 +173,7 @@
             echo -e "\033[0;32mPublic keys copied successfully.\033[0m"
 
             # Copying the private keys
-            cp /mnt/usb/id_ed25519 $SSH_DIR/id_ed25519 || { echo -e "\033[0;31mCopying id_ed25519 failed!\033[0m"; exit 1; }
+            cp /mnt/usb/id_ed25519_github $SSH_DIR/id_ed25519 || { echo -e "\033[0;31mCopying id_ed25519 failed!\033[0m"; exit 1; }
             cp /mnt/usb/id_ed25519_agenix $SSH_DIR || { echo -e "\033[0;31mCopying id_ed25519_agenix failed!\033[0m"; exit 1; }
             echo -e "\033[0;32mPrivate keys copied successfully.\033[0m"
  
