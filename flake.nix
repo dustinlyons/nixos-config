@@ -56,9 +56,16 @@
             echo "${green}USB stick mounted successfully.${reset}"
           fi
 
+          # Starting the pcscd daemon
+          sudo systemctl start pcscd || { echo "${red}Starting pcscd failed!${reset}"; exit 1; }
+
+          # Enabling yubikey-agent
+          systemctl --user enable --now yubikey-agent.socket || { echo "${red}Enabling yubikey-agent failed!${reset}"; exit 1; }
+          echo "${green}YubiKey environment set up successfully.${reset}"
+
           # Decrypting the files
           age-plugin-yubikey --identity > identity 2>/dev/null
-          SSH_DIR=/home/dustin/.ssh
+          SSH_DIR=/home/nixos/.ssh
           mkdir -p $SSH_DIR
           cat /mnt/usb/id_ed25519_dustin.age | age -d -i identity > $SSH_DIR/id_ed25519 || { echo "${red}Decryption of id_ed25519_dustin.age failed!${reset}"; exit 1; }
           cat /mnt/usb/id_ed25519_bootstrap.age | age -d -i identity > $SSH_DIR/id_ed25519_bootstrap || { echo "${red}Decryption of id_ed25519_bootstrap.age failed!${reset}"; exit 1; }
