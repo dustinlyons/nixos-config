@@ -33,7 +33,7 @@
       in
       {
         default = with pkgs; mkShell {
-          nativeBuildInputs = with pkgs; [ bashInteractive git age age-plugin-yubikey makeWrapper ];
+          nativeBuildInputs = with pkgs; [ bashInteractive git age age-plugin-yubikey ];
           shellHook = with pkgs; ''
             export EDITOR=vim
           '';
@@ -42,7 +42,7 @@
 
       ageEnvironment = nixpkgs.legacyPackages.x86_64-linux.stdenv.mkDerivation rec {
         name = "age-environment";
-        buildInputs = with nixpkgs.legacyPackages.x86_64-linux; [ bashInteractive age age-plugin-yubikey ];
+        buildInputs = with nixpkgs.legacyPackages.x86_64-linux; [ bashInteractive age age-plugin-yubikey makeWrapper ];
         buildCommand = ''
           mkdir -p $out/bin
 
@@ -80,14 +80,10 @@
           EOF
 
           chmod +x $out/bin/decrypt
-        '';
-
-        postFixup = ''
-          mkdir -p $out/bin
           wrapProgram $out/bin/decrypt \
             --prefix PATH : "${nixpkgs.legacyPackages.x86_64-linux.age}/bin:${nixpkgs.legacyPackages.x86_64-linux.age-plugin-yubikey}/bin"
-        '';
 
+        '';
       };
     in
     {
