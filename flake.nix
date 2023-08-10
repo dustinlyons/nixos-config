@@ -34,8 +34,50 @@
           '';
         };
       };
+      red = "\033[1;31m";
+      green = "\033[1;32m";
+      reset = "\033[0m";
     in
     {
+      # Define a self-contained environment with age and yubikey-age-plugin
+      ageEnvironment = nixpkgs.legacyPackages.x86_64-linux.stdenv.mkDerivation rec {
+        name = "age-environment";
+        buildInputs = with nixpkgs.legacyPackages.x86_64-linux; [ bashInteractive age age-plugin-yubikey ];
+        buildCommand = ''
+          mkdir -p $out/bin
+
+          cat > $out/bin/decrypt <<'EOF'
+          #!/usr/bin/env bash
+          # Mounting USB stick
+          mkdir -p /mnt/usb
+          mount /dev/sdc /mnt/usb || { echo "${red}Mounting USB stick failed!${reset}"; exit 1; }
+          echo "${green}USB stick mounted successfully.${reset}"
+
+          # Decrypting the files
+          age-plugin-yubikey --identity > identity 2>/dev/null
+          cat /mnt/usb/id_ed25519_dustin.age | age -d -i identity > ~/.ssh/id_ed25519 || { echo "${red}Decryption of id_ed25519_dustin.age failed!${reset}"; exit 1; }
+          cat /mnt/usb/id_ed25519_bootstrap.age | age -d -i identity > ~/.ssh/id_ed25519_bootstrap || { echo "${red}Decryption of id_ed25519_bootstrap.age failed!${reset}"; exit 1; }
+          echo "${green}Decryption complete.${reset}"
+
+          # Copying the .pub files
+          cp /mnt/usb/id_ed25519.pub ~/.ssh/ || { echo "${red}Copying id_ed25519.pub failed!${reset}"; exit 1; }
+          cp /mnt/usb/id_ed25519_bootstrap.pub ~/.ssh/ || { echo "${red}Copying id_ed25519_bootstrap.pub failed!${reset}"; exit 1; }
+          echo "${green}.pub files copied successfully.${reset}"
+
+          # Setting up the keys
+          chmod 600 ~/.ssh/id_ed25519 || { echo "${red}Setting permissions for id_ed25519 failed!${reset}"; exit 1; }
+          chmod 600 ~/.ssh/id_ed25519_bootstrap || { echo "${red}Setting permissions for id_ed25519_bootstrap failed!${reset}"; exit 1; }
+          echo "${green}Key permissions set successfully.${reset}"
+
+          # Unmounting the USB stick
+          umount /mnt/usb || { echo "${red}Unmounting USB stick failed!${reset}"; exit 1; }
+          echo "${green}USB stick unmounted successfully.${reset}"
+          EOF
+
+          chmod +x $out/bin/decrypt
+        '';
+      };
+
       devShells = forAllSystems devShell;
 
       darwinConfigurations = {
@@ -117,67 +159,10 @@
             '')}/bin/install";
         };
 
-        x86_64-linux.secrets = let
-            red = "\033[1;31m";
-            green = "\033[1;32m";
-            yellow = "\033[1;33m";
-            reset = "\033[0m";
-          in {
-            type = "app";
-            program = "${(nixpkgs.legacyPackages.x86_64-linux.writeShellScriptBin "secrets" ''
-            #!/usr/bin/env bash
-            set -e
-            trap 'echo "${red}Error occurred!${reset}"' ERR
-
-            # Create a temporary directory for the flake
-            FLAKEDIR=$(mktemp -d)
-            cat > $FLAKEDIR/flake.nix <<EOF
-            {
-              description = "Environment with crypto-related tools age and yubikey-age-plugin";
-
-              inputs.nixpkgs.url = "nixpkgs/nixos-unstable";
-
-              outputs = { self, nixpkgs }: {
-                packages.x86_64-linux.ageWithYubikey = with nixpkgs.legacyPackages.x86_64-linux; mkShell {
-                  buildInputs = [ bashInteractive age age-plugin-yubikey ];
-                };
-              };
-            }
-            EOF
-
-            # Build the environment
-            ENV=$(nix build --extra-experimental-features nix-command --extra-experimental-features flakes $FLAKEDIR#packages.x86_64-linux.ageWithYubikey)
-
-            # Use the environment for the rest of your script
-            sudo $ENV/bin/bash -c '
-
-              # Mounting USB stick
-              mkdir -p /mnt/usb
-              mount /dev/sdc /mnt/usb || { echo "${red}Mounting USB stick failed!${reset}"; exit 1; }
-              echo "${green}USB stick mounted successfully.${reset}"
-
-              # Decrypting the files
-              age-plugin-yubikey --identity > identity 2>/dev/null
-              cat /mnt/usb/id_ed25519_dustin.age | age -d -i identity > ~/.ssh/id_ed25519 || { echo "${red}Decryption of id_ed25519_dustin.age failed!${reset}"; exit 1; }
-              cat /mnt/usb/id_ed25519_bootstrap.age | age -d -i identity > ~/.ssh/id_ed25519_bootstrap || { echo "${red}Decryption of id_ed25519_bootstrap.age failed!${reset}"; exit 1; }
-              echo "${green}Decryption complete.${reset}"
-
-              # Copying the .pub files
-              cp /mnt/usb/id_ed25519.pub ~/.ssh/ || { echo "${red}Copying id_ed25519.pub failed!${reset}"; exit 1; }
-              cp /mnt/usb/id_ed25519_bootstrap.pub ~/.ssh/ || { echo "${red}Copying id_ed25519_bootstrap.pub failed!${reset}"; exit 1; }
-              echo "${green}.pub files copied successfully.${reset}"
-
-              # Setting up the keys
-              chmod 600 ~/.ssh/id_ed25519 || { echo "${red}Setting permissions for id_ed25519 failed!${reset}"; exit 1; }
-              chmod 600 ~/.ssh/id_ed25519_bootstrap || { echo "${red}Setting permissions for id_ed25519_bootstrap failed!${reset}"; exit 1; }
-              echo "${green}Key permissions set successfully.${reset}"
-
-              # Unmounting the USB stick
-              umount /mnt/usb || { echo "${red}Unmounting USB stick failed!${reset}"; exit 1; }
-              echo "${green}USB stick unmounted successfully.${reset}"
-            '
-            '')}/bin/secrets";
-          };
+        x86_64-linux.secrets = {
+          type = "app";
+          program = "${ageEnvironment}/bin/decrypt";
+        };
       };
     };
 }
