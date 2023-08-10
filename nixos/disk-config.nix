@@ -1,4 +1,4 @@
-{ ... }: {
+{ _ }: {
 
   disko.devices = {
     disk = {
@@ -18,7 +18,7 @@
               };
             };
             root = {
-              size = "100%";  # Utilizing the remaining disk space.
+              size = "50%";  # Leaving 50% disk space
               content = {
                 type = "filesystem";
                 format = "ext4";
