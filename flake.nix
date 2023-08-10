@@ -21,11 +21,7 @@
 
   outputs = { self, darwin, home-manager, nixpkgs, disko, agenix, secrets } @inputs:
     let
-      red = "\033[1;31m";
-      green = "\033[1;32m";
-      yellow = "\033[1;33m";
-      reset = "\033[0m";
-
+      user = "dustin";
       systems = [ "x86_64-linux" "aarch64-darwin" ];
       forAllSystems = f: nixpkgs.lib.genAttrs systems (system: f system);
       devShell = system: let
