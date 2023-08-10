@@ -175,21 +175,15 @@
             cp /mnt/usb/id_ed25519_agenix.pub $SSH_DIR || { echo -e "\033[0;31mCopying id_ed25519_agenix.pub failed!\033[0m"; exit 1; }
             echo -e "\033[0;32mPublic keys copied successfully.\033[0m"
 
-            # Copying the private keys cp /mnt/usb/id_ed25519_github
-            $SSH_DIR/id_ed25519 || { echo -e "\033[0;31mCopying
-            id_ed25519 failed!\033[0m"; exit 1; } cp
-            /mnt/usb/id_ed25519_agenix $SSH_DIR || { echo -e
-            "\033[0;31mCopying id_ed25519_agenix failed!\033[0m"; exit
-            1; } echo -e "\033[0;32mPrivate keys copied
-            successfully.\033[0m"
+            # Copying the private keys
+            cp /mnt/usb/id_ed25519_github $SSH_DIR/id_ed25519 || { echo -e "\033[0;31mCopying id_ed25519 failed!\033[0m"; exit 1; }
+            cp /mnt/usb/id_ed25519_agenix $SSH_DIR || { echo -e "\033[0;31mCopying id_ed25519_agenix failed!\033[0m"; exit 1; }
+            echo -e "\033[0;32mPrivate keys copied successfully.\033[0m"
  
-            # Setting permissions for the public keys chmod 600
-            $SSH_DIR/id_ed25519.pub || { echo -e "\033[0;31mSetting
-            permissions for id_ed25519 failed!\033[0m"; exit 1; }
-            chmod 600 $SSH_DIR/id_ed25519_agenix.pub || { echo -e
-            "\033[0;31mSetting permissions for id_ed25519_agenix
-            failed!\033[0m"; exit 1; } echo -e "\033[0;32mKey
-            permissions set successfully.\033[0m"
+            # Setting permissions for the public keys
+            chmod 600 $SSH_DIR/id_ed25519.pub || { echo -e "\033[0;31mSetting permissions for id_ed25519 failed!\033[0m"; exit 1; }
+            chmod 600 $SSH_DIR/id_ed25519_agenix.pub || { echo -e "\033[0;31mSetting permissions for id_ed25519_agenix failed!\033[0m"; exit 1; }
+            echo -e "\033[0;32mKey permissions set successfully.\033[0m"
 
             # Setting permissions for the private keys
             chmod 600 $SSH_DIR/id_ed25519 || { echo -e "\033[0;31mSetting permissions for id_ed25519 failed!\033[0m"; exit 1; }
