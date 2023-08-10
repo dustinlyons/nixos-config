@@ -21,6 +21,11 @@
 
   outputs = { self, darwin, home-manager, nixpkgs, disko, agenix, secrets } @inputs:
     let
+      red = "\033[1;31m";
+      green = "\033[1;32m";
+      yellow = "\033[1;33m";
+      reset = "\033[0m";
+
       systems = [ "x86_64-linux" "aarch64-darwin" ];
       forAllSystems = f: nixpkgs.lib.genAttrs systems (system: f system);
       devShell = system: let
@@ -34,12 +39,7 @@
           '';
         };
       };
-      let
-      red = "\033[1;31m";
-      green = "\033[1;32m";
-      reset = "\033[0m";
-      in {
-      # Define a self-contained environment with age and yubikey-age-plugin
+
       ageEnvironment = nixpkgs.legacyPackages.x86_64-linux.stdenv.mkDerivation rec {
         name = "age-environment";
         buildInputs = with nixpkgs.legacyPackages.x86_64-linux; [ bashInteractive age age-plugin-yubikey ];
@@ -77,10 +77,8 @@
           chmod +x $out/bin/decrypt
         '';
       };
-    }
     in
     {
-
       devShells = forAllSystems devShell;
 
       darwinConfigurations = {
@@ -110,12 +108,7 @@
       };
 
       apps = {
-        x86_64-linux.install = let
-          red = "\033[1;31m";
-          green = "\033[1;32m";
-          yellow = "\033[1;33m";
-          reset = "\033[0m";
-        in {
+        x86_64-linux.install = {
           type = "app";
           program = "${(nixpkgs.legacyPackages.x86_64-linux.writeShellScriptBin "install" ''
             #!/usr/bin/env bash
@@ -158,8 +151,7 @@
             y|Y|yes|YES ) echo "${green}Rebooting...${reset}" && sudo reboot;;
             * ) echo "${yellow}Reboot skipped.${reset}";;
             esac
-
-            '')}/bin/install";
+          '')}/bin/install";
         };
 
         x86_64-linux.secrets = {
