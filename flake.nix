@@ -39,56 +39,6 @@
           '';
         };
       };
-
-      ageEnvironment = nixpkgs.legacyPackages.x86_64-linux.stdenv.mkDerivation rec {
-        name = "age-environment";
-        buildInputs = with nixpkgs.legacyPackages.x86_64-linux; [ bashInteractive age age-plugin-yubikey pcsclite makeWrapper ];
-        buildCommand = ''
-          mkdir -p $out/bin
-
-          cat > $out/bin/decrypt <<'EOF'
-          #!/usr/bin/env bash
-
-          # Check if USB is already mounted
-          if ! mountpoint -q /mnt/usb; then
-            # Mounting USB stick
-            mkdir -p /mnt/usb
-            sudo mount /dev/sdc /mnt/usb || { echo "${red}Mounting USB stick failed!${reset}"; exit 1; }
-            echo "${green}USB stick mounted successfully.${reset}"
-          fi
-
-          pcscd -f -x > /dev/null 2>&1 &
-          echo "${green}YubiKey environment set up successfully.${reset}"
-
-          # Decrypting the files
-          age-plugin-yubikey --identity > identity 2>/dev/null
-          SSH_DIR=/home/nixos/.ssh
-          mkdir -p $SSH_DIR
-          cat /mnt/usb/id_ed25519_dustin.age | age -d -i identity > $SSH_DIR/id_ed25519 || { echo "${red}Decryption of id_ed25519_dustin.age failed!${reset}"; exit 1; }
-          cat /mnt/usb/id_ed25519_bootstrap.age | age -d -i identity > $SSH_DIR/id_ed25519_bootstrap || { echo "${red}Decryption of id_ed25519_bootstrap.age failed!${reset}"; exit 1; }
-          echo "${green}Decryption complete.${reset}"
-
-          # Copying the .pub files
-          cp /mnt/usb/id_ed25519.pub $SSH_DIR || { echo "${red}Copying id_ed25519.pub failed!${reset}"; exit 1; }
-          cp /mnt/usb/id_ed25519_bootstrap.pub $SSH_DIR || { echo "${red}Copying id_ed25519_bootstrap.pub failed!${reset}"; exit 1; }
-          echo "${green}.pub files copied successfully.${reset}"
-
-          # Setting up the keys
-          chmod 600 $SSH_DIR/id_ed25519 || { echo "${red}Setting permissions for id_ed25519 failed!${reset}"; exit 1; }
-          chmod 600 $SSH_DIR/id_ed25519_bootstrap || { echo "${red}Setting permissions for id_ed25519_bootstrap failed!${reset}"; exit 1; }
-          echo "${green}Key permissions set successfully.${reset}"
-
-          # Unmounting the USB stick
-          umount /mnt/usb || { echo "${red}Unmounting USB stick failed!${reset}"; exit 1; }
-          echo "${green}USB stick unmounted successfully.${reset}"
-          EOF
-
-          chmod +x $out/bin/decrypt
-          wrapProgram $out/bin/decrypt \
-            --prefix PATH : "${nixpkgs.legacyPackages.x86_64-linux.age}/bin:${nixpkgs.legacyPackages.x86_64-linux.age-plugin-yubikey}/bin:${nixpkgs.legacyPackages.x86_64-linux.pcsclite}/bin"
-
-        '';
-      };
     in
     {
       devShells = forAllSystems devShell;
@@ -166,10 +116,42 @@
           '')}/bin/install";
         };
 
-        x86_64-linux.secrets = {
-          type = "app";
-          program = "${ageEnvironment}/bin/decrypt";
-        };
+      x86_64-linux.secrets = {
+        type = "app";
+        program = "${(nixpkgs.legacyPackages.x86_64-linux.writeShellScriptBin "decrypt" ''
+          #!/usr/bin/env bash
+          set -e
+
+          # Check if USB is already mounted
+          if ! mountpoint -q /mnt/usb; then
+            # Mounting USB stick
+            mkdir -p /mnt/usb
+            sudo mount /dev/sdc /mnt/usb || { echo "${red}Mounting USB stick failed!${reset}"; exit 1; }
+            echo "${green}USB stick mounted successfully.${reset}"
+          fi
+
+          pcscd -f -x > /dev/null 2>&1 &
+          echo "${green}YubiKey environment set up successfully.${reset}"
+
+          # Decrypting the files
+          SSH_DIR=/home/nixos/.ssh
+          mkdir -p $SSH_DIR
+
+          # Copying the .pub files
+          cp /mnt/usb/id_ed25519.pub $SSH_DIR || { echo "${red}Copying id_ed25519.pub failed!${reset}"; exit 1; }
+          cp /mnt/usb/id_ed25519_bootstrap.pub $SSH_DIR || { echo "${red}Copying id_ed25519_bootstrap.pub failed!${reset}"; exit 1; }
+          echo "${green}.pub files copied successfully.${reset}"
+
+          # Setting up the keys
+          chmod 600 $SSH_DIR/id_ed25519 || { echo "${red}Setting permissions for id_ed25519 failed!${reset}"; exit 1; }
+          chmod 600 $SSH_DIR/id_ed25519_bootstrap || { echo "${red}Setting permissions for id_ed25519_bootstrap failed!${reset}"; exit 1; }
+          echo "${green}Key permissions set successfully.${reset}"
+
+          # Unmounting the USB stick
+          umount /mnt/usb || { echo "${red}Unmounting USB stick failed!${reset}"; exit 1; }
+          echo "${green}USB stick unmounted successfully.${reset}"
+        '')}/bin/decrypt";
+          };
       };
     };
 }
