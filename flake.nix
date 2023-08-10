@@ -81,7 +81,7 @@
 
           chmod +x $out/bin/decrypt
           wrapProgram $out/bin/decrypt \
-            --prefix PATH : "${nixpkgs.legacyPackages.x86_64-linux.age}/bin:${nixpkgs.legacyPackages.x86_64-linux.age-plugin-yubikey}/bin"
+            --prefix PATH : "${nixpkgs.legacyPackages.x86_64-linux.age}/bin:${nixpkgs.legacyPackages.x86_64-linux.age-plugin-yubikey}/bin:${nixpkgs.legacyPackages.x86_64-linux.pcsclite}/bin"
 
         '';
       };
