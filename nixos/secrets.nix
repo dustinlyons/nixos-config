@@ -2,9 +2,9 @@
 
 let user = "dustin"; in
 {
-  age.identityPaths = [ 
-    "/home/${user}/.ssh/id_ed25519"
-  ];
+  #age.identityPaths = [
+  #  "/home/${user}/.ssh/id_ed25519"
+  #];
 
   # age.secrets."syncthing-cert" = {
   #   symlink = true;
