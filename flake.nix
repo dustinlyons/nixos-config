@@ -180,7 +180,7 @@
             }
 
             setup_ssh_directory() {
-              SSH_DIR=/root/.ssh
+              export SSH_DIR=/root/.ssh
               mkdir -p $SSH_DIR
             }
 
