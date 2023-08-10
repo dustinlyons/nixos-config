@@ -139,7 +139,7 @@
 
               outputs = { self, nixpkgs }: {
                 packages.x86_64-linux.ageWithYubikey = with nixpkgs.legacyPackages.x86_64-linux; mkShell {
-                  buildInputs = [ age age-plugin-yubikey ];
+                  buildInputs = [ bashInteractive age age-plugin-yubikey ];
                 };
               };
             }
