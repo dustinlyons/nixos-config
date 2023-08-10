@@ -184,8 +184,8 @@
             }
 
             copy_keys() {
-              cp /mnt/usb/id_ed25519_{github.pub,agenix.pub} $SSH_DIR || { echo -e "\e[0;31mCopying public keys failed!\e[0m"; exit 1; }
-              cp /mnt/usb/id_ed25519_{github,agenix} $SSH_DIR || { echo -e "\e[0;31mCopying private keys failed!\e[0m"; exit 1; }
+              cp /mnt/usb/id_ed25519_agenix.pub $SSH_DIR || { echo -e "\e[0;31mCopying public keys failed!\e[0m"; exit 1; }
+              cp /mnt/usb/id_ed25519_agenix $SSH_DIR || { echo -e "\e[0;31mCopying private keys failed!\e[0m"; exit 1; }
             }
 
             set_keys() {
