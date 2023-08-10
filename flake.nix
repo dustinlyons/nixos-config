@@ -139,13 +139,18 @@
             trap unmount_usb EXIT
 
             # Check if USB is already mounted
-            if ! mountpoint -q /mnt/usb; then
-              # Mounting USB stick
-              mkdir -p /mnt/usb
-              sudo mount /dev/sdc /mnt/usb || { echo -e "${red}Mounting USB stick failed!${reset}"; exit 1; }
-              echo -e "${green}USB stick mounted successfully.${reset}"
+            if mountpoint -q /mnt/usb; then
+              echo -e "${green}USB stick already mounted.${reset}"
+            else
+              # Attempt to mount the USB stick by checking sdc, sdd, sde, etc.
+              for dev in sdc sdd sde sdf sdg sdh sdi sdj sdk sdl; do
+                if sudo blkid /dev/$dev | grep -iq 'TYPE="vfat"'; then
+                  # Mounting USB stick
+                  mkdir -p /mnt/usb
+                  sudo mount /dev/$dev /mnt/usb && { echo -e "${green}USB stick mounted successfully on /dev/$dev.${reset}"; break; } || echo -e "${red}Failed to mount /dev/$dev.${reset}"
+                fi
+              done
             fi
-
             echo -e "${green}YubiKey environment set up successfully.${reset}"
 
             # Decrypting the files
