@@ -124,7 +124,7 @@
             reset = "\033[0m";
           in {
             type = "app";
-            program = o"${(nixpkgs.legacyPackages.x86_64-linux.writeShellScriptBin "secrets" ''
+            program = "${(nixpkgs.legacyPackages.x86_64-linux.writeShellScriptBin "secrets" ''
             #!/usr/bin/env bash
             set -e
             trap 'echo "${red}Error occurred!${reset}"' ERR
