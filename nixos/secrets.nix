@@ -25,12 +25,21 @@ let user = "dustin"; in
   #   group = "staff";
   # };
 
-   age.secrets."rootPassword" = {
-     file = "${secrets}/root-password.age";
-   };
+  age.secrets."github-ssh-key" = {
+    symlink = true;
+    path = "/home/${user}/.ssh/id_github";
+    file =  "${secrets}/github-ssh-key.age";
+    mode = "600";
+    owner = "${user}";
+    group = "staff";
+  };
 
-   age.secrets."userPassword" = {
-     file = "${secrets}/user-password.age";
-   };
+  age.secrets."rootPassword" = {
+    file = "${secrets}/root-password.age";
+  };
+
+  age.secrets."userPassword" = {
+    file = "${secrets}/user-password.age";
+  };
 
 }
