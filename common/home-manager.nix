@@ -7,10 +7,6 @@ let name = "Dustin Lyons";
   zsh.enable = true;
   zsh.autocd = false;
   zsh.cdpath = [ "~/.local/share/src" ];
-  zsh.dirHashes = {
-    code = "$HOME/.local/share/src";
-    nixos-config = "$HOME/.local/share/src/nixos-config";
-  };
   zsh.plugins = [
     {
         name = "powerlevel10k";
