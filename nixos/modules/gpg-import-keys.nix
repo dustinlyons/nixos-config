@@ -21,25 +21,5 @@ in {
   };
 
   config = {
-    programs.gpg.enable = mkDefault true;
-
-    systemd.user.services.gpg-import-keys = mkIf (cfg.keys != []) {
-      Unit = {
-        Description = "Auto import gpg keys";
-        After = [ "gpg-agent.socket" ];
-      };
-
-      Service = {
-        Type = "oneshot";
-        ExecStart = toString (pkgs.writeScript "import-gpg-keys" ''
-          #! ${pkgs.runtimeShell} -el
-          ${optionalString (gpgKeys!= []) ''
-          ${pkgs.gnupg}/bin/gpg --import ${concatStringsSep " " gpgKeys}
-          ''}
-        '');
-      };
-
-      Install = { WantedBy = [ "default.target" ]; };
-    };
   };
 }

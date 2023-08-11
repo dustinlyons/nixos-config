@@ -115,12 +115,32 @@ in
     };
   };
 
-  programs = common-programs // {
-    gpg = {
-      autoImport.keys = [
-        "/home/${user}/.ssh/pgp_github.key"
-        "/home/${user}/.ssh/pgp_github.pub"
-      ];
+  programs = common-programs // { gpg.enable = true; };
+
+  let
+    gpgKeys = [
+      "/home/${user}/.ssh/pgp_github.key"
+      "/home/${user}/.ssh/pgp_github.pub"
+    ];
+  in
+  systemd.user.services.gpg-import-keys = mkIf (cfg.keys != []) {
+    Unit = {
+      Description = "Import gpg keys";
+      After = [ "gpg-agent.socket" ];
     };
+
+    Service = {
+      Type = "oneshot";
+      ExecStart = toString (pkgs.writeScript "import-gpg-keys" ''
+        #! ${pkgs.runtimeShell} -el
+        ${optionalString (gpgKeys!= []) ''
+        ${pkgs.gnupg}/bin/gpg --import ${concatStringsSep " " gpgKeys}
+        ''}
+      '');
+    };
+
+    Install = { WantedBy = [ "default.target" ]; };
   };
+
+
 }
