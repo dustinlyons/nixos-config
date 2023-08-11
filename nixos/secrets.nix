@@ -31,15 +31,6 @@ let user = "dustin"; in
     file =  "${secrets}/github-ssh-key.age";
     mode = "600";
     owner = "${user}";
-    group = "staff";
-  };
-
-  age.secrets."rootPassword" = {
-    file = "${secrets}/root-password.age";
-  };
-
-  age.secrets."userPassword" = {
-    file = "${secrets}/user-password.age";
   };
 
 }

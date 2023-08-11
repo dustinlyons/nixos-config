@@ -131,6 +131,11 @@
               sudo chmod -R 775 /mnt/etc/nixos
             }
 
+            prompt_passwd() {
+              echo -e "\e[1;33mSetting password for ${user}...\e[0m"
+              passwd ${user}
+            }
+
             prompt_reboot() {
               read -p "Do you want to reboot now? (y/yes) " choice
               case "$choice" in
@@ -147,6 +152,7 @@
             setup_ssh_keys
             link_home_dir
             install_nixos
+            prompt_passwd
             cleanup
             prompt_reboot
 
