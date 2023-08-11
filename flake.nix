@@ -173,12 +173,12 @@
 
             mount_usb() {
               if mountpoint -q /mnt/usb; then
-                echo -e "\e[0;32mUSB stick already mounted.\e[0m"
+                echo -e "\e[0;32mUSB drive already mounted.\e[0m"
               else
                 for dev in sdc sdd sde sdf sdg sdh sdi sdj sdk sdl; do
                   if sudo blkid /dev/$dev | grep -iq 'TYPE="vfat"'; then
                     mkdir -p /mnt/usb
-                    sudo mount /dev/$dev /mnt/usb && { echo -e "\e[0;32mUSB stick mounted successfully on /dev/$dev.\e[0m"; break; } || echo -e "\e[0;31mFailed to mount /dev/$dev.\e[0m"
+                    sudo mount /dev/$dev /mnt/usb && { echo -e "\e[0;32mUSB drive mounted successfully on /dev/$dev.\e[0m"; break; } || echo -e "\e[0;31mFailed to mount /dev/$dev.\e[0m"
                   fi
                 done
               fi
