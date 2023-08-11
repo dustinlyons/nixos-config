@@ -116,9 +116,11 @@ in
   };
 
   programs = common-programs // {
-    gpg.autoImport.keys = [
-      "/home/${user}/.ssh/pgp_github.key"
-      "/home/${user}/.ssh/pgp_github.pub"
-    ];
+    gpg = {
+      autoImport.keys = [
+        "/home/${user}/.ssh/pgp_github.key"
+        "/home/${user}/.ssh/pgp_github.pub"
+      ];
+    };
   };
-};
+}
