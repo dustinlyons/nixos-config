@@ -203,7 +203,7 @@ let user = "dustin";
     };
   };
 
-  # It's me
+  # It's me, it's you, it's everyone
   users.users.${user} = {
     isNormalUser = true;
     extraGroups = [
@@ -244,7 +244,7 @@ let user = "dustin";
   ];
 
   environment.systemPackages = with pkgs; [
-    agenix.packages."${pkgs.system}".default
+    agenix.packages."${pkgs.system}".default # "x86_64-linux"
     gitAndTools.gitFull
     inetutils
   ];

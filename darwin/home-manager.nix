@@ -75,10 +75,48 @@ let
   # Enable home-manager
   home-manager = {
     useGlobalPkgs = true;
-    users.${user} = {
+    users.${user} = { pkgs, config, lib, ... }:{
       home.enableNixpkgsReleaseCheck = false;
       home.packages = pkgs.callPackage ./packages.nix {};
       home.file = common-files // import ./files.nix { inherit config pkgs; };
+
+      home.activation.gpgImportKeys =
+        let
+          gpgKeys = [
+            "/Users/${user}/.ssh/pgp_github.key"
+            "/Users/${user}/.ssh/pgp_github.pub"
+          ];
+          gpgScript = pkgs.writeScript "gpg-import-keys" ''
+            #! ${pkgs.runtimeShell} -el
+            ${lib.optionalString (gpgKeys != []) ''
+              ${pkgs.gnupg}/bin/gpg --import ${lib.concatStringsSep " " gpgKeys}
+            ''}
+          '';
+          plistPath = "$HOME/Library/LaunchAgents/gpg-import-keys.plist";
+        in
+          lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+            mkdir -p "$HOME/Library/LaunchAgents"
+            cat >${plistPath} <<EOF
+            <?xml version="1.0" encoding="UTF-8"?>
+            <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+            <plist version="1.0">
+            <dict>
+              <key>Label</key>
+              <string>gpg-import-keys</string>
+              <key>ProgramArguments</key>
+              <array>
+                <string>${gpgScript}</string>
+              </array>
+              <key>RunAtLoad</key>
+              <true/>
+            </dict>
+            </plist>
+            EOF
+
+            #chmod +x ${gpgScript}
+            launchctl load ${plistPath}
+          '';
+
       programs = {} // import ../common/home-manager.nix { inherit config pkgs lib; };
 
       # https://github.com/nix-community/home-manager/issues/3344

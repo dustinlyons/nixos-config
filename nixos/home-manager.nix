@@ -31,6 +31,7 @@ let
 
   polybar-colors = builtins.readFile ./config/polybar/colors.ini;
 
+  # These files are generated when secrets are decrypted at build time
   gpgKeys = [
     "/home/${user}/.ssh/pgp_github.key"
     "/home/${user}/.ssh/pgp_github.pub"
@@ -126,9 +127,9 @@ in
     };
   };
 
-  # This installs my GPG signing keys for Github
   programs = common-programs // { gpg.enable = true; };
 
+  # This installs my GPG signing keys for Github
   systemd.user.services.gpg-import-keys = {
     Unit = {
       Description = "Import gpg keys";
@@ -137,7 +138,7 @@ in
 
     Service = {
       Type = "oneshot";
-      ExecStart = toString (pkgs.writeScript "import-gpg-keys" ''
+      ExecStart = toString (pkgs.writeScript "gpg-import-keys" ''
         #! ${pkgs.runtimeShell} -el
         ${lib.optionalString (gpgKeys!= []) ''
         ${pkgs.gnupg}/bin/gpg --import ${lib.concatStringsSep " " gpgKeys}
