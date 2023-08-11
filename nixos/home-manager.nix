@@ -139,8 +139,8 @@ in
       Type = "oneshot";
       ExecStart = toString (pkgs.writeScript "import-gpg-keys" ''
         #! ${pkgs.runtimeShell} -el
-        ${optionalString (gpgKeys!= []) ''
-        ${pkgs.gnupg}/bin/gpg --import ${concatStringsSep " " gpgKeys}
+        ${lib.optionalString (gpgKeys!= []) ''
+        ${pkgs.gnupg}/bin/gpg --import ${lib.concatStringsSep " " gpgKeys}
         ''}
       '');
     };
