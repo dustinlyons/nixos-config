@@ -87,8 +87,11 @@ Download and burn [the minimal ISO image](https://nixos.org/download.html), then
 > Until I ship `sops-nix`, you'll need to set the user password on first boot. `Ctrl-Alt-F2` gives you another shell where you can login as root and run `passwd <user>`. `Ctrl-Alt-F7` gets back to the login screen.
 
 > [!WARNING]
-> Running this command will reformat your entire drive to the ext4 filesystem.
+> Running these commands will reformat your entire drive to the ext4 filesystem.
 
+```sh
+nix run --extra-experimental-features 'nix-command flakes' github:dustinlyons/nixos-config#secrets
+```
 ```sh
 nix run --extra-experimental-features 'nix-command flakes' github:dustinlyons/nixos-config#install
 ```
@@ -112,7 +115,7 @@ unlink ./result
 ```
 ### On NixOS
 ```sh
-sudo -E /run/current-system/sw/bin/nixos-rebuild switch --flake .#felix
+sudo nixos-rebuild switch --flake .#felix
 ```
 ## Update dependencies
 ```sh
