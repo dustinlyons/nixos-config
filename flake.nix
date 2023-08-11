@@ -206,8 +206,8 @@
             mount_usb
             setup_ssh_directory
             copy_keys
-            change_ownership
             set_keys
+            change_ownership
             unmount_usb
 
           '')}/bin/decrypt";
