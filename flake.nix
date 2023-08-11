@@ -197,7 +197,8 @@
             }
 
             change_ownership() {
-              chown nixos:wheel $SSH_DIR/id_ed25519_{github,github.pub,agenix,agenix.pub}
+              chown nixos:wheel $SSH_DIR/id_ed25519{,.pub}
+              chown nixos:wheel $SSH_DIR/id_ed25519_{agenix,agenix.pub}
             }
 
             trap unmount_usb EXIT
