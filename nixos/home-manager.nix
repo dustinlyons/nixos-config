@@ -115,6 +115,10 @@ in
     };
   };
 
-  programs = common-programs // {};
-
-}
+  programs = common-programs // {
+    gpg.autoImport.keys = [
+      "/home/${user}/.ssh/pgp_github.key"
+      "/home/${user}/.ssh/pgp_github.pub"
+    ];
+  };
+};
