@@ -247,6 +247,7 @@ let user = "dustin";
   ];
 
   environment.systemPackages = with pkgs; [
+    agenix.packages."${pkgs.system}".default
     gitAndTools.gitFull
     inetutils
   ];
