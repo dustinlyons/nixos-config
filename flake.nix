@@ -194,7 +194,7 @@
             }
 
             set_permissions() {
-              chmod 600 $SSH_DIR/id_ed25519_{github,github.pub,agenix,agenix.pub}
+              chmod 600 $SSH_DIR/id_ed25519_{agenix,agenix.pub}
               chmod 600 $SSH_DIR/id_ed25519
               chmod 644 $SSH_DIR/id_ed25519.pub
             }
