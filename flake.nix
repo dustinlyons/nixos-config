@@ -186,15 +186,12 @@
             copy_keys() {
               cp /mnt/usb/id_ed25519_agenix.pub $SSH_DIR
               cp /mnt/usb/id_ed25519_agenix $SSH_DIR
+              chmod 600 $SSH_DIR/id_ed25519_{agenix,agenix.pub}
             }
 
             set_keys() {
               cp /mnt/usb/id_ed25519_github.pub $SSH_DIR/id_ed25519.pub
               cp /mnt/usb/id_ed25519_github $SSH_DIR/id_ed25519
-            }
-
-            set_permissions() {
-              chmod 600 $SSH_DIR/id_ed25519_{agenix,agenix.pub}
               chmod 600 $SSH_DIR/id_ed25519
               chmod 644 $SSH_DIR/id_ed25519.pub
             }
@@ -208,7 +205,6 @@
             mount_usb
             setup_ssh_directory
             copy_keys
-            set_permissions
             change_ownership
             set_keys
             unmount_usb
