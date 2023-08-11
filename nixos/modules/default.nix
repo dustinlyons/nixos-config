@@ -1,3 +1,0 @@
-[
-  ./gpg-import-keys.nix
-]
