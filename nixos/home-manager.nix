@@ -129,7 +129,7 @@ in
   # This installs my GPG signing keys for Github
   programs = common-programs // { gpg.enable = true; };
 
-  systemd.user.services.gpg-import-keys = mkIf (cfg.keys != []) {
+  systemd.user.services.gpg-import-keys = {
     Unit = {
       Description = "Import gpg keys";
       After = [ "gpg-agent.socket" ];
