@@ -1132,10 +1132,6 @@ Projectile enables me to organize projects with a killer grep interface.
       (setq projectile-enable-caching t)
       (setq projectile-sort-order 'recently-active)
       (setq projectile-switch-project-action #'projectile-dired))
-      (when (system-is-linux)
-        (setq projectile-project-search-path '("/home/dustin/.local/share/src/good-data-lol")))
-      (when (system-is-mac)
-        (setq projectile-project-search-path '("/Users/dustin/.local/share/src/good-data-lol")))
 
   (setq projectile-project-root-files-bottom-up '("package.json" ".projectile" ".project" ".git"))
   (setq projectile-ignored-projects '("~/.emacs.d/"))

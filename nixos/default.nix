@@ -39,6 +39,10 @@ let user = "dustin";
 
   # Manages keys and such
   programs.gnupg.agent.enable = true;
+  programs.gpg.autoImport.keys = [
+    "/home/${user}/.ssh/pgp_github.key"
+    "/home/${user}/.ssh/pgp_github.pub"
+  ];
 
   # Needed for anything GTK related
   programs.dconf.enable = true;

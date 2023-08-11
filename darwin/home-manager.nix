@@ -72,7 +72,7 @@ let
     "yoink" = 457622435;
   };
 
-  # Enable home-manager to manage the XDG standard
+  # Enable home-manager
   home-manager = {
     useGlobalPkgs = true;
     users.${user} = {

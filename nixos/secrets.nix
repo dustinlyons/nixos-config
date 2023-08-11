@@ -33,4 +33,12 @@ let user = "dustin"; in
     owner = "${user}";
   };
 
+  age.secrets."github-signing-key" = {
+    symlink = true;
+    path = "/home/${user}/.ssh/pgp_github.key";
+    file =  "${secrets}/github-signing-key.age";
+    mode = "600";
+    owner = "${user}";
+  };
+
 }
