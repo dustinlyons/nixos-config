@@ -7,15 +7,6 @@ let user = "dustin"; in
     "/Users/${user}/.ssh/id_ed25519"
   ];
 
-  age.secrets."github-ssh-key" = {
-    symlink = true;
-    path = "/Users/${user}/.ssh/id_github";
-    file =  "${secrets}/github-ssh-key.age";
-    mode = "600";
-    owner = "${user}";
-    group = "staff";
-  };
-
   age.secrets."syncthing-cert" = {
     symlink = true;
     path = "/Users/${user}/Library/Application Support/Syncthing/cert.pem";
@@ -29,6 +20,15 @@ let user = "dustin"; in
     symlink = true;
     path = "/Users/${user}/Library/Application Support/Syncthing/key.pem";
     file =  "${secrets}/darwin-syncthing-key.age";
+    mode = "600";
+    owner = "${user}";
+    group = "staff";
+  };
+
+  age.secrets."github-ssh-key" = {
+    symlink = true;
+    path = "/Users/${user}/.ssh/id_github";
+    file =  "${secrets}/github-ssh-key.age";
     mode = "600";
     owner = "${user}";
     group = "staff";
