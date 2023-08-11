@@ -271,7 +271,7 @@ let name = "Dustin Lyons";
     extraConfig = ''
       Host github.com
         Hostname github.com
-        IdentityFile ~/.ssh/id_github
+        IdentityFile /home/dustin/.ssh/id_github
         IdentitiesOnly yes
       '';
   };
