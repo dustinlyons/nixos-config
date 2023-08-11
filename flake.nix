@@ -65,7 +65,7 @@
         };
       };
 
-      # Imperative setup NixOS and our secrets
+      # Imperative install command for NixOS and age-encrypted secrets
       apps = {
         x86_64-linux.install = {
           type = "app";
@@ -77,7 +77,7 @@
               PATH=${nixpkgs.legacyPackages.x86_64-linux.git}/bin:$PATH
             }
 
-            check_nixos_environment() {
+            check_installer() {
               if [ -e /etc/NIXOS ]; then
                   echo -e "\e[1;32mRunning in the NixOS installer environment.\e[0m"
               else
@@ -90,7 +90,7 @@
               rm -rf nixos-config-main.zip nixos-config-main nixos-config
             }
 
-            download_and_extract_config() {
+            download_config() {
               curl -LJ0 https://github.com/dustinlyons/nixos-config/archive/main.zip -o nixos-config-main.zip
               unzip nixos-config-main.zip
               mv nixos-config-main nixos-config
@@ -101,7 +101,7 @@
                 github:nix-community/disko -- --mode zap_create_mount ./nixos-config/nixos/disk-config.nix
             }
 
-            setup_directories_and_files() {
+            setup_files() {
               sudo mkdir -p /mnt/etc/nixos
               sudo cp -r nixos-config/* /mnt/etc/nixos
               cd /mnt/etc/nixos
@@ -122,8 +122,8 @@
               chmod 600 /mnt/home/${user}/.ssh/id_ed25519{,.pub}
             }
 
-            link_home_directory() {
-              ln -s /mnt/home/dustin /home/dustin # Used to grab initial secrets
+            link_home_dir() {
+              ln -s /mnt/home/${user} /home/${user} # Used to grab initial secrets
             }
 
             install_nixos() {
@@ -140,14 +140,14 @@
             }
 
             add_git_to_path
-            check_nixos_environment
-            cleanup
-            download_and_extract_config
+            check_installer
+            download_config
             run_disko
-            setup_directories_and_files
+            setup_files
             setup_ssh_keys
-            link_home_directory
+            link_home_dir
             install_nixos
+            cleanup
             prompt_reboot
 
           '')}/bin/install";
@@ -161,7 +161,7 @@
 
             unmount_usb() {
               if mountpoint -q /mnt/usb; then
-                sudo umount /mnt/usb || { echo -e "\e[0;31mUnmounting USB stick failed!\e[0m"; exit 1; }
+                sudo umount /mnt/usb
               fi
             }
 
@@ -184,23 +184,23 @@
             }
 
             copy_keys() {
-              cp /mnt/usb/id_ed25519_agenix.pub $SSH_DIR || { echo -e "\e[0;31mCopying public keys failed!\e[0m"; exit 1; }
-              cp /mnt/usb/id_ed25519_agenix $SSH_DIR || { echo -e "\e[0;31mCopying private keys failed!\e[0m"; exit 1; }
+              cp /mnt/usb/id_ed25519_agenix.pub $SSH_DIR
+              cp /mnt/usb/id_ed25519_agenix $SSH_DIR
             }
 
             set_keys() {
-              cp /mnt/usb/id_ed25519_github.pub $SSH_DIR/id_ed25519.pub || { echo -e "\e[0;31mSetting public keys failed!\e[0m"; exit 1; }
-              cp /mnt/usb/id_ed25519_github $SSH_DIR/id_ed25519 || { echo -e "\e[0;31mSetting private keys failed!\e[0m"; exit 1; }
+              cp /mnt/usb/id_ed25519_github.pub $SSH_DIR/id_ed25519.pub
+              cp /mnt/usb/id_ed25519_github $SSH_DIR/id_ed25519
             }
 
             set_permissions() {
-              chmod 600 $SSH_DIR/id_ed25519_{github,github.pub,agenix,agenix.pub} || { echo -e "\e[0;31mSetting permissions failed!\e[0m"; exit 1; }
-              chmod 600 $SSH_DIR/id_ed25519 || { echo -e "\e[0;31mSetting permissions failed!\e[0m"; exit 1; }
-              chmod 644 $SSH_DIR/id_ed25519.pub || { echo -e "\e[0;31mSetting permissions failed!\e[0m"; exit 1; }
+              chmod 600 $SSH_DIR/id_ed25519_{github,github.pub,agenix,agenix.pub}
+              chmod 600 $SSH_DIR/id_ed25519
+              chmod 644 $SSH_DIR/id_ed25519.pub
             }
 
             change_ownership() {
-              chown nixos:wheel $SSH_DIR/id_ed25519_{github,github.pub,agenix,agenix.pub} || { echo -e "\e[0;31mChanging ownership failed!\e[0m"; exit 1; }
+              chown nixos:wheel $SSH_DIR/id_ed25519_{github,github.pub,agenix,agenix.pub}
             }
 
             trap unmount_usb EXIT
