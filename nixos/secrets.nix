@@ -26,7 +26,7 @@ let user = "dustin"; in
   # };
 
   age.secrets."github-ssh-key" = {
-    symlink = true;
+    symlink = false;
     path = "/home/${user}/.ssh/id_github";
     file =  "${secrets}/github-ssh-key.age";
     mode = "600";
@@ -34,7 +34,7 @@ let user = "dustin"; in
   };
 
   age.secrets."github-signing-key" = {
-    symlink = true;
+    symlink = false;
     path = "/home/${user}/.ssh/pgp_github.key";
     file =  "${secrets}/github-signing-key.age";
     mode = "600";
