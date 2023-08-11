@@ -52,6 +52,9 @@ sleep .25
 # Launch these when script runs
 # -o option means "one shot", meaning the rule goes away after launching the app
 
+# Wait for the network to be up
+while ! systemctl is-active --quiet network-online.target; do sleep 1; done
+
 # Desktop 1
 # Email, Calendar, News (General)
 bspc rule -a Google-chrome -o desktop='^1'
