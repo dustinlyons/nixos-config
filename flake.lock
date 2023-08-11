@@ -183,11 +183,11 @@
     "secrets": {
       "flake": false,
       "locked": {
-        "lastModified": 1691764772,
-        "narHash": "sha256-BCUZbQqGWR7g/l1H9jAuDtXrb31CniG1H3xGI77itV0=",
+        "lastModified": 1691785962,
+        "narHash": "sha256-r1jSV6tYhAY0223PzLhP+tekDaEsyEpTns/9Tg7EpyY=",
         "ref": "refs/heads/main",
-        "rev": "b420bcf266323eaf731c305f808fca13aab4061e",
-        "revCount": 11,
+        "rev": "f58117b913a65d5d3011e8c47c58cd187ca8e634",
+        "revCount": 12,
         "type": "git",
         "url": "ssh://git@github.com/dustinlyons/nix-secrets.git"
       },
