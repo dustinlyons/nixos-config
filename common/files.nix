@@ -69,7 +69,7 @@ in
       # github.com:22 SSH-2.0-babeld-d815c248
       github.com ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOMqqnkVzrm0SdG6UOoqKLsabgH5C9okWi0dh2l9GKJl
     '';
-  }
+  };
 
   # Used in Emacs config.org to load projects and tasks in org-agenda
   ".emacs.d/agenda.txt" = {
