@@ -7,5 +7,5 @@
 ├── home-manager.nix   # Defines user programs
 ├── files.nix          # Non-Nix, static configuration files (now immutable!)
 ├── packages.nix       # List of packages to install for NixOS
-
+├── secrets.nix        # Age-encrypted secrets with agenix
 ```
