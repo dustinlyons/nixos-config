@@ -203,8 +203,8 @@
 
             trap unmount_usb EXIT
 
-            mount_usb
             setup_ssh_directory
+            mount_usb
             copy_keys
             set_keys
             change_ownership
