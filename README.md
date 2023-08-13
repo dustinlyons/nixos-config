@@ -7,14 +7,20 @@ _Psst: I can help write Nix at your company. <a href="https://twitter.com/dustin
 # Overview
 Hey, you made it! Welcome. 🤓
 
-You've stumbled upon my personal journey with Nix. For over a year, I've been hacking away at this configuration. This repository drives my office PC, M1 Macbook, and virtual machines in my home lab. Along with syncthing to manage data, this Nix configuration guarantees I have a working, seamless experience across each machine I use.
+This is my Nix configuration, a great starting point if you're interested in Nix for
+* MacOS
+* on the desktop, with NixOS
 
-While developing, I've done my best to keep it simple - for both future me and readers like you. You'll see that in how I've organized code, as I keep filename conventions the same across modules. To get started, you can bootstrap from bare metal, run on your Mac, or try out a live ISO. See below.
+## Technical Overview
+* Nix for MacOS with a boat load of features
+* NixOS too
+* [100% flake driven](https://github.com/dustinlyons/nixos-config/blob/main/flake.nix), no use of channels or `configuration.nix` during install or after
+* `home-manager` is built in as a module for both MacOS and NixOS; no need for extra CLI
+* Declarative disk management, say goodbyte to disk utils
+* Declarative secrets for SSH, PGP, syncthing, and other tools
+* [Simple nix-command](https://github.com/dustinlyons/nixos-config/tree/main#bootstrap-new-computer) to start from zero, both x86 and MacOS platforms
 
 # Videos 
-## NixOS
-https://github.com/dustinlyons/nixos-config/assets/1292576/fa54a87f-5971-41ee-98ce-09be048018b8
-
 ## MacOS
 ### Updating dependencies with one command
 https://github.com/dustinlyons/nixos-config/assets/1292576/2168d482-6eea-4b51-adc1-2ef1291b6598
@@ -26,23 +32,24 @@ https://github.com/dustinlyons/nixos-config/assets/1292576/66001066-2bbf-4492-bc
 #### Terminal
 https://github.com/dustinlyons/nixos-config/assets/1292576/d96f59ce-f540-4f14-bc61-6126a74f9f52
 
-# Features
-* Multiple Nix and NixOS configurations across Mac and Linux, including desktop, laptop, server
-* [A single nix-command](https://github.com/dustinlyons/nixos-config/tree/main#bootstrap-new-computer) to start from zero, both x86 and MacOS platforms
+## NixOS
+https://github.com/dustinlyons/nixos-config/assets/1292576/fa54a87f-5971-41ee-98ce-09be048018b8
+
+# Additional Features
 * Fully declarative [MacOS dock](https://github.com/dustinlyons/nixos-config/blob/main/darwin/home-manager.nix) and MacOS [App Store apps](https://github.com/dustinlyons/nixos-config/blob/main/darwin/home-manager.nix)
-* [100% flake driven](https://github.com/dustinlyons/nixos-config/blob/main/flake.nix), no use of channels or `configuration.nix` during install or after
 * Fully managed, auto-updating [homebrew](https://github.com/dustinlyons/nixos-config/blob/main/darwin/home-manager.nix) environment _(yes, Nix manages homebrew!)_
 * Easily [share](https://github.com/dustinlyons/nixos-config/tree/main/common) config across Linux and Mac with both Nix and Home Manager
 * Bleeding edge Emacs that fixes itself, thanks to a community [overlay](https://github.com/nix-community/emacs-overlay)
 * Extensively configured NixOS environment including clean aesthetic + [window animations](https://github.com/dustinlyons/nixos-config/blob/main/nixos/default.nix)
 * Auto-loading of Nix [overlays](https://github.com/dustinlyons/nixos-config/tree/main/overlays): drop a file in a dir and it runs _(great for patches!)_
 * Large Emacs [literate configuration](https://github.com/dustinlyons/nixos-config/blob/main/common/config/emacs/config.org) to explore (if that's your thing)
+* No-fuss Syncthing: managed keys, certs, and configuration across all platforms
 * Optimized for simplicity and readability in all cases, not small files spread across collections of modules
 
 ### Coming Soon
 * ✅ ~Persistence defined under [XDG](https://specifications.freedesktop.org/basedir-spec/basedir-spec-latest.html) ([#5](https://github.com/dustinlyons/nixos-config/issues/5))~
+* ~Secrets managed with `agenix` ([#6](https://github.com/dustinlyons/nixos-config/issues/6))~
 * Opt-in persistence using [impermanence](https://github.com/nix-community/impermanence) and `zfs` snapshot reset ([#8](https://github.com/dustinlyons/nixos-config/issues/8))
-* Secrets managed with `sops-nix` ([#6](https://github.com/dustinlyons/nixos-config/issues/6))
 
 # Layout
 
@@ -84,7 +91,7 @@ Download and burn [the minimal ISO image](https://nixos.org/download.html), then
 > For Nvidia cards, select the second option `nomodeset` when booting the installer.
 
 > [!NOTE]
-> Until I ship `sops-nix`, you'll need to set the user password on first boot. `Ctrl-Alt-F2` gives you another shell where you can login as root and run `passwd <user>`. `Ctrl-Alt-F7` gets back to the login screen.
+> Currently, you need to set the user password on first boot. When you see the login screen, `Ctrl-Alt-F2` gives you another shell where you can login as root and run `passwd <user>`. `Ctrl-Alt-F7` gets back to the login screen.
 
 > [!WARNING]
 > Running these commands will reformat your entire drive to the ext4 filesystem.
