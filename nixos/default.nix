@@ -104,9 +104,33 @@ let user = "dustin";
   # Sync state between machines
   services.syncthing = {
     enable = true;
-    user = "${user}";
+    openDefaultPorts = true;
     dataDir = "/home/${user}/.local/share/syncthing";
     configDir = "/home/${user}/.config/syncthing";
+    user = "${user}";
+    group = "users";
+    guiAddress = "0.0.0.0:8384";
+    overrideFolders = true;
+    overrideDevices = true;
+
+    devices = {
+      "Macbook Pro" = {
+        id = "P2FYLQW-PKDFJGZ-EUGI2T7-OW4AH4I-KI462HD-U2VL3X3-GN55PP2-VNRE5AH";
+      };
+      "Desktop" = {
+        id = "";
+      };
+      "Home Lab Server" = {
+        id = "WW5O366-THBBBA3-HKQAYCP-EWADS4I-4KDDC5Z-3JCO42M-RLBZ3DY-NM7PEQA";
+      };
+    };
+
+    folders = {
+      "share" = {
+        path = "/home/${user}/.local/share";
+        devices = [ "Macbook Pro" "Desktop" "Home Lab" ];
+      };
+    };
   };
 
   # Add docker daemon
