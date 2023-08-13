@@ -31,7 +31,7 @@ This is a Nix configuration that works across MacOS and NixOS.
 - **Super Fast Emacs**: Bleeding edge Emacs that fixes itself, thanks to a community overlay
 - **Nix Flakes**: _Almost_ 100% flake driven, no major use of channels or `configuration.nix`
 - **Built In Home Manager**: Home-manager module for seamless configuration (no extra clunky CLI steps)
-- **NixOS Environment**: Extensively configured NixOS environment including clean aesthetic + window animations
+- **NixOS Environment**: Extensively configured NixOS including clean aesthetic + window animations
 - **Nix Overlays**: Auto-loading of Nix overlays: drop a file in a dir and it runs (great for patches!)
 - **Declarative Sync**: No-fuss Syncthing: managed keys, certs, and configuration across all platforms
 - **Emacs Literate Configuration**: Large Emacs literate configuration to explore (if that's your thing)
