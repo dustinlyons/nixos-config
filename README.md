@@ -9,22 +9,7 @@ Hey, you made it! Welcome. 🤓
 
 This is my Nix configuration I share across my Macbook Pro and NixOS desktop in my office.
 
-# Videos 
-## MacOS
-### Updating dependencies with one command
-https://github.com/dustinlyons/nixos-config/assets/1292576/2168d482-6eea-4b51-adc1-2ef1291b6598
-
-### Instant Emacs 29 thanks to daemon mode
-#### GUI
-https://github.com/dustinlyons/nixos-config/assets/1292576/66001066-2bbf-4492-bc9e-60ea1abeb987
-
-#### Terminal
-https://github.com/dustinlyons/nixos-config/assets/1292576/d96f59ce-f540-4f14-bc61-6126a74f9f52
-
-## NixOS
-https://github.com/dustinlyons/nixos-config/assets/1292576/fa54a87f-5971-41ee-98ce-09be048018b8
-
-# Additional Features
+# Features
 * [100% flake driven](https://github.com/dustinlyons/nixos-config/blob/main/flake.nix), no use of channels or `configuration.nix`
 * `home-manager` module for seamless configuration (instead of extra clunky CLI steps)
 * [Simple nix-command](https://github.com/dustinlyons/nixos-config/tree/main#bootstrap-new-computer) to start from zero, both x86 and MacOS platforms
@@ -39,6 +24,21 @@ https://github.com/dustinlyons/nixos-config/assets/1292576/fa54a87f-5971-41ee-98
 * Large Emacs [literate configuration](https://github.com/dustinlyons/nixos-config/blob/main/common/config/emacs/config.org) to explore (if that's your thing)
 * No-fuss Syncthing: managed keys, certs, and configuration across all platforms
 * Optimized for simplicity and readability in all cases, not small files spread across collections of modules
+
+# Videos 
+## MacOS
+### Updating dependencies with one command
+https://github.com/dustinlyons/nixos-config/assets/1292576/2168d482-6eea-4b51-adc1-2ef1291b6598
+
+### Instant Emacs 29 thanks to daemon mode
+#### GUI
+https://github.com/dustinlyons/nixos-config/assets/1292576/66001066-2bbf-4492-bc9e-60ea1abeb987
+
+#### Terminal
+https://github.com/dustinlyons/nixos-config/assets/1292576/d96f59ce-f540-4f14-bc61-6126a74f9f52
+
+## NixOS
+https://github.com/dustinlyons/nixos-config/assets/1292576/fa54a87f-5971-41ee-98ce-09be048018b8
 
 ### Coming Soon
 * ✅ ~Persistence defined under [XDG](https://specifications.freedesktop.org/basedir-spec/basedir-spec-latest.html) ([#5](https://github.com/dustinlyons/nixos-config/issues/5))~
