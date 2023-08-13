@@ -53,6 +53,7 @@ sleep .25
 # -o option means "one shot", meaning the rule goes away after launching the app
 
 # Wait for the network to be up
+notify-send 'Waiting for network...'
 while ! systemctl is-active --quiet network-online.target; do sleep 1; done
 
 # Desktop 1
