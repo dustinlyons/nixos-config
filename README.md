@@ -7,16 +7,12 @@ _Psst: I can help write Nix at your company. <a href="https://twitter.com/dustin
 # Overview
 Hey, you made it! Welcome. 🤓
 
-This is my Nix configuration, a great starting point if you're interested in Nix for
-* MacOS
-* on the desktop, with NixOS
+This is my Nix configuration I share across my Macbook Pro and NixOS desktop in my office.
 
 ## Technical Overview
-* Nix for MacOS with a boat load of features
-* NixOS too
 * [100% flake driven](https://github.com/dustinlyons/nixos-config/blob/main/flake.nix), no use of channels or `configuration.nix` during install or after
 * `home-manager` is built in as a module for both MacOS and NixOS; no need for extra CLI
-* Declarative disk management, say goodbyte to disk utils
+* Declarative disk management, say goodbye to disk utils
 * Declarative secrets for SSH, PGP, syncthing, and other tools
 * [Simple nix-command](https://github.com/dustinlyons/nixos-config/tree/main#bootstrap-new-computer) to start from zero, both x86 and MacOS platforms
 
