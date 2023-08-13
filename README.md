@@ -11,7 +11,7 @@ This is my Nix configuration I share across my Macbook Pro and NixOS desktop in 
 
 # Features
 * [100% flake driven](https://github.com/dustinlyons/nixos-config/blob/main/flake.nix), no use of channels or `configuration.nix`
-* `home-manager` module for seamless configuration (instead of extra clunky CLI steps)
+* `home-manager` module for seamless configuration (no extra clunky CLI steps)
 * [Simple nix-command](https://github.com/dustinlyons/nixos-config/tree/main#bootstrap-new-computer) to start from zero, both x86 and MacOS platforms
 * Fully declarative [MacOS dock](https://github.com/dustinlyons/nixos-config/blob/main/darwin/home-manager.nix) and MacOS [App Store apps](https://github.com/dustinlyons/nixos-config/blob/main/darwin/home-manager.nix)
 * Fully managed, auto-updating [homebrew](https://github.com/dustinlyons/nixos-config/blob/main/darwin/home-manager.nix) environment _(yes, Nix manages homebrew!)_
