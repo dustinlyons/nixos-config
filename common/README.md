@@ -1,5 +1,5 @@
 ## Common
-This gets imported by both MacOS and NixOS modules. Some examples of configuration include git, zsh, vim.
+This gets imported by both MacOS and NixOS modules. Some examples of configuration include `git`, `zsh`, `vim`, and `tmux`.
 
 ## Layout
 ```
