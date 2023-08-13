@@ -5,20 +5,37 @@
 
 _Psst: I can help write Nix at your company. <a href="https://twitter.com/dustinhlyons">Get in touch.</a>_
 # Overview
-Hey, you made it! Welcome. 🤓
+Hey, you made it! Welcome. 🤓 
 
-This is my Nix configuration, a great starting point if you're interested in Nix for
-* MacOS
-* on the desktop, with NixOS
+This is a Nix configuration that works across MacOS and NixOS.
 
-## Technical Overview
-* Nix for MacOS with a boat load of features
-* NixOS too
-* [100% flake driven](https://github.com/dustinlyons/nixos-config/blob/main/flake.nix), no use of channels or `configuration.nix` during install or after
-* `home-manager` is built in as a module for both MacOS and NixOS; no need for extra CLI
-* Declarative disk management, say goodbyte to disk utils
-* Declarative secrets for SSH, PGP, syncthing, and other tools
-* [Simple nix-command](https://github.com/dustinlyons/nixos-config/tree/main#bootstrap-new-computer) to start from zero, both x86 and MacOS platforms
+## Layout
+```
+.
+├── bin          # Optional scripts used to run build/update
+├── common       # Shared configurations applicable to all machines
+├── hardware     # Hardware-specific configuration
+├── darwin       # MacOS and nix-darwin configuration
+├── nixos        # My NixOS desktop-related configuration
+├── overlays     # Drop an overlay file in this dir, and it runs. So far mainly patches.
+└── vms          # VM-specific configs running in my home-lab
+```
+
+## Features
+- **Same Environment Everywhere**: Easily share config across Linux and Mac with both Nix and Home Manager
+- **MacOS Dream Setup**: Fully declarative MacOS, including dock and MacOS App Store apps
+- **Bootstrap Nix Command**: Simple `nix-command` to start from zero, both x86 and MacOS platforms
+- **Managed Homebrew**: Fully managed, auto-updating homebrew environment with `nix-darwin`
+- **Disk Management**: Declarative disk management with Disko, say goodbye to disk utils
+- **Secrets Management**: Declarative secrets with agenix for SSH, PGP, syncthing, and other tools
+- **Super Fast Emacs**: Bleeding edge Emacs that fixes itself, thanks to a community overlay
+- **Nix Flakes**: _Almost_ 100% flake driven, no major use of channels or `configuration.nix`
+- **Home Manager**: Home-manager module for seamless configuration (no extra clunky CLI steps)
+- **NixOS Environment**: Extensively configured NixOS environment including clean aesthetic + window animations
+- **Nix Overlays**: Auto-loading of Nix overlays: drop a file in a dir and it runs (great for patches!)
+- **Declarative Sync**: No-fuss syncthing: managed keys, certs, and configuration across all platforms
+- **Emacs Literate Configuration**: Large Emacs literate configuration to explore (if that's your thing)
+- **Simplicity and Readability**: Optimized for simplicity and readability in all cases, not small files everywhere
 
 # Videos 
 ## MacOS
@@ -35,34 +52,10 @@ https://github.com/dustinlyons/nixos-config/assets/1292576/d96f59ce-f540-4f14-bc
 ## NixOS
 https://github.com/dustinlyons/nixos-config/assets/1292576/fa54a87f-5971-41ee-98ce-09be048018b8
 
-# Additional Features
-* Fully declarative [MacOS dock](https://github.com/dustinlyons/nixos-config/blob/main/darwin/home-manager.nix) and MacOS [App Store apps](https://github.com/dustinlyons/nixos-config/blob/main/darwin/home-manager.nix)
-* Fully managed, auto-updating [homebrew](https://github.com/dustinlyons/nixos-config/blob/main/darwin/home-manager.nix) environment _(yes, Nix manages homebrew!)_
-* Easily [share](https://github.com/dustinlyons/nixos-config/tree/main/common) config across Linux and Mac with both Nix and Home Manager
-* Bleeding edge Emacs that fixes itself, thanks to a community [overlay](https://github.com/nix-community/emacs-overlay)
-* Extensively configured NixOS environment including clean aesthetic + [window animations](https://github.com/dustinlyons/nixos-config/blob/main/nixos/default.nix)
-* Auto-loading of Nix [overlays](https://github.com/dustinlyons/nixos-config/tree/main/overlays): drop a file in a dir and it runs _(great for patches!)_
-* Large Emacs [literate configuration](https://github.com/dustinlyons/nixos-config/blob/main/common/config/emacs/config.org) to explore (if that's your thing)
-* No-fuss Syncthing: managed keys, certs, and configuration across all platforms
-* Optimized for simplicity and readability in all cases, not small files spread across collections of modules
-
 ### Coming Soon
 * ✅ ~Persistence defined under [XDG](https://specifications.freedesktop.org/basedir-spec/basedir-spec-latest.html) ([#5](https://github.com/dustinlyons/nixos-config/issues/5))~
 * ~Secrets managed with `agenix` ([#6](https://github.com/dustinlyons/nixos-config/issues/6))~
 * Opt-in persistence using [impermanence](https://github.com/nix-community/impermanence) and `zfs` snapshot reset ([#8](https://github.com/dustinlyons/nixos-config/issues/8))
-
-# Layout
-
-```
-.
-├── bin          # Optional scripts used to run build/update
-├── common       # Shared configurations applicable to all machines
-├── hardware     # Hardware-specific configuration
-├── darwin       # MacOS and nix-darwin configuration
-├── nixos        # My NixOS desktop-related configuration
-├── overlays     # Drop an overlay file in this dir, and it runs. So far mainly patches.
-└── vms          # VM-specific configs running in my home-lab
-```
 
 # Bootstrap New Computer
 
@@ -77,6 +70,14 @@ sh <(curl -L https://nixos.org/nix/install) --daemon
 ```sh
 nix run nix-darwin -- switch --flake ~/.config/nix-darwin
 ```
+We still need this for the Home Manager `nix-darwin` module.
+```sh
+nix-channel --add https://github.com/nix-community/home-manager/archive/master.tar.gz home-manager
+```
+```
+nix-channel update
+```
+
 ### Install config
 ```sh
 nix --experimental-features 'nix-command flakes' build .#darwinConfigurations.Dustins-MBP.system --impure && \
