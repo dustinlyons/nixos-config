@@ -10,20 +10,22 @@ Hey, you made it! Welcome. 🤓
 This is my Nix configuration I share across my Macbook Pro and NixOS desktop in my office.
 
 # Features
-* [100% flake driven](https://github.com/dustinlyons/nixos-config/blob/main/flake.nix), no use of channels or `configuration.nix`
-* `home-manager` module for seamless configuration (no extra clunky CLI steps)
-* [Simple nix-command](https://github.com/dustinlyons/nixos-config/tree/main#bootstrap-new-computer) to start from zero, both x86 and MacOS platforms
-* Fully declarative [MacOS dock](https://github.com/dustinlyons/nixos-config/blob/main/darwin/home-manager.nix) and MacOS [App Store apps](https://github.com/dustinlyons/nixos-config/blob/main/darwin/home-manager.nix)
-* Fully managed, auto-updating [homebrew](https://github.com/dustinlyons/nixos-config/blob/main/darwin/home-manager.nix) environment _(yes, Nix manages homebrew!)_
-* Easily [share](https://github.com/dustinlyons/nixos-config/tree/main/common) config across Linux and Mac with both Nix and Home Manager
-* Declarative disk management, say goodbye to disk utils
-* Declarative secrets for SSH, PGP, syncthing, and other tools
-* Bleeding edge Emacs that fixes itself, thanks to a community [overlay](https://github.com/nix-community/emacs-overlay)
-* Extensively configured NixOS environment including clean aesthetic + [window animations](https://github.com/dustinlyons/nixos-config/blob/main/nixos/default.nix)
-* Auto-loading of Nix [overlays](https://github.com/dustinlyons/nixos-config/tree/main/overlays): drop a file in a dir and it runs _(great for patches!)_
-* No-fuss Syncthing: managed keys, certs, and configuration across all platforms
-* Large Emacs [literate configuration](https://github.com/dustinlyons/nixos-config/blob/main/common/config/emacs/config.org) to explore (if that's your thing)
-* Optimized for simplicity and readability in all cases, not small files spread across collections of modules
+| Feature                           | Description                                                                                                  |
+|-----------------------------------|--------------------------------------------------------------------------------------------------------------|
+| Nix Flakes                        | 100% flake driven, no use of channels or configuration.nix                                                   |
+| Home Manager                      | Home-manager module for seamless configuration (no extra clunky CLI steps)                                   |
+| Bootstrap Nix Command             | Simple nix-command to start from zero, both x86 and MacOS platforms                                          |
+| MacOS Dream Setup                 | Fully declarative MacOS, including dock and MacOS App Store apps                                             |
+| Managed Homebrew                  | Fully managed, auto-updating homebrew environment with `nix-darwin`                                          |
+| Same Environment Everywhere       | Easily share config across Linux and Mac with both Nix and Home Manager                                      |
+| Disk Management                   | Declarative disk management with Disko, say goodbye to disk utils                                            |
+| Secrets Management                | Declarative secrets with agenix for SSH, PGP, syncthing, and other tools                                     |
+| Super Fast Emacs                  | Bleeding edge Emacs that fixes itself, thanks to a community overlay                                         |
+| NixOS Environment                 | Extensively configured NixOS environment including clean aesthetic + window animations                       |
+| Nix Overlays                      | Auto-loading of Nix overlays: drop a file in a dir and it runs (great for patches!)                          |
+| Your Own Dropbox                  | No-fuss Syncthing: managed keys, certs, and configuration across all platforms                               |
+| Emacs Literate Configuration      | Large Emacs literate configuration to explore (if that's your thing)                                         |
+| Simplicity and Readability        | Optimized for simplicity and readability in all cases, not small files everywhere                            |
 
 # Videos 
 ## MacOS
