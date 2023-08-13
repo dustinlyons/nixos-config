@@ -123,6 +123,7 @@ let
       # Marked broken Oct 20, 2022 check later to remove this
       # Confirmed still broken, Mar 5, 2023
       manual.manpages.enable = false;
+      };
     };
   };
 }
