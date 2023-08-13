@@ -14,8 +14,7 @@ This is a Nix configuration that works across MacOS and NixOS. It's also a good 
 ```
 .
 ├── bin          # Optional scripts used to run build/update
-├── common       # Shared configurations applicable to all machines
-├── hardware     # Hardware-specific configuration
+├── common       # Shared configurations applicable to all systems
 ├── darwin       # MacOS and nix-darwin configuration
 ├── nixos        # My NixOS desktop-related configuration
 ├── overlays     # Drop an overlay file in this dir, and it runs. So far mainly patches.
