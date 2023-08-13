@@ -38,7 +38,6 @@ killall -qw chrome
 killall -qw tmux
 killall -qw emacsclient
 killall -qw slack
-killall -qw telegram-desktop
 killall -qw cider
 killall -qw btop
 killall -qw pcmanfm
@@ -98,11 +97,6 @@ bspc rule -a Discord -o desktop='^4'
 /etc/profiles/per-user/dustin/bin/discord &!
 
 sleep 1
-
-bspc rule -a TelegramDesktop -o desktop='^4'
-/etc/profiles/per-user/dustin/bin/telegram-desktop &!
-
-sleep .5
 
 bspc rule -a Google-chrome -o desktop='^4'
 /etc/profiles/per-user/dustin/bin/google-chrome-stable --profile-directory=Default --new-window "https://www.tradingview.com" "https://www.bloomberg.com" &!
