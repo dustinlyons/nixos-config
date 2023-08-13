@@ -116,17 +116,18 @@ let user = "dustin";
     overrideFolders = true;
     overrideDevices = true;
 
-    devices = {
+    settings.devices = {
       "Macbook Pro" = {
         id = "P2FYLQW-PKDFJGZ-EUGI2T7-OW4AH4I-KI462HD-U2VL3X3-GN55PP2-VNRE5AH";
       };
       "Home Lab" = {
         id = "WW5O366-THBBBA3-HKQAYCP-EWADS4I-4KDDC5Z-3JCO42M-RLBZ3DY-NM7PEQA";
         autoAcceptFolders = true;
+        introducer = true;
       };
     };
 
-    folders = {
+    settings.folders = {
       "XDG Share" = {
         path = "/home/${user}/.local/share";
         devices = [ "Macbook Pro" "Home Lab" ];
