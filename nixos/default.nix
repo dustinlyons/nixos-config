@@ -122,13 +122,14 @@ let user = "dustin";
       };
       "Home Lab" = {
         id = "WW5O366-THBBBA3-HKQAYCP-EWADS4I-4KDDC5Z-3JCO42M-RLBZ3DY-NM7PEQA";
+        autoAcceptFolders = true;
       };
     };
 
     folders = {
       "XDG Share" = {
         path = "/home/${user}/.local/share";
-        devices = [ "Macbook Pro" "Desktop" "Home Lab" ];
+        devices = [ "Macbook Pro" "Home Lab" ];
       };
     };
   };
