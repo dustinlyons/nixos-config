@@ -1,13 +1,14 @@
 <img src="https://user-images.githubusercontent.com/1292576/190241835-41469235-f65d-4d4b-9760-372cdff7a70f.png" width="48">
 
-# Dustin's Nix / NixOS config
+# Nix for MacOS + NixOS
 ![GitHub last commit](https://img.shields.io/github/last-commit/dustinlyons/nixos-config?style=plastic)
 
-_Psst: I can help write Nix at your company. <a href="https://twitter.com/dustinhlyons">Get in touch.</a>_
+_Psst: You can buy my time to bring Nix into your company. <a href="https://calendly.com/dustinhlyons/business-intro-call">Get in touch.</a>_
+
 # Overview
 Hey, you made it! Welcome. 🤓 
 
-This is a Nix configuration that works across MacOS and NixOS.
+This is a Nix configuration that works across MacOS and NixOS. It's also a good example of a MacOS Nix Flake.
 
 ## Layout
 ```
