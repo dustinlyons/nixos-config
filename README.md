@@ -5,12 +5,23 @@
 
 _Psst: I can help write Nix at your company. <a href="https://twitter.com/dustinhlyons">Get in touch.</a>_
 # Overview
-Hey, you made it! Welcome. 🤓
+Hey, you made it! Welcome. 🤓 
 
-This is my Nix configuration I share across my Macbook Pro and NixOS desktop in my office.
+This is a Nix configuration that works across MacOS and NixOS.
+
+## Layout
+```
+.
+├── bin          # Optional scripts used to run build/update
+├── common       # Shared configurations applicable to all machines
+├── hardware     # Hardware-specific configuration
+├── darwin       # MacOS and nix-darwin configuration
+├── nixos        # My NixOS desktop-related configuration
+├── overlays     # Drop an overlay file in this dir, and it runs. So far mainly patches.
+└── vms          # VM-specific configs running in my home-lab
+```
 
 ## Features
-
 - **Nix Flakes**: 100% flake driven, no use of channels or `configuration.nix`
 - **Home Manager**: Home-manager module for seamless configuration (no extra clunky CLI steps)
 - **Bootstrap Nix Command**: Simple `nix-command` to start from zero, both x86 and MacOS platforms
@@ -45,19 +56,6 @@ https://github.com/dustinlyons/nixos-config/assets/1292576/fa54a87f-5971-41ee-98
 * ✅ ~Persistence defined under [XDG](https://specifications.freedesktop.org/basedir-spec/basedir-spec-latest.html) ([#5](https://github.com/dustinlyons/nixos-config/issues/5))~
 * ~Secrets managed with `agenix` ([#6](https://github.com/dustinlyons/nixos-config/issues/6))~
 * Opt-in persistence using [impermanence](https://github.com/nix-community/impermanence) and `zfs` snapshot reset ([#8](https://github.com/dustinlyons/nixos-config/issues/8))
-
-# Layout
-
-```
-.
-├── bin          # Optional scripts used to run build/update
-├── common       # Shared configurations applicable to all machines
-├── hardware     # Hardware-specific configuration
-├── darwin       # MacOS and nix-darwin configuration
-├── nixos        # My NixOS desktop-related configuration
-├── overlays     # Drop an overlay file in this dir, and it runs. So far mainly patches.
-└── vms          # VM-specific configs running in my home-lab
-```
 
 # Bootstrap New Computer
 
