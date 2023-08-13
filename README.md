@@ -9,13 +9,6 @@ Hey, you made it! Welcome. 🤓
 
 This is my Nix configuration I share across my Macbook Pro and NixOS desktop in my office.
 
-## Technical Overview
-* [100% flake driven](https://github.com/dustinlyons/nixos-config/blob/main/flake.nix), no use of channels or `configuration.nix` during install or after
-* `home-manager` is built in as a module for both MacOS and NixOS; no need for extra CLI
-* Declarative disk management, say goodbye to disk utils
-* Declarative secrets for SSH, PGP, syncthing, and other tools
-* [Simple nix-command](https://github.com/dustinlyons/nixos-config/tree/main#bootstrap-new-computer) to start from zero, both x86 and MacOS platforms
-
 # Videos 
 ## MacOS
 ### Updating dependencies with one command
@@ -32,9 +25,14 @@ https://github.com/dustinlyons/nixos-config/assets/1292576/d96f59ce-f540-4f14-bc
 https://github.com/dustinlyons/nixos-config/assets/1292576/fa54a87f-5971-41ee-98ce-09be048018b8
 
 # Additional Features
+* [100% flake driven](https://github.com/dustinlyons/nixos-config/blob/main/flake.nix), no use of channels or `configuration.nix`
+* `home-manager` module for seamless configuration (instead of extra clunky CLI steps)
+* [Simple nix-command](https://github.com/dustinlyons/nixos-config/tree/main#bootstrap-new-computer) to start from zero, both x86 and MacOS platforms
 * Fully declarative [MacOS dock](https://github.com/dustinlyons/nixos-config/blob/main/darwin/home-manager.nix) and MacOS [App Store apps](https://github.com/dustinlyons/nixos-config/blob/main/darwin/home-manager.nix)
 * Fully managed, auto-updating [homebrew](https://github.com/dustinlyons/nixos-config/blob/main/darwin/home-manager.nix) environment _(yes, Nix manages homebrew!)_
 * Easily [share](https://github.com/dustinlyons/nixos-config/tree/main/common) config across Linux and Mac with both Nix and Home Manager
+* Declarative disk management, say goodbye to disk utils
+* Declarative secrets for SSH, PGP, syncthing, and other tools
 * Bleeding edge Emacs that fixes itself, thanks to a community [overlay](https://github.com/nix-community/emacs-overlay)
 * Extensively configured NixOS environment including clean aesthetic + [window animations](https://github.com/dustinlyons/nixos-config/blob/main/nixos/default.nix)
 * Auto-loading of Nix [overlays](https://github.com/dustinlyons/nixos-config/tree/main/overlays): drop a file in a dir and it runs _(great for patches!)_
