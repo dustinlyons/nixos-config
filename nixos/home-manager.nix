@@ -1,13 +1,9 @@
 { config, pkgs, lib, ... }:
 
 let
-
   user = "dustin";
-
   xdg_configHome  = "/home/${user}/.config";
-
   common-programs = import ../common/home-manager.nix { inherit config pkgs lib; };
-
   common-files = import ../common/files.nix { inherit config pkgs; };
 
   polybar-user_modules = builtins.readFile (pkgs.substituteAll {
@@ -26,9 +22,7 @@ let
   };
 
   polybar-modules = builtins.readFile ./config/polybar/modules.ini;
-
   polybar-bars = builtins.readFile ./config/polybar/bars.ini;
-
   polybar-colors = builtins.readFile ./config/polybar/colors.ini;
 
   # These files are generated when secrets are decrypted at build time
@@ -36,7 +30,6 @@ let
     "/home/${user}/.ssh/pgp_github.key"
     "/home/${user}/.ssh/pgp_github.pub"
   ];
-
 in
 {
   home = {

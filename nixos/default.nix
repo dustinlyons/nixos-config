@@ -40,6 +40,7 @@ let user = "dustin";
 
   # Manages keys and such
   programs.gnupg.agent.enable = true;
+
   # Needed for anything GTK related
   programs.dconf.enable = true;
 
@@ -66,7 +67,7 @@ let user = "dustin";
     background = ./config/login-wallpaper.png;
   };
 
-  # My tiling window manager
+  # Tiling window manager
   services.xserver.windowManager.bspwm = {
     enable = true;
     configFile = ./config/bspwmrc;
@@ -105,7 +106,9 @@ let user = "dustin";
   services.syncthing = {
     enable = true;
     openDefaultPorts = true;
-    dataDir = "/home/${user}/.local/share/syncthing";
+    cert = "/home/${user}/.config/syncthing/cert.pem";
+    key = "/home/${user}/.config/syncthing/key.pem";
+    dataDir = "/home/${user}/.local/share/syncthing"; # This is overridden by folders
     configDir = "/home/${user}/.config/syncthing";
     user = "${user}";
     group = "users";
@@ -117,16 +120,13 @@ let user = "dustin";
       "Macbook Pro" = {
         id = "P2FYLQW-PKDFJGZ-EUGI2T7-OW4AH4I-KI462HD-U2VL3X3-GN55PP2-VNRE5AH";
       };
-      "Desktop" = {
-        id = "";
-      };
-      "Home Lab Server" = {
+      "Home Lab" = {
         id = "WW5O366-THBBBA3-HKQAYCP-EWADS4I-4KDDC5Z-3JCO42M-RLBZ3DY-NM7PEQA";
       };
     };
 
     folders = {
-      "share" = {
+      "XDG Share" = {
         path = "/home/${user}/.local/share";
         devices = [ "Macbook Pro" "Desktop" "Home Lab" ];
       };
