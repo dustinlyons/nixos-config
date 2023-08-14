@@ -106,8 +106,8 @@ let user = "dustin";
   services.syncthing = {
     enable = true;
     openDefaultPorts = true;
-    cert = "/home/${user}/.config/syncthing/cert.pem";
-    key = "/home/${user}/.config/syncthing/key.pem";
+    #cert = "/home/${user}/.config/syncthing/cert.pem";
+    #key = "/home/${user}/.config/syncthing/key.pem";
     dataDir = "/home/${user}/.local/share/syncthing"; # This is overridden by folders
     configDir = "/home/${user}/.config/syncthing";
     user = "${user}";
@@ -123,7 +123,6 @@ let user = "dustin";
       "Home Lab" = {
         id = "WW5O366-THBBBA3-HKQAYCP-EWADS4I-4KDDC5Z-3JCO42M-RLBZ3DY-NM7PEQA";
         autoAcceptFolders = true;
-        introducer = true;
       };
     };
 
