@@ -82,13 +82,7 @@
 ; set the window and load the config file
 (dl/window-setup)
 
-(defun system-is-mac ()
-  "Return true if system is darwin-based (Mac OS X)"
-  (string-equal system-type "darwin"))
-
-(let ((org-config-path (if (system-is-mac)
-                         "~/.local/share/src/nixos-config/common/config/emacs/config.org"
-                         "/etc/nixos/common/config/emacs/config.org")))
+(let org-config-path "~/.local/share/src/nixos-config/common/config/emacs/config.org")
 
 "Load our main config file"
-(org-babel-load-file org-config-path))
+(org-babel-load-file org-config-path)
