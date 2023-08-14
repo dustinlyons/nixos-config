@@ -84,32 +84,8 @@ sleep .5
 bspc rule -a Slack -o desktop='^3'
 /etc/profiles/per-user/dustin/bin/slack &!
 
-sleep .5
-
-# Desktop 4
-# Chat, News (Financial)
-bspc rule -a Discord -o desktop='^3'
-/etc/profiles/per-user/dustin/bin/discord &!
-
-sleep 1
-
-bspc rule -a Google-chrome -o desktop='^4'
-/etc/profiles/per-user/dustin/bin/google-chrome-stable --profile-directory=Default --new-window "https://www.tradingview.com" "https://www.bloomberg.com" &!
-
-bspc rule -a Emacs -o desktop='^4'
-/run/current-system/sw/bin/emacsclient -c &!
-
-sleep .5
-
-# Desktop 6
-# Monitoring, Emacs (Journal)
-bspc rule -a Alacritty -o desktop='^6'
-/etc/profiles/per-user/dustin/bin/alacritty -e btop &!
-
-sleep .5
-
-bspc rule -a Emacs -o desktop='^6'
-/run/current-system/sw/bin/emacsclient -c &!
+bspc rule -a Google-chrome -o desktop='^1'
+/etc/profiles/per-user/dustin/bin/google-chrome-stable --profile-directory=Default --new-window "https://www.techmeme.com" "https://www.inoreader.com/" &!
 
 sleep .5
 
@@ -117,7 +93,5 @@ sleep .5
 # Apple Music, Media
 bspc rule -a Cider -o desktop='^5'
 /etc/profiles/per-user/dustin/bin/cider &!
-bspc rule -a Alacritty -o desktop='^5'
-/etc/profiles/per-user/dustin/bin/alacritty -e cava &!
 
 sleep .5
