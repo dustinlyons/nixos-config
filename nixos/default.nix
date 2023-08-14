@@ -134,6 +134,12 @@ let user = "dustin";
         devices = [ "Macbook Pro" "Home Lab" ];
       };
     };
+
+    extraOptions.gui = {
+      user = "${user}";
+      password = age.secrets."syncthing-gui-password";
+    };
+
   };
 
   # Add docker daemon
