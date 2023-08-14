@@ -106,23 +106,24 @@ let user = "dustin";
   services.syncthing = {
     enable = true;
     openDefaultPorts = true;
-    #cert = "/home/${user}/.config/syncthing/cert.pem";
-    #key = "/home/${user}/.config/syncthing/key.pem";
-    dataDir = "/home/${user}/.local/share/syncthing"; # This is overridden by folders
+    # Note, dataDir is overridden by folders
+    dataDir = "/home/${user}/.local/share/syncthing";
     configDir = "/home/${user}/.config/syncthing";
     user = "${user}";
     group = "users";
-    guiAddress = "0.0.0.0:8384";
+    guiAddress = "127.0.0.1:8384";
     overrideFolders = true;
     overrideDevices = true;
 
     settings.devices = {
       "Macbook Pro" = {
         id = "P2FYLQW-PKDFJGZ-EUGI2T7-OW4AH4I-KI462HD-U2VL3X3-GN55PP2-VNRE5AH";
+        addresses = [ "tcp://192.168.0.99:51820" ];
       };
       "Home Lab" = {
         id = "WW5O366-THBBBA3-HKQAYCP-EWADS4I-4KDDC5Z-3JCO42M-RLBZ3DY-NM7PEQA";
         autoAcceptFolders = true;
+        addresses = [ "tcp://192.168.0.103:51820" ];
       };
     };
 
@@ -134,11 +135,9 @@ let user = "dustin";
       };
     };
 
-    extraOptions.gui = {
-      user = "${user}";
-      password = builtins.readFile config.age.secrets."syncthing-gui-password".path;
-    };
-
+    settings.options.globalAnnounceEnabled = false; # Only sync on LAN
+    extraOptions.gui.insecureSkipHostcheck = true;
+    extraOptions.gui.insecureAdminAccess = true;
   };
 
   # Add docker daemon
