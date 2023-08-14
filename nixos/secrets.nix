@@ -11,9 +11,9 @@ let user = "dustin"; in
     symlink = true;
     path = "/home/${user}/.config/syncthing/cert.pem";
     file =  "${secrets}/felix-syncthing-cert.age";
-    mode = "644";
+    mode = "600";
     owner = "${user}";
-    group = "staff";
+    group = "users";
   };
 
   age.secrets."syncthing-key" = {
@@ -22,7 +22,7 @@ let user = "dustin"; in
     file =  "${secrets}/felix-syncthing-key.age";
     mode = "600";
     owner = "${user}";
-    group = "staff";
+    group = "users";
   };
 
   age.secrets."syncthing-gui-password" = {
@@ -35,6 +35,7 @@ let user = "dustin"; in
     file =  "${secrets}/github-ssh-key.age";
     mode = "600";
     owner = "${user}";
+    group = "wheel";
   };
 
   age.secrets."github-signing-key" = {
@@ -43,6 +44,7 @@ let user = "dustin"; in
     file =  "${secrets}/github-signing-key.age";
     mode = "600";
     owner = "${user}";
+    group = "wheel";
   };
 
 }
