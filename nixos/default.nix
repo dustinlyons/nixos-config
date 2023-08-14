@@ -137,7 +137,7 @@ let user = "dustin";
 
     extraOptions.gui = {
       user = "${user}";
-      password = age.secrets."syncthing-gui-password";
+      password = builtins.readFile config.age.secrets."syncthing-gui-password".path;
     };
 
   };
