@@ -85,22 +85,34 @@ nix --experimental-features 'nix-command flakes' build .#darwinConfigurations.Du
 unlink ./result
 ```
 
-## For NixOS, use a few Nix commands
-Download and burn [the minimal ISO image](https://nixos.org/download.html), then run:
+## For NixOS
+### Burn the latest ISO
+Download and burn [the minimal ISO image](https://nixos.org/download.html).
 
 > [!IMPORTANT]
 > For Nvidia cards, select the second option `nomodeset` when booting the installer.
 
-This assumes you have your own private Nix repository that holds age-encrypted files.
+### Create a private secrets repository
+This configuration assumes you have a private `nix-secrets` repository that holds age-encrypted files.
+
+### Install secrets
+This configuration assumes you have an Ed25519 public and private key pair, available on a USB drive that has been connected to the system.
 ```sh
 nix run --extra-experimental-features 'nix-command flakes' github:dustinlyons/nixos-config#secrets
 ```
+
+### Install configuration
 > [!WARNING]
 > Running these commands will reformat your entire drive to the ext4 filesystem.
 ```sh
 nix run --extra-experimental-features 'nix-command flakes' github:dustinlyons/nixos-config#install
 ```
-At login screen, use the shortcut `Ctrl-Alt-F2` to enter a shell as root and set the user password: `passwd <user>`. `Ctrl-Alt-F7` gets you back to the login screen.
+
+On the first boot at the login screen:
+- Use the shortcut `Ctrl-Alt-F2` to move to a terminal session
+- Login as root using the password created during installation
+- Set the user password with `passwd <user>`
+- Go back to the login screen: `Ctrl-Alt-F7`
 
 # Live ISO
 Not yet available. Coming soon.
