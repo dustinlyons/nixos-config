@@ -42,7 +42,7 @@ common-packages ++ [
   discord
   hexchat # Chat
   fractal # Matrix.org messaging app
-  tdesktop # telegram desktop
+  #tdesktop # telegram desktop
 
   # Testing and development tools
   cypress # Functional testing framework using headless chrome
