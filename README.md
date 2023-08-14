@@ -85,7 +85,7 @@ nix --experimental-features 'nix-command flakes' build .#darwinConfigurations.Du
 unlink ./result
 ```
 
-## For NixOS, one command does the trick
+## For NixOS, use a few Nix commands
 Download and burn [the minimal ISO image](https://nixos.org/download.html), then run:
 
 > [!IMPORTANT]
@@ -94,12 +94,12 @@ Download and burn [the minimal ISO image](https://nixos.org/download.html), then
 > [!NOTE]
 > Currently, you need to set the user password on first boot. When you see the login screen, `Ctrl-Alt-F2` gives you another shell where you can login as root and run `passwd <user>`. `Ctrl-Alt-F7` gets back to the login screen.
 
-> [!WARNING]
-> Running these commands will reformat your entire drive to the ext4 filesystem.
-
+This assumes you have your own private Nix repository that holds age-encrypted files.
 ```sh
 nix run --extra-experimental-features 'nix-command flakes' github:dustinlyons/nixos-config#secrets
 ```
+> [!WARNING]
+> Running these commands will reformat your entire drive to the ext4 filesystem.
 ```sh
 nix run --extra-experimental-features 'nix-command flakes' github:dustinlyons/nixos-config#install
 ```
