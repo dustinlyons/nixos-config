@@ -129,6 +129,7 @@ let user = "dustin";
 
     settings.folders = {
       "XDG Share" = {
+        id = "ukrub-quh7k";
         path = "/home/${user}/.local/share";
         devices = [ "Macbook Pro" "Home Lab" ];
       };
