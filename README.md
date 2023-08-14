@@ -91,9 +91,6 @@ Download and burn [the minimal ISO image](https://nixos.org/download.html), then
 > [!IMPORTANT]
 > For Nvidia cards, select the second option `nomodeset` when booting the installer.
 
-> [!NOTE]
-> 
-
 This assumes you have your own private Nix repository that holds age-encrypted files.
 ```sh
 nix run --extra-experimental-features 'nix-command flakes' github:dustinlyons/nixos-config#secrets
