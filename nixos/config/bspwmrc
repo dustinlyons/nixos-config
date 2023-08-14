@@ -54,6 +54,7 @@ sleep .25
 # Wait for the network to be up
 notify-send 'Waiting for network...'
 while ! systemctl is-active --quiet network-online.target; do sleep 1; done
+notify-send 'Network found.'
 
 # Desktop 1
 # Email, Calendar, News (General)
@@ -75,6 +76,7 @@ bspc rule -a Alacritty -o desktop='^2'
 sleep 1
 
 bspc rule -a Emacs -o desktop='^2'
+notify-send 'Starting Emacs...'
 /run/current-system/sw/bin/emacsclient -c &!
 
 sleep .5
@@ -84,7 +86,7 @@ sleep .5
 bspc rule -a Slack -o desktop='^3'
 /etc/profiles/per-user/dustin/bin/slack &!
 
-bspc rule -a Google-chrome -o desktop='^1'
+bspc rule -a Google-chrome -o desktop='^3'
 /etc/profiles/per-user/dustin/bin/google-chrome-stable --profile-directory=Default --new-window "https://www.techmeme.com" "https://www.inoreader.com/" &!
 
 sleep .5
@@ -94,4 +96,8 @@ sleep .5
 bspc rule -a Cider -o desktop='^5'
 /etc/profiles/per-user/dustin/bin/cider &!
 
-sleep .5
+bspc rule -a Emacs -o desktop='^5'
+/run/current-system/sw/bin/emacsclient -c &!
+
+sleep 1
+notify-send 'Initialization complete.'
