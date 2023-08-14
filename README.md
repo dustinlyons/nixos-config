@@ -111,7 +111,7 @@ nix run --extra-experimental-features 'nix-command flakes' github:dustinlyons/ni
 
 On the first boot at the login screen:
 - Use the shortcut `Ctrl-Alt-F2` to move to a terminal session
-- Login as root using the password created during installation
+- Login as `root` using the password created during installation
 - Set the user password with `passwd <user>`
 - Go back to the login screen: `Ctrl-Alt-F7`
 
