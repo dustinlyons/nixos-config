@@ -57,8 +57,8 @@ in
   # Screen lock
   services.screen-locker = {
     enable = true;
-    inactiveInterval = 30;
-    lockCmd = "${pkgs.betterlockscreen}/bin/betterlockscreen -l dim";
+    inactiveInterval = 10;
+    lockCmd = "${pkgs.slock}/bin/slock";
   };
 
   # Auto mount devices

@@ -18,7 +18,6 @@ common-packages ++ [
   home-manager
 
   # Media and design tools
-  betterlockscreen
   gimp
   vlc
   wineWowPackages.stable
@@ -77,6 +76,7 @@ common-packages ++ [
   playerctl # Control media players from command line
   pinentry-curses
   pcmanfm # Our file browser
+  slock # Suckless screen locker
   sqlite
   xdg-utils
 
