@@ -25,10 +25,6 @@ let user = "dustin"; in
     group = "users";
   };
 
-  age.secrets."syncthing-gui-password" = {
-    file =  "${secrets}/syncthing-gui-password.age";
-  };
-
   age.secrets."github-ssh-key" = {
     symlink = false;
     path = "/home/${user}/.ssh/id_github";
