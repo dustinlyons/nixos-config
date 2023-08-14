@@ -59,6 +59,10 @@ https://github.com/dustinlyons/nixos-config/assets/1292576/fa54a87f-5971-41ee-98
 * "Darling erasure" using [impermanence](https://github.com/nix-community/impermanence) and `zfs` snapshot reset ([#8](https://github.com/dustinlyons/nixos-config/issues/8))
 
 # Bootstrap New Computer
+## Before running these commands 
+
+### Create a private secrets repository
+This configuration assumes you have a private `nix-secrets` repository that holds age-encrypted files.
 
 ## For MacOS
 ### Install dependencies
@@ -92,9 +96,6 @@ Download and burn [the minimal ISO image](https://nixos.org/download.html).
 
 > [!IMPORTANT]
 > For Nvidia cards, select the second option `nomodeset` when booting the installer.
-
-### Create a private secrets repository
-This configuration assumes you have a private `nix-secrets` repository that holds age-encrypted files.
 
 ### Install secrets
 This configuration assumes you have an Ed25519 public and private key pair, available on a USB drive that has been connected to the system.
