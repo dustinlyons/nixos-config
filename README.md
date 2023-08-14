@@ -92,7 +92,7 @@ Download and burn [the minimal ISO image](https://nixos.org/download.html), then
 > For Nvidia cards, select the second option `nomodeset` when booting the installer.
 
 > [!NOTE]
-> Currently, you need to set the user password on first boot. When you see the login screen, `Ctrl-Alt-F2` gives you another shell where you can login as root and run `passwd <user>`. `Ctrl-Alt-F7` gets back to the login screen.
+> 
 
 This assumes you have your own private Nix repository that holds age-encrypted files.
 ```sh
@@ -103,6 +103,7 @@ nix run --extra-experimental-features 'nix-command flakes' github:dustinlyons/ni
 ```sh
 nix run --extra-experimental-features 'nix-command flakes' github:dustinlyons/nixos-config#install
 ```
+On first boot you'll need to set the user password. At the login sreen, `Ctrl-Alt-F2` gives you another shell where you can login as root and run `passwd <user>`. `Ctrl-Alt-F7` gets back to the login screen.
 
 # Live ISO
 Not yet available. Coming soon.
