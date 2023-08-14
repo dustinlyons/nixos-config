@@ -100,7 +100,7 @@ nix run --extra-experimental-features 'nix-command flakes' github:dustinlyons/ni
 ```sh
 nix run --extra-experimental-features 'nix-command flakes' github:dustinlyons/nixos-config#install
 ```
-On first boot you'll need to set the user password. At the login sreen, `Ctrl-Alt-F2` gives you another shell where you can login as root and run `passwd <user>`. `Ctrl-Alt-F7` gets back to the login screen.
+At login screen, use the shortcut `Ctrl-Alt-F2` to enter a shell as root and set the user password: `passwd <user>`. `Ctrl-Alt-F7` gets you back to the login screen.
 
 # Live ISO
 Not yet available. Coming soon.
