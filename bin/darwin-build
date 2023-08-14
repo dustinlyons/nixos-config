@@ -16,9 +16,11 @@ cd $(dirname $(readlink -f $0))
 cd ..
 
 echo "${GREEN}Starting...${CLEAR}"
+# --impure is needed for <home-manager/nix-darwin> channel
 nix --experimental-features 'nix-command flakes' build .#$SYSTEM --impure $@
 
 echo "${GREEN}Switching to new generation...${CLEAR}"
+# --impure is needed for <home-manager/nix-darwin> channel
 ./result/sw/bin/darwin-rebuild switch --flake .#$FLAKE --impure $@
 
 echo "${GREEN}Cleaning up...${CLEAR}"
