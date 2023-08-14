@@ -82,7 +82,5 @@
 ; set the window and load the config file
 (dl/window-setup)
 
-(let org-config-path "~/.local/share/src/nixos-config/common/config/emacs/config.org")
-
 "Load our main config file"
-(org-babel-load-file org-config-path)
+(org-babel-load-file  "~/.local/share/src/nixos-config/common/config/emacs/config.org")
