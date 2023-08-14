@@ -55,9 +55,7 @@ Mainly splash screen settings. In the future we may look to optimize performance
       (add-hook 'after-make-frame-functions
                 (lambda (frame)
                   (select-frame frame)
-                  (adjust-frame-size-and-position frame)
-                  ;; Load other GUI-related configurations here
-                  ))
+                  (when (system-is-mac) (adjust-frame-size-and-position frame)))
     (adjust-frame-size-and-position))
   #+END_SRC
 
