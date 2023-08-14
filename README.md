@@ -8,7 +8,7 @@ _Psst: I can help bring Nix into your company. <a href="https://calendly.com/dus
 # Overview
 Hey, you made it! Welcome. 🤓 
 
-This is a Nix configuration that works across MacOS and NixOS. It's also a good example of a MacOS Nix Flake.
+This is a Nix flake you can run on MacOS, NixOS, or both at the same time with shared data and configuration. It's also a good example of a MacOS Nix flake.
 
 ## Layout
 ```
