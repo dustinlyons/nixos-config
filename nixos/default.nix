@@ -138,8 +138,8 @@ let user = "dustin";
     };
 
     settings.options.globalAnnounceEnabled = false; # Only sync on LAN
-    extraOptions.gui.insecureSkipHostcheck = true;
-    extraOptions.gui.insecureAdminAccess = true;
+    settings.gui.insecureSkipHostcheck = true;
+    settings.gui.insecureAdminAccess = true;
   };
 
   # Add docker daemon
