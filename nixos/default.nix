@@ -263,7 +263,7 @@ let user = "dustin";
   services.emacs = {
     enable = true;
     package = pkgs.emacs-unstable;
-    timeout = "7min"; # dustinlyons/nixpkgs
+    startupTimeout = "7min"; # dustinlyons/nixpkgs
   };
 
   fonts.packages = with pkgs; [
