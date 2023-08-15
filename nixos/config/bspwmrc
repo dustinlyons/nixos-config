@@ -87,7 +87,7 @@ bspc rule -a Slack -o desktop='^3'
 /etc/profiles/per-user/dustin/bin/slack &!
 
 bspc rule -a Google-chrome -o desktop='^3'
-/etc/profiles/per-user/dustin/bin/google-chrome-stable --profile-directory=Default --new-window "https://www.techmeme.com" "https://www.inoreader.com/" &!
+/etc/profiles/per-user/dustin/bin/google-chrome-stable --profile-directory=Default --new-window "https://chat.openai.com" &!
 
 sleep .5
 
