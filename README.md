@@ -62,6 +62,13 @@ https://github.com/dustinlyons/nixos-config/assets/1292576/fa54a87f-5971-41ee-98
 ## Create a private secrets repository
 This configuration assumes you have a private `nix-secrets` repository that holds `age`-encrypted files. 
 
+### Encrypting a secret
+These secrets are later read by `agenix`. To create a new secret `secret.age`:
+```
+EDITOR=vim nix run github:ryantm/agenix -- -e secret.age
+```
+Note, the key used for encryption must be available during installation. [See the instructions](https://github.com/dustinlyons/nixos-config/blob/main/README.md#install-secrets).
+
 ### Active secrets
 | Secret Name           | Platform | Description           | 
 |-----------------------|----------|-----------------------|
@@ -74,14 +81,7 @@ This configuration assumes you have a private `nix-secrets` repository that hold
 | `github-ssh-key`      | NixOS    | GitHub SSH key        |
 | `github-signing-key`  | NixOS    | GitHub signing key    |
 
-### Encrypting a secret
-These secrets are later read by `agenix`. To create a new secret `secret.age`:
-```
-EDITOR=vim nix run github:ryantm/agenix -- -e secret.age
-```
-Note, the key used for encryption must be available during installation. [See the instructions](https://github.com/dustinlyons/nixos-config/blob/main/README.md#install-secrets).
-
-### Fork this repository and change it
+## Fork this repository and change it
 You'll need to quickly scan files for where I've defined `user` at the top and change it to your username. 
 
 You'll also likely want to change the name of the MacOS Nix flake target, packages, homebrew casks I install, and my Home Manager configuration. 
