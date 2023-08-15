@@ -137,7 +137,7 @@ This configuration assumes you have two [Ed25519 public and private key pairs](h
 
 Both are needed at install time to download my private `nix-secrets` Github repository and decrypt the configuration.
 
-I keep these secrets `age`-encrypted with my Yubikey on two USB drives and decrypt them temporarily when bootstrapping a new system. You should either create your own keys and name them exactly as I have or fork this repo and change how my `secrets` `nix-command` handles the import (using KMS, CKM, paperkey, Hashicorp Vault, etc.). It's pretty simple `bash`.
+I keep these secrets `age`-encrypted with my Yubikey on two USB drives and decrypt them temporarily when bootstrapping a new system. You should either create your own keys and name them exactly as I have or fork this repo and change how my `nix-command` handles the import (using KMS, CKM, paperkey, Hashicorp Vault, etc.). It's pretty simple `bash`.
 
 Finally, plug in the USB drive, boot the installer and run this command:
 ```sh
