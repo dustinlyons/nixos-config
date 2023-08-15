@@ -59,16 +59,29 @@ https://github.com/dustinlyons/nixos-config/assets/1292576/fa54a87f-5971-41ee-98
 This configuration assumes you have a private `nix-secrets` repository that holds `age`-encrypted files. 
 
 ### Encrypting a secret
-These secrets are later read by `agenix`. To create a new secret `secret.age`:
+These secrets are later read by `agenix`. To create a new secret `secret.age`, first [create a `secrets.nix` file](https://github.com/ryantm/agenix#tutorial):
+```
+let
+  user1 = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIL0idNvgGiucWgup/mP78zyC23uFjYq0evcWdjGQUaBH";
+  users = [ user1 ];
+
+  system1 = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPJDyIr/FSz1cJdcoW69R+NrWzwGK/+3gJpqD1t8L2zE";
+  systems = [ system1 ];
+in
+{
+  "secret.age".publicKeys = [ user1 system1 ];
+}
+```
+Then run this command:
 ```
 EDITOR=vim nix run github:ryantm/agenix -- -e secret.age
 ```
-Note, the key used for encryption must be available during installation. [See the instructions](https://github.com/dustinlyons/nixos-config/blob/main/README.md#install-secrets).
+Note, the key used for encryption must be available during installation. [Jump to these instructions](https://github.com/dustinlyons/nixos-config/blob/main/README.md#install-secrets).
 
 ### Active secrets
 | Secret Name           | Platform | Description           | 
 |-----------------------|----------|-----------------------|
-| `syncthing-cert`      | MacOS    | Syncthing certificate |
+| `syncthing-cert`      | MacOS    | Syncthing certificate |[
 | `syncthing-key`       | MacOS    | Syncthing key         |
 | `github-ssh-key`      | MacOS    | GitHub SSH key        |
 | `github-signing-key`  | MacOS    | GitHub signing key    |
