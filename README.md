@@ -106,22 +106,22 @@ Download and burn [the minimal ISO image](https://nixos.org/download.html).
 This configuration assumes you have a few Ed25519 public and private key pairs available on a USB drive that has been connected to the system.
 * id_ed25519_agenix
 * id_ed25519_agenix.pub
-* id_ed25519_github.age
+* id_ed25519_github
 * id_ed25519_github.pub
 
 `id_ed25519_agenix` is copied over and used to encrypt/decrypt `agenix` secrets. I use `id_ed25519_github` for my Github account; may move to host keys in the future.
 
 Both are needed at install time to download my private `nix-secrets` Github repository and decrypt the configuration.
 
-I keep these secrets `age`-encrypted with my Yubikey on two USB drives and decrypt them temporarily when bootstrapping a new machine. You should either create your own keys and name them exactly as I have or fork this repo and change how my `secrets` `nix-command` handles the import (using KMS, CKM, paperkey, Hashicorp Vault, etc.)
+I keep these secrets `age`-encrypted with my Yubikey on two USB drives and decrypt them temporarily when bootstrapping a new system. You should either create your own keys and name them exactly as I have or fork this repo and change how my `secrets` `nix-command` handles the import (using KMS, CKM, paperkey, Hashicorp Vault, etc.). It's pretty simple `bash`.
 
-Plug in the USB drive and run this command:
+Finally, plug in the USB drive and run this command:
 ```sh
 nix run --extra-experimental-features 'nix-command flakes' github:dustinlyons/nixos-config#secrets
 ```
 
 ### Install configuration
-After the keys are in place, you're good to go. Just boot the installer and run this  command.
+After the keys are in place, you're good to go. Just boot the installer and run this command.
 
 > [!IMPORTANT]
 > For Nvidia cards, select the second option `nomodeset` when booting the installer.
@@ -132,7 +132,7 @@ After the keys are in place, you're good to go. Just boot the installer and run 
 nix run --extra-experimental-features 'nix-command flakes' github:dustinlyons/nixos-config#install
 ```
 
-On the first boot at the login screen:
+On first boot at the login screen:
 - Use the shortcut `Ctrl-Alt-F2` to move to a terminal session
 - Login as `root` using the password created during installation
 - Set the user password with `passwd <user>`
