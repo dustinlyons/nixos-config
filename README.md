@@ -78,7 +78,7 @@ Then run this command and commit the `age` encrypted file:
 ```
 EDITOR=vim nix run github:ryantm/agenix -- -e secret.age
 ```
-Note, the key used for encryption must be available during installation. [Jump to these instructions](https://github.com/dustinlyons/nixos-config/blob/main/README.md#install-secrets).
+> The key used for encryption must be available during installation. [Jump to these instructions](https://github.com/dustinlyons/nixos-config/blob/main/README.md#install-secrets).
 
 ### Active secrets
 | Secret Name           | Platform | Description           | 
