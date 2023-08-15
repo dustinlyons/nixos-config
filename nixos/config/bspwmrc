@@ -78,6 +78,7 @@ sleep 1
 bspc rule -a Emacs -o desktop='^2'
 notify-send 'Starting Emacs...'
 /run/current-system/sw/bin/emacsclient -c &!
+notify-send 'Emacs daemon started.'
 
 sleep .5
 

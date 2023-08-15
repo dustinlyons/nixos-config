@@ -141,7 +141,7 @@ Print
 
 # Lock the screen
 ctrl + alt + BackSpace
-  	betterlockscreen -l blur
+        slock
 
 # Audio controls for + volume
 XF86AudioRaiseVolume
