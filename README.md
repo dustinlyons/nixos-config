@@ -44,19 +44,14 @@ I use this daily on my 💻 M1 Macbook Pro and an 🖥️ x86 PC in my office.
 https://github.com/dustinlyons/nixos-config/assets/1292576/2168d482-6eea-4b51-adc1-2ef1291b6598
 
 ### Instant Emacs 29 thanks to daemon mode
-#### GUI
+*GUI*
 https://github.com/dustinlyons/nixos-config/assets/1292576/66001066-2bbf-4492-bc9e-60ea1abeb987
 
-#### Terminal
+*Terminal*
 https://github.com/dustinlyons/nixos-config/assets/1292576/d96f59ce-f540-4f14-bc61-6126a74f9f52
 
 ## NixOS
 https://github.com/dustinlyons/nixos-config/assets/1292576/fa54a87f-5971-41ee-98ce-09be048018b8
-
-### Coming Soon
-* ✅ ~Persistence defined under [XDG](https://specifications.freedesktop.org/basedir-spec/basedir-spec-latest.html) ([#5](https://github.com/dustinlyons/nixos-config/issues/5))~
-* ✅ ~Secrets managed with `agenix` ([#6](https://github.com/dustinlyons/nixos-config/issues/6))~
-* "Darling erasure" using [impermanence](https://github.com/nix-community/impermanence) and `zfs` snapshot reset ([#8](https://github.com/dustinlyons/nixos-config/issues/8))
 
 # Bootstrap New Computer
 ## Create a private secrets repository
@@ -88,7 +83,7 @@ You'll also likely want to change the name of the MacOS Nix flake target, packag
 Make this repository your own and open a Github Issue if you have questions.
 
 ## For MacOS
-### Install dependencies
+## Install dependencies
 ```sh
 xcode-select --install
 ```
@@ -105,19 +100,17 @@ nix-channel --add https://github.com/nix-community/home-manager/archive/master.t
 ```
 nix-channel update
 ```
-
-### Install config
+## Install config
 ```sh
 nix --experimental-features 'nix-command flakes' build .#darwinConfigurations.Dustins-MBP.system --impure && \
 ./result/sw/bin/darwin-rebuild switch --flake .#Dustins-MBP --impure && \
 unlink ./result
 ```
-
 ## For NixOS
-### Burn the latest ISO
+## Burn the latest ISO
 Download and burn [the minimal ISO image](https://nixos.org/download.html).
 
-### Install secrets
+## Install secrets
 This configuration assumes you have a few Ed25519 public and private key pairs available on a USB drive that has been connected to the system.
 * id_ed25519_agenix
 * id_ed25519_agenix.pub
@@ -135,7 +128,7 @@ Finally, plug in the USB drive, boot the installer and run this command:
 nix run --extra-experimental-features 'nix-command flakes' github:dustinlyons/nixos-config#secrets
 ```
 
-### Install configuration
+## Install configuration
 After the keys are in place, you're good to go. Just run this installation command.
 
 > [!IMPORTANT]
@@ -172,14 +165,13 @@ With Nix, changes to your system are made by
 - building it
 - switching your running system to use it
 
-## Build and switch to a new generation
-### On Mac
+## For MacOS
 ```sh
 nix --experimental-features 'nix-command flakes' build .#darwinConfigurations.Dustins-MBP.system --impure && \
 ./result/sw/bin/darwin-rebuild switch --flake .#Dustins-MBP --impure && \
 unlink ./result
 ```
-### On NixOS
+## For NixOS
 ```sh
 sudo nixos-rebuild switch --flake .#felix
 ```
