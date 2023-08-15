@@ -28,8 +28,8 @@ I use this daily on my 🧑🏻‍💻 M1 Macbook Pro and an x86 PC in my home o
 - **MacOS Dream Setup**: Fully declarative MacOS, including UI, dock and MacOS App Store apps
 - **Bootstrap Nix Command**: Simple `nix-command` to start from zero, both x86 and MacOS platforms
 - **Managed Homebrew**: Fully managed, auto-updating homebrew environment with `nix-darwin`
-- **Disk Management**: Declarative disk management with Disko, say goodbye to disk utils
-- **Secrets Management**: Declarative secrets with agenix for SSH, PGP, syncthing, and other tools
+- **Disk Management**: Declarative disk management with `disko`, say goodbye to disk utils
+- **Secrets Management**: Declarative secrets with `agenix` for SSH, PGP, syncthing, and other tools
 - **Super Fast Emacs**: Bleeding edge Emacs that fixes itself, thanks to a community overlay
 - **Nix Flakes**: _Almost_ 100% flake driven, no major use of channels or `configuration.nix`
 - **Built In Home Manager**: Home-manager module for seamless configuration (no extra clunky CLI steps)
