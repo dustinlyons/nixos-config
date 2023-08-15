@@ -10,7 +10,7 @@ Hey, you made it! Welcome. 🤓
 
 This is a Nix configuration that runs on MacOS, NixOS, or both at the same time. It's also a good example of a MacOS Nix flake.
 
-I use this daily on my M1 Macbook Pro 💻 and an x86 PC 🖥️ in my office. 
+I use this daily on my 💻 M1 Macbook Pro and an 🖥️ x86 PC in my office. 
 ## Layout
 ```
 .
@@ -62,7 +62,7 @@ https://github.com/dustinlyons/nixos-config/assets/1292576/fa54a87f-5971-41ee-98
 ## Before running these commands 
 
 ### Create a private secrets repository
-This configuration assumes you have a private `nix-secrets` repository that holds age-encrypted files.
+This configuration assumes you have a private `nix-secrets` repository that holds `age`-encrypted files.
 
 ### Fork this repository and change it
 This code is always improving and I hope to make this step very seamless in the future. For now, you'll need to quickly scan files for where I've defined `user` at the top and change it to your own username. You'll also likely want to change the name of the MacOS flake target, packages and homebrew casks I install, and my Home Manager configuration. Just make this repository your own.
@@ -143,7 +143,7 @@ nix run --extra-experimental-features 'nix-command flakes' github:dustinlyons/ni
 ## Emacs
 When running `emacs` for the first time, install `all-the-icons`.
 ```
-M-x all-the-icons-insert-alltheicon
+M-x all-the-icons-install-fonts
 ```
 
 # Making changes
