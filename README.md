@@ -23,7 +23,7 @@ I use this daily on my 💻 M1 Macbook Pro and an 🖥️ x86 PC in my office. I
 ```
 
 ## Features
-- **Same Environment Everywhere**: Easily share config across Linux and Mac with both Nix and Home Manager
+- **Same Environment Everywhere**: Easily share config across Linux and Mac (both Nix and Home Manager)
 - **MacOS Dream Setup**: Fully declarative MacOS, including UI, dock and MacOS App Store apps
 - **Bootstrap Nix Command**: Simple `nix-command` to start from zero, both x86 and MacOS platforms
 - **Managed Homebrew**: Fully managed, auto-updating homebrew environment with `nix-darwin`
@@ -69,7 +69,7 @@ This code is always improving and I hope to make this step very seamless in the 
 
 For now, you'll need to quickly scan files for where I've defined `user` at the top and change it to your own username. 
 
-You'll also likely want to change the name of the MacOS flake target, packages and homebrew casks I install, and my Home Manager configuration. 
+You'll also likely want to change the name of the MacOS Nix flake target, packages and homebrew casks I install, and my Home Manager configuration. 
 Just make this repository your own and open a Github Issue if you have questions.
 
 ## For MacOS
