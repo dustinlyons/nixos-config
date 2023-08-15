@@ -191,7 +191,7 @@ unlink ./result
 ```sh
 sudo nixos-rebuild switch --flake .#felix
 ```
-### Optional script to save keystrokes
+#### Optional script to save keystrokes
 ```sh
 ./bin/build
 ```
