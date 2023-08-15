@@ -58,10 +58,11 @@ https://github.com/dustinlyons/nixos-config/assets/1292576/fa54a87f-5971-41ee-98
 
 # Bootstrap New Computer
 ## Create a private secrets repository
-This configuration assumes you have a private `nix-secrets` repository that holds `age`-encrypted files. 
+This configuration assumes you have a private `nix-secrets` repository that holds `age`-encrypted files. These secrets are later read by `agenix`.
+> This is how I choose to optimize usability vs security. `age` files in a private Github repository align with my threat model.
 
 ### Encrypting a secret
-These secrets are later read by `agenix`. To create a new secret `secret.age`, first [create a `secrets.nix` file](https://github.com/ryantm/agenix#tutorial):
+To create a new secret `secret.age`, first [create a `secrets.nix` file](https://github.com/ryantm/agenix#tutorial) at the root of your `nix-secrets` repository:
 ```
 let
   user1 = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIL0idNvgGiucWgup/mP78zyC23uFjYq0evcWdjGQUaBH";
@@ -74,7 +75,7 @@ in
   "secret.age".publicKeys = [ user1 system1 ];
 }
 ```
-Then run this command:
+Then run this command and commit the `age` encrypted file:
 ```
 EDITOR=vim nix run github:ryantm/agenix -- -e secret.age
 ```
