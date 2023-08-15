@@ -208,7 +208,6 @@ Various helpers and packages I find useful for window management.
     "r"   '(:ignore t :which-key "rotate")
     "rw"  '(rotate-window :which-key "rotate window")
     "rl"  '(rotate-layout :which-key "rotate layout"))
-
 #+END_SRC
 
 *** Gutter
@@ -403,10 +402,10 @@ We use two spaces in place of tabs. I don't even want to hear it.
 (use-package doom-themes
   :ensure t
   :config
-    (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
-          doom-themes-enable-italic t) ; if nil, italics is universally disabled
-    (load-theme 'doom-horizon t)
-    ;; (load-theme 'doom-spacegrey t)
+    (setq doom-themes-enable-bold t
+            doom-themes-enable-italic t)
+    ;;(load-theme 'doom-horizon t)
+    (load-theme 'doom-spacegrey t)
     ;;(load-theme 'doom-material-dark t)
     (doom-themes-visual-bell-config)
     (doom-themes-org-config))
