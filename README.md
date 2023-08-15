@@ -8,9 +8,9 @@ _Psst: I can help bring Nix into your company. <a href="https://calendly.com/dus
 # Overview
 Hey, you made it! Welcome. 🤓 
 
-This is a Nix configuration that runs on MacOS, NixOS, or both at the same time. It's also a good example of a MacOS Nix flake.
+This Nix configuration runs on MacOS, NixOS, or both simultaneously. It's also a good example of a MacOS Nix flake.
 
-I use this daily on my 💻 M1 Macbook Pro and an 🖥️ x86 PC in my office. Installation steps below.
+I use this daily on my 💻 M1 Macbook Pro and an 🖥️ x86 PC in my office. Installation steps are below.
 ## Layout
 ```
 .
@@ -18,7 +18,7 @@ I use this daily on my 💻 M1 Macbook Pro and an 🖥️ x86 PC in my office. I
 ├── common       # Shared configurations applicable to all systems
 ├── darwin       # MacOS and nix-darwin configuration
 ├── nixos        # My NixOS desktop-related configuration
-├── overlays     # Drop an overlay file in this dir, and it runs. So far mainly patches.
+├── overlays     # Drop an overlay file in this dir, and it runs. So far, mainly patches.
 └── vms          # VM-specific configs running in my home-lab
 ```
 
@@ -65,12 +65,12 @@ https://github.com/dustinlyons/nixos-config/assets/1292576/fa54a87f-5971-41ee-98
 This configuration assumes you have a private `nix-secrets` repository that holds `age`-encrypted files.
 
 ### Fork this repository and change it
-This code is always improving and I hope to make this step very seamless in the future. 
+This code is always improving, and I hope to make this step seamless. 
 
-For now, you'll need to quickly scan files for where I've defined `user` at the top and change it to your own username. 
+You'll need to quickly scan files for where I've defined `user` at the top and change it to your username. 
 
-You'll also likely want to change the name of the MacOS Nix flake target, packages and homebrew casks I install, and my Home Manager configuration. 
-Just make this repository your own and open a Github Issue if you have questions.
+You'll also likely want to change the name of the MacOS Nix flake target, packages, homebrew casks I install, and my Home Manager configuration. 
+Make this repository your own and open a Github Issue if you have questions.
 
 ## For MacOS
 ### Install dependencies
@@ -109,19 +109,19 @@ This configuration assumes you have a few Ed25519 public and private key pairs a
 * id_ed25519_github
 * id_ed25519_github.pub
 
-`id_ed25519_agenix` is copied over and used to encrypt/decrypt `agenix` secrets. I use `id_ed25519_github` for my Github account; may move to host keys in the future.
+`id_ed25519_agenix` is copied over and used to encrypt/decrypt `agenix` secrets. I use `id_ed25519_github` for my Github account.
 
 Both are needed at install time to download my private `nix-secrets` Github repository and decrypt the configuration.
 
 I keep these secrets `age`-encrypted with my Yubikey on two USB drives and decrypt them temporarily when bootstrapping a new system. You should either create your own keys and name them exactly as I have or fork this repo and change how my `secrets` `nix-command` handles the import (using KMS, CKM, paperkey, Hashicorp Vault, etc.). It's pretty simple `bash`.
 
-Finally, plug in the USB drive and run this command:
+Finally, plug in the USB drive, boot the installer and run this command:
 ```sh
 nix run --extra-experimental-features 'nix-command flakes' github:dustinlyons/nixos-config#secrets
 ```
 
 ### Install configuration
-After the keys are in place, you're good to go. Just boot the installer and run this command.
+After the keys are in place, you're good to go. Just run this installation command.
 
 > [!IMPORTANT]
 > For Nvidia cards, select the second option `nomodeset` when booting the installer.
@@ -155,9 +155,9 @@ M-x all-the-icons-install-fonts
 With Nix, changes to your system are made by 
 - editing your system configuration
 - building it
-- and then switching to the new generation
+- switching your running system to use it
 
-## Build and switch to new generation
+## Build and switch to a new generation
 ### On Mac
 ```sh
 nix --experimental-features 'nix-command flakes' build .#darwinConfigurations.Dustins-MBP.system --impure && \
