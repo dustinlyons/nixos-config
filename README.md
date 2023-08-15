@@ -59,12 +59,27 @@ https://github.com/dustinlyons/nixos-config/assets/1292576/fa54a87f-5971-41ee-98
 * "Darling erasure" using [impermanence](https://github.com/nix-community/impermanence) and `zfs` snapshot reset ([#8](https://github.com/dustinlyons/nixos-config/issues/8))
 
 # Bootstrap New Computer
-## Before running these commands 
+## Create a private secrets repository
+This configuration assumes you have a private `nix-secrets` repository that holds `age`-encrypted files. 
 
-### Create a private secrets repository
-This configuration assumes you have a private `nix-secrets` repository that holds `age`-encrypted files. These secrets are later read by `agenix`, which works cross-platform across MacOS and NixOS.
+### Active secrets
+| Secret Name           | Platform | Description           | Installation Path                                                   |
+|-----------------------|----------|-----------------------|---------------------------------------------------------------------|
+| `syncthing-cert`      | MacOS    | Syncthing certificate | `/Users/${user}/Library/Application Support/Syncthing/cert.pem`     |
+| `syncthing-key`       | MacOS    | Syncthing key         | `/Users/${user}/Library/Application Support/Syncthing/key.pem`      |
+| `github-ssh-key`      | MacOS    | GitHub SSH key        | `/Users/${user}/.ssh/id_github`                                     |
+| `github-signing-key`  | MacOS    | GitHub signing key    | `/Users/${user}/.ssh/pgp_github.key`                                |
+| `syncthing-cert`      | NixOS    | Syncthing certificate | `/home/${user}/.config/syncthing/cert.pem`                          |
+| `syncthing-key`       | NixOS    | Syncthing key         | `/home/${user}/.config/syncthing/key.pem`                           |
+| `github-ssh-key`      | NixOS    | GitHub SSH key        | `/home/${user}/.ssh/id_github`                                      |
+| `github-signing-key`  | NixOS    | GitHub signing key    | `/home/${user}/.ssh/pgp_github.key`                                 |
 
-This repository doesn't need a `flake.nix` or any special code; just `age` encrypted files.
+### Encrypting a secret
+These secrets are later read by `agenix`. To create a new secret `secret.age`:
+```
+EDITOR=vim nix run github:ryantm/agenix -- -e secret.age
+```
+Note, the key used for encryption must be available during installation. [See the instructions](https://github.com/dustinlyons/nixos-config/blob/main/README.md#install-secrets).
 
 ### Fork this repository and change it
 You'll need to quickly scan files for where I've defined `user` at the top and change it to your username. 
