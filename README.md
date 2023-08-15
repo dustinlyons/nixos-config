@@ -81,16 +81,12 @@ EDITOR=vim nix run github:ryantm/agenix -- -e secret.age
 > The key used for encryption must be available during installation. [Jump to these instructions](https://github.com/dustinlyons/nixos-config/blob/main/README.md#install-secrets).
 
 ### Active secrets
-| Secret Name           | Platform | Description           | 
-|-----------------------|----------|-----------------------|
-| `syncthing-cert`      | MacOS    | Syncthing certificate |[
-| `syncthing-key`       | MacOS    | Syncthing key         |
-| `github-ssh-key`      | MacOS    | GitHub SSH key        |
-| `github-signing-key`  | MacOS    | GitHub signing key    |
-| `syncthing-cert`      | NixOS    | Syncthing certificate |
-| `syncthing-key`       | NixOS    | Syncthing key         |
-| `github-ssh-key`      | NixOS    | GitHub SSH key        |
-| `github-signing-key`  | NixOS    | GitHub signing key    |
+| Secret Name           | Platform         | Description           | 
+|-----------------------|------------------|-----------------------|
+| `syncthing-cert`      | MacOS / NixOS    | Syncthing certificate |
+| `syncthing-key`       | MacOS / NixOS    | Syncthing key         |
+| `github-ssh-key`      | MacOS / NixOS    | GitHub SSH key        |
+| `github-signing-key`  | MacOS / NixOS    | GitHub signing key    |
 
 ## Fork this repository and change it
 You'll need to quickly scan files for where I've defined `user` at the top and change it to your username. 
