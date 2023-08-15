@@ -64,6 +64,9 @@ https://github.com/dustinlyons/nixos-config/assets/1292576/fa54a87f-5971-41ee-98
 ### Create a private secrets repository
 This configuration assumes you have a private `nix-secrets` repository that holds age-encrypted files.
 
+### Fork this repository and change it to be your own
+This code is always improving and I hope to make this step very seamless in the future. For now, you'll need to quickly scan files for where I've defined `user` at the top and change it to your own username. You'll also likely want to change the name of the MacOS flake target, packages and homebrew casks I install, and my Home Manager configuration. Just make this repository your own.
+
 ## For MacOS
 ### Install dependencies
 ```sh
@@ -98,14 +101,28 @@ Download and burn [the minimal ISO image](https://nixos.org/download.html).
 > For Nvidia cards, select the second option `nomodeset` when booting the installer.
 
 ### Install secrets
-This configuration assumes you have an Ed25519 public and private key pair, available on a USB drive that has been connected to the system.
+This configuration assumes you have a few Ed25519 public and private key pairs available on a USB drive that has been connected to the system.
+* id_ed25519_agenix
+* id_ed25519_agenix.pub
+* id_ed25519_github.age
+* id_ed25519_github.pub
+
+`id_ed25519_agenix` is copied over and used to encrypt/decrypt `agenix` secrets. I use `id_ed25519_github` for my Github account; may move to host keys in the future.
+
+Both are needed at install time to download my private `nix-secrets` Github repository and decrypt the configuration.
+
+I keep these secrets age-encrypted with my Yubikey on two USB drives and decrypt them temporarily when bootstrapping a new machine. You should either create your own keys and name them exactly as I have or fork this repo and change how my `secrets` `nix-command` handles the import (using KMS, CKM, paperkey, Hashicorp Vault, etc.)
+
+Plug in the USB drive and run this command:
 ```sh
 nix run --extra-experimental-features 'nix-command flakes' github:dustinlyons/nixos-config#secrets
 ```
 
 ### Install configuration
+After the keys are in place, you're good to go. Just run this installation command.
+
 > [!WARNING]
-> Running these commands will reformat your entire drive to the ext4 filesystem.
+> Running this will reformat your drive to the ext4 filesystem.
 ```sh
 nix run --extra-experimental-features 'nix-command flakes' github:dustinlyons/nixos-config#install
 ```
