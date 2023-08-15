@@ -97,9 +97,6 @@ unlink ./result
 ### Burn the latest ISO
 Download and burn [the minimal ISO image](https://nixos.org/download.html).
 
-> [!IMPORTANT]
-> For Nvidia cards, select the second option `nomodeset` when booting the installer.
-
 ### Install secrets
 This configuration assumes you have a few Ed25519 public and private key pairs available on a USB drive that has been connected to the system.
 * id_ed25519_agenix
@@ -119,7 +116,10 @@ nix run --extra-experimental-features 'nix-command flakes' github:dustinlyons/ni
 ```
 
 ### Install configuration
-After the keys are in place, you're good to go. Just run this installation command.
+After the keys are in place, you're good to go. Just boot the installer and run this  command.
+
+> [!IMPORTANT]
+> For Nvidia cards, select the second option `nomodeset` when booting the installer.
 
 > [!WARNING]
 > Running this will reformat your drive to the ext4 filesystem.
