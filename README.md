@@ -10,7 +10,7 @@ Hey, you made it! Welcome. 🤓
 
 This is a Nix configuration that runs on MacOS, NixOS, or both at the same time. It's also a good example of a MacOS Nix flake.
 
-I use this daily on my 💻 M1 Macbook Pro and an 🖥️ x86 PC in my office. 
+I use this daily on my 💻 M1 Macbook Pro and an 🖥️ x86 PC in my office. Installation steps below.
 ## Layout
 ```
 .
