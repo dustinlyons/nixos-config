@@ -129,7 +129,7 @@ This configuration assumes you have two [Ed25519 public and private key pairs](h
 * id_ed25519_github
 * id_ed25519_github.pub
 
-`id_ed25519_agenix` is copied over and used to encrypt/decrypt `agenix` secrets. I use `id_ed25519_github` for my Github account.
+`id_ed25519_agenix` is copied over and used in the encryption of `agenix` secrets. I use `id_ed25519_github` for my Github account.
 
 Both are needed at install time to download my private `nix-secrets` Github repository and decrypt the configuration.
 
