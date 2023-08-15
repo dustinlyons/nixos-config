@@ -21,7 +21,6 @@ common-packages ++ [
   gimp
   vlc
   wineWowPackages.stable
-  feather-font
   fontconfig
   font-manager
 

@@ -263,14 +263,13 @@ let user = "dustin";
   services.emacs = {
     enable = true;
     package = pkgs.emacs-unstable;
+    timeout = "7min"; # dustinlyons/nixpkgs
   };
 
-  # Note, feather-font comes from _my_ nixpkgs fork
-  #   github.com/dustinlyons/nixpkgs
   fonts.packages = with pkgs; [
     dejavu_fonts
     emacs-all-the-icons-fonts
-    feather-font
+    feather-font # dustinlyons/nixpkgs
     jetbrains-mono
     font-awesome
     noto-fonts
