@@ -95,6 +95,8 @@ sleep .5
 bspc rule -a Google-chrome -o desktop='^3'
 /etc/profiles/per-user/dustin/bin/google-chrome-stable --new-window "https://chat.openai.com" &!
 
+sleep .5
+
 bspc rule -a Emacs -o desktop='^3'
 /run/current-system/sw/bin/emacsclient -c &!
 
@@ -105,7 +107,7 @@ sleep .5
 bspc rule -a Cider -o desktop='^5'
 /etc/profiles/per-user/dustin/bin/cider &!
 
-bspc rule -a Emacs -o desktop='^5'
-/run/current-system/sw/bin/emacsclient -c &!
-
 sleep 1
+
+#bspc rule -a Emacs -o desktop='^5'
+#/run/current-system/sw/bin/emacsclient -c &!
