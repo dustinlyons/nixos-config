@@ -152,7 +152,10 @@ M-x all-the-icons-install-fonts
 ```
 
 # Making changes
-You can edit your configuration and save the changes.
+With Nix, changes to your system are made by 
+- editing your system configuration
+- building it
+- and then switching to the new generation
 
 ## Build and switch to new generation
 ### On Mac
