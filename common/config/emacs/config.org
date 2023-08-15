@@ -56,7 +56,7 @@ Mainly splash screen settings. In the future we may look to optimize performance
                 (lambda (frame)
                   (select-frame frame)
                   (when (system-is-mac) (adjust-frame-size-and-position frame)))
-    (adjust-frame-size-and-position))
+    (adjust-frame-size-and-position)))
   #+END_SRC
 
 *** Add package sources
