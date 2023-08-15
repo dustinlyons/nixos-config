@@ -56,6 +56,16 @@ notify-send 'Waiting for network...'
 while ! systemctl is-active --quiet network-online.target; do sleep 1; done
 notify-send 'Network found.'
 
+# Wait for the Emacs daemon
+notify-send 'Starting Emacs...'
+/run/current-system/sw/bin/emacsclient -a "" -e '(progn)' &
+
+# Wait for Emacs daemon to be ready
+while ! /run/current-system/sw/bin/emacsclient -e '(progn)' &>/dev/null; do
+  sleep 1
+done
+notify-send 'Emacs daemon started.'
+
 # Desktop 1
 # Email, Calendar, News (General)
 bspc rule -a Google-chrome -o desktop='^1'
@@ -71,29 +81,27 @@ sleep 1
 # Desktop 2
 # Terminal, Emacs (IDE)
 bspc rule -a Alacritty -o desktop='^2'
-/etc/profiles/per-user/dustin/bin/alacritty -e tmux attach &!
+/etc/profiles/per-user/dustin/bin/alacritty -e sh -c 'tmux attach || tmux new-session' &
 
 sleep 1
 
 bspc rule -a Emacs -o desktop='^2'
-notify-send 'Starting Emacs...'
 /run/current-system/sw/bin/emacsclient -c &!
-notify-send 'Emacs daemon started.'
 
 sleep .5
 
 # Desktop 3
-# Slack, Dev Tools Browser
-bspc rule -a Slack -o desktop='^3'
-/etc/profiles/per-user/dustin/bin/slack &!
-
+# ChatGPT, Emacs
 bspc rule -a Google-chrome -o desktop='^3'
 /etc/profiles/per-user/dustin/bin/google-chrome-stable --new-window "https://chat.openai.com" &!
+
+bspc rule -a Emacs -o desktop='^3'
+/run/current-system/sw/bin/emacsclient -c &!
 
 sleep .5
 
 # Desktop 5
-# Apple Music, Media
+# Apple Music, Emacs
 bspc rule -a Cider -o desktop='^5'
 /etc/profiles/per-user/dustin/bin/cider &!
 
@@ -101,4 +109,3 @@ bspc rule -a Emacs -o desktop='^5'
 /run/current-system/sw/bin/emacsclient -c &!
 
 sleep 1
-notify-send 'Initialization complete.'
