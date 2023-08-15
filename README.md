@@ -123,6 +123,12 @@ Not yet available. Coming soon.
 nix run --extra-experimental-features 'nix-command flakes' github:dustinlyons/nixos-config#live
 ```
 
+## Emacs
+When running `emacs` for the first time, install `all-the-icons`.
+```
+M-x all-the-icons-insert-alltheicon
+```
+
 # Making changes
 You can edit your configuration and save the changes.
 
