@@ -64,7 +64,7 @@ https://github.com/dustinlyons/nixos-config/assets/1292576/fa54a87f-5971-41ee-98
 ### Create a private secrets repository
 This configuration assumes you have a private `nix-secrets` repository that holds age-encrypted files.
 
-### Fork this repository and change it to be your own
+### Fork this repository and change it
 This code is always improving and I hope to make this step very seamless in the future. For now, you'll need to quickly scan files for where I've defined `user` at the top and change it to your own username. You'll also likely want to change the name of the MacOS flake target, packages and homebrew casks I install, and my Home Manager configuration. Just make this repository your own.
 
 ## For MacOS
