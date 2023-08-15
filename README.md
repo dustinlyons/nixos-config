@@ -168,6 +168,11 @@ unlink ./result
 ```sh
 sudo nixos-rebuild switch --flake .#felix
 ```
+### Optional script to save keystrokes
+```sh
+./bin/build
+```
+
 ## Update dependencies
 ```sh
 nix flake update
