@@ -63,16 +63,16 @@ https://github.com/dustinlyons/nixos-config/assets/1292576/fa54a87f-5971-41ee-98
 This configuration assumes you have a private `nix-secrets` repository that holds `age`-encrypted files. 
 
 ### Active secrets
-| Secret Name           | Platform | Description           | Installation Path                                                   |
-|-----------------------|----------|-----------------------|---------------------------------------------------------------------|
-| `syncthing-cert`      | MacOS    | Syncthing certificate | `/Users/${user}/Library/Application Support/Syncthing/cert.pem`     |
-| `syncthing-key`       | MacOS    | Syncthing key         | `/Users/${user}/Library/Application Support/Syncthing/key.pem`      |
-| `github-ssh-key`      | MacOS    | GitHub SSH key        | `/Users/${user}/.ssh/id_github`                                     |
-| `github-signing-key`  | MacOS    | GitHub signing key    | `/Users/${user}/.ssh/pgp_github.key`                                |
-| `syncthing-cert`      | NixOS    | Syncthing certificate | `/home/${user}/.config/syncthing/cert.pem`                          |
-| `syncthing-key`       | NixOS    | Syncthing key         | `/home/${user}/.config/syncthing/key.pem`                           |
-| `github-ssh-key`      | NixOS    | GitHub SSH key        | `/home/${user}/.ssh/id_github`                                      |
-| `github-signing-key`  | NixOS    | GitHub signing key    | `/home/${user}/.ssh/pgp_github.key`                                 |
+| Secret Name           | Platform | Description           | 
+|-----------------------|----------|-----------------------|
+| `syncthing-cert`      | MacOS    | Syncthing certificate |
+| `syncthing-key`       | MacOS    | Syncthing key         |
+| `github-ssh-key`      | MacOS    | GitHub SSH key        |
+| `github-signing-key`  | MacOS    | GitHub signing key    |
+| `syncthing-cert`      | NixOS    | Syncthing certificate |
+| `syncthing-key`       | NixOS    | Syncthing key         |
+| `github-ssh-key`      | NixOS    | GitHub SSH key        |
+| `github-signing-key`  | NixOS    | GitHub signing key    |
 
 ### Encrypting a secret
 These secrets are later read by `agenix`. To create a new secret `secret.age`:
