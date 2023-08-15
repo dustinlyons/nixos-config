@@ -64,6 +64,8 @@ https://github.com/dustinlyons/nixos-config/assets/1292576/fa54a87f-5971-41ee-98
 ### Create a private secrets repository
 This configuration assumes you have a private `nix-secrets` repository that holds `age`-encrypted files. These secrets are later read by `agenix`, which works cross-platform across MacOS and NixOS.
 
+This repository doesn't need a `flake.nix` or any special code; just `age` encrypted files.
+
 ### Fork this repository and change it
 You'll need to quickly scan files for where I've defined `user` at the top and change it to your username. 
 
