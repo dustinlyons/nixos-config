@@ -127,7 +127,7 @@ unlink ./result
 Download and burn [the minimal ISO image](https://nixos.org/download.html).
 
 ## Install secrets
-This configuration assumes you have a few Ed25519 public and private key pairs available on a USB drive that has been connected to the system.
+This configuration assumes you have two [Ed25519 public and private key pairs](https://statistics.berkeley.edu/computing/ssh-keys) available on a USB drive that has been connected to the system.
 * id_ed25519_agenix
 * id_ed25519_agenix.pub
 * id_ed25519_github
