@@ -91,7 +91,7 @@ EDITOR=vim nix run github:ryantm/agenix -- -e secret.age
 ## Fork this repository and change it
 You'll need to quickly scan files for where I've defined `user` at the top and change it to your username. 
 
-You'll also likely want to change the name of the MacOS Nix flake target, packages, homebrew casks I install, and my Home Manager configuration. 
+You'll also likely want to change the name of the MacOS Nix Flake target, packages, homebrew casks I install, and my Home Manager configuration. 
 Make this repository your own and open a Github Issue if you have questions.
 
 ## For MacOS
@@ -99,13 +99,16 @@ Make this repository your own and open a Github Issue if you have questions.
 ```sh
 xcode-select --install
 ```
+## Install Nix
+The below command is how I did  it, but it's probably better to now use the [Determinite Systems Installer](https://github.com/DeterminateSystems/nix-installer). We need to make the `nix` command available in your `PATH`.
 ```sh
 sh <(curl -L https://nixos.org/nix/install) --daemon
 ```
+## Install `nix-darwin`
 ```sh
 nix run nix-darwin -- switch --flake ~/.config/nix-darwin
 ```
-We still need this for the Home Manager `nix-darwin` module.
+We still need this Nix channel for the Home Manager `nix-darwin` module.
 ```sh
 nix-channel --add https://github.com/nix-community/home-manager/archive/master.tar.gz home-manager
 ```
@@ -129,29 +132,31 @@ This configuration assumes you have two [Ed25519 public and private key pairs](h
 * id_ed25519_github
 * id_ed25519_github.pub
 
-`id_ed25519_agenix` is copied over and used in the encryption of `agenix` secrets. I use `id_ed25519_github` for my Github account.
+`id_ed25519_agenix` is copied over and used in the encryption of `agenix` secrets. `id_ed25519_github` is used for downloading `nix-secrets`.
 
-Both are needed at install time to download my private `nix-secrets` Github repository and decrypt the configuration.
+Both are needed at install time to decrypt the configuration.
 
-I keep these keys `age`-encrypted with my Yubikey (`age-plugin-yubikey`) on two USB drives and decrypt them temporarily when bootstrapping a new system. You should either create your own keys and name them exactly as I have or fork this repo and change how my `nix-command` handles the import (using KMS, CKM, paperkey, Hashicorp Vault, etc.). It's pretty simple `bash`.
+I keep these keys `age`-encrypted with my Yubikey (`age-plugin-yubikey`) on two USB drives and decrypt them temporarily when bootstrapping a new system (okay for my threat model). You should either create your own keys and name them exactly as I have or fork this repo and change how the `nix-command` handles key import (using KMS, CKM, paperkey, Hashicorp Vault, etc.). It's pretty simple `bash`.
 
-Finally, plug in the USB drive, boot the installer and run this command:
+When the keys are on the USB drive, plug it in, boot the installer, and run this command:
 ```sh
 nix run --extra-experimental-features 'nix-command flakes' github:dustinlyons/nixos-config#secrets
 ```
 
 ## Install configuration
-After the keys are in place, you're good to go. Just run this installation command.
+### Run command
+After the keys are in place, you're good to go. To create a filesystem and install this configuration, run this command:
 
 > [!IMPORTANT]
-> For Nvidia cards, select the second option `nomodeset` when booting the installer.
+> For Nvidia cards, select the second option, `nomodeset`, when booting the installer.
 
 > [!WARNING]
 > Running this will reformat your drive to the ext4 filesystem.
+
 ```sh
 nix run --extra-experimental-features 'nix-command flakes' github:dustinlyons/nixos-config#install
 ```
-
+### Set user password
 On first boot at the login screen:
 - Use the shortcut `Ctrl-Alt-F2` to move to a terminal session
 - Login as `root` using the password created during installation
