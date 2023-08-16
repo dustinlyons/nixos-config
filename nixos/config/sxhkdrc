@@ -141,7 +141,7 @@ Print
 
 # Lock the screen
 ctrl + alt + BackSpace
-        slock
+        i3lock -i /home/dustin/.i3/lock-screen.png
 
 # Audio controls for + volume
 XF86AudioRaiseVolume

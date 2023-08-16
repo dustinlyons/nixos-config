@@ -70,12 +70,12 @@ common-packages ++ [
 
   # File and system utilities
   inotify-tools # inotifywait, inotifywatch - For file system events
+  i3lock
   libnotify
   ledger-live-desktop
   playerctl # Control media players from command line
   pinentry-curses
   pcmanfm # Our file browser
-  slock # Suckless screen locker
   sqlite
   xdg-utils
 
