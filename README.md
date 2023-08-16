@@ -72,6 +72,7 @@ Create them new if they don't exist; `id_ed25519_agenix` is copied over and used
 Both are needed at install time to decrypt the configuration.
 
 > I encrypt these files to `age` keys via `age-plugin-yubikey`. You should either create your own keys and name them exactly as I have or fork this repo and [change how the `nix-command` manages key import](https://github.com/dustinlyons/nixos-config/blob/main/flake.nix#L156) (using KMS, CKM, paperkey, Hashicorp Vault, etc.). It's pretty simple `bash`.
+> In the end, you need the key used to encrypt your secrets available on the machine you're bootstrapping and to SSH access to your private `nix-secrets` repository. 
 
 ### How to encrypt a secret
 To create a new secret `secret.age`, first [create a `secrets.nix` file](https://github.com/ryantm/agenix#tutorial) at the root of your `nix-secrets` repository. This is only used by the `agenix` CLI command. It assumes your SSH private key is in `~/.ssh/` or you can provide the `-i` flag with a path to your `id_ed25519_agenix` key.
