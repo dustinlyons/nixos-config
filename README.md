@@ -100,7 +100,7 @@ Make this repository your own and open a Github Issue if you have questions.
 xcode-select --install
 ```
 ## Install Nix
-The below command is how I did  it, but it's probably better to now use the [Determinite Systems Installer](https://github.com/DeterminateSystems/nix-installer). We need to make the `nix` command available in your `PATH`.
+The below command is how I did  it, but it's probably better to now use the [Determinite Systems Installer](https://github.com/DeterminateSystems/nix-installer). Regardless, we just need to make the `nix` command available in your `PATH`.
 ```sh
 sh <(curl -L https://nixos.org/nix/install) --daemon
 ```
