@@ -144,7 +144,7 @@ nix run --extra-experimental-features 'nix-command flakes' github:dustinlyons/ni
 
 ### Install configuration
 #### Run command
-After the keys are in place, you're good to go. To create a filesystem and install this configuration, run this command:
+After the keys are in place, you're good to go. Run this command:
 
 > [!IMPORTANT]
 > For Nvidia cards, select the second option, `nomodeset`, when booting the installer.
