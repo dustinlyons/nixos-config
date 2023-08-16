@@ -60,8 +60,21 @@ https://github.com/dustinlyons/nixos-config/assets/1292576/fa54a87f-5971-41ee-98
 ## Create a private secrets repository
 This configuration assumes you have a private `nix-secrets` repository that holds `age`-encrypted files. These secrets are later read by `agenix`.
 
-### Encrypting a secret
-To create a new secret `secret.age`, first [create a `secrets.nix` file](https://github.com/ryantm/agenix#tutorial) at the root of your `nix-secrets` repository:
+## Create keys for secret encryption
+This configuration assumes you have two [Ed25519 public and private key pairs](https://statistics.berkeley.edu/computing/ssh-keys) available on a USB drive that has been connected to the system.
+* id_ed25519_agenix
+* id_ed25519_agenix.pub
+* id_ed25519_github
+* id_ed25519_github.pub
+
+Create them new if they don't exist; `id_ed25519_agenix` is copied over and used in the encryption of `agenix` secrets and `id_ed25519_github` is used for downloading `nix-secrets`.
+
+Both are needed at install time to decrypt the configuration.
+
+I keep these keys `age`-encrypted with my Yubikey (`age-plugin-yubikey`) on two USB drives and decrypt them temporarily when bootstrapping a new system (okay for my threat model). You should either create your own keys and name them exactly as I have or fork this repo and change how the `secrets` `nix-command` handles key import (using KMS, CKM, paperkey, Hashicorp Vault, etc.). It's pretty simple `bash`.
+
+### How to encrypt a secret
+To create a new secret `secret.age`, first [create a `secrets.nix` file](https://github.com/ryantm/agenix#tutorial) at the root of your `nix-secrets` repository. This is only used by the `agenix` CLI command. It assumes your SSH private key is in `~/.ssh/` or you can provide the `-i` flag with a path to your `id_ed25519_agenix` key.
 ```
 let
   user1 = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIL0idNvgGiucWgup/mP78zyC23uFjYq0evcWdjGQUaBH";
@@ -78,9 +91,8 @@ Then run this command and commit the `age` encrypted file:
 ```
 EDITOR=vim nix run github:ryantm/agenix -- -e secret.age
 ```
-> The key used for encryption must be available during installation. [Jump to these instructions](https://github.com/dustinlyons/nixos-config/blob/main/README.md#install-secrets).
 
-### Active secrets
+### Table of currently active secrets
 | Secret Name           | Platform         | Description           | 
 |-----------------------|------------------|-----------------------|
 | `syncthing-cert`      | MacOS / NixOS    | Syncthing certificate |
@@ -99,12 +111,12 @@ Make this repository your own and open a Github Issue if you have questions.
 ```sh
 xcode-select --install
 ```
-## Install Nix
+### Install Nix
 The below command is how I did  it, but it's probably better to now use the [Determinite Systems Installer](https://github.com/DeterminateSystems/nix-installer). Regardless, we just need to make the `nix` command available in your `PATH`.
 ```sh
 sh <(curl -L https://nixos.org/nix/install) --daemon
 ```
-## Install `nix-darwin`
+### Install `nix-darwin`
 ```sh
 nix run nix-darwin -- switch --flake ~/.config/nix-darwin
 ```
@@ -115,36 +127,23 @@ nix-channel --add https://github.com/nix-community/home-manager/archive/master.t
 ```
 nix-channel update
 ```
-## Install config
+### Install config
 ```sh
 nix --experimental-features 'nix-command flakes' build .#darwinConfigurations.Dustins-MBP.system --impure && \
 ./result/sw/bin/darwin-rebuild switch --flake .#Dustins-MBP --impure && \
 unlink ./result
 ```
 ## For NixOS
-## Burn the latest ISO
+### Burn the latest ISO
 Download and burn [the minimal ISO image](https://nixos.org/download.html).
-
-## Install secrets
-This configuration assumes you have two [Ed25519 public and private key pairs](https://statistics.berkeley.edu/computing/ssh-keys) available on a USB drive that has been connected to the system.
-* id_ed25519_agenix
-* id_ed25519_agenix.pub
-* id_ed25519_github
-* id_ed25519_github.pub
-
-`id_ed25519_agenix` is copied over and used in the encryption of `agenix` secrets. `id_ed25519_github` is used for downloading `nix-secrets`.
-
-Both are needed at install time to decrypt the configuration.
-
-I keep these keys `age`-encrypted with my Yubikey (`age-plugin-yubikey`) on two USB drives and decrypt them temporarily when bootstrapping a new system (okay for my threat model). You should either create your own keys and name them exactly as I have or fork this repo and change how the `nix-command` handles key import (using KMS, CKM, paperkey, Hashicorp Vault, etc.). It's pretty simple `bash`.
 
 When the keys are on the USB drive, plug it in, boot the installer, and run this command:
 ```sh
 nix run --extra-experimental-features 'nix-command flakes' github:dustinlyons/nixos-config#secrets
 ```
 
-## Install configuration
-### Run command
+### Install configuration
+#### Run command
 After the keys are in place, you're good to go. To create a filesystem and install this configuration, run this command:
 
 > [!IMPORTANT]
@@ -163,7 +162,7 @@ On first boot at the login screen:
 - Set the user password with `passwd <user>`
 - Go back to the login screen: `Ctrl-Alt-F7`
 
-# Live ISO
+## Live ISO
 Not yet available. Coming soon.
 
 ```sh
