@@ -92,7 +92,7 @@ Then run this command and commit the `age` encrypted file:
 EDITOR=vim nix run github:ryantm/agenix -- -e secret.age
 ```
 
-### Table of currently active secrets
+### Current secrets
 | Secret Name           | Platform         | Description           | 
 |-----------------------|------------------|-----------------------|
 | `syncthing-cert`      | MacOS / NixOS    | Syncthing certificate |
