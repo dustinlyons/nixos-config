@@ -71,7 +71,7 @@ Create them new if they don't exist; `id_ed25519_agenix` is copied over and used
 
 Both are needed at install time to decrypt the configuration.
 
-I keep these keys `age`-encrypted with my Yubikey (`age-plugin-yubikey`) on two USB drives and decrypt them temporarily when bootstrapping a new system (okay for my threat model). You should either create your own keys and name them exactly as I have or fork this repo and change how the `secrets` `nix-command` handles key import (using KMS, CKM, paperkey, Hashicorp Vault, etc.). It's pretty simple `bash`.
+> I keep these keys encrypted with my Yubikey (`age-plugin-yubikey`). You should either create your own keys and name them exactly as I have or fork this repo and change how the `nix-command` manages key import (using KMS, CKM, paperkey, Hashicorp Vault, etc.). It's pretty simple `bash`.
 
 ### How to encrypt a secret
 To create a new secret `secret.age`, first [create a `secrets.nix` file](https://github.com/ryantm/agenix#tutorial) at the root of your `nix-secrets` repository. This is only used by the `agenix` CLI command. It assumes your SSH private key is in `~/.ssh/` or you can provide the `-i` flag with a path to your `id_ed25519_agenix` key.
