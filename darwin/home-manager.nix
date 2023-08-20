@@ -61,11 +61,13 @@ let
   # mas = mac app store
   # https://github.com/mas-cli/mas
   #
+  # $ nix shell nixpkgs#mas
   # $ mas search <app name>
   #
   homebrew.casks = pkgs.callPackage ./casks.nix {};
   homebrew.masApps = {
     "1password" = 1333542190;
+    "canva" = 897446215;
     "drafts" = 1435957248;
     "hidden-bar" = 1452453066;
     "wireguard" = 1451685025;
