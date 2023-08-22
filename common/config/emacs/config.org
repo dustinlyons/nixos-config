@@ -404,9 +404,7 @@ We use two spaces in place of tabs. I don't even want to hear it.
   :config
     (setq doom-themes-enable-bold t
             doom-themes-enable-italic t)
-    ;;(load-theme 'doom-horizon t)
-    (load-theme 'doom-spacegrey t)
-    ;;(load-theme 'doom-material-dark t)
+    (load-theme 'doom-one t)
     (doom-themes-visual-bell-config)
     (doom-themes-org-config))
 #+END_SRC
@@ -787,6 +785,7 @@ These are templates used to create new notes.
        ("C-`" . org-roam-buffer-toggle)
        ("C-<right>" . org-roam-dailies-goto-next-note)))
   (org-roam-db-autosync-mode)
+  (add-hook 'org-mode-hook 'writeroom-mode)
 #+END_SRC
 
 ***** Configure templates
@@ -1139,6 +1138,39 @@ Projectile enables me to organize projects with a killer grep interface.
 #+END_SRC
 
 ** Writing
+*** Modes
+Experimenting with different distraction free writing modes.
+
+#+BEGIN_SRC emacs-lisp
+(defvar original-font-size (face-attribute 'default :height))
+(defvar writing-font-size 150) ; Adjust as needed
+
+(defun enter-writing-mode ()
+  (load-theme 'doom-one-light t)
+  (set-face-attribute 'default nil :height writing-font-size)
+  (when (bound-and-true-p treemacs-mode) (treemacs)))
+
+(defun exit-writing-mode ()
+  (load-theme 'doom-one t)
+  (set-face-attribute 'default nil :height original-font-size)
+  (when (bound-and-true-p treemacs-mode) (treemacs)))
+
+(add-hook 'writeroom-mode-hook
+          (lambda ()
+            (if writeroom-mode
+                (enter-writing-mode)
+                (exit-writing-mode))))
+
+(use-package writeroom-mode
+  :ensure t
+  :config
+  (setq writeroom-width 100)       ; adjust the width as needed
+  (setq writeroom-fullscreen-effect nil))
+
+(global-set-key (kbd "C-c w") 'writeroom-mode)
+
+#+END_SRC
+
 *** Spell Check / Flycheck Mode
 Everything related to spell and grammar checking.
 
