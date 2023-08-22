@@ -34,9 +34,3 @@ git -C $NIXPKGS_PATH merge upstream/master master
 _print "${GREEN}Pushing back to master...${CLEAR}"
 git -C $NIXPKGS_PATH push origin master
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
-
-_print "${GREEN}Updating flake...${CLEAR}"
-nix flake update
-
-_print "${GREEN}Building new generation...${CLEAR}"
-./bin/build
