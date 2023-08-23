@@ -58,10 +58,10 @@ https://github.com/dustinlyons/nixos-config/assets/1292576/fa54a87f-5971-41ee-98
 
 # Bootstrap New Computer
 ## Create a private secrets repository
-This configuration assumes you have a private `nix-secrets` repository that holds `age`-encrypted files. These secrets are later read by `agenix`.
+Create a private `nix-secrets` repository that will hold your `age`-encrypted secrets. These secrets are later read by `agenix` as part of the Nix build.
 
 ## Create keys for secret encryption
-This configuration assumes you have two [Ed25519 public and private key pairs](https://statistics.berkeley.edu/computing/ssh-keys) available on a USB drive that has been connected to the system.
+For the initial bootstrap, I connect a USB drive to the system that holds [Ed25519 public and private key pairs](https://statistics.berkeley.edu/computing/ssh-keys). Both are needed at install time to decrypt the configuration.
 * id_ed25519_agenix
 * id_ed25519_agenix.pub
 * id_ed25519_github
@@ -69,9 +69,9 @@ This configuration assumes you have two [Ed25519 public and private key pairs](h
 
 Create them new if they don't exist; `id_ed25519_agenix` is copied over and used in the encryption of `agenix` secrets and `id_ed25519_github` is used for downloading `nix-secrets`.
 
-Both are needed at install time to decrypt the configuration.
+Our initial bootstrap script will scan and find the connected USB drive.
 
-> I encrypt these files to `age` keys via `age-plugin-yubikey`. You should either create your own keys and name them exactly as I have or fork this repo and [change how the `nix-command` manages key import](https://github.com/dustinlyons/nixos-config/blob/main/flake.nix#L156) (using KMS, CKM, paperkey, Hashicorp Vault, etc.).
+> Note, I also encrypt these files to `age` keys via `age-plugin-yubikey`. You should either create your own keys and name them exactly as I have or fork this repo and [change how the `nix-command` manages key import](https://github.com/dustinlyons/nixos-config/blob/main/flake.nix#L156) (using KMS, CKM, paperkey, Hashicorp Vault, etc.).
 
 ### How to encrypt a secret
 To create a new secret `secret.age`, first [create a `secrets.nix` file](https://github.com/ryantm/agenix#tutorial) at the root of your `nix-secrets` repository. This is only used by the `agenix` CLI command. It assumes your SSH private key is in `~/.ssh/` or you can provide the `-i` flag with a path to your `id_ed25519_agenix` key.
@@ -87,11 +87,11 @@ in
   "secret.age".publicKeys = [ user1 system1 ];
 }
 ```
-Then run this command and commit the `age` encrypted file:
+Then run this command: 
 ```
 EDITOR=vim nix run github:ryantm/agenix -- -e secret.age
 ```
-
+This will create a `secret.age` file with your secret that you can reference in the Nix configuration. Commit the file to your repo.
 ### Current secrets
 | Secret Name           | Platform         | Description           | 
 |-----------------------|------------------|-----------------------|
@@ -99,6 +99,8 @@ EDITOR=vim nix run github:ryantm/agenix -- -e secret.age
 | `syncthing-key`       | MacOS / NixOS    | Syncthing key         |
 | `github-ssh-key`      | MacOS / NixOS    | GitHub SSH key        |
 | `github-signing-key`  | MacOS / NixOS    | GitHub signing key    |
+
+> When changing secrets after your configuration exists, be sure to run `nix flake update` from your `nixos-config` so that you reference the latest change.
 
 ## Fork this repository and change it
 You'll need to quickly scan files for where I've defined `user` at the top and change it to your username. 
