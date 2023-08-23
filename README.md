@@ -100,7 +100,7 @@ This will create a `secret.age` file with your secret that you can reference in 
 | `github-ssh-key`      | MacOS / NixOS    | GitHub SSH key        |
 | `github-signing-key`  | MacOS / NixOS    | GitHub signing key    |
 
-> When changing secrets after your configuration exists, be sure to run `nix flake update` from your `nixos-config` so that you reference the latest change.
+When changing secrets after your configuration exists, be sure to run `nix flake update` from your `nixos-config` so that you reference the latest change.
 
 ## Fork this repository and change it
 You'll need to quickly scan files for where I've defined `user` at the top and change it to your username. 
