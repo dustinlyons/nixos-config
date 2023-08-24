@@ -71,7 +71,7 @@ nix run --extra-experimental-features 'nix-command flakes' github:dustinlyons/ni
 
 For MacOS, it's similar.
 
-During installation, these commands set up access to Github, connect to syncthing, my Tailnet, etc., and then on first boot, syncthing automatically starts downloading my persistent data to `~/.local/share`.
+During installation, these commands set up access to Github, connect to syncthing, my Tailnet, etc. On first boot, syncthing automatically starts downloading my persistent data to `~/.local/share`.
 
 To make all this happen, we first need to create a private `nix-secrets` repo to store secrets, and a few initial keypairs for encryption.
 
