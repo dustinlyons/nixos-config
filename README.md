@@ -57,6 +57,24 @@ https://github.com/dustinlyons/nixos-config/assets/1292576/d96f59ce-f540-4f14-bc
 https://github.com/dustinlyons/nixos-config/assets/1292576/fa54a87f-5971-41ee-98ce-09be048018b8
 
 # Bootstrap New Computer
+By design, this configuration requires minimal steps after installation to get to a "full working" state. 
+
+This is what I type after booting a NixOS installer:
+
+```
+nix run --extra-experimental-features 'nix-command flakes' github:dustinlyons/nixos-config#secrets
+```
+
+```
+nix run --extra-experimental-features 'nix-command flakes' github:dustinlyons/nixos-config#install
+```
+
+For MacOS, it's similar.
+
+During installation, these commands set up access to Github, connect to syncthing, my Tailnet, etc., and then on first boot, syncthing automatically starts downloading my persistent data to `~/.local/share`.
+
+To make all this happen, we first need to create a private `nix-secrets` repo to store secrets, and a few initial keypairs for encryption.
+
 ## Create a private secrets repository
 Create a private `nix-secrets` repository that will hold your `age`-encrypted secrets. These secrets are later read by `agenix` as part of the Nix build.
 
