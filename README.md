@@ -110,7 +110,7 @@ Then run this command:
 EDITOR=vim nix run github:ryantm/agenix -- -e secret.age
 ```
 This will create a `secret.age` file with your secret that you can reference in the Nix configuration. Commit the file to your repo.
-### Current secrets
+### Secrets used in this configuration
 | Secret Name           | Platform         | Description           | 
 |-----------------------|------------------|-----------------------|
 | `syncthing-cert`      | MacOS / NixOS    | Syncthing certificate |
