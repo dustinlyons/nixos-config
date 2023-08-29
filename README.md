@@ -71,9 +71,12 @@ nix run --extra-experimental-features 'nix-command flakes' github:dustinlyons/ni
 
 For MacOS, it's similar.
 
-During installation, these commands set up access to Github, connect to syncthing, my Tailnet, etc. On first boot, syncthing automatically starts downloading my persistent data to `~/.local/share`.
+During installation, these commands install keys for Github, connect to syncthing, enable Wireguard, etc. On first boot, syncthing automatically starts downloading my persistent data to `~/.local/share`.
 
-To make all this happen, we first need to create a private `nix-secrets` repo to store secrets, and a few initial keypairs for encryption.
+To make all this happen, two things are required:
+
+* a private `nix-secrets` repo to store secrets
+* two keypairs for encryption
 
 ## Create a private secrets repository
 Create a private `nix-secrets` repository that will hold your `age`-encrypted secrets. These secrets are later read by `agenix` as part of the Nix build.
@@ -89,7 +92,7 @@ Create them new if they don't exist; `id_ed25519_agenix` is copied over and used
 
 > Note, I also encrypt these public/private pairs to `age` keys via `age-plugin-yubikey`. This keeps them from being used without my Yubikey.
 
-Our initial bootstrap script will find the connected USB drive and copy the keys for installation. Feel free to also [change how the `nix-command` manages key import](https://github.com/dustinlyons/nixos-config/blob/main/flake.nix#L156) (using KMS, CKM, paperkey, Hashicorp Vault, etc.) They just need to end up in `~/.ssh` before running the commands below.
+Our initial bootstrap script will find the connected USB drive and copy the keys for installation. Feel free to also [change how the `nix-command` manages key import](https://github.com/dustinlyons/nixos-config/blob/main/flake.nix#L156) (using KMS, CKM, paperkey, Hashicorp Vault, etc.). Ultimately, the keys just need to land in `~/.ssh` before running `install`.
 
 ### How to encrypt a secret
 To create a new secret `secret.age`, first [create a `secrets.nix` file](https://github.com/ryantm/agenix#tutorial) at the root of your `nix-secrets` repository. This is only used by the `agenix` CLI command. It assumes your SSH private key is in `~/.ssh/` or you can provide the `-i` flag with a path to your `id_ed25519_agenix` key.
@@ -110,6 +113,7 @@ Then run this command:
 EDITOR=vim nix run github:ryantm/agenix -- -e secret.age
 ```
 This will create a `secret.age` file with your secret that you can reference in the Nix configuration. Commit the file to your repo.
+
 ### Secrets used in this configuration
 | Secret Name           | Platform         | Description           | 
 |-----------------------|------------------|-----------------------|
