@@ -785,7 +785,6 @@ These are templates used to create new notes.
        ("C-`" . org-roam-buffer-toggle)
        ("C-<right>" . org-roam-dailies-goto-next-note)))
   (org-roam-db-autosync-mode)
-  (add-hook 'org-mode-hook 'writeroom-mode)
 #+END_SRC
 
 ***** Configure templates
@@ -1142,18 +1141,15 @@ Projectile enables me to organize projects with a killer grep interface.
 Experimenting with different distraction free writing modes.
 
 #+BEGIN_SRC emacs-lisp
-(defvar original-font-size (face-attribute 'default :height))
-(defvar writing-font-size 150) ; Adjust as needed
-
 (defun enter-writing-mode ()
   (load-theme 'doom-one-light t)
-  (set-face-attribute 'default nil :height writing-font-size)
-  (when (bound-and-true-p treemacs-mode) (treemacs)))
+  (when (bound-and-true-p treemacs-mode) (treemacs))
+  (add-hook 'window-buffer-change-functions 'check-leaving-buffer nil t))
 
 (defun exit-writing-mode ()
   (load-theme 'doom-one t)
-  (set-face-attribute 'default nil :height original-font-size)
-  (when (bound-and-true-p treemacs-mode) (treemacs)))
+  (when (bound-and-true-p treemacs-mode) (treemacs))
+  (remove-hook 'window-buffer-change-functions 'check-leaving-buffer t))
 
 (add-hook 'writeroom-mode-hook
           (lambda ()
@@ -1162,13 +1158,9 @@ Experimenting with different distraction free writing modes.
                 (exit-writing-mode))))
 
 (use-package writeroom-mode
-  :ensure t
-  :config
-  (setq writeroom-width 100)       ; adjust the width as needed
-  (setq writeroom-fullscreen-effect nil))
+  :ensure t)
 
 (global-set-key (kbd "C-c w") 'writeroom-mode)
-
 #+END_SRC
 
 *** Spell Check / Flycheck Mode
