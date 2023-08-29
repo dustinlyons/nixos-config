@@ -70,7 +70,7 @@ common-packages ++ [
 
   # File and system utilities
   inotify-tools # inotifywait, inotifywatch - For file system events
-  i3lock
+  i3lock-fancy-rapid
   libnotify
   ledger-live-desktop
   playerctl # Control media players from command line

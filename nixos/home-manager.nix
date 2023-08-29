@@ -58,7 +58,7 @@ in
   services.screen-locker = {
     enable = true;
     inactiveInterval = 10;
-    lockCmd = "${pkgs.i3lock}/bin/i3lock -i ~/.i3/lock-screen.png";
+    lockCmd = "${pkgs.i3lock-fancy-rapid}/bin/i3lock-fancy-rapid 10 15";
   };
 
   # Auto mount devices
