@@ -6,8 +6,8 @@ let user = "dustin"; in
   imports = [
     ./secrets.nix
     ./home-manager.nix
-    ../common
-    ../common/cachix
+    ../shared
+    ../shared/cachix
      agenix.darwinModules.default
   ];
 
@@ -39,7 +39,7 @@ let user = "dustin"; in
   environment.systemPackages = with pkgs; [
     emacs-unstable
     agenix.packages."${pkgs.system}".default
-  ] ++ (import ../common/packages.nix { inherit pkgs; });
+  ] ++ (import ../shared/packages.nix { inherit pkgs; });
 
   # Enable fonts dir
   fonts.fontDir.enable = true;

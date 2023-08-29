@@ -6,8 +6,8 @@ let user = "dustin";
   imports = [
     ./secrets.nix
     ./disk-config.nix
-    ../common
-    ../common/cachix
+    ../shared
+    ../shared/cachix
     agenix.nixosModules.default
   ];
 

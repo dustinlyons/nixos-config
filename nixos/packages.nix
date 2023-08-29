@@ -1,8 +1,8 @@
 { pkgs }:
 
 with pkgs;
-let common-packages = import ../common/packages.nix { inherit pkgs; }; in
-common-packages ++ [
+let shared-packages = import ../shared/packages.nix { inherit pkgs; }; in
+shared-packages ++ [
 
   # Security and authentication
   _1password-gui

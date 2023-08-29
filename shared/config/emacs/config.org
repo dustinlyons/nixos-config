@@ -7,7 +7,7 @@ This is my detailed Emacs configuration. It's an ~org~ file that is transpiled t
 
 Why an org file? My Emacs config is large, and this enables me to greatly improve readability of its documentation. I edit this file the same way you're reading it (nicely formatted) as I use Emacs and Emacs speaks org. Sounds complicated, but it's really not; [[https://github.com/dustinlyons/nixos-config/blob/main/nixos/default.nix#L215][just a few lines]] in my Nix config. [[https://github.com/dustinlyons/nixos-config/blob/main/darwin/default.nix#L28][MacOS too.]]
 
-This is the main configuration, but there also exists one more init file, ~init.el~ , that bootstraps ~org-mode~ before this file is interpreted. That's defined [[https://github.com/dustinlyons/nixos-config/blob/main/common/files.nix#L5][here]].
+This is the main configuration, but there also exists one more init file, ~init.el~ , that bootstraps ~org-mode~ before this file is interpreted. That's defined [[https://github.com/dustinlyons/nixos-config/blob/main/shared/files.nix#L5][here]].
 
 /Each block of code below is the actual Emacs configuration./ Formally, this style of configuration is named [[https://en.wikipedia.org/wiki/Literate_programming]["literate programming"]].
 
@@ -665,7 +665,7 @@ If you haven't heard of org mode, go watch [[https://www.youtube.com/watch?v=SzA
   (defun dl/load-buffer-with-emacs-config ()
     "Open the emacs configuration"
     (interactive)
-    (dl/find-file "~/.local/share/src/nixos-config/common/config/emacs/config.org"))
+    (dl/find-file "~/.local/share/src/nixos-config/shared/config/emacs/config.org"))
 
   (defun dl/load-buffer-with-todo ()
     "Open the emacs configuration"
@@ -675,7 +675,7 @@ If you haven't heard of org mode, go watch [[https://www.youtube.com/watch?v=SzA
   (defun dl/load-buffer-with-nix-config ()
     "Open the emacs configuration"
     (interactive)
-    (dl/find-file "~/.local/share/src/nixos-config/common/home-manager.nix"))
+    (dl/find-file "~/.local/share/src/nixos-config/shared/home-manager.nix"))
 
   (defun dl/load-buffer-with-good-data-lol ()
     "Open the emacs configuration"

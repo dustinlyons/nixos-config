@@ -3,8 +3,8 @@
 let
   user = "dustin";
   xdg_configHome  = "/home/${user}/.config";
-  common-programs = import ../common/home-manager.nix { inherit config pkgs lib; };
-  common-files = import ../common/files.nix { inherit config pkgs; };
+  shared-programs = import ../shared/home-manager.nix { inherit config pkgs lib; };
+  shared-files = import ../shared/files.nix { inherit config pkgs; };
 
   polybar-user_modules = builtins.readFile (pkgs.substituteAll {
     src = ./config/polybar/user_modules.ini;
@@ -37,7 +37,7 @@ in
     username = "${user}";
     homeDirectory = "/home/${user}";
     packages = pkgs.callPackage ./packages.nix {};
-    file = common-files // import ./files.nix { inherit user; };
+    file = shared-files // import ./files.nix { inherit user; };
     stateVersion = "21.05";
   };
 
@@ -117,7 +117,7 @@ in
     };
   };
 
-  programs = common-programs // { gpg.enable = true; };
+  programs = shared-programs // { gpg.enable = true; };
 
   # This installs my GPG signing keys for Github
   systemd.user.services.gpg-import-keys = {

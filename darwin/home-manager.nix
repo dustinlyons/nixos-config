@@ -1,7 +1,7 @@
 { config, pkgs, lib, ... }:
 
 let
-  common-files = import ../common/files.nix { inherit config pkgs; };
+  shared-files = import ../shared/files.nix { inherit config pkgs; };
   user = "dustin"; in
 {
   imports = [
@@ -80,7 +80,7 @@ let
     users.${user} = { pkgs, config, lib, ... }:{
       home.enableNixpkgsReleaseCheck = false;
       home.packages = pkgs.callPackage ./packages.nix {};
-      home.file = common-files // import ./files.nix { inherit config pkgs; };
+      home.file = shared-files // import ./files.nix { inherit config pkgs; };
       home.activation.gpgImportKeys =
         let
           gpgKeys = [
@@ -120,7 +120,7 @@ let
             launchctl load ${plistPath}
           '';
 
-    programs = {} // import ../common/home-manager.nix { inherit config pkgs lib; };
+    programs = {} // import ../shared/home-manager.nix { inherit config pkgs lib; };
     # https://github.com/nix-community/home-manager/issues/3344
     # Marked broken Oct 20, 2022 check later to remove this
     # Confirmed still broken, Mar 5, 2023
