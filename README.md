@@ -92,7 +92,9 @@ Create them new if they don't exist; `id_ed25519_agenix` is copied over and used
 
 > Note, I also encrypt these public/private pairs to `age` keys via `age-plugin-yubikey`. This keeps them from being used without my Yubikey.
 
-Our initial bootstrap script will find the connected USB drive and copy the keys for installation. Feel free to also [change how the `nix-command` manages key import](https://github.com/dustinlyons/nixos-config/blob/main/flake.nix#L156) (using KMS, CKM, paperkey, Hashicorp Vault, etc.). Ultimately, the keys just need to land in `~/.ssh` before running `install`.
+Our initial bootstrap script will find the connected USB drive and copy the keys for installation. Feel free to also [change how the `nix-command` manages key import](https://github.com/dustinlyons/nixos-config/blob/main/flake.nix#L156) (using KMS, CKM, paperkey, Hashicorp Vault, etc.). 
+
+Ultimately, the keys just need to land in `~/.ssh` before running `install`.
 
 ### How to encrypt a secret
 To create a new secret `secret.age`, first [create a `secrets.nix` file](https://github.com/ryantm/agenix#tutorial) at the root of your `nix-secrets` repository. This is only used by the `agenix` CLI command. It assumes your SSH private key is in `~/.ssh/` or you can provide the `-i` flag with a path to your `id_ed25519_agenix` key.
