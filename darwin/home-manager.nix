@@ -93,7 +93,7 @@ let
               ${pkgs.gnupg}/bin/gpg --import ${lib.concatStringsSep " " gpgKeys}
             ''}
           '';
-          plistPath = "$HOME/Library/LaunchAgents/gpg-import-keys.plist";
+          plistPath = "$HOME/Library/LaunchAgents/importkeys.plist";
         in
           # Prior to the write boundary: no side effects. After writeBoundary, side effects.
           # We're creating a new plist file, so we need to run this after the writeBoundary
@@ -116,6 +116,7 @@ let
             </plist>
             EOF
 
+            launchctl unload ${plistPath}
             launchctl load ${plistPath}
           '';
 
