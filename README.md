@@ -151,7 +151,7 @@ We still need this Nix channel for the Home Manager `nix-darwin` module.
 nix-channel --add https://github.com/nix-community/home-manager/archive/master.tar.gz home-manager
 ```
 ```
-nix-channel update
+nix-channel --update
 ```
 ### Install config
 ```sh
