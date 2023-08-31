@@ -580,7 +580,7 @@ This block sets the ~org-agenda-prefix-format~ in an friendly way for ~org-roam~
           (s-truncate len (s-pad-right len " " result))
         result)))
 
-  (setq org-agenda-hide-tags-regexp (regexp-opt '("Todo" "home" "work" "batch")))
+  (setq org-agenda-hide-tags-regexp (regexp-opt '("Todo" "home" "work")))
 
   (setq org-agenda-prefix-format
         '((agenda . " %i %(dl/agenda-category 12)%?-32t% s")
@@ -602,26 +602,47 @@ Setup for ~org-super-agenda~ and ~org-ql~.
 #+NAME::org-super-agenda
 #+BEGIN_SRC emacs-lisp
   (use-package org-super-agenda
-     :after org-agenda
-     :init
-       (setq org-agenda-dim-blocked-tasks nil))
+    :after org-agenda
+    :init
+    (setq org-agenda-dim-blocked-tasks nil))
 
-   ;; Dashboard View
-   (setq org-super-agenda-groups
-     '((:name "Started"
-              :todo "STARTED")
-       (:name "Waiting"
-              :todo "WAITING")
-       (:name "Tasks"
-              :todo "TODO")
-       (:name "Learn"
-              :tag "learn")
-       (:name "Braeview"
-              :tag "braeview")
-       (:name "Someday"
-              :todo "SOMEDAY")))
+  ;; Define custom faces for group highlighting
+  (defface org-super-agenda-header
+    '((t (:inherit org-agenda-structure :height 1.1 :foreground "#7cc3f3" :background "#282c34")))
+    "Face for highlighting org-super-agenda groups.")
 
-   (org-super-agenda-mode)
+  (defface org-super-agenda-subheader
+    '((t (:inherit org-agenda-structure :height 1.0 :foreground "light slate gray" :background "black")))
+    "Face for highlighting org-super-agenda subgroups.")
+
+  ;; Apply the custom faces to org-super-agenda
+  (custom-set-faces
+   '(org-super-agenda-header ((t (:inherit org-agenda-structure :height 1.1 :foreground "#7cc3f3" :background "#282c34"))))
+   '(org-super-agenda-subheader ((t (:inherit org-agenda-structure :height 1.0 :foreground "light slate gray" :background "black")))))
+
+  (setq org-super-agenda-groups
+    '((:name "Priority A"
+       :priority "A")
+      (:name "Priority B"
+       :priority "B")
+      (:name "Priority C"
+       :priority "C")
+      (:name "Started"
+       :todo "STARTED")
+      (:name "Waiting"
+       :todo "WAITING")
+      (:name "Tasks"
+       :todo "TODO")
+      (:name "Learn"
+       :tag "learn")
+      (:name "Braeview"
+       :tag "braeview")
+      (:name "Someday"
+       :todo "SOMEDAY")
+    (:name "Projects"
+     :tag "PROJECT")))
+
+  (org-super-agenda-mode)
 #+END_SRC
 
 **** org-transclusion
