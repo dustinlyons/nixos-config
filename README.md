@@ -3,7 +3,7 @@
 # Nix for MacOS + NixOS
 ![GitHub last commit](https://img.shields.io/github/last-commit/dustinlyons/nixos-config?style=plastic)
 
-_Psst: I can help bring Nix into your company. <a href="https://calendly.com/dustinhlyons/business-intro-call">Get in touch.</a>_
+_Psst: I can help make your dev environments easy to use and match production. <a href="https://calendly.com/dustinhlyons/business-intro-call">Get in touch.</a>_
 
 # Overview
 Hey, you made it! Welcome. 🤓 
