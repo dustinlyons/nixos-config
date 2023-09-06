@@ -37,6 +37,13 @@
       };
     in
     {
+      templates = {
+        full = {
+          path = ./flake.nix;
+          description = "Full installation";
+        };
+      };
+
       devShells = forAllSystems devShell;
 
       darwinConfigurations = {

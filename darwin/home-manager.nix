@@ -23,7 +23,7 @@ let
     { path = "/Applications/Slack.app/"; }
     { path = "/System/Applications/Messages.app/"; }
     { path = "/System/Applications/Facetime.app/"; }
-    { path = "/System/Applications/WhatsApp.app/"; }
+    { path = "/Applications/WhatsApp.app/"; }
     { path = "/Applications/Telegram.app/"; }
     { path = "${pkgs.alacritty}/Applications/Alacritty.app/"; }
     { path = "/System/Applications/Music.app/"; }
