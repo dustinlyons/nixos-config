@@ -39,7 +39,7 @@
     {
       templates = {
         full = {
-          path = ./flake.nix;
+          path = ./templates;
           description = "Full installation";
         };
       };
