@@ -119,8 +119,8 @@ let
             </plist>
             EOF
 
-            launchctl unload ${plistPath}
-            launchctl load ${plistPath}
+            /bin/launchctl unload ${plistPath}
+            /bin/launchctl load ${plistPath}
           '';
 
       home.stateVersion = "23.05";

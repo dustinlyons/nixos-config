@@ -71,9 +71,9 @@ xcode-select --install
 curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install
 ```
 
-### Use this template
+### Clone this flake
 ```sh
-nix flake init -t github:dustinlyons/nixos-config#full
+nix flake clone github:dustinlyons/nixos-config
 ```
 
 ### Install some keys
@@ -101,6 +101,10 @@ This same command will rebuild your configuration after you make edits.
 nix --experimental-features 'nix-command flakes' build .#darwinConfigurations.Dustins-MBP.system --impure && \
 ./result/sw/bin/darwin-rebuild switch --flake .#Dustins-MBP --impure && \
 unlink ./result
+```
+#### Optional script to save keystrokes
+```sh
+./bin/build
 ```
 
 ## For NixOS
