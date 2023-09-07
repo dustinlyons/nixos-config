@@ -59,7 +59,7 @@ https://github.com/dustinlyons/nixos-config/assets/1292576/fa54a87f-5971-41ee-98
 # Installing
 ## For MacOS
 ### Create a private Github repo to hold your secrets
-In Github, create a `nix-secrets` repository. Later, I show you how to create private data that lives there.
+In Github, create a private `nix-secrets` repository. Later, I show you how to create private data that lives there.
 
 ### Install dependencies
 ```sh
@@ -82,28 +82,33 @@ Choose an option:
 **Copy keys from USB drive**
 > Keys must be named `id_ed25519` and `id_ed25519_agenix`.
 ```sh
-nix run --extra-experimental-features 'nix-command flakes' github:dustinlyons/nixos-config#copyKeys
+nix run github:dustinlyons/nixos-config#copyKeys
 ```
 **Create new keys**
 ```sh
-nix run --extra-experimental-features 'nix-command flakes' github:dustinlyons/nixos-config#createKeys
+nix run github:dustinlyons/nixos-config#createKeys
 ```
 If you want to bring keys from somewhere else, make sure they're named correctly.
 
 **Check keys**
 ```sh
-nix run --extra-experimental-features 'nix-command flakes' github:dustinlyons/nixos-config#checkKeys
+nix run github:dustinlyons/nixos-config#checkKeys
 ```
 
 ### Install configuration
-Use this same command to update your system after making edits.
+First-time installations require you to move the current `/etc/nix/nix.conf` out of the way.
+```sh
+sudo mv /etc/nix/nix.conf /etc/nix/nix.conf.before-nix-darwin
+```
+
+Then, run this script, which wraps the Nix commands to build and deploy a new generation.
 ```sh
 ./bin/build
 ```
 
 ## For NixOS
 ### Create a private Github repo to hold your secrets
-In Github, create a `nix-secrets` repository. Later, I show you how to create private data that lives there.
+In Github, create a private `nix-secrets` repository. Later, I show you how to create private data that lives there.
 
 ### Burn the latest ISO
 Download and burn [the minimal ISO image](https://nixos.org/download.html). Boot the installer.
