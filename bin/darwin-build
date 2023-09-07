@@ -15,7 +15,12 @@ export NIXPKGS_ALLOW_UNFREE=1
 cd $(dirname $(readlink -f $0))
 cd ..
 
-echo "${GREEN}Starting...${CLEAR}"
+echo "${GREEN}Enabling access for homebrew${CLEAR}"
+sudo chown -R root:staff /opt/homebrew/Library/Taps/homebrew
+sudo chmod -R g+w /opt/homebrew/Library/Taps/homebrew
+
+echo "${GREEN}Starting build...${CLEAR}"
+
 # --impure is needed for <home-manager/nix-darwin> channel
 nix --experimental-features 'nix-command flakes' build .#$SYSTEM --impure $@
 
