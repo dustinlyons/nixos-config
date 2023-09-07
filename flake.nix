@@ -87,10 +87,10 @@
 
             check_installer() {
               if [ -e /etc/NIXOS ]; then
-                  echo -e "\e[1;32mRunning in the NixOS installer environment.\e[0m"
+                echo -e "\e[1;32mRunning in the NixOS installer environment.\e[0m"
               else
-                  echo -e "\e[1;31mNot running in the NixOS installer environment.\e[0m"
-                  exit 1
+                echo -e "\e[1;31mNot running in the NixOS installer environment.\e[0m"
+                exit 1
               fi
             }
 
@@ -235,57 +235,57 @@
             export SSH_DIR=/Users/''${username}/.ssh
 
             unmount_usb() {
-            if mount | grep -q ''${MOUNT_PATH}; then
+              if mount | grep -q ''${MOUNT_PATH}; then
                 umount ''${MOUNT_PATH}
-            fi
+              fi
             }
 
             handle_no_usb() {
-            echo -e ''${RED}No USB drive found or mounted.''${NC}"
-            echo -e ''${GREEN}If you have not yet set up your keys, run the script to generate new SSH keys.''${NC}"
-            exit 1
+              echo -e ''${RED}No USB drive found or mounted.''${NC}"
+              echo -e ''${GREEN}If you have not yet set up your keys, run the script to generate new SSH keys.''${NC}"
+              exit 1
             }
 
             mount_usb() {
-            MOUNT_PATH=""
-            for dev in ''$(diskutil list | grep -o 'disk[0-9]'); do
+              MOUNT_PATH=""
+              for dev in ''$(diskutil list | grep -o 'disk[0-9]'); do
                 MOUNT_PATH='''$(diskutil info /dev/''${dev} | grep "Mount Point" | awk -F: '{print $2}' | xargs)'''
                 if [ -n "''${MOUNT_PATH}" ]; then
-                    echo -e "''${GREEN}USB drive found at ''${MOUNT_PATH}.''${NC}"
-                    break
+                  echo -e "''${GREEN}USB drive found at ''${MOUNT_PATH}.''${NC}"
+                  break
                 fi
-            done
+              done
 
-            if [ -z "''${MOUNT_PATH}" ]; then
+              if [ -z "''${MOUNT_PATH}" ]; then
                 echo -e "''${RED}No USB drive found.''${NC}"
-            fi
+              fi
             }
 
             copy_keys() {
-            if [ -n "''${MOUNT_PATH}" ]; then
+              if [ -n "''${MOUNT_PATH}" ]; then
                 cp "''${MOUNT_PATH}/id_ed25519_agenix.pub" ''${SSH_DIR}
                 cp "''${MOUNT_PATH}/id_ed25519_agenix" ''${SSH_DIR}
                 chmod 600 ''${SSH_DIR}/id_ed25519_{agenix,agenix.pub}
-            else
+              else
                 echo -e "''${RED}No USB drive found. Aborting.''${NC}"
                 exit 1
-            fi
+              fi
             }
 
             setup_ssh_directory() {
-            mkdir -p ''${SSH_DIR}
+              mkdir -p ''${SSH_DIR}
             }
 
             set_keys() {
-            cp ''${MOUNT_PATH}/id_ed25519_github.pub ''${SSH_DIR}/id_ed25519.pub
-            cp ''${MOUNT_PATH}/id_ed25519_github ''${SSH_DIR}/id_ed25519
-            chmod 600 ''${SSH_DIR}/id_ed25519
-            chmod 644 ''${SSH_DIR}/id_ed25519.pub
+              cp ''${MOUNT_PATH}/id_ed25519_github.pub ''${SSH_DIR}/id_ed25519.pub
+              cp ''${MOUNT_PATH}/id_ed25519_github ''${SSH_DIR}/id_ed25519
+              chmod 600 ''${SSH_DIR}/id_ed25519
+              chmod 644 ''${SSH_DIR}/id_ed25519.pub
             }
 
             change_ownership() {
-            chown ''${username}:staff ''${SSH_DIR}/id_ed25519{,.pub}
-            chown ''${username}:staff ''${SSH_DIR}/id_ed25519_{agenix,agenix.pub}
+              chown ''${username}:staff ''${SSH_DIR}/id_ed25519{,.pub}
+              chown ''${username}:staff ''${SSH_DIR}/id_ed25519_{agenix,agenix.pub}
             }
 
             trap unmount_usb EXIT
@@ -294,14 +294,12 @@
             mount_usb
 
             if [ -z "''${MOUNT_PATH}" ]; then
-            handle_no_usb
+              handle_no_usb
             else
-            copy_keys
-            set_keys
-            change_ownership
+              copy_keys
+              set_keys
+              change_ownership
             fi
-
-            unmount_usb
 
             '')}/bin/copy_keys";
         };
@@ -320,24 +318,69 @@
             export SSH_DIR=/Users/''${username}/.ssh
 
             setup_ssh_directory() {
-                mkdir -p ''${SSH_DIR}
+              mkdir -p ''${SSH_DIR}
             }
 
             generate_keys() {
-                ssh-keygen -t ed25519 -f "''${SSH_DIR}/id_ed25519" -N ""
-                ssh-keygen -t ed25519 -f "''${SSH_DIR}/id_ed25519_agenix" -N ""
-                chown ''${username}:staff ''${SSH_DIR}/id_ed25519{,_agenix}{,.pub}
+              ssh-keygen -t ed25519 -f "''${SSH_DIR}/id_ed25519" -N ""
+              ssh-keygen -t ed25519 -f "''${SSH_DIR}/id_ed25519_agenix" -N ""
+              chown ''${username}:staff ''${SSH_DIR}/id_ed25519{,_agenix}{,.pub}
             }
 
             setup_ssh_directory
             generate_keys
 
             echo -e "''${GREEN}New SSH keys have been generated.''${NC}"
-            echo -e "''${GREEN}1) Add the Github key to Github.''${NC}"
+            echo -e "''${GREEN}1) Add the id_ed25519 key to Github.''${NC}"
             cat "''${SSH_DIR}/id_ed25519.pub"
             echo -e "''${GREEN}2) Create a private nix-secrets repo in Github, even if it's empty.''${NC}"
 
             '')}/bin/create_keys";
+        };
+
+        aarch64-darwin.lintKeys = {
+          type = "app";
+          program = "${(nixpkgs.legacyPackages.aarch64-darwin.writeShellScriptBin "lint_keys" ''
+            #!/usr/bin/env bash
+            set -e
+
+            RED='\033[0;31m'
+            GREEN='\033[0;32m'
+            NC='\033[0m'
+
+            username=''${USER}
+            export SSH_DIR=/Users/''${username}/.ssh
+
+            lint_keys() {
+              if [[ -f "''${SSH_DIR}/id_ed25519" && -f "''${SSH_DIR}/id_ed25519.pub" && -f "''${SSH_DIR}/id_ed25519_agenix" && -f "''${SSH_DIR}/id_ed25519_agenix.pub" ]]; then
+              echo -e "''${GREEN}All SSH keys are present.''${NC}"
+              else
+              echo -e "''${RED}Some SSH keys are missing.''${NC}"
+
+              if [[ ! -f "''${SSH_DIR}/id_ed25519" ]]; then
+                  echo -e "''${RED}Missing: id_ed25519''${NC}"
+              fi
+
+              if [[ ! -f "''${SSH_DIR}/id_ed25519.pub" ]]; then
+                  echo -e "''${RED}Missing: id_ed25519.pub''${NC}"
+              fi
+
+              if [[ ! -f "''${SSH_DIR}/id_ed25519_agenix" ]]; then
+                  echo -e "''${RED}Missing: id_ed25519_agenix''${NC}"
+              fi
+
+              if [[ ! -f "''${SSH_DIR}/id_ed25519_agenix.pub" ]]; then
+                  echo -e "''${RED}Missing: id_ed25519_agenix.pub''${NC}"
+              fi
+
+              echo -e "''${GREEN}Run the create_keys script to generate the missing keys.''${NC}"
+              exit 1
+              fi
+          }
+
+          lint_keys
+
+          '')}/bin/lint_keys";
         };
      };
   };
