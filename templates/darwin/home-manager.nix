@@ -125,9 +125,9 @@ let
 
       home.stateVersion = "23.05";
       programs = {} // import ../shared/home-manager.nix { inherit config pkgs lib; };
-      # https://github.com/nix-community/home-manager/issues/3344
+
       # Marked broken Oct 20, 2022 check later to remove this
-      # Confirmed still broken, Mar 5, 2023
+      # https://github.com/nix-community/home-manager/issues/3344
       manual.manpages.enable = false;
     };
   };
