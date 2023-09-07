@@ -236,11 +236,7 @@
             GREEN='\033[0;32m'
             NC='\033[0m'
 
-            echo -e "Please enter your username: "
-            read username
-
             username=''${USER}
-
             export SSH_DIR=/Users/''${username}/.ssh
 
             unmount_usb() {
@@ -263,25 +259,25 @@
             }
 
             setup_ssh_directory() {
-            mkdir -p ''${SSH_DIR}
+                mkdir -p ''${SSH_DIR}
             }
 
             copy_keys() {
-            cp /mnt/usb/id_ed25519_agenix.pub ''${SSH_DIR}
-            cp /mnt/usb/id_ed25519_agenix ''${SSH_DIR}
-            chmod 600 ''${SSH_DIR}/id_ed25519_{agenix,agenix.pub}
+                cp /mnt/usb/id_ed25519_agenix.pub ''${SSH_DIR}
+                cp /mnt/usb/id_ed25519_agenix ''${SSH_DIR}
+                chmod 600 ''${SSH_DIR}/id_ed25519_{agenix,agenix.pub}
             }
 
             set_keys() {
-            cp /mnt/usb/id_ed25519_github.pub ''${SSH_DIR}/id_ed25519.pub
-            cp /mnt/usb/id_ed25519_github ''${SSH_DIR}/id_ed25519
-            chmod 600 ''${SSH_DIR}/id_ed25519
-            chmod 644 ''${SSH_DIR}/id_ed25519.pub
-            }
+                cp /mnt/usb/id_ed25519_github.pub ''${SSH_DIR}/id_ed25519.pub
+                cp /mnt/usb/id_ed25519_github ''${SSH_DIR}/id_ed25519
+                chmod 600 ''${SSH_DIR}/id_ed25519
+                chmod 644 ''${SSH_DIR}/id_ed25519.pub
+                }
 
             change_ownership() {
-            chown ''${username}:staff ''${SSH_DIR}/id_ed25519{,.pub}
-            chown ''${username}:staff ''${SSH_DIR}/id_ed25519_{agenix,agenix.pub}
+                chown ''${username}:staff ''${SSH_DIR}/id_ed25519{,.pub}
+                chown ''${username}:staff ''${SSH_DIR}/id_ed25519_{agenix,agenix.pub}
             }
 
             trap unmount_usb EXIT
@@ -309,19 +305,17 @@
                 GREEN='\033[0;32m'
                 NC='\033[0m'
 
-                echo -e "Please enter your username: "
-                read username
-
+                username=''${USER}
                 export SSH_DIR=/Users/''${username}/.ssh
 
                 setup_ssh_directory() {
-                mkdir -p ''${SSH_DIR}
+                    mkdir -p ''${SSH_DIR}
                 }
 
                 generate_keys() {
-                ssh-keygen -t ed25519 -f "''${SSH_DIR}/id_ed25519" -N ""
-                ssh-keygen -t ed25519 -f "''${SSH_DIR}/id_ed25519_agenix" -N ""
-                chown ''${username}:staff ''${SSH_DIR}/id_ed25519{,_agenix}{,.pub}
+                    ssh-keygen -t ed25519 -f "''${SSH_DIR}/id_ed25519" -N ""
+                    ssh-keygen -t ed25519 -f "''${SSH_DIR}/id_ed25519_agenix" -N ""
+                    chown ''${username}:staff ''${SSH_DIR}/id_ed25519{,_agenix}{,.pub}
                 }
 
                 setup_ssh_directory
