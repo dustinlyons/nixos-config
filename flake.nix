@@ -246,26 +246,33 @@
             }
 
             mount_usb() {
-            if mount | grep -q '/mnt/usb'; then
-                echo -e "''${GREEN}USB drive already mounted.''${NC}"
+            if [ -n "''${MOUNT_PATH}" ]; then
+                echo -e "''${GREEN}USB drive already found at ''${MOUNT_PATH}.''${NC}"
             else
                 for dev in ''$(diskutil list | grep -o 'disk[0-9]'); do
-                if diskutil info /dev/''${dev} | grep -iq 'Type (Bundle):[[:space:]]*msdos'; then
-                    mkdir -p /mnt/usb
-                    mount -t msdos /dev/''${dev} /mnt/usb && { echo -e "''${GREEN}USB drive mounted successfully on /dev/''${dev}.''${NC}"; break; }
+                DRIVE_NAME='''$(diskutil info /dev/''${dev} | grep -o 'Volume Name:.*' | cut -d ':' -f 2 | xargs)'
+                if [ -n "''${DRIVE_NAME}" ] && [ -d "/Volumes/''${DRIVE_NAME}" ]; then
+                    MOUNT_PATH="/Volumes/''${DRIVE_NAME}"
+                    echo -e "''${GREEN}USB drive found at ''${MOUNT_PATH}.''${NC}"
+                    break
                 fi
                 done
             fi
             }
 
-            setup_ssh_directory() {
-                mkdir -p ''${SSH_DIR}
+            copy_keys() {
+            if [ -n "''${MOUNT_PATH}" ]; then
+                cp "''${MOUNT_PATH}/id_ed25519_agenix.pub" ''${SSH_DIR}
+                cp "''${MOUNT_PATH}/id_ed25519_agenix" ''${SSH_DIR}
+                chmod 600 ''${SSH_DIR}/id_ed25519_{agenix,agenix.pub}
+            else
+                echo -e "''${RED}No USB drive found. Aborting.''${NC}"
+                exit 1
+            fi
             }
 
-            copy_keys() {
-                cp /mnt/usb/id_ed25519_agenix.pub ''${SSH_DIR}
-                cp /mnt/usb/id_ed25519_agenix ''${SSH_DIR}
-                chmod 600 ''${SSH_DIR}/id_ed25519_{agenix,agenix.pub}
+            setup_ssh_directory() {
+                mkdir -p ''${SSH_DIR}
             }
 
             set_keys() {
