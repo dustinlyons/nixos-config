@@ -111,7 +111,6 @@ Then, run this script, which wraps the Nix commands to build and deploy a new ge
 ```sh
 ./bin/build
 ```
-Use this same script after making edits to the configuration.
 
 ## For NixOS
 ### Create a private Github repo to hold your secrets
