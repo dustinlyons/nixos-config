@@ -209,6 +209,10 @@ nix --experimental-features 'nix-command flakes' build .#darwinConfigurations.Du
 ./result/sw/bin/darwin-rebuild switch --flake .#Dustins-MBP --impure && \
 unlink ./result
 ```
+#### Optional script to save keystrokes
+```sh
+./bin/build
+```
 ## For NixOS
 ```sh
 sudo nixos-rebuild switch --flake .#felix
