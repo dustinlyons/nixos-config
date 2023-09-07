@@ -221,6 +221,87 @@
           '')}/bin/copy_keys";
         };
 
+        x86_64-linux.createKeys = {
+          type = "app";
+          program = "${
+            (nixpkgs.legacyPackages.x86_64-linux.writeShellScriptBin "create_keys" ''
+            #!/usr/bin/env bash
+            set -e
+
+            RED='\033[0;31m'
+            GREEN='\033[0;32m'
+            NC='\033[0m'
+
+            # We're assuming this is being run as root in the NixOS installer
+            export SSH_DIR=/root/.ssh
+
+            setup_ssh_directory() {
+                mkdir -p ''${SSH_DIR}
+            }
+
+            generate_keys() {
+                ssh-keygen -t ed25519 -f "''${SSH_DIR}/id_ed25519" -N ""
+                ssh-keygen -t ed25519 -f "''${SSH_DIR}/id_ed25519_agenix" -N ""
+                chmod 600 ''${SSH_DIR}/id_ed25519{,_agenix}{,.pub}
+            }
+
+            setup_ssh_directory
+            generate_keys
+
+            echo -e "''${GREEN}New SSH keys have been generated.''${NC}"
+            echo -e "''${GREEN}1) Add the id_ed25519 key to Github.''${NC}"
+            cat "''${SSH_DIR}/id_ed25519.pub"
+            echo -e "''${GREEN}2) Create a private nix-secrets repo in Github, even if it's empty.''${NC}"
+
+            '')}/bin/create_keys";
+        };
+
+        x86_64-linux.checkKeys = {
+          type = "app";
+          program = "${
+            (nixpkgs.legacyPackages.x86_64-linux.writeShellScriptBin "check_keys" ''
+            #!/usr/bin/env bash
+            set -e
+
+            RED='\033[0;31m'
+            GREEN='\033[0;32m'
+            NC='\033[0m'
+
+            # We're assuming this is being run as root in the NixOS installer
+            export SSH_DIR=/root/.ssh
+
+            check_keys() {
+                if [[ -f "''${SSH_DIR}/id_ed25519" && -f "''${SSH_DIR}/id_ed25519.pub" && -f "''${SSH_DIR}/id_ed25519_agenix" && -f "''${SSH_DIR}/id_ed25519_agenix.pub" ]]; then
+                echo -e "''${GREEN}All SSH keys are present.''${NC}"
+                else
+                echo -e "''${RED}Some SSH keys are missing.''${NC}"
+
+                if [[ ! -f "''${SSH_DIR}/id_ed25519" ]]; then
+                    echo -e "''${RED}Missing: id_ed25519''${NC}"
+                fi
+
+                if [[ ! -f "''${SSH_DIR}/id_ed25519.pub" ]]; then
+                    echo -e "''${RED}Missing: id_ed25519.pub''${NC}"
+                fi
+
+                if [[ ! -f "''${SSH_DIR}/id_ed25519_agenix" ]]; then
+                    echo -e "''${RED}Missing: id_ed25519_agenix''${NC}"
+                fi
+
+                if [[ ! -f "''${SSH_DIR}/id_ed25519_agenix.pub" ]]; then
+                    echo -e "''${RED}Missing: id_ed25519_agenix.pub''${NC}"
+                fi
+
+                echo -e "''${GREEN}Run the createKeys script to generate the missing keys.''${NC}"
+                exit 1
+                fi
+            }
+
+            check_keys
+
+          '')}/bin/check_keys";
+        };
+
         aarch64-darwin.copyKeys = {
           type = "app";
           program = "${(nixpkgs.legacyPackages.aarch64-darwin.writeShellScriptBin "copy_keys" ''
@@ -330,7 +411,7 @@
           '')}/bin/create_keys";
         };
 
-        aarch64-darwin.lintKeys = {
+        aarch64-darwin.checkKeys = {
           type = "app";
           program = "${(nixpkgs.legacyPackages.aarch64-darwin.writeShellScriptBin "lint_keys" ''
             #!/usr/bin/env bash
@@ -365,7 +446,7 @@
                   echo -e "''${RED}Missing: id_ed25519_agenix.pub''${NC}"
               fi
 
-              echo -e "''${GREEN}Run the create_keys script to generate the missing keys.''${NC}"
+              echo -e "''${GREEN}Run the createKeys command to generate the missing keys.''${NC}"
               exit 1
               fi
             }
