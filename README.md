@@ -78,7 +78,7 @@ nix flake clone github:dustinlyons/nixos-config
 ```
 
 ### Install some keys
-Choose an option:
+Pick your poison.
 
 **Copy keys from USB drive**
 > Keys must be named `id_ed25519` and `id_ed25519_agenix`.
