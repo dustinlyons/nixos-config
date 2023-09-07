@@ -1,3 +1,4 @@
+
 {
   description = "Dustin's Configuration for NixOS and MacOS";
 
@@ -160,9 +161,9 @@
           '')}/bin/install";
         };
 
-        x86_64-linux.secrets = {
+        x86_64-linux.copyKeys = {
           type = "app";
-          program = "${(nixpkgs.legacyPackages.x86_64-linux.writeShellScriptBin "decrypt" ''
+          program = "${(nixpkgs.legacyPackages.x86_64-linux.writeShellScriptBin "copy_keys" ''
             #!/usr/bin/env bash
             set -e
 
@@ -217,7 +218,111 @@
             change_ownership
             unmount_usb
 
-          '')}/bin/decrypt";
+          '')}/bin/copy_keys";
+        };
+
+        aarch64-darwin.copyKeys = {
+          type = "app";
+          program = "${(nixpkgs.legacyPackages.aarch64-darwin.writeShellScriptBin "copy_keys" ''
+            #!/usr/bin/env bash
+            set -e
+
+            RED='\033[0;31m'
+            GREEN='\033[0;32m'
+            NC='\033[0m'
+
+            echo -e "Please enter your username: "
+            read username
+
+            export SSH_DIR=/Users/''${username}/.ssh
+
+            unmount_usb() {
+            if mount | grep -q '/mnt/usb'; then
+                umount /mnt/usb
+            fi
+            }
+
+            mount_usb() {
+            if mount | grep -q '/mnt/usb'; then
+                echo -e "''${GREEN}USB drive already mounted.''${NC}"
+            else
+                for dev in ''$(diskutil list | grep -o 'disk[0-9]'); do
+                if diskutil info /dev/''${dev} | grep -iq 'Type (Bundle):[[:space:]]*msdos'; then
+                    mkdir -p /mnt/usb
+                    mount -t msdos /dev/''${dev} /mnt/usb && { echo -e "''${GREEN}USB drive mounted successfully on /dev/''${dev}.''${NC}"; break; }
+                fi
+                done
+            fi
+            }
+
+            setup_ssh_directory() {
+            mkdir -p ''${SSH_DIR}
+            }
+
+            copy_keys() {
+            cp /mnt/usb/id_ed25519_agenix.pub ''${SSH_DIR}
+            cp /mnt/usb/id_ed25519_agenix ''${SSH_DIR}
+            chmod 600 ''${SSH_DIR}/id_ed25519_{agenix,agenix.pub}
+            }
+
+            set_keys() {
+            cp /mnt/usb/id_ed25519_github.pub ''${SSH_DIR}/id_ed25519.pub
+            cp /mnt/usb/id_ed25519_github ''${SSH_DIR}/id_ed25519
+            chmod 600 ''${SSH_DIR}/id_ed25519
+            chmod 644 ''${SSH_DIR}/id_ed25519.pub
+            }
+
+            change_ownership() {
+            chown ''${username}:staff ''${SSH_DIR}/id_ed25519{,.pub}
+            chown ''${username}:staff ''${SSH_DIR}/id_ed25519_{agenix,agenix.pub}
+            }
+
+            trap unmount_usb EXIT
+
+            setup_ssh_directory
+            mount_usb
+            copy_keys
+            set_keys
+            change_ownership
+            unmount_usb
+
+            '')}/bin/copy_keys";
+          };
+
+          aarch64-darwin.createKeys = {
+            type = "app";
+            program = "${(nixpkgs.legacyPackages.aarch64-darwin.writeShellScriptBin "create_keys" ''
+                #!/usr/bin/env bash
+                set -e
+
+                RED='\033[0;31m'
+                GREEN='\033[0;32m'
+                NC='\033[0m'
+
+                echo -e "Please enter your username: "
+                read username
+
+                export SSH_DIR=/Users/''${username}/.ssh
+
+                setup_ssh_directory() {
+                mkdir -p ''${SSH_DIR}
+                }
+
+                generate_keys() {
+                ssh-keygen -t ed25519 -f "''${SSH_DIR}/id_ed25519" -N ""
+                ssh-keygen -t ed25519 -f "''${SSH_DIR}/id_ed25519_agenix" -N ""
+                chown ''${username}:staff ''${SSH_DIR}/id_ed25519{,_agenix}{,.pub}
+                }
+
+                setup_ssh_directory
+                generate_keys
+
+                echo -e "''${GREEN}New SSH keys have been generated.''${NC}"
+                echo -e "''${GREEN}1) Add the Github key to Github.''${NC}"
+                cat "''${SSH_DIR}/id_ed25519.pub"
+                echo -e "''${GREEN}2) Create a private nix-secrets repo in Github, even if it's empty.''${NC"
+
+          '')}/bin/create_keys";
         };
       };
     };
