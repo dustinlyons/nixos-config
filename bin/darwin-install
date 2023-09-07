@@ -12,6 +12,7 @@ SYSTEM="darwinConfigurations.$FLAKE.system"
 export NIXPKGS_ALLOW_UNFREE=1
 echo "${GREEN}Enabling access for homebrew${CLEAR}"
 sudo chown -R root:staff /opt/homebrew/Library/Taps/homebrew
+sudo chmod -R g+w /opt/homebrew/Library/Taps/homebrew
 
 echo "${GREEN}Preparing to install${CLEAR}"
 sudo mv /etc/nix/nix.conf /etc/nix/nix.conf.before-nix-darwin
