@@ -96,13 +96,11 @@ nix run --extra-experimental-features 'nix-command flakes' github:dustinlyons/ni
 ```
 
 ### Install configuration
-This same command will rebuild your configuration after you make edits.
 ```sh
-nix --experimental-features 'nix-command flakes' build .#darwinConfigurations.Dustins-MBP.system --impure && \
-./result/sw/bin/darwin-rebuild switch --flake .#Dustins-MBP --impure && \
-unlink ./result
+./bin/install
 ```
-#### Optional script to save keystrokes
+
+To rebuild and change your running system after edits:
 ```sh
 ./bin/build
 ```
