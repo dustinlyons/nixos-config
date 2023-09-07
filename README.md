@@ -96,11 +96,7 @@ nix run --extra-experimental-features 'nix-command flakes' github:dustinlyons/ni
 ```
 
 ### Install configuration
-```sh
-./bin/install
-```
-
-To rebuild and change your running system after edits:
+Use this same command to update your system after making edits.
 ```sh
 ./bin/build
 ```
