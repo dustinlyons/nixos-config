@@ -222,8 +222,8 @@
         };
 
         aarch64-darwin.copyKeys = {
-        type = "app";
-        program = "${(nixpkgs.legacyPackages.aarch64-darwin.writeShellScriptBin "copy_keys" ''
+          type = "app";
+          program = "${(nixpkgs.legacyPackages.aarch64-darwin.writeShellScriptBin "copy_keys" ''
             #!/usr/bin/env bash
             set -e
 
@@ -233,12 +233,6 @@
 
             username=''${USER}
             export SSH_DIR=/Users/''${username}/.ssh
-
-            unmount_usb() {
-              if mount | grep -q ''${MOUNT_PATH}; then
-                umount ''${MOUNT_PATH}
-              fi
-            }
 
             handle_no_usb() {
               echo -e ''${RED}No USB drive found or mounted.''${NC}"
@@ -288,8 +282,6 @@
               chown ''${username}:staff ''${SSH_DIR}/id_ed25519_{agenix,agenix.pub}
             }
 
-            trap unmount_usb EXIT
-
             setup_ssh_directory
             mount_usb
 
@@ -301,12 +293,12 @@
               change_ownership
             fi
 
-            '')}/bin/copy_keys";
+          '')}/bin/copy_keys";
         };
 
         aarch64-darwin.createKeys = {
-        type = "app";
-        program = "${(nixpkgs.legacyPackages.aarch64-darwin.writeShellScriptBin "create_keys" ''
+          type = "app";
+          program = "${(nixpkgs.legacyPackages.aarch64-darwin.writeShellScriptBin "create_keys" ''
             #!/usr/bin/env bash
             set -e
 
@@ -335,7 +327,7 @@
             cat "''${SSH_DIR}/id_ed25519.pub"
             echo -e "''${GREEN}2) Create a private nix-secrets repo in Github, even if it's empty.''${NC}"
 
-            '')}/bin/create_keys";
+          '')}/bin/create_keys";
         };
 
         aarch64-darwin.lintKeys = {
@@ -376,9 +368,9 @@
               echo -e "''${GREEN}Run the create_keys script to generate the missing keys.''${NC}"
               exit 1
               fi
-          }
+            }
 
-          lint_keys
+            lint_keys
 
           '')}/bin/lint_keys";
         };
