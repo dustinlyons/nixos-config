@@ -8,6 +8,8 @@ _Psst: I can help make your dev environments easy to use and match production. <
 # Overview
 Hey, you made it! Welcome. 🤓 
 
+As of September 2023, I've been spending time to make this configuration easier for others to try. Now, thanks to the power of Nix templates, you and the magic of declarative system configuration are just a few confusing commands away.
+
 This Nix configuration runs on MacOS, NixOS, or both simultaneously. It's also a good example of a MacOS Nix flake.
 
 I use this daily on my 🧑🏻‍💻 M1 Macbook Pro and an x86 PC in my home office.
@@ -56,47 +58,98 @@ https://github.com/dustinlyons/nixos-config/assets/1292576/d96f59ce-f540-4f14-bc
 ## NixOS
 https://github.com/dustinlyons/nixos-config/assets/1292576/fa54a87f-5971-41ee-98ce-09be048018b8
 
-# Bootstrap New Computer
-By design, this configuration requires minimal steps after installation to get to a "full working" state. 
-
-This is what I type after booting a NixOS installer:
-
-```
-nix run --extra-experimental-features 'nix-command flakes' github:dustinlyons/nixos-config#secrets
+# Installing
+## For MacOS
+### Install dependencies
+```sh
+xcode-select --install
 ```
 
+### Install Nix
+```sh
+curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install
 ```
+
+### Use this template
+```sh
+nix flake init -t github:dustinlyons/nixos-config#full
+```
+
+### Create a private Github repo to hold your secrets
+In Github, create a `nix-secrets` repository. Later, I show you how to create private data that lives here.
+
+### Install some keys
+Three options:
+* Plug in a USB stick
+Keys must be named `id_ed25519` and `id_ed25519_agenix`.
+```sh
+nix run --extra-experimental-features 'nix-command flakes' github:dustinlyons/nixos-config#copyKeys
+```
+* Create new keys
+```sh
+nix run --extra-experimental-features 'nix-command flakes' github:dustinlyons/nixos-config#createKeys
+```
+
+* Bring your own
+Keys must be named `id_ed25519` and `id_ed25519_agenix`.
+```sh
+nix run --extra-experimental-features 'nix-command flakes' github:dustinlyons/nixos-config#lintKeys
+```
+
+### Install configuration
+This same command will rebuild your configuration after you make edits.
+```sh
+nix --experimental-features 'nix-command flakes' build .#darwinConfigurations.Dustins-MBP.system --impure && \
+./result/sw/bin/darwin-rebuild switch --flake .#Dustins-MBP --impure && \
+unlink ./result
+```
+
+## For NixOS
+### Burn the latest ISO
+Download and burn [the minimal ISO image](https://nixos.org/download.html).
+
+When the keys are on the USB drive, plug it in, boot the installer, and run this command:
+```sh
+nix run --extra-experimental-features 'nix-command flakes' github:dustinlyons/nixos-config#copyKeys
+```
+
+### Create a private Github repo to hold your secrets
+In Github, create a `nix-secrets` repository. Later, I show you how to create private data that lives here.
+
+### Install some keys
+Three options:
+* Plug in a USB stick
+Keys must be named `id_ed25519` and `id_ed25519_agenix`.
+```sh
+nix run --extra-experimental-features 'nix-command flakes' github:dustinlyons/nixos-config#copyKeys
+```
+* Create new keys
+Keys must be named `id_ed25519` and `id_ed25519_agenix`.
+```sh
+nix run --extra-experimental-features 'nix-command flakes' github:dustinlyons/nixos-config#createKeys
+```
+
+### Install configuration
+#### Run command
+After the keys are in place, you're good to go. Run this command:
+
+> [!IMPORTANT]
+> For Nvidia cards, select the second option, `nomodeset`, when booting the installer.
+
+> [!WARNING]
+> Running this will reformat your drive to the ext4 filesystem.
+
+```sh
 nix run --extra-experimental-features 'nix-command flakes' github:dustinlyons/nixos-config#install
 ```
+### Set user password
+On first boot at the login screen:
+- Use the shortcut `Ctrl-Alt-F2` to move to a terminal session
+- Login as `root` using the password created during installation
+- Set the user password with `passwd <user>`
+- Go back to the login screen: `Ctrl-Alt-F7`
 
-For MacOS, it's similar.
-
-During installation, these commands install keys for Github, connect to syncthing, enable Wireguard, etc. On first boot, syncthing automatically starts downloading my persistent data to `~/.local/share`.
-
-To make all this happen, two things are required:
-
-* a private `nix-secrets` repo to store secrets
-* two keypairs for encryption
-
-## Create a private secrets repository
-Create a private `nix-secrets` repository that will hold your `age`-encrypted secrets. These secrets are later read by `agenix` as part of the Nix build.
-
-## Create keys for secret encryption
-For the initial bootstrap, I connect a USB drive to the system that holds [Ed25519 public and private key pairs](https://statistics.berkeley.edu/computing/ssh-keys). Both are needed at install time to decrypt the configuration.
-* id_ed25519_agenix
-* id_ed25519_agenix.pub
-* id_ed25519_github
-* id_ed25519_github.pub
-
-Create them new if they don't exist; `id_ed25519_agenix` is copied over and used in the encryption of `agenix` secrets and `id_ed25519_github` is used for downloading `nix-secrets`.
-
-> Note, I also encrypt these public/private pairs to `age` keys via `age-plugin-yubikey`. This keeps them from being used without my Yubikey.
-
-Our initial bootstrap script will find the connected USB drive and copy the keys for installation. Feel free to also [change how the `nix-command` manages key import](https://github.com/dustinlyons/nixos-config/blob/main/flake.nix#L156) (using KMS, CKM, paperkey, Hashicorp Vault, etc.). 
-
-Ultimately, the keys just need to land in `~/.ssh` before running `install`.
-
-### How to encrypt a secret
+### How to create secrets
 To create a new secret `secret.age`, first [create a `secrets.nix` file](https://github.com/ryantm/agenix#tutorial) at the root of your `nix-secrets` repository. This is only used by the `agenix` CLI command. It assumes your SSH private key is in `~/.ssh/` or you can provide the `-i` flag with a path to your `id_ed25519_agenix` key.
 ```
 let
@@ -125,68 +178,6 @@ This will create a `secret.age` file with your secret that you can reference in 
 | `github-signing-key`  | MacOS / NixOS    | GitHub signing key    |
 
 When changing secrets after your configuration exists, be sure to run `nix flake update` from your `nixos-config` so that you reference the latest change.
-
-## Fork this repository and change it
-You'll need to quickly scan files for where I've defined `user` at the top and change it to your username. 
-
-You'll also likely want to change the name of the MacOS Nix Flake target, packages, homebrew casks I install, and my Home Manager configuration. 
-Make this repository your own and open a Github Issue if you have questions.
-
-## For MacOS
-## Install dependencies
-```sh
-xcode-select --install
-```
-### Install Nix
-The below command is how I did  it, but it's probably better to now use the [Determinite Systems Installer](https://github.com/DeterminateSystems/nix-installer). Regardless, we just need to make the `nix` command available in your `PATH`.
-```sh
-sh <(curl -L https://nixos.org/nix/install) --daemon
-```
-### Install `nix-darwin`
-```sh
-nix run nix-darwin -- switch --flake ~/.config/nix-darwin
-```
-We still need this Nix channel for the Home Manager `nix-darwin` module.
-```sh
-nix-channel --add https://github.com/nix-community/home-manager/archive/master.tar.gz home-manager
-```
-```
-nix-channel --update
-```
-### Install config
-```sh
-nix --experimental-features 'nix-command flakes' build .#darwinConfigurations.Dustins-MBP.system --impure && \
-./result/sw/bin/darwin-rebuild switch --flake .#Dustins-MBP --impure && \
-unlink ./result
-```
-## For NixOS
-### Burn the latest ISO
-Download and burn [the minimal ISO image](https://nixos.org/download.html).
-
-When the keys are on the USB drive, plug it in, boot the installer, and run this command:
-```sh
-nix run --extra-experimental-features 'nix-command flakes' github:dustinlyons/nixos-config#secrets
-```
-
-### Install configuration
-#### Run command
-After the keys are in place, you're good to go. Run this command:
-
-> [!IMPORTANT]
-> For Nvidia cards, select the second option, `nomodeset`, when booting the installer.
-
-> [!WARNING]
-> Running this will reformat your drive to the ext4 filesystem.
-
-```sh
-nix run --extra-experimental-features 'nix-command flakes' github:dustinlyons/nixos-config#install
-```
-### Set user password
-On first boot at the login screen:
-- Use the shortcut `Ctrl-Alt-F2` to move to a terminal session
-- Login as `root` using the password created during installation
-- Set the user password with `passwd <user>`
-- Go back to the login screen: `Ctrl-Alt-F7`
 
 ## Live ISO
 Not yet available. Coming soon.
