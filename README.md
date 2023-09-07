@@ -76,6 +76,11 @@ curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix 
 ```sh
 nix flake clone github:dustinlyons/nixos-config
 ```
+> If you plan on using my Emacs configuration, it assumes `nixos-config` resides in `.local/share/src`.
+
+### Make some edits
+1. Grep for my name, `dustin`, and replace all cases with your username
+2. Review the configuration to add/remove packages, edit the Emacs configuration, etc.
 
 ### Install some keys
 Pick your poison.
