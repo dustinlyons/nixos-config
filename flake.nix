@@ -250,7 +250,7 @@
                 echo -e "''${GREEN}USB drive already found at ''${MOUNT_PATH}.''${NC}"
             else
                 for dev in ''$(diskutil list | grep -o 'disk[0-9]'); do
-                DRIVE_NAME='''$(diskutil info /dev/''${dev} | grep -o 'Volume Name:.*' | cut -d ':' -f 2 | xargs)'
+                DRIVE_NAME='''$(diskutil info /dev/''${dev} | awk -F: '/   0:/{print $2}' | xargs)'''
                 if [ -n "''${DRIVE_NAME}" ] && [ -d "/Volumes/''${DRIVE_NAME}" ]; then
                     MOUNT_PATH="/Volumes/''${DRIVE_NAME}"
                     echo -e "''${GREEN}USB drive found at ''${MOUNT_PATH}.''${NC}"
