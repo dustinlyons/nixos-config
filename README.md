@@ -8,8 +8,6 @@ _Psst: I can help make your dev environments easy to use and match production. <
 # Overview
 Hey, you made it! Welcome. 🤓 
 
-As of September 2023, I've been spending time to make this configuration easier for others to try. Now, thanks to the power of Nix templates, you and the magic of declarative system configuration are just a few confusing commands away.
-
 This Nix configuration runs on MacOS, NixOS, or both simultaneously. It's also a good example of a MacOS Nix flake.
 
 I use this daily on my 🧑🏻‍💻 M1 Macbook Pro and an x86 PC in my home office.
@@ -60,6 +58,9 @@ https://github.com/dustinlyons/nixos-config/assets/1292576/fa54a87f-5971-41ee-98
 
 # Installing
 ## For MacOS
+### Create a private Github repo to hold your secrets
+In Github, create a `nix-secrets` repository. Later, I show you how to create private data that lives there.
+
 ### Install dependencies
 ```sh
 xcode-select --install
@@ -75,25 +76,23 @@ curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix 
 nix flake init -t github:dustinlyons/nixos-config#full
 ```
 
-### Create a private Github repo to hold your secrets
-In Github, create a `nix-secrets` repository. Later, I show you how to create private data that lives here.
-
 ### Install some keys
-Three options:
-* Plug in a USB stick
-Keys must be named `id_ed25519` and `id_ed25519_agenix`.
+Choose an option:
+
+**Copy keys from USB drive**
+> Keys must be named `id_ed25519` and `id_ed25519_agenix`.
 ```sh
 nix run --extra-experimental-features 'nix-command flakes' github:dustinlyons/nixos-config#copyKeys
 ```
-* Create new keys
+**Create new keys**
 ```sh
 nix run --extra-experimental-features 'nix-command flakes' github:dustinlyons/nixos-config#createKeys
 ```
+If you want to bring keys from somewhere else, make sure they're named correctly.
 
-* Bring your own
-Keys must be named `id_ed25519` and `id_ed25519_agenix`.
+**Check keys**
 ```sh
-nix run --extra-experimental-features 'nix-command flakes' github:dustinlyons/nixos-config#lintKeys
+nix run --extra-experimental-features 'nix-command flakes' github:dustinlyons/nixos-config#checkKeys
 ```
 
 ### Install configuration
@@ -105,28 +104,29 @@ unlink ./result
 ```
 
 ## For NixOS
-### Burn the latest ISO
-Download and burn [the minimal ISO image](https://nixos.org/download.html).
-
-When the keys are on the USB drive, plug it in, boot the installer, and run this command:
-```sh
-nix run --extra-experimental-features 'nix-command flakes' github:dustinlyons/nixos-config#copyKeys
-```
-
 ### Create a private Github repo to hold your secrets
-In Github, create a `nix-secrets` repository. Later, I show you how to create private data that lives here.
+In Github, create a `nix-secrets` repository. Later, I show you how to create private data that lives there.
+
+### Burn the latest ISO
+Download and burn [the minimal ISO image](https://nixos.org/download.html). Boot the installer.
 
 ### Install some keys
-Three options:
-* Plug in a USB stick
-Keys must be named `id_ed25519` and `id_ed25519_agenix`.
+With the installer running, pick an option:
+
+**Copy keys from USB drive**
+> Keys must be named `id_ed25519` and `id_ed25519_agenix`.
 ```sh
 nix run --extra-experimental-features 'nix-command flakes' github:dustinlyons/nixos-config#copyKeys
 ```
-* Create new keys
-Keys must be named `id_ed25519` and `id_ed25519_agenix`.
+**Create new keys**
 ```sh
 nix run --extra-experimental-features 'nix-command flakes' github:dustinlyons/nixos-config#createKeys
+```
+If you want to bring keys from somewhere else, make sure they're named correctly.
+
+**Check keys**
+```sh
+nix run --extra-experimental-features 'nix-command flakes' github:dustinlyons/nixos-config#checkKeys
 ```
 
 ### Install configuration
