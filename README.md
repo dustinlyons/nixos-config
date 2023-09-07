@@ -195,12 +195,6 @@ Not yet available. Coming soon.
 nix run --extra-experimental-features 'nix-command flakes' github:dustinlyons/nixos-config#live
 ```
 
-## Emacs
-When running `emacs` for the first time, install `all-the-icons`.
-```
-M-x all-the-icons-install-fonts
-```
-
 # Making changes
 With Nix, changes to your system are made by 
 - editing your system configuration
