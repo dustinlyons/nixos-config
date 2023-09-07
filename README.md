@@ -58,6 +58,7 @@ https://github.com/dustinlyons/nixos-config/assets/1292576/fa54a87f-5971-41ee-98
 
 # Installing
 ## For MacOS
+I've tested these instructions on a fresh Macbook Pro as of September 2023.
 ### Create a private Github repo to hold your secrets
 In Github, create a private `nix-secrets` repository. Later, I show you how to create private data that lives there.
 
@@ -105,6 +106,7 @@ Then, run this script, which wraps the Nix commands to build and deploy a new ge
 ```sh
 ./bin/build
 ```
+Use this same script after making edits to the configuration.
 
 ## For NixOS
 ### Create a private Github repo to hold your secrets
