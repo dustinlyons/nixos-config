@@ -222,8 +222,8 @@
         };
 
         aarch64-darwin.copyKeys = {
-          type = "app";
-          program = "${(nixpkgs.legacyPackages.aarch64-darwin.writeShellScriptBin "copy_keys" ''
+        type = "app";
+        program = "${(nixpkgs.legacyPackages.aarch64-darwin.writeShellScriptBin "copy_keys" ''
             #!/usr/bin/env bash
             set -e
 
@@ -235,57 +235,57 @@
             export SSH_DIR=/Users/''${username}/.ssh
 
             unmount_usb() {
-            if mount | grep -q '/mnt/usb'; then
-                umount /mnt/usb
+            if mount | grep -q ''${MOUNT_PATH}; then
+                umount ''${MOUNT_PATH}
             fi
             }
 
             handle_no_usb() {
-              echo -e ''${RED}No USB drive found or mounted.''${NC}"
-              echo -e ''${GREEN}If you have not yet set up your keys, run the script to generate new SSH keys.''${NC}"
-              exit 1
+            echo -e ''${RED}No USB drive found or mounted.''${NC}"
+            echo -e ''${GREEN}If you have not yet set up your keys, run the script to generate new SSH keys.''${NC}"
+            exit 1
             }
 
             mount_usb() {
-              MOUNT_PATH=""
-              if [ -n "''${MOUNT_PATH}" ]; then
-                  echo -e "''${GREEN}USB drive already found at ''${MOUNT_PATH}.''${NC}"
-              else
-                  for dev in ''$(diskutil list | grep -o 'disk[0-9]'); do
-                  MOUNT_PATH='''$(diskutil info /dev/''${dev} | grep "Mount Point" | awk -F: '{print $2}' | xargs)'''
-                  if [ -n "''${MOUNT_PATH}" ]; then
-                      echo -e "''${GREEN}USB drive found at ''${MOUNT_PATH}.''${NC}"
-                      break
-                  fi
-                  done
-              fi
+            MOUNT_PATH=""
+            for dev in ''$(diskutil list | grep -o 'disk[0-9]'); do
+                MOUNT_PATH='''$(diskutil info /dev/''${dev} | grep "Mount Point" | awk -F: '{print $2}' | xargs)'''
+                if [ -n "''${MOUNT_PATH}" ]; then
+                    echo -e "''${GREEN}USB drive found at ''${MOUNT_PATH}.''${NC}"
+                    break
+                fi
+            done
+
+            if [ -z "''${MOUNT_PATH}" ]; then
+                echo -e "''${RED}No USB drive found.''${NC}"
+            fi
             }
 
             copy_keys() {
-              if [ -n "''${MOUNT_PATH}" ]; then
-                  cp "''${MOUNT_PATH}/id_ed25519_agenix.pub" ''${SSH_DIR}
-                  cp "''${MOUNT_PATH}/id_ed25519_agenix" ''${SSH_DIR}
-                  chmod 600 ''${SSH_DIR}/id_ed25519_{agenix,agenix.pub}
-              else
-                  echo -e "''${RED}No USB drive found. Aborting.''${NC}"
-                  exit 1
-              fi
+            if [ -n "''${MOUNT_PATH}" ]; then
+                cp "''${MOUNT_PATH}/id_ed25519_agenix.pub" ''${SSH_DIR}
+                cp "''${MOUNT_PATH}/id_ed25519_agenix" ''${SSH_DIR}
+                chmod 600 ''${SSH_DIR}/id_ed25519_{agenix,agenix.pub}
+            else
+                echo -e "''${RED}No USB drive found. Aborting.''${NC}"
+                exit 1
+            fi
             }
 
             setup_ssh_directory() {
-              mkdir -p ''${SSH_DIR}
+            mkdir -p ''${SSH_DIR}
             }
 
             set_keys() {
-              cp /mnt/usb/id_ed25519_github.pub ''${SSH_DIR}/id_ed25519.pub
-              cp /mnt/usb/id_ed25519_github ''${SSH_DIR}/id_ed25519
-              chmod 600 ''${SSH_DIR}/id_ed25519
-              chmod 644 ''${SSH_DIR}/id_ed25519.pub
+            cp ''${MOUNT_PATH}/id_ed25519_github.pub ''${SSH_DIR}/id_ed25519.pub
+            cp ''${MOUNT_PATH}/id_ed25519_github ''${SSH_DIR}/id_ed25519
+            chmod 600 ''${SSH_DIR}/id_ed25519
+            chmod 644 ''${SSH_DIR}/id_ed25519.pub
             }
 
             change_ownership() {
-              chown ''${username}:staff ''${SSH_DIR}/id_ed25519{,.pub}
-              chown ''${username}:staff ''${SSH_DIR}/id_ed25519_{agenix,agenix.pub}
+            chown ''${username}:staff ''${SSH_DIR}/id_ed25519{,.pub}
+            chown ''${username}:staff ''${SSH_DIR}/id_ed25519_{agenix,agenix.pub}
             }
 
             trap unmount_usb EXIT
@@ -304,41 +304,41 @@
             unmount_usb
 
             '')}/bin/copy_keys";
-          };
-
-          aarch64-darwin.createKeys = {
-            type = "app";
-            program = "${(nixpkgs.legacyPackages.aarch64-darwin.writeShellScriptBin "create_keys" ''
-                #!/usr/bin/env bash
-                set -e
-
-                RED='\033[0;31m'
-                GREEN='\033[0;32m'
-                NC='\033[0m'
-
-                username=''${USER}
-                export SSH_DIR=/Users/''${username}/.ssh
-
-                setup_ssh_directory() {
-                    mkdir -p ''${SSH_DIR}
-                }
-
-                generate_keys() {
-                    ssh-keygen -t ed25519 -f "''${SSH_DIR}/id_ed25519" -N ""
-                    ssh-keygen -t ed25519 -f "''${SSH_DIR}/id_ed25519_agenix" -N ""
-                    chown ''${username}:staff ''${SSH_DIR}/id_ed25519{,_agenix}{,.pub}
-                }
-
-                setup_ssh_directory
-                generate_keys
-
-                echo -e "''${GREEN}New SSH keys have been generated.''${NC}"
-                echo -e "''${GREEN}1) Add the Github key to Github.''${NC}"
-                cat "''${SSH_DIR}/id_ed25519.pub"
-                echo -e "''${GREEN}2) Create a private nix-secrets repo in Github, even if it's empty.''${NC"
-
-          '')}/bin/create_keys";
         };
-      };
-    };
+
+        aarch64-darwin.createKeys = {
+        type = "app";
+        program = "${(nixpkgs.legacyPackages.aarch64-darwin.writeShellScriptBin "create_keys" ''
+            #!/usr/bin/env bash
+            set -e
+
+            RED='\033[0;31m'
+            GREEN='\033[0;32m'
+            NC='\033[0m'
+
+            username=''${USER}
+            export SSH_DIR=/Users/''${username}/.ssh
+
+            setup_ssh_directory() {
+                mkdir -p ''${SSH_DIR}
+            }
+
+            generate_keys() {
+                ssh-keygen -t ed25519 -f "''${SSH_DIR}/id_ed25519" -N ""
+                ssh-keygen -t ed25519 -f "''${SSH_DIR}/id_ed25519_agenix" -N ""
+                chown ''${username}:staff ''${SSH_DIR}/id_ed25519{,_agenix}{,.pub}
+            }
+
+            setup_ssh_directory
+            generate_keys
+
+            echo -e "''${GREEN}New SSH keys have been generated.''${NC}"
+            echo -e "''${GREEN}1) Add the Github key to Github.''${NC}"
+            cat "''${SSH_DIR}/id_ed25519.pub"
+            echo -e "''${GREEN}2) Create a private nix-secrets repo in Github, even if it's empty.''${NC}"
+
+            '')}/bin/create_keys";
+        };
+     };
+  };
 }
