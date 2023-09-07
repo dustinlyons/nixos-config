@@ -119,7 +119,7 @@ let
             </plist>
             EOF
 
-            /bin/launchctl unload ${plistPath}
+            /bin/launchctl unload ${plistPath} || true
             /bin/launchctl load ${plistPath}
           '';
 
