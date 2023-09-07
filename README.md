@@ -91,7 +91,7 @@ nix run github:dustinlyons/nixos-config#createKeys
 ```
 If you want to bring keys from somewhere else, make sure they're named correctly.
 
-**Check keys**
+**Check existing keys**
 ```sh
 nix run github:dustinlyons/nixos-config#checkKeys
 ```
@@ -116,7 +116,7 @@ In Github, create a private `nix-secrets` repository. Later, I show you how to c
 Download and burn [the minimal ISO image](https://nixos.org/download.html). Boot the installer.
 
 ### Install some keys
-With the installer running, pick an option:
+With the installer running, do one of these:
 
 **Copy keys from USB drive**
 > Keys must be named `id_ed25519` and `id_ed25519_agenix`.
@@ -129,7 +129,7 @@ nix run --extra-experimental-features 'nix-command flakes' github:dustinlyons/ni
 ```
 If you want to bring keys from somewhere else, make sure they're named correctly.
 
-**Check keys**
+**Check existing keys**
 ```sh
 nix run --extra-experimental-features 'nix-command flakes' github:dustinlyons/nixos-config#checkKeys
 ```
