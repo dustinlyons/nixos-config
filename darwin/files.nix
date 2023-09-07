@@ -34,14 +34,6 @@ let
   };
 
   # Script to import Drafts into Emacs org-roam
-  "${xdg_dataHome}/bin/emacs-launcher.command" = {
-    executable = true;
-    text = ''
-      emacsclient -c -n &
-    '';
-  };
-
-  # Script to import Drafts into Emacs org-roam
   "${xdg_dataHome}/bin/import-drafts" = {
     executable = true;
     text = ''
