@@ -185,6 +185,11 @@
                 done
               fi
             }
+            handle_no_usb() {
+            echo -e ''${RED}No USB drive found or mounted.''${NC}"
+            echo -e ''${GREEN}If you have not yet set up your keys, run the script to generate new SSH keys.''${NC}"
+            exit 1
+            }
 
             setup_ssh_directory() {
               export SSH_DIR=/root/.ssh
@@ -234,6 +239,8 @@
             echo -e "Please enter your username: "
             read username
 
+            username=''${USER}
+
             export SSH_DIR=/Users/''${username}/.ssh
 
             unmount_usb() {
@@ -282,6 +289,9 @@
             setup_ssh_directory
             mount_usb
             copy_keys
+            if ! mount | grep -q '/mnt/usb'; then
+                handle_no_usb
+            fi
             set_keys
             change_ownership
             unmount_usb
