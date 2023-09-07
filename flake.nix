@@ -10,6 +10,9 @@
       url = "github:LnL7/nix-darwin/master";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nix-homebrew = {
+      url = "github:zhaofengli-wip/nix-homebrew";
+    };
     disko = {
       url = "github:nix-community/disko";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -20,7 +23,7 @@
     };
   };
 
-  outputs = { self, darwin, home-manager, nixpkgs, disko, agenix, secrets } @inputs:
+  outputs = { self, darwin, nix-homebrew, home-manager, nixpkgs, disko, agenix, secrets } @inputs:
     let
       user = "dustin";
       systems = [ "x86_64-linux" "aarch64-darwin" ];
@@ -47,11 +50,19 @@
 
       devShells = forAllSystems devShell;
 
-      darwinConfigurations = {
+      darwinConfigurations = let user = "dustin"; in {
         "Dustins-MBP" = darwin.lib.darwinSystem {
           system = "aarch64-darwin";
           specialArgs = inputs;
           modules = [
+            nix-homebrew.darwinModules.nix-homebrew
+            {
+              nix-homebrew = {
+                enable = true;
+                user = "${user}";
+                mutableTaps = false;
+              };
+            }
             ./darwin
           ];
         };
