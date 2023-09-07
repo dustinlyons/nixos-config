@@ -185,11 +185,6 @@
                 done
               fi
             }
-            handle_no_usb() {
-            echo -e ''${RED}No USB drive found or mounted.''${NC}"
-            echo -e ''${GREEN}If you have not yet set up your keys, run the script to generate new SSH keys.''${NC}"
-            exit 1
-            }
 
             setup_ssh_directory() {
               export SSH_DIR=/root/.ssh
@@ -245,57 +240,67 @@
             fi
             }
 
+            handle_no_usb() {
+              echo -e ''${RED}No USB drive found or mounted.''${NC}"
+              echo -e ''${GREEN}If you have not yet set up your keys, run the script to generate new SSH keys.''${NC}"
+              exit 1
+            }
+
             mount_usb() {
-            if [ -n "''${MOUNT_PATH}" ]; then
-                echo -e "''${GREEN}USB drive already found at ''${MOUNT_PATH}.''${NC}"
-            else
-                for dev in ''$(diskutil list | grep -o 'disk[0-9]'); do
-                MOUNT_PATH='''$(diskutil info /dev/''${dev} | grep "Mount Point" | awk -F: '{print $2}' | xargs)'''
-                if [ -n "''${MOUNT_PATH}" ]; then
-                    echo -e "''${GREEN}USB drive found at ''${MOUNT_PATH}.''${NC}"
-                    break
-                fi
-                done
-            fi
+              MOUNT_PATH=""
+              if [ -n "''${MOUNT_PATH}" ]; then
+                  echo -e "''${GREEN}USB drive already found at ''${MOUNT_PATH}.''${NC}"
+              else
+                  for dev in ''$(diskutil list | grep -o 'disk[0-9]'); do
+                  MOUNT_PATH='''$(diskutil info /dev/''${dev} | grep "Mount Point" | awk -F: '{print $2}' | xargs)'''
+                  if [ -n "''${MOUNT_PATH}" ]; then
+                      echo -e "''${GREEN}USB drive found at ''${MOUNT_PATH}.''${NC}"
+                      break
+                  fi
+                  done
+              fi
             }
 
             copy_keys() {
-            if [ -n "''${MOUNT_PATH}" ]; then
-                cp "''${MOUNT_PATH}/id_ed25519_agenix.pub" ''${SSH_DIR}
-                cp "''${MOUNT_PATH}/id_ed25519_agenix" ''${SSH_DIR}
-                chmod 600 ''${SSH_DIR}/id_ed25519_{agenix,agenix.pub}
-            else
-                echo -e "''${RED}No USB drive found. Aborting.''${NC}"
-                exit 1
-            fi
+              if [ -n "''${MOUNT_PATH}" ]; then
+                  cp "''${MOUNT_PATH}/id_ed25519_agenix.pub" ''${SSH_DIR}
+                  cp "''${MOUNT_PATH}/id_ed25519_agenix" ''${SSH_DIR}
+                  chmod 600 ''${SSH_DIR}/id_ed25519_{agenix,agenix.pub}
+              else
+                  echo -e "''${RED}No USB drive found. Aborting.''${NC}"
+                  exit 1
+              fi
             }
 
             setup_ssh_directory() {
-                mkdir -p ''${SSH_DIR}
+              mkdir -p ''${SSH_DIR}
             }
 
             set_keys() {
-                cp /mnt/usb/id_ed25519_github.pub ''${SSH_DIR}/id_ed25519.pub
-                cp /mnt/usb/id_ed25519_github ''${SSH_DIR}/id_ed25519
-                chmod 600 ''${SSH_DIR}/id_ed25519
-                chmod 644 ''${SSH_DIR}/id_ed25519.pub
-                }
+              cp /mnt/usb/id_ed25519_github.pub ''${SSH_DIR}/id_ed25519.pub
+              cp /mnt/usb/id_ed25519_github ''${SSH_DIR}/id_ed25519
+              chmod 600 ''${SSH_DIR}/id_ed25519
+              chmod 644 ''${SSH_DIR}/id_ed25519.pub
+            }
 
             change_ownership() {
-                chown ''${username}:staff ''${SSH_DIR}/id_ed25519{,.pub}
-                chown ''${username}:staff ''${SSH_DIR}/id_ed25519_{agenix,agenix.pub}
+              chown ''${username}:staff ''${SSH_DIR}/id_ed25519{,.pub}
+              chown ''${username}:staff ''${SSH_DIR}/id_ed25519_{agenix,agenix.pub}
             }
 
             trap unmount_usb EXIT
 
             setup_ssh_directory
             mount_usb
+
+            if [ -z "''${MOUNT_PATH}" ]; then
+            handle_no_usb
+            else
             copy_keys
-            if ! mount | grep -q '/mnt/usb'; then
-                handle_no_usb
-            fi
             set_keys
             change_ownership
+            fi
+
             unmount_usb
 
             '')}/bin/copy_keys";
