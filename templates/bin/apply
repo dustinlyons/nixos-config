@@ -45,5 +45,4 @@ replace_tokens() {
 export -f replace_tokens
 find . -type f -exec bash -c 'replace_tokens "$0"' {} \;
 
-
 echo "Tokens have been replaced in all Nix files."
