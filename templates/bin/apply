@@ -30,19 +30,20 @@ replace_tokens() {
   local file="$1"
   if [[ "$OS" == "Darwin" ]]; then
     # macOS
-    sed -i '' -e "s/%USER%/$USERNAME/g" "$file"
-    sed -i '' -e "s/%EMAIL%/$GIT_EMAIL/g" "$file"
-    sed -i '' -e "s/%NAME%/$GIT_NAME/g" "$file"
+    LC_ALL=C LANG=C sed -i '' -e "s/dustin/$USERNAME/g" "$file"
+    LC_ALL=C LANG=C sed -i '' -e "s/dustin@dlyons.dev/$GIT_EMAIL/g" "$file"
+    LC_ALL=C LANG=C sed -i '' -e "s/Dustin Lyons/$GIT_NAME/g" "$file"
   else
     # Linux or other
-    sed -i -e "s/%USER%/$USERNAME/g" "$file"
-    sed -i -e "s/%EMAIL%/$GIT_EMAIL/g" "$file"
-    sed -i -e "s/%NAME%/$GIT_NAME/g" "$file"
+    sed -i -e "s/dustin/$USERNAME/g" "$file"
+    sed -i -e "s/dustin@dlyons.dev/$GIT_EMAIL/g" "$file"
+    sed -i -e "s/Dustin Lyons/$GIT_NAME/g" "$file"
   fi
 }
 
 # Traverse directories and call replace_tokens on each Nix file
 export -f replace_tokens
-find . -type f -name '*.nix' -exec bash -c 'replace_tokens "$0"' {} \;
+find . -type f -exec bash -c 'replace_tokens "$0"' {} \;
+
 
 echo "Tokens have been replaced in all Nix files."
