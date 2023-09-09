@@ -72,18 +72,36 @@ xcode-select --install
 curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install
 ```
 
-### Clone this flake
-> If you plan on using my Emacs configuration, it assumes `nixos-config` resides in `.local/share/src`.
+### Initialize the starter template
+This is a simplified version without secrets management, my user-specific Emacs configuration, etc.
 ```sh
-nix flake clone github:dustinlyons/nixos-config
+nix flake init -t github:dustinlyons/nixos-config#starter
 ```
 
-### Make some edits
-1. Grep for my name, `dustin`, and replace all cases with your username
-2. Review the configuration to add/remove packages, edit the Emacs configuration, etc.
+### Optional: Initialize the starter template with secrets
+This is a full version with secrets management.
+```sh
+nix flake init -t github:dustinlyons/nixos-config#full
+```
 
-### Install some keys
-Pick your poison.
+### Apply your current user info
+This config needs your username, real name, and email to manage git configuration, amongst other things. Run this command to bring those in automatically.
+```sh
+bin/apply
+```
+2. Review the configuration to add/remove packages, edit the Emacs configuration, etc.
+   
+**Notable files**
+
+`darwin/casks`
+`darwin/packages`
+
+`nixos/packages`
+
+`shared/packages`
+
+### Optional: Install some keys
+If you chose the `full` template, you need to install some keys.
 
 **Copy keys from USB drive**
 > Keys must be named `id_ed25519` and `id_ed25519_agenix`.
@@ -113,11 +131,11 @@ Then, run this script, which wraps the Nix commands to build and deploy a new ge
 ```
 
 ## For NixOS
-### Create a private Github repo to hold your secrets
-In Github, create a private `nix-secrets` repository. Later, I show you how to create private data that lives there.
-
 ### Burn the latest ISO
 Download and burn [the minimal ISO image](https://nixos.org/download.html). Boot the installer.
+
+### Create a private Github repo to hold your secrets
+In Github, create a private `nix-secrets` repository. Later, I show you how to create private data that lives there.
 
 ### Install some keys
 With the installer running, do one of these:
