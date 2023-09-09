@@ -50,9 +50,9 @@
     in
     {
       templates = {
-        full = {
+        starter = {
           path = ./templates;
-          description = "Full installation";
+          description = "Starter configuration";
         };
       };
 
