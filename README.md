@@ -78,7 +78,7 @@ This is a simplified version without secrets management, my user-specific Emacs 
 nix flake init -t github:dustinlyons/nixos-config#starter
 ```
 
-### Optional: Initialize the starter template with secrets
+### Coming soon: Initialize the starter template with secrets
 This is a full version with secrets management.
 ```sh
 nix flake init -t github:dustinlyons/nixos-config#full
