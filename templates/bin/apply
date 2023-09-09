@@ -28,16 +28,18 @@ fi
 # Function to replace tokens in each file
 replace_tokens() {
   local file="$1"
-  if [[ "$OS" == "Darwin" ]]; then
-    # macOS
-    LC_ALL=C LANG=C sed -i '' -e "s/dustin/$USERNAME/g" "$file"
-    LC_ALL=C LANG=C sed -i '' -e "s/dustin@dlyons.dev/$GIT_EMAIL/g" "$file"
-    LC_ALL=C LANG=C sed -i '' -e "s/Dustin Lyons/$GIT_NAME/g" "$file"
-  else
-    # Linux or other
-    sed -i -e "s/dustin/$USERNAME/g" "$file"
-    sed -i -e "s/dustin@dlyons.dev/$GIT_EMAIL/g" "$file"
-    sed -i -e "s/Dustin Lyons/$GIT_NAME/g" "$file"
+  if [[ $file != *$(basename "$0")* ]]; then
+    if [[ "$OS" == "Darwin" ]]; then
+      # macOS
+      LC_ALL=C LANG=C sed -i '' -e "s/%USER%/$USERNAME/g" "$file"
+      LC_ALL=C LANG=C sed -i '' -e "s/%EMAIL%/$GIT_EMAIL/g" "$file"
+      LC_ALL=C LANG=C sed -i '' -e "s/%NAME%/$GIT_NAME/g" "$file"
+    else
+      # Linux or other
+      sed -i -e "s/%USER%/$USERNAME/g" "$file"
+      sed -i -e "s/%EMAIL%/$GIT_EMAIL/g" "$file"
+      sed -i -e "s/%NAME%/$GIT_NAME/g" "$file"
+    fi
   fi
 }
 
@@ -45,4 +47,4 @@ replace_tokens() {
 export -f replace_tokens
 find . -type f -exec bash -c 'replace_tokens "$0"' {} \;
 
-echo "Tokens have been replaced in all Nix files."
+echo "User, name, and email tokens have been replaced in all files."
