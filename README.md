@@ -20,8 +20,6 @@ I use this daily on my 🧑🏻‍💻 M1 Macbook Pro and an x86 PC in my home o
 ├── darwin       # MacOS and nix-darwin configuration
 ├── nixos        # My NixOS desktop-related configuration
 ├── overlays     # Drop an overlay file in this dir, and it runs. So far, mainly patches.
-├── templates    # Starter template for you to try
-└── vms          # VM-specific configs running in my home-lab
 ```
 
 ## Features
@@ -71,12 +69,6 @@ xcode-select --install
 curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install
 ```
 
-### Initialize the starter template
-This is a simplified version without secrets management, my user-specific Emacs configuration, etc.
-```sh
-nix flake init -t github:dustinlyons/nixos-config#starter
-```
-
 ### Install our last remaining Nix channel
 Everything else comes from our flake; the `nix-darwin` home-manager module, however, is still a channel.
 ```sh
@@ -86,10 +78,15 @@ nix-channel --add https://github.com/nix-community/home-manager/archive/master.t
 nix-channel --update
 ```
 
-### Coming soon: Initialize the starter template with secrets
+### Initialize a starter template
+This is a simplified version without secrets management, my user-specific Emacs configuration, etc.
+```sh
+nix flake init -t github:dustinlyons/nixos-config#starter
+```
+
 This is a full version with secrets management.
 ```sh
-nix flake init -t github:dustinlyons/nixos-config#starterFull
+nix flake init -t github:dustinlyons/nixos-config#starterWithSecrets
 ```
 
 ### Apply your current user info
@@ -97,9 +94,11 @@ Run this script to replace stub values with your username, full name, and email.
 ```sh
 chmod +x bin/apply && bin/apply
 ```
-Review the configuration to add/remove packages, edit the Emacs configuration, etc.
    
-**Notable files**
+### Decide what packages to install
+You can search for packages on the [official NixOS site](https://search.nixos.org/packages).
+
+**Notable repository files**
 
 * `darwin/casks`
 * `darwin/packages`
@@ -107,26 +106,36 @@ Review the configuration to add/remove packages, edit the Emacs configuration, e
 * `nixos/packages`
 * `shared/packages`
 
-### Optional: Install some keys
-If you want to manage secrets, you need to install some keys.
+### Optional: Setup secrets
+If you are using the starter with secrets, there are a few additional steps.
+
+#### Create a private Github repo to hold your secrets
+In Github, create a private `nix-secrets` repository. 
+
+Then, change the `nix-secrets` input in the `flake.nix` to point to this repository.
+
+#### Install Github and agenix keys
+Before geneating your first build, these keys need to exist in your `~/.ssh` directory. I've provided a few helper commands below.
 
 | Key Name            | Platform         | Description                           | 
 |---------------------|------------------|---------------------------------------|
 | id_ed25519          | MacOS / NixOS    | Used to download secrets from Github. |
 | id_ed25519_agenix   | MacOS / NixOS    | Used to encrypt and decrypt secrets.  |
 
-#### Copy keys from USB drive
+##### Copy keys from USB drive
+This script auto-detectes a USB drive connected to the current machine.
 > Keys must be named `id_ed25519` and `id_ed25519_agenix`.
 ```sh
 nix run github:dustinlyons/nixos-config#copyKeys
 ```
-#### Create new keys
+
+##### Create new keys
 ```sh
 nix run github:dustinlyons/nixos-config#createKeys
 ```
-If you want to bring keys from somewhere else, make sure they're named correctly.
 
-#### Check existing keys
+##### Check existing keys
+If you're rolling your own, just check they are installed correctly.
 ```sh
 nix run github:dustinlyons/nixos-config#checkKeys
 ```
@@ -139,37 +148,43 @@ sudo mv /etc/nix/nix.conf /etc/nix/nix.conf.before-nix-darwin
 
 Then, run this script, which wraps the Nix commands to build and deploy a new generation.
 ```sh
-chmod +x bin/darwin-build && chmod +x bin/build && bin/build
+chmod +x bin/build && chmod +x bin/darwin-build && bin/build
 ```
 
 ## For NixOS
 ### Burn the latest ISO
 Download and burn [the minimal ISO image](https://nixos.org/download.html). Boot the installer.
 
-### Optional: Create a private Github repo to hold your secrets
-In Github, create a private `nix-secrets` repository. Later, I show you how to create private data that lives there.
+### Optional: Setup secrets
+If you are using the starter with secrets, there are a few additional steps.
 
-### Optional: Install some keys
-If you want to manage secrets, you need to install some keys.
+#### Create a private Github repo to hold your secrets
+In Github, create a private `nix-secrets` repository. 
 
+Then, change the `nix-secrets` input in the `flake.nix` to point to this repository.
+
+#### Install keys
+Before geneating your first build, these keys need to exist in your `~/.ssh` directory. I've provided a few helper commands below.
 
 | Key Name            | Platform         | Description                           | 
 |---------------------|------------------|---------------------------------------|
 | id_ed25519          | MacOS / NixOS    | Used to download secrets from Github. |
 | id_ed25519_agenix   | MacOS / NixOS    | Used to encrypt and decrypt secrets.  |
 
-#### Copy keys from USB drive
+##### Copy keys from USB drive
+This script auto-detectes a USB drive connected to the current machine.
 > Keys must be named `id_ed25519` and `id_ed25519_agenix`.
 ```sh
 nix run github:dustinlyons/nixos-config#copyKeys
 ```
-#### Create new keys
+
+##### Create new keys
 ```sh
 nix run github:dustinlyons/nixos-config#createKeys
 ```
-If you want to bring keys from somewhere else, make sure they're named correctly.
 
-#### Check existing keys
+##### Check existing keys
+If you're rolling your own, just check they are installed correctly.
 ```sh
 nix run github:dustinlyons/nixos-config#checkKeys
 ```
@@ -184,9 +199,16 @@ After the keys are in place, you're good to go. Run this command:
 > [!WARNING]
 > Running this will reformat your drive to the ext4 filesystem.
 
+**Simple**
 ```sh
 nix run --extra-experimental-features 'nix-command flakes' github:dustinlyons/nixos-config#install
 ```
+
+**With secrets**
+```sh
+nix run --extra-experimental-features 'nix-command flakes' github:dustinlyons/nixos-config#installWithSecrets
+```
+
 ### Set user password
 On first boot at the login screen:
 - Use the shortcut `Ctrl-Alt-F2` to move to a terminal session
@@ -194,7 +216,7 @@ On first boot at the login screen:
 - Set the user password with `passwd <user>`
 - Go back to the login screen: `Ctrl-Alt-F7`
 
-### How to create secrets
+## How to create secrets
 To create a new secret `secret.age`, first [create a `secrets.nix` file](https://github.com/ryantm/agenix#tutorial) at the root of your `nix-secrets` repository. This is only used by the `agenix` CLI command. It assumes your SSH private key is in `~/.ssh/` or you can provide the `-i` flag with a path to your `id_ed25519_agenix` key.
 ```
 let
@@ -214,7 +236,7 @@ EDITOR=vim nix run github:ryantm/agenix -- -e secret.age
 ```
 This will create a `secret.age` file with your secret that you can reference in the Nix configuration. Commit the file to your repo.
 
-### Secrets used in my configuration
+### Secrets used in this configuration
 | Secret Name           | Platform         | Description           | 
 |-----------------------|------------------|-----------------------|
 | `syncthing-cert`      | MacOS / NixOS    | Syncthing certificate |
@@ -239,8 +261,8 @@ With Nix, changes to your system are made by
 
 ## For MacOS
 ```sh
-nix --experimental-features 'nix-command flakes' build .#darwinConfigurations.macos.system --impure && \
-./result/sw/bin/darwin-rebuild switch --flake .#macos --impure && \
+nix --experimental-features 'nix-command flakes' build .#darwinConfigurations.Dustins-MBP.system --impure && \
+./result/sw/bin/darwin-rebuild switch --flake .#Dustins-MBP --impure && \
 unlink ./result
 ```
 #### Optional script to save keystrokes
