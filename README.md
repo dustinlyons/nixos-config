@@ -114,7 +114,7 @@ If you are using the starter with secrets, there are a few additional steps.
 #### Create a private Github repo to hold your secrets
 In Github, create a private `nix-secrets` repository. 
 
-Then, change the `nix-secrets` input in the `flake.nix` to point to this repository.
+Then, change the `nix-secrets` input in the `flake.nix` to reference it.
 
 #### Install keys
 Before geneating your first build, these keys need to exist in your `~/.ssh` directory. I've provided a few helper commands below. Choose one.
@@ -163,7 +163,7 @@ If you are using the starter with secrets, there are a few additional steps.
 #### Create a private Github repo to hold your secrets
 In Github, create a private `nix-secrets` repository. 
 
-Then, change the `nix-secrets` input in the `flake.nix` to point to this repository.
+Then, change the `nix-secrets` input in the `flake.nix` to reference it.
 
 #### Install keys
 Before geneating your first build, these keys need to exist in your `~/.ssh` directory. I've provided a few helper commands below. Choose one.
