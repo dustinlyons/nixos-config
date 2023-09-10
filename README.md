@@ -87,7 +87,7 @@ This config needs your username, real name, and email to manage git configuratio
 ```sh
 bin/apply
 ```
-2. Review the configuration to add/remove packages, edit the Emacs configuration, etc.
+Review the configuration to add/remove packages, edit the Emacs configuration, etc.
    
 **Notable files**
 
