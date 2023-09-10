@@ -76,6 +76,15 @@ This is a simplified version without secrets management, my user-specific Emacs 
 nix flake init -t github:dustinlyons/nixos-config#starter
 ```
 
+### Install our last remaining Nix channel
+Everything else comes from our flake; the `nix-darwin` home-manager module, however, is still a channel.
+```sh
+nix-channel --add https://github.com/nix-community/home-manager/archive/master.tar.gz home-manager
+```
+```sh
+nix-channel --update
+```
+
 ### Coming soon: Initialize the starter template with secrets
 This is a full version with secrets management.
 ```sh
@@ -99,10 +108,10 @@ Review the configuration to add/remove packages, edit the Emacs configuration, e
 ### Optional: Install some keys
 If you want to manage secrets, you need to install some keys.
 
-| Key Name            | Platform         | Description                          | 
-|---------------------|------------------|--------------------------------------|
-| id_ed25519          | MacOS / NixOS    | Used to download secrets.            |
-| id_ed25519_agenix   | MacOS / NixOS    | Used to encrypt and decrypt secrets. |
+| Key Name            | Platform         | Description                           | 
+|---------------------|------------------|---------------------------------------|
+| id_ed25519          | MacOS / NixOS    | Used to download secrets from Github. |
+| id_ed25519_agenix   | MacOS / NixOS    | Used to encrypt and decrypt secrets.  |
 
 #### Copy keys from USB drive
 > Keys must be named `id_ed25519` and `id_ed25519_agenix`.
@@ -141,10 +150,11 @@ In Github, create a private `nix-secrets` repository. Later, I show you how to c
 ### Optional: Install some keys
 If you want to manage secrets, you need to install some keys.
 
-| Key Name            | Platform         | Description                          | 
-|---------------------|------------------|--------------------------------------|
-| id_ed25519          | MacOS / NixOS    | Used to download secrets.            |
-| id_ed25519_agenix   | MacOS / NixOS    | Used to encrypt and decrypt secrets. |
+
+| Key Name            | Platform         | Description                           | 
+|---------------------|------------------|---------------------------------------|
+| id_ed25519          | MacOS / NixOS    | Used to download secrets from Github. |
+| id_ed25519_agenix   | MacOS / NixOS    | Used to encrypt and decrypt secrets.  |
 
 #### Copy keys from USB drive
 > Keys must be named `id_ed25519` and `id_ed25519_agenix`.
