@@ -94,7 +94,7 @@ nix flake init -t github:dustinlyons/nixos-config#starterFull
 ### Apply your current user info
 Run this script to replace stub values with your username, full name, and email.
 ```sh
-bin/apply
+chmod +x bin/apply && bin/apply
 ```
 Review the configuration to add/remove packages, edit the Emacs configuration, etc.
    
@@ -102,6 +102,7 @@ Review the configuration to add/remove packages, edit the Emacs configuration, e
 
 * `darwin/casks`
 * `darwin/packages`
+* `darwin/home-manager` (for the dock)
 * `nixos/packages`
 * `shared/packages`
 
@@ -137,7 +138,7 @@ sudo mv /etc/nix/nix.conf /etc/nix/nix.conf.before-nix-darwin
 
 Then, run this script, which wraps the Nix commands to build and deploy a new generation.
 ```sh
-./bin/build
+chmod +x bin/darwin-build && chmod +x bin/build && bin/build
 ```
 
 ## For NixOS
