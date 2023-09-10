@@ -99,10 +99,10 @@ Review the configuration to add/remove packages, edit the Emacs configuration, e
 ### Optional: Install some keys
 If you want to manage secrets, you need to install some keys.
 
-| Key Name              | Platform         | Description                          | 
-|-----------------------|------------------|--------------------------------------|
-| `id_ed25519`          | MacOS / NixOS    | Used to download secrets.            |
-| `id_ed25519_agenix`   | MacOS / NixOS    | Used to encrypt and decrypt secrets. |
+| Key Name            | Platform         | Description                          | 
+|---------------------|------------------|--------------------------------------|
+| id_ed25519          | MacOS / NixOS    | Used to download secrets.            |
+| id_ed25519_agenix   | MacOS / NixOS    | Used to encrypt and decrypt secrets. |
 
 #### Copy keys from USB drive
 > Keys must be named `id_ed25519` and `id_ed25519_agenix`.
@@ -141,10 +141,10 @@ In Github, create a private `nix-secrets` repository. Later, I show you how to c
 ### Optional: Install some keys
 If you want to manage secrets, you need to install some keys.
 
-| Key Name              | Platform         | Description                          | 
-|-----------------------|------------------|--------------------------------------|
-| `id_ed25519`          | MacOS / NixOS    | Used to download secrets.            |
-| `id_ed25519_agenix`   | MacOS / NixOS    | Used to encrypt and decrypt secrets. |
+| Key Name            | Platform         | Description                          | 
+|---------------------|------------------|--------------------------------------|
+| id_ed25519          | MacOS / NixOS    | Used to download secrets.            |
+| id_ed25519_agenix   | MacOS / NixOS    | Used to encrypt and decrypt secrets. |
 
 #### Copy keys from USB drive
 > Keys must be named `id_ed25519` and `id_ed25519_agenix`.
