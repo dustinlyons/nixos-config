@@ -102,7 +102,7 @@ Review the configuration to add/remove packages, edit the Emacs configuration, e
 
 * `darwin/casks`
 * `darwin/packages`
-* `darwin/home-manager` (for the dock)
+* `darwin/home-manager`
 * `nixos/packages`
 * `shared/packages`
 
