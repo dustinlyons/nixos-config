@@ -244,7 +244,7 @@ unlink ./result
 ```
 #### Optional script to save keystrokes
 ```sh
-./bin/build
+bin/build
 ```
 ## For NixOS
 ```sh
@@ -252,7 +252,7 @@ sudo nixos-rebuild switch --flake .#felix
 ```
 #### Optional script to save keystrokes
 ```sh
-./bin/build
+bin/build
 ```
 
 ## Update dependencies
