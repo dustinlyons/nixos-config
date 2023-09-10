@@ -81,7 +81,7 @@ nix-channel --update
 ```
 
 ### Initialize a starter template
-This is a simplified version without secrets management, my user-specific Emacs configuration, etc.
+This is a simplified version without secrets management.
 ```sh
 nix flake init -t github:dustinlyons/nixos-config#starter
 ```
