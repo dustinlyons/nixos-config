@@ -261,8 +261,8 @@ With Nix, changes to your system are made by
 
 ## For MacOS
 ```sh
-nix --experimental-features 'nix-command flakes' build .#darwinConfigurations.Dustins-MBP.system --impure && \
-./result/sw/bin/darwin-rebuild switch --flake .#Dustins-MBP --impure && \
+nix --experimental-features 'nix-command flakes' build .#darwinConfigurations.macos.system --impure && \
+./result/sw/bin/darwin-rebuild switch --flake .#macos --impure && \
 unlink ./result
 ```
 #### Optional script to save keystrokes
