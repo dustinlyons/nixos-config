@@ -117,7 +117,7 @@ In Github, create a private `nix-secrets` repository.
 Then, change the `nix-secrets` input in the `flake.nix` to point to this repository.
 
 #### Install Github and agenix keys
-Before geneating your first build, these keys need to exist in your `~/.ssh` directory. I've provided a few helper commands below.
+Before geneating your first build, these keys need to exist in your `~/.ssh` directory. I've provided a few helper commands below. Choose one.
 
 | Key Name            | Platform         | Description                           | 
 |---------------------|------------------|---------------------------------------|
@@ -166,7 +166,7 @@ In Github, create a private `nix-secrets` repository.
 Then, change the `nix-secrets` input in the `flake.nix` to point to this repository.
 
 #### Install keys
-Before geneating your first build, these keys need to exist in your `~/.ssh` directory. I've provided a few helper commands below.
+Before geneating your first build, these keys need to exist in your `~/.ssh` directory. I've provided a few helper commands below. Choose one.
 
 | Key Name            | Platform         | Description                           | 
 |---------------------|------------------|---------------------------------------|
