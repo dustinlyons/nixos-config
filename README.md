@@ -79,11 +79,11 @@ nix flake init -t github:dustinlyons/nixos-config#starter
 ### Coming soon: Initialize the starter template with secrets
 This is a full version with secrets management.
 ```sh
-nix flake init -t github:dustinlyons/nixos-config#full
+nix flake init -t github:dustinlyons/nixos-config#starterFull
 ```
 
 ### Apply your current user info
-This config needs your username, real name, and email to manage git configuration, amongst other things. Run this command to bring those in automatically.
+Run this script to replace stub values with your username, full name, and email.
 ```sh
 bin/apply
 ```
@@ -91,28 +91,31 @@ Review the configuration to add/remove packages, edit the Emacs configuration, e
    
 **Notable files**
 
-`darwin/casks`
-`darwin/packages`
-
-`nixos/packages`
-
-`shared/packages`
+* `darwin/casks`
+* `darwin/packages`
+* `nixos/packages`
+* `shared/packages`
 
 ### Optional: Install some keys
-If you chose the `full` template, you need to install some keys.
+If you want to manage secrets, you need to install some keys.
 
-**Copy keys from USB drive**
+| Key Name              | Platform         | Description                          | 
+|-----------------------|------------------|--------------------------------------|
+| `id_ed25519`          | MacOS / NixOS    | Used to download secrets.            |
+| `id_ed25519_agenix`   | MacOS / NixOS    | Used to encrypt and decrypt secrets. |
+
+#### Copy keys from USB drive
 > Keys must be named `id_ed25519` and `id_ed25519_agenix`.
 ```sh
 nix run github:dustinlyons/nixos-config#copyKeys
 ```
-**Create new keys**
+#### Create new keys
 ```sh
 nix run github:dustinlyons/nixos-config#createKeys
 ```
 If you want to bring keys from somewhere else, make sure they're named correctly.
 
-**Check existing keys**
+#### Check existing keys
 ```sh
 nix run github:dustinlyons/nixos-config#checkKeys
 ```
@@ -132,26 +135,31 @@ Then, run this script, which wraps the Nix commands to build and deploy a new ge
 ### Burn the latest ISO
 Download and burn [the minimal ISO image](https://nixos.org/download.html). Boot the installer.
 
-### Create a private Github repo to hold your secrets
+### Optional: Create a private Github repo to hold your secrets
 In Github, create a private `nix-secrets` repository. Later, I show you how to create private data that lives there.
 
-### Install some keys
-With the installer running, do one of these:
+### Optional: Install some keys
+If you want to manage secrets, you need to install some keys.
 
-**Copy keys from USB drive**
+| Key Name              | Platform         | Description                          | 
+|-----------------------|------------------|--------------------------------------|
+| `id_ed25519`          | MacOS / NixOS    | Used to download secrets.            |
+| `id_ed25519_agenix`   | MacOS / NixOS    | Used to encrypt and decrypt secrets. |
+
+#### Copy keys from USB drive
 > Keys must be named `id_ed25519` and `id_ed25519_agenix`.
 ```sh
-nix run --extra-experimental-features 'nix-command flakes' github:dustinlyons/nixos-config#copyKeys
+nix run github:dustinlyons/nixos-config#copyKeys
 ```
-**Create new keys**
+#### Create new keys
 ```sh
-nix run --extra-experimental-features 'nix-command flakes' github:dustinlyons/nixos-config#createKeys
+nix run github:dustinlyons/nixos-config#createKeys
 ```
 If you want to bring keys from somewhere else, make sure they're named correctly.
 
-**Check existing keys**
+#### Check existing keys
 ```sh
-nix run --extra-experimental-features 'nix-command flakes' github:dustinlyons/nixos-config#checkKeys
+nix run github:dustinlyons/nixos-config#checkKeys
 ```
 
 ### Install configuration
