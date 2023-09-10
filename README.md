@@ -3,7 +3,7 @@
 # Nix for MacOS + NixOS
 ![GitHub last commit](https://img.shields.io/github/last-commit/dustinlyons/nixos-config?style=plastic)
 
-_Psst: I can help make your dev environments easy to use and match production. <a href="https://calendly.com/dustinhlyons/business-intro-call">Get in touch.</a>_
+_Psst: Hire me at your job to help make your dev environments easy to use and match production. <a href="https://calendly.com/dustinhlyons/business-intro-call">Get in touch.</a>_
 
 # Overview
 Hey, you made it! Welcome. 🤓 
@@ -116,7 +116,7 @@ In Github, create a private `nix-secrets` repository.
 
 Then, change the `nix-secrets` input in the `flake.nix` to point to this repository.
 
-#### Install Github and agenix keys
+#### Install keys
 Before geneating your first build, these keys need to exist in your `~/.ssh` directory. I've provided a few helper commands below. Choose one.
 
 | Key Name            | Platform         | Description                           | 
