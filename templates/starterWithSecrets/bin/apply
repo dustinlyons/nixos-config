@@ -1,0 +1,50 @@
+#!/bin/bash
+
+# Determine the operating system
+export OS=$(uname)
+
+# Fetch username from the system
+export USERNAME=$(whoami)
+
+# If the username is 'nixos' or 'root', ask the user for their username
+if [[ "$USERNAME" == "nixos" ]] || [[ "$USERNAME" == "root" ]]; then
+  read -p "You're running as $USERNAME. Please enter your desired username: " USERNAME
+fi
+
+# Fetch email and name from git config
+export GIT_EMAIL=$(git config --get user.email)
+export GIT_NAME=$(git config --get user.name)
+
+# If git email is not found, ask the user
+if [[ -z "$GIT_EMAIL" ]]; then
+  read -p "Please enter your email: " GIT_EMAIL
+fi
+
+# If git name is not found, ask the user
+if [[ -z "$GIT_NAME" ]]; then
+  read -p "Please enter your name: " GIT_NAME
+fi
+
+# Function to replace tokens in each file
+replace_tokens() {
+  local file="$1"
+  if [[ $file != *$(basename "$0")* ]]; then
+    if [[ "$OS" == "Darwin" ]]; then
+      # macOS
+      LC_ALL=C LANG=C sed -i '' -e "s/%USER%/$USERNAME/g" "$file"
+      LC_ALL=C LANG=C sed -i '' -e "s/%EMAIL%/$GIT_EMAIL/g" "$file"
+      LC_ALL=C LANG=C sed -i '' -e "s/%NAME%/$GIT_NAME/g" "$file"
+    else
+      # Linux or other
+      sed -i -e "s/%USER%/$USERNAME/g" "$file"
+      sed -i -e "s/%EMAIL%/$GIT_EMAIL/g" "$file"
+      sed -i -e "s/%NAME%/$GIT_NAME/g" "$file"
+    fi
+  fi
+}
+
+# Traverse directories and call replace_tokens on each Nix file
+export -f replace_tokens
+find . -type f -exec bash -c 'replace_tokens "$0"' {} \;
+
+echo "User, name, and email tokens have been replaced in all files."
