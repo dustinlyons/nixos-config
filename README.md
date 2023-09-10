@@ -177,18 +177,18 @@ Before geneating your first build, these keys need to exist in your `~/.ssh` dir
 This script auto-detectes a USB drive connected to the current machine.
 > Keys must be named `id_ed25519` and `id_ed25519_agenix`.
 ```sh
-nix run github:dustinlyons/nixos-config#copyKeys
+nix run --extra-experimental-features 'nix-command flakes' github:dustinlyons/nixos-config#copyKeys
 ```
 
 ##### Create new keys
 ```sh
-nix run github:dustinlyons/nixos-config#createKeys
+nix run --extra-experimental-features 'nix-command flakes' github:dustinlyons/nixos-config#createKeys
 ```
 
 ##### Check existing keys
 If you're rolling your own, just check they are installed correctly.
 ```sh
-nix run github:dustinlyons/nixos-config#checkKeys
+nix run --extra-experimental-features 'nix-command flakes' github:dustinlyons/nixos-config#checkKeys
 ```
 
 ### Install configuration
