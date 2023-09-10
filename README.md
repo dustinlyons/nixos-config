@@ -12,7 +12,7 @@ This Nix configuration runs on MacOS, NixOS, or both simultaneously. It's also a
 
 I use this daily on my 🧑🏻‍💻 M1 Macbook Pro and an x86 PC in my home office.
 
-And I have some starter templates below to get you started.
+Check out the starter templates below to get started!
 
 ## Layout
 ```
