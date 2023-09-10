@@ -20,6 +20,7 @@ I use this daily on my 🧑🏻‍💻 M1 Macbook Pro and an x86 PC in my home o
 ├── darwin       # MacOS and nix-darwin configuration
 ├── nixos        # My NixOS desktop-related configuration
 ├── overlays     # Drop an overlay file in this dir, and it runs. So far, mainly patches.
+├── templates    # Starter template for you to try
 └── vms          # VM-specific configs running in my home-lab
 ```
 
