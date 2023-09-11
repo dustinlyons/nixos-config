@@ -594,10 +594,6 @@ Setup for ~org-super-agenda~ and ~org-ql~.
        :todo "WAITING")
       (:name "Tasks"
        :todo "TODO")
-      (:name "Learn"
-       :tag "learn")
-      (:name "Braeview"
-       :tag "braeview")
       (:name "Someday"
        :todo "SOMEDAY")
     (:name "Projects"
@@ -676,20 +672,8 @@ If you haven't heard of org mode, go watch [[https://www.youtube.com/watch?v=SzA
   "A few of my own personal shortcuts"
   (dl/leader-keys
     ","  '(dl/insert-header :which-key "insert header")
-    "<"  '(dl/insert-current-time :which-key "insert header with current time")
-    "n"  '(dl/load-buffer-with-nix-config :which-key "open nix config")
-    "g"  '(dl/load-buffer-with-good-data-lol :which-key "open good data")
-    "d"  '(dl/load-buffer-with-todo :which-key "open todo"))
+    "<"  '(dl/insert-current-time :which-key "insert header with current time"))
   #+END_SRC
-
-***** Snippets
-Manages my ability to use code snippets.
-
-#+NAME::yasnippet
-#+BEGIN_SRC emacs-lisp
-  (use-package yasnippet)
-  (yas-global-mode 1)
-#+END_SRC
 
 ***** Roam capture templates
 These are templates used to create new notes.
@@ -753,7 +737,6 @@ These are templates used to create new notes.
      :if-new (file+head "%<%Y-%m-%d>.org"
                         (lambda () (concat ":PROPERTIES:\n:ID:       " (org-id-new) "\n:END:\n"
                                            "#+TITLE: %<%Y-%m-%d>\n#+filetags: Daily \n" ; Added space here
-                                           "[[id:F355F26D-E4E5-4CF5-99EA-E77846D47FAF][Workflow]]\n\n"
                                            "* Log\n"))))))
 #+END_SRC
 
