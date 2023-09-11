@@ -32,10 +32,6 @@ let name = "%NAME%";
     export PATH=$HOME/.local/share/bin:$PATH
     export PNPM_HOME=~/.pnpm-packages
 
-    # Cypress
-    export CYPRESS_INSTALL_BINARY=0
-    export CYPRESS_RUN_BINARY="$(command -v Cypress)"
-
     # Remove history data we don't want to see
     export HISTIGNORE="pwd:ls:cd"
 
@@ -46,6 +42,7 @@ let name = "%NAME%";
     export ALTERNATE_EDITOR=""
     export EDITOR="emacsclient -t"
     export VISUAL="emacsclient -c -a emacs"
+
     e() {
         emacsclient -t "$@"
     }
@@ -64,9 +61,6 @@ let name = "%NAME%";
 
     # Always color ls and group directories
     alias ls='ls --color=auto'
-
-    # Reboot into my dual boot Windows partition
-    alias windows='systemctl reboot --boot-loader-entry=auto-windows'
   '';
 
   git = {
