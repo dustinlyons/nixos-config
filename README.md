@@ -149,7 +149,7 @@ First-time installations require you to move the current `/etc/nix/nix.conf` out
 sudo mv /etc/nix/nix.conf /etc/nix/nix.conf.before-nix-darwin
 ```
 
-Then, run this script, which wraps the Nix commands to build and deploy a new generation.
+Then, run this script, which wraps the Nix commands to build and deploy a new Nix generation.
 ```sh
 chmod +x bin/darwin-build && chmod +x bin/build && bin/build
 ```
