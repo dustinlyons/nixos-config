@@ -24,7 +24,6 @@ in
     shell = pkgs.zsh;
   };
 
-
   # We use Homebrew to install impure software only (Mac Apps)
   homebrew.enable = true;
   homebrew.onActivation = {
@@ -32,7 +31,6 @@ in
     cleanup = "zap";
     upgrade = true;
   };
-  homebrew.brewPrefix = "/opt/homebrew/bin";
 
   # These app IDs are from using the mas CLI app
   # mas = mac app store

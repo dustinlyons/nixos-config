@@ -24,7 +24,6 @@ in
     shell = pkgs.zsh;
   };
 
-
   # We use Homebrew to install impure software only (Mac Apps)
   homebrew.enable = true;
   homebrew.onActivation = {
@@ -32,7 +31,6 @@ in
     cleanup = "zap";
     upgrade = true;
   };
-  homebrew.brewPrefix = "/opt/homebrew/bin";
 
   # These app IDs are from using the mas CLI app
   # mas = mac app store
@@ -44,12 +42,8 @@ in
   homebrew.casks = pkgs.callPackage ./casks.nix {};
   homebrew.masApps = {
     "1password" = 1333542190;
-    "canva" = 897446215;
     "drafts" = 1435957248;
-    "hidden-bar" = 1452453066;
     "wireguard" = 1451685025;
-    "whatsapp-desktop" = 1147396723;
-    "yoink" = 457622435;
   };
 
   # Enable home-manager
