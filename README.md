@@ -260,7 +260,7 @@ nix run --extra-experimental-features 'nix-command flakes' github:dustinlyons/ni
 With Nix, changes to your system are made by 
 - editing your system configuration
 - building it
-- switching your running system to use it
+- switching to the new generation
 
 ## For MacOS
 ```sh
