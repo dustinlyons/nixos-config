@@ -9,5 +9,5 @@ CLEAR='\033[0m'
 sudo echo
 echo -e "${GREEN}Starting...${CLEAR}"
 
-sudo SSH_AUTH_SOCK=$SSH_AUTH_SOCK /run/current-system/sw/bin/nixos-rebuild switch --flake .#felix $@
+sudo SSH_AUTH_SOCK=$SSH_AUTH_SOCK /run/current-system/sw/bin/nixos-rebuild switch --flake .#nixos $@
 echo -e "${GREEN}Done${CLEAR}"
