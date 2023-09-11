@@ -1,7 +1,6 @@
 { config, pkgs, lib, ... }:
 
 let
-  shared-files = import ../shared/files.nix { inherit config pkgs; };
   user = "%USER%";
   # Define the content of your file as a derivation
   myEmacsLauncher = pkgs.writeScript "emacs-launcher.command" ''
@@ -118,8 +117,6 @@ in
     { path = "/Applications/Slack.app/"; }
     { path = "/System/Applications/Messages.app/"; }
     { path = "/System/Applications/Facetime.app/"; }
-    { path = "/Applications/WhatsApp.app/"; }
-    { path = "/Applications/Telegram.app/"; }
     { path = "${pkgs.alacritty}/Applications/Alacritty.app/"; }
     { path = "/System/Applications/Music.app/"; }
     { path = "/System/Applications/News.app/"; }

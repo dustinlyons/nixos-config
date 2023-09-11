@@ -1,7 +1,6 @@
 { config, pkgs, lib, ... }:
 
 let
-  shared-files = import ../shared/files.nix { inherit config pkgs; };
   user = "dustin";
   # Define the content of your file as a derivation
   myEmacsLauncher = pkgs.writeScript "emacs-launcher.command" ''
