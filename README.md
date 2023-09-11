@@ -62,17 +62,17 @@ https://github.com/dustinlyons/nixos-config/assets/1292576/fa54a87f-5971-41ee-98
 ## For MacOS
 I've tested these instructions on a fresh Macbook Pro as of September 2023.
 
-### Install dependencies
+### 1. Install dependencies
 ```sh
 xcode-select --install
 ```
 
-### Install Nix
+### 2. Install Nix
 ```sh
 curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install
 ```
 
-### Install our last remaining Nix channel
+### 2a. Install our last remaining Nix channel
 Everything else comes from our flake; the `nix-darwin` home-manager module, however, is still a channel.
 ```sh
 nix-channel --add https://github.com/nix-community/home-manager/archive/master.tar.gz home-manager
@@ -81,7 +81,7 @@ nix-channel --add https://github.com/nix-community/home-manager/archive/master.t
 nix-channel --update
 ```
 
-### Initialize a starter template
+### 3. Initialize a starter template
 This is a simplified version without secrets management.
 ```sh
 nix flake init -t github:dustinlyons/nixos-config#starter
@@ -92,32 +92,32 @@ This is a full version with secrets management.
 nix flake init -t github:dustinlyons/nixos-config#starterWithSecrets
 ```
 
-### Apply your current user info
+### 4. Apply your current user info
 Run this script to replace stub values with your username, full name, and email.
 ```sh
 chmod +x bin/apply && bin/apply
 ```
    
-### Decide what packages to install
-You can search for packages on the [official NixOS site](https://search.nixos.org/packages).
+### 5. Decide what packages to install
+You can search for packages on the [official NixOS website](https://search.nixos.org/packages).
 
 **Notable repository files**
 
 * `darwin/casks`
 * `darwin/packages`
-* `darwin/home-manager`
+* `darwin/home-manager` (dock configuration)
 * `nixos/packages`
 * `shared/packages`
 
-### Optional: Setup secrets
+### 6. Optional: Setup secrets
 If you are using the starter with secrets, there are a few additional steps.
 
-#### Create a private Github repo to hold your secrets
+#### 6a. Create a private Github repo to hold your secrets
 In Github, create a private `nix-secrets` repository. 
 
 Then, change the `nix-secrets` input in the `flake.nix` to reference it.
 
-#### Install keys
+#### 6b. Install keys
 Before geneating your first build, these keys need to exist in your `~/.ssh` directory. I've provided a few helper commands below. Choose one.
 
 | Key Name            | Platform         | Description                           | 
@@ -143,7 +143,7 @@ If you're rolling your own, just check they are installed correctly.
 nix run github:dustinlyons/nixos-config#checkKeys
 ```
 
-### Install configuration
+### 7. Install configuration
 First-time installations require you to move the current `/etc/nix/nix.conf` out of the way.
 ```sh
 sudo mv /etc/nix/nix.conf /etc/nix/nix.conf.before-nix-darwin
@@ -155,18 +155,18 @@ chmod +x bin/darwin-build && chmod +x bin/build && bin/build
 ```
 
 ## For NixOS
-### Burn the latest ISO
+### 1. Burn the latest ISO
 Download and burn [the minimal ISO image](https://nixos.org/download.html). Boot the installer.
 
-### Optional: Setup secrets
+### 2. Optional: Setup secrets
 If you are using the starter with secrets, there are a few additional steps.
 
-#### Create a private Github repo to hold your secrets
+#### 2a. Create a private Github repo to hold your secrets
 In Github, create a private `nix-secrets` repository. 
 
 Then, change the `nix-secrets` input in the `flake.nix` to reference it.
 
-#### Install keys
+#### 2b. Install keys
 Before geneating your first build, these keys need to exist in your `~/.ssh` directory. I've provided a few helper commands below. Choose one.
 
 | Key Name            | Platform         | Description                           | 
@@ -192,7 +192,7 @@ If you're rolling your own, just check they are installed correctly.
 nix run --extra-experimental-features 'nix-command flakes' github:dustinlyons/nixos-config#checkKeys
 ```
 
-### Install configuration
+### 3. Install configuration
 #### Run command
 After the keys are in place, you're good to go. Run this command:
 
@@ -212,14 +212,14 @@ nix run --extra-experimental-features 'nix-command flakes' github:dustinlyons/ni
 nix run --extra-experimental-features 'nix-command flakes' github:dustinlyons/nixos-config#installWithSecrets
 ```
 
-### Set user password
+### 4. Set user password
 On first boot at the login screen:
 - Use the shortcut `Ctrl-Alt-F2` to move to a terminal session
 - Login as `root` using the password created during installation
 - Set the user password with `passwd <user>`
 - Go back to the login screen: `Ctrl-Alt-F7`
 
-## How to create secrets
+# How to create secrets
 To create a new secret `secret.age`, first [create a `secrets.nix` file](https://github.com/ryantm/agenix#tutorial) at the root of your `nix-secrets` repository. This is only used by the `agenix` CLI command. It assumes your SSH private key is in `~/.ssh/` or you can provide the `-i` flag with a path to your `id_ed25519_agenix` key.
 ```
 let
@@ -239,7 +239,7 @@ EDITOR=vim nix run github:ryantm/agenix -- -e secret.age
 ```
 This will create a `secret.age` file with your secret that you can reference in the Nix configuration. Commit the file to your repo.
 
-### Secrets used in my configuration
+## Secrets used in my configuration
 | Secret Name           | Platform         | Description           | 
 |-----------------------|------------------|-----------------------|
 | `syncthing-cert`      | MacOS / NixOS    | Syncthing certificate |
@@ -249,7 +249,7 @@ This will create a `secret.age` file with your secret that you can reference in 
 
 When changing secrets after your configuration exists, be sure to run `nix flake update` from your `nixos-config` so that you reference the latest change.
 
-## Live ISO
+# Live ISO
 Not yet available. Coming soon.
 
 ```sh
@@ -285,12 +285,8 @@ bin/build
 ```sh
 nix flake update
 ```
-
-## Read my occasional musings on Nix
-[![Follow @dustinhlyons](https://github.com/dustinlyons/dustinlyons/assets/1292576/3d214b95-6c93-4967-8c72-862fa494e664)](https://www.twitter.com/dustinhlyons)
+<br/>
 
 > "All we have to decide is what to do with the time that is given us." - J.R.R. Tolkien
-
-## Star History
 
 [![Star History Chart](https://api.star-history.com/svg?repos=dustinlyons/nixos-config&type=Date)](https://star-history.com/#dustinlyons/nixos-config&Date)
