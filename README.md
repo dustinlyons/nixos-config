@@ -22,6 +22,7 @@ Check out the starter templates below to get started!
 ├── darwin       # MacOS and nix-darwin configuration
 ├── nixos        # My NixOS desktop-related configuration
 ├── overlays     # Drop an overlay file in this dir, and it runs. So far, mainly patches.
+├── templates    # Starter versions of this configuration
 ```
 
 ## Features
@@ -150,7 +151,7 @@ sudo mv /etc/nix/nix.conf /etc/nix/nix.conf.before-nix-darwin
 
 Then, run this script, which wraps the Nix commands to build and deploy a new generation.
 ```sh
-chmod +x bin/build && chmod +x bin/darwin-build && bin/build
+chmod +x bin/darwin-build && chmod +x bin/build && bin/build
 ```
 
 ## For NixOS
