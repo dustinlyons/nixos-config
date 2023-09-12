@@ -83,6 +83,7 @@ let user = "dustin"; in
         autohide = false;
         show-recents = false;
         launchanim = true;
+        mouse-over-hilite-stack = true;
         orientation = "bottom";
         tilesize = 48;
       };

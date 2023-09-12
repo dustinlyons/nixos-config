@@ -7,6 +7,7 @@
   "ngrok"
   "postico"
   "visual-studio-code"
+  "wireshark"
 
   # Communication Tools
   "discord"

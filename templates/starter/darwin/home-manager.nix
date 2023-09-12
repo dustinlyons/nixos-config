@@ -5,7 +5,7 @@ let
   # Define the content of your file as a derivation
   myEmacsLauncher = pkgs.writeScript "emacs-launcher.command" ''
     #!/bin/sh
-      emacsclient -c -n &
+    emacsclient -c -n &
   '';
   sharedFiles = import ../shared/files.nix { inherit config pkgs; };
   additionalFiles = import ./files.nix { inherit config pkgs; };
@@ -27,11 +27,6 @@ in
 
   # We use Homebrew to install impure software only (Mac Apps)
   homebrew.enable = true;
-  homebrew.onActivation = {
-    autoUpdate = true;
-    cleanup = "zap";
-    upgrade = true;
-  };
 
   # These app IDs are from using the mas CLI app
   # mas = mac app store
@@ -43,7 +38,6 @@ in
   homebrew.casks = pkgs.callPackage ./casks.nix {};
   homebrew.masApps = {
     "1password" = 1333542190;
-    "drafts" = 1435957248;
     "wireguard" = 1451685025;
   };
 

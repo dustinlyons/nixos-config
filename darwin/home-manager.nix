@@ -24,13 +24,9 @@ in
     shell = pkgs.zsh;
   };
 
-  # We use Homebrew to install impure software only (Mac Apps)
+  # This is a module from nix-darwin
+  # Homebrew is installed via the flake input nix-homebrew
   homebrew.enable = true;
-  homebrew.onActivation = {
-    autoUpdate = true;
-    cleanup = "zap";
-    upgrade = true;
-  };
 
   # These app IDs are from using the mas CLI app
   # mas = mac app store
@@ -46,7 +42,6 @@ in
     "drafts" = 1435957248;
     "hidden-bar" = 1452453066;
     "wireguard" = 1451685025;
-    "whatsapp-desktop" = 1147396723;
     "yoink" = 457622435;
   };
 
@@ -115,7 +110,6 @@ in
     { path = "/Applications/Slack.app/"; }
     { path = "/System/Applications/Messages.app/"; }
     { path = "/System/Applications/Facetime.app/"; }
-    { path = "/Applications/WhatsApp.app/"; }
     { path = "/Applications/Telegram.app/"; }
     { path = "${pkgs.alacritty}/Applications/Alacritty.app/"; }
     { path = "/System/Applications/Music.app/"; }
