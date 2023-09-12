@@ -26,6 +26,7 @@ Check out the starter templates below to get started!
 ```
 
 ## Features
+- **Nix Flakes**: 99% flake driven, no `configuration.nix`
 - **Same Environment Everywhere**: Easily share config across Linux and Mac (both Nix and Home Manager)
 - **MacOS Dream Setup**: Fully declarative MacOS, including UI, dock and MacOS App Store apps
 - **Bootstrap Nix Command**: Simple `nix-command` to start from zero, both x86 and MacOS platforms
@@ -33,7 +34,6 @@ Check out the starter templates below to get started!
 - **Disk Management**: Declarative disk management with `disko`, say goodbye to disk utils
 - **Secrets Management**: Declarative secrets with `agenix` for SSH, PGP, syncthing, and other tools
 - **Super Fast Emacs**: Bleeding edge Emacs that fixes itself, thanks to a community overlay
-- **Nix Flakes**: 99% flake driven, no `configuration.nix`
 - **Built In Home Manager**: Home-manager module for seamless configuration (no extra clunky CLI steps)
 - **NixOS Environment**: Extensively configured NixOS including clean aesthetic + window animations
 - **Nix Overlays**: Auto-loading of Nix overlays: drop a file in a dir and it runs (great for patches!)
