@@ -33,7 +33,7 @@ Check out the starter templates below to get started!
 - **Disk Management**: Declarative disk management with `disko`, say goodbye to disk utils
 - **Secrets Management**: Declarative secrets with `agenix` for SSH, PGP, syncthing, and other tools
 - **Super Fast Emacs**: Bleeding edge Emacs that fixes itself, thanks to a community overlay
-- **Nix Flakes**: _Almost_ 100% flake driven, no major use of channels or `configuration.nix`
+- **Nix Flakes**: 99% flake driven, no `configuration.nix`
 - **Built In Home Manager**: Home-manager module for seamless configuration (no extra clunky CLI steps)
 - **NixOS Environment**: Extensively configured NixOS including clean aesthetic + window animations
 - **Nix Overlays**: Auto-loading of Nix overlays: drop a file in a dir and it runs (great for patches!)
