@@ -97,7 +97,13 @@ Run this script to replace stub values with your username, full name, and email.
 ```sh
 chmod +x bin/apply && bin/apply
 ```
-   
+
+### 4a. Apply permissions to manage homebrew
+As none of our build processes run as root, we need to grant some write permissions for homebrew.
+```sh
+sudo mkdir -p /opt/homebrew/Library/Taps/homebrew/ && sudo /bin/chmod +a "$USER allow list,add_file,search,delete,add_subdirectory,delete_child,readattr,writeattr,readextattr,writeextattr,readsecurity,writesecurity,chown" /opt/homebrew/Library/Taps/homebrew/
+```
+
 ### 5. Decide what packages to install
 You can search for packages on the [official NixOS website](https://search.nixos.org/packages).
 
