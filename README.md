@@ -74,7 +74,7 @@ curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix 
 ```
 
 ### 2a. Install our last remaining Nix channel
-We managed all dependencies as inputs inside `flake.nix`, _except_ for the `nix-darwin` home-manager module, which is still fetched via Nix channels.
+We manage dependencies as inputs inside `flake.nix`, _except_ for the `nix-darwin` `home-manager` module. Run this command to make it available from the `home-manager` Nix channel.
 ```sh
 nix-channel --add https://github.com/nix-community/home-manager/archive/master.tar.gz home-manager
 ```
