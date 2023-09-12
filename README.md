@@ -247,6 +247,8 @@ This will create a `secret.age` file with your secret that you can reference in 
 | `github-ssh-key`      | MacOS / NixOS    | GitHub SSH key        |
 | `github-signing-key`  | MacOS / NixOS    | GitHub signing key    |
 
+These are the secrets I use.
+
 When changing secrets after your configuration exists, be sure to run `nix flake update` from your `nixos-config` so that you reference the latest change.
 
 # Live ISO
