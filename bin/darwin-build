@@ -20,6 +20,9 @@ echo "${GREEN}Starting build...${CLEAR}"
 # --impure is needed for <home-manager/nix-darwin> channel
 nix --experimental-features 'nix-command flakes' build .#$SYSTEM --impure $@
 
+# this is reset by nix-homebrew, we need write permission to this dir to manage homebrew taps
+sudo mkdir -p /opt/homebrew/Library/Taps/homebrew/ && sudo /bin/chmod +a "$USER allow list,add_file,search,delete,add_subdirectory,delete_child,readattr,writeattr,readextattr,writeextattr,readsecurity,writesecurity,chown" /opt/homebrew/Library/Taps/homebrew/
+
 echo "${GREEN}Switching to new generation...${CLEAR}"
 ./result/sw/bin/darwin-rebuild switch --flake .#$FLAKE --impure $@
 
