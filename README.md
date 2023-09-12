@@ -105,7 +105,7 @@ You can search for packages on the [official NixOS website](https://search.nixos
 
 * `darwin/casks`
 * `darwin/packages`
-* `darwin/home-manager` (dock configuration)
+* `darwin/home-manager`
 * `nixos/packages`
 * `shared/packages`
 
