@@ -262,10 +262,13 @@ nix run --extra-experimental-features 'nix-command flakes' github:dustinlyons/ni
 # Making changes
 With Nix, changes to your system are made by 
 - editing your system configuration
-- building it
-- switching to the new generation
+- building the [system closure](https://zero-to-nix.com/concepts/closures)
+- creating and switching to [a new generation](https://nixos.wiki/wiki/Terms_and_Definitions_in_Nix_Project#generation)
 
 ## For MacOS
+For now, the `home-manager` `nix-darwin` [module](https://github.com/matosjr/nixos-config/blob/main/darwin/home-manager.nix#L15) requires the `--impure` flag.
+
+Soon, we'll move this to become a flake input, drop the use of Nix channels, and subsequently drop this flag.
 ```sh
 nix build .#darwinConfigurations.macos.system --impure && \
 ./result/sw/bin/darwin-rebuild switch --flake .#macos --impure && \
