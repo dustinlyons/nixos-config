@@ -185,7 +185,7 @@ nix run --extra-experimental-features 'nix-command flakes' github:dustinlyons/ni
 
 ### 3. Install configuration
 #### Run command
-After the keys are in place, you're good to go. Run this command:
+After the keys are in place, you're good to go. Run either of these commands:
 
 > [!IMPORTANT]
 > For Nvidia cards, select the second option, `nomodeset`, when booting the installer.
