@@ -24,7 +24,7 @@ Check out the starter templates below to get started!
 ```
 
 ## Features
-- **Nix Flakes**: 99% flake driven, no `configuration.nix`
+- **Nix Flakes**: **100% flake driven**, no `configuration.nix`, no Nix channels-- all flakes!
 - **Same Environment Everywhere**: Easily share config across Linux and Mac (both Nix and Home Manager)
 - **MacOS Dream Setup**: Fully declarative MacOS, including UI, dock and MacOS App Store apps
 - **Simple Bootstrap**: Simple Nix commands to start from zero, both x86 and MacOS platforms
@@ -71,15 +71,6 @@ Thank you for the installer, [Determinate Systems](https://determinate.systems/)
 curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install
 ```
 
-### 2a. Install our last remaining Nix channel
-We manage dependencies as inputs inside `flake.nix`, _except_ for the `nix-darwin` `home-manager` module. Run this command to make it available from the `home-manager` Nix channel.
-```sh
-nix-channel --add https://github.com/nix-community/home-manager/archive/master.tar.gz home-manager
-```
-```sh
-nix-channel --update
-```
-
 ### 3. Initialize a starter template
 This is a simplified version without secrets management.
 ```sh
@@ -100,7 +91,7 @@ chmod +x bin/apply && bin/apply
 ### 5. Decide what packages to install
 You can search for packages on the [official NixOS website](https://search.nixos.org/packages).
 
-**Notable repository files**
+**Review these files**
 
 * `darwin/casks`
 * `darwin/packages`
@@ -236,7 +227,7 @@ Then run this command:
 ```
 EDITOR=vim nix run github:ryantm/agenix -- -e secret.age
 ```
-This will drop you in a Vim editor to enter your secret, then encrypt and save the file. Commit the file to your `nix-secrets` repo and reference it in your configuration.
+This will drop you in a Vim editor to type your secret, then encrypts and saves the file. Commit the file to your `nix-secrets` repo and reference it in your configuration.
 
 ## Secrets used in my configuration
 | Secret Name           | Platform         | Description           | 

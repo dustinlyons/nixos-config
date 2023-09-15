@@ -68,6 +68,7 @@
           specialArgs = inputs;
           modules = [
             nix-homebrew.darwinModules.nix-homebrew
+            home-manager.darwinModules.home-manager
             {
               nix-homebrew = {
                 enable = true;

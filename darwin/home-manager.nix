@@ -1,4 +1,4 @@
-{ config, pkgs, lib, ... }:
+{ config, pkgs, lib, home-manager, ... }:
 
 let
   user = "dustin";
@@ -12,7 +12,6 @@ let
 in
 {
   imports = [
-    <home-manager/nix-darwin>
    ./dock
   ];
 
