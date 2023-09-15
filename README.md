@@ -54,6 +54,7 @@ https://github.com/dustinlyons/nixos-config/assets/1292576/66001066-2bbf-4492-bc
 https://github.com/dustinlyons/nixos-config/assets/1292576/d96f59ce-f540-4f14-bc61-6126a74f9f52
 
 ## NixOS
+
 https://github.com/dustinlyons/nixos-config/assets/1292576/fa54a87f-5971-41ee-98ce-09be048018b8
 
 # Installing
@@ -280,10 +281,28 @@ bin/build
 ```sh
 nix flake update
 ```
-<br/>
 
-[![Follow @dustinhlyons](https://github.com/dustinlyons/dustinlyons/assets/1292576/3d214b95-6c93-4967-8c72-862fa494e664)](https://www.twitter.com/dustinhlyons)
+## Appendix
+### NixOS Components
+
+| Component                   | Description                                     | 
+| --------------------------- | :---------------------------------------------  |
+| **Window Manager**          | Xorg + bspwm                                    |
+| **Terminal Emulator**       | alacritty                                       |
+| **Bar**                     | polybar                                         |
+| **Application Launcher**    | rofi                                            |
+| **Notification Daemon**     | dunst                                           |
+| **Display Manager**         | lightdm                                         |
+| **File Manager**            | thunar                                          |
+| **Text Editor**             | emacs daemon mode                               |
+| **Media Player**            | cider                                           |
+| **Image Viewer**            | feh                                             |
+| **Screenshot Software**     | flameshot                                       |
+
+### Stars
 
 > "All we have to decide is what to do with the time that is given us." - J.R.R. Tolkien
 
 [![Star History Chart](https://api.star-history.com/svg?repos=dustinlyons/nixos-config&type=Date)](https://star-history.com/#dustinlyons/nixos-config&Date)
+
+[![Follow @dustinhlyons](https://github.com/dustinlyons/dustinlyons/assets/1292576/3d214b95-6c93-4967-8c72-862fa494e664)](https://www.twitter.com/dustinhlyons)
