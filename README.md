@@ -256,12 +256,9 @@ With Nix, changes to your system are made by
 - creating and switching to the [new generation](https://nixos.wiki/wiki/Terms_and_Definitions_in_Nix_Project#generation)
 
 ## For MacOS
-For now, the `home-manager` `nix-darwin` [module](https://github.com/matosjr/nixos-config/blob/main/darwin/home-manager.nix#L15) requires the `--impure` flag.
-
-Soon, we'll move this to become a flake input, drop the use of Nix channels, and subsequently drop this flag.
 ```sh
-nix build .#darwinConfigurations.macos.system --impure && \
-./result/sw/bin/darwin-rebuild switch --flake .#macos --impure && \
+nix build .#darwinConfigurations.macos.system && \
+./result/sw/bin/darwin-rebuild switch --flake .#macos && \
 unlink ./result
 ```
 #### Optional script to save keystrokes

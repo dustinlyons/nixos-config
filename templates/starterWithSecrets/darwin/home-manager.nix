@@ -23,8 +23,8 @@ in
     shell = pkgs.zsh;
   };
 
-  # We use Homebrew to install impure software only (Mac Apps)
   homebrew.enable = true;
+  homebrew.casks = pkgs.callPackage ./casks.nix {};
 
   # These app IDs are from using the mas CLI app
   # mas = mac app store
@@ -33,7 +33,6 @@ in
   # $ nix shell nixpkgs#mas
   # $ mas search <app name>
   #
-  homebrew.casks = pkgs.callPackage ./casks.nix {};
   homebrew.masApps = {
     "1password" = 1333542190;
     "wireguard" = 1451685025;

@@ -24,8 +24,9 @@ in
   };
 
   # This is a module from nix-darwin
-  # Homebrew is installed via the flake input nix-homebrew
+  # Homebrew is *installed* via the flake input nix-homebrew
   homebrew.enable = true;
+  homebrew.casks = pkgs.callPackage ./casks.nix {};
 
   # These app IDs are from using the mas CLI app
   # mas = mac app store
@@ -34,7 +35,6 @@ in
   # $ nix shell nixpkgs#mas
   # $ mas search <app name>
   #
-  homebrew.casks = pkgs.callPackage ./casks.nix {};
   homebrew.masApps = {
     "1password" = 1333542190;
     "canva" = 897446215;

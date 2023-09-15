@@ -22,11 +22,10 @@ sudo mkdir -p /opt/homebrew/Library/Taps/homebrew/ && sudo /bin/chmod +a "$USER 
 
 echo "${GREEN}Starting build...${CLEAR}"
 
-# --impure is needed for <home-manager/nix-darwin> channel
-nix --experimental-features 'nix-command flakes' build .#$SYSTEM --impure $@
+nix --experimental-features 'nix-command flakes' build .#$SYSTEM $@
 
 echo "${GREEN}Switching to new generation...${CLEAR}"
-./result/sw/bin/darwin-rebuild switch --flake .#$FLAKE --impure $@
+./result/sw/bin/darwin-rebuild switch --flake .#$FLAKE $@
 
 echo "${GREEN}Cleaning up...${CLEAR}"
 unlink ./result
