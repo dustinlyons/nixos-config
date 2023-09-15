@@ -257,9 +257,7 @@ With Nix, changes to your system are made by
 
 ## For MacOS
 ```sh
-nix build .#darwinConfigurations.macos.system && \
-./result/sw/bin/darwin-rebuild switch --flake .#macos && \
-unlink ./result
+nix build .#darwinConfigurations.macos.system && ./result/sw/bin/darwin-rebuild switch --flake .#macos && unlink ./result
 ```
 #### Optional script to save keystrokes
 ```sh
