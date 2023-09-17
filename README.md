@@ -228,7 +228,7 @@ Then run this command:
 ```
 EDITOR=vim nix run github:ryantm/agenix -- -e secret.age
 ```
-This opens an editor to accept, encrypt, and write your secret to disk. Commit the file to your `nix-secrets` repo and add a reference in your `secrets.nix` file.
+This opens an editor to accept, encrypt, and write your secret to disk. Commit the file to your `nix-secrets` repo and add a reference in the `secrets.nix` of your `nixos-config`.
 
 ## Secrets used in my configuration
 | Secret Name           | Platform         | Description           | 
