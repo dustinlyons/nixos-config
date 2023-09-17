@@ -117,7 +117,7 @@ Before geneating your first build, these keys need to exist in your `~/.ssh` dir
 | id_ed25519_agenix   | MacOS / NixOS    | Used to encrypt and decrypt secrets.  |
 
 ##### Copy keys from USB drive
-This script auto-detectes a USB drive connected to the current system.
+This script auto-detects a USB drive connected to the current system.
 > Keys must be named `id_ed25519` and `id_ed25519_agenix`.
 ```sh
 nix run github:dustinlyons/nixos-config#copyKeys
@@ -166,7 +166,7 @@ Before geneating your first build, these keys need to exist in your `~/.ssh` dir
 | id_ed25519_agenix   | MacOS / NixOS    | Used to encrypt and decrypt secrets.  |
 
 ##### Copy keys from USB drive
-This script auto-detectes a USB drive connected to the current system.
+This script auto-detects a USB drive connected to the current system.
 > Keys must be named `id_ed25519` and `id_ed25519_agenix`.
 ```sh
 nix run --extra-experimental-features 'nix-command flakes' github:dustinlyons/nixos-config#copyKeys
