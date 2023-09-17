@@ -26,7 +26,7 @@ Check out the starter templates below to get started!
 ## Features
 - **Nix Flakes**: **100% flake driven**, no `configuration.nix`, no Nix channels─ just `flake.nix`
 - **Same Environment Everywhere**: Easily share config across Linux and Mac (both Nix and Home Manager)
-- **MacOS Dream Setup**: Fully declarative MacOS, including UI, dock and MacOS App Store apps
+- **MacOS Dream Setup**: Fully declarative MacOS, including UI, dock, homebrew and MacOS App Store apps
 - **Simple Bootstrap**: Simple Nix commands to start from zero, both x86 and MacOS platforms
 - **Managed Homebrew**: Fully managed homebrew environment with `nix-darwin` and `nix-homebrew`
 - **Disk Management**: Declarative disk management with `disko`, say goodbye to disk utils
