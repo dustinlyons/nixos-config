@@ -67,8 +67,8 @@
           system = "aarch64-darwin";
           specialArgs = inputs;
           modules = [
-            nix-homebrew.darwinModules.nix-homebrew
             home-manager.darwinModules.home-manager
+            nix-homebrew.darwinModules.nix-homebrew
             {
               nix-homebrew = {
                 enable = true;
@@ -331,13 +331,13 @@
             export SSH_DIR=/root/.ssh
 
             setup_ssh_directory() {
-                mkdir -p ''${SSH_DIR}
+              mkdir -p ''${SSH_DIR}
             }
 
             generate_keys() {
-                ssh-keygen -t ed25519 -f "''${SSH_DIR}/id_ed25519" -N ""
-                ssh-keygen -t ed25519 -f "''${SSH_DIR}/id_ed25519_agenix" -N ""
-                chmod 600 ''${SSH_DIR}/id_ed25519{,_agenix}{,.pub}
+              ssh-keygen -t ed25519 -f "''${SSH_DIR}/id_ed25519" -N ""
+              ssh-keygen -t ed25519 -f "''${SSH_DIR}/id_ed25519_agenix" -N ""
+              chmod 600 ''${SSH_DIR}/id_ed25519{,_agenix}{,.pub}
             }
 
             setup_ssh_directory
@@ -366,7 +366,7 @@
             export SSH_DIR=/root/.ssh
 
             check_keys() {
-                if [[ -f "''${SSH_DIR}/id_ed25519" && -f "''${SSH_DIR}/id_ed25519.pub" && -f "''${SSH_DIR}/id_ed25519_agenix" && -f "''${SSH_DIR}/id_ed25519_agenix.pub" ]]; then
+              if [[ -f "''${SSH_DIR}/id_ed25519" && -f "''${SSH_DIR}/id_ed25519.pub" && -f "''${SSH_DIR}/id_ed25519_agenix" && -f "''${SSH_DIR}/id_ed25519_agenix.pub" ]]; then
                 echo -e "''${GREEN}All SSH keys are present.''${NC}"
                 else
                 echo -e "''${RED}Some SSH keys are missing.''${NC}"
