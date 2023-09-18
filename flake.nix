@@ -131,16 +131,21 @@
               curl -LJ0 https://github.com/dustinlyons/nixos-config/archive/main.zip -o nixos-config-main.zip
               unzip nixos-config-main.zip
               mv nixos-config-main/templates/starter nixos-config
+              cd nixos-config
+            }
+
+            run_apply() {
+              ./bin/apply
             }
 
             run_disko() {
               sudo nix run --extra-experimental-features nix-command --extra-experimental-features flakes \
-                github:nix-community/disko -- --mode zap_create_mount ./nixos-config/nixos/disk-config.nix
+                github:nix-community/disko -- --mode zap_create_mount ./nixos/disk-config.nix
             }
 
             setup_files() {
               sudo mkdir -p /mnt/etc/nixos
-              sudo cp -r nixos-config/* /mnt/etc/nixos
+              sudo cp -r * /mnt/etc/nixos
               cd /mnt/etc/nixos
             }
 
@@ -162,6 +167,7 @@
             download_config
             run_disko
             setup_files
+            run_apply
             install_nixos
             cleanup
             prompt_reboot
@@ -171,7 +177,7 @@
 
         x86_64-linux.installWithSecrets = {
           type = "app";
-          program = "${(nixpkgs.legacyPackages.x86_64-linux.writeShellScriptBin "installWithSecrets" ''
+          program = "${(nixpkgs.legacyPackages.x86_64-linux.writeShellScriptBin "install_with_secrets" ''
             #!/usr/bin/env bash
             set -e
 
@@ -195,7 +201,12 @@
             download_config() {
               curl -LJ0 https://github.com/dustinlyons/nixos-config/archive/main.zip -o nixos-config-main.zip
               unzip nixos-config-main.zip
-              mv nixos-config-main/templates/starter-with-secrets nixos-config
+              mv nixos-config-main/templates/starterWithSecrets nixos-config
+              cd nixos-config
+            }
+
+            run_apply() {
+              ./bin/apply
             }
 
             run_disko() {
@@ -246,13 +257,14 @@
             download_config
             run_disko
             setup_files
+            run_apply
             setup_ssh_keys
             link_home_dir
             install_nixos
             cleanup
             prompt_reboot
 
-          '')}/bin/install";
+          '')}/bin/install_with_secrets";
         };
 
 
@@ -368,28 +380,23 @@
             check_keys() {
               if [[ -f "''${SSH_DIR}/id_ed25519" && -f "''${SSH_DIR}/id_ed25519.pub" && -f "''${SSH_DIR}/id_ed25519_agenix" && -f "''${SSH_DIR}/id_ed25519_agenix.pub" ]]; then
                 echo -e "''${GREEN}All SSH keys are present.''${NC}"
-                else
+              else
                 echo -e "''${RED}Some SSH keys are missing.''${NC}"
-
                 if [[ ! -f "''${SSH_DIR}/id_ed25519" ]]; then
-                    echo -e "''${RED}Missing: id_ed25519''${NC}"
+                  echo -e "''${RED}Missing: id_ed25519''${NC}"
                 fi
-
                 if [[ ! -f "''${SSH_DIR}/id_ed25519.pub" ]]; then
-                    echo -e "''${RED}Missing: id_ed25519.pub''${NC}"
+                  echo -e "''${RED}Missing: id_ed25519.pub''${NC}"
                 fi
-
                 if [[ ! -f "''${SSH_DIR}/id_ed25519_agenix" ]]; then
-                    echo -e "''${RED}Missing: id_ed25519_agenix''${NC}"
+                  echo -e "''${RED}Missing: id_ed25519_agenix''${NC}"
                 fi
-
                 if [[ ! -f "''${SSH_DIR}/id_ed25519_agenix.pub" ]]; then
-                    echo -e "''${RED}Missing: id_ed25519_agenix.pub''${NC}"
+                  echo -e "''${RED}Missing: id_ed25519_agenix.pub''${NC}"
                 fi
-
                 echo -e "''${GREEN}Run the createKeys script to generate the missing keys.''${NC}"
                 exit 1
-                fi
+              fi
             }
 
             check_keys
@@ -521,28 +528,23 @@
 
             lint_keys() {
               if [[ -f "''${SSH_DIR}/id_ed25519" && -f "''${SSH_DIR}/id_ed25519.pub" && -f "''${SSH_DIR}/id_ed25519_agenix" && -f "''${SSH_DIR}/id_ed25519_agenix.pub" ]]; then
-              echo -e "''${GREEN}All SSH keys are present.''${NC}"
+                echo -e "''${GREEN}All SSH keys are present.''${NC}"
               else
-              echo -e "''${RED}Some SSH keys are missing.''${NC}"
-
-              if [[ ! -f "''${SSH_DIR}/id_ed25519" ]]; then
+                echo -e "''${RED}Some SSH keys are missing.''${NC}"
+                if [[ ! -f "''${SSH_DIR}/id_ed25519" ]]; then
                   echo -e "''${RED}Missing: id_ed25519''${NC}"
-              fi
-
-              if [[ ! -f "''${SSH_DIR}/id_ed25519.pub" ]]; then
+                fi
+                if [[ ! -f "''${SSH_DIR}/id_ed25519.pub" ]]; then
                   echo -e "''${RED}Missing: id_ed25519.pub''${NC}"
-              fi
-
-              if [[ ! -f "''${SSH_DIR}/id_ed25519_agenix" ]]; then
+                fi
+                if [[ ! -f "''${SSH_DIR}/id_ed25519_agenix" ]]; then
                   echo -e "''${RED}Missing: id_ed25519_agenix''${NC}"
-              fi
-
-              if [[ ! -f "''${SSH_DIR}/id_ed25519_agenix.pub" ]]; then
+                fi
+                if [[ ! -f "''${SSH_DIR}/id_ed25519_agenix.pub" ]]; then
                   echo -e "''${RED}Missing: id_ed25519_agenix.pub''${NC}"
-              fi
-
-              echo -e "''${GREEN}Run the createKeys command to generate the missing keys.''${NC}"
-              exit 1
+                fi
+                echo -e "''${GREEN}Run the createKeys command to generate the missing keys.''${NC}"
+                exit 1
               fi
             }
 
