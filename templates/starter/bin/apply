@@ -13,16 +13,21 @@ if [[ "$USERNAME" == "nixos" ]] || [[ "$USERNAME" == "root" ]]; then
   read -p "You're running as $USERNAME. Please enter your desired username: " USERNAME
 fi
 
-# Fetch email and name from git config
-export GIT_EMAIL=$(git config --get user.email)
-export GIT_NAME=$(git config --get user.name)
+# Check if git is available
+if command -v git >/dev/null 2>&1; then
+  # Fetch email and name from git config
+  export GIT_EMAIL=$(git config --get user.email)
+  export GIT_NAME=$(git config --get user.name)
+else
+  echo "Git is not available on this system."
+fi
 
-# If git email is not found, ask the user
+# If git email is not found or git is not available, ask the user
 if [[ -z "$GIT_EMAIL" ]]; then
   read -p "Please enter your email: " GIT_EMAIL
 fi
 
-# If git name is not found, ask the user
+# If git name is not found or git is not available, ask the user
 if [[ -z "$GIT_NAME" ]]; then
   read -p "Please enter your name: " GIT_NAME
 fi
