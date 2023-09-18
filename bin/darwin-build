@@ -17,8 +17,9 @@ cd ..
 
 echo "${GREEN}Requesting sudo to set homebrew tap permissions...${CLEAR}"
 
-# this is reset by nix-homebrew, we need write permission to this dir to manage homebrew taps
-sudo mkdir -p /opt/homebrew/Library/Taps/homebrew/ && sudo /bin/chmod +a "$USER allow list,add_file,search,delete,add_subdirectory,delete_child,readattr,writeattr,readextattr,writeextattr,readsecurity,writesecurity,chown" /opt/homebrew/Library/Taps/homebrew/
+# This is reset by nix-homebrew, we need write permission to this dir to manage homebrew taps
+sudo mkdir -p /opt/homebrew/Library/Taps/homebrew/
+sudo /bin/chmod +a "$USER allow list,add_file,search,delete,add_subdirectory,delete_child,readattr,writeattr,readextattr,writeextattr,readsecurity,writesecurity,chown" /opt/homebrew/Library/Taps/homebrew/
 
 echo "${GREEN}Starting build...${CLEAR}"
 
