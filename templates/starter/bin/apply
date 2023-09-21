@@ -36,7 +36,7 @@ fi
 # Function to replace tokens in each file
 replace_tokens() {
   local file="$1"
-  if [[ $file != *$(basename "$0")* ]]; then
+  if [[ $(basename $1) != "apply" ]]; then
     if [[ "$OS" == "Darwin" ]]; then
       # macOS
       LC_ALL=C LANG=C sed -i '' -e "s/%USER%/$USERNAME/g" "$file"
