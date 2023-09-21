@@ -51,18 +51,18 @@
         type = "app";
         program = "${(nixpkgs.legacyPackages.${system}.writeScriptBin scriptName ''
           #!/usr/bin/env bash
-          exec ${self}/static/bin/${system}/${scriptName}
+          exec ${self}/apps/${system}/${scriptName}
         '')}/bin/${scriptName}";
       };
     in
     {
       templates = {
         starter = {
-          path = ./static/templates/starter;
+          path = ./templates/starter;
           description = "Starter configuration";
         };
         starterWithSecrets = {
-          path = ./static/templates/starterWithSecrets;
+          path = ./templates/starterWithSecrets;
           description = "Starter configuration with secrets";
         };
       };
