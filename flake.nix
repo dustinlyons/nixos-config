@@ -54,6 +54,20 @@
           exec ${self}/apps/${system}/${scriptName}
         '')}/bin/${scriptName}";
       };
+
+      mkLinuxApps = system: {
+        "install" = mkApp "install" system;
+        "installWithSecrets" = mkApp "installWithSecrets" system;
+        "copyKeys" = mkApp "copyKeys" system;
+        "createKeys" = mkApp "createKeys" system;
+        "checkKeys" = mkApp "checkKeys" system;
+      };
+
+      mkDarwinApps = system: {
+        "copyKeys" = mkApp "copyKeys" system;
+        "createKeys" = mkApp "createKeys" system;
+        "checkKeys" = mkApp "checkKeys" system;
+      };
     in
     {
       templates = {
@@ -68,11 +82,7 @@
       };
 
       devShells = forAllSystems devShell;
-
-      apps = {
-        linux = forAllLinuxSystems (mkApp "install" // mkApp "installWithSecrets" // mkApp "copyKeys" // mkApp "createKeys" // mkApp "checkKeys");
-        darwin = forAllDarwinSystems (mkApp "copyKeys" // mkApp "createKeys" // mkApp "checkKeys");
-      };
+      apps = nixpkgs.lib.genAttrs linuxSystems mkLinuxApps // nixpkgs.lib.genAttrs darwinSystems mkDarwinApps;
 
       darwinConfigurations = let user = "dustin"; in {
         "Dustins-MBP" = darwin.lib.darwinSystem {
