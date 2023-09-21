@@ -51,10 +51,10 @@
         type = "app";
         program = "${(nixpkgs.legacyPackages.${system}.writeScriptBin scriptName ''
           #!/usr/bin/env bash
+          PATH=${nixpkgs.legacyPackages.${system}.git}/bin:$PATH
           exec ${self}/apps/${system}/${scriptName}
         '')}/bin/${scriptName}";
       };
-
       mkLinuxApps = system: {
         "install" = mkApp "install" system;
         "installWithSecrets" = mkApp "installWithSecrets" system;
@@ -62,7 +62,6 @@
         "createKeys" = mkApp "createKeys" system;
         "checkKeys" = mkApp "checkKeys" system;
       };
-
       mkDarwinApps = system: {
         "copyKeys" = mkApp "copyKeys" system;
         "createKeys" = mkApp "createKeys" system;
@@ -83,7 +82,6 @@
 
       devShells = forAllSystems devShell;
       apps = nixpkgs.lib.genAttrs linuxSystems mkLinuxApps // nixpkgs.lib.genAttrs darwinSystems mkDarwinApps;
-
       darwinConfigurations = let user = "dustin"; in {
         "Dustins-MBP" = darwin.lib.darwinSystem {
           system = "aarch64-darwin";
@@ -107,7 +105,6 @@
           ];
         };
       };
-
       nixosConfigurations = let user = "dustin"; in {
         felix = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
@@ -123,6 +120,5 @@
           ];
         };
       };
-
-  };
+    };
 }
