@@ -1,4 +1,5 @@
 #!/bin/bash
+set -eu
 
 VERSION=1.0
 
