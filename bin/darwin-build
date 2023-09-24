@@ -17,9 +17,16 @@ cd ..
 
 echo "${GREEN}Requesting sudo to set homebrew tap permissions...${CLEAR}"
 
+ARCH=$(uname -m)
+if [ $ARCH == "x86_64" ]; then
+  BREW_PREFIX=/usr/local/Homebrew
+elif [ $ARCH == "arm64" ]; then
+  BREW_PREFIX=/opt/homebrew
+fi
+
 # This is reset by nix-homebrew, we need write permission to this dir to manage homebrew taps
-sudo mkdir -p /opt/homebrew/Library/Taps/homebrew/
-sudo /bin/chmod +a "dustin allow list,add_file,search,delete,add_subdirectory,delete_child,readattr,writeattr,readextattr,writeextattr,readsecurity,writesecurity,chown" /opt/homebrew/Library/Taps/homebrew/
+sudo mkdir -p $BREW_PREFIX/Library/Taps/homebrew/
+sudo /bin/chmod +a "atm allow list,add_file,search,delete,add_subdirectory,delete_child,readattr,writeattr,readextattr,writeextattr,readsecurity,writesecurity,chown" $BREW_PREFIX/Library/Taps/homebrew/
 
 echo "${GREEN}Starting build...${CLEAR}"
 
