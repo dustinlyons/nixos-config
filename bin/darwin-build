@@ -15,14 +15,14 @@ export NIXPKGS_ALLOW_UNFREE=1
 cd $(dirname $(readlink -f $0))
 cd ..
 
-echo "${GREEN}Requesting sudo to set homebrew tap permissions...${CLEAR}"
-
 ARCH=$(uname -m)
 if [ $ARCH == "x86_64" ]; then
   BREW_PREFIX=/usr/local/Homebrew
 elif [ $ARCH == "arm64" ]; then
   BREW_PREFIX=/opt/homebrew
 fi
+
+echo "${GREEN}Requesting sudo to set homebrew tap permissions in $(BREW_PREFIX)/Library/Taps/homebrew...${CLEAR}"
 
 # This is reset by nix-homebrew, we need write permission to this dir to manage homebrew taps
 sudo mkdir -p $BREW_PREFIX/Library/Taps/homebrew/
