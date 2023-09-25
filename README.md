@@ -12,6 +12,38 @@ I use this daily on my 🧑🏻‍💻 M1 Macbook Pro and an x86 PC in my home o
 
 Check out the starter templates below to get started!
 
+## Table of Contents
+- [Nix for MacOS + NixOS](#nix-for-macos--nixos)
+  - [Overview](#overview)
+    - [Layout](#layout)
+    - [Features](#features)
+  - [Videos](#videos)
+    - [MacOS](#macos)
+      - [Updating dependencies with one command](#updating-dependencies-with-one-command)
+      - [Instant Emacs 29 thanks to daemon mode](#instant-emacs-29-thanks-to-daemon-mode)
+    - [NixOS](#nixos)
+  - [Installing](#installing)
+    - [For MacOS](#for-macos)
+      - [1. Install dependencies](#1-install-dependencies)
+      - [2. Install Nix](#2-install-nix)
+      - [3. Initialize a starter template](#3-initialize-a-starter-template)
+      - [4. Apply your current user info](#4-apply-your-current-user-info)
+      - [5. Decide what packages to install](#5-decide-what-packages-to-install)
+      - [6. Optional: setup secrets](#6-optional-setup-secrets)
+      - [7. Install configuration](#7-install-configuration)
+    - [For NixOS](#for-nixos)
+      - [1. Burn the latest ISO](#1-burn-the-latest-iso)
+      - [2. Optional: setup secrets](#2-optional-setup-secrets)
+      - [3. Install configuration](#3-install-configuration)
+      - [4. Set user password](#4-set-user-password)
+  - [How to Create Secrets](#how-to-create-secrets)
+  - [Live ISO](#live-iso)
+  - [Making Changes](#making-changes)
+    - [For MacOS](#for-macos-1)
+    - [For NixOS](#for-nixos-1)
+    - [Update dependencies](#update-dependencies)
+  - [Appendix](#appendix)
+
 ## Layout
 ```
 .
