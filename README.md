@@ -56,7 +56,7 @@ Check out the starter templates below to get started!
 ```
 
 ## Features
-- **Nix Flakes**: **100% flake driven**, no `configuration.nix`, no Nix channels─ just `flake.nix`
+- **Nix Flakes**: 100% flake driven, no `configuration.nix`, no Nix channels─ just `flake.nix`
 - **Same Environment Everywhere**: Easily share config across Linux and Mac (both Nix and Home Manager)
 - **MacOS Dream Setup**: Fully declarative MacOS, including UI, dock and MacOS App Store apps
 - **Simple Bootstrap**: Simple Nix commands to start from zero, both x86 and MacOS platforms
