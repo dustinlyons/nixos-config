@@ -80,7 +80,6 @@
           description = "Starter configuration with secrets";
         };
       };
-
       devShells = forAllSystems devShell;
       apps = nixpkgs.lib.genAttrs linuxSystems mkLinuxApps // nixpkgs.lib.genAttrs darwinSystems mkDarwinApps;
       darwinConfigurations = let user = "dustin"; in {
