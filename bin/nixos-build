@@ -6,8 +6,10 @@ GREEN='\033[1;32m'
 RED='\033[1;31m'
 CLEAR='\033[0m'
 
-sudo echo
 echo -e "${GREEN}Starting...${CLEAR}"
 
+# $SSH_AUTH_SOCK contains the path of the unix file socket that the agent uses for communication with other processes. 
+# This is essential for ssh-add, but not needed if you want to run this command manually.
 sudo SSH_AUTH_SOCK=$SSH_AUTH_SOCK /run/current-system/sw/bin/nixos-rebuild switch --flake .#felix $@
+
 echo -e "${GREEN}Done${CLEAR}"
