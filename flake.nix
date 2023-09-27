@@ -110,13 +110,13 @@
           system = "x86_64-linux";
           specialArgs = inputs;
           modules = [
-            ./nixos
             disko.nixosModules.disko
             home-manager.nixosModules.home-manager {
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
               home-manager.users.${user} = import ./nixos/home-manager.nix;
             }
+            ./nixos
           ];
         };
       };
