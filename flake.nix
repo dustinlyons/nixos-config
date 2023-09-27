@@ -4,6 +4,31 @@
 
   inputs = {
     nixpkgs.url = "github:dustinlyons/nixpkgs/master";
+
+    // I manage my own nixpkgs fork that brings in a few things:
+    //
+    // 1. The feather-font package (https://github.com/dustinlyons/feather-font)
+    // 2. A timeout setting that helps Emacs daemon take longer to build the first time
+    // 
+    // If you want to replace this input in lieu of the official nixpkgs repo:
+    //
+    // 1. Remove this setting and retry builds if they sometimes timeout:
+    //  https://github.com/dustinlyons/nixos-config/blob/8114714c10d61cd5da34df842dd5bac0301f688a/nixos/default.nix#L280
+    //
+    // 2. Replace feather-font with another font:
+    // 
+    // Rofi:
+    // https://github.com/dustinlyons/nixos-config/blob/1290219734b53b26d9c20d13989846788462ff26/nixos/config/rofi/launcher.rasi#L42
+    //
+    // Polybar:
+    // https://github.com/dustinlyons/nixos-config/blob/1290219734b53b26d9c20d13989846788462ff26/nixos/home-manager.nix#L21
+    //  https://github.com/dustinlyons/nixos-config/blob/1290219734b53b26d9c20d13989846788462ff26/nixos/config/rofi/styles.rasi#L49
+    //  https://github.com/dustinlyons/nixos-config/blob/1290219734b53b26d9c20d13989846788462ff26/nixos/config/rofi/powermenu.rasi#L49
+    //  https://github.com/dustinlyons/nixos-config/blob/1290219734b53b26d9c20d13989846788462ff26/nixos/config/rofi/networkmenu.rasi#L49
+    // 
+    // Fonts:
+    //  https://github.com/dustinlyons/nixos-config/blob/1290219734b53b26d9c20d13989846788462ff26/nixos/default.nix#L286
+
     agenix.url = "github:ryantm/agenix";
     home-manager.url = "github:nix-community/home-manager";
     darwin = {
