@@ -6,7 +6,8 @@
     nixpkgs.url = "github:dustinlyons/nixpkgs/master";
 
     # My nixpkgs fork includes my feather-font package (https://github.com/dustinlyons/feather-font)
-    # and a timeout setting that helps Emacs daemon take longer to build the first time
+    # and a timeout setting that helps Emacs daemon take longer to build the first time. One day I'll 
+    # try to merge these upstream, but until then
     # 
     # Follow these steps to use the official repo instead:
     #
