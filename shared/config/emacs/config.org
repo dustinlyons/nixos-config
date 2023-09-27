@@ -1328,6 +1328,14 @@ Leader keys for lsp-mode.
       (lsp-deferred))))  ; or lsp-deferred
 #+END_SRC
 
+#+NAME: python
+#+BEGIN_SRC emacs-lisp
+  (use-package blacken
+    :ensure t)
+
+  (add-hook 'python-mode-hook 'blacken-mode)
+#+END_SRC
+
 **** Shell scripts
 #+NAME: shell-scripts
 #+BEGIN_SRC emacs-lisp
@@ -1447,6 +1455,7 @@ Rainbow mode is an Emacs minor mode to highlight the color shown by a RGB hex tr
   (use-package magit
     :commands (magit-status magit-get-current-branch))
   (define-key magit-hunk-section-map (kbd "RET") 'magit-diff-visit-file-other-window)
+  (global-set-key (kbd "C-x G") 'magit-log-buffer-file)
 #+END_SRC
 
 *** Infrastructure
