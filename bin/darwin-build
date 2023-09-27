@@ -23,7 +23,6 @@ sudo mkdir -p /opt/homebrew/Library/Taps/homebrew/
 sudo /bin/chmod +a "dustin allow list,add_file,search,delete,add_subdirectory,delete_child,readattr,writeattr,readextattr,writeextattr,readsecurity,writesecurity,chown" /opt/homebrew/Library/Taps/homebrew/
 
 echo "${GREEN}Starting build...${CLEAR}"
-
 nix --experimental-features 'nix-command flakes' build .#$SYSTEM $@
 
 echo "${GREEN}Switching to new generation...${CLEAR}"
