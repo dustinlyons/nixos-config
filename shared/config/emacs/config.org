@@ -1326,12 +1326,16 @@ Leader keys for lsp-mode.
     :hook (python-mode . (lambda ()
       (require 'lsp-pyright)
       (lsp-deferred))))  ; or lsp-deferred
-#+END_SRC
 
-#+NAME: python
-#+BEGIN_SRC emacs-lisp
+  (setq python-indent-offset 2)
+
   (use-package blacken
     :ensure t)
+
+  (setq blacken-line-length '88)
+  (setq blacken-allow-py36 t)
+  (setq blacken-executable "black")
+  (setq blacken-fast-unsafe t)
 
   (add-hook 'python-mode-hook 'blacken-mode)
 #+END_SRC
