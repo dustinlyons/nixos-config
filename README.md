@@ -201,18 +201,18 @@ Before geneating your first build, these keys need to exist in your `~/.ssh` dir
 This script auto-detects a USB drive connected to the current system.
 > Keys must be named `id_ed25519` and `id_ed25519_agenix`.
 ```sh
-nix run --extra-experimental-features 'nix-command flakes' github:dustinlyons/nixos-config#copyKeys
+sudo nix run --extra-experimental-features 'nix-command flakes' github:dustinlyons/nixos-config#copyKeys
 ```
 
 ##### Create new keys
 ```sh
-nix run --extra-experimental-features 'nix-command flakes' github:dustinlyons/nixos-config#createKeys
+sudo nix run --extra-experimental-features 'nix-command flakes' github:dustinlyons/nixos-config#createKeys
 ```
 
 ##### Check existing keys
 If you're rolling your own, just check they are installed correctly.
 ```sh
-nix run --extra-experimental-features 'nix-command flakes' github:dustinlyons/nixos-config#checkKeys
+sudo nix run --extra-experimental-features 'nix-command flakes' github:dustinlyons/nixos-config#checkKeys
 ```
 
 ### 3. Install configuration
@@ -227,12 +227,12 @@ After the keys are in place, you're good to go. Run either of these commands:
 
 **Simple**
 ```sh
-nix run --extra-experimental-features 'nix-command flakes' github:dustinlyons/nixos-config#install
+sudo nix run --extra-experimental-features 'nix-command flakes' github:dustinlyons/nixos-config#install
 ```
 
 **With secrets**
 ```sh
-nix run --extra-experimental-features 'nix-command flakes' github:dustinlyons/nixos-config#installWithSecrets
+sudo nix run --extra-experimental-features 'nix-command flakes' github:dustinlyons/nixos-config#installWithSecrets
 ```
 
 ### 4. Set user password
