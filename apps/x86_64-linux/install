@@ -49,6 +49,7 @@ prompt_reboot() {
   esac
 }
 
+cleanup
 check_installer
 download_config
 run_disko
