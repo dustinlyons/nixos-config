@@ -4,6 +4,7 @@ set -e
 unmount_usb() {
   if mountpoint -q /mnt/usb; then
     sudo umount /mnt/usb
+    echo -e "\e[0;32mUSB drive unmounted.\e[0m"
   fi
 }
 
@@ -29,6 +30,7 @@ copy_keys() {
   cp /mnt/usb/id_ed25519_agenix.pub $SSH_DIR
   cp /mnt/usb/id_ed25519_agenix $SSH_DIR
   chmod 600 $SSH_DIR/id_ed25519_{agenix,agenix.pub}
+  echo -e "\e[0;32mKeys copied successfully.\e[0m"
 }
 
 set_keys() {
