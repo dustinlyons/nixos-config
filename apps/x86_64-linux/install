@@ -22,7 +22,8 @@ download_config() {
 }
 
 run_apply() {
-  ./bin/apply
+  ls -alt
+  #./bin/apply
 }
 
 run_disko() {
