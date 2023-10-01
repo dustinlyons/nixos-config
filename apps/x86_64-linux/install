@@ -23,6 +23,11 @@ download_config() {
 
 run_apply() {
   /mnt/etc/nixos/bin/apply
+  if [ ! -f /tmp/username.txt ]; then
+    echo -e "\e[1;31mError: /tmp/username.txt does not exist.\e[0m"
+    exit 1
+  fi
+  export USERNAME=$(cat /tmp/username.txt)
 }
 
 run_disko() {

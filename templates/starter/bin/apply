@@ -13,6 +13,7 @@ if [[ "$USERNAME" == "nixos" ]] || [[ "$USERNAME" == "root" ]]; then
   read -p "You're running as $USERNAME. Please enter your desired username: " USERNAME
 fi
 
+
 # Check if git is available
 if command -v git >/dev/null 2>&1; then
   # Fetch email and name from git config
@@ -54,4 +55,5 @@ replace_tokens() {
 export -f replace_tokens
 find . -type f -exec bash -c 'replace_tokens "$0"' {} \;
 
+echo $USERNAME > /tmp/username.txt
 echo "User, name, and email tokens have been replaced in all files."
