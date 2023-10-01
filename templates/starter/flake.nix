@@ -45,7 +45,6 @@
     in
     {
       devShells = forAllSystems devShell;
-
       darwinConfigurations = let user = "%USER%"; in {
         macos = darwin.lib.darwinSystem {
           system = "aarch64-darwin";
@@ -69,21 +68,19 @@
           ];
         };
       };
-
-      nixosConfigurations = let user = "%USER%"; in {
-        nixos = nixpkgs.lib.nixosSystem {
-          system = "x86_64-linux";
+      nixosConfigurations = let user = "dustin"; in
+        nixpkgs.lib.genAttrs linuxSystems (system: nixpkgs.lib.nixosSystem {
+          system = system;
           specialArgs = inputs;
           modules = [
-            ./nixos
             disko.nixosModules.disko
             home-manager.nixosModules.home-manager {
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
               home-manager.users.${user} = import ./nixos/home-manager.nix;
             }
+            ./nixos
           ];
-        };
-      };
+      });
   };
 }
