@@ -131,9 +131,9 @@
           ];
         };
       };
-      nixosConfigurations = let user = "dustin"; in {
-        felix = nixpkgs.lib.nixosSystem {
-          system = "x86_64-linux";
+      nixosConfigurations = let user = "dustin"; in
+        nixpkgs.lib.genAttrs linuxSystems (system: nixpkgs.lib.nixosSystem {
+          system = system;
           specialArgs = inputs;
           modules = [
             disko.nixosModules.disko
@@ -144,7 +144,6 @@
             }
             ./nixos
           ];
-        };
-      };
+      });
     };
 }
