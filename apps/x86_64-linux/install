@@ -37,7 +37,7 @@ setup_files() {
 }
 
 install_nixos() {
-  sudo nixos-install --flake .#felix
+  sudo nixos-install --flake .#nixos
   sudo chmod -R 775 /mnt/etc/nixos
 }
 
