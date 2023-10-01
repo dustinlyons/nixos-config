@@ -22,8 +22,7 @@ download_config() {
 }
 
 run_apply() {
-  ls -alt
-  #./bin/apply
+  /mnt/etc/nixos/bin/apply
 }
 
 run_disko() {
