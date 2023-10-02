@@ -6,7 +6,6 @@ shared-packages ++ [
 
   # Security and authentication
   _1password-gui
-  yubikey-manager
   yubikey-manager-qt
   yubikey-agent
   keepassxc
@@ -18,14 +17,9 @@ shared-packages ++ [
   home-manager
 
   # Media and design tools
-  gimp
   vlc
-  wineWowPackages.stable
   fontconfig
   font-manager
-
-  # Printers and drivers
-  brlaser # printer driver
 
   # Calculators
   bc # old school calculator
@@ -51,7 +45,6 @@ shared-packages ++ [
   rnix-lsp # lsp-mode for nix
   qmk
   postgresql
-  libusb1 # for Xbox controller
   libtool # for Emacs vterm
 
   # Screenshot and recording tools
@@ -72,7 +65,6 @@ shared-packages ++ [
   inotify-tools # inotifywait, inotifywatch - For file system events
   i3lock-fancy-rapid
   libnotify
-  ledger-live-desktop
   playerctl # Control media players from command line
   pinentry-curses
   pcmanfm # Our file browser
