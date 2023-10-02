@@ -86,8 +86,6 @@ let user = "%USER%";
 
   # Video support
   hardware.opengl.enable = true;
-  hardware.opengl.driSupport32Bit = true;
-  hardware.opengl.driSupport = true;
   hardware.nvidia.modesetting.enable = true;
 
   # Enable Xbox support
