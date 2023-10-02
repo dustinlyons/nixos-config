@@ -34,8 +34,6 @@ shared-packages ++ [
   # tdesktop # telegram desktop
 
   # Testing and development tools
-  cypress # Functional testing framework using headless chrome
-  chromedriver
   direnv
   rofi
   rofi-calc
