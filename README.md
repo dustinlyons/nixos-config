@@ -178,6 +178,8 @@ chmod +x bin/darwin-build && chmod +x bin/build && bin/build
 ```
 
 ## For NixOS
+This configuration supports both `x86_64` and `aarch64` platforms.
+
 ### 1. Burn the latest ISO
 Download and burn [the minimal ISO image](https://nixos.org/download.html). Boot the installer.
 
@@ -297,8 +299,12 @@ nix build .#darwinConfigurations.macos.system && \
 bin/build
 ```
 ## For NixOS
+Choose the flake target for your platform.
 ```sh
-sudo nixos-rebuild switch --flake .#nixos
+sudo nixos-rebuild switch --flake .#x86_64
+```
+```sh
+sudo nixos-rebuild switch --flake .#aarch64
 ```
 #### Optional script to save keystrokes
 ```sh
