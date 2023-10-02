@@ -26,7 +26,7 @@ let user = "%USER%";
   # replicates the default behaviour.
   networking.hostName = "felix"; # Define your hostname.
   networking.useDHCP = false;
-  networking.interfaces.eno1.useDHCP = true;
+  networking.interfaces.%INTERFACE%.useDHCP = true;
 
   # Turn on flag for proprietary software
   nix = {

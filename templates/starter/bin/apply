@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+VERSION=1.0
+
 # Color codes
 RED='\033[0;31m'
 GREEN='\033[0;32m'
@@ -8,6 +10,11 @@ NC='\033[0m' # No Color
 
 # Determine the operating system
 export OS=$(uname)
+
+# Primary network interface
+if [[ "$OS" != "Darwin" ]]; then
+  export PRIMARY_IFACE=$(ip -o -4 route show to default | awk '{print $5}')
+fi
 
 # Custom print function
 _print() {
@@ -26,8 +33,6 @@ _prompt() {
   _print "$message"
   read $variable
 }
-
-VERSION=1.0
 
 # Fetch username from the system
 export USERNAME=$(whoami)
@@ -88,6 +93,7 @@ replace_tokens() {
       sed -i -e "s/%USER%/$USERNAME/g" "$file"
       sed -i -e "s/%EMAIL%/$GIT_EMAIL/g" "$file"
       sed -i -e "s/%NAME%/$GIT_NAME/g" "$file"
+      sed -i -e "s/%INTERFACE%/$PRIMARY_IFACE/g" "$file"
     fi
   fi
 }
