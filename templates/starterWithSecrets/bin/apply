@@ -1,16 +1,40 @@
 #!/usr/bin/env bash
 
-VERSION=1.0
+# Color codes
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+NC='\033[0m' # No Color
 
 # Determine the operating system
 export OS=$(uname)
+
+# Custom print function
+_print() {
+  if [[ "$OS" == "Darwin" ]]; then
+    echo "$1"
+  else
+    echo -e "$1"
+  fi
+}
+
+# Custom prompt function
+_prompt() {
+  local message="$1"
+  local variable="$2"
+
+  _print "$message"
+  read $variable
+}
+
+VERSION=1.0
 
 # Fetch username from the system
 export USERNAME=$(whoami)
 
 # If the username is 'nixos' or 'root', ask the user for their username
 if [[ "$USERNAME" == "nixos" ]] || [[ "$USERNAME" == "root" ]]; then
-  read -p "You're running as $USERNAME. Please enter your desired username: " USERNAME
+  _prompt "${YELLOW}You're running as $USERNAME. Please enter your desired username: ${NC}" USERNAME
 fi
 
 # Check if git is available
@@ -19,18 +43,36 @@ if command -v git >/dev/null 2>&1; then
   export GIT_EMAIL=$(git config --get user.email)
   export GIT_NAME=$(git config --get user.name)
 else
-  echo "Git is not available on this system."
+  _print "${RED}Git is not available on this system.${NC}"
 fi
 
 # If git email is not found or git is not available, ask the user
 if [[ -z "$GIT_EMAIL" ]]; then
-  read -p "Please enter your email: " GIT_EMAIL
+  _prompt "${YELLOW}Please enter your email: ${NC}" GIT_EMAIL
 fi
 
 # If git name is not found or git is not available, ask the user
 if [[ -z "$GIT_NAME" ]]; then
-  read -p "Please enter your name: " GIT_NAME
+  _prompt "${YELLOW}Please enter your name: ${NC}" GIT_NAME
 fi
+
+# Confirmation step
+confirm_details() {
+  _print "${GREEN}Username: $USERNAME"
+  _print "Email: $GIT_EMAIL"
+  _print "Name: $GIT_NAME${NC}"
+
+  _prompt "${YELLOW}Is this information correct? (Y/N): ${NC}" choice
+
+  case "$choice" in
+  N|n ) _print "${RED}Exiting script.${NC}" && exit 1;;
+  Y|y ) _print "${GREEN}Continuing...${NC}";;
+  * ) _print "${RED}Invalid option. Exiting script.${NC}" && exit 1;;
+  esac
+}
+
+# Call the confirmation function
+confirm_details
 
 # Function to replace tokens in each file
 replace_tokens() {
@@ -55,4 +97,4 @@ export -f replace_tokens
 find . -type f -exec bash -c 'replace_tokens "$0"' {} \;
 
 echo $USERNAME > /tmp/username.txt
-echo "User, name, and email tokens have been replaced in all files."
+_print "${GREEN}User, name, and email tokens have been replaced in all files.${NC}"
