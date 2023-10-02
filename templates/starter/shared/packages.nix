@@ -12,7 +12,6 @@ with pkgs; [
   coreutils
   difftastic
   du-dust
-  gcc
   git-filter-repo
   killall
   neofetch
