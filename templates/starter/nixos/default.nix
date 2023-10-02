@@ -1,4 +1,4 @@
-{ config, inputs, pkgs, agenix, ... }:
+{ config, inputs, pkgs, ... }:
 
 let user = "%USER%";
     keys = [ "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOk8iAnIaa1deoc7jw8YACPNVka1ZFJxhnU4G74TmS+p" ]; in
@@ -289,7 +289,6 @@ let user = "%USER%";
   ];
 
   environment.systemPackages = with pkgs; [
-    agenix.packages."${pkgs.system}".default # "x86_64-linux"
     gitAndTools.gitFull
     inetutils
   ];
