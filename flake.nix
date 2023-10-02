@@ -56,7 +56,6 @@
       flake = false;
     };
   };
-
   outputs = { self, darwin, nix-homebrew, homebrew-core, homebrew-cask, home-manager, nixpkgs, disko, agenix, secrets } @inputs:
     let
       user = "dustin";

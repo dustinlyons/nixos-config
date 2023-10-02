@@ -30,12 +30,14 @@
       flake = false;
     };
   };
-
   outputs = { self, darwin, nix-homebrew, homebrew-core, homebrew-cask, home-manager, nixpkgs, disko, agenix, secrets } @inputs:
     let
       user = "%USER%";
-      systems = [ "x86_64-linux" "aarch64-darwin" ];
-      forAllSystems = f: nixpkgs.lib.genAttrs systems (system: f system);
+      linuxSystems = [ "x86_64-linux" "aarch64-linux" ];
+      darwinSystems = [ "aarch64-darwin" ];
+      forAllLinuxSystems = f: nixpkgs.lib.genAttrs linuxSystems (system: f system);
+      forAllDarwinSystems = f: nixpkgs.lib.genAttrs darwinSystems (system: f system);
+      forAllSystems = f: nixpkgs.lib.genAttrs (linuxSystems ++ darwinSystems) (system: f system);
       devShell = system: let
         pkgs = nixpkgs.legacyPackages.${system};
       in
