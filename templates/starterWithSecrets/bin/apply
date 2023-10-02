@@ -14,6 +14,7 @@ export OS=$(uname)
 # Primary network interface
 if [[ "$OS" != "Darwin" ]]; then
   export PRIMARY_IFACE=$(ip -o -4 route show to default | awk '{print $5}')
+  echo -e "${GREEN}Found primary network interface $PRIMARY_IFACE${NC}"
 fi
 
 # Custom print function
