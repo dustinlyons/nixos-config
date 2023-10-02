@@ -31,10 +31,7 @@ shared-packages ++ [
 
   # Messaging and chat applications
   cider # Apple Music on Linux
-  discord
-  hexchat # Chat
-  fractal # Matrix.org messaging app
-  #tdesktop # telegram desktop
+  # tdesktop # telegram desktop
 
   # Testing and development tools
   cypress # Functional testing framework using headless chrome
@@ -52,7 +49,6 @@ shared-packages ++ [
   simplescreenrecorder
 
   # Text and terminal utilities
-  emote # Emoji picker
   feh # Manage wallpapers
   screenkey
   tree
