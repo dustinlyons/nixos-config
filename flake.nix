@@ -131,19 +131,18 @@
           ];
         };
       };
-      nixosConfigurations = let user = "dustin"; in
-        nixpkgs.lib.genAttrs linuxSystems (system: nixpkgs.lib.nixosSystem {
-          system = system;
-          specialArgs = inputs;
-          modules = [
-            disko.nixosModules.disko
-            home-manager.nixosModules.home-manager {
-              home-manager.useGlobalPkgs = true;
-              home-manager.useUserPackages = true;
-              home-manager.users.${user} = import ./nixos/home-manager.nix;
-            }
-            ./nixos
-          ];
-      });
-    };
+      nixosConfigurations = nixpkgs.lib.genAttrs linuxSystems (system: nixpkgs.lib.nixosSystem {
+        system = system;
+        specialArgs = inputs;
+        modules = [
+          disko.nixosModules.disko
+          home-manager.nixosModules.home-manager {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.users.${user} = import ./nixos/home-manager.nix;
+          }
+          ./nixos
+        ];
+     });
+  };
 }
