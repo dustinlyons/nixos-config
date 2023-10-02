@@ -76,7 +76,6 @@ with pkgs; [
   jetbrains-mono
   jq
   ripgrep
-  slack
   tree
   tmux
   unrar
