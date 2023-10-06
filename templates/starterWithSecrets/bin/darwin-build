@@ -17,12 +17,14 @@ cd ..
 
 echo "${GREEN}Requesting sudo to set homebrew tap permissions...${CLEAR}"
 
-# This is reset by nix-homebrew, we need write permission to this dir to manage homebrew taps
-sudo mkdir -p /opt/homebrew/Library/Taps/homebrew/
-sudo /bin/chmod +a "%USER% allow list,add_file,search,delete,add_subdirectory,delete_child,readattr,writeattr,readextattr,writeextattr,readsecurity,writesecurity,chown" /opt/homebrew/Library/Taps/homebrew/
+# Check if the directory exists before running chmod
+if [ -d "/opt/homebrew/Library/Taps/homebrew/" ]; then
+  sudo /bin/chmod +a "%USER% allow list,add_file,search,delete,add_subdirectory,delete_child,readattr,writeattr,readextattr,writeextattr,readsecurity,writesecurity,chown" /opt/homebrew/Library/Taps/homebrew/
+else
+  echo "${RED}The directory /opt/homebrew/Library/Taps/homebrew/ does not exist. Skipping chmod.${CLEAR}"
+fi
 
 echo "${GREEN}Starting build...${CLEAR}"
-
 nix --experimental-features 'nix-command flakes' build .#$SYSTEM $@
 
 echo "${GREEN}Switching to new generation...${CLEAR}"
