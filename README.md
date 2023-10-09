@@ -8,7 +8,7 @@ Hey, you made it! Welcome. 🤓
 
 This Nix configuration runs on MacOS, NixOS, or both simultaneously. It's also a good example of a MacOS Nix flake.
 
-I use this daily on my 🧑🏻‍💻 M1 Macbook Pro and an x86 PC in my home office.
+I use this daily on my 🧑🏻‍💻 M1 Macbook Pro and an x86 PC in my home office. It also runs as a VM on your Mac.
 
 Check out the starter templates below to get started!
 
