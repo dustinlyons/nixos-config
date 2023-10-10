@@ -5,9 +5,8 @@
   inputs = {
     nixpkgs.url = "github:dustinlyons/nixpkgs/master";
 
-    # My nixpkgs fork includes my feather-font package (https://github.com/dustinlyons/feather-font)
-    # and a timeout setting that helps Emacs daemon take longer to build the first time. One day I'll 
-    # try to merge these upstream, but until then follow these steps to use the official repo instead:
+    # My nixpkgs fork includes a feather-font package (https://github.com/dustinlyons/feather-font)
+    # and a timeout setting for Emacs daemon. If you don't want to use my it, follow these steps to use the official repo instead:
     #
     # Change the flake input
     # - Official repository
@@ -28,7 +27,7 @@
     #   https://github.com/dustinlyons/nixos-config/blob/1290219734b53b26d9c20d13989846788462ff26/nixos/config/rofi/networkmenu.rasi#L49
     # 
     # - Fonts:
-    #   https://github.com/dustinlyons/nixos-config/blob/1290219734b53b26d9c20d13989846788462ff26/nixos/default.nix#L286 */
+    #   https://github.com/dustinlyons/nixos-config/blob/1290219734b53b26d9c20d13989846788462ff26/nixos/default.nix#L286
 
     agenix.url = "github:ryantm/agenix";
     home-manager.url = "github:nix-community/home-manager";
