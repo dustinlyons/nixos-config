@@ -90,6 +90,19 @@ https://github.com/dustinlyons/nixos-config/assets/1292576/d96f59ce-f540-4f14-bc
 https://github.com/dustinlyons/nixos-config/assets/1292576/fa54a87f-5971-41ee-98ce-09be048018b8
 
 # Installing
+> [!IMPORTANT]
+> Note: Nix 2.18 currently [has a bug](https://github.com/NixOS/nix/issues/9052) that impacts this repository. 
+
+> Until a patch is released, if you encounter this error:
+```
+error: path '/nix/store/52k8rqihijagzc2lkv17f4lw9kmh4ki6-gnugrep-3.11-info' is not valid
+```
+
+> Run this:
+```
+nix copy --from https://cache.nixos.org /nix/store/52k8rqihijagzc2lkv17f4lw9kmh4ki6-gnugrep-3.11-info
+```
+
 ## For MacOS
 I've tested these instructions on a fresh Macbook Pro as of September 2023.
 
@@ -222,7 +235,7 @@ sudo nix run --extra-experimental-features 'nix-command flakes' github:dustinlyo
 After the keys are in place, you're good to go. Run either of these commands:
 
 > [!IMPORTANT]
-> For Nvidia cards, select the second option, `nomodeset`, when booting the installer.
+> For Nvidia cards, select the second option, `nomodeset`, when booting the installer, or you will see a blank screen.
 
 > [!WARNING]
 > Running this will reformat your drive to the ext4 filesystem.
