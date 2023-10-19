@@ -1,17 +1,27 @@
-; setup package manager
+;; -------------------------
+;; Variable Declarations
+;; -------------------------
+(defvar org-config-file "~/.local/share/src/nixos-config/shared/config/emacs/config.org")
+(defvar default-config-file "~/.emacs.d/default-config.org")
+(defvar default-config-url "https://raw.githubusercontent.com/dustinlyons/nixos-config/9ad810c818b895c1f67f4daf21bbef31d8b5e8cd/shared/config/emacs/config.org")
+
+;; -------------------------
+;; Package Manager Setup
+;; -------------------------
 (require 'package)
 (setq package-archives '(("melpa" . "https://melpa.org/packages/")
                          ("gnu" . "http://elpa.gnu.org/packages/")))
+
 (unless (assoc-default "melpa" package-archives)
   (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t))
 (unless (assoc-default "org" package-archives)
   (add-to-list 'package-archives '("org" . "https://orgmode.org/elpa/") t))
 
-; turn this off, can conflict with straight.el
 (setq package-enable-at-startup nil)
 
-;; use-package package provides common package import functions
-;; fetch the list of packages available
+;; -------------------------
+;; Use-Package Setup
+;; -------------------------
 (unless (package-installed-p 'use-package)
   (package-initialize)
   (package-install 'use-package))
@@ -19,7 +29,9 @@
 (setq use-package-always-ensure t)
 (require 'use-package)
 
-;; Copy $PATH from our environment to Emacs process
+;; -------------------------
+;; Environment Variables Setup
+;; -------------------------
 (use-package exec-path-from-shell
   :if (memq window-system '(mac ns x))
   :config
@@ -29,18 +41,18 @@
 (when (daemonp)
   (exec-path-from-shell-initialize))
 
-;; This sets up straight.el, a git package manager
-;; We use it under the hood of use-package
-;; This lets us clone git repos easily if we so choose
+;; -------------------------
+;; Straight.el Setup
+;; -------------------------
 (defvar bootstrap-version)
 (let ((bootstrap-file
-  (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
-    (bootstrap-version 6))
+       (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
+      (bootstrap-version 6))
   (unless (file-exists-p bootstrap-file)
     (with-current-buffer
-      (url-retrieve-synchronously
-        "https://raw.githubusercontent.com/radian-software/straight.el/develop/install.el"
-        'silent 'inhibit-cookies)
+        (url-retrieve-synchronously
+         "https://raw.githubusercontent.com/radian-software/straight.el/develop/install.el"
+         'silent 'inhibit-cookies)
       (goto-char (point-max))
       (eval-print-last-sexp)))
   (load bootstrap-file nil 'nomessage))
@@ -48,7 +60,9 @@
 (setq straight-use-package-by-default t)
 (package-initialize)
 
-; configure the initial Emacs window
+;; -------------------------
+;; Window and UI Setup
+;; -------------------------
 (defun dl/window-setup ()
   (column-number-mode)
   (scroll-bar-mode 0)
@@ -56,11 +70,14 @@
   (tool-bar-mode 0)
   (winner-mode 1)
   (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
-  (add-to-list 'default-frame-alist '(ns-appearance . dark)) ;; assuming you are using a dark theme
+  (add-to-list 'default-frame-alist '(ns-appearance . dark))
   (setq ns-use-proxy-icon nil)
   (setq frame-title-format nil))
+(dl/window-setup)
 
-; configure org-mode here, so we can use it in config.org
+;; -------------------------
+;; Org Mode Setup
+;; -------------------------
 (defun dl/org-mode-setup ()
   (org-indent-mode)
   (variable-pitch-mode 1)
@@ -72,15 +89,29 @@
   :defer t
   :hook (org-mode . dl/org-mode-setup)
   :config
-    (setq org-edit-src-content-indentation 2 ;; Indent code blocks by 2
-      org-ellipsis " ▾" ;; Prettify the fold indicator
-      org-hide-emphasis-markers t ;; Hide special characters
-      org-hide-block-startup nil) ;; Don't start org mode with blocks folded
+  (setq org-edit-src-content-indentation 2
+        org-ellipsis " ▾"
+        org-hide-emphasis-markers t
+        org-hide-block-startup nil)
   :bind
-    (("C-c a" . org-agenda)))
+  (("C-c a" . org-agenda)))
 
-; set the window and load the config file
-(dl/window-setup)
+;; -------------------------
+;; Default Config Download
+;; -------------------------
+(defun dl/download-default-config ()
+  (unless (file-exists-p default-config-file)
+    (url-retrieve default-config-url
+                (lambda (_status)
+                ;; delete-region removes the HTTP headers from the downloaded content.
+                (delete-region (point-min) (1+ url-http-end-of-headers))
+                (write-file default-config-file)))))
 
-"Load our main config file"
-(org-babel-load-file  "~/.local/share/src/nixos-config/shared/config/emacs/config.org")
+;; -------------------------
+;; Load Org Config or Default
+;; -------------------------
+(unless (file-exists-p org-config-file)
+  (dl/download-default-config))
+(if (file-exists-p org-config-file)
+    (org-babel-load-file org-config-file)
+  (org-babel-load-file default-config-file))
