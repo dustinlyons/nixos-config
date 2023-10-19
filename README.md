@@ -93,12 +93,12 @@ https://github.com/dustinlyons/nixos-config/assets/1292576/fa54a87f-5971-41ee-98
 > [!IMPORTANT]
 > Note: Nix 2.18 currently [has a bug](https://github.com/NixOS/nix/issues/9052) that impacts this repository. 
 
-> Until a patch is released, if you encounter this error:
+Until a patch is released, if you encounter this error:
 ```
 error: path '/nix/store/52k8rqihijagzc2lkv17f4lw9kmh4ki6-gnugrep-3.11-info' is not valid
 ```
 
-> Run this:
+Run this:
 ```
 nix copy --from https://cache.nixos.org /nix/store/52k8rqihijagzc2lkv17f4lw9kmh4ki6-gnugrep-3.11-info
 ```
