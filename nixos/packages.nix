@@ -84,6 +84,9 @@ shared-packages ++ [
   xdotool
   google-chrome
 
+  # Network utilities
+  cloudflared
+
   # PDF viewer
   zathura
 
