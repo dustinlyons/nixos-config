@@ -154,12 +154,14 @@ In Github, create a private `nix-secrets` repository.
 Then, change the `nix-secrets` input in the `flake.nix` to reference it.
 
 #### 6b. Install keys
-Before geneating your first build, these keys need to exist in your `~/.ssh` directory. I've provided a few helper commands below. Choose one.
+Before geneating your first build, these keys need to exist in your `~/.ssh` directory.
 
 | Key Name            | Platform         | Description                           | 
 |---------------------|------------------|---------------------------------------|
 | id_ed25519          | MacOS / NixOS    | Used to download secrets from Github. |
 | id_ed25519_agenix   | MacOS / NixOS    | Used to encrypt and decrypt secrets.  |
+
+I've provided a few helper commands below. Choose one.
 
 ##### Copy keys from USB drive
 This script auto-detects a USB drive connected to the current system.
@@ -205,12 +207,14 @@ In Github, create a private `nix-secrets` repository.
 Then, change the `nix-secrets` input in the `flake.nix` to reference it.
 
 #### 2b. Install keys
-Before geneating your first build, these keys need to exist in your `~/.ssh` directory. I've provided a few helper commands below. Choose one.
+Before geneating your first build, these keys need to exist in your `~/.ssh` directory.
 
 | Key Name            | Platform         | Description                           | 
 |---------------------|------------------|---------------------------------------|
 | id_ed25519          | MacOS / NixOS    | Used to download secrets from Github. |
 | id_ed25519_agenix   | MacOS / NixOS    | Used to encrypt and decrypt secrets.  |
+
+I've provided a few helper commands below. Choose one.
 
 ##### Copy keys from USB drive
 This script auto-detects a USB drive connected to the current system.
