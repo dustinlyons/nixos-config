@@ -47,15 +47,18 @@ with pkgs; [
 
   # Media-related packages
   emacs-all-the-icons-fonts
+  imagemagick
   dejavu_fonts
   ffmpeg
   fd
   font-awesome
   glow
   hack-font
+  jpegoptim
+  meslo-lgs-nf
   noto-fonts
   noto-fonts-emoji
-  meslo-lgs-nf
+  pngquant
 
   # Node.js development tools
   fzf
