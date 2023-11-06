@@ -62,17 +62,45 @@ if [[ -z "$GIT_NAME" ]]; then
   _prompt "${YELLOW}Please enter your name: ${NC}" GIT_NAME
 fi
 
+# Function to identify the boot disk
+select_boot_disk() {
+  local _boot_disk
+
+  disks=$(lsblk -nd --output NAME,SIZE,MOUNTPOINT | grep -v loop)
+  _boot_disk=$(lsblk -no NAME,MOUNTPOINT | grep ' /$' | awk '{print $1}')
+
+  # Check if we've found a boot disk
+  if [[ -z "$_boot_disk" ]]; then
+    _print "${RED}Unable to determine the boot disk.${NC}"
+    _print "${YELLOW}Available disks:${NC}"
+    echo "$disks"
+    _prompt "${YELLOW}Please choose your boot disk (e.g., nvme0n1, sda): ${NC}" BOOT_DISK
+  else
+    _print "${GREEN}Boot disk detected: $_boot_disk${NC}"
+    BOOT_DISK=$_boot_disk
+  fi
+}
+
+# Find primary disk if this is NixOS
+if [[ "$OS" != "Darwin" ]]; then
+  select_boot_disk
+fi
+
 # Confirmation step
 confirm_details() {
   _print "${GREEN}Username: $USERNAME"
   _print "Email: $GIT_EMAIL"
   _print "Name: $GIT_NAME${NC}"
+  if([[ "$OS" != "Darwin" ]]); then
+    _print "${GREEN}Primary interface: $PRIMARY_IFACE"
+    _print "Boot disk: $BOOT_DISK${NC}"
+  fi
 
   _prompt "${YELLOW}Is this correct? (Y/N): ${NC}" choice
 
   case "$choice" in
-  N|n ) _print "${RED}Exiting script.${NC}" && exit 1;;
-  Y|y ) _print "${GREEN}Continuing...${NC}";;
+  [Nn] ) _print "${RED}Exiting script.${NC}" && exit 1;;
+  [Yy] ) _print "${GREEN}Continuing...${NC}";;
   * ) _print "${RED}Invalid option. Exiting script.${NC}" && exit 1;;
   esac
 }
@@ -95,6 +123,7 @@ replace_tokens() {
       sed -i -e "s/%EMAIL%/$GIT_EMAIL/g" "$file"
       sed -i -e "s/%NAME%/$GIT_NAME/g" "$file"
       sed -i -e "s/%INTERFACE%/$PRIMARY_IFACE/g" "$file"
+      sed -i -e "s/%DISK%/$BOOT_DISK/g" "$file"
     fi
   fi
 }
@@ -103,5 +132,5 @@ replace_tokens() {
 export -f replace_tokens
 find . -type f -exec bash -c 'replace_tokens "$0"' {} \;
 
-echo $USERNAME > /tmp/username.txt
-_print "${GREEN}User, name, and email tokens have been replaced in all files.${NC}"
+echo "$USERNAME" > /tmp/username.txt
+_print "${GREEN}User information applied.${NC}"
