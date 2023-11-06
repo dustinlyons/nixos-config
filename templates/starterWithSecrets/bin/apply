@@ -32,7 +32,7 @@ _prompt() {
   local variable="$2"
 
   _print "$message"
-  read $variable
+  read -r $variable
 }
 
 # Fetch username from the system
@@ -62,22 +62,26 @@ if [[ -z "$GIT_NAME" ]]; then
   _prompt "${YELLOW}Please enter your name: ${NC}" GIT_NAME
 fi
 
-# Function to identify the boot disk
 select_boot_disk() {
+  local disks
   local _boot_disk
 
-  disks=$(lsblk -nd --output NAME,SIZE,MOUNTPOINT | grep -v loop)
-  _boot_disk=$(lsblk -no NAME,MOUNTPOINT | grep ' /$' | awk '{print $1}')
+  _print "${YELLOW}Available disks:${NC}"
+  disks=$(lsblk -nd --output NAME,SIZE | grep -v loop)
+  echo "$disks"
 
-  # Check if we've found a boot disk
-  if [[ -z "$_boot_disk" ]]; then
-    _print "${RED}Unable to determine the boot disk.${NC}"
-    _print "${YELLOW}Available disks:${NC}"
-    echo "$disks"
-    _prompt "${YELLOW}Please choose your boot disk (e.g., nvme0n1, sda): ${NC}" BOOT_DISK
+  # Warning message for data deletion
+  _print "${RED}WARNING: All data on the chosen disk will be erased during the installation!${NC}"
+  _prompt "${YELLOW}Please choose your boot disk (e.g., nvme0n1, sda): ${NC}" _boot_disk
+
+  # Confirmation for disk selection to prevent accidental data loss
+  _print "${YELLOW}You have selected $_boot_disk as the boot disk. This will delete everything on this disk. Are you sure? (Y/N): ${NC}"
+  read -r confirmation
+  if [[ "$confirmation" =~ ^[Yy]$ ]]; then
+    export BOOT_DISK=$_boot_disk
   else
-    _print "${GREEN}Boot disk detected: $_boot_disk${NC}"
-    BOOT_DISK=$_boot_disk
+    _print "${RED}Disk selection cancelled by the user. Please run the script again to select the correct disk.${NC}"
+    exit 1
   fi
 }
 
@@ -91,6 +95,7 @@ confirm_details() {
   _print "${GREEN}Username: $USERNAME"
   _print "Email: $GIT_EMAIL"
   _print "Name: $GIT_NAME${NC}"
+
   if([[ "$OS" != "Darwin" ]]); then
     _print "${GREEN}Primary interface: $PRIMARY_IFACE"
     _print "Boot disk: $BOOT_DISK${NC}"
@@ -133,4 +138,4 @@ export -f replace_tokens
 find . -type f -exec bash -c 'replace_tokens "$0"' {} \;
 
 echo "$USERNAME" > /tmp/username.txt
-_print "${GREEN}User information applied.${NC}"
+_print "${GREEN}User $USERNAME information applied.${NC}"
