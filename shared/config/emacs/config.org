@@ -1364,6 +1364,8 @@ Leader keys for lsp-mode.
       ("\\.md\\'" . markdown-mode)
       ("\\.markdown\\'" . markdown-mode))
     :init (setq markdown-command "pandoc"))
+
+  (add-to-list 'auto-mode-alist '("\\.mdx\\'" . markdown-mode))
 #+END_SRC
 
 **** HTML
