@@ -149,9 +149,7 @@ You can search for packages on the [official NixOS website](https://search.nixos
 If you are using the starter with secrets, there are a few additional steps.
 
 #### 6a. Create a private Github repo to hold your secrets
-In Github, create a private `nix-secrets` repository. 
-
-Then, change the `nix-secrets` input in the `flake.nix` to reference it.
+In Github, create a private `nix-secrets` repository. You'll enter this repo name during installation.
 
 #### 6b. Install keys
 Before generating your first build, these keys must exist in your `~/.ssh` directory. We provide a few helper commands to do this.
@@ -196,15 +194,21 @@ chmod +x bin/darwin-build && chmod +x bin/build && bin/build
 This configuration supports both `x86_64` and `aarch64` platforms.
 
 ### 1. Burn the latest ISO
-Download and burn [the minimal ISO image](https://nixos.org/download.html). Boot the installer.
+Download and burn [the minimal ISO image](https://nixos.org/download.html) to a USB, or create a new VM with the ISO as base.
+> Note, if you're building a VM on an Apple Silicon Mac, choose [64-bit ARM](https://channels.nixos.org/nixos-23.05/latest-nixos-minimal-aarch64-linux.iso).
 
+**Quick Links**
+
+* [64-bit Intel/AMD](https://channels.nixos.org/nixos-23.05/latest-nixos-minimal-x86_64-linux.iso)
+* [32-bit Intel/AMD](https://channels.nixos.org/nixos-23.05/latest-nixos-minimal-i686-linux.iso)
+* [64-bit ARM](https://channels.nixos.org/nixos-23.05/latest-nixos-minimal-aarch64-linux.iso)
+
+Boot the installer.
 ### 2. Optional: Setup secrets
 If you are using the starter with secrets, there are a few additional steps.
 
 #### 2a. Create a private Github repo to hold your secrets
-In Github, create a private `nix-secrets` repository. 
-
-Then, change the `nix-secrets` input in the `flake.nix` to reference it.
+In Github, create a private `nix-secrets` repository. You'll enter this repo name during installation.
 
 #### 2b. Install keys
 Before generating your first build, these keys must exist in your `~/.ssh` directory. We provide a few helper commands to do this.
