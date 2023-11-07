@@ -311,7 +311,7 @@ With Nix, changes to your system are made by
 nix build .#darwinConfigurations.macos.system && \
 ./result/sw/bin/darwin-rebuild switch --flake .#macos
 ```
-#### Optional script to save keystrokes
+#### Optional [script](https://github.com/dustinlyons/nixos-config/blob/main/bin/build) to save keystrokes
 ```sh
 bin/build
 ```
@@ -323,7 +323,7 @@ sudo nixos-rebuild switch --flake .#x86_64
 ```sh
 sudo nixos-rebuild switch --flake .#aarch64
 ```
-#### Optional script to save keystrokes
+#### Optional [script](https://github.com/dustinlyons/nixos-config/blob/main/bin/build) to save keystrokes
 ```sh
 bin/build
 ```
