@@ -60,7 +60,7 @@ Check out the starter templates below to get started!
 - **Same Environment Everywhere**: Easily share config across Linux and Mac (both Nix and Home Manager)
 - **MacOS Dream Setup**: Fully declarative MacOS, including UI, dock and MacOS App Store apps
 - **Simple Bootstrap**: Simple Nix commands to start from zero, both x86 and MacOS platforms
-- **Managed Homebrew**: Fully managed homebrew environment with `nix-darwin` and `nix-homebrew`
+- **Managed Homebrew**: Zero maintenance homebrew environment with `nix-darwin` and `nix-homebrew`
 - **Disk Management**: Declarative disk management with `disko`, say goodbye to disk utils
 - **Secrets Management**: Declarative secrets with `agenix` for SSH, PGP, syncthing, and other tools
 - **Super Fast Emacs**: Bleeding edge Emacs that fixes itself, thanks to a community overlay
