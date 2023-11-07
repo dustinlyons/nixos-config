@@ -47,8 +47,8 @@ fi
 # Check if git is available
 if command -v git >/dev/null 2>&1; then
   # Fetch email and name from git config
-  export GIT_EMAIL=$(git config --get user.email)
-  export GIT_NAME=$(git config --get user.name)
+  GIT_EMAIL=$(git config --get user.email)
+  GIT_NAME=$(git config --get user.name)
 else
   _print "${RED}Git is not available on this system.${NC}"
 fi
@@ -70,6 +70,11 @@ fi
 if [[ -z "$GITHUB_SECRETS_REPO" ]]; then
   _prompt "${YELLOW}Please enter your Github secrets repository name: ${NC}" GITHUB_SECRETS_REPO
 fi
+
+export GITHUB_USER
+export GITHUB_SECRETS_REPO
+export GIT_EMAIL
+export GIT_NAME
 
 select_boot_disk() {
   local disks
