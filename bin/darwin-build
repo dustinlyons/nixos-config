@@ -4,7 +4,7 @@ VERSION=1.0
 
 GREEN='\033[1;32m'
 RED='\033[1;31m'
-CLEAR='\033[0m'
+NC='\033[0m'
 
 FLAKE="Dustins-MBP"
 SYSTEM="darwinConfigurations.$FLAKE.system"
@@ -15,13 +15,13 @@ export NIXPKGS_ALLOW_UNFREE=1
 cd $(dirname $(readlink -f $0))
 cd ..
 
-echo "${GREEN}Starting build...${CLEAR}"
+echo "${GREEN}Starting build...${NC}"
 nix --experimental-features 'nix-command flakes' build .#$SYSTEM $@
 
-echo "${GREEN}Switching to new generation...${CLEAR}"
+echo "${GREEN}Switching to new generation...${NC}"
 ./result/sw/bin/darwin-rebuild switch --flake .#$FLAKE $@
 
-echo "${GREEN}Cleaning up...${CLEAR}"
+echo "${GREEN}Cleaning up...${NC}"
 unlink ./result
 
-echo "${GREEN}Done${CLEAR}"
+echo "${GREEN}Done${NC}"

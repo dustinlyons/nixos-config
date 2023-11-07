@@ -7,10 +7,12 @@ export args=$@
 cd $(dirname $(readlink -f $0))
 cd ..
 
+SYSTEM=$(uname)
+
 build() {
-    if [ "$(uname)" == "Darwin" ]; then
+    if [ $SYSTEM == "Darwin" ]; then
        ./bin/darwin-build $args
-    elif [ "$(uname)" == "Linux" ]; then
+    elif [ $SYSTEM == "Linux" ]; then
        ./bin/nixos-build $args
     else
        echo "Unknown platform"

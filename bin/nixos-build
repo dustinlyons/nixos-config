@@ -4,11 +4,11 @@ VERSION=1.0
 
 GREEN='\033[1;32m'
 RED='\033[1;31m'
-CLEAR='\033[0m'
+NC='\033[0m'
 
-ARCH=$(uname -m)
+SYSTEM=$(uname -m)
 
-case "$ARCH" in
+case "$SYSTEM" in
   x86_64)
     FLAKE_TARGET="x86_64-linux"
     ;;
@@ -16,14 +16,13 @@ case "$ARCH" in
     FLAKE_TARGET="aarch64-linux"
     ;;
   *)
-    echo -e "${RED}Unsupported architecture: $ARCH${CLEAR}"
+    echo -e "${RED}Unsupported architecture: $SYSTEM${NC}"
     exit 1
     ;;
 esac
 
-sudo echo
-echo -e "${GREEN}Starting...${CLEAR}"
+echo -e "${GREEN}Starting...${NC}"
 
 sudo SSH_AUTH_SOCK=$SSH_AUTH_SOCK /run/current-system/sw/bin/nixos-rebuild switch --flake .#$FLAKE_TARGET $@
 
-echo -e "${GREEN}Done${CLEAR}"
+echo -e "${GREEN}Done${NC}"
