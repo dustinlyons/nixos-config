@@ -63,8 +63,12 @@ if [[ -z "$GIT_NAME" ]]; then
   _prompt "${YELLOW}Please enter your name: ${NC}" GIT_NAME
 fi
 
-if [[ -z "$SECRETS_REPO" ]]; then
-  _prompt "${YELLOW}Please enter your Github repository (example: dustinlyons/nix-secrets): ${NC}" SECRETS_REPO
+if [[ -z "$GITHUB_USER" ]]; then
+  _prompt "${YELLOW}Please enter your Github username: ${NC}" GITHUB_USER
+fi
+
+if [[ -z "$GITHUB_SECRETS_REPO" ]]; then
+  _prompt "${YELLOW}Please enter your Github secrets repository name: ${NC}" GITHUB_SECRETS_REPO
 fi
 
 select_boot_disk() {
@@ -105,7 +109,7 @@ confirm_details() {
     _print "${GREEN}Primary interface: $PRIMARY_IFACE"
     _print "Boot disk: $BOOT_DISK${NC}"
   fi
-  _print "${GREEN}Secrets repository: $SECRETS_REPO${NC}"
+  _print "${GREEN}Secrets repository: $GITHUB_USER/$GITHUB_SECRETS_REPO${NC}"
 
   _prompt "${YELLOW}Is this correct? (Y/N): ${NC}" choice
 
@@ -128,7 +132,8 @@ replace_tokens() {
       LC_ALL=C LANG=C sed -i '' -e "s/%USER%/$USERNAME/g" "$file"
       LC_ALL=C LANG=C sed -i '' -e "s/%EMAIL%/$GIT_EMAIL/g" "$file"
       LC_ALL=C LANG=C sed -i '' -e "s/%NAME%/$GIT_NAME/g" "$file"
-      LC_ALL=C LANG=C sed -i '' -e "s/%SECRETS_REPO%/$SECRETS_REPO/g" "$file"
+      LC_ALL=C LANG=C sed -i '' -e "s/%GITHUB_USER%/$GITHUB_USER/g" "$file"
+      LC_ALL=C LANG=C sed -i '' -e "s/%GITHUB_SECRETS_REPO%/$GITHUB_SECRETS_REPO/g" "$file"
     else
       # Linux or other
       sed -i -e "s/%USER%/$USERNAME/g" "$file"
@@ -136,7 +141,8 @@ replace_tokens() {
       sed -i -e "s/%NAME%/$GIT_NAME/g" "$file"
       sed -i -e "s/%INTERFACE%/$PRIMARY_IFACE/g" "$file"
       sed -i -e "s/%DISK%/$BOOT_DISK/g" "$file"
-      sed -i -e "s/%SECRETS_REPO%/$SECRETS_REPO/g" "$file"
+      sed -i -e "s/%GITHUB_USER%/$GITHUB_USER/g" "$file"
+      sed -i -e "s/%GITHUB_SECRETS_REPO%/$GITHUB_SECRETS_REPO/g" "$file"
     fi
   fi
 }
