@@ -66,7 +66,7 @@ Check out the starter templates below to get started!
 - **Super Fast Emacs**: Bleeding edge Emacs that fixes itself, thanks to a community overlay
 - **Built In Home Manager**: `home-manager` module for seamless configuration (no extra clunky CLI steps)
 - **NixOS Environment**: Extensively configured NixOS including clean aesthetic + window animations
-- **Nix Overlays**: Auto-loading of Nix overlays: drop a file in a dir and it runs (great for patches!)
+- **Nix Overlays**: [Auto-loading of Nix overlays](https://github.com/dustinlyons/nixos-config/tree/main/overlays): drop a file in a dir and it runs (great for patches!)
 - **Declarative Sync**: No-fuss Syncthing: managed keys, certs, and configuration across all platforms
 - **Emacs Literate Configuration**: [Large Emacs literate configuration](https://github.com/dustinlyons/nixos-config/blob/main/shared/config/emacs/config.org) to explore (if that's your thing)
 - **Simplicity and Readability**: Optimized for simplicity and readability in all cases, not small files everywhere
