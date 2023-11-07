@@ -26,22 +26,19 @@ final: prev: {
 In Nix, we get to just patch things willy nilly. This is an old patch I used to get the `cypress` package working; it tidied me over until a proper fix was in `nixpkgs`.
 
 ```nix
-#
-# When Cypress starts, it copies some files into `~/.config/Cypress/cy/production/browsers/chrome-stable/interactive/CypressExtension/`
-# from the Nix Store, one of which it attempts to modify immediately after. This fails because the copied file keeps the read-only
-# flag it had in the Store.
+# When Cypress starts, it copies some files locally from the Nix Store, but
+# fails to remove the read-only flag.
 #
 # Luckily, the code responsible is a plain text script that we can easily patch:
 #
 final: prev: {
-  # This has only been tested against Cypress 7.4.0
   cypress = prev.cypress.overrideAttrs (oldAttrs: {
     installPhase = let
       matchForChrome = "yield utils_1.default.copyExtension(pathToExtension, extensionDest);";
-      appendForChrome = "yield fs_1.fs.chmodAsync(extensionBg, 0o0644);";
+      appendForChrome = "yield fs_1.fs.chmodAsync(extensionBg, 0o0644);"; # We edit this line
 
       matchForFirefox = "copyExtension(pathToExtension, extensionDest)";
-      replaceForFirefox = "copyExtension(pathToExtension, extensionDest).then(() => fs.chmodAsync(extensionBg, 0o0644))";
+      replaceForFirefox = "copyExtension(pathToExtension, extensionDest).then(() => fs.chmodAsync(extensionBg, 0o0644))"; # We edit this line
     in ''
       sed -i '/${matchForChrome}/a\${appendForChrome}' \
           ./resources/app/packages/server/lib/browsers/chrome.js
