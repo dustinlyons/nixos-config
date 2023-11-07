@@ -26,10 +26,13 @@ final: prev: {
 In Nix, we get to just patch things willy nilly. This is an old patch I used to get the `cypress` package working; it tidied me over until a proper fix was in `nixpkgs`.
 
 ```nix
+#
 # When Cypress starts, it copies some files into `~/.config/Cypress/cy/production/browsers/chrome-stable/interactive/CypressExtension/`
-# from the Nix Store, one of which it attempts to modify immediately after.
-# As-is, this fails because the copied file keeps the read-only flag it had in the Store.
+# from the Nix Store, one of which it attempts to modify immediately after. This fails because the copied file keeps the read-only
+# flag it had in the Store.
+#
 # Luckily, the code responsible is a plain text script that we can easily patch:
+#
 final: prev: {
   # This has only been tested against Cypress 7.4.0
   cypress = prev.cypress.overrideAttrs (oldAttrs: {
