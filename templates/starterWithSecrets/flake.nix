@@ -55,7 +55,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     secrets = {
-      url = "github:dustinlyons/nix-secrets/main"; # Change this!
+      url = "git+ssh://git@github.com/%SECRETS_REPO%.git";
       flake = false;
     };
   };

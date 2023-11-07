@@ -3,6 +3,7 @@
 VERSION=1.0
 
 # Color codes
+BWHITE='\033[1;37m'
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
@@ -62,11 +63,15 @@ if [[ -z "$GIT_NAME" ]]; then
   _prompt "${YELLOW}Please enter your name: ${NC}" GIT_NAME
 fi
 
+if [[ -z "$SECRETS_REPO" ]]; then
+  _prompt "${YELLOW}Please enter your Github secrets repository (example: dustinlyons/nix-secets): ${NC}" SECRETS_REPO
+fi
+
 select_boot_disk() {
   local disks
   local _boot_disk
 
-  _print "${YELLOW}Available disks:${NC}"
+  _print "${BWHITE}Available disks:${NC}"
   disks=$(lsblk -nd --output NAME,SIZE | grep -v loop)
   echo "$disks"
 
@@ -100,6 +105,7 @@ confirm_details() {
     _print "${GREEN}Primary interface: $PRIMARY_IFACE"
     _print "Boot disk: $BOOT_DISK${NC}"
   fi
+  _print "Secrets repository: $SECRETS_REPO{NC}"
 
   _prompt "${YELLOW}Is this correct? (Y/N): ${NC}" choice
 
@@ -122,6 +128,7 @@ replace_tokens() {
       LC_ALL=C LANG=C sed -i '' -e "s/%USER%/$USERNAME/g" "$file"
       LC_ALL=C LANG=C sed -i '' -e "s/%EMAIL%/$GIT_EMAIL/g" "$file"
       LC_ALL=C LANG=C sed -i '' -e "s/%NAME%/$GIT_NAME/g" "$file"
+      LC_ALL=C LANG=C sed -i '' -e "s/%SECRETS_REPO%/$SECRETS_REPO/g" "$file"
     else
       # Linux or other
       sed -i -e "s/%USER%/$USERNAME/g" "$file"
@@ -129,6 +136,7 @@ replace_tokens() {
       sed -i -e "s/%NAME%/$GIT_NAME/g" "$file"
       sed -i -e "s/%INTERFACE%/$PRIMARY_IFACE/g" "$file"
       sed -i -e "s/%DISK%/$BOOT_DISK/g" "$file"
+      sed -i -e "s/%SECRETS_REPO%/$SECRETS_REPO/g" "$file"
     fi
   fi
 }
