@@ -149,7 +149,7 @@ You can search for packages on the [official NixOS website](https://search.nixos
 If you are using the starter with secrets, there are a few additional steps.
 
 #### 6a. Create a private Github repo to hold your secrets
-In Github, create a private `nix-secrets` repository. You'll enter this repo name during installation.
+In Github, create a private `nix-secrets` repository. You'll enter this name during installation.
 
 #### 6b. Install keys
 Before generating your first build, these keys must exist in your `~/.ssh` directory. We provide a few helper commands to do this.
@@ -208,7 +208,7 @@ Boot the installer.
 If you are using the starter with secrets, there are a few additional steps.
 
 #### 2a. Create a private Github repo to hold your secrets
-In Github, create a private `nix-secrets` repository. You'll enter this repo name during installation.
+In Github, create a private `nix-secrets` repository. You'll enter this name during installation.
 
 #### 2b. Install keys
 Before generating your first build, these keys must exist in your `~/.ssh` directory. We provide a few helper commands to do this.
@@ -266,8 +266,10 @@ On first boot at the login screen:
 - Go back to the login screen: `Ctrl-Alt-F7`
 
 # How to create secrets
-To create a new secret `secret.age`, first [create a `secrets.nix` file](https://github.com/ryantm/agenix#tutorial) at the root of your `nix-secrets` repository. This is only used by the `agenix` CLI command. It assumes your SSH private key is in `~/.ssh/` or you can provide the `-i` flag with a path to your `id_ed25519` key.
-```
+To create a new secret `secret.age`, first [create a `secrets.nix` file](https://github.com/ryantm/agenix#tutorial) at the root of your `nix-secrets` repository. This is only used by the `agenix` CLI command. 
+
+**secrets.nix**
+```nix
 let
   user1 = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIL0idNvgGiucWgup/mP78zyC23uFjYq0evcWdjGQUaBH";
   users = [ user1 ];
@@ -279,23 +281,43 @@ in
   "secret.age".publicKeys = [ user1 system1 ];
 }
 ```
-Then run this command: 
+Next, run this command. It assumes your SSH private key is in `~/.ssh/` or you can provide the `-i` flag with a path to your `id_ed25519` key. 
 ```
 EDITOR=vim nix run github:ryantm/agenix -- -e secret.age
 ```
-This opens an editor to accept, encrypt, and write your secret to disk. Commit the file to your `nix-secrets` repo and add a reference in the `secrets.nix` of your `nixos-config`.
+This opens an editor to accept, encrypt, and write your secret to disk. 
 
-## Secrets used in my configuration
-| Secret Name           | Platform         | Description           | 
-|-----------------------|------------------|-----------------------|
-| `syncthing-cert`      | MacOS / NixOS    | Syncthing certificate |
-| `syncthing-key`       | MacOS / NixOS    | Syncthing key         |
-| `github-ssh-key`      | MacOS / NixOS    | GitHub SSH key        |
-| `github-signing-key`  | MacOS / NixOS    | GitHub signing key    |
+Commit the file to your `nix-secrets` repo and add a reference in the `secrets.nix` of your `nixos-config`.
 
-These are the secrets I use.
+## Example
+So, let's say I wanted to create a new secret to hold my Github SSH key. 
 
-When changing secrets after your configuration exists, be sure to run `nix flake update` from your `nixos-config` so that you reference the latest change.
+I would `cd` into my `nix-secrets` repo directory, verify the `agenix` configuration (named `secrets.nix`) exists, then run 
+```
+EDITOR=vim nix run github:ryantm/agenix -- -e github-ssh-key.age
+```
+
+This would start a `vim` session.
+
+I would enter insert mode `:i`, type the password, hit Esc and then type `:w` to save it, resulting in the creation of a new file, `github-ssh-key.age`.
+
+Next, I would edit `secrets.nix` to include a line specifying the public key to use for my new secret. I specify a user key, but I could just as easily specify a host key.
+
+**secrets.nix**
+```nix
+let
+  dustin = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIL0idNvgGiucWgup/mP78zyC23uFjYq0evcWdjGQUaBH";
+  users = [ dustin ];
+  systems = [ ];
+in
+{
+  "github-ssh-key.age".publicKeys = [ dustin ];
+}
+```
+
+Then I'd commit all changes to the `nix-secrets` repository, go back to my `nixos-config` and run `nix flake update` to update the lock file.
+
+Now, all that's left is [using the secret](https://github.com/dustinlyons/nixos-config/blob/3b95252bc6facd7f61c6c68ceb1935481cb6b457/nixos/secrets.nix#L28) in my configuration.
 
 # Live ISO
 Not yet available. Coming soon.
