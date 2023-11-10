@@ -44,6 +44,9 @@ let
 
       sleep .25
 
+      # Launch these when script runs
+      # -o option means "one shot", meaning the rule goes away after launching the app
+
       # Wait for the network to be up
       notify-send 'Waiting for network...'
       while ! systemctl is-active --quiet network-online.target; do sleep 1; done
@@ -53,11 +56,54 @@ let
       notify-send 'Starting Emacs...'
       /run/current-system/sw/bin/emacsclient -a "" -e '(progn)' &
 
+      # Desktop 1
+      # Email, Calendar, News (General)
+      bspc rule -a Google-chrome -o desktop='^1'
+      /etc/profiles/per-user/dustin/bin/google-chrome-stable "https://www.fastmail.com" "https://calendar.google.com/calendar/u/0/r" &!
+
+      sleep 1
+
+      bspc rule -a Google-chrome -o desktop='^1'
+      /etc/profiles/per-user/dustin/bin/google-chrome-stable --new-window "https://www.techmeme.com" "https://www.inoreader.com/" &!
+
+      sleep 1
+
       # Wait for Emacs daemon to be ready
       while ! /run/current-system/sw/bin/emacsclient -e '(progn)' &>/dev/null; do
       sleep 1
       done
       notify-send 'Emacs daemon started.'
+
+      # Desktop 2
+      # Terminal, Emacs (IDE)
+      bspc rule -a Alacritty -o desktop='^2'
+      /etc/profiles/per-user/dustin/bin/alacritty -e sh -c 'tmux attach || tmux new-session' &
+
+      sleep 1
+
+      bspc rule -a Emacs -o desktop='^2'
+      /run/current-system/sw/bin/emacsclient -c &!
+
+      sleep .5
+
+      # Desktop 3
+      # ChatGPT, Emacs
+      bspc rule -a Google-chrome -o desktop='^3'
+      /etc/profiles/per-user/dustin/bin/google-chrome-stable --new-window "https://chat.openai.com" &!
+
+      sleep .5
+
+      bspc rule -a Emacs -o desktop='^3'
+      /run/current-system/sw/bin/emacsclient -c &!
+
+      sleep .5
+
+      # Desktop 5
+      # Apple Music
+      bspc rule -a Cider -o desktop='^5'
+      /etc/profiles/per-user/dustin/bin/cider &!
+
+      sleep 1
     '';
   };
 
@@ -158,7 +204,7 @@ let
 
     # Program launcher
     super + @space
-          rofi -config -no-lazy-grab -show drun -modi drun -theme ${xdg_configHome}/rofi/launcher.rasi
+          rofi -config -no-lazy-grab -show drun -modi drun -theme /home/${user}/.config/rofi/launcher.rasi
 
     # Terminal emulator
     super + Return
