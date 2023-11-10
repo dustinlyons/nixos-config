@@ -278,7 +278,7 @@ let
     text = ''
       #!/bin/sh
 
-      rofi -no-config -no-lazy-grab -show drun -modi drun -theme ${xdg_configHome}/rofi/launcher.rasi
+      rofi -no-config -no-lazy-grab -show drun -modi drun -theme ~/.config/rofi/launcher.rasi
     '';
   };
 
