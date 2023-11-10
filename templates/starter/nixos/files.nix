@@ -7,61 +7,64 @@ let
   xdg_stateHome  = "${home}/.local/state"; in
 {
 
-  "${xdg_configHome}/bspwm/bspwmrc".text = ''
-    #! /bin/sh
-    #
-    # Set the number of workspaces
-    bspc monitor -d 1 2 3 4 5 6
+  "${xdg_configHome}/bspwm/bspwmrc" {
+    executable = true;
+    text = ''
+      #! /bin/sh
+      #
+      # Set the number of workspaces
+      bspc monitor -d 1 2 3 4 5 6
 
-    # Launch keybindings daemon
-    pgrep -x sxhkd > /dev/null || sxhkd &
+      # Launch keybindings daemon
+      pgrep -x sxhkd > /dev/null || sxhkd &
 
-    # Window configurations
-    bspc config border_width         0
-    bspc config window_gap          16
-    bspc config split_ratio          0.52
-    bspc config borderless_monocle   true
-    bspc config gapless_monocle      true
+      # Window configurations
+      bspc config border_width         0
+      bspc config window_gap          16
+      bspc config split_ratio          0.52
+      bspc config borderless_monocle   true
+      bspc config gapless_monocle      true
 
-    # Padding outside of the window
-    bspc config top_padding            60
-    bspc config bottom_padding         60
-    bspc config left_padding           60
-    bspc config right_padding          60
+      # Padding outside of the window
+      bspc config top_padding            60
+      bspc config bottom_padding         60
+      bspc config left_padding           60
+      bspc config right_padding          60
 
-    # Move floating windows
-    bspc config pointer_action1 move
+      # Move floating windows
+      bspc config pointer_action1 move
 
-    # Resize floating windows
-    bspc config pointer_action2 resize_side
-    bspc config pointer_action2 resize_corner
+      # Resize floating windows
+      bspc config pointer_action2 resize_side
+      bspc config pointer_action2 resize_corner
 
-    # Set background and top bar
-    systemctl --user start polybar
+      # Set background and top bar
+      systemctl --user start polybar
 
-    sleep .25
+      sleep .25
 
-    # Wait for the network to be up
-    notify-send 'Waiting for network...'
-    while ! systemctl is-active --quiet network-online.target; do sleep 1; done
-    notify-send 'Network found.'
+      # Wait for the network to be up
+      notify-send 'Waiting for network...'
+      while ! systemctl is-active --quiet network-online.target; do sleep 1; done
+      notify-send 'Network found.'
 
-    # Wait for the Emacs daemon
-    notify-send 'Starting Emacs...'
-    /run/current-system/sw/bin/emacsclient -a "" -e '(progn)' &
+      # Wait for the Emacs daemon
+      notify-send 'Starting Emacs...'
+      /run/current-system/sw/bin/emacsclient -a "" -e '(progn)' &
 
-    # Wait for Emacs daemon to be ready
-    while ! /run/current-system/sw/bin/emacsclient -e '(progn)' &>/dev/null; do
-    sleep 1
-    done
-    notify-send 'Emacs daemon started.'
-  '';
+      # Wait for Emacs daemon to be ready
+      while ! /run/current-system/sw/bin/emacsclient -e '(progn)' &>/dev/null; do
+      sleep 1
+      done
+      notify-send 'Emacs daemon started.'
+    '';
+  };
 
   "${xdg_configHome}/sxhkd/sxhkdrc" {
     text = ''
     # Close window
     alt + F4
-        bspc node --close
+          bspc node --close
 
     # Make split ratios equal
     super + equal
@@ -110,11 +113,11 @@ let
 
     # Focus left/right desktop
     ctrl + alt + {Left,Right}
-         bspc desktop --focus {prev,next}
+          bspc desktop --focus {prev,next}
 
     # Focus left/right desktop
     ctrl + alt + {Up, Down}
-         bspc desktop --focus {prev,next}
+          bspc desktop --focus {prev,next}
 
     # Focus the older or newer node in the focus history
     super + {o,i}
