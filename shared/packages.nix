@@ -66,7 +66,6 @@ with pkgs; [
   nodePackages.nodemon
   nodePackages.prettier
   nodePackages.npm
-  nodePackages.wrangler
   nodejs
 
   # Source code management, Git, GitHub tools

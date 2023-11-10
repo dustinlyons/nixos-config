@@ -71,7 +71,6 @@ let user = "%USER%";
   services.xserver.windowManager.bspwm = {
     enable = true;
     configFile = ./config/bspwmrc;
-    sxhkd.configFile = ./config/sxhkdrc;
   };
 
   # Turn Caps Lock into Ctrl
