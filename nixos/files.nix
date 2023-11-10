@@ -1,4 +1,4 @@
-{ user, pkgs, ... }:
+{ user, ... }:
 
 let
   home           = builtins.getEnv "HOME";

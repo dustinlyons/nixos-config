@@ -68,8 +68,6 @@ let user = "%USER%";
   # Tiling window manager
   services.xserver.windowManager.bspwm = {
     enable = true;
-    configFile = ./config/bspwmrc;
-    sxhkd.configFile = ./config/sxhkdrc;
   };
 
   # Turn Caps Lock into Ctrl

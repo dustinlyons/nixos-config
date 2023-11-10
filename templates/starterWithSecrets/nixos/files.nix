@@ -1,4 +1,4 @@
-{ user, pkgs, ... }:
+{ user, ... }:
 
 let
   home           = builtins.getEnv "HOME";
@@ -164,7 +164,7 @@ let
     # Audio controls for mute
     XF86AudioMute
     pactl set-sink-mute @DEFAULT_SINK@ toggle
-    '';
+  '';
 
   "${xdg_configHome}/polybar/bin/popup-calendar.sh" = {
     executable = true;
@@ -172,8 +172,8 @@ let
       #!/bin/sh
 
       DATE="$(/run/current-system/sw/bin/date +"%B %d, %Y")"
-      SCREEN_WIDTH=$(${pkgs.xrandr}/bin/xrandr | grep '*' | awk '{print $1}' | cut -d 'x' -f1)
-      POSX=$(((SCREEN_WIDTH / 2)))
+      SCREEN_WIDTH=$(/run/current-system/sw/bin/xrandr | /run/current-system/sw/bin/grep '*' | /run/current-system/sw/bin/awk '{print $1}' | /run/current-system/sw/bin/cut -d 'x' -f1)
+      POSX=$(( (SCREEN_WIDTH / 2) - ((SCREEN_WIDTH / 2 * 625) / 10000) ))
 
       case "$1" in
       --popup)
