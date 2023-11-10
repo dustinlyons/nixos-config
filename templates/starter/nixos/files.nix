@@ -7,7 +7,7 @@ let
   xdg_stateHome  = "${home}/.local/state"; in
 {
 
-  "${xdg_configHome}/bspwm/bspwmrc" {
+  "${xdg_configHome}/bspwm/bspwmrc" = {
     executable = true;
     text = ''
       #! /bin/sh
@@ -60,7 +60,7 @@ let
     '';
   };
 
-  "${xdg_configHome}/sxhkd/sxhkdrc" {
+  "${xdg_configHome}/sxhkd/sxhkdrc" = {
     text = ''
     # Close window
     alt + F4
