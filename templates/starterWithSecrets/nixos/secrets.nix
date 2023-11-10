@@ -9,9 +9,12 @@ let user = "%USER%"; in
   # Your secrets go here
   #
   # Note: the installWithSecrets command you ran to boostrap the machine actually copies over
-  #       a Github key. However, if you want to store your  Github keys in your nix-secrets
-  #       repo, you can reference the age files and specify the symlink path. Then just delete
-  #       the bootstrap key.
+  #       a Github key pair. However, if you want to store the keypair in your nix-secrets repo
+  #       instead, you can reference the age files and specify the symlink path here.
+  #
+  #       If you change the key name, you'll need to update the SSH extraConfig in shared/home-manager.nix
+  #       so Github reads it correctly.
+
   #
   # age.secrets."github-ssh-key" = {
   #   symlink = false;
