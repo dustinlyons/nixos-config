@@ -39,6 +39,7 @@ let
       bspc config pointer_action2 resize_corner
 
       # Set background and top bar
+      feh --bg-scale $HOME/.local/share/img/wallpaper/active
       systemctl --user start polybar
 
       sleep .25
