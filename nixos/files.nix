@@ -13,10 +13,13 @@ let
       #!/bin/sh
 
       DATE="$(/run/current-system/sw/bin/date +"%B %d, %Y")"
+      SCREEN_WIDTH=$(xrandr | grep '*' | awk '{print $1}' | cut -d 'x' -f1)
+      POSX=$(((SCREEN_WIDTH / 2)))
+
       case "$1" in
       --popup)
           /etc/profiles/per-user/${user}/bin/yad --calendar --fixed \
-            --posx=1800 --posy=80 --no-buttons --borders=0 --title="yad-calendar" \
+            --posx=$POSX --posy=80 --no-buttons --borders=0 --title="yad-calendar" \
             --close-on-unfocus
         ;;
       *)
@@ -70,7 +73,7 @@ let
     text = ''
       #!/bin/sh
 
-      configDir="~/.local/share/src/nixos-config/nixos/config/rofi"
+      configDir="~${xdg_configHome}/rofi"
       uptime=$(uptime -p | sed -e 's/up //g')
       rofi_command="rofi -no-config -theme $configDir/powermenu.rasi"
 

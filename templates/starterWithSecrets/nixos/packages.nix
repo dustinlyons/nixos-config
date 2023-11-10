@@ -67,6 +67,7 @@ shared-packages ++ [
 
   # Other utilities
   yad # I use yad-calendar with polybar
+  xrandr
   xdotool
   google-chrome
 
