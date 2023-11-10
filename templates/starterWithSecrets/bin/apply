@@ -99,8 +99,10 @@ select_boot_disk() {
   fi
 }
 
-# Find primary disk if this is NixOS
+# Set hostname and find primary disk if this is NixOS
 if [[ "$OS" != "Darwin" ]]; then
+  _prompt "${YELLOW}Please enter a hostname for the system: ${NC}" HOST_NAME
+  export HOST_NAME
   select_boot_disk
 fi
 
@@ -112,7 +114,8 @@ confirm_details() {
 
   if([[ "$OS" != "Darwin" ]]); then
     _print "${GREEN}Primary interface: $PRIMARY_IFACE"
-    _print "Boot disk: $BOOT_DISK${NC}"
+    _print "Boot disk: $BOOT_DISK"
+    _print "Hostname: $HOST_NAME${NC}"
   fi
   _print "${GREEN}Secrets repository: $GITHUB_USER/$GITHUB_SECRETS_REPO${NC}"
 
@@ -148,6 +151,7 @@ replace_tokens() {
       sed -i -e "s/%DISK%/$BOOT_DISK/g" "$file"
       sed -i -e "s/%GITHUB_USER%/$GITHUB_USER/g" "$file"
       sed -i -e "s/%GITHUB_SECRETS_REPO%/$GITHUB_SECRETS_REPO/g" "$file"
+      sed -i -e "s/%HOST%/$HOST_NAME/g" "$file"
     fi
   fi
 }
