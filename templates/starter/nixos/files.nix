@@ -57,7 +57,8 @@ let
     notify-send 'Emacs daemon started.'
   '';
 
-  "${xdg_configHome}/sxhkd/sxhkdrc".text = ''
+  "${xdg_configHome}/sxhkd/sxhkdrc" {
+    text = ''
     # Close window
     alt + F4
         bspc node --close
@@ -214,7 +215,8 @@ let
     # Audio controls for mute
     XF86AudioMute
         pactl set-sink-mute @DEFAULT_SINK@ toggle
-  '';
+    '';
+  };
 
   "${xdg_configHome}/polybar/bin/popup-calendar.sh" = {
     executable = true;
