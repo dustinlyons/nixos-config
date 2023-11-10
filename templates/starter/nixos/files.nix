@@ -60,160 +60,160 @@ let
   "${xdg_configHome}/sxhkd/sxhkdrc".text = ''
     # Close window
     alt + F4
-    bspc node --close
+        bspc node --close
 
     # Make split ratios equal
     super + equal
-    bspc node @/ --equalize
+          bspc node @/ --equalize
 
     # Make split ratios balanced
     super + minus
-    bspc node @/ --balance
+          bspc node @/ --balance
 
     # Toogle tiling of window
     super + d
-    bspc query --nodes -n focused.tiled && state=floating || state=tiled; \
-    bspc node --state \~$state
+          bspc query --nodes -n focused.tiled && state=floating || state=tiled; \
+          bspc node --state \~$state
 
     # Toggle fullscreen of window
     super + f
-    bspc node --state \~fullscreen
+          bspc node --state \~fullscreen
 
     # Swap the current node and the biggest window
     super + g
-    bspc node -s biggest.window
+          bspc node -s biggest.window
 
     # Swap the current node and the smallest window
     super + shift + g
-    bspc node -s biggest.window
+          bspc node -s biggest.window
 
     # Alternate between the tiled and monocle layout
     super + m
-    bspc desktop -l next
+          bspc desktop -l next
 
     # Move between windows in monocle layout
     super + {_, alt + }m
-            bspc node -f {next, prev}.local.!hidden.window
+          bspc node -f {next, prev}.local.!hidden.window
 
     # Focus the node in the given direction
     super + {_,shift + }{h,j,k,l}
-    bspc node -{f,s} {west,south,north,east}
+          bspc node -{f,s} {west,south,north,east}
 
     # Focus left/right occupied desktop
     super + {Left,Right}
-    bspc desktop --focus {prev,next}.occupied
+          bspc desktop --focus {prev,next}.occupied
 
     # Focus left/right occupied desktop
     super + {Up,Down}
-    bspc desktop --focus {prev,next}.occupied
+          bspc desktop --focus {prev,next}.occupied
 
     # Focus left/right desktop
     ctrl + alt + {Left,Right}
-    bspc desktop --focus {prev,next}
+         bspc desktop --focus {prev,next}
 
     # Focus left/right desktop
     ctrl + alt + {Up, Down}
-    bspc desktop --focus {prev,next}
+         bspc desktop --focus {prev,next}
 
     # Focus the older or newer node in the focus history
     super + {o,i}
-    bspc wm -h off; \
-    bspc node {older,newer} -f; \
-    bspc wm -h on
+          bspc wm -h off; \
+          bspc node {older,newer} -f; \
+          bspc wm -h on
 
     # Focus or send to the given desktop
     super + {_,shift + }{1-9,0}
-    bspc {desktop -f,node -d} '^{1-9,10}'
+          bspc {desktop -f,node -d} '^{1-9,10}'
 
     # Preselect the direction
     super + alt + {h,j,k,l}
-    bspc node -p {west,south,north,east}
+          bspc node -p {west,south,north,east}
 
     # Cancel the preselect
     # For context on syntax: https://github.com/baskerville/bspwm/issues/344
     super + alt + {_,shift + }Escape
-            bspc query -N -d | xargs -I id -n 1 bspc node id -p cancel
+          bspc query -N -d | xargs -I id -n 1 bspc node id -p cancel
 
     # Preselect the direction
     super + ctrl + {h,j,k,l}
-    bspc node -p {west,south,north,east}
+          bspc node -p {west,south,north,east}
 
     # Cancel the preselect
     # For context on syntax: https://github.com/baskerville/bspwm/issues/344
     super + ctrl + {_,shift + }Escape
-            bspc query -N -d | xargs -I id -n 1 bspc node id -p cancel
+          bspc query -N -d | xargs -I id -n 1 bspc node id -p cancel
 
     # Set the node flags
     super + ctrl + {m,x,s,p}
-    bspc node -g {marked,locked,sticky,private}
+          bspc node -g {marked,locked,sticky,private}
 
     # Send the newest marked node to the newest preselected node
     super + y
-    bspc node newest.marked.local -n newest.!automatic.local
+          bspc node newest.marked.local -n newest.!automatic.local
 
     # Program launcher
     super + @space
-    rofi -config -no-lazy-grab -show drun -modi drun -theme ${xdg_configHome}/rofi/launcher.rasi
+          rofi -config -no-lazy-grab -show drun -modi drun -theme ${xdg_configHome}/rofi/launcher.rasi
 
     # Terminal emulator
     super + Return
-    bspc rule -a Alacritty -o state=floating rectangle=1024x768x0x0 center=true && /etc/profiles/per-user/${user}/bin/alacritty
+          bspc rule -a Alacritty -o state=floating rectangle=1024x768x0x0 center=true && /etc/profiles/per-user/${user}/bin/alacritty
 
     # Terminal emulator
     super + ctrl + Return
-    /etc/profiles/per-user/${user}/bin/alacritty
+          /etc/profiles/per-user/${user}/bin/alacritty
 
     # Jump to workspaces
     super + t
-    bspc desktop --focus ^2
+          bspc desktop --focus ^2
     super + b
-    bspc desktop --focus ^1
+          bspc desktop --focus ^1
     super + w
-    bspc desktop --focus ^4
+          bspc desktop --focus ^4
     super + Tab
-            bspc {node,desktop} -f last
+          bspc {node,desktop} -f last
 
     # Keepass XC
     super + shift + x
-    /etc/profiles/per-user/${user}/bin/keepassxc
+          /etc/profiles/per-user/${user}/bin/keepassxc
 
     # Emacs
     # -c flag is --create-frame
     # -a flag is fallback to plain emacs if daemon fails
     super + alt + Return
-    emacsclient -c -a emacs
+         emacsclient -c -a emacs
 
     super + alt + e
-        systemctl --user restart emacs.service && \
-        emacsclient -c -a emacs
+         systemctl --user restart emacs.service && \
+         emacsclient -c -a emacs
 
     # Web browser
     ctrl + alt + Return
-    google-chrome-stable
+         google-chrome-stable
 
     # File browser at home dir
     super + shift + @space
-    pcmanfm
+         pcmanfm
 
     # Take a screenshot with PrintSc
     Print
-            flameshot gui -c -p $HOME/.local/share/img/screenshots
+         flameshot gui -c -p $HOME/.local/share/img/screenshots
 
     # Lock the screen
     ctrl + alt + BackSpace
-            i3lock
+         i3lock
 
     # Audio controls for + volume
     XF86AudioRaiseVolume
-    pactl set-sink-volume @DEFAULT_SINK@ +5%
+        pactl set-sink-volume @DEFAULT_SINK@ +5%
 
     # Audio controls for - volume
     XF86AudioLowerVolume
-    pactl set-sink-volume @DEFAULT_SINK@ -5%
+        pactl set-sink-volume @DEFAULT_SINK@ -5%
 
     # Audio controls for mute
     XF86AudioMute
-    pactl set-sink-mute @DEFAULT_SINK@ toggle
+        pactl set-sink-mute @DEFAULT_SINK@ toggle
   '';
 
   "${xdg_configHome}/polybar/bin/popup-calendar.sh" = {
