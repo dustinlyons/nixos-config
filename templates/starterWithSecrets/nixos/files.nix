@@ -157,7 +157,7 @@ let
 
     # Program launcher
     super + @space
-          rofi -config -no-lazy-grab -show drun -modi drun -theme ${xdg_configHome}/rofi/launcher.rasi
+          rofi -config -no-lazy-grab -show drun -modi drun -theme /home/${user}/.config/rofi/launcher.rasi
 
     # Terminal emulator
     super + Return
