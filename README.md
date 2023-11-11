@@ -266,7 +266,7 @@ On first boot at the login screen:
 - Go back to the login screen: `Ctrl-Alt-F7`
 
 # How to create secrets
-To create a new secret `secret.age`, first [create a `secrets.nix` file](https://github.com/ryantm/agenix#tutorial) at the root of your `nix-secrets` repository. This is only used by the `agenix` CLI command. 
+To create a new secret `secret.age`, first [create a `secrets.nix` file](https://github.com/ryantm/agenix#tutorial) at the root of your `nix-secrets` repository. This will only be used by the `agenix` CLI command. 
 
 **secrets.nix**
 ```nix
@@ -281,13 +281,19 @@ in
   "secret.age".publicKeys = [ user1 system1 ];
 }
 ```
-Next, run this command. It assumes your SSH private key is in `~/.ssh/` or you can provide the `-i` flag with a path to your `id_ed25519` key. 
+Next, run the 'create secret' command. It assumes your SSH private key is in `~/.ssh/` or you can provide the `-i` flag with a path to your `id_ed25519` key. 
 ```
 EDITOR=vim nix run github:ryantm/agenix -- -e secret.age
 ```
 This opens an editor to accept, encrypt, and write your secret to disk. 
 
-Commit the file to your `nix-secrets` repo and add a reference in the `secrets.nix` of your `nixos-config`.
+Commit the file to your `nix-secrets` repo and add a reference in the `secrets.nix` of your `nixos-config`. References look like
+```
+{
+  "secret.age".publicKeys = [ user1 system1 ];
+}
+```
+where `"secret.age"` is your new filename.
 
 ## Example
 So, let's say I wanted to create a new secret to hold my Github SSH key. 
