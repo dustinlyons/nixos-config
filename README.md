@@ -388,5 +388,6 @@ nix flake update
 
 [![Star History Chart](https://api.star-history.com/svg?repos=dustinlyons/nixos-config&type=Date)](https://star-history.com/#dustinlyons/nixos-config&Date)
 
-[Follow me on Twitter](https://twitter.com/dustinhlyons)
-[Buy me a coffee](https://www.buymeacoffee.com/dustinlyons1)
+[Buy me a coffee](https://www.buymeacoffee.com/dustinlyons1) or [follow me on Twitter](https://twitter.com/dustinhlyons).
+
+
