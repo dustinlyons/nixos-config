@@ -10,7 +10,6 @@ on:
 
 jobs:
 - name: Debugging information
-  run: |
   nixos-build:
     runs-on: ubuntu-latest
     name: Build NixOS Configuration
