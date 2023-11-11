@@ -1,6 +1,7 @@
 { agenix, config, pkgs, ... }:
 
 let user = "%USER%"; in
+
 {
 
   imports = [
