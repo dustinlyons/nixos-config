@@ -152,14 +152,14 @@ If you are using the starter with secrets, there are a few additional steps.
 In Github, create a private `nix-secrets` repository. You'll enter this name during installation.
 
 #### 6b. Install keys
-Before generating your first build, these keys must exist in your `~/.ssh` directory. We provide a few helper commands to do this.
+Before generating your first build, these keys must exist in your `~/.ssh` directory. Don't worry, we provide a few commands to help you.
 
 | Key Name            | Platform         | Description                           | 
 |---------------------|------------------|---------------------------------------|
 | id_ed25519          | MacOS / NixOS    | Used to download secrets from Github. |
 | id_ed25519_agenix   | MacOS / NixOS    | Used to encrypt and decrypt secrets.  |
 
-Choose one of these options.
+You must one run of these commands:
 
 ##### Copy keys from USB drive
 This script auto-detects a USB drive connected to the current system.
@@ -211,14 +211,14 @@ If you are using the starter with secrets, there are a few additional steps.
 In Github, create a private `nix-secrets` repository. You'll enter this name during installation.
 
 #### 2b. Install keys
-Before generating your first build, these keys must exist in your `~/.ssh` directory. We provide a few helper commands to do this.
+Before generating your first build, these keys must exist in your `~/.ssh` directory. Don't worry, we provide a few commands to help you.
 
 | Key Name            | Platform         | Description                           | 
 |---------------------|------------------|---------------------------------------|
 | id_ed25519          | MacOS / NixOS    | Used to download secrets from Github. |
 | id_ed25519_agenix   | MacOS / NixOS    | Used to encrypt and decrypt secrets.  |
 
-Choose one of these options.
+You must one run of these commands:
 
 ##### Copy keys from USB drive
 This script auto-detects a USB drive connected to the current system.
@@ -330,14 +330,14 @@ nix run --extra-experimental-features 'nix-command flakes' github:dustinlyons/ni
 With Nix, changes to your system are made by 
 - editing your system configuration
 - building the [system closure](https://zero-to-nix.com/concepts/closures)
-- creating and switching to the [new generation](https://nixos.wiki/wiki/Terms_and_Definitions_in_Nix_Project#generation)
+- creating and switching to it (i.e creating a [new generation](https://nixos.wiki/wiki/Terms_and_Definitions_in_Nix_Project#generation))
 
 ## For MacOS
 ```sh
 nix build .#darwinConfigurations.macos.system && \
 ./result/sw/bin/darwin-rebuild switch --flake .#macos
 ```
-#### Optional [script](https://github.com/dustinlyons/nixos-config/blob/main/bin/build) to save keystrokes
+#### Optional [script](https://github.com/dustinlyons/nixos-config/blob/main/bin/darwin-build) to save keystrokes
 ```sh
 bin/build
 ```
@@ -349,7 +349,7 @@ sudo nixos-rebuild switch --flake .#x86_64
 ```sh
 sudo nixos-rebuild switch --flake .#aarch64
 ```
-#### Optional [script](https://github.com/dustinlyons/nixos-config/blob/main/bin/build) to save keystrokes
+#### Optional [script](https://github.com/dustinlyons/nixos-config/blob/main/bin/nixos-build) to save keystrokes
 ```sh
 bin/build
 ```
