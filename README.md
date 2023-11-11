@@ -182,7 +182,7 @@ nix run github:dustinlyons/nixos-config#checkKeys
 ### 7. Install configuration
 First-time installations require you to move the current `/etc/nix/nix.conf` out of the way.
 ```sh
-sudo mv /etc/nix/nix.conf /etc/nix/nix.conf.before-nix-darwin
+[ -f /etc/nix/nix.conf ] && sudo mv /etc/nix/nix.conf /etc/nix/nix.conf.before-nix-darwin
 ```
 
 Then, run this script, which wraps the Nix commands to build and deploy a new Nix generation.
