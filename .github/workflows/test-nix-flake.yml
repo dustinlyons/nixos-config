@@ -9,6 +9,8 @@ on:
       - main
 
 jobs:
+- name: Debugging information
+  run: |
   nixos-build:
     runs-on: ubuntu-latest
     name: Build NixOS Configuration
@@ -21,7 +23,10 @@ jobs:
 
     - name: Build NixOS Flake
       run: |
-        nix build --extra-experimental-features 'nix-command flakes' --no-link --keep-going --option extra-sandbox-paths / --impure --expr '(import ./flake.nix).nixosConfigurations."x86_64-linux".config.system.build.toplevel'
+        ls -la
+        cat ./flake.nix
+        nix build --extra-experimental-features 'nix-command flakes' --no-link --keep-going --option extra-sandbox-paths / --impure .#nixosConfigurations."x86_64-linux".config.system.build.toplevel
+
 
   darwin-build:
     runs-on: ubuntu-latest
@@ -35,5 +40,7 @@ jobs:
 
     - name: Build nix-darwin Flake
       run: |
-        nix build --extra-experimental-features 'nix-command flakes' --no-link --keep-going --option extra-sandbox-paths / --impure --expr '(import ./flake.nix).darwinConfigurations."Dustins-MBP".system'
+        ls -la
+        cat ./flake.nix
+        nix build --extra-experimental-features 'nix-command flakes' --no-link --keep-going --option extra-sandbox-paths / --impure .#darwinConfigurations."Dustins-MBP".system
 
