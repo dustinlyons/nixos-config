@@ -1,0 +1,39 @@
+name: Test Nix Flake
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  nixos-build:
+    runs-on: ubuntu-latest
+    name: Build NixOS Configuration
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Install Nix
+      uses: cachix/install-nix-action@v13
+
+    - name: Build NixOS Flake
+      run: |
+        nix build --no-link --keep-going --option extra-sandbox-paths / --impure --expr '(import ./flake.nix).nixosConfigurations.felix.config.system.build.toplevel'
+
+  darwin-build:
+    runs-on: ubuntu-latest
+    name: Build nix-darwin Configuration
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Install Nix
+      uses: cachix/install-nix-action@v13
+
+    - name: Build nix-darwin Flake
+      run: |
+        nix build --no-link --keep-going --option extra-sandbox-paths / --impure --expr '(import ./flake.nix).darwinConfigurations.Dustins-MBP.system'
+
