@@ -305,7 +305,7 @@ EDITOR=vim nix run github:ryantm/agenix -- -e github-ssh-key.age
 
 This would start a `vim` session.
 
-I would enter insert mode `:i`, type the password, hit Esc and then type `:w` to save it, resulting in the creation of a new file, `github-ssh-key.age`.
+I would enter insert mode `:i`, copy+paste the key, hit Esc and then type `:w` to save it, resulting in the creation of a new file, `github-ssh-key.age`.
 
 Next, I would edit `secrets.nix` to include a line specifying the public key to use for my new secret. I specify a user key, but I could just as easily specify a host key.
 
