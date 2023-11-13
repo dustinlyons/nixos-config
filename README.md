@@ -185,13 +185,9 @@ First-time installations require you to move the current `/etc/nix/nix.conf` out
 [ -f /etc/nix/nix.conf ] && sudo mv /etc/nix/nix.conf /etc/nix/nix.conf.before-nix-darwin
 ```
 
+If you're using a git repository, only files in the working tree will be copied to the [Nix Store](https://zero-to-nix.com/concepts/nix-store). So it's imperative you run `git add .`.
 
-For flakes in git repos, only files in the working tree will be copied to the [Nix Store](https://zero-to-nix.com/concepts/nix-store). So from `nixos-config`, run
-```sh
-git add .
-```
-
-Then, the final step: setup and run `bin/build`, which wraps the Nix commands to build and deploy a new Nix generation.
+Then, run `bin/build`, which wraps a few Nix commands to build and deploy a new Nix generation.
 ```sh
 chmod +x bin/darwin-build && chmod +x bin/build && bin/build
 ```
