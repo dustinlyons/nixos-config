@@ -6,11 +6,11 @@
 # Overview
 Hey, you made it! Welcome. 🤓 
 
-This Nix configuration runs on MacOS, NixOS, or both simultaneously. It's also a good example of a MacOS Nix flake.
+Nix is a powerful package manager for Linux and Unix systems that ensures reproducible, declarative, and reliable software management. This repository contains configuration that runs on MacOS, NixOS, or both simultaneously. It's also a good example of a MacOS Nix [flake](https://zero-to-nix.com/concepts/flakes).
 
-I use this daily on my 🧑🏻‍💻 M1 Macbook Pro and an x86 PC in my home office. It also runs as a VM on your Mac.
+I use this daily on my 🧑🏻‍💻 M1 Macbook Pro and an x86 PC in my home office. It also runs as a VM on your Mac. Others have reported that it's working for them too.
 
-Check out the starter templates below to get started!
+Check out the starter templates and step-by-step commands below to get started!
 
 ## Table of Contents
 - [Nix for MacOS + NixOS](#nix-for-macos--nixos)
@@ -71,12 +71,12 @@ Check out the starter templates below to get started!
 - **Emacs Literate Configuration**: [Large Emacs literate configuration](https://github.com/dustinlyons/nixos-config/blob/main/shared/config/emacs/config.org) to explore (if that's your thing)
 - **Simplicity and Readability**: Optimized for simplicity and readability in all cases, not small files everywhere
 
-# Videos 
-## MacOS
-### Updating dependencies with one command
+## Videos
+### MacOS
+#### Updating dependencies with one command
 https://github.com/dustinlyons/nixos-config/assets/1292576/2168d482-6eea-4b51-adc1-2ef1291b6598
 
-### Instant Emacs 29 thanks to daemon mode
+#### Instant Emacs 29 thanks to daemon mode
 **GUI**
 
 https://github.com/dustinlyons/nixos-config/assets/1292576/66001066-2bbf-4492-bc9e-60ea1abeb987
@@ -85,7 +85,7 @@ https://github.com/dustinlyons/nixos-config/assets/1292576/66001066-2bbf-4492-bc
 
 https://github.com/dustinlyons/nixos-config/assets/1292576/d96f59ce-f540-4f14-bc61-6126a74f9f52
 
-## NixOS
+### NixOS
 
 https://github.com/dustinlyons/nixos-config/assets/1292576/fa54a87f-5971-41ee-98ce-09be048018b8
 
@@ -366,6 +366,25 @@ bin/build
 nix flake update
 ```
 
+### Compatibility and Testing
+This configuration has been tested on the following platforms:
+- M1 Macbook
+- Bare metal x86_64 PC
+- VMWare on MacOS
+
+## Contributing
+Interested in contributing to this project? Here's how you can help:
+
+- **Code Contributions**: If you're interested in contributing code, please start by looking at open issues or feature requests. Fork the repository, make your changes, and submit a pull request. Make sure your code adheres to the existing style. For significant changes, consider opening an issue for discussion before starting work.
+
+- **Reporting Bugs**: If you encounter bugs or issues, please help by reporting them. Open a GitHub Issue and include as much detail as possible: what you were doing when the bug occurred, steps to reproduce the issue, and any relevant logs or error messages. This information will be invaluable in diagnosing and fixing the problem.
+
+## Feedback and Questions
+Have feedback or questions? Feel free to use the [discussion forum](https://github.com/dustinlyons/nixos-config/discussions).
+
+## License
+This project is released under the [MIT License](link-to-license).
+
 ## Appendix
 ### NixOS Components
 
@@ -389,6 +408,5 @@ nix flake update
 
 [![Star History Chart](https://api.star-history.com/svg?repos=dustinlyons/nixos-config&type=Date)](https://star-history.com/#dustinlyons/nixos-config&Date)
 
+### Support
 [Buy me a coffee](https://www.buymeacoffee.com/dustinlyons1) or [follow me on Twitter](https://twitter.com/dustinhlyons).
-
-
