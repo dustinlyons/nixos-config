@@ -5,12 +5,16 @@ on:
     branches:
       - main
     paths:
-      - 'flake.nix' 
+      - 'flake.nix'
+      - 'flake.lock'
+      - 'templates/starter/**'
   pull_request:
     branches:
       - main
     paths:
       - 'flake.nix'
+      - 'flake.lock'
+      - 'templates/starter/**'
 
 jobs:
   nix-flake-build:
