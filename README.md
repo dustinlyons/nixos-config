@@ -120,12 +120,12 @@ curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix 
 ### 3. Initialize a starter template
 This is a simplified version without secrets management.
 ```sh
-mkdir -p nixos-config && (cd nixos-config && nix flake --extra-experimental-features nix-command --extra-experimental-features flakes init -t github:dustinlyons/nixos-config#starter)
+mkdir -p nixos-config && (cd nixos-config && nix flake --extra-experimental-features 'nix-command flakes' init -t github:dustinlyons/nixos-config#starter)
 ```
 
 This is a full version with secrets management.
 ```sh
-mkdir -p nixos-config && (cd nixos-config && nix flake --extra-experimental-features nix-command --extra-experimental-features flakes init -t github:dustinlyons/nixos-config#starterWithSecrets)
+mkdir -p nixos-config && (cd nixos-config && nix flake --extra-experimental-features 'nix-command flakes' init -t github:dustinlyons/nixos-config#starterWithSecrets)
 ```
 
 ### 4. Apply your current user info
