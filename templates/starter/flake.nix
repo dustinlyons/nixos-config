@@ -5,7 +5,7 @@
   inputs = {
     nixpkgs.url = "github:dustinlyons/nixpkgs/master";
 
-    # My nixpkgs fork includes a feather-font package (https://github.com/dustinlyons/feather-font)
+    # This nixpkgs fork includes a feather-font package (https://github.com/dustinlyons/feather-font)
     # and a timeout setting for Emacs daemon. If you don't want to use my it, follow these steps to use the official repo instead:
     #
     # Change the flake input
