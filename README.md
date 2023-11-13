@@ -77,11 +77,11 @@ Check out the starter templates and step-by-step commands below to get started!
 https://github.com/dustinlyons/nixos-config/assets/1292576/2168d482-6eea-4b51-adc1-2ef1291b6598
 
 #### Instant Emacs 29 thanks to daemon mode
-**GUI**
+- **GUI**
 
 https://github.com/dustinlyons/nixos-config/assets/1292576/66001066-2bbf-4492-bc9e-60ea1abeb987
 
-**Terminal**
+- **Terminal**
 
 https://github.com/dustinlyons/nixos-config/assets/1292576/d96f59ce-f540-4f14-bc61-6126a74f9f52
 
