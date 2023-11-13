@@ -39,7 +39,7 @@ jobs:
         ls -la
         git add .
         echo "Building Flake..."
-        nix build --extra-experimental-features 'nix-command flakes' /home/runner/work/nixos-config/nixos-config/my-config#nixosConfigurations.x86_64-linux.system
+        nix build --extra-experimental-features 'nix-command flakes' /home/runner/work/nixos-config/nixos-config/my-config#nixosConfigurations."x86_64-linux".config.system.build.toplevel
         if [ $? -ne 0 ]; then
         echo "Build failed, listing flake.lock for debugging:"
         cat flake.lock
