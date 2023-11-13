@@ -8,7 +8,7 @@ Hey, you made it! Welcome. 🤓
 
 Nix is a powerful package manager for Linux and Unix systems that ensures reproducible, declarative, and reliable software management. This repository contains configuration that creates a general purpose developer environment that runs on MacOS, NixOS, or both simultaneously. 
 
-I think it's also a good example of a MacOS Nix [flake](https://zero-to-nix.com/concepts/flakes).
+I think it's also a good example of a MacOS Nix flake. If you aren't sure what a flake is, we'll get into that in a bit.
 
 I use this daily on my 🧑🏻‍💻 M1 Macbook Pro and an x86 PC in my home office. It also runs as a VM on your Mac. Others have reported that it's working for them too.
 
@@ -50,6 +50,7 @@ Check out the starter templates and step-by-step commands below to get started!
   - [Feedback and Questions](#feedback-and-questions)
   - [License](#license)
   - [Appendix](#appendix)
+    - [Why Nix Flakes](#why-nix-flakes)
     - [NixOS Components](#nixos-components)
     - [Stars](#stars)
     - [Support](#support)
@@ -67,7 +68,7 @@ Check out the starter templates and step-by-step commands below to get started!
 ```
 
 ## Features
-- **Nix Flakes**: 100% flake driven, no `configuration.nix`, no Nix channels─ just `flake.nix`
+- **Nix Flakes**: 100% flake driven, no `configuration.nix`, [no Nix channels](#why-nix-flakes)─ just `flake.nix`
 - **Same Environment Everywhere**: Easily share config across Linux and Mac (both Nix and Home Manager)
 - **MacOS Dream Setup**: Fully declarative MacOS, including UI, dock and MacOS App Store apps
 - **Simple Bootstrap**: Simple Nix commands to start from zero, both x86 and MacOS platforms
@@ -398,6 +399,15 @@ Have feedback or questions? Feel free to use the [discussion forum](https://gith
 This project is released under the [MIT License](link-to-license).
 
 ## Appendix
+### Why Nix Flakes
+Reasons to jump into flakes and skip `nix-env`, Nix channels, etc:
+- Channels lock all packages to one big global `nixpkgs` version. Flakes lock each package to specific versions, which is a higher level of precision and reproducibility compared to channels
+- Flakes work just like other package managers-- `npm`, `cargo`, `poetry`, `composer`, etc.
+- Flakes encapsulate not just project dependencies, but Nix expressions, Nix apps, and other configurations in a single file
+- Flakes have a growing ecosystem ([Flake Hub](https://flakehub.com/), [Dev Env](https://devenv.sh/), etc.), so you're future proofing yourself
+
+Just go flakes.
+
 ### NixOS Components
 
 | Component                   | Description                                     | 
