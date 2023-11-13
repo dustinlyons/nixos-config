@@ -31,9 +31,17 @@ jobs:
         cd /home/runner/work/nixos-config/nixos-config/my-config
         /home/runner/work/nixos-config/nixos-config/bin/apply-ci
 
-    # Build the Nix Flake
+    # Build the Nix Flake with debugging
     - name: Build Nix Flake
       run: |
         cd /home/runner/work/nixos-config/nixos-config/my-config
+        echo "Listing current directory:"
+        ls -la
         git add .
-        nix build --extra-experimental-features 'nix-command flakes' /home/runner/work/nixos-config/nixos-config/my-config#nixosConfigurations."x86_64-linux".system.config.system.build.toplevel
+        echo "Building Flake..."
+        nix build --extra-experimental-features 'nix-command flakes' /home/runner/work/nixos-config/nixos-config/my-config#nixosConfigurations.x86_64-linux.system
+        if [ $? -ne 0 ]; then
+        echo "Build failed, listing flake.lock for debugging:"
+        cat flake.lock
+        exit 1
+        fi
