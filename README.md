@@ -1,7 +1,7 @@
 <img src="https://user-images.githubusercontent.com/1292576/190241835-41469235-f65d-4d4b-9760-372cdff7a70f.png" width="48">
 
 # Nix for MacOS + NixOS
-![GitHub last commit](https://img.shields.io/github/last-commit/dustinlyons/nixos-config?style=plastic)
+[![Build Starter Template](https://github.com/dustinlyons/nixos-config/actions/workflows/test-nix-flake.yml/badge.svg)](https://github.com/dustinlyons/nixos-config/actions/workflows/test-nix-flake.yml)
 
 # Overview
 Hey, you made it! Welcome. 🤓 
