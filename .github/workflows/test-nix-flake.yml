@@ -35,6 +35,5 @@ jobs:
     - name: Build Nix Flake
       run: |
         cd /home/runner/work/nixos-config/nixos-config/my-config
-        cat /home/runner/work/nixos-config/nixos-config/my-config/flake.nix
         git add .
-        nix build --extra-experimental-features 'nix-command flakes' .#nixos
+        nix build --extra-experimental-features 'nix-command flakes' .#x86_64-linux
