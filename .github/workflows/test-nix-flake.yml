@@ -36,4 +36,4 @@ jobs:
       run: |
         cd /home/runner/work/nixos-config/nixos-config/my-config
         git add .
-        nix build --extra-experimental-features 'nix-command flakes' .#nixosConfigurations.x86_64-linux.system
+        nix build --extra-experimental-features 'nix-command flakes' /home/runner/work/nixos-config/nixos-config/my-config#nixosConfigurations.x86_64-linux.system
