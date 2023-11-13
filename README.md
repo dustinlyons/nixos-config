@@ -366,7 +366,7 @@ bin/build
 nix flake update
 ```
 
-### Compatibility and Testing
+## Compatibility and Testing
 This configuration has been tested on the following platforms:
 - M1 Macbook
 - Bare metal x86_64 PC
