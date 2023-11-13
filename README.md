@@ -333,7 +333,7 @@ Not yet available. Coming soon.
 nix run --extra-experimental-features 'nix-command flakes' github:dustinlyons/nixos-config#live
 ```
 
-# Making changes
+# Deploying changes to your system
 With Nix, changes to your system are made by 
 - editing your system configuration
 - building the [system closure](https://zero-to-nix.com/concepts/closures)
@@ -367,10 +367,11 @@ nix flake update
 ```
 
 ## Compatibility and Testing
-This configuration has been tested on the following platforms:
-- M1 Macbook
+This configuration has been tested and confirmed working on the following platforms:
+- M1 Macbook Pro/Air
 - Bare metal x86_64 PC
-- VMWare on MacOS
+- NixOS inside VMWare on MacOS
+- MacOS Sonoma inside Parallels on MacOS
 
 ## Contributing
 Interested in contributing to this project? Here's how you can help:
