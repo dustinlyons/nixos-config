@@ -1,4 +1,4 @@
-name: Test Nix Flake
+name: Build Starter Template
 
 on:
   push:
@@ -11,7 +11,7 @@ on:
 jobs:
   nix-flake-build:
     runs-on: ubuntu-latest
-    name: Build Nix Flake
+    name: Build Starter Template
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2
