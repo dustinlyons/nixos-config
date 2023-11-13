@@ -9,9 +9,9 @@ on:
       - main
 
 jobs:
-  nixos-build:
+  nix-flake-build:
     runs-on: ubuntu-latest
-    name: Build NixOS Configuration
+    name: Build Nix Flake
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2
@@ -19,26 +19,17 @@ jobs:
     - name: Install Nix
       uses: cachix/install-nix-action@v13
 
-    - name: Build NixOS Flake
+    # Initialize a new Nix flake
+    - name: Initialize Nix Flake
       run: |
-        ls -la
-        cat ./flake.nix
-        nix build --extra-experimental-features 'nix-command flakes' --no-link --keep-going --option extra-sandbox-paths / --impure .#nixosConfigurations."x86_64-linux".config.system.build.toplevel
+        mkdir -p my-config && cd my-config
+        nix flake --extra-experimental-features 'nix-command flakes' init -t github:dustinlyons/nixos-config#starter
 
-
-  darwin-build:
-    runs-on: ubuntu-latest
-    name: Build nix-darwin Configuration
-    steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
-
-    - name: Install Nix
-      uses: cachix/install-nix-action@v13
-
-    - name: Build nix-darwin Flake
+    # Apply CI user info
+    - name: Apply CI User Info
       run: |
-        ls -la
-        cat ./flake.nix
-        nix build --extra-experimental-features 'nix-command flakes' --no-link --keep-going --option extra-sandbox-paths / --impure .#darwinConfigurations."Dustins-MBP".system
+        ../bin/apply-ci
 
+    # Build the Nix Flake
+    - name: Build Nix Flake
+      run: nix build --extra-experimental-features 'nix-command flakes' .#nixos
