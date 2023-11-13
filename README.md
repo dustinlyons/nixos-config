@@ -404,7 +404,7 @@ This project is released under the [MIT License](link-to-license).
 - Channels lock all packages to one big global `nixpkgs` version. Flakes lock each package to specific versions, which is a higher level of precision and reproducibility compared to channels
 - Flakes work just like other package managers-- `npm`, `cargo`, `poetry`, `composer`, etc.
 - Flakes encapsulate not just project dependencies, but Nix expressions, Nix apps, and other configurations in a single file
-- Flakes have a growing ecosystem ([Flake Hub](https://flakehub.com/), [Dev Env](https://devenv.sh/), etc.), so you're future proofing yourself
+- Flakes have a growing ecosystem (See [Flake Hub](https://flakehub.com/) or [Dev Env](https://devenv.sh/)), so you're future-proofing yourself
 
 Just go flakes.
 
