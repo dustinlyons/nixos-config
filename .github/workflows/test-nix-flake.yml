@@ -28,7 +28,8 @@ jobs:
     # Apply CI user info
     - name: Apply CI User Info
       run: |
-        ../bin/apply-ci
+        cd /home/runner/work/nixos-config/nixos-config/my-config
+        /home/runner/work/nixos-config/nixos-config/bin/apply-ci
 
     # Build the Nix Flake
     - name: Build Nix Flake
