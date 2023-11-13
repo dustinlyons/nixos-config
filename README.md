@@ -120,12 +120,12 @@ curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix 
 ### 3. Initialize a starter template
 This is a simplified version without secrets management.
 ```sh
-mkdir -p nixos-config && (cd nixos-config && nix flake '--extra-experimental-features nix-command flakes' init -t github:dustinlyons/nixos-config#starter)
+mkdir -p nixos-config && (cd nixos-config && nix flake --extra-experimental-features nix-command --extra-experimental-features flakes init -t github:dustinlyons/nixos-config#starter)
 ```
 
 This is a full version with secrets management.
 ```sh
-mkdir -p nixos-config && (cd nixos-config && nix flake '--extra-experimental-features nix-command flakes' init -t github:dustinlyons/nixos-config#starterWithSecrets)
+mkdir -p nixos-config && (cd nixos-config && nix flake --extra-experimental-features nix-command --extra-experimental-features flakes init -t github:dustinlyons/nixos-config#starterWithSecrets)
 ```
 
 ### 4. Apply your current user info
@@ -185,7 +185,13 @@ First-time installations require you to move the current `/etc/nix/nix.conf` out
 [ -f /etc/nix/nix.conf ] && sudo mv /etc/nix/nix.conf /etc/nix/nix.conf.before-nix-darwin
 ```
 
-Then, run this script, which wraps the Nix commands to build and deploy a new Nix generation.
+
+For flakes in git repos, only files in the working tree will be copied to the [Nix Store](https://zero-to-nix.com/concepts/nix-store). So from `nixos-config`, run
+```sh
+git add .
+```
+
+Then, the final step: setup and run `bin/build`, which wraps the Nix commands to build and deploy a new Nix generation.
 ```sh
 chmod +x bin/darwin-build && chmod +x bin/build && bin/build
 ```
@@ -200,7 +206,6 @@ Download and burn [the minimal ISO image](https://nixos.org/download.html) to a 
 **Quick Links**
 
 * [64-bit Intel/AMD](https://channels.nixos.org/nixos-23.05/latest-nixos-minimal-x86_64-linux.iso)
-* [32-bit Intel/AMD](https://channels.nixos.org/nixos-23.05/latest-nixos-minimal-i686-linux.iso)
 * [64-bit ARM](https://channels.nixos.org/nixos-23.05/latest-nixos-minimal-aarch64-linux.iso)
 
 Boot the installer.
