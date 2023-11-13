@@ -1,0 +1,40 @@
+name: Build Starter Template
+
+on:
+  workflow_call:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    outputs:
+      build-success: ${{ steps.build-result.outputs.success }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Install Nix
+        uses: cachix/install-nix-action@v13
+
+      - name: Initialize Nix Flake
+        run: |
+          mkdir -p my-config && cd my-config
+          nix flake --extra-experimental-features 'nix-command flakes' init -t github:dustinlyons/nixos-config#starter
+
+      - name: Apply CI User Info
+        run: |
+          cd /home/runner/work/nixos-config/nixos-config/my-config
+          /home/runner/work/nixos-config/nixos-config/bin/apply-ci
+
+      - name: Build Nix Flake
+        run: |
+          cd /home/runner/work/nixos-config/nixos-config/my-config
+          git add .
+          echo "Building Flake..."
+          nix build --extra-experimental-features 'nix-command flakes' /home/runner/work/nixos-config/nixos-config/my-config#nixosConfigurations."x86_64-linux".config.system.build.toplevel
+          echo "success=true" >> $GITHUB_ENV
+          # Add logic here to write "success=false" to $GITHUB_ENV if the build fails
+
+      - name: Determine build result
+        id: build-result
+        run: echo "success=${{ env.success }}" >> $GITHUB_OUTPUT
+
