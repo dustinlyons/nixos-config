@@ -363,10 +363,10 @@ bin/build
 ## For NixOS
 Choose the flake target for your platform.
 ```sh
-sudo nixos-rebuild switch --flake .#x86_64
+sudo nixos-rebuild switch --flake .#x86_64-linux
 ```
 ```sh
-sudo nixos-rebuild switch --flake .#aarch64
+sudo nixos-rebuild switch --flake .#aarch64-linux
 ```
 #### Optional [script](https://github.com/dustinlyons/nixos-config/blob/main/bin/nixos-build) to save keystrokes
 ```sh
