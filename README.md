@@ -195,7 +195,9 @@ First-time installations require you to move the current `/etc/nix/nix.conf` out
 [ -f /etc/nix/nix.conf ] && sudo mv /etc/nix/nix.conf /etc/nix/nix.conf.before-nix-darwin
 ```
 
-If you're using a git repository, only files in the working tree will be copied to the [Nix Store](https://zero-to-nix.com/concepts/nix-store). So it's imperative you run `git add .`.
+If you're using a git repository, only files in the working tree will be copied to the [Nix Store](https://zero-to-nix.com/concepts/nix-store). 
+
+So it's imperative you run `git add .`.
 
 Then, run `bin/build`, which wraps a few Nix commands to build and deploy a new Nix generation.
 ```sh
