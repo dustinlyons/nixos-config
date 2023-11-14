@@ -10,7 +10,7 @@ jobs:
       build-success: ${{ steps.build-result.outputs.success }}
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Install Nix
         uses: cachix/install-nix-action@v13
