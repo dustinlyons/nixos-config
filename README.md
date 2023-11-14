@@ -399,12 +399,12 @@ This project is released under the [MIT License](link-to-license).
 ## Appendix
 ### Why Nix Flakes
 **Reasons to jump into flakes and skip `nix-env`, Nix channels, etc**
-- Channels lock all packages to one big global `nixpkgs` version. Flakes lock each package to specific versions, which is a higher level of precision and reproducibility compared to channels
 - Flakes work just like other package managers-- `npm`, `cargo`, `poetry`, `composer`, etc.
-- Flakes encapsulate not just project dependencies, but Nix expressions, Nix apps, and other configurations in a single file
-- Flakes have a growing ecosystem (See [Flake Hub](https://flakehub.com/) or [Dev Env](https://devenv.sh/)), so you're future-proofing yourself
+- Flakes encapsulate not just project dependencies, but Nix expressions, Nix apps, and other configurations in a single file. It's all there.
+- Channels lock all packages to one big global `nixpkgs` version. Flakes lock each package to specific versions, which is a higher level of precision and reproducibility compared to channels.
+- Flakes have a growing ecosystem (See [Flake Hub](https://flakehub.com/) or [Dev Env](https://devenv.sh/)), so you're future-proofing yourself.
 
-Just go flakes.
+Just go flakes. Make it easier on yourself.
 
 ### NixOS Components
 
