@@ -6,7 +6,10 @@ on:
 
 jobs:
   check-build:
-    uses: ./.github/workflows/build-starter-template.yml
+    uses: ./.github/workflows/build-template.yml
+    with:
+      template: 'starter'
+      arch: 'x86_64-linux'
 
   update-flake:
     runs-on: ubuntu-latest
@@ -22,6 +25,7 @@ jobs:
       - name: Update flake.lock
         uses: DeterminateSystems/update-flake-lock@main
         with:
+          token: ${{ secrets.GH_TOKEN_FOR_UPDATES }}
           pr-title: "Update flake.lock"
           pr-labels: |
             dependencies

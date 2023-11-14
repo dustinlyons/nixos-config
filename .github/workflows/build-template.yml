@@ -1,7 +1,14 @@
-name: Build Starter Template
+name: Build Template
 
 on:
   workflow_call:
+    inputs:
+      template:
+        required: true
+        type: string
+      arch:
+        required: true
+        type: string
 
 jobs:
   build:
@@ -18,7 +25,7 @@ jobs:
       - name: Initialize Nix Flake
         run: |
           mkdir -p my-config && cd my-config
-          nix flake --extra-experimental-features 'nix-command flakes' init -t github:dustinlyons/nixos-config#starter
+          nix flake --extra-experimental-features 'nix-command flakes' init -t github:dustinlyons/nixos-config#${{ inputs.template }}
 
       - name: Apply CI User Info
         run: |
@@ -30,9 +37,14 @@ jobs:
           cd /home/runner/work/nixos-config/nixos-config/my-config
           git add .
           echo "Building Flake..."
-          nix build --extra-experimental-features 'nix-command flakes' /home/runner/work/nixos-config/nixos-config/my-config#nixosConfigurations."x86_64-linux".config.system.build.toplevel
-          echo "success=true" >> $GITHUB_ENV
-          # Add logic here to write "success=false" to $GITHUB_ENV if the build fails
+          if nix build --extra-experimental-features 'nix-command flakes' /home/runner/work/nixos-config/nixos-config/my-config#nixosConfigurations."${{ inputs.arch }}".config.system.build.toplevel; then
+            echo "success=true" >> $GITHUB_ENV
+          else
+            echo "Build failed, listing flake.lock for debugging:"
+            cat flake.lock
+            echo "success=false" >> $GITHUB_ENV
+            exit 1
+          fi
 
       - name: Determine build result
         id: build-result

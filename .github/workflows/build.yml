@@ -1,0 +1,20 @@
+name: Build Starter Template
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'templates/starter/**'
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'templates/starter/**'
+
+jobs:
+  build-starter-template:
+    uses: ./.github/workflows/build-template.yml
+    with:
+      template: 'starter'
+      arch: 'x86_64-linux'
