@@ -22,6 +22,12 @@ jobs:
       - name: Install Nix
         uses: DeterminateSystems/nix-installer-action@main
 
+      - name: Setup Cache
+        uses: DeterminateSystems/magic-nix-cache-action@main
+
+      - name: Check flake
+        run: nix flake check
+
       - name: Update flake.lock
         uses: DeterminateSystems/update-flake-lock@main
         with:
