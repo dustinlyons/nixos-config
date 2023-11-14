@@ -159,7 +159,7 @@ You can search for packages on the [official NixOS website](https://search.nixos
 If you are using the starter with secrets, there are a few additional steps.
 
 #### 6a. Create a private Github repo to hold your secrets
-In Github, create a private `nix-secrets` repository. You'll enter this name during installation.
+In Github, create a private [`nix-secrets`](https://github.com/dustinlyons/nix-secrets-example) repository. You'll enter this name during installation.
 
 #### 6b. Install keys
 Before generating your first build, these keys must exist in your `~/.ssh` directory. Don't worry, we provide a few commands to help you.
@@ -219,7 +219,7 @@ Boot the installer.
 If you are using the starter with secrets, there are a few additional steps.
 
 #### 2a. Create a private Github repo to hold your secrets
-In Github, create a private `nix-secrets` repository. You'll enter this name during installation.
+In Github, create a private [`nix-secrets`](https://github.com/dustinlyons/nix-secrets-example) repository. You'll enter this name during installation.
 
 #### 2b. Install keys
 Before generating your first build, these keys must exist in your `~/.ssh` directory. Don't worry, we provide a few commands to help you.
