@@ -5,7 +5,6 @@ let shared-packages = import ../shared/packages.nix { inherit pkgs; }; in
 shared-packages ++ [
 
   # Security and authentication
-  _1password-gui
   yubikey-manager-qt
   yubikey-agent
   keepassxc
@@ -38,7 +37,6 @@ shared-packages ++ [
   rofi
   rofi-calc
   rnix-lsp # lsp-mode for nix
-  qmk
   postgresql
   libtool # for Emacs vterm
 
