@@ -90,9 +90,6 @@ let user = "dustin";
   hardware.opengl.driSupport = true;
   hardware.nvidia.modesetting.enable = true;
 
-  # Enable Xbox support
-  # hardware.xone.enable = true;
-
   # Crypto wallet support
   hardware.ledger.enable = true;
 
