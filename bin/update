@@ -20,11 +20,6 @@ _print() {
 cd $(dirname $(readlink -f $0))
 cd ..
 
-# # # # # # # # # # # # # # # # # # # # # # # # # # # #
-# ! ! !
-# DELETE THIS BLOCK IF NOT MANAGING YOUR OWN LOCAL FORK
-# ! ! !
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # 
 _print "${GREEN}Fetching nixpkgs upstream...${CLEAR}"
 git -C $NIXPKGS_PATH fetch upstream
 _print "${GREEN}Pulling master from origin...${CLEAR}"
@@ -33,4 +28,3 @@ _print "${GREEN}Merging upstream...${CLEAR}"
 git -C $NIXPKGS_PATH merge upstream/master master
 _print "${GREEN}Pushing back to master...${CLEAR}"
 git -C $NIXPKGS_PATH push origin master
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # 
