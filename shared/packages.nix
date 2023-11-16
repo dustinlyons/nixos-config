@@ -32,13 +32,16 @@ with pkgs; [
   yubikey-manager
 
   # Cloud-related tools and SDKs
-  docker
-  docker-compose
+  # docker
+  # docker-compose
   awscli2
   flyctl
   google-cloud-sdk
   go
   gopls
+  php
+  phpunit
+  php81Packages.composer
   ngrok
   ssm-session-manager-plugin
   terraform
