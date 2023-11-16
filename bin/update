@@ -4,7 +4,7 @@ VERSION=1.0
 
 GREEN='\033[1;32m'
 RED='\033[1;31m'
-CLEAR='\033[0m'
+NC='\033[0m'
 
 NIXPKGS_PATH=~/.local/share/src/nixpkgs
 
@@ -20,11 +20,11 @@ _print() {
 cd $(dirname $(readlink -f $0))
 cd ..
 
-_print "${GREEN}Fetching nixpkgs upstream...${CLEAR}"
+_print "${GREEN}Fetching nixpkgs upstream...${NC}"
 git -C $NIXPKGS_PATH fetch upstream
-_print "${GREEN}Pulling master from origin...${CLEAR}"
+_print "${GREEN}Pulling master from origin...${NC}"
 git -C $NIXPKGS_PATH pull origin master --rebase
-_print "${GREEN}Merging upstream...${CLEAR}"
+_print "${GREEN}Merging upstream...${NC}"
 git -C $NIXPKGS_PATH merge upstream/master master
-_print "${GREEN}Pushing back to master...${CLEAR}"
+_print "${GREEN}Pushing back to master...${NC}"
 git -C $NIXPKGS_PATH push origin master
