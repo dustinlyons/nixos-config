@@ -24,4 +24,4 @@ echo "${GREEN}Switching to new generation...${NC}"
 echo "${GREEN}Cleaning up...${NC}"
 unlink ./result
 
-echo "${GREEN}Done${NC}"
+echo "${GREEN}Switch to new generation complete!${NC}"

@@ -26,4 +26,4 @@ echo -e "${GREEN}Starting...${NC}"
 # We pass SSH from user to root so root can download secrets from your private Github
 sudo SSH_AUTH_SOCK=$SSH_AUTH_SOCK /run/current-system/sw/bin/nixos-rebuild switch --flake .#$FLAKE_TARGET $@
 
-echo -e "${GREEN}Done${NC}"
+echo -e "${GREEN}Switch to new generation complete!${NC}"
