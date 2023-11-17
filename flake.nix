@@ -57,6 +57,7 @@
         '')}/bin/${scriptName}";
       };
       mkLinuxApps = system: {
+        "apply" = mkApp "apply" system;
         "build" = mkApp "build" system;
         "copyKeys" = mkApp "copyKeys" system;
         "createKeys" = mkApp "createKeys" system;
@@ -65,6 +66,7 @@
         "installWithSecrets" = mkApp "installWithSecrets" system;
       };
       mkDarwinApps = system: {
+        "apply" = mkApp "apply" system;
         "build" = mkApp "build" system;
         "copyKeys" = mkApp "copyKeys" system;
         "createKeys" = mkApp "createKeys" system;

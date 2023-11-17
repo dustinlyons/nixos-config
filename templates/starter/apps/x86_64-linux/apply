@@ -1,0 +1,145 @@
+#!/usr/bin/env bash
+
+VERSION=1.0
+
+# Color codes
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+NC='\033[0m' # No Color
+
+# Determine the operating system
+export OS=$(uname)
+
+# Primary network interface
+if [[ "$OS" != "Darwin" ]]; then
+  export PRIMARY_IFACE=$(ip -o -4 route show to default | awk '{print $5}')
+  echo -e "${GREEN}Found primary network interface $PRIMARY_IFACE${NC}"
+fi
+
+# Custom print function
+_print() {
+  if [[ "$OS" == "Darwin" ]]; then
+    echo -e "$1"
+  else
+    echo "$1"
+  fi
+}
+
+# Custom prompt function
+_prompt() {
+  local message="$1"
+  local variable="$2"
+
+  _print "$message"
+  read -r $variable
+}
+
+# Fetch username from the system
+export USERNAME=$(whoami)
+
+# If the username is 'nixos' or 'root', ask the user for their username
+if [[ "$USERNAME" == "nixos" ]] || [[ "$USERNAME" == "root" ]]; then
+  _prompt "${YELLOW}You're running as $USERNAME. Please enter your desired username: ${NC}" USERNAME
+fi
+
+# Check if git is available
+if command -v git >/dev/null 2>&1; then
+  # Fetch email and name from git config
+  export GIT_EMAIL=$(git config --get user.email)
+  export GIT_NAME=$(git config --get user.name)
+else
+  _print "${RED}Git is not available on this system.${NC}"
+fi
+
+# If git email is not found or git is not available, ask the user
+if [[ -z "$GIT_EMAIL" ]]; then
+  _prompt "${YELLOW}Please enter your email: ${NC}" GIT_EMAIL
+fi
+
+# If git name is not found or git is not available, ask the user
+if [[ -z "$GIT_NAME" ]]; then
+  _prompt "${YELLOW}Please enter your name: ${NC}" GIT_NAME
+fi
+
+select_boot_disk() {
+  local disks
+  local _boot_disk
+
+  _print "${YELLOW}Available disks:${NC}"
+  disks=$(lsblk -nd --output NAME,SIZE | grep -v loop)
+  echo "$disks"
+
+  # Warning message for data deletion
+  _print "${RED}WARNING: All data on the chosen disk will be erased during the installation!${NC}"
+  _prompt "${YELLOW}Please choose your boot disk (e.g., nvme0n1, sda): ${NC}" _boot_disk
+
+  # Confirmation for disk selection to prevent accidental data loss
+  _print "${YELLOW}You have selected $_boot_disk as the boot disk. This will delete everything on this disk. Are you sure? (Y/N): ${NC}"
+  read -r confirmation
+  if [[ "$confirmation" =~ ^[Yy]$ ]]; then
+    export BOOT_DISK=$_boot_disk
+  else
+    _print "${RED}Disk selection cancelled by the user. Please run the script again to select the correct disk.${NC}"
+    exit 1
+  fi
+}
+
+# Set hostname and find primary disk if this is NixOS
+if [[ "$OS" != "Darwin" ]]; then
+  _prompt "${YELLOW}Please enter a hostname for the system: ${NC}" HOST_NAME
+  export HOST_NAME
+  select_boot_disk
+fi
+
+# Confirmation step
+confirm_details() {
+  _print "${GREEN}Username: $USERNAME"
+  _print "Email: $GIT_EMAIL"
+  _print "Name: $GIT_NAME${NC}"
+
+  if([[ "$OS" != "Darwin" ]]); then
+    _print "${GREEN}Primary interface: $PRIMARY_IFACE"
+    _print "Boot disk: $BOOT_DISK"
+    _print "Hostname: $HOST_NAME${NC}"
+  fi
+
+  _prompt "${YELLOW}Is this correct? (Y/N): ${NC}" choice
+
+  case "$choice" in
+  [Nn] ) _print "${RED}Exiting script.${NC}" && exit 1;;
+  [Yy] ) _print "${GREEN}Continuing...${NC}";;
+  * ) _print "${RED}Invalid option. Exiting script.${NC}" && exit 1;;
+  esac
+}
+
+# Call the confirmation function
+confirm_details
+
+# Function to replace tokens in each file
+replace_tokens() {
+  local file="$1"
+  if [[ $(basename $1) != "apply" ]]; then
+    if [[ "$OS" == "Darwin" ]]; then
+      # macOS
+      LC_ALL=C LANG=C sed -i '' -e "s/%USER%/$USERNAME/g" "$file"
+      LC_ALL=C LANG=C sed -i '' -e "s/%EMAIL%/$GIT_EMAIL/g" "$file"
+      LC_ALL=C LANG=C sed -i '' -e "s/%NAME%/$GIT_NAME/g" "$file"
+    else
+      # Linux or other
+      sed -i -e "s/%USER%/$USERNAME/g" "$file"
+      sed -i -e "s/%EMAIL%/$GIT_EMAIL/g" "$file"
+      sed -i -e "s/%NAME%/$GIT_NAME/g" "$file"
+      sed -i -e "s/%INTERFACE%/$PRIMARY_IFACE/g" "$file"
+      sed -i -e "s/%DISK%/$BOOT_DISK/g" "$file"
+      sed -i -e "s/%HOST%/$HOST_NAME/g" "$file"
+    fi
+  fi
+}
+
+# Traverse directories and call replace_tokens on each Nix file
+export -f replace_tokens
+find . -type f -exec bash -c 'replace_tokens "$0"' {} \;
+
+echo "$USERNAME" > /tmp/username.txt
+_print "${GREEN}User $USERNAME information applied.${NC}"

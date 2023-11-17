@@ -6,14 +6,10 @@ GREEN='\033[1;32m'
 RED='\033[1;31m'
 NC='\033[0m'
 
-FLAKE="macos"
+FLAKE="Dustins-MBP"
 SYSTEM="darwinConfigurations.$FLAKE.system"
 
 export NIXPKGS_ALLOW_UNFREE=1
-
-# Navigate to the directory of this script
-cd $(dirname $(readlink -f $0))
-cd ..
 
 echo "${GREEN}Starting build...${NC}"
 nix --experimental-features 'nix-command flakes' build .#$SYSTEM $@
