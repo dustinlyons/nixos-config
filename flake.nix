@@ -57,13 +57,15 @@
         '')}/bin/${scriptName}";
       };
       mkLinuxApps = system: {
-        "install" = mkApp "install" system;
-        "installWithSecrets" = mkApp "installWithSecrets" system;
+        "build" = mkApp "build" system;
         "copyKeys" = mkApp "copyKeys" system;
         "createKeys" = mkApp "createKeys" system;
         "checkKeys" = mkApp "checkKeys" system;
+        "install" = mkApp "install" system;
+        "installWithSecrets" = mkApp "installWithSecrets" system;
       };
       mkDarwinApps = system: {
+        "build" = mkApp "build" system;
         "copyKeys" = mkApp "copyKeys" system;
         "createKeys" = mkApp "createKeys" system;
         "checkKeys" = mkApp "checkKeys" system;
@@ -102,7 +104,7 @@
                 autoMigrate = true;
               };
             }
-            ./darwin
+            ./hosts/darwin
           ];
         };
       };
@@ -114,9 +116,9 @@
           home-manager.nixosModules.home-manager {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
-            home-manager.users.${user} = import ./nixos/home-manager.nix;
+            home-manager.users.${user} = import ./modules/nixos/home-manager.nix;
           }
-          ./nixos
+          ./hosts/nixos
         ];
      });
   };

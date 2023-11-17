@@ -60,9 +60,8 @@ Check out the starter templates and step-by-step commands below to get started!
 ```
 .
 ├── bin          # Optional scripts used to run build/update
-├── shared       # Shared configurations applicable to all systems
-├── darwin       # MacOS and nix-darwin configuration
-├── nixos        # My NixOS desktop-related configuration
+├── hosts        # Host-specific configuration
+├── modules      # MacOS and nix-darwin, NixOS, and shared configuration
 ├── overlays     # Drop an overlay file in this dir, and it runs. So far, mainly patches.
 ├── templates    # Starter versions of this configuration
 ```
@@ -141,9 +140,9 @@ mkdir -p nixos-config && (cd nixos-config && nix flake --extra-experimental-feat
 ```
 
 ### 4. Apply your current user info
-Run this script to replace stub values with your username, full name, and email.
+Run this Nix app to replace stub values with your username, full name, and email.
 ```sh
-chmod +x bin/apply && bin/apply
+nix run .#apply
 ```
 
 ### 5. Decide what packages to install
@@ -177,18 +176,18 @@ You must one run of these commands:
 This command auto-detects a USB drive connected to the current system.
 > Keys must be named `id_ed25519` and `id_ed25519_agenix`.
 ```sh
-nix run github:dustinlyons/nixos-config#copyKeys
+nix run .#copyKeys
 ```
 
 ##### Create new keys
 ```sh
-nix run github:dustinlyons/nixos-config#createKeys
+nix run .#createKeys
 ```
 
 ##### Check existing keys
 If you're rolling your own, just check they are installed correctly.
 ```sh
-nix run github:dustinlyons/nixos-config#checkKeys
+nix run .#checkKeys
 ```
 
 ### 7. Install configuration
@@ -201,12 +200,19 @@ If you're using a git repository, only files in the working tree will be copied 
 
 So it's imperative you run `git add .`.
 
-Then, run `bin/build`, which wraps a few Nix commands to build and deploy a new Nix generation.
-> [!WARNING]
-> There is no "dry run", this operation installs a new `.zshrc`, `.emacs.d`, etc. Be ready.
-
+Then, you can build the system closure but not switch to the new generation by doing a dry run:
 ```sh
-chmod +x bin/darwin-build && chmod +x bin/build && bin/build
+nix run .#dryRun
+```
+
+Finally, to both build and install the configuration, run:
+```sh
+nix run .#build
+```
+
+From here on, if you want to make changes, edit your configuration and always run:
+```sh
+nix run .#build
 ```
 
 ## For NixOS
@@ -358,24 +364,11 @@ With Nix, changes to your system are made by
 
 ## For MacOS
 ```sh
-nix build .#darwinConfigurations.macos.system && \
-./result/sw/bin/darwin-rebuild switch --flake .#macos
-```
-#### Optional [script](https://github.com/dustinlyons/nixos-config/blob/main/bin/darwin-build) to save keystrokes
-```sh
-bin/build
+nix run .#build
 ```
 ## For NixOS
-Choose the flake target for your platform.
 ```sh
-sudo nixos-rebuild switch --flake .#x86_64-linux
-```
-```sh
-sudo nixos-rebuild switch --flake .#aarch64-linux
-```
-#### Optional [script](https://github.com/dustinlyons/nixos-config/blob/main/bin/nixos-build) to save keystrokes
-```sh
-bin/build
+nix run .#build
 ```
 
 ## Update dependencies

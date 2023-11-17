@@ -32,13 +32,35 @@ jobs:
 
       - name: Apply CI User Info
         run: |
+          # Set basic values for variables
+          export USERNAME="ciuser"
+          export GIT_EMAIL="ciuser@example.com"
+          export GIT_NAME="CI User"
+          export PRIMARY_IFACE="eth0"
+          export HOST_NAME="ci-host"
+          export BOOT_DISK="sda"
+
+          # Function to replace tokens in each file
+          replace_tokens() {
+            local file="$1"
+            if [[ $(basename "$file") != "apply" ]]; then
+              sed -i -e "s/%USER%/$USERNAME/g" -e "s/%EMAIL%/$GIT_EMAIL/g" -e "s/%NAME%/$GIT_NAME/g" \
+                     -e "s/%INTERFACE%/$PRIMARY_IFACE/g" -e "s/%DISK%/$BOOT_DISK/g" -e "s/%HOST%/$HOST_NAME/g" "$file"
+            fi
+          }
+
+          # Traverse directories and replace tokens in each Nix file
+          export -f replace_tokens
           cd /home/runner/work/nixos-config/nixos-config/my-config
-          /home/runner/work/nixos-config/nixos-config/bin/apply-ci
+          find . -type f -exec bash -c 'replace_tokens "$0"' {} \;
+
+          echo "$USERNAME" > /tmp/username.txt
 
       - name: Build Nix Flake
         run: |
           cd /home/runner/work/nixos-config/nixos-config/my-config
           git add .
+
           echo "Building Flake..."
           if nix build --extra-experimental-features 'nix-command flakes' /home/runner/work/nixos-config/nixos-config/my-config#nixosConfigurations."${{ inputs.arch }}".config.system.build.toplevel; then
             echo "success=true" >> $GITHUB_ENV

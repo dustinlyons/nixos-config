@@ -1,0 +1,22 @@
+#!/bin/sh -e
+
+VERSION=1.0
+
+GREEN='\033[1;32m'
+RED='\033[1;31m'
+NC='\033[0m'
+
+FLAKE="macos"
+SYSTEM="darwinConfigurations.$FLAKE.system"
+
+export NIXPKGS_ALLOW_UNFREE=1
+
+echo "${GREEN}(Dry run) Starting build...${NC}"
+nix --experimental-features 'nix-command flakes' build .#$SYSTEM $@
+
+echo "${GREEN}(Dry run) Switching to new generation...${NC}"
+
+echo "${GREEN}(Dry run) Cleaning up...${NC}"
+unlink ./result
+
+echo "${GREEN}(Dry run) Switch to new generation complete!${NC}"
