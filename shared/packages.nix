@@ -39,9 +39,6 @@ with pkgs; [
   google-cloud-sdk
   go
   gopls
-  php
-  phpunit
-  php81Packages.composer
   ngrok
   ssm-session-manager-plugin
   terraform
@@ -62,6 +59,11 @@ with pkgs; [
   noto-fonts
   noto-fonts-emoji
   pngquant
+
+  # PHP
+  php82
+  php82Packages.composer
+  phpunit
 
   # Node.js development tools
   fzf
