@@ -296,7 +296,7 @@ in
   "secret.age".publicKeys = [ user1 system1 ];
 }
 ```
-Next, run the 'create secret' command. It assumes your SSH private key is in `~/.ssh/` or you can provide the `-i` flag with a path to your `id_ed25519` key. 
+Now that we've configured `agenix` with our `secrets.nix`, it's time to create our first secret. Run the command below. Note, it assumes your SSH private key is in `~/.ssh/` or you can provide the `-i` flag with a path to your `id_ed25519` key. 
 ```
 EDITOR=vim nix run github:ryantm/agenix -- -e secret.age
 ```
@@ -308,10 +308,10 @@ Commit the file to your `nix-secrets` repo and add a reference in the `secrets.n
   "secret.age".publicKeys = [ user1 system1 ];
 }
 ```
-where `"secret.age"` is your new filename.
+where `"secret.age"` is your new filename. Now we have two files: `secrets.nix` and our `secret.age`. Let me show you.
 
 ## Example
-So, let's say I wanted to create a new secret to hold my Github SSH key. 
+Let's say I wanted to create a new secret to hold my Github SSH key. 
 
 I would `cd` into my `nix-secrets` repo directory, verify the `agenix` configuration (named `secrets.nix`) exists, then run 
 ```
