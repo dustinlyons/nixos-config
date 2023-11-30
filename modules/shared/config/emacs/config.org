@@ -1419,6 +1419,25 @@ Rainbow mode is an Emacs minor mode to highlight the color shown by a RGB hex tr
   (add-hook 'go-mode-hook 'dl/go-mode-hook)
 #+END_SRC
 
+**** PHP
+#+NAME: php-config
+#+BEGIN_SRC emacs-lisp
+(use-package php-mode
+  :ensure t
+  :config
+    (add-hook 'php-mode-hook 'lsp-mode-deferred))
+
+(use-package php-cs-fixer
+  :ensure t
+  :config
+    (setq php-cs-fixer-rules-fixer-part-options '("multiline_whitespace_before_semicolons" "concat_space")))
+
+(require 'cl)
+(add-hook 'before-save-hook 'php-cs-fixer-before-save)
+;; Adjust auto-mode-alist to use php-mode for PHP files
+(add-to-list 'auto-mode-alist '("\\.php$" . php-mode))
+#+END_SRC
+
 **** Javascript / Typescript
 #+NAME: javascript
 #+BEGIN_SRC emacs-lisp
