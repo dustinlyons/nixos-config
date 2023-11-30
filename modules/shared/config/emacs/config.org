@@ -686,22 +686,12 @@ If you haven't heard of org mode, go watch [[https://www.youtube.com/watch?v=SzA
   (defun dl/load-buffer-with-emacs-config ()
     "Open the emacs configuration"
     (interactive)
-    (dl/find-file "~/.local/share/src/nixos-config/shared/config/emacs/config.org"))
-
-  (defun dl/load-buffer-with-todo ()
-    "Open the emacs configuration"
-    (interactive)
-    (dl/find-file "~/.local/share/org-roam/20220419121404-todo.org"))
+    (dl/find-file "~/.local/share/src/nixos-config/modules/shared/config/emacs/config.org"))
 
   (defun dl/load-buffer-with-nix-config ()
     "Open the emacs configuration"
     (interactive)
-    (dl/find-file "~/.local/share/src/nixos-config/shared/home-manager.nix"))
-
-  (defun dl/load-buffer-with-good-data-lol ()
-    "Open the emacs configuration"
-    (interactive)
-    (dl/find-file "~/.local/share/src/good-data-lol/apps/orchestrator/src/index.ts"))
+    (dl/find-file "~/.local/share/src/nixos-config/modules/shared/home-manager.nix"))
 
   (defun dl/reload-emacs ()
     "Reload the emacs configuration"
@@ -741,9 +731,7 @@ If you haven't heard of org mode, go watch [[https://www.youtube.com/watch?v=SzA
   (dl/leader-keys
     ","  '(dl/insert-header :which-key "insert header")
     "<"  '(dl/insert-current-time :which-key "insert header with current time")
-    "n"  '(dl/load-buffer-with-nix-config :which-key "open nix config")
-    "g"  '(dl/load-buffer-with-good-data-lol :which-key "open good data")
-    "d"  '(dl/load-buffer-with-todo :which-key "open todo"))
+    "n"  '(dl/load-buffer-with-nix-config :which-key "open nix config"))
   #+END_SRC
 
 ***** Snippets
@@ -1389,7 +1377,7 @@ Rainbow mode is an Emacs minor mode to highlight the color shown by a RGB hex tr
   (use-package rainbow-mode)
 #+END_SRC
 
-**** golang
+**** Golang
 #+NAME: golang-config
 #+BEGIN_SRC emacs-lisp
   (use-package go-mode)

@@ -1,7 +1,7 @@
 ;; -------------------------
 ;; Variable Declarations
 ;; -------------------------
-(defvar org-config-file "~/.local/share/src/nixos-config/shared/config/emacs/config.org")
+(defvar org-config-file "~/.local/share/src/nixos-config/modules/shared/config/emacs/config.org")
 (defvar default-config-file "~/.emacs.d/default-config.org")
 (defvar default-config-url "https://raw.githubusercontent.com/dustinlyons/nixos-config/9ad810c818b895c1f67f4daf21bbef31d8b5e8cd/shared/config/emacs/config.org")
 
