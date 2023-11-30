@@ -30,11 +30,10 @@ let name = "Dustin Lyons";
     export PATH=$HOME/.pnpm-packages/bin:$HOME/.pnpm-packages:$PATH
     export PATH=$HOME/.npm-packages/bin:$HOME/bin:$PATH
     export PATH=$HOME/.local/share/bin:$PATH
-    export PNPM_HOME=~/.pnpm-packages
 
-    # Cypress
-    export CYPRESS_INSTALL_BINARY=0
-    export CYPRESS_RUN_BINARY="$(command -v Cypress)"
+    export PNPM_HOME=~/.pnpm-packages
+    alias pn=pnpm
+    alias px=pnpx
 
     # Remove history data we don't want to see
     export HISTIGNORE="pwd:ls:cd"

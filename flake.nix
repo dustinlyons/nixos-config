@@ -1,6 +1,6 @@
 
 {
-  description = "Dustin's Nix Configuration for NixOS and MacOS";
+  description = "Dustin's Configuration for NixOS and MacOS";
   inputs = {
     nixpkgs.url = "github:dustinlyons/nixpkgs/master";
     agenix.url = "github:ryantm/agenix";
