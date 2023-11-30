@@ -63,6 +63,7 @@ with pkgs; [
   # PHP
   php82
   php82Packages.composer
+  php82Packages.php-cs-fixer
   phpunit
 
   # Node.js development tools
