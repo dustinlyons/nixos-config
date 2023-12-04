@@ -202,6 +202,9 @@ If you're using a git repository, only files in the working tree will be copied 
 So it's imperative you run `git add .`.
 
 Then, run `bin/build`, which wraps a few Nix commands to build and deploy a new Nix generation.
+> [!WARNING]
+> There is no "dry run", this operation installs a new `.zshrc`, `.emacs.d`, etc. Be ready.
+
 ```sh
 chmod +x bin/darwin-build && chmod +x bin/build && bin/build
 ```
