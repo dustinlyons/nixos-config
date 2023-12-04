@@ -49,14 +49,8 @@ let name = "Dustin Lyons";
         emacsclient -t "$@"
     }
 
-    # nix shortcuts
-    shell() {
-        nix-shell '<nixpkgs>' -A "$1"
-    }
-
-    # pnpm is a javascript package manager
-    alias pn=pnpm
-    alias px=pnpx
+    # Laravel Artisan
+    alias art='php artisan'
 
     # Use difftastic, syntax-aware diffing
     alias diff=difft
