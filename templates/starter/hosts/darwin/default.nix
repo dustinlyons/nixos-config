@@ -5,9 +5,9 @@ let user = "%USER%"; in
 {
 
   imports = [
-    ./home-manager.nix
-    ../shared
-    ../shared/cachix
+    ../../modules/darwin/home-manager.nix
+    ../../modules/shared
+    ../../modules/shared/cachix
   ];
 
   # Auto upgrade nix package and the daemon service.
@@ -37,7 +37,7 @@ let user = "%USER%"; in
   # Load configuration that is shared across systems
   environment.systemPackages = with pkgs; [
     emacs-unstable
-  ] ++ (import ../shared/packages.nix { inherit pkgs; });
+  ] ++ (import ../../modules/shared/packages.nix { inherit pkgs; });
 
   # Enable fonts dir
   fonts.fontDir.enable = true;
@@ -58,10 +58,6 @@ let user = "%USER%"; in
     stateVersion = 4;
 
     defaults = {
-      LaunchServices = {
-        LSQuarantine = false;
-      };
-
       NSGlobalDomain = {
         AppleShowAllExtensions = true;
         ApplePressAndHoldEnabled = false;

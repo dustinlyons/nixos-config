@@ -20,7 +20,7 @@ shared-packages ++ [
   fontconfig
   font-manager
 
-  # Calculators
+  # Productivity tools
   bc # old school calculator
   galculator
 

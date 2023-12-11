@@ -5,10 +5,10 @@ let user = "%USER%"; in
 {
 
   imports = [
-    ./secrets.nix
-    ./home-manager.nix
-    ../shared
-    ../shared/cachix
+    ../../modules/darwin/secrets.nix
+    ../../modules/darwin/home-manager.nix
+    ../../modules/shared
+    ../../modules/shared/cachix
      agenix.darwinModules.default
   ];
 
@@ -40,7 +40,7 @@ let user = "%USER%"; in
   environment.systemPackages = with pkgs; [
     emacs-unstable
     agenix.packages."${pkgs.system}".default
-  ] ++ (import ../shared/packages.nix { inherit pkgs; });
+  ] ++ (import ../../modules/shared/packages.nix { inherit pkgs; });
 
   # Enable fonts dir
   fonts.fontDir.enable = true;
@@ -61,10 +61,6 @@ let user = "%USER%"; in
     stateVersion = 4;
 
     defaults = {
-      LaunchServices = {
-        LSQuarantine = false;
-      };
-
       NSGlobalDomain = {
         AppleShowAllExtensions = true;
         ApplePressAndHoldEnabled = false;

@@ -4,9 +4,9 @@ let user = "%USER%";
     keys = [ "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOk8iAnIaa1deoc7jw8YACPNVka1ZFJxhnU4G74TmS+p" ]; in
 {
   imports = [
-    ./disk-config.nix
-    ../shared
-    ../shared/cachix
+    ../../modules/disk-config.nix
+    ../../modules/shared
+    ../../modules/shared/cachix
   ];
 
   # Use the systemd-boot EFI boot loader.

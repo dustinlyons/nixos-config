@@ -39,7 +39,7 @@ let name = "Dustin Lyons";
     export HISTIGNORE="pwd:ls:cd"
 
     # Ripgrep alias
-    alias search=rg -p --glob '!node_modules/*'  $@
+    alias search='rg -p --glob "!node_modules/*" --glob "!vendor/*" "$@"'
 
     # Emacs is my editor
     export ALTERNATE_EDITOR=""
