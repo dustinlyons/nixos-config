@@ -215,11 +215,6 @@ Finally, to both build and install the configuration, run:
 nix run .#build
 ```
 
-From here on, if you want to make changes, edit your configuration and always run:
-```sh
-nix run .#build
-```
-
 ## For NixOS
 This configuration supports both `x86_64` and `aarch64` platforms.
 
@@ -367,12 +362,7 @@ With Nix, changes to your system are made by
 - building the [system closure](https://zero-to-nix.com/concepts/closures)
 - creating and switching to it _(i.e creating a [new generation](https://nixos.wiki/wiki/Terms_and_Definitions_in_Nix_Project#generation))_
 
-## For MacOS
-```sh
-nix run .#build
-```
-
-## For NixOS
+## For all platforms
 ```sh
 nix run .#build
 ```
