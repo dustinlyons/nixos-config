@@ -200,26 +200,17 @@ If you're using a git repository, only files in the working tree will be copied 
 
 So it's imperative you run `git add .`.
 
-<<<<<<< Updated upstream
-Then, you can build the system closure but not switch to the new generation by doing a dry run:
-=======
-Then, if you'd like, you can do a dry run. This builds the system closure but does not switch to a new generation.
->>>>>>> Stashed changes
+Then, you can build the system closure but not switch to the new generation with a dry run:
 ```sh
 nix run .#dryRun
 ```
 
-<<<<<<< Updated upstream
 Finally, to both build and install the configuration, run:
 ```sh
 nix run .#build
 ```
 
 From here on, if you want to make changes, edit your configuration and always run:
-=======
-Or just move forward with installation.
-Then, run , which wraps a few Nix commands to build and deploy a new Nix generation.
->>>>>>> Stashed changes
 ```sh
 nix run .#build
 ```
