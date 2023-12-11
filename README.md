@@ -139,7 +139,7 @@ This is a full version with secrets management.
 mkdir -p nixos-config && (cd nixos-config && nix flake --extra-experimental-features 'nix-command flakes' init -t github:dustinlyons/nixos-config#starterWithSecrets)
 ```
 
-### 4. Set the executable flag on apps
+### 4. Make apps executable
 ```sh
 chmod +x apps/aarch64-darwin/apply && chmod +x apps/aarch64-darwin/dryRun chmod +x apps/aarch64-darwin/build 
 ```
