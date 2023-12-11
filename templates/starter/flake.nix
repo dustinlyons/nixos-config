@@ -29,7 +29,7 @@
   };
   outputs = { self, darwin, nix-homebrew, homebrew-bundle, homebrew-core, homebrew-cask, home-manager, nixpkgs, disko } @inputs:
     let
-      user = "dustin";
+      user = "%USER%";
       linuxSystems = [ "x86_64-linux" "aarch64-linux" ];
       darwinSystems = [ "aarch64-darwin" ];
       forAllSystems = f: nixpkgs.lib.genAttrs (linuxSystems ++ darwinSystems) (system: f system);
@@ -70,7 +70,7 @@
     {
       devShells = forAllSystems devShell;
       apps = nixpkgs.lib.genAttrs linuxSystems mkLinuxApps // nixpkgs.lib.genAttrs darwinSystems mkDarwinApps;
-      darwinConfigurations = let user = "dustin"; in {
+      darwinConfigurations = let user = "%USER%"; in {
         macos = darwin.lib.darwinSystem {
           system = "aarch64-darwin";
           specialArgs = inputs;
