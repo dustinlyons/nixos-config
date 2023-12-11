@@ -139,13 +139,18 @@ This is a full version with secrets management.
 mkdir -p nixos-config && (cd nixos-config && nix flake --extra-experimental-features 'nix-command flakes' init -t github:dustinlyons/nixos-config#starterWithSecrets)
 ```
 
-### 4. Apply your current user info
+### 4. Set the executable flag on apps
+```sh
+chmod +x apps/aarch64-darwin/apply && chmod +x apps/aarch64-darwin/dryRun chmod +x apps/aarch64-darwin/build 
+```
+
+### 5. Apply your current user info
 Run this Nix app to replace stub values with your username, full name, and email.
 ```sh
 nix run .#apply
 ```
 
-### 5. Decide what packages to install
+### 6. Decide what packages to install
 You can search for packages on the [official NixOS website](https://search.nixos.org/packages).
 
 **Review these files**
@@ -156,13 +161,13 @@ You can search for packages on the [official NixOS website](https://search.nixos
 * `nixos/packages`
 * `shared/packages`
 
-### 6. Optional: Setup secrets
+### 7. Optional: Setup secrets
 If you are using the starter with secrets, there are a few additional steps.
 
-#### 6a. Create a private Github repo to hold your secrets
+#### 7a. Create a private Github repo to hold your secrets
 In Github, create a private [`nix-secrets`](https://github.com/dustinlyons/nix-secrets-example) repository. You'll enter this name during installation.
 
-#### 6b. Install keys
+#### 7b. Install keys
 Before generating your first build, these keys must exist in your `~/.ssh` directory. Don't worry, we provide a few commands to help you.
 
 | Key Name            | Platform         | Description                           | 
@@ -190,7 +195,7 @@ If you're rolling your own, just check they are installed correctly.
 nix run .#checkKeys
 ```
 
-### 7. Install configuration
+### 8. Install configuration
 First-time installations require you to move the current `/etc/nix/nix.conf` out of the way.
 ```sh
 [ -f /etc/nix/nix.conf ] && sudo mv /etc/nix/nix.conf /etc/nix/nix.conf.before-nix-darwin
