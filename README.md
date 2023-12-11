@@ -174,7 +174,7 @@ Before generating your first build, these keys must exist in your `~/.ssh` direc
 You must one run of these commands:
 
 ##### Copy keys from USB drive
-This script auto-detects a USB drive connected to the current system.
+This command auto-detects a USB drive connected to the current system.
 > Keys must be named `id_ed25519` and `id_ed25519_agenix`.
 ```sh
 nix run github:dustinlyons/nixos-config#copyKeys
@@ -239,7 +239,7 @@ Before generating your first build, these keys must exist in your `~/.ssh` direc
 You must one run of these commands:
 
 ##### Copy keys from USB drive
-This script auto-detects a USB drive connected to the current system.
+This command auto-detects a USB drive connected to the current system.
 > Keys must be named `id_ed25519` and `id_ed25519_agenix`.
 ```sh
 sudo nix run --extra-experimental-features 'nix-command flakes' github:dustinlyons/nixos-config#copyKeys
