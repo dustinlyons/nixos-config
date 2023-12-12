@@ -425,4 +425,4 @@ This project is released under the [MIT License](link-to-license).
 [![Star History Chart](https://api.star-history.com/svg?repos=dustinlyons/nixos-config&type=Date)](https://star-history.com/#dustinlyons/nixos-config&Date)
 
 ### Support
-[Buy me a coffee](https://www.buymeacoffee.com/dustinlyons1) or [follow me on Twitter](https://twitter.com/dustinhlyons).
+[Buy me a coffee](https://www.buymeacoffee.com/dustinlyons1), tell your company to [hire me](https://calendly.com/event_types/158340495/edit?return_to=%2Fevent_types%2Fuser%2Fme)https://calendly.com/event_types/158340495/edit?return_to=%2Fevent_types%2Fuser%2Fme as fractional support, or [follow me on Twitter](https://twitter.com/dustinhlyons).
