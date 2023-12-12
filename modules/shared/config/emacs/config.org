@@ -1381,7 +1381,6 @@ Rainbow mode is an Emacs minor mode to highlight the color shown by a RGB hex tr
 #+NAME: golang-config
 #+BEGIN_SRC emacs-lisp
   (use-package go-mode)
-  (use-package company-go)
 
   ;; Set up before-save hooks to format buffer and add/delete imports.
   ;; Make sure you don't have other gofmt/goimports hooks enabled.

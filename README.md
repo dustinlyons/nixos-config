@@ -136,12 +136,12 @@ mkdir -p nixos-config && (cd nixos-config && nix flake --extra-experimental-feat
 
 This is a full version with secrets management.
 ```sh
-mkdir -p nixos-config && (cd nixos-config && nix flake --extra-experimental-features 'nix-command flakes' init -t github:dustinlyons/nixos-config#starterWithSecrets)
+mkdir -p nixos-config && (cd nixos-config && nix flake --extra-experimental-features 'nix-command flakes' init -t github:dustinlyons/nixos-config#starter-with-secrets)
 ```
 
 ### 4. Make apps executable
 ```sh
-chmod +x apps/aarch64-darwin/apply && chmod +x apps/aarch64-darwin/dryRun chmod +x apps/aarch64-darwin/build 
+chmod +x apps/aarch64-darwin/apply && chmod +x apps/aarch64-darwin/build chmod +x apps/aarch64-darwin/build-switch
 ```
 
 ### 5. Apply your current user info
@@ -181,18 +181,18 @@ You must one run of these commands:
 This command auto-detects a USB drive connected to the current system.
 > Keys must be named `id_ed25519` and `id_ed25519_agenix`.
 ```sh
-nix run .#copyKeys
+nix run .#copy-keys
 ```
 
 ##### Create new keys
 ```sh
-nix run .#createKeys
+nix run .#create-keys
 ```
 
 ##### Check existing keys
 If you're rolling your own, just check they are installed correctly.
 ```sh
-nix run .#checkKeys
+nix run .#check-keys
 ```
 
 ### 8. Install configuration
@@ -205,15 +205,17 @@ If you're using a git repository, only files in the working tree will be copied 
 
 So it's imperative you run `git add .`.
 
-Then, you can build the system closure but not switch to the new generation with a dry run:
-```sh
-nix run .#dryRun
-```
-
-Finally, to both build and install the configuration, run:
+Then, if you want to ensure the build works before deploying the configuration, run:
 ```sh
 nix run .#build
 ```
+
+And then alter your system with this command:
+```sh
+nix run .#build-switch
+```
+> [!NOTE]
+> Going forward, run this command to deploy ongoing changes to your configuration.
 
 ## For NixOS
 This configuration supports both `x86_64` and `aarch64` platforms.
@@ -248,18 +250,18 @@ You must one run of these commands:
 This command auto-detects a USB drive connected to the current system.
 > Keys must be named `id_ed25519` and `id_ed25519_agenix`.
 ```sh
-sudo nix run --extra-experimental-features 'nix-command flakes' github:dustinlyons/nixos-config#copyKeys
+sudo nix run --extra-experimental-features 'nix-command flakes' github:dustinlyons/nixos-config#copy-keys
 ```
 
 ##### Create new keys
 ```sh
-sudo nix run --extra-experimental-features 'nix-command flakes' github:dustinlyons/nixos-config#createKeys
+sudo nix run --extra-experimental-features 'nix-command flakes' github:dustinlyons/nixos-config#create-keys
 ```
 
 ##### Check existing keys
 If you're rolling your own, just check they are installed correctly.
 ```sh
-sudo nix run --extra-experimental-features 'nix-command flakes' github:dustinlyons/nixos-config#checkKeys
+sudo nix run --extra-experimental-features 'nix-command flakes' github:dustinlyons/nixos-config#check-keys
 ```
 
 ### 3. Install configuration
@@ -279,7 +281,7 @@ sudo nix run --extra-experimental-features 'nix-command flakes' github:dustinlyo
 
 **With secrets**
 ```sh
-sudo nix run --extra-experimental-features 'nix-command flakes' github:dustinlyons/nixos-config#installWithSecrets
+sudo nix run --extra-experimental-features 'nix-command flakes' github:dustinlyons/nixos-config#install-with-secrets
 ```
 
 ### 4. Set user password

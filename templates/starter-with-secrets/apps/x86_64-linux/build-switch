@@ -4,6 +4,7 @@ VERSION=1.0
 
 GREEN='\033[1;32m'
 RED='\033[1;31m'
+YELLOW='\033[1;33m'
 NC='\033[0m'
 
 SYSTEM=$(uname -m)
@@ -21,7 +22,7 @@ case "$SYSTEM" in
     ;;
 esac
 
-echo -e "${GREEN}Starting...${NC}"
+echo -e "${YELLOW}Starting...${NC}"
 
 # We pass SSH from user to root so root can download secrets from our private Github
 sudo SSH_AUTH_SOCK=$SSH_AUTH_SOCK /run/current-system/sw/bin/nixos-rebuild switch --flake .#$FLAKE_TARGET $@

@@ -52,19 +52,19 @@
       };
       mkLinuxApps = system: {
         "apply" = mkApp "apply" system;
-        "build" = mkApp "build" system;
-        "copyKeys" = mkApp "copyKeys" system;
-        "createKeys" = mkApp "createKeys" system;
-        "checkKeys" = mkApp "checkKeys" system;
+        "build-switch" = mkApp "build-switch" system;
+        "copy-keys" = mkApp "copy-keys" system;
+        "create-keys" = mkApp "create-keys" system;
+        "check-keys" = mkApp "check-keys" system;
         "install" = mkApp "install" system;
       };
       mkDarwinApps = system: {
         "apply" = mkApp "apply" system;
         "build" = mkApp "build" system;
-        "dryRun" = mkApp "dryRun" system;
-        "copyKeys" = mkApp "copyKeys" system;
-        "createKeys" = mkApp "createKeys" system;
-        "checkKeys" = mkApp "checkKeys" system;
+        "build-switch" = mkApp "build-switch" system;
+        "copy-keys" = mkApp "copy-keys" system;
+        "create-keys" = mkApp "create-keys" system;
+        "check-keys" = mkApp "check-keys" system;
       };
     in
     {

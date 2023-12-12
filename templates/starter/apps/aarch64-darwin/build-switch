@@ -12,12 +12,13 @@ SYSTEM="darwinConfigurations.$FLAKE.system"
 
 export NIXPKGS_ALLOW_UNFREE=1
 
-echo "${YELLOW}(Dry run)${GREEN} Starting build...${NC}"
+echo "${YELLOW}Starting build...${NC}"
 nix --experimental-features 'nix-command flakes' build .#$SYSTEM $@
 
-echo "${YELLOW}(Dry run)${GREEN} Switching to new generation...${NC}"
+echo "${YELLOW}Switching to new generation...${NC}"
+./result/sw/bin/darwin-rebuild switch --flake .#$FLAKE $@
 
-echo "${YELLOW}(Dry run)${GREEN} Cleaning up...${NC}"
+echo "${YELLOW}Cleaning up...${NC}"
 unlink ./result
 
-echo "${YELLOW}(Dry run)${GREEN} Switch to new generation complete!${NC}"
+echo "${GREEN}Switch to new generation complete!${NC}"

@@ -11,12 +11,10 @@ SYSTEM="darwinConfigurations.$FLAKE.system"
 
 export NIXPKGS_ALLOW_UNFREE=1
 
-echo "${GREEN}(Dry run) Starting build...${NC}"
+echo "${GREEN}Starting build...${NC}"
 nix --experimental-features 'nix-command flakes' build .#$SYSTEM $@
 
-echo "${GREEN}(Dry run) Switching to new generation...${NC}"
-
-echo "${GREEN}(Dry run) Cleaning up...${NC}"
+echo "${GREEN}Cleaning up...${NC}"
 unlink ./result
 
-echo "${GREEN}(Dry run) Switch to new generation complete!${NC}"
+echo "${GREEN}Switch to new generation complete!${NC}"
