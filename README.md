@@ -349,7 +349,7 @@ in
 
 Finally, I'd commit all changes to the `nix-secrets` repository, go back to my `nixos-config` and run `nix flake update` to update the lock file.
 
-The secret is now ready to use. Here's an [example](https://github.com/dustinlyons/nixos-config/blob/3b95252bc6facd7f61c6c68ceb1935481cb6b457/nixos/secrets.nix#L28) from my configuration. This ensures the secret is written to disk and now available to use.
+The secret is now ready to use. Here's an [example](https://github.com/dustinlyons/nixos-config/blob/3b95252bc6facd7f61c6c68ceb1935481cb6b457/nixos/secrets.nix#L28) from my configuration. In the end, this creates a symlink to a decrypted file in the Nix Store that reflects my original file.
 
 # Live ISO
 Not yet available. Coming soon.
