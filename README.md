@@ -366,7 +366,7 @@ With Nix, changes to your system are made by
 
 ## For all platforms
 ```sh
-nix run .#build
+nix run .#build-switch
 ```
 
 ## Update dependencies
