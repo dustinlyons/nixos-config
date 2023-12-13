@@ -21,6 +21,7 @@ Check out the starter templates and step-by-step commands below to get started!
     - [Table of Contents](#table-of-contents)
     - [Layout](#layout)
     - [Features](#features)
+    - [Disclaimer](#features)
   - [Videos](#videos)
     - [MacOS](#macos)
       - [Updating dependencies with one command](#updating-dependencies-with-one-command)
@@ -83,6 +84,11 @@ Check out the starter templates and step-by-step commands below to get started!
 - **Emacs Literate Configuration**: [Large Emacs literate configuration](https://github.com/dustinlyons/nixos-config/blob/main/shared/config/emacs/config.org) to explore (if that's your thing)
 - **Simplicity and Readability**: Optimized for simplicity and readability in all cases, not small files everywhere
 - **Idiomatic**: CI runs the [statix](https://github.com/NerdyPepper/statix) linter on every commit
+
+## Disclaimer
+Installing Nix on MacOS will create an entirely separate volume. It will likely exceed many gigabytes in size. Please just turn back now if this doesn't sit well with you.
+> [!NOTE]
+> Don't worry; you can always [uninstall](https://github.com/DeterminateSystems/nix-installer#uninstalling) it later.
 
 ## Videos
 ### MacOS
