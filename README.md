@@ -179,7 +179,7 @@ If you are using the starter with secrets, there are a few additional steps.
 In Github, create a private [`nix-secrets`](https://github.com/dustinlyons/nix-secrets-example) repository. You'll enter this name during installation.
 
 #### 7b. Install keys
-Before generating your first build, these keys must exist in your `~/.ssh` directory. Don't worry, we provide a few commands to help you.
+Before generating your first build, these keys must exist in your `~/.ssh` directory. Don't worry, I provide a few commands to help you.
 
 | Key Name            | Platform         | Description                           | 
 |---------------------|------------------|---------------------------------------|
@@ -248,7 +248,7 @@ If you are using the starter with secrets, there are a few additional steps.
 In Github, create a private [`nix-secrets`](https://github.com/dustinlyons/nix-secrets-example) repository. You'll enter this name during installation.
 
 #### 2b. Install keys
-Before generating your first build, these keys must exist in your `~/.ssh` directory. Don't worry, we provide a few commands to help you.
+Before generating your first build, these keys must exist in your `~/.ssh` directory. Don't worry, I provide a few commands to help you.
 
 | Key Name            | Platform         | Description                           | 
 |---------------------|------------------|---------------------------------------|
