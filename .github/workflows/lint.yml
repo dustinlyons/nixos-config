@@ -1,0 +1,40 @@
+name: Lint Template
+
+on:
+  workflow_call:
+    inputs:
+      template:
+        required: true
+        type: string
+      arch:
+        required: true
+        type: string
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    outputs:
+      build-success: ${{ steps.build-result.outputs.success }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install Nix
+        uses: DeterminateSystems/nix-installer-action@main
+
+      - name: Statix lint
+        run: |
+          echo "Linting Flake..."
+          if nix run --extra-experimental-features 'nix-command flakes' nixpkgs#statix -- check .; then
+            echo "success=true" >> $GITHUB_ENV
+          else
+            echo "Lint failed, listing flake.lock for debugging:"
+            cat flake.lock
+            echo "success=false" >> $GITHUB_ENV
+            exit 1
+          fi
+
+      - name: Determine lint result
+        id: build-result
+        run: echo "success=${{ env.success }}" >> $GITHUB_OUTPUT
+

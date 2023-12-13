@@ -13,6 +13,11 @@ on:
       - 'templates/starter/**'
 
 jobs:
+  lint:
+    uses: ./.github/workflows/lint.yml
+    with:
+      template: 'starter'
+      arch: 'x86_64-linux'
   build-starter-template:
     uses: ./.github/workflows/build-template.yml
     with:
