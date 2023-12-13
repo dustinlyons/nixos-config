@@ -1,4 +1,4 @@
-name: Lint Flake
+name: Statix Lint
 
 on:
   push:
@@ -20,7 +20,7 @@ jobs:
       - name: Install Nix
         uses: DeterminateSystems/nix-installer-action@main
 
-      - name: Statix lint
+      - name: Run statix linter
         run: |
           echo "Linting Flake..."
           if nix run --extra-experimental-features 'nix-command flakes' nixpkgs#statix -- check .; then
