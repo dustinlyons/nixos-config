@@ -233,7 +233,7 @@ This configuration supports both `x86_64` and `aarch64` platforms.
 
 ### 1. Burn the latest ISO
 Download and burn [the minimal ISO image](https://nixos.org/download.html) to a USB, or create a new VM with the ISO as base.
-> Note, if you're building a VM on an Apple Silicon Mac, choose [64-bit ARM](https://channels.nixos.org/nixos-23.05/latest-nixos-minimal-aarch64-linux.iso).
+> If you're building a VM on an Apple Silicon Mac, choose [64-bit ARM](https://channels.nixos.org/nixos-23.05/latest-nixos-minimal-aarch64-linux.iso).
 
 **Quick Links**
 
