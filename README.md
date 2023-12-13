@@ -21,7 +21,7 @@ Check out the starter templates and step-by-step commands below to get started!
     - [Table of Contents](#table-of-contents)
     - [Layout](#layout)
     - [Features](#features)
-    - [Disclaimer](#features)
+    - [Disclaimer](#disclaimer)
   - [Videos](#videos)
     - [MacOS](#macos)
       - [Updating dependencies with one command](#updating-dependencies-with-one-command)
