@@ -37,7 +37,7 @@
       user = "%USER%";
       linuxSystems = [ "x86_64-linux" "aarch64-linux" ];
       darwinSystems = [ "aarch64-darwin" ];
-      forAllSystems = f: nixpkgs.lib.genAttrs (linuxSystems ++ darwinSystems) (system: f system);
+      forAllSystems = f: nixpkgs.lib.genAttrs (linuxSystems ++ darwinSystems) f;
       devShell = system: let pkgs = nixpkgs.legacyPackages.${system}; in {
         default = with pkgs; mkShell {
           nativeBuildInputs = with pkgs; [ bashInteractive git age age-plugin-yubikey ];
@@ -76,6 +76,7 @@
     {
       devShells = forAllSystems devShell;
       apps = nixpkgs.lib.genAttrs linuxSystems mkLinuxApps // nixpkgs.lib.genAttrs darwinSystems mkDarwinApps;
+
       darwinConfigurations = let user = "%USER%"; in {
         macos = darwin.lib.darwinSystem {
           system = "aarch64-darwin";
@@ -100,15 +101,18 @@
           ];
         };
       };
+
       nixosConfigurations = nixpkgs.lib.genAttrs linuxSystems (system: nixpkgs.lib.nixosSystem {
-        system = system;
+        inherit system;
         specialArgs = inputs;
         modules = [
           disko.nixosModules.disko
           home-manager.nixosModules.home-manager {
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-            home-manager.users.${user} = import ./modules/nixos/home-manager.nix;
+            home-manager = {
+              useGlobalPkgs = true;
+              useUserPackages = true;
+              users.${user} = import ./modules/nixos/home-manager.nix;
+            };
           }
           ./hosts/nixos
         ];

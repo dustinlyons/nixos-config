@@ -5,63 +5,65 @@ let name = "%NAME%";
     email = "%EMAIL%"; in
 {
   # Shared shell configuration
-  zsh.enable = true;
-  zsh.autocd = false;
-  zsh.cdpath = [ "~/.local/share/src" ];
-  zsh.plugins = [
-    {
-        name = "powerlevel10k";
-        src = pkgs.zsh-powerlevel10k;
-        file = "share/zsh-powerlevel10k/powerlevel10k.zsh-theme";
-    }
-    {
-        name = "powerlevel10k-config";
-        src = lib.cleanSource ./config;
-        file = "p10k.zsh";
-    }
-  ];
-  zsh.initExtraFirst = ''
-    if [[ -f /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh ]]; then
-      . /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
-      . /nix/var/nix/profiles/default/etc/profile.d/nix.sh
-    fi
+  zsh = {
+    enable = true;
+    autocd = false;
+    cdpath = [ "~/.local/share/src" ];
+    plugins = [
+      {
+          name = "powerlevel10k";
+          src = pkgs.zsh-powerlevel10k;
+          file = "share/zsh-powerlevel10k/powerlevel10k.zsh-theme";
+      }
+      {
+          name = "powerlevel10k-config";
+          src = lib.cleanSource ./config;
+          file = "p10k.zsh";
+      }
+    ];
+    initExtraFirst = ''
+      if [[ -f /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh ]]; then
+        . /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
+        . /nix/var/nix/profiles/default/etc/profile.d/nix.sh
+      fi
 
-    # Define variables for directories
-    export PATH=$HOME/.pnpm-packages/bin:$HOME/.pnpm-packages:$PATH
-    export PATH=$HOME/.npm-packages/bin:$HOME/bin:$PATH
-    export PATH=$HOME/.local/share/bin:$PATH
-    export PNPM_HOME=~/.pnpm-packages
+      # Define variables for directories
+      export PATH=$HOME/.pnpm-packages/bin:$HOME/.pnpm-packages:$PATH
+      export PATH=$HOME/.npm-packages/bin:$HOME/bin:$PATH
+      export PATH=$HOME/.local/share/bin:$PATH
+      export PNPM_HOME=~/.pnpm-packages
 
-    # Remove history data we don't want to see
-    export HISTIGNORE="pwd:ls:cd"
+      # Remove history data we don't want to see
+      export HISTIGNORE="pwd:ls:cd"
 
-    # Ripgrep alias
-    alias search=rg -p --glob '!node_modules/*'  $@
+      # Ripgrep alias
+      alias search=rg -p --glob '!node_modules/*'  $@
 
-    # Emacs is my editor
-    export ALTERNATE_EDITOR=""
-    export EDITOR="emacsclient -t"
-    export VISUAL="emacsclient -c -a emacs"
+      # Emacs is my editor
+      export ALTERNATE_EDITOR=""
+      export EDITOR="emacsclient -t"
+      export VISUAL="emacsclient -c -a emacs"
 
-    e() {
-        emacsclient -t "$@"
-    }
+      e() {
+          emacsclient -t "$@"
+      }
 
-    # nix shortcuts
-    shell() {
-        nix-shell '<nixpkgs>' -A "$1"
-    }
+      # nix shortcuts
+      shell() {
+          nix-shell '<nixpkgs>' -A "$1"
+      }
 
-    # pnpm is a javascript package manager
-    alias pn=pnpm
-    alias px=pnpx
+      # pnpm is a javascript package manager
+      alias pn=pnpm
+      alias px=pnpx
 
-    # Use difftastic, syntax-aware diffing
-    alias diff=difft
+      # Use difftastic, syntax-aware diffing
+      alias diff=difft
 
-    # Always color ls and group directories
-    alias ls='ls --color=auto'
-  '';
+      # Always color ls and group directories
+      alias ls='ls --color=auto'
+    '';
+  };
 
   git = {
     enable = true;

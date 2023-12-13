@@ -5,55 +5,58 @@ let name = "%NAME%";
     email = "%EMAIL%"; in
 {
   # Shared shell configuration
-  zsh.enable = true;
-  zsh.autocd = false;
-  zsh.plugins = [
-    {
+  zsh = {
+    enable = true;
+    autocd = false;
+    plugins = [
+      {
         name = "powerlevel10k";
         src = pkgs.zsh-powerlevel10k;
         file = "share/zsh-powerlevel10k/powerlevel10k.zsh-theme";
-    }
-    {
+      }
+      {
         name = "powerlevel10k-config";
         src = lib.cleanSource ./config;
         file = "p10k.zsh";
-    }
-  ];
-  zsh.initExtraFirst = ''
-    if [[ -f /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh ]]; then
-      . /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
-      . /nix/var/nix/profiles/default/etc/profile.d/nix.sh
-    fi
+      }
+    ];
 
-    # Define variables for directories
-    export PATH=$HOME/.pnpm-packages/bin:$HOME/.pnpm-packages:$PATH
-    export PATH=$HOME/.npm-packages/bin:$HOME/bin:$PATH
-    export PATH=$HOME/.local/share/bin:$PATH
-    export PNPM_HOME=~/.pnpm-packages
+    initExtraFirst = ''
+      if [[ -f /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh ]]; then
+        . /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
+        . /nix/var/nix/profiles/default/etc/profile.d/nix.sh
+      fi
 
-    # Remove history data we don't want to see
-    export HISTIGNORE="pwd:ls:cd"
+      # Define variables for directories
+      export PATH=$HOME/.pnpm-packages/bin:$HOME/.pnpm-packages:$PATH
+      export PATH=$HOME/.npm-packages/bin:$HOME/bin:$PATH
+      export PATH=$HOME/.local/share/bin:$PATH
+      export PNPM_HOME=~/.pnpm-packages
 
-    # Emacs is my editor
-    export ALTERNATE_EDITOR=""
-    export EDITOR="emacsclient -t"
-    export VISUAL="emacsclient -c -a emacs"
+      # Remove history data we don't want to see
+      export HISTIGNORE="pwd:ls:cd"
 
-    e() {
-        emacsclient -t "$@"
-    }
+      # Emacs is my editor
+      export ALTERNATE_EDITOR=""
+      export EDITOR="emacsclient -t"
+      export VISUAL="emacsclient -c -a emacs"
 
-    # nix shortcuts
-    shell() {
-        nix-shell '<nixpkgs>' -A "$1"
-    }
+      e() {
+          emacsclient -t "$@"
+      }
 
-    # Use difftastic, syntax-aware diffing
-    alias diff=difft
+      # nix shortcuts
+      shell() {
+          nix-shell '<nixpkgs>' -A "$1"
+      }
 
-    # Always color ls and group directories
-    alias ls='ls --color=auto'
-  '';
+      # Use difftastic, syntax-aware diffing
+      alias diff=difft
+
+      # Always color ls and group directories
+      alias ls='ls --color=auto'
+    '';
+  };
 
   git = {
     enable = true;

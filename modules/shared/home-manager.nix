@@ -5,62 +5,64 @@ let name = "Dustin Lyons";
     email = "dustin@dlyons.dev"; in
 {
   # Shared shell configuration
-  zsh.enable = true;
-  zsh.autocd = false;
-  zsh.cdpath = [ "~/.local/share/src" ];
-  zsh.plugins = [
-    {
-        name = "powerlevel10k";
-        src = pkgs.zsh-powerlevel10k;
-        file = "share/zsh-powerlevel10k/powerlevel10k.zsh-theme";
-    }
-    {
-        name = "powerlevel10k-config";
-        src = lib.cleanSource ./config;
-        file = "p10k.zsh";
-    }
-  ];
-  zsh.initExtraFirst = ''
-    if [[ -f /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh ]]; then
-      . /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
-      . /nix/var/nix/profiles/default/etc/profile.d/nix.sh
-    fi
+  zsh = {
+    enable = true;
+    autocd = false;
+    cdpath = [ "~/.local/share/src" ];
+    plugins = [
+      {
+          name = "powerlevel10k";
+          src = pkgs.zsh-powerlevel10k;
+          file = "share/zsh-powerlevel10k/powerlevel10k.zsh-theme";
+      }
+      {
+          name = "powerlevel10k-config";
+          src = lib.cleanSource ./config;
+          file = "p10k.zsh";
+      }
+    ];
+    initExtraFirst = ''
+      if [[ -f /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh ]]; then
+        . /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
+        . /nix/var/nix/profiles/default/etc/profile.d/nix.sh
+      fi
 
-    # Define variables for directories
-    export PATH=$HOME/.pnpm-packages/bin:$HOME/.pnpm-packages:$PATH
-    export PATH=$HOME/.npm-packages/bin:$HOME/bin:$PATH
-    export PATH=$HOME/.local/share/bin:$PATH
+      # Define variables for directories
+      export PATH=$HOME/.pnpm-packages/bin:$HOME/.pnpm-packages:$PATH
+      export PATH=$HOME/.npm-packages/bin:$HOME/bin:$PATH
+      export PATH=$HOME/.local/share/bin:$PATH
 
-    export PNPM_HOME=~/.pnpm-packages
-    alias pn=pnpm
-    alias px=pnpx
+      export PNPM_HOME=~/.pnpm-packages
+      alias pn=pnpm
+      alias px=pnpx
 
-    # Remove history data we don't want to see
-    export HISTIGNORE="pwd:ls:cd"
+      # Remove history data we don't want to see
+      export HISTIGNORE="pwd:ls:cd"
 
-    # Ripgrep alias
-    alias search='rg -p --glob "!node_modules/*" --glob "!vendor/*" "$@"'
+      # Ripgrep alias
+      alias search='rg -p --glob "!node_modules/*" --glob "!vendor/*" "$@"'
 
-    # Emacs is my editor
-    export ALTERNATE_EDITOR=""
-    export EDITOR="emacsclient -t"
-    export VISUAL="emacsclient -c -a emacs"
-    e() {
-        emacsclient -t "$@"
-    }
+      # Emacs is my editor
+      export ALTERNATE_EDITOR=""
+      export EDITOR="emacsclient -t"
+      export VISUAL="emacsclient -c -a emacs"
+      e() {
+          emacsclient -t "$@"
+      }
 
-    # Laravel Artisan
-    alias art='php artisan'
+      # Laravel Artisan
+      alias art='php artisan'
 
-    # Use difftastic, syntax-aware diffing
-    alias diff=difft
+      # Use difftastic, syntax-aware diffing
+      alias diff=difft
 
-    # Always color ls and group directories
-    alias ls='ls --color=auto'
+      # Always color ls and group directories
+      alias ls='ls --color=auto'
 
-    # Reboot into my dual boot Windows partition
-    alias windows='systemctl reboot --boot-loader-entry=auto-windows'
-  '';
+      # Reboot into my dual boot Windows partition
+      alias windows='systemctl reboot --boot-loader-entry=auto-windows'
+    '';
+  };
 
   git = {
     enable = true;

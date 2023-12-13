@@ -1,4 +1,4 @@
-{ ... }: {
+_: {
   # This is the disk layout for a dual-boot system with Windows 10.
   disko.devices = {
     disk = {
