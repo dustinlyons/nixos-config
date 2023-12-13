@@ -220,8 +220,10 @@ Then, if you want to ensure the build works before deploying the configuration, 
 ```sh
 nix run .#build
 ```
+> [!NOTE]
+> There are some commands `home-manager` runs, mainly around `homebrew` installation, that run imperatively to switch over your system. That's not represented here, so understand this is not a perfect "dry run".
 
-And then alter your system with this command:
+Finally, alter your system with this command:
 ```sh
 nix run .#build-switch
 ```
