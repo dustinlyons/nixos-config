@@ -80,7 +80,7 @@ let user = "dustin";
       displayManager.lightdm = {
         enable = true;
         greeters.slick.enable = true;
-        background = ./config/login-wallpaper.png;
+        background = ../../modules/nixos/config/login-wallpaper.png;
       };
 
       # Tiling window manager
@@ -266,7 +266,7 @@ let user = "dustin";
 
   # Sync state between machines
   # Add docker daemon
-  virtaulisation = {
+  virtualisation = {
     docker = {
       enable = true;
       logDriver = "json-file";
