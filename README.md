@@ -16,7 +16,7 @@ I use it daily on my 🧑🏻‍💻 M1 Macbook Pro and an x86 PC in my home off
 Check out the starter templates and step-by-step commands below to get started!
 
 ## Table of Contents
-- [Nix for MacOS + NixOS](#nix-for-macos--nixos)
+- [Nix Config for MacOS + NixOS](#nix-for-macos--nixos)
   - [Overview](#overview)
     - [Table of Contents](#table-of-contents)
     - [Layout](#layout)
