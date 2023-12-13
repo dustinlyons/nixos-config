@@ -2,6 +2,7 @@
 
 # Nix Starter Config for MacOS + NixOS
 [![Build Starter Template](https://github.com/dustinlyons/nixos-config/actions/workflows/build.yml/badge.svg)](https://github.com/dustinlyons/nixos-config/actions/workflows/build.yml)
+[![Statix Lint](https://github.com/dustinlyons/nixos-config/actions/workflows/lint.yml/badge.svg)](https://github.com/dustinlyons/nixos-config/actions/workflows/lint.yml)
 
 # Overview
 Hey, you made it! Welcome. 🤓 
