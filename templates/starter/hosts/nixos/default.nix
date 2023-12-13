@@ -281,18 +281,17 @@ let user = "%USER%";
   users = {
     users = {
       ${user} = {
-      isNormalUser = true;
-      extraGroups = [
-        "wheel" # Enable ‘sudo’ for the user.
-        "docker"
-      ];
-      shell = pkgs.zsh;
-      openssh.authorizedKeys.keys = keys;
-
-      # Root user
-      root = {
+        isNormalUser = true;
+        extraGroups = [
+          "wheel" # Enable ‘sudo’ for the user.
+          "docker"
+        ];
+        shell = pkgs.zsh;
         openssh.authorizedKeys.keys = keys;
-      };
+
+        root = {
+          openssh.authorizedKeys.keys = keys;
+        };
       };
     };
   };

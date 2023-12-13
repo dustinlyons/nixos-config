@@ -281,7 +281,6 @@ let user = "%USER%";
       openssh.authorizedKeys.keys = keys;
     };
 
-    # Root user
     root = {
       openssh.authorizedKeys.keys = keys;
     };
