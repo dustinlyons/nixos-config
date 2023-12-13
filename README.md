@@ -86,7 +86,7 @@ Check out the starter templates and step-by-step commands below to get started!
 - **Idiomatic**: CI runs the [statix](https://github.com/NerdyPepper/statix) linter on every commit
 
 ## Disclaimer
-Installing Nix on MacOS will create an entirely separate volume. It will likely exceed many gigabytes in size. 
+Installing Nix on MacOS will create an entirely separate volume. It will exceed many gigabytes in size. 
 
 Some folks don't like this. If this is you, turn back now!
 
