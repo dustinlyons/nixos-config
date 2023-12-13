@@ -1,14 +1,12 @@
 name: Lint Template
 
 on:
-  workflow_call:
-    inputs:
-      template:
-        required: true
-        type: string
-      arch:
-        required: true
-        type: string
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - '.github/**'
+      - 'README.md'
 
 jobs:
   build:
@@ -37,4 +35,3 @@ jobs:
       - name: Determine lint result
         id: build-result
         run: echo "success=${{ env.success }}" >> $GITHUB_OUTPUT
-
