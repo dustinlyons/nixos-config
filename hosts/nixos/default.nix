@@ -139,12 +139,6 @@ let user = "dustin";
       };
 
       options.globalAnnounceEnabled = false; # Only sync on LAN
-
-      gui = {
-        insecureSkipHostcheck = true;
-        insecureAdminAccess = true;
-      };
-
     };
 
     # Picom, my window compositor with fancy effects
