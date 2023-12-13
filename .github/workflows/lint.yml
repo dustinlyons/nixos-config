@@ -1,4 +1,4 @@
-name: Lint Template
+name: Lint Flake
 
 on:
   push:

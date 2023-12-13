@@ -18,7 +18,9 @@ jobs:
     with:
       template: 'starter'
       arch: 'x86_64-linux'
+
   build-starter-template:
+    needs: lint
     uses: ./.github/workflows/build-template.yml
     with:
       template: 'starter'
