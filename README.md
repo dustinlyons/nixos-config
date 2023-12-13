@@ -81,6 +81,7 @@ Check out the starter templates and step-by-step commands below to get started!
 - **Declarative Sync**: No-fuss Syncthing: managed keys, certs, and configuration across all platforms
 - **Emacs Literate Configuration**: [Large Emacs literate configuration](https://github.com/dustinlyons/nixos-config/blob/main/shared/config/emacs/config.org) to explore (if that's your thing)
 - **Simplicity and Readability**: Optimized for simplicity and readability in all cases, not small files everywhere
+- **Idiomatic**: CI runs the [statix](https://github.com/NerdyPepper/statix) linter on every commit
 
 ## Videos
 ### MacOS
