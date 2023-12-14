@@ -14,7 +14,6 @@ jobs:
   update-flake:
     runs-on: ubuntu-latest
     needs: check-build
-    if: ${{ needs.check-build.outputs.build-success == 'true' }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
