@@ -79,8 +79,8 @@
           path = ./templates/starter;
           description = "Starter configuration";
         };
-        starterWithSecrets = {
-          path = ./templates/starterWithSecrets;
+        starter-with-secrets = {
+          path = ./templates/starter-with-secrets;
           description = "Starter configuration with secrets";
         };
       };
