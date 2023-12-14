@@ -1,4 +1,4 @@
-{ config, inputs, pkgs, agenix, ... }:
+{ config, inputs, lib, pkgs, agenix, ... }:
 
 let user = "dustin";
     keys = [ "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOk8iAnIaa1deoc7jw8YACPNVka1ZFJxhnU4G74TmS+p" ]; in
@@ -136,9 +136,10 @@ let user = "dustin";
             devices = [ "Macbook Pro" "Home Lab" ];
           };
         };
+
+        options.globalAnnounceEnabled = false; # Only sync on LAN
       };
 
-      options.globalAnnounceEnabled = false; # Only sync on LAN
     };
 
     # Picom, my window compositor with fancy effects
@@ -239,11 +240,14 @@ let user = "dustin";
     emacs = {
       enable = true;
       package = pkgs.emacs-unstable;
-      startupTimeout = "7min"; # dustinlyons/nixpkgs
     };
 
     gvfs.enable = true; # Mount, trash, and other functionalities
     tumbler.enable = true; # Thumbnail support for images
+  };
+
+  systemd.user.services.emacs = {
+    serviceConfig.TimeoutStartSec = "7min";
   };
 
   # Enable sound
