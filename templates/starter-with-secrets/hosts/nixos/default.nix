@@ -96,6 +96,10 @@ let user = "%USER%";
       libinput.enable = true;
     };
 
+    # Let's be able to SSH into this machine
+    openssh.enable = true;
+
+    # Sync state between machines
     # Sync state between machines
     syncthing = {
       enable = true;
@@ -109,47 +113,9 @@ let user = "%USER%";
       overrideDevices = true;
 
       settings = {
-        devices = {
-          "Macbook Pro" = {
-            id = "P2FYLQW-PKDFJGZ-EUGI2T7-OW4AH4I-KI462HD-U2VL3X3-GN55PP2-VNRE5AH";
-            autoAcceptFolders = true;
-            allowedNetwork = "192.168.0.0/16";
-            addresses = [ "tcp://192.168.0.99:51820" ];
-          };
-          "Home Lab" = {
-            id = "WW5O366-THBBBA3-HKQAYCP-EWADS4I-4KDDC5Z-3JCO42M-RLBZ3DY-NM7PEQA";
-            allowedNetwork = "192.168.0.0/16";
-            autoAcceptFolders = true;
-            addresses = [ "tcp://192.168.0.103:51820" ];
-          };
-        };
-
-        folders = {
-          "XDG Share" = {
-            id = "ukrub-quh7k";
-            path = "/home/${user}/.local/share";
-            devices = [ "Macbook Pro" "Home Lab" ];
-          };
-        };
-
+        devices = {};
         options.globalAnnounceEnabled = false; # Only sync on LAN
       };
-    };
-
-    # Let's be able to SSH into this machine
-    openssh.enable = true;
-    gvfs.enable = true; # Mount, trash, and other functionalities
-    tumbler.enable = true; # Thumbnail support for images
-
-    # Emacs runs as a daemon
-    emacs = {
-      enable = true;
-      package = pkgs.emacs-unstable;
-    };
-
-    # When emacs builds from no cache, it exceeds the 90s timeout default
-    systemd.user.services.emacs = {
-      serviceConfig.TimeoutStartSec = "7min";
     };
 
     # Picom, my window compositor with fancy effects
@@ -242,6 +208,20 @@ let user = "%USER%";
         };
       };
     };
+
+    gvfs.enable = true; # Mount, trash, and other functionalities
+    tumbler.enable = true; # Thumbnail support for images
+
+    # Emacs runs as a daemon
+    emacs = {
+      enable = true;
+      package = pkgs.emacs-unstable;
+    };
+  };
+
+  # When emacs builds from no cache, it exceeds the 90s timeout default
+  systemd.user.services.emacs = {
+    serviceConfig.TimeoutStartSec = "7min";
   };
 
   # Enable CUPS to print documents
