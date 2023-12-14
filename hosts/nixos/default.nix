@@ -311,7 +311,7 @@ let user = "dustin";
   fonts.packages = with pkgs; [
     dejavu_fonts
     emacs-all-the-icons-fonts
-    feather-font # dustinlyons/nixpkgs
+    feather-font # from overlay
     jetbrains-mono
     font-awesome
     noto-fonts

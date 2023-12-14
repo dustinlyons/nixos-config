@@ -307,11 +307,10 @@ let user = "%USER%";
     }];
   };
 
-  # @todo: submit feather-font PR to nixpkgs
   fonts.packages = with pkgs; [
     dejavu_fonts
     emacs-all-the-icons-fonts
-    feather-font # package comes from dustinlyons/nixpkgs
+    feather-font # from overlay
     jetbrains-mono
     font-awesome
     noto-fonts

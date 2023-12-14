@@ -18,7 +18,7 @@ let
   polybar-config = pkgs.substituteAll {
     src = ./config/polybar/config.ini;
     font0 = "DejaVu Sans:size=12;3";
-    font1 = "feather:size=12;3"; # dustinlyons/nixpkgs
+    font1 = "feather:size=12;3"; # from overlay
   };
 
   polybar-modules = builtins.readFile ./config/polybar/modules.ini;
