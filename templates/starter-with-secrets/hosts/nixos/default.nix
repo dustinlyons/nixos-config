@@ -131,11 +131,8 @@ let user = "%USER%";
             devices = [ "Macbook Pro" "Home Lab" ];
           };
         };
+
         options.globalAnnounceEnabled = false; # Only sync on LAN
-        gui = {
-          insecureSkipHostcheck = true;
-          insecureAdminAccess = true;
-        };
       };
     };
 
@@ -144,13 +141,16 @@ let user = "%USER%";
     gvfs.enable = true; # Mount, trash, and other functionalities
     tumbler.enable = true; # Thumbnail support for images
 
-    # My editor runs as a daemon
+    # Emacs runs as a daemon
     emacs = {
       enable = true;
       package = pkgs.emacs-unstable;
-      startupTimeout = "7min"; # dustinlyons/nixpkgs
     };
 
+    # When emacs builds from no cache, it exceeds the 90s timeout default
+    systemd.user.services.emacs = {
+      serviceConfig.TimeoutStartSec = "7min";
+    };
 
     # Picom, my window compositor with fancy effects
     #

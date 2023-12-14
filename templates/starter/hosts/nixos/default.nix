@@ -122,6 +122,7 @@ let user = "%USER%";
             autoAcceptFolders = true;
             addresses = [ "tcp://192.168.0.103:51820" ];
           };
+
         };
 
         folders = {
@@ -130,11 +131,6 @@ let user = "%USER%";
             path = "/home/${user}/.local/share";
             devices = [ "Macbook Pro" "Home Lab" ];
           };
-        };
-
-        gui = {
-          insecureSkipHostcheck = true;
-          insecureAdminAccess = true;
         };
 
         options.globalAnnounceEnabled = false; # Only sync on LAN
@@ -239,12 +235,15 @@ let user = "%USER%";
     # Let's be able to SSH into this machine
     openssh.enable = true;
 
-    # My editor runs as a daemon
-    # @todo: submit startupTimeout option PR to nixpkgs
+    # Emacs runs as a daemon
     emacs = {
       enable = true;
       package = pkgs.emacs-unstable;
-      startupTimeout = "7min"; # option comes from dustinlyons/nixpkgs
+    };
+
+    # When emacs builds from no cache, it exceeds the 90s timeout default
+    systemd.user.services.emacs = {
+      serviceConfig.TimeoutStartSec = "7min";
     };
 
     gvfs.enable = true; # Mount, trash, and other functionalities
