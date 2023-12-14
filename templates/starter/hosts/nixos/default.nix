@@ -267,7 +267,7 @@ let user = "%USER%";
     root = {
       openssh.authorizedKeys.keys = keys;
     };
-};
+  };
 
   # Don't require password for users in `wheel` group for these commands
   security.sudo = {
