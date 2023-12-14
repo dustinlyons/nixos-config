@@ -24,7 +24,7 @@ self: super: with super; {
       description = "Set of font icons from the open source collection Feather Icons";
       license = licenses.mit;
       maintainers = [ maintainers.dlyons ];
-      platforms = platforms.all;
+      platforms = [ platforms.x86_64-linux platforms.x86_64-darwin ];
     };
   };
 }
