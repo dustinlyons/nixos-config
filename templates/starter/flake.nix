@@ -1,7 +1,7 @@
 {
   description = "Starter Configuration for NixOS and MacOS";
   inputs = {
-    nixpkgs.url = "github:dustinlyons/nixpkgs/master";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     home-manager.url = "github:nix-community/home-manager";
     darwin = {
       url = "github:LnL7/nix-darwin/master";
