@@ -226,7 +226,7 @@ Finally, alter your system with this command:
 nix run .#build-switch
 ```
 > [!NOTE]
-> Going forward, run this command to deploy ongoing changes to your configuration.
+> On MacOS, this will swap out your `.zshrc` file with this configuration. Be prepared for that.
 
 ## For NixOS
 This configuration supports both `x86_64` and `aarch64` platforms.
