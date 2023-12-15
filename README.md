@@ -91,7 +91,7 @@ Installing Nix on MacOS will create an entirely separate volume. It will exceed 
 Some folks don't like this. If this is you, turn back now!
 
 > [!NOTE]
-> Don't worry; you can always [uninstall](https://github.com/DeterminateSystems/nix-installer#uninstalling) it later.
+> Don't worry; you can always [uninstall](https://github.com/DeterminateSystems/nix-installer#uninstalling) Nix later.
 
 ## Videos
 ### MacOS
