@@ -226,7 +226,7 @@ Finally, alter your system with this command:
 ```sh
 nix run .#build-switch
 ```
-> [!NOTE]
+> [!WARNING]
 > On MacOS, your `.zshrc` file will be replaced with the [`zsh` configuration](https://github.com/dustinlyons/nixos-config/blob/main/templates/starter/modules/shared/home-manager.nix#L8) from this repository. So make some changes here first if you'd like.
 
 ## For NixOS
