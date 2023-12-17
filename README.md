@@ -62,7 +62,7 @@ Check out the starter templates and step-by-step commands below to get started!
 ## Layout
 ```
 .
-├── bin          # Optional scripts used to run build/update
+├── apps         # Nix commands used to bootstrap and build configuration
 ├── hosts        # Host-specific configuration
 ├── modules      # MacOS and nix-darwin, NixOS, and shared configuration
 ├── overlays     # Drop an overlay file in this dir, and it runs. So far, mainly patches.
