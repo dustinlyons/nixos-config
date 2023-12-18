@@ -2,7 +2,6 @@
 
 # Nix Config for MacOS + NixOS
 [![Build Starter Template](https://github.com/dustinlyons/nixos-config/actions/workflows/build.yml/badge.svg)](https://github.com/dustinlyons/nixos-config/actions/workflows/build.yml)
-[![Update Flake Lock](https://github.com/dustinlyons/nixos-config/actions/workflows/update-flake-lock.yml/badge.svg)](https://github.com/dustinlyons/nixos-config/actions/workflows/update-flake-lock.yml)
 [![Statix Lint](https://github.com/dustinlyons/nixos-config/actions/workflows/lint.yml/badge.svg)](https://github.com/dustinlyons/nixos-config/actions/workflows/lint.yml)
 
 # Overview
