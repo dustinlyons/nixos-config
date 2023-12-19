@@ -303,7 +303,12 @@ On first boot at the login screen:
 - Go back to the login screen: `Ctrl-Alt-F7`
 
 # How to create secrets
-To create a new secret `secret.age`, first [create a `secrets.nix` file](https://github.com/ryantm/agenix#tutorial) at the root of your `nix-secrets` repository. This will only be used by the `agenix` CLI command, but must exist before we get started.
+To create a new secret `secret.age`, first [create a `secrets.nix` file](https://github.com/ryantm/agenix#tutorial) at the root of your `nix-secrets` repository. 
+
+> [!NOTE]
+> `secrets.nix` is interpreted by the imperative `agenix` commands to pick the "right" keys for your secrets.
+>
+> This file is not read when building your configuration.
 
 **secrets.nix**
 ```nix
