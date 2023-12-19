@@ -9,10 +9,10 @@ on:
       - 'README.md'
 
 jobs:
-  build:
+  lint:
     runs-on: ubuntu-latest
     outputs:
-      build-success: ${{ steps.build-result.outputs.success }}
+      lint-success: ${{ steps.build-result.outputs.success }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
