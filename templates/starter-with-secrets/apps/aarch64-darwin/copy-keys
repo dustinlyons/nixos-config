@@ -1,0 +1,68 @@
+#!/usr/bin/env bash
+set -e
+
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+NC='\033[0m'
+
+username=${USER}
+export SSH_DIR=/Users/${username}/.ssh
+
+handle_no_usb() {
+  echo -e ${RED}No USB drive found or mounted.${NC}"
+  echo -e ${GREEN}If you have not yet set up your keys, run the script to generate new SSH keys.${NC}"
+  exit 1
+}
+
+mount_usb() {
+  MOUNT_PATH=""
+  for dev in $(diskutil list | grep -o 'disk[0-9]'); do
+    MOUNT_PATH="$(diskutil info /dev/${dev} | grep \"Mount Point\" | awk -F: '{print $2}' | xargs)"
+    if [ -n "${MOUNT_PATH}" ]; then
+      echo -e "${GREEN}USB drive found at ${MOUNT_PATH}.${NC}"
+      break
+    fi
+  done
+
+  if [ -z "${MOUNT_PATH}" ]; then
+    echo -e "${RED}No USB drive found.${NC}"
+  fi
+}
+
+copy_keys() {
+  if [ -n "${MOUNT_PATH}" ]; then
+    cp "${MOUNT_PATH}/id_ed25519_agenix.pub" ${SSH_DIR}
+    cp "${MOUNT_PATH}/id_ed25519_agenix" ${SSH_DIR}
+    chmod 600 ${SSH_DIR}/id_ed25519_{agenix,agenix.pub}
+  else
+    echo -e "${RED}No USB drive found. Aborting.${NC}"
+    exit 1
+  fi
+}
+
+setup_ssh_directory() {
+  mkdir -p ${SSH_DIR}
+}
+
+set_keys() {
+  cp ${MOUNT_PATH}/id_ed25519_github.pub ${SSH_DIR}/id_ed25519.pub
+  cp ${MOUNT_PATH}/id_ed25519_github ${SSH_DIR}/id_ed25519
+  chmod 600 ${SSH_DIR}/id_ed25519
+  chmod 644 ${SSH_DIR}/id_ed25519.pub
+}
+
+change_ownership() {
+  chown ${username}:staff ${SSH_DIR}/id_ed25519{,.pub}
+  chown ${username}:staff ${SSH_DIR}/id_ed25519_{agenix,agenix.pub}
+}
+
+setup_ssh_directory
+mount_usb
+
+if [ -z "${MOUNT_PATH}" ]; then
+  handle_no_usb
+else
+  copy_keys
+  set_keys
+  change_ownership
+fi
