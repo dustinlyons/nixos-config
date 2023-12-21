@@ -152,7 +152,7 @@ mkdir -p nixos-config && (cd nixos-config && nix flake --extra-experimental-feat
 
 ### 4. Make apps executable
 ```sh
-chmod +x apps/aarch64-darwin/apply && chmod +x apps/aarch64-darwin/build chmod +x apps/aarch64-darwin/build-switch
+chmod +x apps/aarch64-darwin/apply && chmod +x apps/aarch64-darwin/build && chmod +x apps/aarch64-darwin/build-switch
 ```
 
 ### 5. Apply your current user info
