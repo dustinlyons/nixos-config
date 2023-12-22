@@ -449,4 +449,6 @@ This project is released under the [MIT License](link-to-license).
 ### Support
 [Buy me a coffee](https://www.buymeacoffee.com/dustinlyons1) or [follow me on Github](https://github.com/dustinlyons).
 
-Does your company need guidance on building a reliable data platform? I have [some experience](https://www.river.dev/work); feel free to [schedule a call](https://calendly.com/dustinhlyons/meeting-with-dustin).
+> Psst! Does your company need guidance on building a reliable data platform? 
+> 
+> I have [some experience](https://www.river.dev/work); feel free to [schedule a call](https://calendly.com/dustinhlyons/meeting-with-dustin).
