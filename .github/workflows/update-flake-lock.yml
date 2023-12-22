@@ -25,7 +25,10 @@ jobs:
         uses: DeterminateSystems/magic-nix-cache-action@main
 
       - name: Check flake
-        run: nix flake check
+        run: |
+          mkdir -p my-config && cd my-config
+          nix flake --extra-experimental-features 'nix-command flakes' init -t github:dustinlyons/nixos-config#${{ inputs.template }}
+          nix flake check
 
       - name: Update flake.lock
         uses: DeterminateSystems/update-flake-lock@main
