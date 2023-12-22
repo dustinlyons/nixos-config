@@ -125,7 +125,7 @@
                           (delete-region (point-min) (1+ url-http-end-of-headers))
                           (write-file default-config-file)))
         (message "Default configuration downloaded successfully."))
-    (error (message "Error occurred while downloading the default configuration."))))
+    (error (message "Error occurred while downloading the default configuration.")))))
 
 ;; -------------------------
 ;; Load Org Config or Default
