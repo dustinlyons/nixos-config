@@ -398,7 +398,7 @@ nix flake update
 
 ## Compatibility and Testing
 This configuration has been tested and confirmed working on the following platforms:
-- M1 Apple Silicon
+- M1/M2/M3 Apple Silicon
 - Bare metal x86_64 PC
 - NixOS inside VMWare on MacOS
 - MacOS Sonoma inside Parallels on MacOS
