@@ -447,4 +447,6 @@ This project is released under the [MIT License](link-to-license).
 [![Star History Chart](https://api.star-history.com/svg?repos=dustinlyons/nixos-config&type=Date)](https://star-history.com/#dustinlyons/nixos-config&Date)
 
 ### Support
-[Buy me a coffee](https://www.buymeacoffee.com/dustinlyons1), [hire me](https://www.river.dev/work) to build a data platform, or [follow me on Twitter](https://twitter.com/dustinhlyons).
+[Buy me a coffee](https://www.buymeacoffee.com/dustinlyons1) or [follow me on Github](https://github.com/dustinlyons).
+
+Does your company need guidance on building a reliable data platform? I have [some experience](https://www.river.dev/work); feel free to [schedule a call](https://calendly.com/dustinhlyons/meeting-with-dustin).
