@@ -261,7 +261,7 @@ Makes my lisp parens pretty, and easy to spot.
 #+END_SRC
 
 ***** Color definitions
-Define a global set of colors to be used everywhere in Emacs.
+Define a global set of colors to be used everywhere in this configuration.
 
 #+NAME: color-definitions
 #+BEGIN_SRC emacs-lisp
@@ -290,7 +290,7 @@ Keeps info at my fingertips. Modeline is much better than Vim's Powerline (sorry
 #+END_SRC
 
 ***** Treemacs
-Although I'm primarily a keyboard user and use Projectile for quickly finding files, I still find the need to browse through files in a more visual way. Treemacs does the job, and beautifully might I add.
+Although I'm primarily a keyboard user and use ~projectile~ for quickly finding files, I still find the need to browse stuf in a more visual way. Treemacs does the job, and beautifully might I add.
 
 #+NAME: treemacs
 #+BEGIN_SRC emacs-lisp
@@ -327,10 +327,12 @@ Predefine windows with hotkeys and jump to them.
 #+END_SRC
 
 *** Package managers
-Using ~straight.el~ under the hood of ~use-package~ enables us to download packages using ~git~. This is preferred for easier hacking; I maintain my own ~org-roam~ fork, for example, and it's just another directory where I organize code. I configure ~straight.el~ with one line to use it.
+Using ~straight.el~ under the hood of ~use-package~ enables us to download packages using ~git~. This is preferred for easier hacking.
 
 *** Windows
 **** Fonts
+JetBrains Mono 4 life.
+
 #+NAME: fonts
 #+BEGIN_SRC emacs-lisp
   ;; Set the default pitch face
@@ -366,7 +368,7 @@ Using ~straight.el~ under the hood of ~use-package~ enables us to download packa
                            (recents  . 5)))
   (setq dashboard-set-footer nil))
 
-  (setq dashboard-banner-logo-title "Welcome to your life")
+  (setq dashboard-banner-logo-title "This is your life")
   (setq dashboard-set-file-icons t)
   (setq dashboard-projects-backend 'projectile)
 
@@ -399,14 +401,14 @@ We use two spaces in place of tabs. I don't even want to hear it.
 **** Doom Emacs
 #+NAME: themes-autothemer
 #+BEGIN_SRC emacs-lisp
-(use-package doom-themes
-  :ensure t
-  :config
-    (setq doom-themes-enable-bold t
-            doom-themes-enable-italic t)
-    (load-theme 'doom-one t)
-    (doom-themes-visual-bell-config)
-    (doom-themes-org-config))
+  (use-package doom-themes
+    :ensure t
+    :config
+      (setq doom-themes-enable-bold t
+              doom-themes-enable-italic t)
+      (load-theme 'doom-one t)
+      (doom-themes-visual-bell-config)
+      (doom-themes-org-config))
 #+END_SRC
 
 ** Global Settings
@@ -477,36 +479,6 @@ Initialize org-agenda file and set some key bindings to create tasks.
   (define-key 'my-org-todo-prefix (kbd "p") 'my-org-insert-project)
 
   (define-key org-mode-map (kbd "C-c l") 'my-org-copy-link-from-id)
-#+END_SRC
-
-**** Capture templates
-#+NAME::org-capture-templates
-#+BEGIN_SRC emacs-lisp
-  (setq org-capture-templates
-      `(("t" "Todo" entry (file+headline ,"~/.local/share/org-roam/20220419121404-todo.org" "Tasks")
-         "* TODO %?\n:PROPERTIES:\n:ID:       %(org-id-uuid)\n:CREATED:  %U\n:SOURCE:  %a\n:END:\n\n%i")
-        ("p" "Project" entry (file+headline ,"~/.local/share/org-roam/20220419121404-todo.org" "Projects")
-         "* PROJECT %?\n:PROPERTIES:\n:ID:       %(org-id-uuid)\n:CREATED:  %U\n:SOURCE:  %a\n:END:\n\n%i")
-        ("h" "Health" entry (file+headline ,"~/.local/share/org-roam/20230712154159-health.org" "Tasks")
-         "* TODO %?\n:PROPERTIES:\n:ID:       %(org-id-uuid)\n:CREATED:  %U\n:SOURCE:  %a\n:END:\n\n%i")
-        ("H" "Health Project" entry (file+headline ,"~/.local/share/org-roam/20230712154159-health.org" "Projects")
-         "* PROJECT %?\n:PROPERTIES:\n:ID:       %(org-id-uuid)\n:CREATED:  %U\n:SOURCE:  %a\n:END:\n\n%i")
-        ("f" "Family/Social" entry (file+headline ,"~/.local/share/org-roam/20230712154441-family_social.org" "Tasks")
-         "* TODO %?\n:PROPERTIES:\n:ID:       %(org-id-uuid)\n:CREATED:  %U\n:SOURCE:  %a\n:END:\n\n%i")
-        ("F" "Family/Social Project" entry (file+headline ,"~/.local/share/org-roam/20230712154441-family_social.org" "Projects")
-         "* PROJECT %?\n:PROPERTIES:\n:ID:       %(org-id-uuid)\n:CREATED:  %U\n:SOURCE:  %a\n:END:\n\n%i")
-        ("b" "Business" entry (file+headline ,"~/.local/share/org-roam/20230712154303-business.org" "Tasks")
-         "* TODO %?\n:PROPERTIES:\n:ID:       %(org-id-uuid)\n:CREATED:  %U\n:SOURCE:  %a\n:END:\n\n%i")
-        ("B" "Business Project" entry (file+headline ,"~/.local/share/org-roam/20230712154303-business.org" "Projects")
-         "* PROJECT %?\n:PROPERTIES:\n:ID:       %(org-id-uuid)\n:CREATED:  %U\n:SOURCE:  %a\n:END:\n\n%i")
-        ("l" "Home Lab" entry (file+headline ,"~/.local/share/org-roam/20210919225144-home_lab.org" "Tasks")
-         "* TODO %?\n:PROPERTIES:\n:ID:       %(org-id-uuid)\n:CREATED:  %U\n:SOURCE:  %a\n:END:\n\n%i")
-        ("L" "Home Lab Project" entry (file+headline ,"~/.local/share/org-roam/20210919225144-home_lab.org" "Projects")
-         "* PROJECT %?\n:PROPERTIES:\n:ID:       %(org-id-uuid)\n:CREATED:  %U\n:SOURCE:  %a\n:END:\n\n%i")
-        ("v" "Braeview" entry (file+headline ,"~/.local/share/org-roam/20210814100042-braeview.org" "Tasks")
-         "* TODO %?\n:PROPERTIES:\n:ID:       %(org-id-uuid)\n:CREATED:  %U\n:SOURCE:  %a\n:END:\n\n%i")
-        ("V" "Braeview Project" entry (file+headline ,"~/.local/share/org-roam/20210814100042-braeview.org" "Projects")
-         "* PROJECT %?\n:PROPERTIES:\n:ID:       %(org-id-uuid)\n:CREATED:  %U\n:SOURCE:  %a]\n:END:\n\n%i")))
 #+END_SRC
 
 **** Set org faces
@@ -811,9 +783,6 @@ These are templates used to create new notes.
 
 ***** Extending Roam
 Here we add additional function to ~org-roam~ to either do something specific for more workflow, or otherwise make ~org-roam~ more full featured.
-
-****** Set CREATED and LAST_MODIFIED filetags on save
-Sets timestamps in the Properties drawer of files. I intend to use this one day when rendering these notes as HTML, to quickly see files last touched.
 
 #+NAME::org-roam-set-timestamps-on-save
 #+BEGIN_SRC emacs-lisp
@@ -1193,8 +1162,7 @@ Everything related to spell and grammar checking.
 
   (add-hook 'git-commit-mode-hook 'turn-on-flyspell)
   (add-hook 'text-mode-hook 'flyspell-mode)
-  ;; Disable this for now, doesn't play well with long literate configuration
-  ;; (add-hook 'org-mode-hook 'flyspell-mode)
+  (add-hook 'org-mode-hook 'flyspell-mode)
   (add-hook 'prog-mode-hook 'flyspell-prog-mode)
 
   (defun spell() (interactive) (flyspell-mode 1))
@@ -1240,8 +1208,7 @@ This is my IDE. It includes the same engine that powers VS Code, in addition to 
     :commands lsp lsp-deferred
     :init
       (setq lsp-keymap-prefix "C-c l")
-      ;;(setq lsp-keep-workspace-alive nil)
-      ;;(setq lsp-restart 'ignore)
+      (setq lsp-restart 'ignore)
       (setq lsp-headerline-breadcrumb-enable nil)
       (setq lsp-auto-guess-root t)
       (setq lsp-enable-which-key-integration t))
