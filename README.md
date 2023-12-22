@@ -288,7 +288,7 @@ After the keys are in place, you're good to go. Run either of these commands:
 > [!IMPORTANT]
 > For Nvidia cards, select the second option, `nomodeset`, when booting the installer, or you will see a blank screen.
 
-> [!WARNING]
+> [!CAUTION]
 > Running this will reformat your drive to the ext4 filesystem.
 
 **Simple**
