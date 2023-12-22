@@ -28,7 +28,7 @@ Check out the starter templates and step-by-step commands below to get started!
       - [Instant Emacs 29 thanks to daemon mode](#instant-emacs-29-thanks-to-daemon-mode)
     - [NixOS](#nixos)
   - [Installing](#installing)
-    - [For MacOS](#for-macos)
+    - [For MacOS (Dec 23)](#for-macos)
       - [1. Install dependencies](#1-install-dependencies)
       - [2. Install Nix](#2-install-nix)
       - [3. Initialize a starter template](#3-initialize-a-starter-template)
@@ -125,8 +125,8 @@ Run `nix copy` to make the path valid.
 nix copy --from https://cache.nixos.org /nix/store/52k8rqihijagzc2lkv17f4lw9kmh4ki6-gnugrep-3.11-info
 ```
 
-## For MacOS
-I've tested these instructions on a fresh Macbook Pro as of September 2023.
+## For MacOS (Dec 23)
+I've tested these instructions on a fresh Macbook Pro as of December 2023.
 
 ### 1. Install dependencies
 ```sh
