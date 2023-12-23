@@ -186,7 +186,7 @@ Before generating your first build, these keys must exist in your `~/.ssh` direc
 | id_ed25519          | MacOS / NixOS    | Used to download secrets from Github. |
 | id_ed25519_agenix   | MacOS / NixOS    | Used to encrypt and decrypt secrets.  |
 
-You must one run of these commands:
+You must run one of these commands:
 
 ##### Copy keys from USB drive
 This command auto-detects a USB drive connected to the current system.
