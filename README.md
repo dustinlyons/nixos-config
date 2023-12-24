@@ -9,7 +9,7 @@ Hey, you made it! Welcome. 🤓
 
 Nix is a powerful package manager for Linux and Unix systems that ensures reproducible, declarative, and reliable software management. 
 
-This repository contains configuration for a general-purpose development environment that runs on MacOS, NixOS, or both simultaneously. 
+This repository contains configuration for a general-purpose development environment that runs Nix on MacOS, NixOS, or both simultaneously. 
 
 I use it daily on my 🧑🏻‍💻 M1 Macbook Pro and an x86 PC in my home office. It also runs as a VM on your Mac. Others have reported that it's working for them too.
 
