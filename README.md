@@ -140,12 +140,18 @@ curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix 
 ```
 
 ### 3. Initialize a starter template
-This is a simplified version without secrets management.
+*Choose one of two options*
+
+1. Simple, great for beginners, less complex configuration that enables you to get started quickly and test out Nix. You can always add secrets later. Forgoring secrets just means you may have to configure Syncthing (or whatever) yourself, instead of relying on auto-magic from Nix.
+
+2. Choose this if you're okay with adding more moving parts to gain the ability to go 100% declarative. This offers you a place to keep passwords, private keys, etc. *as part of your configuration*. This is the ultimate grail for maintaining one big, all-encompassing Nix configuration that requires no additional steps. Pair it with [`impermanance`](https://nixos.wiki/wiki/Impermanence), and you truly have a repeatable, declarative definition of your infrastructure.
+
+**Simplified version __without__ secrets management**
 ```sh
 mkdir -p nixos-config && (cd nixos-config && nix flake --extra-experimental-features 'nix-command flakes' init -t github:dustinlyons/nixos-config#starter)
 ```
 
-This is a full version with secrets management.
+**Full version __with__ secrets management**
 ```sh
 mkdir -p nixos-config && (cd nixos-config && nix flake --extra-experimental-features 'nix-command flakes' init -t github:dustinlyons/nixos-config#starter-with-secrets)
 ```
