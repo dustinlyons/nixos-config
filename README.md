@@ -1,62 +1,58 @@
-<img src="https://user-images.githubusercontent.com/1292576/190241835-41469235-f65d-4d4b-9760-372cdff7a70f.png" width="48">
-
 # Nix Config for MacOS + NixOS
 [![Build Starter Template](https://github.com/dustinlyons/nixos-config/actions/workflows/build.yml/badge.svg)](https://github.com/dustinlyons/nixos-config/actions/workflows/build.yml)
 [![Statix Lint](https://github.com/dustinlyons/nixos-config/actions/workflows/lint.yml/badge.svg)](https://github.com/dustinlyons/nixos-config/actions/workflows/lint.yml)
 
-# Overview
-Hey, you made it! Welcome. 🤓 
+## Overview
+Hey, you made it! Welcome. 🤓
 
 Nix is a powerful package manager for Linux and Unix systems that ensures reproducible, declarative, and reliable software management. 
 
-This repository contains configuration for a general-purpose development environment that runs Nix on MacOS, NixOS, or both simultaneously. 
+This repository contains configuration for a general-purpose development environment that runs Nix on MacOS, NixOS, or both simultaneously.
 
 I use it daily on my 🧑🏻‍💻 M1 Macbook Pro and an x86 PC in my home office. It also runs as a VM on your Mac. Others have reported that it's working for them too.
 
 Check out the starter templates and step-by-step commands below to get started!
 
 ## Table of Contents
-- [Nix Config for MacOS + NixOS](#nix-for-macos--nixos)
-  - [Overview](#overview)
-    - [Table of Contents](#table-of-contents)
-    - [Layout](#layout)
-    - [Features](#features)
-    - [Disclaimer](#disclaimer)
-  - [Videos](#videos)
-    - [MacOS](#macos)
-      - [Updating dependencies with one command](#updating-dependencies-with-one-command)
-      - [Instant Emacs 29 thanks to daemon mode](#instant-emacs-29-thanks-to-daemon-mode)
-    - [NixOS](#nixos)
-  - [Installing](#installing)
-    - [For MacOS (Dec 2023)](#for-macos)
-      - [1. Install dependencies](#1-install-dependencies)
-      - [2. Install Nix](#2-install-nix)
-      - [3. Initialize a starter template](#3-initialize-a-starter-template)
-      - [4. Apply your current user info](#4-apply-your-current-user-info)
-      - [5. Decide what packages to install](#5-decide-what-packages-to-install)
-      - [6. Optional: Setup secrets](#6-optional-setup-secrets)
-      - [7. Install configuration](#7-install-configuration)
-    - [For NixOS](#for-nixos)
-      - [1. Burn the latest ISO](#1-burn-the-latest-iso)
-      - [2. Optional: Setup secrets](#2-optional-setup-secrets)
-      - [3. Install configuration](#3-install-configuration)
-      - [4. Set user password](#4-set-user-password)
-  - [How to Create Secrets](#how-to-create-secrets)
-  - [Live ISO](#live-iso)
-  - [Deploying Changes to Your System](#deploying-changes-to-your-system)
-    - [For MacOS](#for-macos-1)
-    - [For NixOS](#for-nixos-1)
-    - [Update Dependencies](#update-dependencies)
-  - [Compatibility and Testing](#compatibility-and-testing)
-  - [Contributing](#contributing)
-  - [Feedback and Questions](#feedback-and-questions)
-  - [License](#license)
-  - [Appendix](#appendix)
-    - [Why Nix Flakes](#why-nix-flakes)
-    - [NixOS Components](#nixos-components)
-    - [Stars](#stars)
-    - [Support](#support)
-
+- [Overview](#overview)
+- [Layout](#layout)
+- [Features](#features)
+- [Disclaimer](#disclaimer)
+- [Videos](#videos)
+  - [MacOS](#macos)
+    - [Updating dependencies with one command](#updating-dependencies-with-one-command)
+    - [Instant Emacs 29 thanks to daemon mode](#instant-emacs-29-thanks-to-daemon-mode)
+  - [NixOS](#nixos)
+- [Installing](#installing)
+  - [For MacOS (Dec 2023)](#for-macos-dec-2023)
+    - [Install dependencies](#1-install-dependencies)
+    - [Install Nix](#2-install-nix)
+    - [Initialize a starter template](#3-initialize-a-starter-template)
+    - [Apply your current user info](#4-apply-your-current-user-info)
+    - [Decide what packages to install](#5-decide-what-packages-to-install)
+    - [Review your shell configuration](#7-review-your-shell-configuration)
+    - [Optional: Setup secrets](#8-optional-setup-secrets)
+    - [Install configuration](#9-install-configuration)
+    - [Make changes](#10-make-changes)
+  - [For NixOS](#for-nixos)
+    - [Burn the latest ISO](#1-burn-the-latest-iso)
+    - [Optional: Setup secrets](#2-optional-setup-secrets)
+    - [Install configuration](#3-install-configuration)
+    - [Set user password](#4-set-user-password)
+- [How to Create Secrets](#how-to-create-secrets)
+- [Live ISO](#live-iso)
+- [Deploying Changes to Your System](#deploying-changes-to-your-system)
+  - [For all platforms](#for-all-platforms)
+  - [Update Dependencies](#update-dependencies)
+- [Compatibility and Testing](#compatibility-and-testing)
+- [Contributing](#contributing)
+- [Feedback and Questions](#feedback-and-questions)
+- [License](#license)
+- [Appendix](#appendix)
+  - [Why Nix Flakes](#why-nix-flakes)
+  - [NixOS Components](#nixos-components)
+  - [Stars](#stars)
+  - [Support](#support)
 
 ## Layout
 ```
@@ -178,7 +174,6 @@ You can search for packages on the [official NixOS website](https://search.nixos
 
 * `darwin/casks`
 * `darwin/packages`
-* `darwin/home-manager`
 * `nixos/packages`
 * `shared/packages`
 
