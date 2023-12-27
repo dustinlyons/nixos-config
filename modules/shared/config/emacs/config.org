@@ -607,8 +607,6 @@ Setup for ~org-super-agenda~ and ~org-ql~.
        :todo "TODO")
       (:name "Learn"
        :tag "learn")
-      (:name "Braeview"
-       :tag "braeview")
       (:name "Someday"
        :todo "SOMEDAY")
     (:name "Projects"
