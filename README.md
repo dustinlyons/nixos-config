@@ -182,13 +182,21 @@ You can search for packages on the [official NixOS website](https://search.nixos
 * `nixos/packages`
 * `shared/packages`
 
-### 7. Optional: Setup secrets
+### 7. Review your shell configuration
+Add any current configuration from ~~/.zshrc~, or just review the template.
+
+**Review these files**
+
+* `darwin/home-manager`
+* `shared/home-manager`
+
+### 8. Optional: Setup secrets
 If you are using the starter with secrets, there are a few additional steps.
 
-#### 7a. Create a private Github repo to hold your secrets
+#### 8a. Create a private Github repo to hold your secrets
 In Github, create a private [`nix-secrets`](https://github.com/dustinlyons/nix-secrets-example) repository. You'll enter this name during installation.
 
-#### 7b. Install keys
+#### 8b. Install keys
 Before generating your first build, these keys must exist in your `~/.ssh` directory. Don't worry, I provide a few commands to help you.
 
 | Key Name            | Platform         | Description                           | 
@@ -222,7 +230,7 @@ If you're rolling your own, just check they are installed correctly.
 nix run .#check-keys
 ```
 
-### 8. Install configuration
+### 9. Install configuration
 First-time installations require you to move the current `/etc/nix/nix.conf` out of the way.
 ```sh
 [ -f /etc/nix/nix.conf ] && sudo mv /etc/nix/nix.conf /etc/nix/nix.conf.before-nix-darwin
@@ -230,13 +238,14 @@ First-time installations require you to move the current `/etc/nix/nix.conf` out
 
 If you're using a git repository, only files in the working tree will be copied to the [Nix Store](https://zero-to-nix.com/concepts/nix-store). 
 
-So it's imperative you run `git add .`.
+So run `git add .` if you're adding files or have changes.
 
 Then, if you want to ensure the build works before deploying the configuration, run:
 ```sh
 nix run .#build
 ```
 
+### 10. Make changes
 Finally, alter your system with this command:
 ```sh
 nix run .#build-switch
