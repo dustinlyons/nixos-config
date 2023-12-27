@@ -183,7 +183,7 @@ You can search for packages on the [official NixOS website](https://search.nixos
 * `shared/packages`
 
 ### 7. Review your shell configuration
-Add any current configuration from ~~/.zshrc~, or just review the template.
+Add any current configuration from `~/.zshrc`, or just review the template.
 
 **Review these files**
 
