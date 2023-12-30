@@ -55,12 +55,12 @@ insert_secrets_config() {
   TEMP_FILE="temp_insert.txt"
 
   # Write the formatted text to the temporary file
-  cat > "$TEMP_FILE" << 'EOF'
-      secrets = {
-        url = "git+ssh://git@github.com/%GITHUB_USER%/%GITHUB_SECRETS_REPO%.git";
-        flake = false;
-      };
-  EOF
+cat > "$TEMP_FILE" << 'EOF'
+    secrets = {
+      url = "git+ssh://git@github.com/%GITHUB_USER%/%GITHUB_SECRETS_REPO%.git";
+      flake = false;
+    };
+EOF
 
   # Check if the 'secrets' block already exists
   if grep -q 'url = "git+ssh://git@github.com/%GITHUB_USER%/%GITHUB_SECRETS_REPO%.git"' "$FILE_PATH"; then
