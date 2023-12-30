@@ -93,7 +93,6 @@ EOF
   # Clean up the temporary files
   rm "$TEMP_FILE"
   rm "${FILE_PATH}.bak"
-
 }
 
 # Fetch username from the system
