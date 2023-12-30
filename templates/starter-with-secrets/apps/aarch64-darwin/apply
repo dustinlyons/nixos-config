@@ -130,8 +130,8 @@ replace_tokens() {
       LC_ALL=C LANG=C sed -i '' -e "s/%USER%/$USERNAME/g" "$file"
       LC_ALL=C LANG=C sed -i '' -e "s/%EMAIL%/$GIT_EMAIL/g" "$file"
       LC_ALL=C LANG=C sed -i '' -e "s/%NAME%/$GIT_NAME/g" "$file"
-      LC_ALL=C LANG=C sed -i '' -e "s/%GITHUB_USER%/$GITHUB_USER/g" "$file"
-      LC_ALL=C LANG=C sed -i '' -e "s/%GITHUB_SECRETS_REPO%/$GITHUB_SECRETS_REPO/g" "$file"
+      LC_ALL=C LANG=C sed -i '' -e "s/ZZGITHUB_USERZZ/$GITHUB_USER/g" "$file"
+      LC_ALL=C LANG=C sed -i '' -e "s/ZZGITHUB_SECRETS_REPOZZ/$GITHUB_SECRETS_REPO/g" "$file"
     else
       # Linux or other
       sed -i -e "s/%USER%/$USERNAME/g" "$file"
@@ -140,8 +140,8 @@ replace_tokens() {
       sed -i -e "s/%INTERFACE%/$PRIMARY_IFACE/g" "$file"
       sed -i -e "s/%DISK%/$BOOT_DISK/g" "$file"
       sed -i -e "s/%HOST%/$HOST_NAME/g" "$file"
-      sed -i -e "s/%GITHUB_USER%/$GITHUB_USER/g" "$file"
-      sed -i -e "s/%GITHUB_SECRETS_REPO%/$GITHUB_SECRETS_REPO/g" "$file"
+      sed -i -e "s/ZZGITHUB_USERZZ/$GITHUB_USER/g" "$file"
+      sed -i -e "s/ZZGITHUB_SECRETS_REPOZZ/$GITHUB_SECRETS_REPO/g" "$file"
     fi
   fi
 }

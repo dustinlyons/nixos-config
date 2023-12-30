@@ -28,7 +28,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     secrets = {
-      url = "git+ssh://git@github.com/%GITHUB_USER%/%GITHUB_SECRETS_REPO%.git";
+      url = "git+ssh://git@github.com/ZZGITHUB_USERZZ/ZZGITHUB_SECRETS_REPOZZ.git";
       flake = false;
     };
   };
