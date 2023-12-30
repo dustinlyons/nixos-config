@@ -164,6 +164,9 @@ Run this Nix app to replace stub values with your username, full name, and email
 ```sh
 nix run .#apply
 ```
+> [!NOTE]
+> If you're using a git repository, only files in the working tree will be copied to the [Nix Store](https://zero-to-nix.com/concepts/nix-store).
+> You must run `git add .` first.
 
 ### 6. Decide what packages to install
 You can search for packages on the [official NixOS website](https://search.nixos.org/packages).
@@ -229,9 +232,9 @@ First-time installations require you to move the current `/etc/nix/nix.conf` out
 [ -f /etc/nix/nix.conf ] && sudo mv /etc/nix/nix.conf /etc/nix/nix.conf.before-nix-darwin
 ```
 
-If you're using a git repository, only files in the working tree will be copied to the [Nix Store](https://zero-to-nix.com/concepts/nix-store). 
-
-So run `git add .` if you're adding files or have changes.
+> [!NOTE]
+> If you're using a git repository, only files in the working tree will be copied to the [Nix Store](https://zero-to-nix.com/concepts/nix-store).
+> You must run `git add .` first.
 
 Then, if you want to ensure the build works before deploying the configuration, run:
 ```sh
