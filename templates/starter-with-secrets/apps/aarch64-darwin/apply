@@ -39,6 +39,7 @@ insert_secrets_output() {
   awk -v pat="$pattern" -v insert="$insert_text" '
     $0 ~ pat {
       sub(/} @inputs:/, ", " insert "} @inputs:"); # Replace the closing brace with the insert text followed by the brace
+      gsub(/ ,/, ","); # Correct any spaces before commas
       print
       next
     }
