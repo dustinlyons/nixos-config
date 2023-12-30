@@ -32,6 +32,18 @@ _prompt() {
   read -r $variable
 }
 
+update_outputs_with_secrets() {
+  local pattern="outputs = { self, darwin, nix-homebrew, homebrew-bundle, homebrew-core, homebrew-cask, home-manager, nixpkgs, disko, agenix } @inputs:"
+  local insert_text=", secrets"
+
+  awk -v pat="$pattern" -v insert="$insert_text" '
+    $0 ~ pat { print $0 insert; next }
+    { print }
+  ' flake.nix > flake.nix.tmp
+
+  mv flake.nix.tmp flake.nix
+}
+
 insert_secrets_config() {
   local pattern="disko = {"
   local insert_text="    secrets = {\n      url = \"git+ssh://git@github.com/%GITHUB_USER%/%GITHUB_SECRETS_REPO%.git\";\n      flake = false;\n    };"
@@ -160,6 +172,7 @@ replace_tokens() {
 
 # Insert secrets repo into flake
 insert_secrets_repo
+update_outputs_with_secrets
 
 # Traverse directories and call replace_tokens on each Nix file
 export -f replace_tokens
