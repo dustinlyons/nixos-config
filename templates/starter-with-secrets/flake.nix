@@ -1,5 +1,5 @@
 {
-  description = "Starter Configuration for MacOS and NixOS";
+  description = "Starter Configuration with secrets for MacOS and NixOS";
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     agenix.url = "github:ryantm/agenix";
