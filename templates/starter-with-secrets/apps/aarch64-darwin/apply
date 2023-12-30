@@ -32,6 +32,18 @@ _prompt() {
   read -r $variable
 }
 
+insert_secrets_config() {
+  local pattern="disko = {"
+  local insert_text="    secrets = {\n      url = \"git+ssh://git@github.com/%GITHUB_USER%/%GITHUB_SECRETS_REPO%.git\";\n      flake = false;\n    };"
+
+  awk -v pat="$pattern" -v insert="$insert_text" '
+    $0 ~ pat { print; print insert; next }
+    { print }
+  ' flake.nix > flake.nix.tmp
+
+  mv flake.nix.tmp flake.nix
+}
+
 # Fetch username from the system
 export USERNAME=$(whoami)
 
@@ -130,8 +142,8 @@ replace_tokens() {
       LC_ALL=C LANG=C sed -i '' -e "s/%USER%/$USERNAME/g" "$file"
       LC_ALL=C LANG=C sed -i '' -e "s/%EMAIL%/$GIT_EMAIL/g" "$file"
       LC_ALL=C LANG=C sed -i '' -e "s/%NAME%/$GIT_NAME/g" "$file"
-      LC_ALL=C LANG=C sed -i '' -e "s/ZZGITHUB_USERZZ/$GITHUB_USER/g" "$file"
-      LC_ALL=C LANG=C sed -i '' -e "s/ZZGITHUB_SECRETS_REPOZZ/$GITHUB_SECRETS_REPO/g" "$file"
+      LC_ALL=C LANG=C sed -i '' -e "s/%GITHUB_USER%/$GITHUB_USER/g" "$file"
+      LC_ALL=C LANG=C sed -i '' -e "s/%GITHUB_SECRETS_REPO%/$GITHUB_SECRETS_REPO/g" "$file"
     else
       # Linux or other
       sed -i -e "s/%USER%/$USERNAME/g" "$file"
@@ -140,11 +152,14 @@ replace_tokens() {
       sed -i -e "s/%INTERFACE%/$PRIMARY_IFACE/g" "$file"
       sed -i -e "s/%DISK%/$BOOT_DISK/g" "$file"
       sed -i -e "s/%HOST%/$HOST_NAME/g" "$file"
-      sed -i -e "s/ZZGITHUB_USERZZ/$GITHUB_USER/g" "$file"
-      sed -i -e "s/ZZGITHUB_SECRETS_REPOZZ/$GITHUB_SECRETS_REPO/g" "$file"
+      sed -i -e "s/%GITHUB_USER%/$GITHUB_USER/g" "$file"
+      sed -i -e "s/%GITHUB_SECRETS_REPO%/$GITHUB_SECRETS_REPO/g" "$file"
     fi
   fi
 }
+
+# Insert secrets repo into flake
+insert_secrets_repo
 
 # Traverse directories and call replace_tokens on each Nix file
 export -f replace_tokens
