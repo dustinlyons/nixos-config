@@ -140,7 +140,7 @@ curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix 
 
 **Simplified version without secrets management**
 * Simple and great for beginners' configuration, enabling you to get started quickly and test out Nix.
-* Forgoring secrets means you must configure Syncthing (or whatever) yourself, instead of relying on auto-magic from Nix.
+* Forgoring secrets means you must configure Syncthing (or whatever) yourself. Your configuration won't include private keys.
 * You can always add secrets later.
 
 ```sh
