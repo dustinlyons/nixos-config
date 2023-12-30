@@ -34,7 +34,7 @@ _prompt() {
 
 insert_secrets_output() {
   local pattern="outputs = { self, darwin, nix-homebrew, homebrew-bundle, homebrew-core, homebrew-cask, home-manager, nixpkgs, disko, agenix } @inputs:"
-  local insert_text="secrets, "
+  local insert_text="secrets "
 
   awk -v pat="$pattern" -v insert="$insert_text" '
     $0 ~ pat {
