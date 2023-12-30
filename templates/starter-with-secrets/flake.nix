@@ -27,10 +27,6 @@
       url = "github:nix-community/disko";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    secrets = {
-      url = "git+ssh://git@github.com/ZZGITHUB_USERZZ/ZZGITHUB_SECRETS_REPOZZ.git";
-      flake = false;
-    };
   };
   outputs = { self, darwin, nix-homebrew, homebrew-bundle, homebrew-core, homebrew-cask, home-manager, nixpkgs, disko, agenix, secrets } @inputs:
     let
