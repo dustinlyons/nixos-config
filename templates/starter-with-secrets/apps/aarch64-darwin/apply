@@ -33,13 +33,13 @@ _prompt() {
 }
 
 insert_secrets_output() {
-  local pattern="outputs = { self, darwin, nix-homebrew, homebrew-bundle, homebrew-core, homebrew-cask, home-manager, nixpkgs, disko, agenix }"
-  local insert_text=", secrets }"
+  local pattern="outputs = { self, darwin, nix-homebrew, homebrew-bundle, homebrew-core, homebrew-cask, home-manager, nixpkgs, disko, agenix } @inputs:"
+  local insert_text="secrets, "
 
   awk -v pat="$pattern" -v insert="$insert_text" '
     $0 ~ pat {
-      sub(/}$/, "");  # Remove the closing brace
-      print $0 insert; # Print the line with 'secrets' inserted before the closing brace
+      sub(/} @inputs:/, ", " insert "} @inputs:"); # Replace the closing brace with the insert text followed by the brace
+      print
       next
     }
     { print }
