@@ -32,7 +32,7 @@ _prompt() {
   read -r $variable
 }
 
-update_outputs_with_secrets() {
+insert_secrets_output() {
   local pattern="outputs = { self, darwin, nix-homebrew, homebrew-bundle, homebrew-core, homebrew-cask, home-manager, nixpkgs, disko, agenix } @inputs:"
   local insert_text=", secrets"
 
@@ -44,7 +44,7 @@ update_outputs_with_secrets() {
   mv flake.nix.tmp flake.nix
 }
 
-insert_secrets_config() {
+insert_secrets_input() {
   # Define file path
   FILE_PATH="flake.nix"
 
@@ -206,8 +206,8 @@ replace_tokens() {
 }
 
 # Insert secrets repo into flake
-insert_secrets_repo
-update_outputs_with_secrets
+insert_secrets_input
+insert_secrets_output
 
 # Traverse directories and call replace_tokens on each Nix file
 export -f replace_tokens
