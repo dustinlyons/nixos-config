@@ -140,15 +140,15 @@ curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix 
 
 **Simplified version without secrets management**
 * Simple and great for beginners' configuration, enabling you to get started quickly and test out Nix.
-* Forgoring secrets means you must configure Syncthing (or whatever) yourself instead of relying on auto-magic from Nix.
+* Forgoring secrets means you must configure Syncthing (or whatever) yourself, instead of relying on auto-magic from Nix.
 * You can always add secrets later.
 
 ```sh
 mkdir -p nixos-config && (cd nixos-config && nix flake --extra-experimental-features 'nix-command flakes' init -t github:dustinlyons/nixos-config#starter)
 ```
 **Full version with secrets management**
-* Choose this if you're okay with adding more moving parts to gain the ability to go 100% declarative.
-* This configuration offers you a place to keep passwords, private keys, etc. *as part of your configuration*.
+* Choose this if you're okay with adding more moving parts for a 100% declarative configuration.
+* This template offers you a place to keep passwords, private keys, etc. *as part of your configuration*.
 
 ```sh
 mkdir -p nixos-config && (cd nixos-config && nix flake --extra-experimental-features 'nix-command flakes' init -t github:dustinlyons/nixos-config#starter-with-secrets)
