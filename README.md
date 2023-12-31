@@ -122,7 +122,7 @@ nix copy --from https://cache.nixos.org /nix/store/52k8rqihijagzc2lkv17f4lw9kmh4
 ```
 
 ## For MacOS (Jan 2024)
-I've tested these instructions on a fresh Macbook Pro as of December 2023.
+I've tested these instructions on a fresh Macbook Pro as of January 2024.
 
 ### 1. Install dependencies
 ```sh
