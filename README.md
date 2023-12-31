@@ -121,7 +121,7 @@ Run `nix copy` to make the path valid.
 nix copy --from https://cache.nixos.org /nix/store/52k8rqihijagzc2lkv17f4lw9kmh4ki6-gnugrep-3.11-info
 ```
 
-## For MacOS (Dec 2023)
+## For MacOS (Jan 2024)
 I've tested these instructions on a fresh Macbook Pro as of December 2023.
 
 ### 1. Install dependencies
