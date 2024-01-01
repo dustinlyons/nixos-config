@@ -309,16 +309,16 @@ After the keys are in place, you're good to go. Run either of these commands:
 > Running this will reformat your drive to the `ext4` filesystem.
 
 **Simple**
-* Simple and great for beginners' configuration, enabling you to get started quickly and test out Nix.
-* Forgoring secrets means you must configure Syncthing (or whatever) yourself instead of relying on auto-magic from Nix.
+* Great for beginners, enables you to get started quickly and test out Nix.
+* Forgoring secrets means you must configure apps that depend on keys, passwords, etc., yourself.
 * You can always add secrets later.
 ```sh
 sudo nix run --extra-experimental-features 'nix-command flakes' github:dustinlyons/nixos-config#install
 ```
 
 **With secrets**
-* Choose this if you're okay with adding more moving parts to gain the ability to go 100% declarative.
-* This configuration offers you a place to keep passwords, private keys, etc. *as part of your configuration*.
+* Choose this to add more moving parts for a 100% declarative configuration.
+* This template offers you a place to keep passwords, private keys, etc. *as part of your configuration*.
 ```sh
 sudo nix run --extra-experimental-features 'nix-command flakes' github:dustinlyons/nixos-config#install-with-secrets
 ```
