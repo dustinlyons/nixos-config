@@ -28,6 +28,7 @@ jobs:
         run: |
           mkdir -p my-config && cd my-config
           nix flake --extra-experimental-features 'nix-command flakes' init -t github:dustinlyons/nixos-config#starter
+          git add .
           nix flake check
 
       - name: Update flake.lock
