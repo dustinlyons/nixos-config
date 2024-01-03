@@ -85,7 +85,6 @@ in
       { path = "/System/Applications/Photo Booth.app/"; }
       { path = "/System/Applications/TV.app/"; }
       { path = "${pkgs.jetbrains.phpstorm}/Applications/PhpStorm.app/"; }
-      { path = "/Applications/Textual.app/"; }
       { path = "/Applications/TablePlus.app/"; }
       { path = "/Applications/Asana.app/"; }
       { path = "/Applications/Drafts.app/"; }
