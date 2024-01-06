@@ -264,6 +264,14 @@ let name = "Dustin Lyons";
     enable = true;
 
     extraConfig = lib.mkMerge [
+      (lib.mkIf pkgs.stdenv.hostPlatform.isLinux
+        ''
+        Include /home/${user}/.ssh/config_external
+        '')
+      (lib.mkIf pkgs.stdenv.hostPlatform.isDarwin
+        ''
+        Include /Users/${user}/.ssh/config_external
+        '')
       ''
         Host github.com
           Hostname github.com
