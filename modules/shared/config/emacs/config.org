@@ -1422,9 +1422,11 @@ Rainbow mode is an Emacs minor mode to highlight the color shown by a RGB hex tr
 
   ;; Keeps indentation organized across these modes
   (use-package prettier-js)
-  (add-hook 'js2-mode-hook 'prettier-js-mode)
-  (add-hook 'web-mode-hook 'prettier-js-mode)
-  (add-hook 'css-mode-hook 'prettier-js-mode)
+
+  ;; Turn off hooks for now 1/4/2024 - DHL
+  ;;(add-hook 'js2-mode-hook 'prettier-js-mode)
+  ;;(add-hook 'web-mode-hook 'prettier-js-mode)
+  ;;(add-hook 'css-mode-hook 'prettier-js-mode)
 #+END_SRC
 
 *** Git
