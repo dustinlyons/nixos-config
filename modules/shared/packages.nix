@@ -64,6 +64,7 @@ with pkgs; [
   php82
   php82Packages.composer
   php82Packages.php-cs-fixer
+  php82Packages.deployer
   phpunit
 
   # Node.js development tools
