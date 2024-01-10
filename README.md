@@ -144,14 +144,14 @@ curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix 
 * You can always add secrets later.
 
 ```sh
-mkdir -p nixos-config && (cd nixos-config && nix flake --extra-experimental-features 'nix-command flakes' init -t github:dustinlyons/nixos-config#starter)
+mkdir -p nixos-config && cd nixos-config && nix flake --extra-experimental-features 'nix-command flakes' init -t github:dustinlyons/nixos-config#starter
 ```
 **Full version with secrets management**
 * Choose this to add more moving parts for a 100% declarative configuration.
 * This template offers you a place to keep passwords, private keys, etc. *as part of your configuration*.
 
 ```sh
-mkdir -p nixos-config && (cd nixos-config && nix flake --extra-experimental-features 'nix-command flakes' init -t github:dustinlyons/nixos-config#starter-with-secrets)
+mkdir -p nixos-config && cd nixos-config && nix flake --extra-experimental-features 'nix-command flakes' init -t github:dustinlyons/nixos-config#starter-with-secrets
 ```
 
 ### 4. Make apps executable
