@@ -5,7 +5,7 @@
 ** About my Emacs
 This is my detailed Emacs configuration. It's an ~org~ file that is transpiled to ~emacs-lisp~ as part of the Nix build process. 
 
-Why an org file? My Emacs config is large, and this enables me to improve the readability of its documentation greatly. I edit this file the same way you're reading it (nicely formatted) as I use Emacs and Emacs speaks org. Sounds complicated, but it's really not; [[https://github.com/dustinlyons/nixos-config/blob/main/modules/nixos/default.nix#L215][just a few lines]] in my Nix config. [[https://github.com/dustinlyons/nixos-config/blob/main/modules/darwin/default.nix#L28][MacOS too.]]
+Why an org file? My Emacs config is large, and this enables me to improve the readability of its documentation greatly. I edit this file the same way you're reading it (nicely formatted) as I use Emacs and Emacs speaks org. Sounds complicated, but it's really not; [[https://github.com/dustinlyons/nixos-config/blob/main/hosts/nixos/default.nix#L215][just a few lines]] in my Nix config. [[https://github.com/dustinlyons/nixos-config/blob/main/hosts/darwin/default.nix#L28][MacOS too.]]
 
 This is the main configuration, but one more init file also exists, ~init.el~ , that bootstraps ~org-mode~ before this file is interpreted. That's defined [[https://github.com/dustinlyons/nixos-config/blob/main/modules/shared/files.nix#L5][here]].
 
