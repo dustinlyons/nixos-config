@@ -4,7 +4,13 @@ let name = "Dustin Lyons";
     user = "dustin";
     email = "dustin@dlyons.dev"; in
 {
-  # Shared shell configuration
+
+  direnv = {
+      enable = true;
+      enableZshIntegration = true;
+      nix-direnv.enable = true;
+    };
+
   zsh = {
     enable = true;
     autocd = false;
