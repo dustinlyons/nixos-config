@@ -7,6 +7,38 @@ let
   xdg_stateHome  = "${home}/.local/state"; in
 {
 
+  "${xdg_dataHome}/bin/movesinks" = {
+    executable = true;
+    text = ''
+      #!/usr/bin/env bash
+      pacmd set-default-sink $1
+      pacmd list-sink-inputs | grep index | while read line
+      do
+        pacmd move-sink-input `echo $line | cut -f2 -d' '` $1
+      done
+    '';
+  };
+
+  "${xdg_dataHome}/bin/speakers" = {
+    executable = true;
+    text = ''
+      #!/usr/bin/env bash
+      # Changes audio format to headphones
+      pacmd set-default-sink alsa_output.usb-Audioengine_Audioengine_2_-00.analog-stereo   
+      movesinks alsa_output.usb-Audioengine_Audioengine_2_-00.analog-stereo
+    '';
+  };
+
+  "${xdg_dataHome}/bin/headphones" = {
+    executable = true;
+    text = ''
+      #!/usr/bin/env bash
+      # Changes audio format to headphones
+      pacmd set-default-sink alsa_output.pci-0000_00_1f.3.analog-stereo
+      movesinks alsa_output.pci-0000_00_1f.3.analog-stereo 
+    '';
+  };
+
   "${xdg_configHome}/bspwm/bspwmrc" = {
     executable = true;
     text = ''
@@ -57,16 +89,13 @@ let
       /run/current-system/sw/bin/emacsclient -a "" -e '(progn)' &
 
       # Desktop 1
-      # Email, Calendar, News (General)
+      # Email, Calendar, News, IDE
       bspc rule -a Google-chrome -o desktop='^1'
-      /etc/profiles/per-user/dustin/bin/google-chrome-stable "https://www.fastmail.com" "https://calendar.google.com/calendar/u/0/r" &!
+      /etc/profiles/per-user/dustin/bin/google-chrome-stable "https://www.fastmail.com" "https://calendar.google.com/calendar/u/0/r" "https://www.techmeme.com"  &!
 
       sleep 1
-
-      bspc rule -a Google-chrome -o desktop='^1'
-      /etc/profiles/per-user/dustin/bin/google-chrome-stable --new-window "https://www.techmeme.com" "https://www.inoreader.com/" &!
-
-      sleep 1
+      bspc rule -a PHPStorm -o desktop='^1'
+      /run/current-system/sw/bin/phpstorm &!
 
       # Wait for Emacs daemon to be ready
       while ! /run/current-system/sw/bin/emacsclient -e '(progn)' &>/dev/null; do
@@ -75,32 +104,26 @@ let
       notify-send 'Emacs daemon started.'
 
       # Desktop 2
-      # Terminal, Emacs (IDE)
+      # Terminal, Emacs (magit)
       bspc rule -a Alacritty -o desktop='^2'
       /etc/profiles/per-user/dustin/bin/alacritty -e sh -c 'tmux attach || tmux new-session' &
 
       sleep 1
-
       bspc rule -a Emacs -o desktop='^2'
       /run/current-system/sw/bin/emacsclient -c &!
 
       sleep .5
 
       # Desktop 3
-      # ChatGPT, Emacs
+      # ChatGPT
       bspc rule -a Google-chrome -o desktop='^3'
       /etc/profiles/per-user/dustin/bin/google-chrome-stable --new-window "https://chat.openai.com" &!
 
       sleep .5
 
-      bspc rule -a Emacs -o desktop='^3'
-      /run/current-system/sw/bin/emacsclient -c &!
-
-      sleep .5
-
-      # Desktop 5
+      # Desktop 4
       # Apple Music
-      bspc rule -a Cider -o desktop='^5'
+      bspc rule -a Cider -o desktop='^4'
       /etc/profiles/per-user/dustin/bin/cider &!
 
       sleep 1

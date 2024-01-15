@@ -27,6 +27,10 @@ let name = "Dustin Lyons";
         . /nix/var/nix/profiles/default/etc/profile.d/nix.sh
       fi
 
+      if [[ "$(uname)" == "Linux" ]]; then
+        alias pbcopy='xclip -selection clipboard'
+      fi
+
       # Define variables for directories
       export PATH=$HOME/.pnpm-packages/bin:$HOME/.pnpm-packages:$PATH
       export PATH=$HOME/.npm-packages/bin:$HOME/bin:$PATH
