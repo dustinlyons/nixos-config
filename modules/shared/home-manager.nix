@@ -54,6 +54,9 @@ let name = "Dustin Lyons";
       # Laravel Artisan
       alias art='php artisan'
 
+      # PHP Deployer
+      alias deploy='dep deploy'
+
       # Use difftastic, syntax-aware diffing
       alias diff=difft
 

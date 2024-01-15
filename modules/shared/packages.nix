@@ -64,6 +64,7 @@ with pkgs; [
   php82
   php82Packages.composer
   php82Packages.php-cs-fixer
+  php82Extensions.xdebug
   php82Packages.deployer
   phpunit
 
@@ -83,6 +84,7 @@ with pkgs; [
   hunspell
   iftop
   jetbrains-mono
+  jetbrains.phpstorm
   jq
   ripgrep
   slack
