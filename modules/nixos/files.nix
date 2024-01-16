@@ -270,7 +270,7 @@ let
          pcmanfm
 
     # Take a screenshot with PrintSc
-    Print
+    super + p
          flameshot gui -c -p $HOME/.local/share/img/screenshots
 
     # Lock the screen
