@@ -62,12 +62,8 @@ let user = "dustin";
     xserver = {
       enable = true;
 
-      # Uncomment these for AMD GPU
-      # boot.initrd.kernelModules = [ "amdgpu" ];
-      # services.xserver.videoDrivers = [ "amdgpu" ];
       videoDrivers = [ "nvidia" ];
 
-      # Comment this for AMD GPU
       # This helps fix tearing of windows for Nvidia cards
       screenSection = ''
         Option       "metamodes" "nvidia-auto-select +0+0 {ForceFullCompositionPipeline=On}"
