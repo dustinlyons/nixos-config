@@ -21,6 +21,8 @@ let user = "%USER%";
       efi.canTouchEfiVariables = true;
     };
     initrd.availableKernelModules = [ "xhci_pci" "ahci" "nvme" "usbhid" "usb_storage" "sd_mod" ];
+    # Uncomment for AMD GPU
+    # initrd.kernelModules = [ "amdgpu" ];
     kernelPackages = pkgs.linuxPackages_latest;
     kernelModules = [ "uinput" ];
   };
@@ -63,11 +65,10 @@ let user = "%USER%";
       enable = true;
 
       # Uncomment these for AMD or Nvidia GPU
-      # boot.initrd.kernelModules = [ "amdgpu" ];
-      # services.xserver.videoDrivers = [ "amdgpu" ];
-      # services.xserver.videoDrivers = [ "nvidia" ];
+      # videoDrivers = [ "amdgpu" ];
+      # videoDrivers = [ "nvidia" ];
 
-      # Comment this for AMD GPU
+      # Uncomment this for Nvidia GPU
       # This helps fix tearing of windows for Nvidia cards
       # services.xserver.screenSection = ''
       #   Option       "metamodes" "nvidia-auto-select +0+0 {ForceFullCompositionPipeline=On}"
