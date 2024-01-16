@@ -29,7 +29,6 @@ with pkgs; [
   gnupg
   libfido2
   pinentry
-  yubikey-manager
 
   # Cloud-related tools and SDKs
   # docker
