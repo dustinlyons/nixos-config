@@ -5,7 +5,6 @@ let shared-packages = import ../shared/packages.nix { inherit pkgs; }; in
 shared-packages ++ [
 
   # Security and authentication
-  yubikey-manager-qt
   yubikey-agent
   keepassxc
 
