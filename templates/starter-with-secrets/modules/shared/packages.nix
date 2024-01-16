@@ -2,7 +2,6 @@
 
 with pkgs; [
   # General packages for development and system management
-  act
   alacritty
   aspell
   aspellDicts.en
@@ -13,7 +12,6 @@ with pkgs; [
   killall
   neofetch
   openssh
-  pandoc
   sqlite
   wget
   zip
@@ -26,17 +24,8 @@ with pkgs; [
   pinentry
 
   # Cloud-related tools and SDKs
-  #
-  # docker marked broken as of Nov 15, 2023
-  # https://github.com/NixOS/nixpkgs/issues/267685
-  #
-  # docker
-  # docker-compose
-  #
-  awscli2
-  flyctl
-  ngrok
-  tflint
+  docker
+  docker-compose
 
   # Media-related packages
   emacs-all-the-icons-fonts
@@ -50,9 +39,8 @@ with pkgs; [
   meslo-lgs-nf
 
   # Node.js development tools
-  nodePackages.nodemon
-  nodePackages.prettier
   nodePackages.npm # globally install npm
+  nodePackages.prettier
   nodejs
 
   # Text and terminal utilities

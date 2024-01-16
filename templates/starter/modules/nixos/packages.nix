@@ -27,10 +27,6 @@ shared-packages ++ [
   cava # Terminal audio visualizer
   pavucontrol # Pulse audio controls
 
-  # Messaging and chat applications
-  cider # Apple Music on Linux
-  # tdesktop # telegram desktop
-
   # Testing and development tools
   direnv
   rofi
@@ -41,7 +37,6 @@ shared-packages ++ [
 
   # Screenshot and recording tools
   flameshot
-  simplescreenrecorder
 
   # Text and terminal utilities
   feh # Manage wallpapers
@@ -57,14 +52,12 @@ shared-packages ++ [
   inotify-tools # inotifywait, inotifywatch - For file system events
   i3lock-fancy-rapid
   libnotify
-  playerctl # Control media players from command line
-  pinentry-curses
-  pcmanfm # Our file browser
+  pcmanfm # File browser
   sqlite
   xdg-utils
 
   # Other utilities
-  yad # I use yad-calendar with polybar
+  yad # yad-calendar is used with polybar
   xdotool
   google-chrome
 

@@ -2,7 +2,6 @@
 
 with pkgs; [
   # General packages for development and system management
-  act
   alacritty
   aspell
   aspellDicts.en
@@ -13,7 +12,6 @@ with pkgs; [
   killall
   neofetch
   openssh
-  pandoc
   sqlite
   wget
   zip
@@ -29,11 +27,6 @@ with pkgs; [
   docker
   docker-compose
 
-  awscli2
-  flyctl
-  ngrok
-  tflint
-
   # Media-related packages
   emacs-all-the-icons-fonts
   dejavu_fonts
@@ -46,9 +39,8 @@ with pkgs; [
   meslo-lgs-nf
 
   # Node.js development tools
-  nodePackages.nodemon
-  nodePackages.prettier
   nodePackages.npm # globally install npm
+  nodePackages.prettier
   nodejs
 
   # Text and terminal utilities
