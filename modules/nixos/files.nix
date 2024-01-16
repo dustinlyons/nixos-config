@@ -275,7 +275,7 @@ let
 
     # Lock the screen
     ctrl + alt + BackSpace
-         i3lock
+        i3lock-fancy-rapid 10 15
 
     # Audio controls for + volume
     XF86AudioRaiseVolume
