@@ -429,7 +429,7 @@ I like these modes, what can I say. They're good to me.
 
 ** Org mode
 *** Agenda
-Initialize org-agenda file and set some key bindings to create tasks.
+Initialize ~org-agenda~ file and set some key bindings to create tasks.
 #+NAME::org-mode-agenda
 #+BEGIN_SRC emacs-lisp
   (setq org-agenda-files "~/.emacs.d/agenda.txt" )
@@ -639,7 +639,7 @@ Let's us move text but still see it in another file. I primarily use this to mov
 #+END_SRC
 
 *** Install package
-If you haven't heard of org mode, go watch [[https://www.youtube.com/watch?v=SzA2YODtgK4][this]] talk and come back when you are finished.
+If you haven't heard of ~org-mode~, go watch [[https://www.youtube.com/watch?v=SzA2YODtgK4][this]] talk and come back when you are finished.
 
 **** Leader key shortcuts
 #+NAME::org-mode-quick-entry
@@ -843,7 +843,7 @@ Here we add additional function to ~org-roam~ to either do something specific fo
 #+END_SRC
 
 *** UI improvements
-Anything related to improving org mode's appearance.
+Anything related to improving the appearance of ~org-mode~ .
 
 **** Change color of ivy window selection
 #+NAME::ivy-window-selection
@@ -1168,7 +1168,7 @@ Everything related to spell and grammar checking.
 
 ** Coding
 *** Compile buffers
-Everything related to M-x compile.
+Everything related to ~M-x compile~.
 
 #+NAME: compilation-buffer
 #+BEGIN_SRC emacs-lisp
@@ -1198,7 +1198,7 @@ Everything related to M-x compile.
 #+END_SRC
 
 *** LSP
-This is my IDE. It includes the same engine that powers VS Code, in addition to Github Copilot.
+This is my IDE when I'm not writing PHP in PHPStorm. It includes the same engine that powers VS Code, in addition to Github Copilot.
 
 #+NAME: lsp-mode
 #+BEGIN_SRC emacs-lisp
@@ -1237,7 +1237,7 @@ This is my IDE. It includes the same engine that powers VS Code, in addition to 
 #+END_SRC
 
 **** Shortcuts
-Leader keys for lsp-mode.
+Leader keys for ~lsp-mode~.
 
 #+NAME: lsp-leader-keys
 #+BEGIN_SRC emacs-lisp
@@ -1335,7 +1335,7 @@ Emmet mode gives autocompletion for HTML tags using short hand notations, which 
 #+END_SRC
 
 ***** Rainbow mode
-Rainbow mode is an Emacs minor mode to highlight the color shown by a RGB hex triplet (example #FFFFFF).
+Rainbow mode is an Emacs minor mode to highlight the color shown by a RGB hex triplet (example ~#FFFFFF~).
 
 #+NAME: rainbow-mode
 #+BEGIN_SRC emacs-lisp
@@ -1497,7 +1497,7 @@ These packages may come and go, but ultimately aid in my understanding of emacs 
    )
 #+END_SRC
 
-**** ANSI color codes in org babel shell output
+**** ANSI color codes in ~org-babel~ shell output
 Found [[https://emacs.stackexchange.com/questions/44664/apply-ansi-color-escape-sequences-for-org-babel-results][here]].
 #+BEGIN_SRC emacs-lisp
   (defun dl/babel-ansi ()
