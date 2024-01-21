@@ -430,7 +430,7 @@ Interested in contributing to this project? Here's how you can help:
 
 - **Code Contributions**: If you're interested in contributing code, please start by looking at open issues or feature requests. Fork the repository, make your changes, and submit a pull request. Make sure your code adheres to the existing style. For significant changes, consider opening an issue for discussion before starting work.
 
-- **Reporting Bugs**: If you encounter bugs or issues, please help by reporting them. Open a GitHub Issue and include as much detail as possible: what you were doing when the bug occurred, steps to reproduce the issue, and any relevant logs or error messages. This information will be invaluable in diagnosing and fixing the problem.
+- **Reporting Bugs**: If you encounter bugs or issues, please help by reporting them. Open a GitHub Issue and include as much detail as possible: what you were doing when the bug occurred, steps to reproduce the issue, and any relevant logs or error messages.
 
 ## Feedback and Questions
 Have feedback or questions? Feel free to use the [discussion forum](https://github.com/dustinlyons/nixos-config/discussions).
@@ -470,7 +470,3 @@ This project is released under the [MIT License](link-to-license).
 
 ### Support
 [Buy me a coffee](https://www.buymeacoffee.com/dustinlyons1) or [follow me on Github](https://github.com/dustinlyons).
-
-> Psst! Does your company need guidance on building a reliable data platform? 
-> 
-> I have [some experience](https://www.river.dev/work); feel free to [schedule a call](https://calendly.com/dustinhlyons/meeting-with-dustin).
