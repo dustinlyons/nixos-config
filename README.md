@@ -331,7 +331,7 @@ On first boot at the login screen:
 - Go back to the login screen: `Ctrl-Alt-F7`
 
 # How to create secrets
-To create a new secret `secret.age`, first [create a `secrets.nix` file](https://github.com/ryantm/agenix#tutorial) at the root of your `nix-secrets` repository. 
+To create a new secret `secret.age`, first [create a `secrets.nix` file](https://github.com/ryantm/agenix#tutorial) at the root of your [`nix-secrets`](https://github.com/dustinlyons/nix-secrets-example) repository. 
 
 > [!NOTE]
 > `secrets.nix` is interpreted by the imperative `agenix` commands to pick the "right" keys for your secrets.
@@ -357,7 +357,7 @@ EDITOR=vim nix run github:ryantm/agenix -- -e secret.age
 ```
 This opens an editor to accept, encrypt, and write your secret to disk. 
 
-Commit the file to your `nix-secrets` repo and add a reference in the `secrets.nix` of your `nix-secrets` repository. References look like
+Commit the file to your [`nix-secrets`](https://github.com/dustinlyons/nix-secrets-example) repo and add a reference in the `secrets.nix` of your `nix-secrets` repository. References look like
 ```
 {
   "secret.age".publicKeys = [ user1 system1 ];
@@ -391,7 +391,7 @@ in
 }
 ```
 
-Finally, I'd commit all changes to the `nix-secrets` repository, go back to my `nixos-config` and run `nix flake update` to update the lock file.
+Finally, I'd commit all changes to the [`nix-secrets`](https://github.com/dustinlyons/nix-secrets-example) repository, go back to my `nixos-config` and run `nix flake update` to update the lock file.
 
 The secret is now ready to use. Here's an [example](https://github.com/dustinlyons/nixos-config/blob/3b95252bc6facd7f61c6c68ceb1935481cb6b457/nixos/secrets.nix#L28) from my configuration. In the end, this creates a symlink to a decrypted file in the Nix Store that reflects my original file.
 
