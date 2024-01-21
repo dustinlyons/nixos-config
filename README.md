@@ -310,7 +310,7 @@ After the keys are in place, you're good to go. Run either of these commands:
 
 **Simple**
 * Great for beginners, enables you to get started quickly and test out Nix.
-* Forgoring secrets means you must configure apps that depend on keys, passwords, etc., yourself.
+* Forgoring secrets means you must configure apps that depend on keys or passwords yourself.
 * You can always add secrets later.
 ```sh
 sudo nix run --extra-experimental-features 'nix-command flakes' github:dustinlyons/nixos-config#install
@@ -368,7 +368,7 @@ where `"secret.age"` is your new filename. Now we have two files: `secrets.nix` 
 ## Example
 Let's say I wanted to create a new secret to hold my Github SSH key. 
 
-I would `cd` into my `nix-secrets` repo directory, verify the `agenix` configuration (named `secrets.nix`) exists, then run 
+I would `cd` into my [`nix-secrets`](https://github.com/dustinlyons/nix-secrets-example) repo directory, verify the `agenix` configuration (named `secrets.nix`) exists, then run 
 ```
 EDITOR=vim nix run github:ryantm/agenix -- -e github-ssh-key.age
 ```
