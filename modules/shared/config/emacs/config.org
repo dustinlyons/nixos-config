@@ -852,7 +852,7 @@ Anything related to improving the appearance of ~org-mode~ .
 #+END_SRC
 
 **** Change default bullets to be pretty
-Replaces the standard org-mode header asterisks with dots.
+Replaces the standard ~org-mode~ header asterisks with dots.
 #+NAME::org-mode-visuals
 #+BEGIN_SRC emacs-lisp
   (use-package org-superstar
