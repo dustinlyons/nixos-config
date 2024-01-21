@@ -41,6 +41,7 @@ shared-packages ++ [
   #tdesktop # telegram desktop
 
   # Testing and development tools
+  beekeeper-studio
   cypress # Functional testing framework using headless chrome
   chromedriver
   direnv
