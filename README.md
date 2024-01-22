@@ -174,18 +174,18 @@ You can search for packages on the [official NixOS website](https://search.nixos
 
 **Review these files**
 
-* `darwin/casks`
-* `darwin/packages`
-* `nixos/packages`
-* `shared/packages`
+* [`modules/darwin/casks.nix`](https://github.com/dustinlyons/nixos-config/blob/main/modules/darwin/casks.nix)
+* [`modules/darwin/packages.nix`](https://github.com/dustinlyons/nixos-config/blob/main/modules/darwin/packages.nix)
+*[ `modules/nixos/packages.nix`](https://github.com/dustinlyons/nixos-config/blob/main/modules/nixos/packages.nix)
+* [`modules/shared/packages/nix`](https://github.com/dustinlyons/nixos-config/blob/main/modules/shared/packages.nix)
 
 ### 7. Review your shell configuration
 Add anything from your existing `~/.zshrc`, or just review the new configuration.
 
 **Review these files**
 
-* `darwin/home-manager`
-* `shared/home-manager`
+* [`darwin/home-manager`](https://github.com/dustinlyons/nixos-config/blob/main/modules/darwin/home-manager.nix)
+* [`shared/home-manager`](https://github.com/dustinlyons/nixos-config/blob/main/modules/shared/home-manager.nix)
 
 ### 8. Optional: Setup secrets
 If you are using the starter with secrets, there are a few additional steps.
