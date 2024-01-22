@@ -11,7 +11,7 @@ SYSTEM="darwinConfigurations.$FLAKE.system"
 export NIXPKGS_ALLOW_UNFREE=1
 
 echo "${YELLOW}Starting build...${NC}"
-nix --experimental-features 'nix-command flakes' build .#$SYSTEM $@
+nix --extra-experimental-features 'nix-command flakes' build .#$SYSTEM $@
 
 echo "${YELLOW}Switching to new generation...${NC}"
 ./result/sw/bin/darwin-rebuild switch --flake .#$FLAKE $@
