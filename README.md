@@ -79,7 +79,7 @@ Check out the starter templates and step-by-step commands below to get started!
 - **Declarative Sync**: No-fuss Syncthing: managed keys, certs, and configuration across all platforms
 - **Emacs Literate Configuration**: [Large Emacs literate configuration](https://github.com/dustinlyons/nixos-config/blob/main/modules/shared/config/emacs/config.org) to explore (if that's your thing)
 - **Simplicity and Readability**: Optimized for simplicity and readability in all cases, not small files everywhere
-- **Backed by Continuous Integration**: Flake automatically updates weekly if changes don't break starter build
+- **Backed by Continuous Integration**: Flake auto updates weekly if changes don't break starter build
 
 ## Disclaimer
 Installing Nix on MacOS will create an entirely separate volume. It will exceed many gigabytes in size. 
