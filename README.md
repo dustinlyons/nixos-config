@@ -184,8 +184,8 @@ Add anything from your existing `~/.zshrc`, or just review the new configuration
 
 **Review these files**
 
-* [`darwin/home-manager`](https://github.com/dustinlyons/nixos-config/blob/main/modules/darwin/home-manager.nix)
-* [`shared/home-manager`](https://github.com/dustinlyons/nixos-config/blob/main/modules/shared/home-manager.nix)
+* [`modules/darwin/home-manager`](https://github.com/dustinlyons/nixos-config/blob/main/modules/darwin/home-manager.nix)
+* [`modules/shared/home-manager`](https://github.com/dustinlyons/nixos-config/blob/main/modules/shared/home-manager.nix)
 
 ### 8. Optional: Setup secrets
 If you are using the starter with secrets, there are a few additional steps.
