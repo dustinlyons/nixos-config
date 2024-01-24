@@ -23,9 +23,20 @@ let
     executable = true;
     text = ''
       #!/usr/bin/env bash
-      # Changes audio format to headphones
-      pacmd set-default-sink alsa_output.usb-Audioengine_Audioengine_2_-00.analog-stereo   
-      movesinks alsa_output.usb-Audioengine_Audioengine_2_-00.analog-stereo
+      # Script to change audio format to headphones and check if the sink exists
+
+      # Define the sink name
+      SINK_NAME="alsa_output.usb-Audioengine_Audioengine_2_-00.analog-stereo"
+
+      # Check if the sink exists
+      if pactl list short sinks | grep -q "$SINK_NAME"; then
+        # Sink exists, set it as the default
+        pacmd set-default-sink "$SINK_NAME"
+        movesinks "$SINK_NAME"
+      else
+        # Sink does not exist, print message
+        echo "Turn on your speakers, stupid."
+      fi
     '';
   };
 
