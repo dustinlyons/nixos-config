@@ -11,7 +11,9 @@ This repository contains configuration for a general-purpose development environ
 
 I use it daily on my 🧑🏻‍💻 M1 Macbook Pro and an x86 PC in my home office. It also runs as a VM on your Mac. Others have reported that it's working for them too.
 
-The benefit is that you'll define your work environment once, and then you're done, forever and ever. Something broken? Just chill, `nixpkgs` community will fix it. Welcome to the side of Github that has your back.
+The benefit is that you'll define your work environment once, and then you're done, forever and ever. Something broken? Just chill, `nixpkgs` community will fix it. 
+
+Welcome to the side of Github that has your back.
 
 Check out the starter templates and step-by-step commands below to get started!
 
