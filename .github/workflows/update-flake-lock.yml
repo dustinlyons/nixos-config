@@ -57,6 +57,7 @@ jobs:
 
       - name: Check flake
         run: |
+          cd /home/runner/work/nixos-config/nixos-config/my-config
           git add .
           nix flake check
 
