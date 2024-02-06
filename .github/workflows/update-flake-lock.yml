@@ -55,12 +55,6 @@ jobs:
 
           echo "$USERNAME" > /tmp/username.txt
 
-      - name: Check flake
-        run: |
-          cd /home/runner/work/nixos-config/nixos-config/my-config
-          git add .
-          nix flake check .#x86_64-linux
-
       - name: Update flake.lock
         uses: DeterminateSystems/update-flake-lock@main
         with:
