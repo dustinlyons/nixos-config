@@ -24,7 +24,7 @@ Check out the starter templates and step-by-step commands below to get started!
     - [Instant Emacs 29 thanks to daemon mode](#instant-emacs-29-thanks-to-daemon-mode)
   - [NixOS](#nixos)
 - [Installing](#installing)
-  - [For MacOS (Feb 2024)](#for-macos-jan-2024)
+  - [For MacOS (Feb 2024)](#for-macos-february-2024)
     - [Install dependencies](#1-install-dependencies)
     - [Install Nix](#2-install-nix)
     - [Initialize a starter template](#3-initialize-a-starter-template)
