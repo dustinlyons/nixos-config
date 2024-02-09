@@ -5,8 +5,8 @@ let shared-packages = import ../shared/packages.nix { inherit pkgs; }; in
 shared-packages ++ [
 
   # Security and authentication
-  _1password-gui
-  yubikey-agent
+#  _1password-gui
+#  yubikey-agent
   keepassxc
 
   # App and package management
@@ -18,12 +18,13 @@ shared-packages ++ [
   # Media and design tools
   gimp
   vlc
+mpv
   wineWowPackages.stable
   fontconfig
   font-manager
 
   # Printers and drivers
-  brlaser # printer driver
+#  brlaser # printer driver
 
   # Calculators
   bc # old school calculator
@@ -42,7 +43,7 @@ shared-packages ++ [
 
   # Testing and development tools
   beekeeper-studio
-  cypress # Functional testing framework using headless chrome
+#  cypress # Functional testing framework using headless chrome
   chromedriver
   direnv
   rofi
@@ -83,7 +84,7 @@ shared-packages ++ [
   yad # I use yad-calendar with polybar
   xdotool
   google-chrome
-
+firefox
   # PDF viewer
   zathura
 
