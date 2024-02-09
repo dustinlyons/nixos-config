@@ -32,9 +32,9 @@ let user = "jakub";
   # Per-interface useDHCP will be mandatory in the future, so this generated config
   # replicates the default behaviour.
   networking = {
-    hostName = "felix"; # Define your hostname.
-    useDHCP = false;
-    interfaces.eno1.useDHCP = true;
+    hostName = "door"; # Define your hostname.
+    #useDHCP = true;
+    interfaces.wlo1.useDHCP = true;
   };
 
   # Turn on flag for proprietary software
