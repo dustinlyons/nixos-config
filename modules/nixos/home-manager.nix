@@ -1,7 +1,7 @@
 { config, pkgs, lib, ... }:
 
 let
-  user = "dustin";
+  user = "jakub";
   xdg_configHome  = "/home/${user}/.config";
   shared-programs = import ../shared/home-manager.nix { inherit config pkgs lib; };
   shared-files = import ../shared/files.nix { inherit config pkgs; };
@@ -124,21 +124,21 @@ in
   programs = shared-programs // { gpg.enable = true; };
 
   # This installs my GPG signing keys for Github
-  systemd.user.services.gpg-import-keys = {
-    Unit = {
-      Description = "Import gpg keys";
-      After = [ "gpg-agent.socket" ];
-    };
+#  systemd.user.services.gpg-import-keys = {
+#    Unit = {
+#      Description = "Import gpg keys";
+#      After = [ "gpg-agent.socket" ];
+#    };
 
-    Service = {
-      Type = "oneshot";
-      ExecStart = toString (pkgs.writeScript "gpg-import-keys" ''
-        #! ${pkgs.runtimeShell} -el
-        ${lib.optionalString (gpgKeys!= []) ''
-        ${pkgs.gnupg}/bin/gpg --import ${lib.concatStringsSep " " gpgKeys}
-        ''}
-      '');
-    };
+#    Service = {
+#      Type = "oneshot";
+#      ExecStart = toString (pkgs.writeScript "gpg-import-keys" ''
+#        #! ${pkgs.runtimeShell} -el
+#        ${lib.optionalString (gpgKeys!= []) ''
+#        ${pkgs.gnupg}/bin/gpg --import ${lib.concatStringsSep " " gpgKeys}
+#        ''}
+#      '');
+#    };
 
     Install = { WantedBy = [ "default.target" ]; };
   };
