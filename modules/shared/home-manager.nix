@@ -1,8 +1,8 @@
 { config, pkgs, lib, ... }:
 
-let name = "Dustin Lyons";
-    user = "dustin";
-    email = "dustin@dlyons.dev"; in
+let name = "Jakub Koziserek";
+    user = "jakub";
+    email = "koziserek@gmail.com"; in
 {
 
   direnv = {
@@ -55,17 +55,17 @@ let name = "Dustin Lyons";
 
       # Emacs is my editor
       export ALTERNATE_EDITOR=""
-      export EDITOR="emacsclient -t"
-      export VISUAL="emacsclient -c -a emacs"
-      e() {
-          emacsclient -t "$@"
-      }
+      export EDITOR="nvim"
+      export VISUAL="gvim"
+#      e() {
+ #         emacsclient -t "$@"
+  #    }
 
       # Laravel Artisan
-      alias art='php artisan'
+ #     alias art='php artisan'
 
       # PHP Deployer
-      alias deploy='dep deploy'
+ #     alias deploy='dep deploy'
 
       # Use difftastic, syntax-aware diffing
       alias diff=difft
@@ -74,7 +74,7 @@ let name = "Dustin Lyons";
       alias ls='ls --color=auto'
 
       # Reboot into my dual boot Windows partition
-      alias windows='systemctl reboot --boot-loader-entry=auto-windows'
+#      alias windows='systemctl reboot --boot-loader-entry=auto-windows'
     '';
   };
 
