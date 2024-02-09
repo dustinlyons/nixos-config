@@ -15,6 +15,7 @@ with pkgs; [
   gcc
   git-filter-repo
   killall
+  kitty
   neofetch
   openssh
   pandoc
@@ -23,7 +24,7 @@ with pkgs; [
   zip
 
   # Encryption and security tools
-  _1password
+  #_1password
   age
   age-plugin-yubikey
   gnupg
@@ -33,16 +34,16 @@ with pkgs; [
   # Cloud-related tools and SDKs
   # docker
   # docker-compose
-  awscli2
-  flyctl
-  google-cloud-sdk
+  #awscli2
+  #flyctl
+  #google-cloud-sdk
   go
   gopls
   ngrok
   ssm-session-manager-plugin
-  terraform
-  terraform-ls
-  tflint
+  #terraform
+  #terraform-ls
+  #tflint
 
   # Media-related packages
   emacs-all-the-icons-fonts
@@ -60,20 +61,20 @@ with pkgs; [
   pngquant
 
   # PHP
-  php82
-  php82Packages.composer
-  php82Packages.php-cs-fixer
-  php82Extensions.xdebug
-  php82Packages.deployer
-  phpunit
+  #php82
+  #php82Packages.composer
+  #php82Packages.php-cs-fixer
+  #php82Extensions.xdebug
+  #php82Packages.deployer
+  #phpunit
 
   # Node.js development tools
   fzf
-  nodePackages.live-server
-  nodePackages.nodemon
-  nodePackages.prettier
-  nodePackages.npm
-  nodejs
+  #nodePackages.live-server
+  #nodePackages.nodemon
+  #nodePackages.prettier
+  #nodePackages.npm
+  #nodejs
 
   # Source code management, Git, GitHub tools
   gh
@@ -86,7 +87,7 @@ with pkgs; [
   jetbrains.phpstorm
   jq
   ripgrep
-  slack
+  #slack
   tree
   tmux
   unrar
@@ -94,7 +95,7 @@ with pkgs; [
   zsh-powerlevel10k
 
   # Python packages
-  black
+  #black
   python39
   python39Packages.virtualenv
 ]
