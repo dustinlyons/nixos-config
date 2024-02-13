@@ -88,8 +88,10 @@ let user = "dustin";
       libinput.enable = true;
 
       # Turn Caps Lock into Ctrl
-      layout = "us";
-      xkbOptions = "ctrl:nocaps";
+      xkb = {
+        layout = "us";
+        options = "ctrl:nocaps";
+      };
     };
 
     # Enable CUPS to print documents
