@@ -73,7 +73,7 @@
 
       darwinConfigurations = let user = "%USER%"; in {
         macos = darwin.lib.darwinSystem {
-          system = "aarch64-darwin";
+          system = "x86_64-darwin";
           specialArgs = inputs;
           modules = [
             home-manager.darwinModules.home-manager
