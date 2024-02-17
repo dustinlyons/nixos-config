@@ -77,7 +77,7 @@
       darwinConfigurations = nixpkgs.lib.genAttrs darwinSystems (system:
         darwin.lib.darwinSystem {
           inherit system;
-          specialArgs = { inherit (inputs) darwin home-manager nix-homebrew homebrew-bundle homebrew-core homebrew-cask agenix secrets; };
+          specialArgs = inputs;
           modules = [
             home-manager.darwinModules.home-manager
             nix-homebrew.darwinModules.nix-homebrew
