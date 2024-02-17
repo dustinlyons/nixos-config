@@ -32,7 +32,7 @@
     let
       user = "%USER%";
       linuxSystems = [ "x86_64-linux" "aarch64-linux" ];
-      darwinSystems = [ "aarch64-darwin" ];
+      darwinSystems = [ "aarch64-darwin" "x86_64-darwin" ];
       forAllSystems = f: nixpkgs.lib.genAttrs (linuxSystems ++ darwinSystems) f;
       devShell = system: let pkgs = nixpkgs.legacyPackages.${system}; in {
         default = with pkgs; mkShell {
@@ -76,7 +76,7 @@
 
       darwinConfigurations = let user = "%USER%"; in {
         macos = darwin.lib.darwinSystem {
-          system = "aarch64-darwin";
+          system = "x86_64-darwin";
           specialArgs = inputs;
           modules = [
             home-manager.darwinModules.home-manager

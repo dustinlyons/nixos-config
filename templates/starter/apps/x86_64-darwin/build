@@ -1,0 +1,17 @@
+#!/bin/sh -e
+
+GREEN='\033[1;32m'
+YELLOW='\033[1;33m'
+RED='\033[1;31m'
+NC='\033[0m'
+
+FLAKE="macos"
+SYSTEM="darwinConfigurations.$FLAKE.system"
+
+export NIXPKGS_ALLOW_UNFREE=1
+
+echo "${YELLOW}Starting build...${NC}"
+nix --extra-experimental-features 'nix-command flakes' build .#$SYSTEM $@
+
+echo "${GREEN}Cleaning up...${NC}"
+unlink ./result
