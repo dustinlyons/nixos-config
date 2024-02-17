@@ -88,17 +88,17 @@
       devShells = forAllSystems devShell;
       apps = nixpkgs.lib.genAttrs linuxSystems mkLinuxApps // nixpkgs.lib.genAttrs darwinSystems mkDarwinApps;
 
-      darwinConfigurations = let user = "dustin"; in {
-        "Dustins-MBP" = darwin.lib.darwinSystem {
-          system = "aarch64-darwin";
-          specialArgs = inputs;
+      darwinConfigurations = nixpkgs.lib.genAttrs darwinSystems (system:
+        darwin.lib.darwinSystem {
+          inherit system;
+          specialArgs = { inherit (inputs) darwin home-manager nix-homebrew homebrew-bundle homebrew-core homebrew-cask agenix secrets; };
           modules = [
             home-manager.darwinModules.home-manager
             nix-homebrew.darwinModules.nix-homebrew
             {
               nix-homebrew = {
                 enable = true;
-                user = "${user}";
+                user = user;
                 taps = {
                   "homebrew/homebrew-core" = homebrew-core;
                   "homebrew/homebrew-cask" = homebrew-cask;
@@ -110,8 +110,8 @@
             }
             ./hosts/darwin
           ];
-        };
-      };
+        }
+      );
 
       nixosConfigurations = nixpkgs.lib.genAttrs linuxSystems (system: nixpkgs.lib.nixosSystem {
         inherit system;

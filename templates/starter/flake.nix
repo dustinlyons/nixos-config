@@ -1,5 +1,6 @@
 {
   description = "Starter Configuration for MacOS and NixOS";
+
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     home-manager.url = "github:nix-community/home-manager";
@@ -27,6 +28,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
+
   outputs = { self, darwin, nix-homebrew, homebrew-bundle, homebrew-core, homebrew-cask, home-manager, nixpkgs, disko } @inputs:
     let
       user = "%USER%";
@@ -72,9 +74,11 @@
       devShells = forAllSystems devShell;
       apps = nixpkgs.lib.genAttrs linuxSystems mkLinuxApps // nixpkgs.lib.genAttrs darwinSystems mkDarwinApps;
 
-      darwinConfigurations = let user = "%USER%"; in {
-        macos = darwin.lib.darwinSystem {
-          system = "x86_64-darwin";
+      darwinConfigurations = nixpkgs.lib.genAttrs darwinSystems (system: let
+        user = "%USER%";
+      in
+        darwin.lib.darwinSystem {
+          inherit system;
           specialArgs = inputs;
           modules = [
             home-manager.darwinModules.home-manager
@@ -82,7 +86,7 @@
             {
               nix-homebrew = {
                 enable = true;
-                user = "${user}";
+                user = user;
                 taps = {
                   "homebrew/homebrew-core" = homebrew-core;
                   "homebrew/homebrew-cask" = homebrew-cask;
@@ -94,8 +98,8 @@
             }
             ./hosts/darwin
           ];
-        };
-      };
+        }
+      );
 
       nixosConfigurations = nixpkgs.lib.genAttrs linuxSystems (system: nixpkgs.lib.nixosSystem {
         inherit system;
