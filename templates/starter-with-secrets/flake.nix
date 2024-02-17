@@ -83,8 +83,8 @@
             nix-homebrew.darwinModules.nix-homebrew
             {
               nix-homebrew = {
+                inherit user;
                 enable = true;
-                user = user;
                 taps = {
                   "homebrew/homebrew-core" = homebrew-core;
                   "homebrew/homebrew-cask" = homebrew-cask;
