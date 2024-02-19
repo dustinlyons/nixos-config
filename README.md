@@ -438,7 +438,7 @@ Interested in contributing to this project? Here's how you can help:
 Have feedback or questions? Feel free to use the [discussion forum](https://github.com/dustinlyons/nixos-config/discussions).
 
 ## License
-This project is released under the [MIT License](link-to-license).
+This project is released under the [BSD-3-Clause license](https://github.com/dustinlyons/nixos-config/blob/main/LICENSE).
 
 ## Appendix
 ### Why Nix Flakes
