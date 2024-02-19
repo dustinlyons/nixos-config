@@ -244,20 +244,14 @@ nix run .#check-keys
 ```
 
 ### 9. Install configuration
-First-time installations require you to move the current `/etc/nix/nix.conf` out of the way.
+Ensure the build works before deploying the configuration, run:
 ```sh
-[ -f /etc/nix/nix.conf ] && sudo mv /etc/nix/nix.conf /etc/nix/nix.conf.before-nix-darwin
+nix run .#build
 ```
-
 > [!NOTE]
 > If you're using a git repository, only files in the working tree will be copied to the [Nix Store](https://zero-to-nix.com/concepts/nix-store).
 >
 > You must run `git add .` first.
-
-Then, if you want to ensure the build works before deploying the configuration, run:
-```sh
-nix run .#build
-```
 
 ### 10. Make changes
 Finally, alter your system with this command:
