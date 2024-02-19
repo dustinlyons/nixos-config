@@ -129,7 +129,7 @@ xcode-select --install
 ```
 
 ### 2. Install Nix
-Thank you for the installer, [Determinate Systems](https://determinate.systems/)!
+Thank you for the [installer](https://zero-to-nix.com/concepts/nix-installer), [Determinate Systems](https://determinate.systems/)!
 ```sh
 curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install
 ```
