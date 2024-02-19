@@ -40,7 +40,6 @@ Check out the starter templates and step-by-step commands below to get started!
     - [Install configuration](#3-install-configuration)
     - [Set user password](#4-set-user-password)
 - [How to Create Secrets](#how-to-create-secrets)
-- [Live ISO](#live-iso)
 - [Deploying Changes to Your System](#deploying-changes-to-your-system)
   - [For all platforms](#for-all-platforms)
   - [Update Dependencies](#update-dependencies)
@@ -404,13 +403,6 @@ in
 Finally, I'd commit all changes to the [`nix-secrets`](https://github.com/dustinlyons/nix-secrets-example) repository, go back to my `nixos-config` and run `nix flake update` to update the lock file.
 
 The secret is now ready to use. Here's an [example](https://github.com/dustinlyons/nixos-config/blob/3b95252bc6facd7f61c6c68ceb1935481cb6b457/nixos/secrets.nix#L28) from my configuration. In the end, this creates a symlink to a decrypted file in the Nix Store that reflects my original file.
-
-# Live ISO
-Not yet available. Coming soon.
-
-```sh
-nix run --extra-experimental-features 'nix-command flakes' github:dustinlyons/nixos-config#live
-```
 
 # Deploying changes to your system
 With Nix, changes to your system are made by 
