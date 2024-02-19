@@ -121,7 +121,7 @@ nix copy --from https://cache.nixos.org /nix/store/52k8rqihijagzc2lkv17f4lw9kmh4
 ```
 
 ## For MacOS (February 2024)
-I've tested these instructions on a fresh Macbook Pro as of February 2024.
+This configuration supports both Intel and Apple Silicon Macs.
 
 ### 1. Install dependencies
 ```sh
