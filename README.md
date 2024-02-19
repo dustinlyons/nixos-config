@@ -134,6 +134,22 @@ Thank you for the installer, [Determinate Systems](https://determinate.systems/)
 ```sh
 curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install
 ```
+> [!IMPORTANT]  
+> If you've previously installed Nix, or used [the official installation instructions](https://nixos.org/download), `flakes` and `nix-command` aren't available by default.
+>
+> You'll need to enable a few Nix [experimental features](https://nixos.org/manual/nix/stable/contributing/experimental-features).
+> 
+> **Add this line to your `/etc/nix/nix.conf` file**
+> ```
+> experimental-features = nix-command flakes
+> ```
+> 
+> **_OR_**
+>
+> **Specify experimental features when using `nix run`**
+> ```
+> nix --extra-experimental-features 'nix-command flakes' run .#<command>
+> ```
 
 ### 3. Initialize a starter template
 *Choose one of two options*
