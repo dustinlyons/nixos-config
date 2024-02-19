@@ -135,7 +135,9 @@ curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix 
 ```
 > [!IMPORTANT]
 >
-> If using [the official installation instructions](https://nixos.org/download), [`flakes`](https://nixos.wiki/wiki/Flakes) and [`nix-command`](https://nixos.wiki/wiki/Nix_command) aren't available by default. You'll need to enable them.
+> If using [the official installation instructions](https://nixos.org/download), [`flakes`](https://nixos.wiki/wiki/Flakes) and [`nix-command`](https://nixos.wiki/wiki/Nix_command) aren't available by default.
+>
+> You'll need to enable them.
 > 
 > **Add this line to your `/etc/nix/nix.conf` file**
 > ```
