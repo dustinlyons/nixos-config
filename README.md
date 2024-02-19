@@ -144,7 +144,7 @@ curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix 
 > 
 > **_OR_**
 >
-> **Specify experimental features when using `nix run`**
+> **Specify experimental features when using `nix run` below**
 > ```
 > nix --extra-experimental-features 'nix-command flakes' run .#<command>
 > ```
