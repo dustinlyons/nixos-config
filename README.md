@@ -156,7 +156,7 @@ curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix 
 
 **Simplified version without secrets management**
 * Great for beginners, enables you to get started quickly and test out Nix.
-* Forgoring secrets means you must configure apps that depend on keys, passwords, etc., yourself.
+* Forgoing secrets just means you must configure apps that depend on keys, passwords, etc., yourself.
 * You can always add secrets later.
 
 ```sh
