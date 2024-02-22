@@ -253,14 +253,27 @@ nix run .#build
 >
 > You must run `git add .` first.
 
+> [!WARNING]
+> You may encounter `error: Unexpected files in /etc, aborting activation` if `nix-darwin` detects it will overwrite
+> an existing `/etc/` file. The error will list the files like this:
+> 
+> ```
+> The following files have unrecognized content and would be overwritten:
+> 
+>   /etc/nix/nix.conf
+>   /etc/bashrc
+> 
+> Please check there is nothing critical in these files, rename them by adding .before-nix-darwin to the end, and then try again.
+> ```
+> Backup and move the files out of the way and/or edit your Nix configuration before continuing.
+
 ### 10. Make changes
 Finally, alter your system with this command:
 ```sh
 nix run .#build-switch
 ```
 > [!WARNING]
-> On MacOS, your `.zshrc` file will be replaced with the [`zsh` configuration](https://github.com/dustinlyons/nixos-config/blob/main/templates/starter/modules/shared/home-manager.nix#L8) from this repository. So make some changes here first if you'd like.
-
+> `~/.zshrc` will be replaced with the [`zsh` configuration](https://github.com/dustinlyons/nixos-config/blob/main/templates/starter/modules/shared/home-manager.nix#L8) from this repository. Make edits here first if you'd like.
 ## For NixOS
 This configuration supports both `x86_64` and `aarch64` platforms.
 
