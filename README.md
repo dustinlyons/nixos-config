@@ -422,7 +422,7 @@ The secret is now ready to use. Here's an [example](https://github.com/dustinlyo
 With Nix, changes to your system are made by 
 - editing your system configuration
 - building the [system closure](https://zero-to-nix.com/concepts/closures)
-- creating and switching to it _(i.e creating a [new generation](https://nixos.wiki/wiki/Terms_and_Definitions_in_Nix_Project#generation))_
+- creating [a new generation](https://nixos.wiki/wiki/Terms_and_Definitions_in_Nix_Project#generation) based on this closure and switching to it
 
 ## For all platforms
 ```sh
