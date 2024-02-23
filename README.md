@@ -109,16 +109,16 @@ https://github.com/dustinlyons/nixos-config/assets/1292576/fa54a87f-5971-41ee-98
 # Installing
 > [!IMPORTANT]
 > Note: Nix 2.18 currently [has a bug](https://github.com/NixOS/nix/issues/9052) that impacts this repository.
-
-For now, if you run into errors like this:
-```
-error: path '/nix/store/52k8rqihijagzc2lkv17f4lw9kmh4ki6-gnugrep-3.11-info' is not valid
-```
-
-Run `nix copy` to make the path valid.
-```
-nix copy --from https://cache.nixos.org /nix/store/52k8rqihijagzc2lkv17f4lw9kmh4ki6-gnugrep-3.11-info
-```
+> 
+> For now, if you run into errors like this:
+> ```
+> error: path '/nix/store/52k8rqihijagzc2lkv17f4lw9kmh4ki6-gnugrep-3.11-info' is not valid
+> ```
+> 
+> Run `nix copy` to make the path valid.
+> ```
+> nix copy --from https://cache.nixos.org /nix/store/52k8rqihijagzc2lkv17f4lw9kmh4ki6-gnugrep-3.11-info
+> ```
 
 ## For MacOS (February 2024)
 This configuration supports both Intel and Apple Silicon Macs.
@@ -217,7 +217,7 @@ Before generating your first build, these keys must exist in your `~/.ssh` direc
 | id_ed25519          | MacOS / NixOS    | Used to download secrets from Github. |
 | id_ed25519_agenix   | MacOS / NixOS    | Used to encrypt and decrypt secrets.  |
 
-You must run one of these commands:
+Run one of these commands:
 
 ##### Copy keys from USB drive
 This command auto-detects a USB drive connected to the current system.
@@ -333,7 +333,7 @@ After the keys are in place, you're good to go. Run either of these commands:
 
 **Simple**
 * Great for beginners, enables you to get started quickly and test out Nix.
-* Forgoring secrets means you must configure apps that depend on keys or passwords yourself.
+* Forgoing secrets means you must configure apps that depend on keys or passwords yourself.
 * You can always add secrets later.
 ```sh
 sudo nix run --extra-experimental-features 'nix-command flakes' github:dustinlyons/nixos-config#install
