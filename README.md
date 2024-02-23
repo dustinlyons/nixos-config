@@ -1,4 +1,4 @@
-# Nix Config for MacOS + NixOS
+# Nix Config for macOS + NixOS
 [![Build Starter Template](https://github.com/dustinlyons/nixos-config/actions/workflows/build.yml/badge.svg)](https://github.com/dustinlyons/nixos-config/actions/workflows/build.yml)
 [![Statix Lint](https://github.com/dustinlyons/nixos-config/actions/workflows/lint.yml/badge.svg)](https://github.com/dustinlyons/nixos-config/actions/workflows/lint.yml)
 
@@ -7,7 +7,7 @@ Hey, you made it! Welcome. 🤓
 
 Nix is a powerful package manager for Linux and Unix systems that ensures reproducible, declarative, and reliable software management. 
 
-This repository contains configuration for a general-purpose development environment that runs Nix on MacOS, NixOS, or both simultaneously.
+This repository contains configuration for a general-purpose development environment that runs Nix on macOS, NixOS, or both simultaneously.
 
 I use it daily on my 🧑🏻‍💻 M1 Macbook Pro and an x86 PC in my home office. It also runs as a VM on your Mac. Many others have reported that it's working for them too.
 
@@ -19,12 +19,12 @@ Check out the starter templates and step-by-step commands below to get started!
 - [Features](#features)
 - [Disclaimer](#disclaimer)
 - [Videos](#videos)
-  - [MacOS](#macos)
+  - [macOS](#macos)
     - [Updating dependencies with one command](#updating-dependencies-with-one-command)
     - [Instant Emacs 29 thanks to daemon mode](#instant-emacs-29-thanks-to-daemon-mode)
   - [NixOS](#nixos)
 - [Installing](#installing)
-  - [For MacOS (Feb 2024)](#for-macos-february-2024)
+  - [For macOS (Feb 2024)](#for-macos-february-2024)
     - [Install dependencies](#1-install-dependencies)
     - [Install Nix](#2-install-nix)
     - [Initialize a starter template](#3-initialize-a-starter-template)
@@ -58,16 +58,16 @@ Check out the starter templates and step-by-step commands below to get started!
 .
 ├── apps         # Nix commands used to bootstrap and build configuration
 ├── hosts        # Host-specific configuration
-├── modules      # MacOS and nix-darwin, NixOS, and shared configuration
+├── modules      # macOS and nix-darwin, NixOS, and shared configuration
 ├── overlays     # Drop an overlay file in this dir, and it runs. So far, mainly patches.
 ├── templates    # Starter versions of this configuration
 ```
 
 ## Features
 - **Nix Flakes**: 100% flake driven, no `configuration.nix`, [no Nix channels](#why-nix-flakes)─ just `flake.nix`
-- **Same Environment Everywhere**: Easily share config across Linux and MacOS (both Nix and Home Manager)
-- **MacOS Dream Setup**: Fully declarative MacOS (Apple and Intel) w/ UI, dock and MacOS App Store apps
-- **Simple Bootstrap**: Simple Nix commands to start from zero, both x86 and MacOS platforms
+- **Same Environment Everywhere**: Easily share config across Linux and macOS (both Nix and Home Manager)
+- **macOS Dream Setup**: Fully declarative macOS (Apple and Intel) w/ UI, dock and macOS App Store apps
+- **Simple Bootstrap**: Simple Nix commands to start from zero, both x86 and macOS platforms
 - **Managed Homebrew**: Zero maintenance homebrew environment with `nix-darwin` and `nix-homebrew`
 - **Disk Management**: Declarative disk management with `disko`, say goodbye to disk utils
 - **Secrets Management**: Declarative secrets with `agenix` for SSH, PGP, syncthing, and other tools
@@ -81,7 +81,7 @@ Check out the starter templates and step-by-step commands below to get started!
 - **Backed by Continuous Integration**: Flake auto updates weekly if changes don't break starter build
 
 ## Disclaimer
-Installing Nix on MacOS will create an entirely separate volume. It will exceed many gigabytes in size. 
+Installing Nix on macOS will create an entirely separate volume. It will exceed many gigabytes in size. 
 
 Some folks don't like this. If this is you, turn back now!
 
@@ -89,7 +89,7 @@ Some folks don't like this. If this is you, turn back now!
 > Don't worry; you can always [uninstall](https://github.com/DeterminateSystems/nix-installer#uninstalling) Nix later.
 
 ## Videos
-### MacOS
+### macOS
 #### Updating dependencies with one command
 https://github.com/dustinlyons/nixos-config/assets/1292576/2168d482-6eea-4b51-adc1-2ef1291b6598
 
@@ -120,7 +120,7 @@ https://github.com/dustinlyons/nixos-config/assets/1292576/fa54a87f-5971-41ee-98
 > nix copy --from https://cache.nixos.org /nix/store/52k8rqihijagzc2lkv17f4lw9kmh4ki6-gnugrep-3.11-info
 > ```
 
-## For MacOS (February 2024)
+## For macOS (February 2024)
 This configuration supports both Intel and Apple Silicon Macs.
 
 ### 1. Install dependencies
@@ -214,8 +214,8 @@ Before generating your first build, these keys must exist in your `~/.ssh` direc
 
 | Key Name            | Platform         | Description                           | 
 |---------------------|------------------|---------------------------------------|
-| id_ed25519          | MacOS / NixOS    | Used to download secrets from Github. |
-| id_ed25519_agenix   | MacOS / NixOS    | Used to encrypt and decrypt secrets.  |
+| id_ed25519          | macOS / NixOS    | Used to download secrets from Github. |
+| id_ed25519_agenix   | macOS / NixOS    | Used to encrypt and decrypt secrets.  |
 
 Run one of these commands:
 
@@ -299,8 +299,8 @@ Before generating your first build, these keys must exist in your `~/.ssh` direc
 
 | Key Name            | Platform         | Description                           | 
 |---------------------|------------------|---------------------------------------|
-| id_ed25519          | MacOS / NixOS    | Used to download secrets from Github. |
-| id_ed25519_agenix   | MacOS / NixOS    | Used to encrypt and decrypt secrets.  |
+| id_ed25519          | macOS / NixOS    | Used to download secrets from Github. |
+| id_ed25519_agenix   | macOS / NixOS    | Used to encrypt and decrypt secrets.  |
 
 Run one of these commands:
 
@@ -440,8 +440,8 @@ This configuration has been tested and confirmed to work on the following platfo
 - Newer M1/M2/M3 Apple Silicon Macs
 - Older x86_64 (Intel) Macs
 - Bare metal x86_64 PCs
-- NixOS VMs inside VMWare on MacOS
-- MacOS Sonoma VMs inside Parallels on MacOS
+- NixOS VMs inside VMWare on macOS
+- macOS Sonoma VMs inside Parallels on macOS
 
 ## Contributing
 Interested in contributing to this project? Here's how you can help:
