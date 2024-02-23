@@ -359,7 +359,7 @@ To create a new secret `secret.age`, first [create a `secrets.nix` file](https:/
 > [!NOTE]
 > `secrets.nix` is interpreted by the imperative `agenix` commands to pick the "right" keys for your secrets.
 >
-> Think of this file as the config file for `agenix`, its not part of your system configuration.
+> Think of this file as the config file for `agenix`. It's not part of your system configuration.
 
 **secrets.nix**
 ```nix
