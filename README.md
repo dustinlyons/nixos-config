@@ -232,10 +232,10 @@ nix run .#create-keys
 ```
 > [!NOTE]
 > If you choose this option, make sure to [save the value](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account) of `id_ed25519.pub` to Github.
-
-```sh
-cat /Users/$USER/.ssh/id_ed25519.pub | pbcopy # Copy key to clipboard
-```
+> 
+> ```sh
+> cat /Users/$USER/.ssh/id_ed25519.pub | pbcopy # Copy key to clipboard
+> ```
 
 ##### Check existing keys
 If you're rolling your own, just check they are installed correctly.
