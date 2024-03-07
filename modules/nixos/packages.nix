@@ -89,4 +89,7 @@ shared-packages ++ [
 
   # Music and entertainment
   spotify
+
+  # VR
+  immersed-vr
 ]
