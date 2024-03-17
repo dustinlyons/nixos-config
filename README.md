@@ -195,7 +195,7 @@ You can search for packages on the [official NixOS website](https://search.nixos
 * [`modules/darwin/packages.nix`](https://github.com/dustinlyons/nixos-config/blob/main/modules/darwin/packages.nix)
 * [`modules/shared/packages/nix`](https://github.com/dustinlyons/nixos-config/blob/main/modules/shared/packages.nix)
 
-**Review this file if running a NixOS VM on MacOS**
+**Review if running a NixOS VM on MacOS**
 * [ `modules/nixos/packages.nix`](https://github.com/dustinlyons/nixos-config/blob/main/modules/nixos/packages.nix)
 
 ### 7. Review your shell configuration
