@@ -377,7 +377,9 @@ in
 ```
 Values for `user1` should be your public key, or if you prefer to have keys attached to hosts, use the `system1` declaration. 
 
-Now that we've configured `agenix` with our `secrets.nix`, it's time to create our first secret. Run the command below. Note, it assumes your SSH private key is in `~/.ssh/` or you can provide the `-i` flag with a path to your `id_ed25519` key. 
+Now that we've configured `agenix` with our `secrets.nix`, it's time to create our first secret. Run the command below. Note, it will look up the public key for `secret.age`, defined in your `secrets.nix`, and check for its private key in `~/.ssh/.`
+
+> To override the SSH path, provide the `-i` flag with a path to your `id_ed25519` key. 
 ```
 EDITOR=vim nix run github:ryantm/agenix -- -e secret.age
 ```
