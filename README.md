@@ -381,21 +381,21 @@ Now that we've configured `agenix` with our `secrets.nix`, it's time to create o
 
 Run the command below. 
 
-Note, it will look up the public key for `secret.age`, defined in your `secrets.nix`, and check for its private key in `~/.ssh/.`
-
-> To override the SSH path, provide the `-i` flag with a path to your `id_ed25519` key. 
 ```
 EDITOR=vim nix run github:ryantm/agenix -- -e secret.age
 ```
+
 This opens an editor to accept, encrypt, and write your secret to disk. 
 
-Commit the file to your [`nix-secrets`](https://github.com/dustinlyons/nix-secrets-example) repo and add a reference in the `secrets.nix` of your [`nix-secrets`](https://github.com/dustinlyons/nix-secrets-example) repository. References look like
-```
-{
-  "secret.age".publicKeys = [ user1 system1 ];
-}
-```
-where `"secret.age"` is your new filename. Now we have two files: `secrets.nix` and our `secret.age`.
+The command will look up the public key for `secret.age`, defined in your `secrets.nix`, and check for its private key in `~/.ssh/.`
+
+> To override the SSH path, provide the `-i` flag with a path to your `id_ed25519` key.
+
+Write your secret in the editor, save, and commit the file to your [`nix-secrets`](https://github.com/dustinlyons/nix-secrets-example) repo. 
+
+Now we have two files: `secrets.nix` and our `secret.age`. 
+
+Here's a more step-by-step example:
 
 ## Secrets Example
 Let's say I wanted to create a new secret to hold my Github SSH key. 
