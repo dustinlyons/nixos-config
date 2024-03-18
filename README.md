@@ -387,7 +387,7 @@ Commit the file to your [`nix-secrets`](https://github.com/dustinlyons/nix-secre
   "secret.age".publicKeys = [ user1 system1 ];
 }
 ```
-where `"secret.age"` is your new filename. Now we have two files: `secrets.nix` and our `secret.age`. Let me show you.
+where `"secret.age"` is your new filename. Now we have two files: `secrets.nix` and our `secret.age`. Let me explain a little more.
 
 ## Example
 Let's say I wanted to create a new secret to hold my Github SSH key. 
