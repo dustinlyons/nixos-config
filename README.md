@@ -273,7 +273,7 @@ Finally, alter your system with this command:
 nix run .#build-switch
 ```
 > [!CAUTION]
-> `~/.zshrc` will be replaced with the [`zsh` configuration](https://github.com/dustinlyons/nixos-config/blob/main/templates/starter/modules/shared/home-manager.nix#L8) from this repository. Make edits here first if you'd like.
+> `~/.zshrc` will be replaced with the [`zsh` configuration](https://github.com/dustinlyons/nixos-config/blob/main/templates/starter/modules/shared/home-manager.nix#L8) from this repository. Make sure this is what you want.
 
 ## For NixOS
 This configuration supports both `x86_64` and `aarch64` platforms.
