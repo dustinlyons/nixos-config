@@ -355,7 +355,7 @@ On first boot at the login screen:
 - Go back to the login screen: `Ctrl-Alt-F7`
 
 # How to create secrets
-To create a new secret `secret.age`, first [create a `secrets.nix` file](https://github.com/ryantm/agenix#tutorial) at the root of your [`nix-secrets`](https://github.com/dustinlyons/nix-secrets-example) repository. 
+To create a new secret `secret.age`, first [create a `secrets.nix` file](https://github.com/ryantm/agenix#tutorial) at the root of your [`nix-secrets`](https://github.com/dustinlyons/nix-secrets-example) repository. Use this code:
 
 > [!NOTE]
 > `secrets.nix` is interpreted by the imperative `agenix` commands to pick the "right" keys for your secrets.
@@ -375,6 +375,8 @@ in
   "secret.age".publicKeys = [ user1 system1 ];
 }
 ```
+Values for `user1` should be your public key, or if you prefer to have keys attached to hosts, use the `system1` declaration. 
+
 Now that we've configured `agenix` with our `secrets.nix`, it's time to create our first secret. Run the command below. Note, it assumes your SSH private key is in `~/.ssh/` or you can provide the `-i` flag with a path to your `id_ed25519` key. 
 ```
 EDITOR=vim nix run github:ryantm/agenix -- -e secret.age
@@ -387,9 +389,9 @@ Commit the file to your [`nix-secrets`](https://github.com/dustinlyons/nix-secre
   "secret.age".publicKeys = [ user1 system1 ];
 }
 ```
-where `"secret.age"` is your new filename. Now we have two files: `secrets.nix` and our `secret.age`. Let me explain a little more.
+where `"secret.age"` is your new filename. Now we have two files: `secrets.nix` and our `secret.age`.
 
-## Example
+## Secrets Example
 Let's say I wanted to create a new secret to hold my Github SSH key. 
 
 I would `cd` into my [`nix-secrets`](https://github.com/dustinlyons/nix-secrets-example) repo directory, verify the `agenix` configuration (named `secrets.nix`) exists, then run 
