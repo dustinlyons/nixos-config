@@ -43,15 +43,17 @@ Check out the starter templates and step-by-step commands below to get started!
 - [Deploying Changes to Your System](#deploying-changes-to-your-system)
   - [For all platforms](#for-all-platforms)
   - [Update Dependencies](#update-dependencies)
-- [Compatibility and Testing](#compatibility-and-testing)
-- [Contributing](#contributing)
-- [Feedback and Questions](#feedback-and-questions)
-- [License](#license)
+- [Compatibility and Feedback](#compatibility-and-feedback)
+  - [Platforms](#platforms)
+  - [Contributing](#contributing)
+  - [Feedback and Questions](#feedback-and-questions)
+  - [License](#license)
 - [Appendix](#appendix)
   - [Why Nix Flakes](#why-nix-flakes)
   - [NixOS Components](#nixos-components)
-  - [Stars](#stars)
   - [Support](#support)
+  - [Stars](#stars)
+
 
 ## Layout
 ```
@@ -443,13 +445,17 @@ nix run .#build-switch
 nix flake update
 ```
 
-## Compatibility and Testing
+# Compatibility and Feedback
+## Platforms
 This configuration has been tested and confirmed to work on the following platforms:
 - Newer M1/M2/M3 Apple Silicon Macs
 - Older x86_64 (Intel) Macs
 - Bare metal x86_64 PCs
 - NixOS VMs inside VMWare on macOS
 - macOS Sonoma VMs inside Parallels on macOS
+
+## Feedback and Questions
+Have feedback or questions? Feel free to use the [discussion forum](https://github.com/dustinlyons/nixos-config/discussions).
 
 ## Contributing
 Interested in contributing to this project? Here's how you can help:
@@ -458,21 +464,15 @@ Interested in contributing to this project? Here's how you can help:
 
 - **Reporting Bugs**: If you encounter bugs or issues, please help by reporting them. Open a GitHub Issue and include as much detail as possible: what you were doing when the bug occurred, steps to reproduce the issue, and any relevant logs or error messages.
 
-## Feedback and Questions
-Have feedback or questions? Feel free to use the [discussion forum](https://github.com/dustinlyons/nixos-config/discussions).
-
-## License
-This project is released under the [BSD-3-Clause license](https://github.com/dustinlyons/nixos-config/blob/main/LICENSE).
-
-## Appendix
-### Why Nix Flakes
+# Appendix
+## Why Nix Flakes
 **Reasons to jump into flakes and skip `nix-env`, Nix channels, etc**
 - Flakes work just like other package managers you already know: `npm`, `cargo`, `poetry`, `composer`, etc. Channels work more like traditional Linux distributions (like Ubuntu), which most devs don't know.
 - Flakes encapsulate not just project dependencies, but Nix expressions, Nix apps, and other configurations in a single file. It's all there in a single file. This is nice.
 - Channels lock all packages to one big global `nixpkgs` version. Flakes lock each individual package to a version, which is more precise and makes it much easier to manage overall.
 - Flakes have a growing ecosystem (see [Flake Hub](https://flakehub.com/) or [Dev Env](https://devenv.sh/)), so you're future-proofing yourself.
   
-### NixOS Components
+## NixOS Components
 
 | Component                   | Description                                     | 
 | --------------------------- | :---------------------------------------------  |
@@ -488,11 +488,14 @@ This project is released under the [BSD-3-Clause license](https://github.com/dus
 | **Image Viewer**            | feh                                             |
 | **Screenshot Software**     | flameshot                                       |
 
-### Stars
+## License
+This project is released under the [BSD-3-Clause license](https://github.com/dustinlyons/nixos-config/blob/main/LICENSE).
+
+## Support
+[Buy me a coffee](https://www.buymeacoffee.com/dustinlyons1) or [follow me on Github](https://github.com/dustinlyons).
+
+## Stars
 
 > "All we have to decide is what to do with the time that is given us." - J.R.R. Tolkien
 
 [![Star History Chart](https://api.star-history.com/svg?repos=dustinlyons/nixos-config&type=Date)](https://star-history.com/#dustinlyons/nixos-config&Date)
-
-### Support
-[Buy me a coffee](https://www.buymeacoffee.com/dustinlyons1) or [follow me on Github](https://github.com/dustinlyons).
