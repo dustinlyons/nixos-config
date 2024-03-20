@@ -21,7 +21,6 @@ with pkgs; [
   age-plugin-yubikey
   gnupg
   libfido2
-  pinentry
 
   # Cloud-related tools and SDKs
   docker
