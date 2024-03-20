@@ -47,7 +47,6 @@ shared-packages ++ [
   direnv
   rofi
   rofi-calc
-  rnix-lsp # lsp-mode for nix
   qmk
   postgresql
   libusb1 # for Xbox controller
@@ -74,7 +73,6 @@ shared-packages ++ [
   libnotify
   ledger-live-desktop
   playerctl # Control media players from command line
-  pinentry-curses
   pcmanfm # Our file browser
   sqlite
   xdg-utils
