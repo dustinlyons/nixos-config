@@ -35,7 +35,7 @@ Check out the step-by-step commands below to get started!
     - [Install configuration](#9-install-configuration)
     - [Make changes](#10-make-changes)
   - [For NixOS](#for-nixos)
-    - [Burn the latest ISO](#1-burn-the-latest-iso)
+    - [Burn and use the latest ISO](#1-burn-and-use-the-latest-iso)
     - [Optional: Setup secrets](#2-optional-setup-secrets)
     - [Install configuration](#3-install-configuration)
     - [Set user password](#4-set-user-password)
@@ -324,8 +324,7 @@ sudo nix run --extra-experimental-features 'nix-command flakes' github:dustinlyo
 ```
 
 ### 3. Install configuration
-#### Run command
-After the keys are in place, you're good to go. Run either of these commands:
+#### Pick your template
 
 > [!IMPORTANT]
 > For Nvidia cards, select the second option, `nomodeset`, when booting the installer, or you will see a blank screen.
