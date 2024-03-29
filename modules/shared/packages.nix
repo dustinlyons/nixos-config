@@ -32,7 +32,7 @@ with pkgs; [
   # Cloud-related tools and SDKs
   # docker
   # docker-compose
-  awscli2
+  # awscli2 - marked broken Mar 22
   flyctl
   google-cloud-sdk
   go
