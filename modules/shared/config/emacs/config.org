@@ -775,7 +775,6 @@ These are templates used to create new notes.
      :if-new (file+head "%<%Y-%m-%d>.org"
                         (lambda () (concat ":PROPERTIES:\n:ID:       " (org-id-new) "\n:END:\n"
                                            "#+TITLE: %<%Y-%m-%d>\n#+filetags: Daily \n" ; Added space here
-                                           "[[id:F355F26D-E4E5-4CF5-99EA-E77846D47FAF][Workflow]]\n\n"
                                            "* Log\n"))))))
 #+END_SRC
 
