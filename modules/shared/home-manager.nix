@@ -100,7 +100,7 @@ let name = "Dustin Lyons";
 
   vim = {
     enable = true;
-    plugins = with pkgs.vimPlugins; [ vim-airline vim-airline-themes vim-startify vim-tmux-navigator ];
+    plugins = with pkgs.vimPlugins; [ vim-airline vim-airline-themes copilot-vim vim-startify vim-tmux-navigator ];
     settings = { ignorecase = true; };
     extraConfig = ''
       "" General
