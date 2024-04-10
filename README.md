@@ -44,6 +44,8 @@ Check out the step-by-step commands below to get started!
       - [4. Set user password](#4-set-user-password)
   - [How to Create Secrets](#how-to-create-secrets)
   - [Making Changes](#making-changes)
+      - [Development workflow](#development-workflow)
+      - [Trying packages](#trying-packages)
   - [Compatibility and Feedback](#compatibility-and-feedback)
     - [Platforms](#platforms)
     - [Contributing](#contributing)
@@ -437,11 +439,20 @@ With Nix, changes to your system are made by
 
 This is all wrapped up in the `build-switch` run command.
 
+### Development workflow
 So, in general, the workflow for managing your environment will look like
 - make some changes to the configuration (or just update flake inputs with `nix flake update`)
 - run `nix run .#build-switch`
 - watch Nix, `nix-darwin`, `home-manager`, etc do their thing
 - go about your way and benefit from a declarative environment
+  
+### Trying packages
+For quickly trying a package without installing it, I usually run
+```sh
+nix shell nixpkgs#hello
+```
+
+where `hello` is the package name from [nixpkgs](https://search.nixos.org/packages).
 
 ## Compatibility and Feedback
 ### Platforms
