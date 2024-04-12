@@ -9,7 +9,7 @@ Why an ~org~ file? My Emacs config is large, and this enables me to improve the 
 
 This is the main configuration, but one more init file also exists, ~init.el~ , that bootstraps ~org-mode~ before this file is interpreted. That's defined [[https://github.com/dustinlyons/nixos-config/blob/main/modules/shared/files.nix#L56][here]].
 
-/Each block of code below is the actual Emacs configuration./ Formally, this style of configuration is named [[https://en.wikipedia.org/wiki/Literate_programming]["literate programming"]].
+/Each block of code below is the actual Emacs configuration./ Formally, this style of configuration is called [[https://en.wikipedia.org/wiki/Literate_programming]["literate programming"]].
 
 ** Personal Information
 Just me!
