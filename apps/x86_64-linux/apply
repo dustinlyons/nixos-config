@@ -32,6 +32,22 @@ _prompt() {
   read -r $variable
 }
 
+ask_for_star() {
+  _print "${YELLOW}Can you quickly star my Github repo? yes/no [yes]: ${NC}"
+  local response
+  read -r response
+  response=${response:-yes} # Set default response to 'yes' if input is empty
+  if [[ "$response" =~ ^[Yy](es)?$ ]] || [[ -z "$response" ]]; then
+    if [[ "$OS" == "Darwin" ]]; then
+      open "https://github.com/dustinlyons/nixos-config"
+    else
+      xdg-open "https://github.com/dustinlyons/nixos-config"
+    fi
+  fi
+}
+
+ask_for_star
+
 # Fetch username from the system
 export USERNAME=$(whoami)
 
