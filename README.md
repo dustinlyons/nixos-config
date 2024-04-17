@@ -176,7 +176,7 @@ mkdir -p nixos-config && cd nixos-config && nix flake --extra-experimental-featu
 mkdir -p nixos-config && cd nixos-config && nix flake --extra-experimental-features 'nix-command flakes' init -t github:dustinlyons/nixos-config#starter-with-secrets
 ```
 
-### 4. Make apps executable
+### 4. Make [apps](https://github.com/dustinlyons/nixos-config/tree/main/apps) executable
 ```sh
 find apps/$(uname -m | sed 's/arm64/aarch64/')-darwin -type f \( -name apply -o -name build -o -name build-switch -o -name create-keys -o -name copy-keys -o -name check-keys \) -exec chmod +x {} \;
 ```
