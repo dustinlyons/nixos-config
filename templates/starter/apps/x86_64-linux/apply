@@ -120,7 +120,7 @@ confirm_details() {
     _print "Hostname: $HOST_NAME${NC}"
   fi
 
-  _prompt "${YELLOW}Is this correct? (Y/N): ${NC}" choice
+  _prompt "${YELLOW}Is this correct? yes/no: ${NC}" choice
 
   case "$choice" in
   [Nn] ) _print "${RED}Exiting script.${NC}" && exit 1;;
