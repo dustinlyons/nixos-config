@@ -96,7 +96,7 @@ EOF
 }
 
 ask_for_star() {
-  _print "${YELLOW}Can you quickly star my Github repo? yes/no [yes]: ${NC}"
+  _print "${YELLOW}Would you mind to quickly star my Github repo? yes/no [yes]: ${NC}"
   local response
   read -r response
   response=${response:-yes} # Set default response to 'yes' if input is empty
