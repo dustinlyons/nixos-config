@@ -353,7 +353,7 @@ sudo nix run --extra-experimental-features 'nix-command flakes' github:dustinlyo
 
 ### 4. Set user password
 On first boot at the login screen:
-- Use the shortcut `Ctrl-Alt-F2` (or `Fn-Ctrl-Option-F2` if on a Mac) to move to a terminal session
+- Use shortcut `Ctrl-Alt-F2` (or `Fn-Ctrl-Option-F2` if on a Mac) to move to a terminal session
 - Login as `root` using the password created during installation
 - Set the user password with `passwd <user>`
 - Go back to the login screen: `Ctrl-Alt-F7`
