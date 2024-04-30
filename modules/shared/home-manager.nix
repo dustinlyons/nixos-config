@@ -88,7 +88,7 @@ let name = "Dustin Lyons";
     };
     extraConfig = {
       init.defaultBranch = "main";
-      core = { 
+      core = {
 	    editor = "vim";
         autocrlf = "input";
       };
@@ -267,17 +267,27 @@ let name = "Dustin Lyons";
 
   ssh = {
     enable = true;
-
-    extraConfig = lib.mkMerge [
+    includes = [
       (lib.mkIf pkgs.stdenv.hostPlatform.isLinux
-        ''
-        Include /home/${user}/.ssh/config_external
-        '')
+        "/home/${user}/.ssh/config.d/*.ssh"
+      )
       (lib.mkIf pkgs.stdenv.hostPlatform.isDarwin
-        ''
-        Include /Users/${user}/.ssh/config_external
-        '')
-      ''
+        "/Users/${user}/.ssh/config.d/*.ssh"
+      )
+    ];
+    matchBlocks = {
+      "github.com" = {
+        identitiesOnly = true;
+        identityFile = [
+          (lib.mkIf pkgs.stdenv.hostPlatform.isLinux
+            "/home/${user}/.ssh/id_github"
+          )
+          (lib.mkIf pkgs.stdenv.hostPlatform.isDarwin
+            "/Users/${user}/.ssh/id_github"
+          )
+        ];
+      };
+    };
         Host github.com
           Hostname github.com
           IdentitiesOnly yes
