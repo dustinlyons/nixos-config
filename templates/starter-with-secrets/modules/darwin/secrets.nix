@@ -2,7 +2,7 @@
 
 let user = "%USER%"; in
 {
-  age.identityPaths = [ 
+  age.identityPaths = [
     "/Users/${user}/.ssh/id_ed25519"
   ];
 
@@ -13,7 +13,7 @@ let user = "%USER%"; in
   #       instead, you can reference the age files and specify the symlink path here. Then add your
   #       public key in shared/files.nix.
   #
-  #       If you change the key name, you'll need to update the SSH extraConfig in shared/home-manager.nix
+  #       If you change the key name, you'll need to update the SSH configuration in shared/home-manager.nix
   #       so Github reads it correctly.
 
   #
