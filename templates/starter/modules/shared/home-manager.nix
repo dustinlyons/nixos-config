@@ -67,7 +67,7 @@ let name = "%NAME%";
     };
     extraConfig = {
       init.defaultBranch = "main";
-      core = { 
+      core = {
 	    editor = "vim";
         autocrlf = "input";
       };
@@ -253,22 +253,27 @@ let name = "%NAME%";
 
   ssh = {
     enable = true;
-
-    extraConfig = lib.mkMerge [
-      ''
-        Host github.com
-          Hostname github.com
-          IdentitiesOnly yes
-      ''
+    includes = [
       (lib.mkIf pkgs.stdenv.hostPlatform.isLinux
-        ''
-          IdentityFile /home/${user}/.ssh/id_github
-        '')
+        "/home/${user}/.ssh/config_external"
+      )
       (lib.mkIf pkgs.stdenv.hostPlatform.isDarwin
-        ''
-          IdentityFile /Users/${user}/.ssh/id_github
-        '')
+        "/Users/${user}/.ssh/config_external"
+      )
     ];
+    matchBlocks = {
+      "github.com" = {
+        identitiesOnly = true;
+        identityFile = [
+          (lib.mkIf pkgs.stdenv.hostPlatform.isLinux
+            "/home/${user}/.ssh/id_github"
+          )
+          (lib.mkIf pkgs.stdenv.hostPlatform.isDarwin
+            "/Users/${user}/.ssh/id_github"
+          )
+        ];
+      };
+    };
   };
 
   tmux = {
