@@ -41,7 +41,7 @@ let user = "%USER%";
   nix = {
     nixPath = [ "nixos-config=/home/${user}/.local/share/src/nixos-config:/etc/nixos" ];
     settings.allowed-users = [ "${user}" ];
-    package = pkgs.nixUnstable;
+    package = pkgs.nix;
     extraOptions = ''
       experimental-features = nix-command flakes
     '';
