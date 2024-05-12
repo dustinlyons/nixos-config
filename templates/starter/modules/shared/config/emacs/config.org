@@ -694,7 +694,7 @@ These are templates used to create new notes.
   (require 'ucs-normalize)
   (use-package org-roam
     :straight (:host github :repo "org-roam/org-roam"
-               :branch "master"
+               :branch "main"
                :files (:defaults "extensions/*")
     :build (:not compile))
     :init
