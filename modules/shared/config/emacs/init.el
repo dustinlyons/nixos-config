@@ -123,9 +123,10 @@
                         (lambda (_status)
                           ;; delete-region removes the HTTP headers from the downloaded content.
                           (delete-region (point-min) (1+ url-http-end-of-headers))
+                          ;; save the contents of the buffer to the file.
                           (write-file default-config-file)))
-        (message "Default configuration downloaded successfully."))
-    (error (message "Error occurred while downloading the default configuration.")))))
+          (message "Default configuration downloaded successfully.")))
+    (error (message "Error occurred while downloading the default configuration."))))
 
 ;; -------------------------
 ;; Load Org Config or Default
