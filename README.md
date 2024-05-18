@@ -139,6 +139,8 @@ Thank you for the [installer](https://zero-to-nix.com/concepts/nix-installer), [
 ```sh
 curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install
 ```
+After installation, open a new terminal session to make the `nix` executable available in your `$PATH`. You'll need this to proceed.
+
 > [!IMPORTANT]
 >
 > If using [the official installation instructions](https://nixos.org/download) instead, [`flakes`](https://nixos.wiki/wiki/Flakes) and [`nix-command`](https://nixos.wiki/wiki/Nix_command) aren't available by default.
