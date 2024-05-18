@@ -191,9 +191,17 @@ confirm_details() {
   _prompt "${YELLOW}Is this correct? yes/no: ${NC}" choice
 
   case "$choice" in
-  [Nn] ) _print "${RED}Exiting script.${NC}" && exit 1;;
-  [Yy] ) _print "${GREEN}Continuing...${NC}";;
-  * ) _print "${RED}Invalid option. Exiting script.${NC}" && exit 1;;
+    [Nn] | [Nn][Oo] ) 
+      _print "${RED}Exiting script.${NC}" 
+      exit 1
+      ;;
+    [Yy] | [Yy][Ee][Ss] ) 
+      _print "${GREEN}Continuing...${NC}"
+      ;;
+    * ) 
+      _print "${RED}Invalid option. Exiting script.${NC}" 
+      exit 1
+      ;;
   esac
 }
 
