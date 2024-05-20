@@ -87,7 +87,7 @@ Check out the step-by-step commands below to get started!
 - **Backed by Continuous Integration**: Flake auto updates weekly if changes don't break starter build
 
 ## Disclaimer
-Installing Nix on macOS will create an entirely separate volume. It will exceed many gigabytes in size. 
+Installing Nix on macOS will create an entirely separate volume. It may exceed many gigabytes in size. 
 
 Some folks don't like this. If this is you, turn back now!
 
