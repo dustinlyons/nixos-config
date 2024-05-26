@@ -139,7 +139,7 @@ Thank you for the [installer](https://zero-to-nix.com/concepts/nix-installer), [
 ```sh
 curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install
 ```
-After installation, open a new terminal session to make the `nix` executable available in your `$PATH`. You'll need this to proceed.
+After installation, open a new terminal session to make the `nix` executable available in your `$PATH`. You'll need this in the steps ahead.
 
 > [!IMPORTANT]
 >
