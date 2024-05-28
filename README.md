@@ -221,9 +221,9 @@ In Github, create a private [`nix-secrets`](https://github.com/dustinlyons/nix-s
 Before generating your first build, these keys must exist in your `~/.ssh` directory. Don't worry, I provide a few commands to help you.
 
 | Key Name            | Platform         | Description                           | 
-|---------------------|------------------|---------------------------------------|
-| id_ed25519          | macOS / NixOS    | Used to download secrets from Github. |
-| id_ed25519_agenix   | macOS / NixOS    | Used to encrypt and decrypt secrets.  |
+|---------------------|------------------|-----------------------------------------------------------|
+| id_ed25519          | macOS / NixOS    | Download secrets from Github. Used only during bootstrap. |
+| id_ed25519_agenix   | macOS / NixOS    | Copied over, used to encrypt and decrypt secrets.         |
 
 Run one of these commands:
 
@@ -305,9 +305,9 @@ In Github, create a private [`nix-secrets`](https://github.com/dustinlyons/nix-s
 Before generating your first build, these keys must exist in your `~/.ssh` directory. Don't worry, I provide a few commands to help you.
 
 | Key Name            | Platform         | Description                           | 
-|---------------------|------------------|---------------------------------------|
-| id_ed25519          | macOS / NixOS    | Used to download secrets from Github. |
-| id_ed25519_agenix   | macOS / NixOS    | Used to encrypt and decrypt secrets.  |
+|---------------------|------------------|-----------------------------------------------------------|
+| id_ed25519          | macOS / NixOS    | Download secrets from Github. Used only during bootstrap. |
+| id_ed25519_agenix   | macOS / NixOS    | Copied over, used to encrypt and decrypt secrets.         |
 
 Run one of these commands:
 
