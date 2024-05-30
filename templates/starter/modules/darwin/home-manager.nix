@@ -26,8 +26,6 @@ in
   homebrew = {
     enable = true;
     casks = pkgs.callPackage ./casks.nix {};
-    # Warning: Uncommenting the below line will cause Homebrew to uninstall any apps that *aren't* defined in your Nix configuration.
-    # (i.e. package configuration list will be declarative)
     # onActivation.cleanup = "uninstall";
 
     # These app IDs are from using the mas CLI app
