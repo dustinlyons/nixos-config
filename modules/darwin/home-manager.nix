@@ -36,9 +36,6 @@ in
     # $ nix shell nixpkgs#mas
     # $ mas search <app name>
     #
-    # NB: If you have previously added these apps to your Mac App Store profile (but not installed them on this system),
-    # you may receive an error message "Redownload Unavailable with This Apple ID".
-    # This message is safe to ignore. (https://github.com/dustinlyons/nixos-config/issues/83)
     masApps = {
       "1password" = 1333542190;
       "canva" = 897446215;
