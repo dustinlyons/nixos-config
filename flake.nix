@@ -1,5 +1,5 @@
 {
-  description = "Dustin's Configuration for NixOS and MacOS";
+  description = "General Purpose Configuration for macOS and NixOS";
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     agenix.url = "github:ryantm/agenix";
