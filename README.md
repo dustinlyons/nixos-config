@@ -26,7 +26,7 @@ Check out the step-by-step commands below to get started!
       - [Instant Emacs 29 thanks to daemon mode](#instant-emacs-29-thanks-to-daemon-mode)
     - [NixOS](#nixos)
   - [Installing](#installing)
-    - [For macOS (May 2024)](#for-macos-may-2024)
+    - [For macOS (June 2024)](#for-macos-june-2024)
       - [1. Install dependencies](#1-install-dependencies)
       - [2. Install Nix](#2-install-nix)
       - [3. Initialize a starter template](#3-initialize-a-starter-template)
@@ -126,7 +126,7 @@ https://github.com/dustinlyons/nixos-config/assets/1292576/fa54a87f-5971-41ee-98
 > nix copy --from https://cache.nixos.org /nix/store/52k8rqihijagzc2lkv17f4lw9kmh4ki6-gnugrep-3.11-info
 > ```
 
-## For macOS (May 2024)
+## For macOS (June 2024)
 This configuration supports both Intel and Apple Silicon Macs.
 
 ### 1. Install dependencies
@@ -185,7 +185,7 @@ find apps/$(uname -m | sed 's/arm64/aarch64/')-darwin -type f \( -name apply -o 
 
 ### 5. Apply your current user info
 Run this Nix command to replace stub values with your system properties, username, full name, and email.
-> Email is only used in the `git` configuration.
+> When you provide your email address, it's only used in the `git` configuration.
 ```sh
 nix run .#apply
 ```
