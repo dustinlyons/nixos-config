@@ -443,7 +443,7 @@ This is all wrapped up in the `build-switch` run command.
 
 ### Development workflow
 So, in general, the workflow for managing your environment will look like
-- make changes to the configuration (or just update flake inputs with `nix flake update`)
+- make changes to the configuration
 - run `nix run .#build-switch`
 - watch Nix, `nix-darwin`, `home-manager`, etc do their thing
 - go about your way and benefit from a declarative environment
