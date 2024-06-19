@@ -90,10 +90,5 @@ let user = "%USER%"; in
         TrackpadThreeFingerDrag = true;
       };
     };
-
-    keyboard = {
-      enableKeyMapping = true;
-      remapCapsLockToControl = true;
-    };
   };
 }
