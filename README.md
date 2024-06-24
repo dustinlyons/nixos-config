@@ -185,7 +185,7 @@ find apps/$(uname -m | sed 's/arm64/aarch64/')-darwin -type f \( -name apply -o 
 
 ### 5. Apply your current user info
 Run this Nix command to replace stub values with your system properties, username, full name, and email.
-> When you provide your email address, it's only used in the `git` configuration.
+> Your email is only used in the `git` configuration.
 ```sh
 nix run .#apply
 ```
