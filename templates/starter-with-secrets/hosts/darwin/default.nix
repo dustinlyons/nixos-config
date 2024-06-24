@@ -42,9 +42,6 @@ let user = "%USER%"; in
     agenix.packages."${pkgs.system}".default
   ] ++ (import ../../modules/shared/packages.nix { inherit pkgs; });
 
-  # Enable fonts dir
-  fonts.fontDir.enable = true;
-
   launchd.user.agents.emacs.path = [ config.environment.systemPath ];
   launchd.user.agents.emacs.serviceConfig = {
     KeepAlive = true;
