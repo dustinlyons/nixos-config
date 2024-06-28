@@ -85,7 +85,7 @@ select_boot_disk() {
 
   # Warning message for data deletion
   _print "${RED}WARNING: All data on the chosen disk will be erased during the installation!${NC}"
-  _prompt "${YELLOW}Please choose your boot disk (e.g., nvme0n1, sda): ${NC}" _boot_disk
+  _prompt "${YELLOW}Please enter the name of your boot disk (e.g., sda, nvme0n1). Do not include the full path ("/dev/"): ${NC}" _boot_disk
 
   # Confirmation for disk selection to prevent accidental data loss
   _print "${YELLOW}You have selected $_boot_disk as the boot disk. This will delete everything on this disk. Are you sure? (Y/N): ${NC}"
