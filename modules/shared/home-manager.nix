@@ -67,6 +67,9 @@ let name = "Dustin Lyons";
       # PHP Deployer
       alias deploy='dep deploy'
 
+      alias watch="tmux new-session -d -s watch-session 'bash ./bin/watch.sh'"
+      alias unwatch='tmux kill-session -t watch-session'
+
       # Use difftastic, syntax-aware diffing
       alias diff=difft
 
