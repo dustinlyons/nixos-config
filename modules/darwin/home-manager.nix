@@ -89,6 +89,7 @@ in
       { path = "/Applications/Asana.app/"; }
       { path = "/Applications/Drafts.app/"; }
       { path = "/System/Applications/Home.app/"; }
+      { path = "/Applications/iPhone Mirroring.app/"; }
       {
         path = toString myEmacsLauncher;
         section = "others";
