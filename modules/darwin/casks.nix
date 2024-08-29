@@ -9,6 +9,7 @@ _:
   "postico"
   "visual-studio-code"
   "wireshark"
+  "cursor"
 
   # Communication Tools
   "discord"
