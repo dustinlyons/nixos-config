@@ -26,7 +26,7 @@ Check out the step-by-step commands below to get started!
       - [Instant Emacs 29 thanks to daemon mode](#instant-emacs-29-thanks-to-daemon-mode)
     - [NixOS](#nixos)
   - [Installing](#installing)
-    - [For macOS (August 2024)](#for-macos-august-2024)
+    - [For macOS (September 2024)](#for-macos-september-2024)
       - [1. Install dependencies](#1-install-dependencies)
       - [2. Install Nix](#2-install-nix)
       - [3. Initialize a starter template](#3-initialize-a-starter-template)
@@ -113,7 +113,7 @@ https://github.com/dustinlyons/nixos-config/assets/1292576/d96f59ce-f540-4f14-bc
 https://github.com/dustinlyons/nixos-config/assets/1292576/fa54a87f-5971-41ee-98ce-09be048018b8
 
 ## Installing
-## For macOS (August 2024)
+## For macOS (September 2024)
 This configuration supports both Intel and Apple Silicon Macs.
 
 ### 1. Install dependencies
