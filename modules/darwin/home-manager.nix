@@ -38,11 +38,8 @@ in
     #
     masApps = {
       "1password" = 1333542190;
-      "canva" = 897446215;
-      "drafts" = 1435957248;
       "hidden-bar" = 1452453066;
       "wireguard" = 1451685025;
-      "yoink" = 457622435;
     };
   };
 
