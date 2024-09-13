@@ -53,6 +53,12 @@ insert_secrets_input() {
   # Define file path
   FILE_PATH="flake.nix"
 
+  # Check if the file exists
+  if [[ ! -f "$FILE_PATH" ]]; then
+    _print "${RED}File $FILE_PATH does not exist. Aborting insert_secrets_input...${NC}"
+    return
+  fi
+
   # Backup the original file
   cp "$FILE_PATH" "${FILE_PATH}.bak"
 
@@ -60,7 +66,7 @@ insert_secrets_input() {
   TEMP_FILE="temp_insert.txt"
 
   # Write the formatted text to the temporary file
-cat > "$TEMP_FILE" << 'EOF'
+  cat > "$TEMP_FILE" << 'EOF'
     secrets = {
       url = "git+ssh://git@github.com/%GITHUB_USER%/%GITHUB_SECRETS_REPO%.git";
       flake = false;
@@ -69,22 +75,34 @@ EOF
 
   # Check if the 'secrets' block already exists
   if grep -q 'url = "git+ssh://git@github.com/%GITHUB_USER%/%GITHUB_SECRETS_REPO%.git"' "$FILE_PATH"; then
-      echo "The 'secrets' block already exists in the file."
-      rm "$TEMP_FILE"
-      rm "${FILE_PATH}.bak"
-      exit 0
+    echo "The 'secrets' block already exists in the file."
+    rm "$TEMP_FILE"
+    rm "${FILE_PATH}.bak"
+    return
   fi
 
   # Find the start and end line numbers of the 'disko' block
   START_LINE=$(grep -n 'disko = {' "$FILE_PATH" | head -n 1 | cut -d: -f1)
+  if [[ -z "$START_LINE" ]]; then
+    _print "${RED}Could not find 'disko = {' block. Aborting insert_secrets_input...${NC}"
+    rm "$TEMP_FILE"
+    return
+  fi
+
   END_LINE=$(tail -n +$START_LINE "$FILE_PATH" | grep -n '};' | head -n 1 | cut -d: -f1)
+  if [[ -z "$END_LINE" ]]; then
+    _print "${RED}Could not find the end of 'disko' block. Aborting insert_secrets_input...${NC}"
+    rm "$TEMP_FILE"
+    return
+  fi
+
   END_LINE=$((START_LINE + END_LINE - 1))
 
   # Create a new file with the insertion
   {
-      sed -n "1,${END_LINE}p" "$FILE_PATH"
-      cat "$TEMP_FILE"
-      sed -n "$((END_LINE + 1)),\$p" "$FILE_PATH"
+    sed -n "1,${END_LINE}p" "$FILE_PATH"
+    cat "$TEMP_FILE"
+    sed -n "$((END_LINE + 1)),\$p" "$FILE_PATH"
   } > "${FILE_PATH}.new"
 
   # Replace the original file with the new file
@@ -93,20 +111,6 @@ EOF
   # Clean up the temporary files
   rm "$TEMP_FILE"
   rm "${FILE_PATH}.bak"
-}
-
-ask_for_star() {
-  _print "${YELLOW}Would you like to support my work by starring my GitHub repo? yes/no [yes]: ${NC}"
-  local response
-  read -r response
-  response=${response:-yes} # Set default response to 'yes' if input is empty
-  if [[ "$response" =~ ^[Yy](es)?$ ]] || [[ -z "$response" ]]; then
-    if [[ "$OS" == "Darwin" ]]; then
-      open "https://github.com/dustinlyons/nixos-config"
-    else
-      xdg-open "https://github.com/dustinlyons/nixos-config"
-    fi
-  fi
 }
 
 ask_for_star
@@ -211,6 +215,11 @@ confirm_details
 # Function to replace tokens in each file
 replace_tokens() {
   local file="$1"
+  if [[ ! -f "$file" ]]; then
+    _print "${RED}File $file does not exist. Skipping...${NC}"
+    return
+  fi
+
   if [[ $(basename $1) != "apply" ]]; then
     if [[ "$OS" == "Darwin" ]]; then
       # macOS
