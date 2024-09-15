@@ -2,38 +2,27 @@ _:
 
 [
   # Development Tools
-  "homebrew/cask/docker"
-  "insomnia"
-  "tableplus"
-  "ngrok"
-  "postico"
-  "visual-studio-code"
-  "wireshark"
-  "cursor"
+  # "homebrew/cask/docker"
+  # "visual-studio-code"
+  "visual-studio-code@insiders"
 
   # Communication Tools
-  "discord"
-  "loom"
-  "notion"
-  "slack"
-  "telegram"
-  "zoom"
+  # "discord"
+  # "notion"
+  # "slack"
+  # "telegram"
+  # "zoom"
 
   # Utility Tools
-  "appcleaner"
-  "syncthing"
+  # "syncthing"
 
   # Entertainment Tools
-  "steam"
-  "vlc"
+  # "iina" # Video player
 
   # Productivity Tools
   "raycast"
-  "asana"
 
   # Browsers
   "google-chrome"
-
-  # AI
-  "diffusionbee"
+  # "arc" # Arc browser
 ]

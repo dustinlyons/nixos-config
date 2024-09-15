@@ -1,83 +1,159 @@
 { config, pkgs, lib, ... }:
 
-let name = "Dustin Lyons";
-    user = "dustin";
-    email = "dustin@dlyons.dev"; in
-{
+let name = "Bassim Shahidy";
+    user = "bassim-nix";
+    email = "bassim101@gmail.com"; 
 
-  direnv = {
-      enable = true;
-      enableZshIntegration = true;
-      nix-direnv.enable = true;
+  #     # Fetch the Tokyo Night Yazi theme from GitHub
+  # tokyoNightTheme = pkgs.fetchFromGitHub {
+  #   owner = "BennyOe";
+  #   repo = "tokyo-night.yazi";
+  #   rev = "main"; # Replace with a specific commit hash for stability
+  #   sha256 = "112r9b7gan3y4shm0dfgbbgnxasi7ywlbk1pksdbpaglkczv0412";
+  # };
+in
+{
+  # Shared shell configuration
+  fd.enable = true;
+
+  fzf = {
+    enable = true;
+    enableZshIntegration = true;
+    defaultCommand = "fd --hidden --strip-cwd-prefix --exclude .git";
+    defaultOptions = ["--height 40%" "--layout=reverse" "--border"];
+    fileWidgetCommand = "fd --hidden --strip-cwd-prefix --exclude .git";
+    fileWidgetOptions = [
+      "--preview 'if [ -d {} ]; then eza --tree --all --level=3 --color=always {} | head -200; else bat -n --color=always --line-range :500 {}; fi'"
+    ];
+    changeDirWidgetCommand = "fd --type d --hidden --strip-cwd-prefix --exclude .git";
+    changeDirWidgetOptions = ["--preview 'eza --tree --color=always {} | head -200'"];
+  };
+
+  bat = {
+    enable = true;
+    themes = {
+      tokyo-night = {
+        src = pkgs.fetchFromGitHub {
+          owner = "folke";
+          repo = "tokyonight.nvim";
+          rev = "4b386e66a9599057587c30538d5e6192e3d1c181";
+          sha256 = "kxsNappeZSlUkPbxlgGZKKJGGZj2Ny0i2a+6G+8nH7s=";
+        };
+        file = "extras/sublime/tokyonight_night.tmTheme";
+      };
     };
+    config = {
+      theme = "tokyo-night";
+    };
+  };
+
+  eza = {
+    enable = true;
+    git = true;
+    icons = true;
+  };
+
+  yazi = {
+    enable = true;
+    enableZshIntegration = true;
+    settings = {
+      manager = {
+        show_hidden = true;
+        ratio = [ 1 2 5 ];
+      };
+    };
+  };
+
 
   zsh = {
     enable = true;
     autocd = false;
-    cdpath = [ "~/.local/share/src" ];
+    autosuggestion.enable = true;
+    syntaxHighlighting.enable = true;
+    enableCompletion = true;
+    shellAliases = {
+      zrc = "lvim ~/.zshrc";
+      szrc = "source ~/.zshrc";
+      exz = "exec zsh";
+      cl = "clear";
+      nixswitch = "darwin-rebuild switch --flake ~/.config/nix-darwin";
+      l = "eza --git --icons=always --color=always --long --no-user --no-permissions --no-filesize --no-time";
+      la = "eza --git --icons=always --color=always --long --no-user --no-permissions --no-filesize --no-time --all";
+      ls = "l";
+      lsa = "la";
+      lsl = "eza --git --icons=always --color=always --long --no-user";
+      ll = "eza --git --icons=always --color=always --long --no-user -all";
+      lt = "eza --git --icons=always --color=always --long --no-user -all --tree --level=2" ;
+      lt2 = "eza --git --icons=always --color=always --long --no-user -all --tree --level=3";
+      lt3 = "eza --git --icons=always --color=always --long --no-user -all --tree --level=4";
+      ltg = "eza --git --icons=always --color=always --long --no-user --tree --git-ignore";
+    };
+    initExtra = ''
+      # Advanced customization of fzf options via _fzf_comprun function
+      _fzf_comprun() {
+        local command=$1
+        shift
+
+        case "$command" in
+          cd)           fzf --preview 'eza --tree --color=always {} | head -200' "$@" ;;
+          export|unset) fzf --preview "eval 'echo $'{}"         "$@" ;;
+          ssh)          fzf --preview 'dig {}'                   "$@" ;;
+          *)            fzf --preview "bat -n --color=always --line-range :500 {}" "$@" ;;
+        esac
+      }
+
+
+      # -- fzf with bat and eza previews --
+      show_file_or_dir_preview='if [ -d {} ]; then eza --tree --all --level=3 --color=always {} | head -200; else bat -n --color=always --line-range :500 {}; fi'
+      alias lspe="fzf --preview '$show_file_or_dir_preview'"
+      alias lsp="fd --max-depth 1 --hidden --follow --exclude .git | fzf --preview '$show_file_or_dir_preview'"
+    '';
     plugins = [
       {
-          name = "powerlevel10k";
-          src = pkgs.zsh-powerlevel10k;
-          file = "share/zsh-powerlevel10k/powerlevel10k.zsh-theme";
+        name = "powerlevel10k";
+        src = pkgs.zsh-powerlevel10k;
+        file = "share/zsh-powerlevel10k/powerlevel10k.zsh-theme";
       }
       {
-          name = "powerlevel10k-config";
-          src = lib.cleanSource ./config;
-          file = "p10k.zsh";
+        name = "powerlevel10k-config";
+        src = lib.cleanSource ./config;
+        file = "p10k.zsh";
       }
     ];
+
     initExtraFirst = ''
       if [[ -f /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh ]]; then
         . /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
         . /nix/var/nix/profiles/default/etc/profile.d/nix.sh
       fi
 
-      if [[ "$(uname)" == "Linux" ]]; then
-        alias pbcopy='xclip -selection clipboard'
-      fi
-
       # Define variables for directories
       export PATH=$HOME/.pnpm-packages/bin:$HOME/.pnpm-packages:$PATH
       export PATH=$HOME/.npm-packages/bin:$HOME/bin:$PATH
-      export PATH=$HOME/.composer/vendor/bin:$PATH
       export PATH=$HOME/.local/share/bin:$PATH
-
-      export PNPM_HOME=~/.pnpm-packages
-      alias pn=pnpm
-      alias px=pnpx
 
       # Remove history data we don't want to see
       export HISTIGNORE="pwd:ls:cd"
-
-      # Ripgrep alias
-      alias search='rg -p --glob "!node_modules/*" --glob "!vendor/*" "$@"'
 
       # Emacs is my editor
       export ALTERNATE_EDITOR=""
       export EDITOR="emacsclient -t"
       export VISUAL="emacsclient -c -a emacs"
+
       e() {
           emacsclient -t "$@"
       }
 
-      # Laravel Artisan
-      alias art='php artisan'
-
-      # PHP Deployer
-      alias deploy='dep deploy'
-
-      alias watch="tmux new-session -d -s watch-session 'bash ./bin/watch.sh'"
-      alias unwatch='tmux kill-session -t watch-session'
+      # nix shortcuts
+      shell() {
+          nix-shell '<nixpkgs>' -A "$1"
+      }
 
       # Use difftastic, syntax-aware diffing
       alias diff=difft
 
       # Always color ls and group directories
       alias ls='ls --color=auto'
-
-      # Reboot into my dual boot Windows partition
-      alias windows='systemctl reboot --boot-loader-entry=auto-windows'
     '';
   };
 
@@ -95,15 +171,18 @@ let name = "Dustin Lyons";
 	    editor = "vim";
         autocrlf = "input";
       };
-      commit.gpgsign = true;
       pull.rebase = true;
       rebase.autoStash = true;
     };
   };
 
+  lazygit = {
+    enable = true;
+  };
+
   vim = {
     enable = true;
-    plugins = with pkgs.vimPlugins; [ vim-airline vim-airline-themes copilot-vim vim-startify vim-tmux-navigator ];
+    plugins = with pkgs.vimPlugins; [ vim-airline vim-airline-themes vim-startify vim-tmux-navigator ];
     settings = { ignorecase = true; };
     extraConfig = ''
       "" General
@@ -215,15 +294,15 @@ let name = "Dustin Lyons";
     enable = true;
     settings = {
       cursor = {
-        style = "Block";
+        style = "Underline";
       };
 
       window = {
-        opacity = 1.0;
-        padding = {
-          x = 24;
-          y = 24;
-        };
+        opacity = 0.90;
+        # padding = {
+        #   x = 14;
+        #   y = 14;
+        # };
       };
 
       font = {
@@ -237,34 +316,42 @@ let name = "Dustin Lyons";
         ];
       };
 
-      colors = {
-        primary = {
-          background = "0x1f2528";
-          foreground = "0xc0c5ce";
-        };
+      # dynamic_padding = true;
+      # decorations = "full";
+      # title = "Terminal";
+      # class = {
+      #   instance = "Alacritty";
+      #   general = "Alacritty";
+      # };
 
-        normal = {
-          black = "0x1f2528";
-          red = "0xec5f67";
-          green = "0x99c794";
-          yellow = "0xfac863";
-          blue = "0x6699cc";
-          magenta = "0xc594c5";
-          cyan = "0x5fb3b3";
-          white = "0xc0c5ce";
-        };
+      # colors = {
+      #   primary = {
+      #     background = "0x1f2528";
+      #     foreground = "0xc0c5ce";
+      #   };
 
-        bright = {
-          black = "0x65737e";
-          red = "0xec5f67";
-          green = "0x99c794";
-          yellow = "0xfac863";
-          blue = "0x6699cc";
-          magenta = "0xc594c5";
-          cyan = "0x5fb3b3";
-          white = "0xd8dee9";
-        };
-      };
+      #   normal = {
+      #     black = "0x1f2528";
+      #     red = "0xec5f67";
+      #     green = "0x99c794";
+      #     yellow = "0xfac863";
+      #     blue = "0x6699cc";
+      #     magenta = "0xc594c5";
+      #     cyan = "0x5fb3b3";
+      #     white = "0xc0c5ce";
+      #   };
+
+      #   bright = {
+      #     black = "0x65737e";
+      #     red = "0xec5f67";
+      #     green = "0x99c794";
+      #     yellow = "0xfac863";
+      #     blue = "0x6699cc";
+      #     magenta = "0xc594c5";
+      #     cyan = "0x5fb3b3";
+      #     white = "0xd8dee9";
+      #   };
+      # };
     };
   };
 
@@ -312,7 +399,7 @@ let name = "Dustin Lyons";
         # Use XDG data directory
         # https://github.com/tmux-plugins/tmux-resurrect/issues/348
         extraConfig = ''
-          set -g @resurrect-dir '/Users/dustin/.cache/tmux/resurrect'
+          set -g @resurrect-dir '$HOME/.cache/tmux/resurrect'
           set -g @resurrect-capture-pane-contents 'on'
           set -g @resurrect-pane-contents-area 'visible'
         '';

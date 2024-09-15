@@ -16,8 +16,8 @@ Just me!
 
 #+NAME: personal-info
 #+BEGIN_SRC emacs-lisp
-  (setq user-full-name "%NAME%"
-    user-mail-address "%EMAIL%")
+  (setq user-full-name "Bassim Shahidy"
+    user-mail-address "bassim101@gmail.com")
 #+END_SRC
 
 ** Initialization
@@ -84,8 +84,8 @@ This associates our package manager with the right source (MELPA).
 
   ;; Set path for darwin
   (when (system-is-mac)
-    (setenv "PATH" (concat (getenv "PATH") ":/Users/%USER%/.nix-profile/bin:/usr/bin"))
-    (setq exec-path (append '("/Users/%USER%/bin" "/profile/bin" "/Users/%USER%/.npm-packages/bin" "/Users/%USER%/.nix-profile/bin" "/nix/var/nix/profiles/default/bin" "/usr/local/bin" "/usr/bin") exec-path)))
+    (setenv "PATH" (concat (getenv "PATH") ":/Users/bassim-nix/.nix-profile/bin:/usr/bin"))
+    (setq exec-path (append '("/Users/bassim-nix/bin" "/profile/bin" "/Users/bassim-nix/.npm-packages/bin" "/Users/bassim-nix/.nix-profile/bin" "/nix/var/nix/profiles/default/bin" "/usr/local/bin" "/usr/bin") exec-path)))
 #+END_SRC
 
 *** Counsel/Ivy framework

@@ -1,29 +1,24 @@
-{ pkgs, ... }:
+{ pkgs }:
 
 with pkgs; [
   # General packages for development and system management
-  act
   alacritty
-  aspell
-  aspellDicts.en
+  # aspell
+  # aspellDicts.en
   bash-completion
-  bat
-  btop
+  # bat
+  # eza
+  # yazi
+  # btop
   coreutils
-  difftastic
-  du-dust
-  gcc
-  git-filter-repo
-  killall
-  neofetch
-  openssh
-  pandoc
-  sqlite
-  wget
-  zip
+  # killall
+  fastfetch
+  # openssh
+  # sqlite
+  # wget
+  # zip
 
   # Encryption and security tools
-  _1password
   age
   age-plugin-yubikey
   gnupg
@@ -32,68 +27,39 @@ with pkgs; [
   # Cloud-related tools and SDKs
   # docker
   # docker-compose
-  # awscli2 - marked broken Mar 22
-  flyctl
-  google-cloud-sdk
-  go
-  gopls
-  ngrok
-  ssm-session-manager-plugin
-  terraform
-  terraform-ls
-  tflint
 
   # Media-related packages
-  emacs-all-the-icons-fonts
-  imagemagick
-  dejavu_fonts
-  ffmpeg
-  fd
+  # emacs-all-the-icons-fonts
+  # dejavu_fonts
+  # ffmpeg
+  # fd
   font-awesome
-  glow
   hack-font
-  jpegoptim
-  meslo-lgs-nf
   noto-fonts
   noto-fonts-emoji
-  pngquant
-
-  # PHP
-  php82
-  php82Packages.composer
-  php82Packages.php-cs-fixer
-  php82Extensions.xdebug
-  php82Packages.deployer
-  phpunit
+  meslo-lgs-nf
 
   # Node.js development tools
-  fzf
-  nodePackages.live-server
-  nodePackages.nodemon
-  nodePackages.prettier
-  nodePackages.npm
-  nodejs
-
-  # Source code management, Git, GitHub tools
-  gh
+  # nodePackages.npm # globally install npm
+  # nodePackages.prettier
+  # nodejs
 
   # Text and terminal utilities
-  htop
-  hunspell
-  iftop
+  # htop
+  # hunspell
+  # iftop
   jetbrains-mono
-  jetbrains.phpstorm
   jq
   ripgrep
-  slack
-  tree
+  # tree
   tmux
-  unrar
-  unzip
+  # unrar
+  # unzip
   zsh-powerlevel10k
 
+  lunarvim
+
   # Python packages
-  black
-  python39
-  python39Packages.virtualenv
+  # python39
+  # python39Packages.virtualenv # globally install virtualenv
 ]

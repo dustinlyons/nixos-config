@@ -1,14 +1,12 @@
-{ config, inputs, lib, pkgs, agenix, ... }:
+{ config, inputs, pkgs, ... }:
 
-let user = "dustin";
+let user = "bassim-nix";
     keys = [ "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOk8iAnIaa1deoc7jw8YACPNVka1ZFJxhnU4G74TmS+p" ]; in
 {
   imports = [
-    ../../modules/nixos/secrets.nix
     ../../modules/nixos/disk-config.nix
     ../../modules/shared
     ../../modules/shared/cachix
-    agenix.nixosModules.default
   ];
 
   # Use the systemd-boot EFI boot loader.
@@ -20,9 +18,11 @@ let user = "dustin";
       };
       efi.canTouchEfiVariables = true;
     };
-    initrd.availableKernelModules = [ "xhci_pci" "ahci" "nvme" "usbhid" "usb_storage" "sd_mod" "v4l2loopback" ];
-    kernelModules = [ "uinput" "v4l2loopback" ];
-    extraModulePackages = [ pkgs.linuxPackages.v4l2loopback ];
+    initrd.availableKernelModules = [ "xhci_pci" "ahci" "nvme" "usbhid" "usb_storage" "sd_mod" ];
+    # Uncomment for AMD GPU
+    # initrd.kernelModules = [ "amdgpu" ];
+    kernelPackages = pkgs.linuxPackages_latest;
+    kernelModules = [ "uinput" ];
   };
 
   # Set your time zone.
@@ -32,9 +32,9 @@ let user = "dustin";
   # Per-interface useDHCP will be mandatory in the future, so this generated config
   # replicates the default behaviour.
   networking = {
-    hostName = "felix"; # Define your hostname.
+    hostName = "%HOST%"; # Define your hostname.
     useDHCP = false;
-    interfaces.eno1.useDHCP = true;
+    interfaces."%INTERFACE%".useDHCP = true;
   };
 
   # Turn on flag for proprietary software
@@ -58,25 +58,30 @@ let user = "dustin";
     zsh.enable = true;
   };
 
-  services = {
+  services = { 
     xserver = {
       enable = true;
 
-      videoDrivers = [ "nvidia" ];
+      # Uncomment these for AMD or Nvidia GPU
+      # boot.initrd.kernelModules = [ "amdgpu" ];
+      # videoDrivers = [ "amdgpu" ];
+      # videoDrivers = [ "nvidia" ];
 
+      # Uncomment for Nvidia GPU
       # This helps fix tearing of windows for Nvidia cards
-      screenSection = ''
-        Option       "metamodes" "nvidia-auto-select +0+0 {ForceFullCompositionPipeline=On}"
-        Option       "AllowIndirectGLXProtocol" "off"
-        Option       "TripleBuffer" "on"
-      '';
+      # screenSection = ''
+      #   Option       "metamodes" "nvidia-auto-select +0+0 {ForceFullCompositionPipeline=On}"
+      #   Option       "AllowIndirectGLXProtocol" "off"
+      #   Option       "TripleBuffer" "on"
+      # '';
 
-      # LightDM Display Manager
-      displayManager.defaultSession = "none+bspwm";
-      displayManager.lightdm = {
-        enable = true;
-        greeters.slick.enable = true;
-        background = ../../modules/nixos/config/login-wallpaper.png;
+      displayManager = {
+        defaultSession = "none+bspwm";
+        lightdm = {
+          enable = true;
+          greeters.slick.enable = true;
+          background = ../../modules/nixos/config/login-wallpaper.png;
+        };
       };
 
       # Tiling window manager
@@ -84,22 +89,19 @@ let user = "dustin";
         enable = true;
       };
 
+      # Turn Caps Lock into Ctrl
+      layout = "us";
+      xkbOptions = "ctrl:nocaps";
+
       # Better support for general peripherals
       libinput.enable = true;
 
-      # Turn Caps Lock into Ctrl
-      xkb = {
-        layout = "us";
-        options = "ctrl:nocaps";
-      };
     };
 
-    # Enable CUPS to print documents
-    printing = {
-      enable = true;
-      drivers = [ pkgs.brlaser ]; # Brother printer driver
-    };
+    # Let's be able to SSH into this machine
+    openssh.enable = true;
 
+    # Sync state between machines
     syncthing = {
       enable = true;
       openDefaultPorts = true;
@@ -112,33 +114,14 @@ let user = "dustin";
       overrideDevices = true;
 
       settings = {
-        devices = {
-          "Macbook Pro" = {
-            id = "P2FYLQW-PKDFJGZ-EUGI2T7-OW4AH4I-KI462HD-U2VL3X3-GN55PP2-VNRE5AH";
-            autoAcceptFolders = true;
-            allowedNetwork = "192.168.0.0/16";
-            addresses = [ "tcp://192.168.0.99:51820" ];
-          };
-          "Home Lab" = {
-            id = "WW5O366-THBBBA3-HKQAYCP-EWADS4I-4KDDC5Z-3JCO42M-RLBZ3DY-NM7PEQA";
-            allowedNetwork = "192.168.0.0/16";
-            autoAcceptFolders = true;
-            addresses = [ "tcp://192.168.0.103:51820" ];
-          };
-        };
-
-        folders = {
-          "XDG Share" = {
-            id = "ukrub-quh7k";
-            path = "/home/${user}/.local/share";
-            devices = [ "Macbook Pro" "Home Lab" ];
-          };
-        };
-
+        devices = {};
         options.globalAnnounceEnabled = false; # Only sync on LAN
       };
-
     };
+
+    # Enable CUPS to print documents
+    # printing.enable = true;
+    # printing.drivers = [ pkgs.brlaser ]; # Brother printer driver
 
     # Picom, my window compositor with fancy effects
     #
@@ -231,42 +214,38 @@ let user = "dustin";
       };
     };
 
-    # Let's be able to SSH into this machine
-    openssh.enable = true;
+    gvfs.enable = true; # Mount, trash, and other functionalities
+    tumbler.enable = true; # Thumbnail support for images
 
-    # My editor runs as a daemon
+    # Emacs runs as a daemon
     emacs = {
       enable = true;
       package = pkgs.emacs-unstable;
     };
-
-    gvfs.enable = true; # Mount, trash, and other functionalities
-    tumbler.enable = true; # Thumbnail support for images
   };
 
+  # When emacs builds from no cache, it exceeds the 90s timeout default
   systemd.user.services.emacs = {
     serviceConfig.TimeoutStartSec = "7min";
   };
 
   # Enable sound
-  sound.enable = true;
+  # sound.enable = true;
+
+  # Video support
   hardware = {
-    pulseaudio.enable = true;
+    opengl.enable = true;
+    # pulseaudio.enable = true;
+    # hardware.nvidia.modesetting.enable = true;
 
-    # Video support
-    opengl = {
-      enable = true;
-      driSupport32Bit = true;
-      driSupport = true;
-    };
-
-    nvidia.modesetting.enable = true;
+    # Enable Xbox support
+    # hardware.xone.enable = true;
 
     # Crypto wallet support
     ledger.enable = true;
   };
 
-  # Sync state between machines
+
   # Add docker daemon
   virtualisation = {
     docker = {
@@ -277,7 +256,7 @@ let user = "dustin";
 
   # It's me, it's you, it's everyone
   users.users = {
-    ${user} = {
+    "${user}" = {
       isNormalUser = true;
       extraGroups = [
         "wheel" # Enable ‘sudo’ for the user.
@@ -317,10 +296,7 @@ let user = "dustin";
   ];
 
   environment.systemPackages = with pkgs; [
-    agenix.packages."${pkgs.system}".default # "x86_64-linux"
     gitAndTools.gitFull
-    linuxPackages.v4l2loopback
-    v4l-utils
     inetutils
   ];
 

@@ -7,49 +7,6 @@ let
   xdg_stateHome  = "${home}/.local/state"; in
 {
 
-  "${xdg_dataHome}/bin/movesinks" = {
-    executable = true;
-    text = ''
-      #!/usr/bin/env bash
-      pacmd set-default-sink $1
-      pacmd list-sink-inputs | grep index | while read line
-      do
-        pacmd move-sink-input `echo $line | cut -f2 -d' '` $1
-      done
-    '';
-  };
-
-  "${xdg_dataHome}/bin/speakers" = {
-    executable = true;
-    text = ''
-      #!/usr/bin/env bash
-      # Script to change audio format to headphones and check if the sink exists
-
-      # Define the sink name
-      SINK_NAME="alsa_output.usb-Audioengine_Audioengine_2_-00.analog-stereo"
-
-      # Check if the sink exists
-      if pactl list short sinks | grep -q "$SINK_NAME"; then
-        # Sink exists, set it as the default
-        pacmd set-default-sink "$SINK_NAME"
-        movesinks "$SINK_NAME"
-      else
-        # Sink does not exist, print message
-        echo "Turn on your speakers, stupid."
-      fi
-    '';
-  };
-
-  "${xdg_dataHome}/bin/headphones" = {
-    executable = true;
-    text = ''
-      #!/usr/bin/env bash
-      # Changes audio format to headphones
-      pacmd set-default-sink alsa_output.pci-0000_00_1f.3.analog-stereo
-      movesinks alsa_output.pci-0000_00_1f.3.analog-stereo 
-    '';
-  };
-
   "${xdg_configHome}/bspwm/bspwmrc" = {
     executable = true;
     text = ''
@@ -82,13 +39,9 @@ let
       bspc config pointer_action2 resize_corner
 
       # Set background and top bar
-      feh --bg-scale $HOME/.local/share/img/wallpaper/active
       systemctl --user start polybar
 
       sleep .25
-
-      # Launch these when script runs
-      # -o option means "one shot", meaning the rule goes away after launching the app
 
       # Wait for the network to be up
       notify-send 'Waiting for network...'
@@ -99,45 +52,11 @@ let
       notify-send 'Starting Emacs...'
       /run/current-system/sw/bin/emacsclient -a "" -e '(progn)' &
 
-      # Desktop 1
-      # Email, Calendar, News, IDE
-      bspc rule -a Google-chrome -o desktop='^1'
-      /etc/profiles/per-user/dustin/bin/google-chrome-stable "https://www.fastmail.com" "https://calendar.google.com/calendar/u/0/r" "https://www.techmeme.com"  &!
-
-      sleep 1
-      bspc rule -a PHPStorm -o desktop='^1'
-      /run/current-system/sw/bin/phpstorm &!
-
       # Wait for Emacs daemon to be ready
       while ! /run/current-system/sw/bin/emacsclient -e '(progn)' &>/dev/null; do
       sleep 1
       done
       notify-send 'Emacs daemon started.'
-
-      # Desktop 2
-      # Terminal, Emacs (magit)
-      bspc rule -a Alacritty -o desktop='^2'
-      /etc/profiles/per-user/dustin/bin/alacritty -e sh -c 'tmux attach || tmux new-session' &
-
-      sleep 1
-      bspc rule -a Emacs -o desktop='^2'
-      /run/current-system/sw/bin/emacsclient -c &!
-
-      sleep .5
-
-      # Desktop 3
-      # ChatGPT
-      bspc rule -a Google-chrome -o desktop='^3'
-      /etc/profiles/per-user/dustin/bin/google-chrome-stable --new-window "https://chat.openai.com" &!
-
-      sleep .5
-
-      # Desktop 4
-      # Apple Music
-      bspc rule -a Cider -o desktop='^4'
-      /etc/profiles/per-user/dustin/bin/cider &!
-
-      sleep 1
     '';
   };
 
@@ -145,7 +64,7 @@ let
     text = ''
     # Close window
     alt + F4
-        bspc node --close
+          bspc node --close
 
     # Make split ratios equal
     super + equal
@@ -194,11 +113,11 @@ let
 
     # Focus left/right desktop
     ctrl + alt + {Left,Right}
-         bspc desktop --focus {prev,next}
+          bspc desktop --focus {prev,next}
 
     # Focus left/right desktop
     ctrl + alt + {Up, Down}
-         bspc desktop --focus {prev,next}
+          bspc desktop --focus {prev,next}
 
     # Focus the older or newer node in the focus history
     super + {o,i}
@@ -281,12 +200,12 @@ let
          pcmanfm
 
     # Take a screenshot with PrintSc
-    super + p
+    Print
          flameshot gui -c -p $HOME/.local/share/img/screenshots
 
     # Lock the screen
     ctrl + alt + BackSpace
-        i3lock-fancy-rapid 10 15
+         i3lock
 
     # Audio controls for + volume
     XF86AudioRaiseVolume
@@ -358,7 +277,7 @@ let
     text = ''
       #!/bin/sh
 
-      rofi -no-config -no-lazy-grab -show drun -modi drun -theme ~/.config/rofi/launcher.rasi
+      rofi -no-config -no-lazy-grab -show drun -modi drun -theme ${xdg_configHome}/rofi/launcher.rasi
     '';
   };
 
@@ -368,7 +287,7 @@ let
     text = ''
       #!/bin/sh
 
-      configDir="~${xdg_configHome}/rofi"
+      configDir="~/.local/share/src/nixos-config/nixos/config/rofi"
       uptime=$(uptime -p | sed -e 's/up //g')
       rofi_command="rofi -no-config -theme $configDir/powermenu.rasi"
 
