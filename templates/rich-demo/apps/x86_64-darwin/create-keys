@@ -1,0 +1,46 @@
+#!/usr/bin/env bash
+set -e
+
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+NC='\033[0m'
+
+username=${USER}
+export SSH_DIR=/Users/${username}/.ssh
+
+setup_ssh_directory() {
+  mkdir -p ${SSH_DIR}
+}
+
+prompt_for_key_generation() {
+  local key_name=$1
+  if [[ -f "${SSH_DIR}/${key_name}" ]]; then
+    echo -e "${RED}Existing SSH key found for ${key_name}.${NC}"
+    cat "${SSH_DIR}/${key_name}.pub"
+    read -p "Do you want to replace it? (y/n) " -n 1 -r
+    echo
+    if [[ $REPLY =~ ^[Yy]$ ]]; then
+      return 0 # Indicate key should be replaced
+    else
+      return 1 # Indicate key should be kept
+    fi
+  fi
+  return 0 # Indicate no key exists, so it should be created
+}
+
+generate_key() {
+  local key_name=$1
+  if prompt_for_key_generation "$key_name"; then
+    ssh-keygen -t ed25519 -f "${SSH_DIR}/${key_name}" -N ""
+    chown ${username}:staff "${SSH_DIR}/${key_name}"{,.pub}
+  else
+    echo -e "${GREEN}Kept existing ${key_name}.${NC}"
+  fi
+}
+
+setup_ssh_directory
+generate_key "id_ed25519"
+generate_key "id_ed25519_agenix"
+
+echo -e "${GREEN}SSH key setup complete.${NC}"
+echo -e "${GREEN}Remember to add the necessary keys to Github or other services as required.${NC}"
