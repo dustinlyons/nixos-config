@@ -5,19 +5,19 @@
 ** About my Emacs
 This is my detailed Emacs configuration. It's an ~org~ file that is transpiled to ~emacs-lisp~ as part of the Nix build process. 
 
-Why an org file? My Emacs config is large, and this enables me to greatly improve readability of its documentation. I edit this file the same way you're reading it (nicely formatted) as I use Emacs and Emacs speaks org. Sounds complicated, but it's really not; [[https://github.com/dustinlyons/nixos-config/blob/main/nixos/default.nix#L215][just a few lines]] in my Nix config. [[https://github.com/dustinlyons/nixos-config/blob/main/darwin/default.nix#L28][MacOS too.]]
+Why an ~org~ file? My Emacs config is large, and this enables me to improve the readability of its documentation greatly. I edit this file the same way you're reading it (nicely formatted) as I use Emacs and Emacs speaks ~org~. Sounds complicated, but it's really not; [[https://github.com/dustinlyons/nixos-config/blob/main/hosts/nixos/default.nix#L236][just a few lines]] in my Nix config. [[https://github.com/dustinlyons/nixos-config/blob/main/hosts/darwin/default.nix#L40][MacOS too.]]
 
-This is the main configuration, but there also exists one more init file, ~init.el~ , that bootstraps ~org-mode~ before this file is interpreted. That's defined [[https://github.com/dustinlyons/nixos-config/blob/main/shared/files.nix#L5][here]].
+This is the main configuration, but one more init file also exists, ~init.el~ , that bootstraps ~org-mode~ before this file is interpreted. That's defined [[https://github.com/dustinlyons/nixos-config/blob/main/modules/shared/files.nix#L56][here]].
 
-/Each block of code below is the actual Emacs configuration./ Formally, this style of configuration is named [[https://en.wikipedia.org/wiki/Literate_programming]["literate programming"]].
+/Each block of code below is the actual Emacs configuration./ Formally, this style of configuration is called [[https://en.wikipedia.org/wiki/Literate_programming]["literate programming"]].
 
 ** Personal Information
 Just me!
 
 #+NAME: personal-info
 #+BEGIN_SRC emacs-lisp
-  (setq user-full-name "%NAME%"
-    user-mail-address "%EMAIL%")
+  (setq user-full-name "Dustin Lyons"
+    user-mail-address "dustin@dlyons.dev")
 #+END_SRC
 
 ** Initialization
@@ -84,8 +84,8 @@ This associates our package manager with the right source (MELPA).
 
   ;; Set path for darwin
   (when (system-is-mac)
-    (setenv "PATH" (concat (getenv "PATH") ":/Users/%USER%/.nix-profile/bin:/usr/bin"))
-    (setq exec-path (append '("/Users/%USER%/bin" "/profile/bin" "/Users/%USER%/.npm-packages/bin" "/Users/%USER%/.nix-profile/bin" "/nix/var/nix/profiles/default/bin" "/usr/local/bin" "/usr/bin") exec-path)))
+    (setenv "PATH" (concat (getenv "PATH") ":/Users/dustin/.nix-profile/bin:/usr/bin"))
+    (setq exec-path (append '("/Users/dustin/bin" "/profile/bin" "/Users/dustin/.npm-packages/bin" "/Users/dustin/.nix-profile/bin" "/nix/var/nix/profiles/default/bin" "/usr/local/bin" "/usr/bin") exec-path)))
 #+END_SRC
 
 *** Counsel/Ivy framework
@@ -261,7 +261,7 @@ Makes my lisp parens pretty, and easy to spot.
 #+END_SRC
 
 ***** Color definitions
-Define a global set of colors to be used everywhere in Emacs.
+Define a global set of colors to be used everywhere in this configuration.
 
 #+NAME: color-definitions
 #+BEGIN_SRC emacs-lisp
@@ -290,7 +290,7 @@ Keeps info at my fingertips. Modeline is much better than Vim's Powerline (sorry
 #+END_SRC
 
 ***** Treemacs
-Although I'm primarily a keyboard user and use Projectile for quickly finding files, I still find the need to browse through files in a more visual way. Treemacs does the job, and beautifully might I add.
+Although I'm primarily a keyboard user and use ~projectile~ for quickly finding files, I still find the need to browse stuf in a more visual way. Treemacs does the job, and beautifully might I add.
 
 #+NAME: treemacs
 #+BEGIN_SRC emacs-lisp
@@ -327,10 +327,12 @@ Predefine windows with hotkeys and jump to them.
 #+END_SRC
 
 *** Package managers
-Using ~straight.el~ under the hood of ~use-package~ enables us to download packages using ~git~. This is preferred for easier hacking; I maintain my own ~org-roam~ fork, for example, and it's just another directory where I organize code. I configure ~straight.el~ with one line to use it.
+Using ~straight.el~ under the hood of ~use-package~ enables us to download packages using ~git~. This is preferred for easier hacking.
 
 *** Windows
 **** Fonts
+JetBrains Mono 4 life.
+
 #+NAME: fonts
 #+BEGIN_SRC emacs-lisp
   ;; Set the default pitch face
@@ -366,7 +368,7 @@ Using ~straight.el~ under the hood of ~use-package~ enables us to download packa
                            (recents  . 5)))
   (setq dashboard-set-footer nil))
 
-  (setq dashboard-banner-logo-title "Welcome to your life")
+  (setq dashboard-banner-logo-title "This is your life")
   (setq dashboard-set-file-icons t)
   (setq dashboard-projects-backend 'projectile)
 
@@ -399,14 +401,14 @@ We use two spaces in place of tabs. I don't even want to hear it.
 **** Doom Emacs
 #+NAME: themes-autothemer
 #+BEGIN_SRC emacs-lisp
-(use-package doom-themes
-  :ensure t
-  :config
-    (setq doom-themes-enable-bold t
-            doom-themes-enable-italic t)
-    (load-theme 'doom-one t)
-    (doom-themes-visual-bell-config)
-    (doom-themes-org-config))
+  (use-package doom-themes
+    :ensure t
+    :config
+      (setq doom-themes-enable-bold t
+              doom-themes-enable-italic t)
+      (load-theme 'doom-one t)
+      (doom-themes-visual-bell-config)
+      (doom-themes-org-config))
 #+END_SRC
 
 ** Global Settings
@@ -427,10 +429,11 @@ I like these modes, what can I say. They're good to me.
 
 ** Org mode
 *** Agenda
-Initialize org-agenda file and set some key bindings to create tasks.
+Initialize ~org-agenda~ file and set some key bindings to create tasks.
 #+NAME::org-mode-agenda
 #+BEGIN_SRC emacs-lisp
   (setq org-agenda-files "~/.emacs.d/agenda.txt" )
+  (setq org-archive-location "~/.local/share/org-roam/20220318132418-archive.org::")
 
   (defun my-org-insert-subheading (heading-type)
   "Inserts a new org heading with unique ID and creation date.
@@ -549,6 +552,14 @@ This block sets the ~org-agenda-prefix-format~ in an friendly way for ~org-roam~
           (s-truncate len (s-pad-right len " " result))
         result)))
 
+  (setq org-agenda-hide-tags-regexp (regexp-opt '("Todo" "home" "work")))
+
+  (setq org-agenda-prefix-format
+        '((agenda . " %i %(dl/agenda-category 12)%?-32t% s")
+          (todo . " %i %(dl/agenda-category 32) ")
+          (tags . " %i %(dl/agenda-category 32) ")
+          (search . " %i %(dl/agenda-category 32) ")))
+
   (evil-set-initial-state 'org-agenda-mode 'normal)
   (with-eval-after-load 'org-agenda
     (define-key org-agenda-mode-map (kbd "j") 'org-agenda-next-line)
@@ -594,6 +605,8 @@ Setup for ~org-super-agenda~ and ~org-ql~.
        :todo "WAITING")
       (:name "Tasks"
        :todo "TODO")
+      (:name "Learn"
+       :tag "learn")
       (:name "Someday"
        :todo "SOMEDAY")
     (:name "Projects"
@@ -618,10 +631,15 @@ Let's us move text but still see it in another file. I primarily use this to mov
       (org-element-map (org-element-parse-buffer) 'keyword
       (lambda (el) (when (string-match property (org-element-property :key el)) el)))))
 
+  (defun dl/refile-and-transclude ()
+    "Move file and add transclude link with header"
+  (interactive)
+    (org-roam-refile)
+    (insert "#+transclude: [[file:~/.local/share/org-roam/20220419121404-todo.org::*" (org-element-property :value (car (org-global-props "TITLE"))) "][Transclude]]"))
 #+END_SRC
 
 *** Install package
-If you haven't heard of org mode, go watch [[https://www.youtube.com/watch?v=SzA2YODtgK4][this]] talk and come back when you are finished.
+If you haven't heard of ~org-mode~, go watch [[https://www.youtube.com/watch?v=SzA2YODtgK4][this]] talk and come back when you are finished.
 
 **** Leader key shortcuts
 #+NAME::org-mode-quick-entry
@@ -634,6 +652,16 @@ If you haven't heard of org mode, go watch [[https://www.youtube.com/watch?v=SzA
     "Helper function to open a file in a buffer"
     (interactive)
     (find-file path))
+
+  (defun dl/load-buffer-with-emacs-config ()
+    "Open the emacs configuration"
+    (interactive)
+    (dl/find-file "~/.local/share/src/nixos-config/modules/shared/config/emacs/config.org"))
+
+  (defun dl/load-buffer-with-nix-config ()
+    "Open the emacs configuration"
+    (interactive)
+    (dl/find-file "~/.local/share/src/nixos-config/modules/shared/home-manager.nix"))
 
   (defun dl/reload-emacs ()
     "Reload the emacs configuration"
@@ -672,8 +700,18 @@ If you haven't heard of org mode, go watch [[https://www.youtube.com/watch?v=SzA
   "A few of my own personal shortcuts"
   (dl/leader-keys
     ","  '(dl/insert-header :which-key "insert header")
-    "<"  '(dl/insert-current-time :which-key "insert header with current time"))
+    "<"  '(dl/insert-current-time :which-key "insert header with current time")
+    "n"  '(dl/load-buffer-with-nix-config :which-key "open nix config"))
   #+END_SRC
+
+***** Snippets
+Manages my ability to use code snippets.
+
+#+NAME::yasnippet
+#+BEGIN_SRC emacs-lisp
+  (use-package yasnippet)
+  (yas-global-mode 1)
+#+END_SRC
 
 ***** Roam capture templates
 These are templates used to create new notes.
@@ -693,8 +731,8 @@ These are templates used to create new notes.
 #+BEGIN_SRC emacs-lisp
   (require 'ucs-normalize)
   (use-package org-roam
-    :straight (:host github :repo "org-roam/org-roam"
-               :branch "main"
+    :straight (:host github :repo "dustinlyons/org-roam"
+               :branch "master"
                :files (:defaults "extensions/*")
     :build (:not compile))
     :init
@@ -742,9 +780,6 @@ These are templates used to create new notes.
 
 ***** Extending Roam
 Here we add additional function to ~org-roam~ to either do something specific for more workflow, or otherwise make ~org-roam~ more full featured.
-
-****** Set CREATED and LAST_MODIFIED filetags on save
-Sets timestamps in the Properties drawer of files. I intend to use this one day when rendering these notes as HTML, to quickly see files last touched.
 
 #+NAME::org-roam-set-timestamps-on-save
 #+BEGIN_SRC emacs-lisp
@@ -807,7 +842,7 @@ Sets timestamps in the Properties drawer of files. I intend to use this one day 
 #+END_SRC
 
 *** UI improvements
-Anything related to improving org mode's appearance.
+Anything related to improving the appearance of ~org-mode~ .
 
 **** Change color of ivy window selection
 #+NAME::ivy-window-selection
@@ -816,7 +851,7 @@ Anything related to improving org mode's appearance.
 #+END_SRC
 
 **** Change default bullets to be pretty
-Replaces the standard org-mode header asterisks with dots.
+Replaces the standard ~org-mode~ header asterisks with dots.
 #+NAME::org-mode-visuals
 #+BEGIN_SRC emacs-lisp
   (use-package org-superstar
@@ -1112,7 +1147,8 @@ Everything related to spell and grammar checking.
     (with-eval-after-load "ispell"
       (setq ispell-program-name
         (expand-file-name ".nix-profile/bin/hunspell" (getenv "HOME")))
-      (setq ispell-dictionary "en_US")))
+      (setq ispell-dictionary "en_US"))
+    (setq ispell-personal-dictionary "~/.local/share/dict/user/hunspell_en_US"))
 
   (use-package flyspell-correct
     :after flyspell
@@ -1123,8 +1159,7 @@ Everything related to spell and grammar checking.
 
   (add-hook 'git-commit-mode-hook 'turn-on-flyspell)
   (add-hook 'text-mode-hook 'flyspell-mode)
-  ;; Disable this for now, doesn't play well with long literate configuration
-  ;; (add-hook 'org-mode-hook 'flyspell-mode)
+  (add-hook 'org-mode-hook 'flyspell-mode)
   (add-hook 'prog-mode-hook 'flyspell-prog-mode)
 
   (defun spell() (interactive) (flyspell-mode 1))
@@ -1132,7 +1167,7 @@ Everything related to spell and grammar checking.
 
 ** Coding
 *** Compile buffers
-Everything related to M-x compile.
+Everything related to ~M-x compile~.
 
 #+NAME: compilation-buffer
 #+BEGIN_SRC emacs-lisp
@@ -1162,7 +1197,7 @@ Everything related to M-x compile.
 #+END_SRC
 
 *** LSP
-This is my IDE. It includes the same engine that powers VS Code, in addition to Github Copilot.
+This is my IDE when I'm not writing PHP in PHPStorm. It includes the same engine that powers VS Code, in addition to Github Copilot.
 
 #+NAME: lsp-mode
 #+BEGIN_SRC emacs-lisp
@@ -1170,8 +1205,7 @@ This is my IDE. It includes the same engine that powers VS Code, in addition to 
     :commands lsp lsp-deferred
     :init
       (setq lsp-keymap-prefix "C-c l")
-      ;;(setq lsp-keep-workspace-alive nil)
-      ;;(setq lsp-restart 'ignore)
+      (setq lsp-restart 'ignore)
       (setq lsp-headerline-breadcrumb-enable nil)
       (setq lsp-auto-guess-root t)
       (setq lsp-enable-which-key-integration t))
@@ -1202,7 +1236,7 @@ This is my IDE. It includes the same engine that powers VS Code, in addition to 
 #+END_SRC
 
 **** Shortcuts
-Leader keys for lsp-mode.
+Leader keys for ~lsp-mode~.
 
 #+NAME: lsp-leader-keys
 #+BEGIN_SRC emacs-lisp
@@ -1244,6 +1278,18 @@ Leader keys for lsp-mode.
     :hook (python-mode . (lambda ()
       (require 'lsp-pyright)
       (lsp-deferred))))  ; or lsp-deferred
+
+  (setq python-indent-offset 2)
+
+  (use-package blacken
+    :ensure t)
+
+  (setq blacken-line-length '88)
+  (setq blacken-allow-py36 t)
+  (setq blacken-executable "black")
+  (setq blacken-fast-unsafe t)
+
+  (add-hook 'python-mode-hook 'blacken-mode)
 #+END_SRC
 
 **** Shell scripts
@@ -1270,6 +1316,8 @@ Leader keys for lsp-mode.
       ("\\.md\\'" . markdown-mode)
       ("\\.markdown\\'" . markdown-mode))
     :init (setq markdown-command "pandoc"))
+
+  (add-to-list 'auto-mode-alist '("\\.mdx\\'" . markdown-mode))
 #+END_SRC
 
 **** HTML
@@ -1286,18 +1334,17 @@ Emmet mode gives autocompletion for HTML tags using short hand notations, which 
 #+END_SRC
 
 ***** Rainbow mode
-Rainbow mode is an Emacs minor mode to highlight the color shown by a RGB hex triplet (example #FFFFFF).
+Rainbow mode is an Emacs minor mode to highlight the color shown by a RGB hex triplet (example ~#FFFFFF~).
 
 #+NAME: rainbow-mode
 #+BEGIN_SRC emacs-lisp
   (use-package rainbow-mode)
 #+END_SRC
 
-**** golang
+**** Golang
 #+NAME: golang-config
 #+BEGIN_SRC emacs-lisp
   (use-package go-mode)
-  (use-package company-go)
 
   ;; Set up before-save hooks to format buffer and add/delete imports.
   ;; Make sure you don't have other gofmt/goimports hooks enabled.
@@ -1323,6 +1370,25 @@ Rainbow mode is an Emacs minor mode to highlight the color shown by a RGB hex tr
   (add-hook 'go-mode-hook 'dl/go-mode-hook)
 #+END_SRC
 
+**** PHP
+#+NAME: php-config
+#+BEGIN_SRC emacs-lisp
+(use-package php-mode
+  :ensure t
+  :config
+    (add-hook 'php-mode-hook 'lsp-mode-deferred))
+
+(use-package php-cs-fixer
+  :ensure t
+  :config
+    (setq php-cs-fixer-rules-fixer-part-options '("multiline_whitespace_before_semicolons" "concat_space")))
+
+(require 'cl)
+(add-hook 'before-save-hook 'php-cs-fixer-before-save)
+;; Adjust auto-mode-alist to use php-mode for PHP files
+(add-to-list 'auto-mode-alist '("\\.php$" . php-mode))
+#+END_SRC
+
 **** Javascript / Typescript
 #+NAME: javascript
 #+BEGIN_SRC emacs-lisp
@@ -1338,6 +1404,7 @@ Rainbow mode is an Emacs minor mode to highlight the color shown by a RGB hex tr
   (add-to-list 'auto-mode-alist '("\\.tsx$" . web-mode))
   (add-to-list 'auto-mode-alist '("\\.ts$" . web-mode))
   (add-to-list 'auto-mode-alist '("\\.js$" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.mjs$" . web-mode))
   (add-to-list 'auto-mode-alist '("\\.html$" . web-mode))
   (add-to-list 'auto-mode-alist '("\\.vue\\'" . web-mode))
 
@@ -1354,9 +1421,11 @@ Rainbow mode is an Emacs minor mode to highlight the color shown by a RGB hex tr
 
   ;; Keeps indentation organized across these modes
   (use-package prettier-js)
-  (add-hook 'js2-mode-hook 'prettier-js-mode)
-  (add-hook 'web-mode-hook 'prettier-js-mode)
-  (add-hook 'css-mode-hook 'prettier-js-mode)
+
+  ;; Turn off hooks for now 1/4/2024 - DHL
+  ;;(add-hook 'js2-mode-hook 'prettier-js-mode)
+  ;;(add-hook 'web-mode-hook 'prettier-js-mode)
+  ;;(add-hook 'css-mode-hook 'prettier-js-mode)
 #+END_SRC
 
 *** Git
@@ -1365,6 +1434,7 @@ Rainbow mode is an Emacs minor mode to highlight the color shown by a RGB hex tr
   (use-package magit
     :commands (magit-status magit-get-current-branch))
   (define-key magit-hunk-section-map (kbd "RET") 'magit-diff-visit-file-other-window)
+  (global-set-key (kbd "C-x G") 'magit-log-buffer-file)
 #+END_SRC
 
 *** Infrastructure
@@ -1426,7 +1496,7 @@ These packages may come and go, but ultimately aid in my understanding of emacs 
    )
 #+END_SRC
 
-**** ANSI color codes in org babel shell output
+**** ANSI color codes in ~org-babel~ shell output
 Found [[https://emacs.stackexchange.com/questions/44664/apply-ansi-color-escape-sequences-for-org-babel-results][here]].
 #+BEGIN_SRC emacs-lisp
   (defun dl/babel-ansi ()

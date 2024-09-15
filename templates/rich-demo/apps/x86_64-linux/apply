@@ -75,17 +75,6 @@ if [[ -z "$GIT_NAME" ]]; then
   _prompt "${YELLOW}Please enter your name: ${NC}" GIT_NAME
 fi
 
-if [[ -z "$GITHUB_USER" ]]; then
-  _prompt "${YELLOW}Please enter your Github username: ${NC}" GITHUB_USER
-fi
-
-if [[ -z "$GITHUB_SECRETS_REPO" ]]; then
-  _prompt "${YELLOW}Please enter your Github secrets repository name: ${NC}" GITHUB_SECRETS_REPO
-fi
-
-export GITHUB_USER
-export GITHUB_SECRETS_REPO
-
 select_boot_disk() {
   local disks
   local _boot_disk
@@ -128,22 +117,12 @@ confirm_details() {
     _print "Hostname: $HOST_NAME${NC}"
   fi
 
-  _print "${GREEN}Secrets repository: $GITHUB_USER/$GITHUB_SECRETS_REPO${NC}"
-
   _prompt "${YELLOW}Is this correct? yes/no: ${NC}" choice
 
   case "$choice" in
-    [Nn] | [Nn][Oo] ) 
-      _print "${RED}Exiting script.${NC}" 
-      exit 1
-      ;;
-    [Yy] | [Yy][Ee][Ss] ) 
-      _print "${GREEN}Continuing...${NC}"
-      ;;
-    * ) 
-      _print "${RED}Invalid option. Exiting script.${NC}" 
-      exit 1
-      ;;
+  [Nn] | [Nn][Oo] ) _print "${RED}Exiting script.${NC}" && exit 1;;
+  [Yy] | [Yy][Ee][Ss] ) _print "${GREEN}Continuing...${NC}";;
+  * ) _print "${RED}Invalid option. Exiting script.${NC}" && exit 1;;
   esac
 }
 
@@ -159,8 +138,6 @@ replace_tokens() {
       LC_ALL=C LANG=C sed -i '' -e "s/%USER%/$USERNAME/g" "$file"
       LC_ALL=C LANG=C sed -i '' -e "s/%EMAIL%/$GIT_EMAIL/g" "$file"
       LC_ALL=C LANG=C sed -i '' -e "s/%NAME%/$GIT_NAME/g" "$file"
-      LC_ALL=C LANG=C sed -i '' -e "s/%GITHUB_USER%/$GITHUB_USER/g" "$file"
-      LC_ALL=C LANG=C sed -i '' -e "s/%GITHUB_SECRETS_REPO%/$GITHUB_SECRETS_REPO/g" "$file"
     else
       # Linux or other
       sed -i -e "s/%USER%/$USERNAME/g" "$file"
@@ -169,8 +146,6 @@ replace_tokens() {
       sed -i -e "s/%INTERFACE%/$PRIMARY_IFACE/g" "$file"
       sed -i -e "s/%DISK%/$BOOT_DISK/g" "$file"
       sed -i -e "s/%HOST%/$HOST_NAME/g" "$file"
-      sed -i -e "s/%GITHUB_USER%/$GITHUB_USER/g" "$file"
-      sed -i -e "s/%GITHUB_SECRETS_REPO%/$GITHUB_SECRETS_REPO/g" "$file"
     fi
   fi
 }

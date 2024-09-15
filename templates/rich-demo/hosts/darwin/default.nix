@@ -1,7 +1,6 @@
 { agenix, config, pkgs, ... }:
 
-let user = "%USER%"; in
-
+let user = "dustin"; in
 {
 
   imports = [
@@ -48,7 +47,7 @@ let user = "%USER%"; in
     ProgramArguments = [
       "/bin/sh"
       "-c"
-      "/bin/wait4path ${pkgs.emacs}/bin/emacs && exec ${pkgs.emacs}/bin/emacs --fg-daemon"
+      "{ osascript -e 'display notification \"Attempting to start Emacs...\" with title \"Emacs Launch\"'; /bin/wait4path ${pkgs.emacs}/bin/emacs && { ${pkgs.emacs}/bin/emacs --fg-daemon; if [ $? -eq 0 ]; then osascript -e 'display notification \"Emacs has started.\" with title \"Emacs Launch\"'; else osascript -e 'display notification \"Failed to start Emacs.\" with title \"Emacs Launch\"' >&2; fi; } } &> /tmp/emacs_launch.log"
     ];
     StandardErrorPath = "/tmp/emacs.err.log";
     StandardOutPath = "/tmp/emacs.out.log";
@@ -58,6 +57,10 @@ let user = "%USER%"; in
     stateVersion = 4;
 
     defaults = {
+      LaunchServices = {
+        LSQuarantine = false;
+      };
+
       NSGlobalDomain = {
         AppleShowAllExtensions = true;
         ApplePressAndHoldEnabled = false;
@@ -77,6 +80,7 @@ let user = "%USER%"; in
         autohide = false;
         show-recents = false;
         launchanim = true;
+        mouse-over-hilite-stack = true;
         orientation = "bottom";
         tilesize = 48;
       };
@@ -89,6 +93,11 @@ let user = "%USER%"; in
         Clicking = true;
         TrackpadThreeFingerDrag = true;
       };
+    };
+
+    keyboard = {
+      enableKeyMapping = true;
+      remapCapsLockToControl = true;
     };
   };
 }
