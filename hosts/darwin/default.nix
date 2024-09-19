@@ -7,7 +7,6 @@ let user = "dustin"; in
     ../../modules/darwin/secrets.nix
     ../../modules/darwin/home-manager.nix
     ../../modules/shared
-    ../../modules/shared/cachix
      agenix.darwinModules.default
   ];
 
@@ -17,8 +16,11 @@ let user = "dustin"; in
   # Setup user, packages, programs
   nix = {
     package = pkgs.nix;
-    settings.trusted-users = [ "@admin" "${user}" ];
 
+    settings.trusted-users = [ "@admin" "${user}" ];
+    settings.substituters = [ "https://nix-community.cachix.org" "https://cache.nixos.org" ];
+    settings.trusted-public-keys = [ "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY=" ];
+    
     gc = {
       user = "root";
       automatic = true;

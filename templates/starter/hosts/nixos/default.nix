@@ -6,7 +6,6 @@ let user = "%USER%";
   imports = [
     ../../modules/nixos/disk-config.nix
     ../../modules/shared
-    ../../modules/shared/cachix
   ];
 
   # Use the systemd-boot EFI boot loader.
@@ -41,6 +40,10 @@ let user = "%USER%";
   nix = {
     nixPath = [ "nixos-config=/home/${user}/.local/share/src/nixos-config:/etc/nixos" ];
     settings.allowed-users = [ "${user}" ];
+    settings.trusted-users = [ "@admin" "${user}" ];
+    settings.substituters = [ "https://nix-community.cachix.org" "https://cache.nixos.org" ];
+    settings.trusted-public-keys = [ "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY=" ];
+
     package = pkgs.nix;
     extraOptions = ''
       experimental-features = nix-command flakes
