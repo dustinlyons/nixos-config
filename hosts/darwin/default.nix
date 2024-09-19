@@ -16,6 +16,7 @@ let user = "dustin"; in
   # Setup user, packages, programs
   nix = {
     package = pkgs.nix;
+    configureBuildUsers = true;
 
     settings.trusted-users = [ "@admin" "${user}" ];
     settings.substituters = [ "https://nix-community.cachix.org" "https://cache.nixos.org" ];
