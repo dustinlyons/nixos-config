@@ -39,10 +39,12 @@ let user = "%USER%";
   # Turn on flag for proprietary software
   nix = {
     nixPath = [ "nixos-config=/home/${user}/.local/share/src/nixos-config:/etc/nixos" ];
-    settings.allowed-users = [ "${user}" ];
-    settings.trusted-users = [ "@admin" "${user}" ];
-    settings.substituters = [ "https://nix-community.cachix.org" "https://cache.nixos.org" ];
-    settings.trusted-public-keys = [ "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY=" ];
+    settings = {
+      allowed-users = [ "${user}" ];
+      trusted-users = [ "@admin" "${user}" ];
+      substituters = [ "https://nix-community.cachix.org" "https://cache.nixos.org" ];
+      trusted-public-keys = [ "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY=" ];
+    };
 
     package = pkgs.nix;
     extraOptions = ''

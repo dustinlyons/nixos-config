@@ -18,10 +18,12 @@ let user = "dustin"; in
     package = pkgs.nix;
     configureBuildUsers = true;
 
-    settings.trusted-users = [ "@admin" "${user}" ];
-    settings.substituters = [ "https://nix-community.cachix.org" "https://cache.nixos.org" ];
-    settings.trusted-public-keys = [ "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY=" ];
-    
+    settings = {
+      trusted-users = [ "@admin" "${user}" ];
+      substituters = [ "https://nix-community.cachix.org" "https://cache.nixos.org" ];
+      trusted-public-keys = [ "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY=" ];
+    };
+
     gc = {
       user = "root";
       automatic = true;

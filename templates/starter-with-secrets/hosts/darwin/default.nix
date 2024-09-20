@@ -17,9 +17,11 @@ let user = "%USER%"; in
   # Setup user, packages, programs
   nix = {
     package = pkgs.nix;
-    settings.trusted-users = [ "@admin" "${user}" ];
-    settings.substituters = [ "https://nix-community.cachix.org" "https://cache.nixos.org" ];
-    settings.trusted-public-keys = [ "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY=" ];
+    settings = {
+      trusted-users = [ "@admin" "${user}" ];
+      substituters = [ "https://nix-community.cachix.org" "https://cache.nixos.org" ];
+      trusted-public-keys = [ "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY=" ];
+    };
 
     gc = {
       user = "root";
@@ -28,7 +30,6 @@ let user = "%USER%"; in
       options = "--delete-older-than 30d";
     };
 
-    # Turn this on to make command line easier
     extraOptions = ''
       experimental-features = nix-command flakes
     '';
