@@ -58,6 +58,20 @@ let user = "dustin"; in
     StandardOutPath = "/tmp/emacs.out.log";
   };
 
+  # New launchd service to toggle natural scrolling
+  launchd.user.agents.naturalScrollingToggle.path = [ config.environment.systemPath ];
+  launchd.user.agents.naturalScrollingToggle.serviceConfig = {
+    KeepAlive = false;
+    RunAtLoad = true;
+    ProgramArguments = [
+      "/bin/sh"
+      "-c"
+      "if system_profiler SPUSBDataType | grep -i \"Mouse\"; then defaults write NSGlobalDomain com.apple.swipescrolldirection -bool false; else defaults write NSGlobalDomain com.apple.swipescrolldirection -bool true; fi && killall Finder"
+    ];
+    StandardErrorPath = "/tmp/natural_scrolling.err.log";
+    StandardOutPath = "/tmp/natural_scrolling.out.log";
+  };
+
   system = {
     stateVersion = 4;
 
