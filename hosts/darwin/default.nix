@@ -7,7 +7,7 @@ let user = "dustin"; in
     ../../modules/darwin/secrets.nix
     ../../modules/darwin/home-manager.nix
     ../../modules/shared
-     agenix.darwinModules.default
+    agenix.darwinModules.default
   ];
 
   # Auto upgrade nix package and the daemon service.
@@ -46,30 +46,35 @@ let user = "dustin"; in
     agenix.packages."${pkgs.system}".default
   ] ++ (import ../../modules/shared/packages.nix { inherit pkgs; });
 
-  launchd.user.agents.emacs.path = [ config.environment.systemPath ];
-  launchd.user.agents.emacs.serviceConfig = {
-    KeepAlive = true;
-    ProgramArguments = [
-      "/bin/sh"
-      "-c"
-      "{ osascript -e 'display notification \"Attempting to start Emacs...\" with title \"Emacs Launch\"'; /bin/wait4path ${pkgs.emacs}/bin/emacs && { ${pkgs.emacs}/bin/emacs --fg-daemon; if [ $? -eq 0 ]; then osascript -e 'display notification \"Emacs has started.\" with title \"Emacs Launch\"'; else osascript -e 'display notification \"Failed to start Emacs.\" with title \"Emacs Launch\"' >&2; fi; } } &> /tmp/emacs_launch.log"
-    ];
-    StandardErrorPath = "/tmp/emacs.err.log";
-    StandardOutPath = "/tmp/emacs.out.log";
-  };
+  launchd.user.agents = {
+    emacs = {
+      path = [ config.environment.systemPath ];
+      serviceConfig = {
+        KeepAlive = true;
+        ProgramArguments = [
+          "/bin/sh"
+          "-c"
+          "{ osascript -e 'display notification \"Attempting to start Emacs...\" with title \"Emacs Launch\"'; /bin/wait4path ${pkgs.emacs}/bin/emacs && { ${pkgs.emacs}/bin/emacs --fg-daemon; if [ $? -eq 0 ]; then osascript -e 'display notification \"Emacs has started.\" with title \"Emacs Launch\"'; else osascript -e 'display notification \"Failed to start Emacs.\" with title \"Emacs Launch\"' >&2; fi; } } &> /tmp/emacs_launch.log"
+        ];
+        StandardErrorPath = "/tmp/emacs.err.log";
+        StandardOutPath = "/tmp/emacs.out.log";
+      };
+    };
 
-  # New launchd service to toggle natural scrolling
-  launchd.user.agents.naturalScrollingToggle.path = [ config.environment.systemPath ];
-  launchd.user.agents.naturalScrollingToggle.serviceConfig = {
-    KeepAlive = false;
-    RunAtLoad = true;
-    ProgramArguments = [
-      "/bin/sh"
-      "-c"
-      "if system_profiler SPUSBDataType | grep -i \"Mouse\"; then defaults write NSGlobalDomain com.apple.swipescrolldirection -bool false; else defaults write NSGlobalDomain com.apple.swipescrolldirection -bool true; fi && killall Finder"
-    ];
-    StandardErrorPath = "/tmp/natural_scrolling.err.log";
-    StandardOutPath = "/tmp/natural_scrolling.out.log";
+    naturalScrollingToggle = {
+      path = [ config.environment.systemPath ];
+      serviceConfig = {
+        KeepAlive = false;
+        RunAtLoad = true;
+        ProgramArguments = [
+          "/bin/sh"
+          "-c"
+          "if system_profiler SPUSBDataType | grep -i \"Mouse\"; then defaults write NSGlobalDomain com.apple.swipescrolldirection -bool false; else defaults write NSGlobalDomain com.apple.swipescrolldirection -bool true; fi && killall Finder"
+        ];
+        StandardErrorPath = "/tmp/natural_scrolling.err.log";
+        StandardOutPath = "/tmp/natural_scrolling.out.log";
+      };
+    };
   };
 
   system = {
