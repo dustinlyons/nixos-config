@@ -70,7 +70,7 @@ Check out the step-by-step commands below to get started!
 ```
 
 ## Features
-- **Nix Flakes**: No confusing `configuration.nix` entry point, [no Nix channels](#why-nix-flakes)─ just a `flake.nix`
+- **Nix Flakes**: No confusing `configuration.nix` entry point, [no Nix channels](#why-nix-flakes)─ just `flake.nix`
 - **Same Environment Everywhere**: Easily share config across Linux and macOS (both Nix and Home Manager)
 - **macOS Dream Setup**: Fully declarative macOS (Apple / Intel) w/ UI, dock and macOS App Store apps
 - **Simple Bootstrap**: Simple Nix commands to start from zero, both x86 and macOS platforms
