@@ -21,8 +21,8 @@ Check out the step-by-step commands below to get started!
   - [Table of Contents](#table-of-contents)
   - [Layout](#layout)
   - [Features](#features)
-  - [Disclaimer](#disclaimer)
   - [Testimonials](#testimonials)
+  - [Disclaimer](#disclaimer)
   - [Videos](#videos)
     - [macOS](#macos)
       - [Updating dependencies with one command](#updating-dependencies-with-one-command)
@@ -89,14 +89,6 @@ Check out the step-by-step commands below to get started!
 - **Simplicity and Readability**: Optimized for simplicity and readability in all cases, not small files everywhere
 - **Backed by Continuous Integration**: Flake auto updates weekly if changes don't break starter build
 
-## Disclaimer
-Installing Nix on macOS will create an entirely separate volume. It may exceed many gigabytes in size. 
-
-Some folks don't like this. If this is you, turn back now!
-
-> [!NOTE]
-> Don't worry, you can always [uninstall](https://github.com/DeterminateSystems/nix-installer#uninstalling) Nix later.
-
 ## Testimonials
 
 ![Screenshot 2024-10-31 at 9 32 38 AM](https://github.com/user-attachments/assets/0fb34422-adcb-41e3-b6a8-dcfebf0f40b8)
@@ -106,6 +98,14 @@ Some folks don't like this. If this is you, turn back now!
 ![Screenshot 2024-10-31 at 9 33 27 AM](https://github.com/user-attachments/assets/eaf19ca6-2fb9-4536-98b6-8df70aa04039)
 
 ![Screenshot 2024-10-31 at 11 00 11 AM](https://github.com/user-attachments/assets/8f306a62-5a89-4f10-ab08-c151e7951c27)
+
+## Disclaimer
+Installing Nix on macOS will create an entirely separate volume. It may exceed many gigabytes in size. 
+
+Some folks don't like this. If this is you, turn back now!
+
+> [!NOTE]
+> Don't worry, you can always [uninstall](https://github.com/DeterminateSystems/nix-installer#uninstalling) Nix later.
 
 ## Videos
 ### macOS
