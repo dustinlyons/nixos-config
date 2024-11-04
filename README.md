@@ -29,7 +29,7 @@ Check out the step-by-step commands below to get started!
   - [Disclaimer](#disclaimer)
   - [Layout](#layout)
   - [Installing](#installing)
-    - [For macOS (October 2024)](#for-macos-october-2024)
+    - [For macOS (November 2024)](#for-macos-november-2024)
       - [1. Install dependencies](#1-install-dependencies)
       - [2. Install Nix](#2-install-nix)
       - [3. Initialize a starter template](#3-initialize-a-starter-template)
@@ -128,7 +128,7 @@ Some folks don't like this. If this is you, turn back now!
 ```
 
 ## Installing
-## For macOS (October 2024)
+## For macOS (November 2024)
 This configuration supports both Intel and Apple Silicon Macs.
 
 ### 1. Install dependencies
