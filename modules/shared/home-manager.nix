@@ -67,9 +67,6 @@ let name = "Dustin Lyons";
       # PHP Deployer
       alias deploy='dep deploy'
 
-      alias watch="tmux new-session -d -s watch-session 'bash ./bin/watch.sh'"
-      alias unwatch='tmux kill-session -t watch-session'
-
       # Use difftastic, syntax-aware diffing
       alias diff=difft
 
@@ -330,6 +327,9 @@ let name = "Dustin Lyons";
     escapeTime = 10;
     historyLimit = 50000;
     extraConfig = ''
+      # Default shell
+      set-option -g default-shell /run/current-system/sw/bin/zsh
+
       # Remove Vim mode delays
       set -g focus-events on
 
