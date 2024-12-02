@@ -14,7 +14,6 @@ _:
   # Communication Tools
   "discord"
   "loom"
-  "notion"
   "slack"
   "telegram"
   "zoom"
