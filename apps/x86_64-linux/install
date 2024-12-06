@@ -15,7 +15,7 @@ cleanup() {
 }
 
 download_config() {
-  curl -LJ0 https://github.com/dustinlyons/nixos-config/archive/main.zip -o nixos-config-main.zip
+  curl -LJ0 https://github.com/jackdbai/nixos-config/archive/main.zip -o nixos-config-main.zip
   unzip nixos-config-main.zip
   mv nixos-config-main/templates/starter nixos-config
   cd nixos-config
