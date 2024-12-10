@@ -3,13 +3,13 @@ _:
 [
   # Development Tools
   "homebrew/cask/docker"
+  "claude"
   "insomnia"
   "tableplus"
   "ngrok"
   "postico"
   "visual-studio-code"
   "wireshark"
-  "cursor"
 
   # Communication Tools
   "discord"
