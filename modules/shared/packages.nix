@@ -21,6 +21,7 @@ with pkgs; [
   sqlite
   wget
   zip
+  uv
 
   # Encryption and security tools
   _1password
