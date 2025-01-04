@@ -43,10 +43,6 @@ let name = "Dustin Lyons";
       export PATH=$HOME/.composer/vendor/bin:$PATH
       export PATH=$HOME/.local/share/bin:$PATH
 
-      export PNPM_HOME=~/.pnpm-packages
-      alias pn=pnpm
-      alias px=pnpx
-
       # Remove history data we don't want to see
       export HISTIGNORE="pwd:ls:cd"
 
