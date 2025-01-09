@@ -60,21 +60,6 @@ let user = "dustin"; in
         StandardOutPath = "/tmp/emacs.out.log";
       };
     };
-
-    naturalScrollingToggle = {
-      path = [ config.environment.systemPath ];
-      serviceConfig = {
-        KeepAlive = false;
-        RunAtLoad = true;
-        ProgramArguments = [
-          "/bin/sh"
-          "-c"
-          "if system_profiler SPUSBDataType | grep -i \"Mouse\"; then defaults write NSGlobalDomain com.apple.swipescrolldirection -bool false; else defaults write NSGlobalDomain com.apple.swipescrolldirection -bool true; fi && killall Finder"
-        ];
-        StandardErrorPath = "/tmp/natural_scrolling.err.log";
-        StandardOutPath = "/tmp/natural_scrolling.out.log";
-      };
-    };
   };
 
   system = {
