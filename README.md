@@ -91,6 +91,8 @@ Check out the step-by-step commands below to get started!
 
 ![Screenshot 2024-10-31 at 11 00 11 AM](https://github.com/user-attachments/assets/8f306a62-5a89-4f10-ab08-c151e7951c27)
 
+![Screenshot 2025-01-28 at 1 56 59 PM](https://github.com/user-attachments/assets/14d29d81-53b1-4e0e-b8f7-189677e3a36c)
+
 ## Videos
 ### macOS
 #### Updating dependencies with one command
