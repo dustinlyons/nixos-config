@@ -11,7 +11,7 @@ let user = "dustin"; in
   ];
 
   # Auto upgrade nix package and the daemon service.
-  services.nix-daemon.enable = true;
+  # services.nix-daemon.enable = true;
 
   # Setup user, packages, programs
   nix = {
@@ -25,7 +25,7 @@ let user = "dustin"; in
     };
 
     gc = {
-      user = "root";
+      # user = "root";
       automatic = true;
       interval = { Weekday = 0; Hour = 2; Minute = 0; };
       options = "--delete-older-than 30d";
