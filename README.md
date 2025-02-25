@@ -292,7 +292,10 @@ nix run .#build
 > nixbld group has GID 350, whereas we expected 30000.
 > ```
 >
-> You will have to [uninstall Nix](https://zero-to-nix.com/start/uninstall/), and [install Nix](https://zero-to-nix.com/start/install/) again with `--nix-build-group-id 30000` flag. See more [here](https://determinate.systems/posts/nix-support-for-macos-sequoia/)
+> You will have to [uninstall Nix](https://zero-to-nix.com/start/uninstall/), and [install Nix](https://zero-to-nix.com/start/install/) again with `--nix-build-group-id 30000` flag. See more here:
+> * [Nix Suppport for macOS Sequoia](https://determinate.systems/posts/nix-support-for-macos-sequoia/)
+> * [macOS 15 Sequoia clobbers _nixbld1-4 users](https://github.com/NixOS/nix/issues/10892)
+> * [macOS Sequoia replaces _nixbld{1,2,3,4} with system users causing darwin-rebuild to fail](https://github.com/LnL7/nix-darwin/issues/970)
 
 ### 10. Make changes
 Finally, alter your system with this command:
