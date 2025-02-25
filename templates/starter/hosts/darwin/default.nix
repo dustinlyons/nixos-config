@@ -8,8 +8,6 @@ let user = "%USER%"; in
     ../../modules/shared
   ];
 
-  services.nix-daemon.enable = true;
-
   nix = {
     package = pkgs.nix;
     settings = {
@@ -19,7 +17,6 @@ let user = "%USER%"; in
     };
 
     gc = {
-      user = "root";
       automatic = true;
       interval = { Weekday = 0; Hour = 2; Minute = 0; };
       options = "--delete-older-than 30d";
