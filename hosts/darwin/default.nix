@@ -13,7 +13,6 @@ let user = "dustin"; in
   # Setup user, packages, programs
   nix = {
     package = pkgs.nix;
-    configureBuildUsers = true;
 
     settings = {
       trusted-users = [ "@admin" "${user}" ];
