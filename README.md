@@ -147,6 +147,8 @@ After installation, open a new terminal session to make the `nix` executable ava
 
 > [!IMPORTANT]
 >
+> If planning to upgrade to Sequoia, [prepare Nix](https://determinate.systems/posts/nix-support-for-macos-sequoia/) before proceeding.
+>
 > If using [the official installation instructions](https://nixos.org/download) instead, [`flakes`](https://nixos.wiki/wiki/Flakes) and [`nix-command`](https://nixos.wiki/wiki/Nix_command) aren't available by default.
 >
 > You'll need to enable them.
@@ -278,6 +280,19 @@ nix run .#build
 > Please check there is nothing critical in these files, rename them by adding .before-nix-darwin to the end, and then try again.
 > ```
 > Backup and move the files out of the way and/or edit your Nix configuration before continuing.
+
+> [!WARNING]
+> You may encounter `error: Build user group has mismatching GID, aborting activation` if you have already upgraded to Sequoia but haven't had [prepared Nix](https://determinate.systems/posts/nix-support-for-macos-sequoia/) before that.
+> The error will list the files like this:
+> 
+> ```
+> error: Build user group has mismatching GID, aborting activation
+> The default Nix build user group ID was changed from 30000 to 350.
+> You are currently managing Nix build users with nix-darwin, but your
+> nixbld group has GID 350, whereas we expected 30000.
+> ```
+>
+> You will have to [uninstall Nix](https://zero-to-nix.com/start/uninstall/), and [install Nix](https://zero-to-nix.com/start/install/) again with `--nix-build-group-id 30000` flag.
 
 ### 10. Make changes
 Finally, alter your system with this command:
