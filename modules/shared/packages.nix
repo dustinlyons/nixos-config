@@ -22,6 +22,7 @@ with pkgs; [
   wget
   zip
   uv
+  cursor
 
   # Encryption and security tools
   _1password
