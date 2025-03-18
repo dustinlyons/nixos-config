@@ -63,6 +63,9 @@ let name = "Dustin Lyons";
       # PHP Deployer
       alias deploy='dep deploy'
 
+      # Easy alias to trim whitespace from files on macOS
+      alias trimwhitespace="find . -type f \( -name '*.jsx' -o -name '*.php' -o -name '*.js' \) -exec sed -i \"\" 's/[[:space:]]*\$//' {} +"
+
       # Use difftastic, syntax-aware diffing
       alias diff=difft
 
