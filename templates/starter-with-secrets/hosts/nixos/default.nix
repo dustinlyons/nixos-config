@@ -97,7 +97,7 @@ let user = "%USER%";
         # Turn Caps Lock into Ctrl
         layout = "us";
         options = "ctrl:nocaps";
-      }
+      };
     };
 
     # Better support for general peripherals
