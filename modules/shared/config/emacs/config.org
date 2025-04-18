@@ -1518,17 +1518,6 @@ Found [[https://emacs.stackexchange.com/questions/44664/apply-ansi-color-escape-
   (setq global-command-log-mode t)
 #+END_SRC
 
-*** Panel popup to show key bindings
-#+NAME: which-key
-#+BEGIN_SRC emacs-lisp
-  ;; Gives me a fancy list of commands I run
-  (use-package which-key
-    :init (which-key-mode)
-    :diminish which-key-mode
-    :config
-    (setq which-key-idle-delay 0.3))
-#+END_SRC
-
 *** Helpful documentation strings for common functions
 #+NAME: helpful
 #+BEGIN_SRC emacs-lisp
