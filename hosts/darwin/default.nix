@@ -37,7 +37,7 @@ let user = "dustin"; in
 
   # Load configuration that is shared across systems
   environment.systemPackages = with pkgs; [
-    emacs-unstable
+    emacs
     agenix.packages."${pkgs.system}".default
   ] ++ (import ../../modules/shared/packages.nix { inherit pkgs; });
 
