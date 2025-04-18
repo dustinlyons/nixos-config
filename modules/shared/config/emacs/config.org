@@ -1510,14 +1510,6 @@ Found [[https://emacs.stackexchange.com/questions/44664/apply-ansi-color-escape-
   (add-hook 'org-babel-after-execute-hook 'dl/babel-ansi)
 #+END_SRC
 
-*** Show real-time key bindings in a separate buffer
-#+NAME: command-log
-#+BEGIN_SRC emacs-lisp
-  ;; Gives me a fancy list of commands I run
-  (use-package command-log-mode)
-  (setq global-command-log-mode t)
-#+END_SRC
-
 *** Helpful documentation strings for common functions
 #+NAME: helpful
 #+BEGIN_SRC emacs-lisp
