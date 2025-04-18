@@ -961,17 +961,6 @@ This is what makes emacs possible for me. All evil mode packages and related con
   (setq undo-tree-history-directory-alist '(("." . "~/.local/state/emacs/undo")))
 #+END_SRC
 
-** Terminal
-#+NAME: vterm
-#+BEGIN_SRC emacs-lisp
-  (use-package vterm
-    :commands vterm
-    :config
-      (setq term-prompt-regexp "^[^#$%>\n]*[#$%>] *")
-      (setq vterm-shell "zsh")
-      (setq vterm-max-scrollback 10000))
-#+END_SRC
-
 ** Managing files
 Configuration related to filesystem, either basic IO and interaction from emacs or directly moving files around where it makes sense.
 *** File browser
@@ -1508,21 +1497,4 @@ Found [[https://emacs.stackexchange.com/questions/44664/apply-ansi-color-escape-
                 (ansi-color-context-region nil))
             (ansi-color-apply-on-region beg end))))))
   (add-hook 'org-babel-after-execute-hook 'dl/babel-ansi)
-#+END_SRC
-
-*** Helpful documentation strings for common functions
-#+NAME: helpful
-#+BEGIN_SRC emacs-lisp
-  (use-package helpful
-    :custom
-      ;; Remap Counsel help functions
-      (counsel-describe-function-function #'helpful-callable)
-      (counsel-describe-variable-function #'helpful-variable)
-    :bind
-      ;; Remap default help functions
-      ([remap describe-function] . helpful-function)
-      ([remap describe-symbol] . helpful-symbol)
-      ([remap describe-variable] . helpful-variable)
-      ([remap describe-command] . helpful-command)
-      ([remap describe-key] . helpful-key))
 #+END_SRC
