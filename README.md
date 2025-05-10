@@ -13,7 +13,6 @@ I use it daily on my 🧑🏻‍💻 Macbook Pro and an x86 PC in my home office
 
 Check out the step-by-step commands below to get started!
 
-
 ## Table of Contents
 
 - [Nix Config for macOS + NixOS](#nix-config-for-macos--nixos)
