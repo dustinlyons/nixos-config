@@ -1,5 +1,14 @@
 { pkgs, ... }:
 
+let
+  myPython = pkgs.python3.withPackages (ps: with ps; [
+    slpp
+    pip
+    virtualenv
+    black
+  ]);
+in
+
 with pkgs; [
   # General packages for development and system management
   act
@@ -31,9 +40,6 @@ with pkgs; [
   libfido2
 
   # Cloud-related tools and SDKs
-  # docker
-  # docker-compose
-  # awscli2 - marked broken Mar 22
   flyctl
   google-cloud-sdk
   go
@@ -93,8 +99,5 @@ with pkgs; [
   unzip
   zsh-powerlevel10k
 
-  # Python packages
-  black
-  python3
-  virtualenv
+  myPython
 ]
