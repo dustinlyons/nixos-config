@@ -35,6 +35,8 @@ let user = "%USER%"; in
   # Turn off NIX_PATH warnings now that we're using flakes
   system.checks.verifyNixPath = false;
 
+  system.primaryUser = user;
+
   # Load configuration that is shared across systems
   environment.systemPackages = with pkgs; [
     emacs-unstable
