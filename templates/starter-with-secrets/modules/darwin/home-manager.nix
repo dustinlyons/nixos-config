@@ -72,6 +72,7 @@ in
   local = { 
     dock = {
       enable = true;
+      username = username;
       entries = [
         { path = "/Applications/Slack.app/"; }
         { path = "/System/Applications/Messages.app/"; }
