@@ -30,6 +30,8 @@ let user = "%USER%"; in
 
   system.checks.verifyNixPath = false;
 
+  system.primaryUser = user;
+
   environment.systemPackages = with pkgs; [
     emacs-unstable
   ] ++ (import ../../modules/shared/packages.nix { inherit pkgs; });
