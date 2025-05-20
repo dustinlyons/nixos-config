@@ -4,6 +4,7 @@ let
   myPython = pkgs.python3.withPackages (ps: with ps; [
     slpp
     pip
+    rich
     virtualenv
     black
   ]);
