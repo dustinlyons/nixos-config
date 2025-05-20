@@ -14,34 +14,37 @@ let
 in
 {
   options = {
-    local.dock.enable = mkOption {
-      description = "Enable dock";
-      default = stdenv.isDarwin;
-      example = false;
-    };
+    local.dock = {
+      enable = mkOption {
+        description = "Enable dock";
+        default = stdenv.isDarwin;
+        example = false;
+      };
 
-    local.dock.entries = mkOption {
-      description = "Entries on the Dock";
-      type =
-        with types;
-        listOf (submodule {
-          options = {
-            path = lib.mkOption { type = str; };
-            section = lib.mkOption {
-              type = str;
-              default = "apps";
+      entries = mkOption {
+        description = "Entries on the Dock";
+        type =
+          with types;
+          listOf (submodule {
+            options = {
+              path = lib.mkOption { type = str; };
+              section = lib.mkOption {
+                type = str;
+                default = "apps";
+              };
+              options = lib.mkOption {
+                type = str;
+                default = "";
+              };
             };
-            options = lib.mkOption {
-              type = str;
-              default = "";
-            };
-          };
-        });
-      readOnly = true;
-    };
-    local.dock.username = mkOption {
-      description = "Username to apply the dock settings to";
-      type = types.str;
+          });
+        readOnly = true;
+      };
+
+      username = mkOption {
+        description = "Username to apply the dock settings to";
+        type = types.str;
+      };
     };
   };
 
