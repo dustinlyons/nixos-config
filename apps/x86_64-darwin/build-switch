@@ -14,7 +14,9 @@ echo "${YELLOW}Starting build...${NC}"
 nix --extra-experimental-features 'nix-command flakes' build .#$FLAKE_SYSTEM $@
 
 echo "${YELLOW}Switching to new generation...${NC}"
-./result/sw/bin/darwin-rebuild switch --flake .#${SYSTEM_TYPE} $@
+
+# See https://github.com/nix-darwin/nix-darwin/issues/1457 on why we need sudo
+sudo ./result/sw/bin/darwin-rebuild switch --flake .#${SYSTEM_TYPE} $@
 
 echo "${YELLOW}Cleaning up...${NC}"
 unlink ./result

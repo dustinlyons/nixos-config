@@ -30,6 +30,7 @@ let user = "dustin"; in
     emacs
     agenix.packages."${pkgs.system}".default
   ] ++ (import ../../modules/shared/packages.nix { inherit pkgs; });
+
   #launchd.user.agents = {
   #  emacs = {
   #    path = [ config.environment.systemPath ];
@@ -45,6 +46,7 @@ let user = "dustin"; in
   #    };
   #  };
   #};
+
   system = {
     # Turn off NIX_PATH warnings now that we're using flakes
     checks.verifyNixPath = false;
@@ -57,8 +59,10 @@ let user = "dustin"; in
       NSGlobalDomain = {
         AppleShowAllExtensions = true;
         ApplePressAndHoldEnabled = false;
+
         # 120, 90, 60, 30, 12, 6, 2
         KeyRepeat = 2;
+
         # 120, 94, 68, 35, 25, 15
         InitialKeyRepeat = 15;
         "com.apple.mouse.tapBehavior" = 1;
