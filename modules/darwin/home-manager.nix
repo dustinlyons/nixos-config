@@ -66,20 +66,17 @@ in
     entries  = [
       { path = "/Applications/Slack.app/"; }
       { path = "/System/Applications/Messages.app/"; }
-      { path = "/System/Applications/Facetime.app/"; }
-      { path = "/Applications/Telegram.app/"; }
       { path = "${pkgs.alacritty}/Applications/Alacritty.app/"; }
       { path = "/System/Applications/Music.app/"; }
-      { path = "/System/Applications/News.app/"; }
       { path = "/System/Applications/Photos.app/"; }
       { path = "/System/Applications/Photo Booth.app/"; }
       { path = "/System/Applications/TV.app/"; }
       { path = "${pkgs.jetbrains.phpstorm}/Applications/PhpStorm.app/"; }
       { path = "/Applications/TablePlus.app/"; }
-      { path = "/Applications/Asana.app/"; }
-      { path = "/Applications/Drafts.app/"; }
+      { path = "/Applications/Claude.app/"; }
+      { path = "/Applications/Discord.app/"; }
+      { path = "/Applications/TickTick.app/"; }
       { path = "/System/Applications/Home.app/"; }
-      { path = "/Applications/iPhone Mirroring.app/"; }
       {
         path    = toString myEmacsLauncher;
         section = "others";

@@ -3,7 +3,7 @@
 
 * Configuration   :emacs:
 ** About my Emacs
-This is my detailed Emacs configuration. It's an ~org~ file that is transpiled to ~emacs-lisp~ as part of the Nix build process. 
+This is my detailed Emacs configuration. It's an ~org~ file that is transpiled to ~emacs-lisp~ as part of the Nix build process.
 
 Why an ~org~ file? My Emacs config is large, and this enables me to improve the readability of its documentation greatly. I edit this file the same way you're reading it (nicely formatted) as I use Emacs and Emacs speaks ~org~. Sounds complicated, but it's really not; [[https://github.com/dustinlyons/nixos-config/blob/main/hosts/nixos/default.nix#L236][just a few lines]] in my Nix config. [[https://github.com/dustinlyons/nixos-config/blob/main/hosts/darwin/default.nix#L40][MacOS too.]]
 
@@ -695,13 +695,9 @@ If you haven't heard of ~org-mode~, go watch [[https://www.youtube.com/watch?v=S
   (dl/leader-keys
     "e"  '(:ignore t :which-key "emacs")
     "ee" '(dl/load-buffer-with-emacs-config :which-key "open emacs config")
+    "ey" '(org-download-clipboard :which-key "save file from clipboard")
     "er" '(dl/reload-emacs :which-key "reload emacs"))
 
-  "A few of my own personal shortcuts"
-  (dl/leader-keys
-    ","  '(dl/insert-header :which-key "insert header")
-    "<"  '(dl/insert-current-time :which-key "insert header with current time")
-    "n"  '(dl/load-buffer-with-nix-config :which-key "open nix config"))
   #+END_SRC
 
 ***** Snippets
@@ -730,6 +726,11 @@ These are templates used to create new notes.
 #+NAME::org-roam-package
 #+BEGIN_SRC emacs-lisp
   (require 'ucs-normalize)
+
+  (use-package compat
+    :straight t
+    :ensure t)
+
   (use-package org-roam
     :straight (:host github :repo "dustinlyons/org-roam"
                :branch "master"
@@ -774,8 +775,7 @@ These are templates used to create new notes.
      "* %?"
      :if-new (file+head "%<%Y-%m-%d>.org"
                         (lambda () (concat ":PROPERTIES:\n:ID:       " (org-id-new) "\n:END:\n"
-                                           "#+TITLE: %<%Y-%m-%d>\n#+filetags: Daily \n" ; Added space here
-                                           "* Log\n"))))))
+                                           "#+TITLE: %<%Y-%m-%d>\n#+filetags: Daily\n"))))))
 #+END_SRC
 
 ***** Extending Roam
@@ -1048,9 +1048,12 @@ Configuration related to filesystem, either basic IO and interaction from emacs 
 Quickly work with images over drag-and-drop or the clipboard. [[https://github.com/abo-abo/org-download][Link to Project README]].
 #+NAME: org-download-copy
 #+BEGIN_SRC emacs-lisp
-  (use-package org-download)
-  ;; Drag-and-drop to `dired`
-  (add-hook 'dired-mode-hook 'org-download-enable)
+(use-package org-download
+  :after org
+  :custom
+  (org-download-image-dir (expand-file-name "files" "~/.local/share/org-roam/"))
+  :hook
+  (dired-mode . org-download-enable))
 #+END_SRC
 
 *** Backups and auto-save
@@ -1367,11 +1370,6 @@ Rainbow mode is an Emacs minor mode to highlight the color shown by a RGB hex tr
   :config
     (add-hook 'php-mode-hook 'lsp-mode-deferred))
 
-(use-package php-cs-fixer
-  :ensure t
-  :config
-    (setq php-cs-fixer-rules-fixer-part-options '("multiline_whitespace_before_semicolons" "concat_space")))
-
 (require 'cl)
 (add-hook 'before-save-hook 'php-cs-fixer-before-save)
 ;; Adjust auto-mode-alist to use php-mode for PHP files
@@ -1381,11 +1379,6 @@ Rainbow mode is an Emacs minor mode to highlight the color shown by a RGB hex tr
 **** Javascript / Typescript
 #+NAME: javascript
 #+BEGIN_SRC emacs-lisp
-  (use-package pnpm-mode)
-  (use-package prisma-mode
-    :straight (:host github :repo "pimeys/emacs-prisma-mode"
-               :branch "main"))
-
   (use-package web-mode
     :hook (web-mode . lsp-deferred))
 
@@ -1401,11 +1394,6 @@ Rainbow mode is an Emacs minor mode to highlight the color shown by a RGB hex tr
     "Hooks for Web mode.  Adjust indent."
     (setq web-mode-markup-indent-offset 2))
   (add-hook 'web-mode-hook  'web-mode-init-hook)
-
-  ;; Vue.js / Nuxt.js Language Server
-  (straight-use-package
-   '(lsp-volar :type git :host github :repo "jadestrong/lsp-volar"))
-
   (add-hook 'typescript-mode-hook #'lsp-deferred)
 
   ;; Keeps indentation organized across these modes
@@ -1466,6 +1454,85 @@ Nix is my package manager and operating system of choice; this mode enables me t
 
   (define-key copilot-completion-map (kbd "<tab>") 'copilot-accept-completion)
   (define-key copilot-completion-map (kbd "TAB") 'copilot-accept-completion)
+#+END_SRC
+
+*** LLM Prompts
+#+NAME: llm-prompts
+#+BEGIN_SRC emacs-lisp
+  (defvar dl/prompts-directory "~/.local/share/prompts"
+    "Directory containing LLM prompt files.")
+
+  (defun dl/get-prompt-files ()
+    "Get list of prompt files from the prompts directory."
+    (when (file-directory-p dl/prompts-directory)
+      (directory-files dl/prompts-directory nil "\\.org$")))
+
+  (defun dl/read-prompt-file (filename)
+    "Read the contents of a prompt file."
+    (let ((filepath (expand-file-name filename dl/prompts-directory)))
+      (when (file-exists-p filepath)
+        (with-temp-buffer
+          (insert-file-contents filepath)
+          (buffer-string)))))
+
+  (defun dl/format-prompt-name (filename)
+    "Format filename for display (remove .org extension)."
+    (file-name-sans-extension filename))
+
+  (defun dl/llm-prompt-selector ()
+    "Select a LLM prompt and copy it to clipboard."
+    (interactive)
+    (let ((prompt-files (dl/get-prompt-files)))
+      (if prompt-files
+          (ivy-read "Select LLM prompt: "
+                    (mapcar #'dl/format-prompt-name prompt-files)
+                    :action (lambda (prompt-name)
+                              (let* ((filename (concat prompt-name ".org"))
+                                     (content (dl/read-prompt-file filename)))
+                                (if content
+                                    (progn
+                                      (kill-new content)
+                                      (message "Prompt '%s' copied to clipboard!" prompt-name))
+                                  (message "Error: Could not read prompt file")))))
+        (message "No prompt files found in %s" dl/prompts-directory))))
+
+  (defun dl/open-prompts-directory ()
+    "Open the prompts directory in dired."
+    (interactive)
+    (if (file-directory-p dl/prompts-directory)
+        (dired dl/prompts-directory)
+      (progn
+        (make-directory dl/prompts-directory t)
+        (dired dl/prompts-directory)
+        (message "Created prompts directory: %s" dl/prompts-directory))))
+
+  (defun dl/create-new-prompt ()
+    "Create a new prompt file."
+    (interactive)
+    (unless (file-directory-p dl/prompts-directory)
+      (make-directory dl/prompts-directory t))
+    (let ((prompt-name (read-string "Prompt name: ")))
+      (when (and prompt-name (not (string-empty-p prompt-name)))
+        (let ((filename (expand-file-name
+                         (concat prompt-name ".org")
+                         dl/prompts-directory)))
+          (find-file filename)
+          (when (= (buffer-size) 0)
+            (insert (format "#+TITLE: %s\n#+AUTHOR: %s\n#+DATE: %s\n\n"
+                            prompt-name
+                            user-full-name
+                            (format-time-string "%Y-%m-%d")))
+            (goto-char (point-max)))))))
+
+  ;; Add leader key bindings for LLM prompts
+  (dl/leader-keys
+    "c"   '(:ignore t :which-key "llm prompts")
+    "cs"  '(dl/claude-prompt-selector :which-key "select prompt")
+    "co"  '(dl/open-prompts-directory :which-key "open prompts dir")
+    "cn"  '(dl/create-new-prompt :which-key "new prompt"))
+
+  ;; Optional: Global keybinding for quick access
+  (global-set-key (kbd "C-c C-p") 'dl/claude-prompt-selector)
 #+END_SRC
 
 ** Learning Emacs

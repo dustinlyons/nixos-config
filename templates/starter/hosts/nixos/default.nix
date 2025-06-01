@@ -63,7 +63,7 @@ let user = "%USER%";
     zsh.enable = true;
   };
 
-  services = { 
+  services = {
     displayManager.defaultSession = "none+bspwm";
     xserver = {
       enable = true;

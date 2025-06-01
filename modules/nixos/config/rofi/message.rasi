@@ -5,12 +5,12 @@
 * {
     background-color:       @bg;
     text-color:             @fg;
-	font:				 	"Iosevka Nerd Font 10";
+	font:					"Iosevka Nerd Font 10";
 }
 
 window {
-    width:      			320px;
-    padding:    			25px;
+    width:			320px;
+    padding:			25px;
     border:					0px 0px 2px 0px;
     border-radius:          0px;
     border-color:           @ac;
@@ -19,6 +19,6 @@ window {
 }
 
 entry {
-    expand: 				true;
+    expand:				true;
     text-color:				@ac;
 }

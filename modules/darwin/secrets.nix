@@ -2,12 +2,12 @@
 
 let user = "dustin"; in
 {
-  age = { 
-    identityPaths = [ 
+  age = {
+    identityPaths = [
       "/Users/${user}/.ssh/id_ed25519"
     ];
 
-    secrets = { 
+    secrets = {
       "syncthing-cert" = {
         symlink = true;
         path = "/Users/${user}/Library/Application Support/Syncthing/cert.pem";

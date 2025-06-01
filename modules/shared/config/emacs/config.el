@@ -1,0 +1,1169 @@
+(setq user-full-name "Dustin Lyons"
+  user-mail-address "dustin@dlyons.dev")
+
+;; Turn off the splash screen
+(setq inhibit-startup-screen t)
+;; Turn off the splash screen
+(setq initial-scratch-message nil)
+;; Confirm before exiting Emacs
+(setq confirm-kill-emacs #'yes-or-no-p)
+;; Set default frame size and position
+
+(defun adjust-frame-size-and-position (&optional frame)
+  "Adjust size and position of FRAME based on its type."
+  (if (display-graphic-p frame)
+      (let* ((w 150)  ; Set to desired width in characters
+            (h 50)   ; Set to desired height in lines
+            (width (* w (frame-char-width frame)))
+            (height (* h (frame-char-height frame)))
+            (left (max 0 (floor (/ (- (x-display-pixel-width) width) 2))))
+            (top (max 0 (floor (/ (- (x-display-pixel-height) height) 2)))))
+
+        (set-frame-size frame w h)
+        (set-frame-position frame left top))
+    ;; Ensure the menu bar is off in terminal mode
+    (when (and (not (display-graphic-p frame))
+              (menu-bar-mode 1))
+      (menu-bar-mode -1))))
+
+(if (daemonp)
+    (add-hook 'after-make-frame-functions
+              (lambda (frame)
+                (select-frame frame)
+                (when (system-is-mac) (adjust-frame-size-and-position frame)))
+  (adjust-frame-size-and-position)))
+
+(unless (assoc-default "melpa" package-archives)
+  (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t))
+(unless (assoc-default "nongnu" package-archives)
+  (add-to-list 'package-archives '("nongnu" . "https://elpa.nongnu.org/nongnu/") t))
+
+(defun system-is-mac ()
+  "Return true if system is darwin-based (Mac OS X)"
+  (string-equal system-type "darwin"))
+
+(defun system-is-linux ()
+  "Return true if system is GNU/Linux-based"
+  (string-equal system-type "gnu/linux"))
+
+;; Set path for darwin
+(when (system-is-mac)
+  (setenv "PATH" (concat (getenv "PATH") ":/Users/dustin/.nix-profile/bin:/usr/bin"))
+  (setq exec-path (append '("/Users/dustin/bin" "/profile/bin" "/Users/dustin/.npm-packages/bin" "/Users/dustin/.nix-profile/bin" "/nix/var/nix/profiles/default/bin" "/usr/local/bin" "/usr/bin") exec-path)))
+
+(use-package counsel
+  :demand t
+  :bind (("M-x" . counsel-M-x)
+    ("C-x b" . counsel-ibuffer)
+    ("C-x C-f" . counsel-find-file)
+    ("C-M-j" . counsel-switch-buffer)
+  :map minibuffer-local-map
+    ("C-r" . 'counsel-minibuffer-history))
+  :custom
+    (counsel-linux-app-format-function #'counsel-linux-app-format-function-name-only)
+  :config
+    (setq ivy-initial-inputs-alist nil)) ;; Don't start searches with ^
+
+(use-package prescient
+  :config
+    (prescient-persist-mode 1))
+
+(use-package ivy
+  :bind (("C-s" . swiper-all)
+  :map ivy-minibuffer-map
+    ("TAB" . ivy-partial-or-done)
+    ("C-f" . ivy-alt-done)
+    ("C-l" . ivy-alt-done)
+    ("C-j" . ivy-next-line)
+    ("C-k" . ivy-previous-line)
+  :map ivy-switch-buffer-map
+    ("C-k" . ivy-previous-line)
+    ("C-l" . ivy-done)
+    ("C-d" . ivy-switch-buffer-kill)
+  :map ivy-reverse-i-search-map
+    ("C-k" . ivy-previous-line)
+    ("C-d" . ivy-reverse-i-search-kill))
+  :init
+    (ivy-mode 1)
+  :config
+    (setq ivy-use-virtual-buffers t)
+    (setq ivy-wrap t)
+    (setq ivy-count-format "(%d/%d) ")
+    (setq enable-recursive-minibuffers t))
+
+(use-package ivy-rich
+  :init (ivy-rich-mode 1))
+
+(use-package ivy-prescient
+  :after ivy
+  :custom
+    (prescient-save-file "~/.emacs.d/prescient-data")
+    (prescient-filter-method 'fuzzy)
+  :config
+    (ivy-prescient-mode t))
+
+(use-package all-the-icons-ivy
+  :init (add-hook 'after-init-hook 'all-the-icons-ivy-setup))
+
+;; ESC will also cancel/quit/etc.
+(global-set-key (kbd "<escape>") 'keyboard-escape-quit)
+(use-package general
+  :init
+    (setq evil-want-keybinding nil)
+  :config
+    (general-evil-setup t)
+    (general-create-definer dl/leader-keys
+      :keymaps '(normal visual emacs)
+      :prefix ","))
+
+(dl/leader-keys
+  "k"  '(:ignore k :which-key "cleanup")
+  "ko" '(kill-buffer-and-window :which-key "kill buffer and window")
+  "kk" '(kill-some-buffers :which-key "cleanup buffers"))
+(global-set-key (kbd "C-x -") 'kill-buffer-and-window)
+
+(dl/leader-keys
+  "t"  '(:ignore t :which-key "treemacs")
+  "tt" '(treemacs :which-key "toggle treemacs")
+  "tx" '(treemacs-collapse-all-projects :which-key "collapse projects")
+  "to" '(treemacs-select-window :which-key "select treemacs")
+  "tw" '(treemacs-toggle-fixed-width :which-key "size treemacs"))
+
+(dl/leader-keys
+  "h" '(counsel-load-theme :which-key "choose theme"))
+
+;; Rotates windows and layouts
+(use-package rotate
+  :config)
+
+(dl/leader-keys
+  "r"   '(:ignore t :which-key "rotate")
+  "rw"  '(rotate-window :which-key "rotate window")
+  "rl"  '(rotate-layout :which-key "rotate layout"))
+
+;; Turn off UI junk
+;; Note to future self: If you have problems with these later,
+;; move these into custom file and set variable custom-file
+(column-number-mode)
+(scroll-bar-mode 0)
+(menu-bar-mode -1)
+(tool-bar-mode 0)
+(winner-mode 1) ;; ctrl-c left, ctrl-c right for window undo/redo
+
+(defun dl/org-mode-visual-fill ()
+  (setq visual-fill-column-width 110
+      visual-fill-column-center-text t))
+
+(use-package visual-fill-column
+  :defer t
+  :hook (org-mode . dl/org-mode-visual-fill))
+
+(blink-cursor-mode -1)
+
+(use-package rainbow-delimiters
+  :hook (prog-mode . rainbow-delimiters-mode))
+
+(defvar dl/black-color "#1F2528")
+(defvar dl/red-color "#EC5F67")
+(defvar dl/yellow-color "#FAC863")
+(defvar dl/blue-color "#6699CC")
+(defvar dl/green-color "#99C794")
+(defvar dl/purple-color "#C594C5")
+(defvar dl/teal-color "#5FB3B3")
+(defvar dl/light-grey-color "#C0C5CE")
+(defvar dl/dark-grey-color "#65737E")
+
+;; Run M-x all-the-icons-install-fonts to install
+(use-package all-the-icons)
+(use-package doom-modeline
+  :ensure t
+  :init (doom-modeline-mode 1))
+
+(use-package treemacs
+  :config
+    (setq treemacs-is-never-other-window 1)
+  :bind
+    ("C-c t" . treemacs-find-file)
+    ("C-c b" . treemacs-bookmark))
+
+(use-package treemacs-icons-dired)
+(use-package treemacs-all-the-icons)
+(use-package treemacs-projectile)
+(use-package treemacs-magit)
+(use-package treemacs-evil)
+
+;; Remove binding for facemap-menu, use for ace-window instead
+(global-unset-key (kbd "M-o"))
+
+(use-package ace-window
+  :bind (("M-o" . ace-window))
+  :custom
+    (aw-scope 'frame)
+    (aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l))
+    (aw-minibuffer-flag t)
+  :config
+    (ace-window-display-mode 1))
+
+;; Set the default pitch face
+(when (system-is-linux)
+  (set-face-attribute 'default nil :font "JetBrainsMono" :height 100))
+(when (system-is-mac)
+  (set-face-attribute 'default nil :font "JetBrains Mono" :height 140))
+
+;; Set the fixed pitch face
+(when (system-is-linux)
+  (set-face-attribute 'fixed-pitch nil :font "JetBrainsMono" :weight 'normal :height 100))
+(when (system-is-mac)
+  (set-face-attribute 'fixed-pitch nil :font "JetBrains Mono" :weight 'normal :height 150))
+
+;; Set the variable pitch face
+(when (system-is-linux)
+  (set-face-attribute 'variable-pitch nil :font "Helvetica LT Std Condensed" :weight 'normal :height 140))
+(when (system-is-mac)
+  (set-face-attribute 'variable-pitch nil :font "Helvetica" :weight 'normal :height 170))
+
+(use-package dashboard
+  :ensure t
+  :config
+  (dashboard-setup-startup-hook)
+  (setq dashboard-startup-banner 'ascii
+        dashboard-center-content t
+        dashboard-items '((projects . 5)
+                           (recents  . 5)))
+  (setq dashboard-set-footer nil))
+
+  (setq dashboard-banner-logo-title "This is your life")
+  (setq dashboard-set-file-icons t)
+  (setq dashboard-projects-backend 'projectile)
+
+  (setq initial-buffer-choice (lambda ()
+                                  (get-buffer-create "*dashboard*")
+                                  (dashboard-refresh-buffer)))
+  (setq dashboard-projects-switch-function 'counsel-projectile-switch-project-by-name)
+
+(setq-default indent-tabs-mode nil
+            js-indent-level 2
+            tab-width 2)
+(setq-default evil-shift-width 2)
+
+(global-set-key (kbd "<C-tab>") 'next-buffer)
+
+(use-package doom-themes
+  :ensure t
+  :config
+    (setq doom-themes-enable-bold t
+            doom-themes-enable-italic t)
+    (load-theme 'doom-one t)
+    (doom-themes-visual-bell-config)
+    (doom-themes-org-config))
+
+(defalias 'yes-or-no-p 'y-or-n-p) ;; Use Y or N in prompts, instead of full Yes or No
+
+(global-visual-line-mode t) ;; Wraps lines everywhere
+(global-auto-revert-mode t) ;; Auto refresh buffers from disk
+(line-number-mode t) ;; Line numbers in the gutter
+(show-paren-mode t) ;; Highlights parans for me
+
+(setq warning-minimum-level :error)
+
+(setq org-agenda-files "~/.emacs.d/agenda.txt" )
+(setq org-archive-location "~/.local/share/org-roam/20220318132418-archive.org::")
+
+(defun my-org-insert-subheading (heading-type)
+"Inserts a new org heading with unique ID and creation date.
+The type of heading (TODO, PROJECT, etc.) is specified by HEADING-TYPE."
+  (let ((uuid (org-id-uuid))
+        (date (format-time-string "[%Y-%m-%d %a %H:%M]")))
+    (org-end-of-line) ;; Make sure we are at the end of the line
+    (unless (looking-at-p "\n") (insert "\n")) ;; Insert newline if next character is not a newline
+    (org-insert-subheading t) ;; Insert a subheading instead of a heading
+    (insert (concat heading-type " "))
+    (save-excursion
+      (org-set-property "ID" uuid)
+      (org-set-property "CREATED" date))))
+
+(defun my-org-insert-todo ()
+  "Inserts a new TODO heading with unique ID and creation date."
+  (interactive)
+  (my-org-insert-subheading "TODO"))
+
+(defun my-org-insert-project ()
+  "Inserts a new PROJECT heading with unique ID and creation date."
+  (interactive)
+  (my-org-insert-subheading "PROJECT"))
+
+(defun my-org-copy-link-from-id ()
+  "Copies a link to the current Org mode item by its ID to clipboard"
+  (interactive)
+  (when (org-at-heading-p)
+    (let* ((element (org-element-at-point))
+           (title (org-element-property :title element))
+           (id (org-entry-get nil "ID"))
+           (link (format "[[id:%s][%s]]" id title)))
+      (when id
+        (kill-new link)
+        (message "Link saved to clipboard")))))
+
+(define-prefix-command 'my-org-todo-prefix)
+
+(global-set-key (kbd "C-c c") 'org-capture)
+(global-set-key (kbd "C-c t") 'my-org-todo-prefix)
+
+(define-key 'my-org-todo-prefix (kbd "t") 'my-org-insert-todo)
+(define-key 'my-org-todo-prefix (kbd "p") 'my-org-insert-project)
+
+(define-key org-mode-map (kbd "C-c l") 'my-org-copy-link-from-id)
+
+;; Fast access to tag common contexts I use
+(setq org-todo-keywords
+ '((sequence "TODO(t)" "STARTED(s)" "WAITING(w@/!)"
+             "DELEGATED(g@/!)" "DEFERRED(r)" "SOMEDAY(y)"
+             "|" "DONE(d@)" "CANCELED(x@)")
+   (sequence "PROJECT(p)" "|" "DONE(d@)" "CANCELED(x@)")
+   (sequence "APPT(a)" "|" "DONE(d@)" "CANCELED(x@)")))
+
+(setq org-todo-keyword-faces
+  `(("TODO" . ,dl/green-color)
+    ("STARTED" . ,dl/yellow-color)
+    ("WAITING" . ,dl/light-grey-color)
+    ("DELEGATED" . ,dl/teal-color)
+    ("DEFERRED" . ,dl/dark-grey-color)
+    ("SOMEDAY" . ,dl/purple-color)
+    ("DONE" . ,dl/dark-grey-color)
+    ("CANCELED" . ,dl/dark-grey-color)
+    ("PROJECT" . ,dl/blue-color)
+    ("APPT" . ,dl/green-color)))
+
+(defface my-org-agenda-face-1-2
+  '((t (:inherit default :height 1.2)))
+  "Face for org-agenda mode.")
+
+(defun my-set-org-agenda-font ()
+  "Set the font for `org-agenda-mode'."
+  (buffer-face-set 'my-org-agenda-face-1-2))
+
+(add-hook 'org-agenda-mode-hook 'my-set-org-agenda-font)
+
+(setq display-buffer-alist
+    `((".*Org Agenda.*"
+       (display-buffer-below-selected)
+       (inhibit-same-window . t)
+       (window-height . 0.5))))
+
+(defun dl/buffer-prop-get (name)
+  "Get a buffer property called NAME as a string."
+  (org-with-point-at 1
+    (when (re-search-forward (concat "^#\\+" name ": \\(.*\\)")
+                            (point-max) t)
+      (buffer-substring-no-properties
+      (match-beginning 1)
+      (match-end 1)))))
+
+(defun dl/agenda-category (&optional len)
+  "Get category of item at point for agenda."
+  (let* ((file-name (when buffer-file-name
+                      (file-name-sans-extension
+                      (file-name-nondirectory buffer-file-name))))
+        (title (dl/buffer-prop-get "title"))
+        (category (org-get-category))
+        (result (or (if (and title (string-equal category file-name))
+                        title
+                      category))))
+    (if (numberp len)
+        (s-truncate len (s-pad-right len " " result))
+      result)))
+
+(setq org-agenda-hide-tags-regexp (regexp-opt '("Todo" "home" "work")))
+
+(setq org-agenda-prefix-format
+      '((agenda . " %i %(dl/agenda-category 12)%?-32t% s")
+        (todo . " %i %(dl/agenda-category 32) ")
+        (tags . " %i %(dl/agenda-category 32) ")
+        (search . " %i %(dl/agenda-category 32) ")))
+
+(evil-set-initial-state 'org-agenda-mode 'normal)
+(with-eval-after-load 'org-agenda
+  (define-key org-agenda-mode-map (kbd "j") 'org-agenda-next-line)
+  (define-key org-agenda-mode-map (kbd "k") 'org-agenda-previous-line))
+
+(setq org-agenda-todo-ignore-keywords '("PROJECT"))
+
+(use-package org-super-agenda
+  :after org-agenda
+  :init
+  (setq org-agenda-dim-blocked-tasks nil))
+
+;; Define custom faces for group highlighting
+(defface org-super-agenda-header
+  '((t (:inherit org-agenda-structure :height 1.1 :foreground "#7cc3f3" :background "#282c34")))
+  "Face for highlighting org-super-agenda groups.")
+
+(defface org-super-agenda-subheader
+  '((t (:inherit org-agenda-structure :height 1.0 :foreground "light slate gray" :background "black")))
+  "Face for highlighting org-super-agenda subgroups.")
+
+;; Apply the custom faces to org-super-agenda
+(custom-set-faces
+ '(org-super-agenda-header ((t (:inherit org-agenda-structure :height 1.1 :foreground "#7cc3f3" :background "#282c34"))))
+ '(org-super-agenda-subheader ((t (:inherit org-agenda-structure :height 1.0 :foreground "light slate gray" :background "black")))))
+
+(setq org-super-agenda-groups
+  '((:name "Priority A"
+     :priority "A")
+    (:name "Priority B"
+     :priority "B")
+    (:name "Priority C"
+     :priority "C")
+    (:name "Started"
+     :todo "STARTED")
+    (:name "Waiting"
+     :todo "WAITING")
+    (:name "Tasks"
+     :todo "TODO")
+    (:name "Learn"
+     :tag "learn")
+    (:name "Someday"
+     :todo "SOMEDAY")
+  (:name "Projects"
+   :tag "PROJECT")))
+
+(org-super-agenda-mode)
+
+(use-package org-transclusion
+  :after org
+  :hook (org-mode . org-transclusion-mode))
+
+(defun org-global-props (&optional property buffer)
+  "Helper function to grab org properties"
+  (unless property (setq property "PROPERTY"))
+  (with-current-buffer (or buffer (current-buffer))
+    (org-element-map (org-element-parse-buffer) 'keyword
+    (lambda (el) (when (string-match property (org-element-property :key el)) el)))))
+
+(defun dl/refile-and-transclude ()
+  "Move file and add transclude link with header"
+(interactive)
+  (org-roam-refile)
+  (insert "#+transclude: [[file:~/.local/share/org-roam/20220419121404-todo.org::*" (org-element-property :value (car (org-global-props "TITLE"))) "][Transclude]]"))
+
+(defvar current-time-format "%H:%M:%S"
+  "Format of date to insert with `insert-current-time' func.
+Note the weekly scope of the command's precision.")
+
+(defun dl/find-file (path)
+  "Helper function to open a file in a buffer"
+  (interactive)
+  (find-file path))
+
+(defun dl/load-buffer-with-emacs-config ()
+  "Open the emacs configuration"
+  (interactive)
+  (dl/find-file "~/.local/share/src/nixos-config/modules/shared/config/emacs/config.org"))
+
+(defun dl/load-buffer-with-nix-config ()
+  "Open the emacs configuration"
+  (interactive)
+  (dl/find-file "~/.local/share/src/nixos-config/modules/shared/home-manager.nix"))
+
+(defun dl/reload-emacs ()
+  "Reload the emacs configuration"
+  (interactive)
+  (load "~/.emacs.d/init.el"))
+
+(defun dl/insert-header ()
+  "Insert a header indented one level from the current header, unless the current header is a timestamp."
+  (interactive)
+  (let* ((level (org-current-level))
+        (headline (org-get-heading t t t t))
+        (next-level (if (string-match "^\\([0-9]\\{2\\}:[0-9]\\{2\\}:[0-9]\\{2\\}\\)" headline)
+                        (1+ level)
+                      level)))
+    (end-of-line)
+    (newline)
+    (insert (make-string next-level ?*))
+    (insert " ")))
+
+(defun dl/insert-current-time ()
+  "Insert the current time into the current buffer, at a level one deeper than the current heading."
+  (interactive)
+  (let* ((level (org-current-level))
+         (next-level (1+ level)))
+    (end-of-line)
+    (newline)
+    (insert (make-string next-level ?*))
+    (insert " " (format-time-string "%H:%M:%S" (current-time)) "\n")))
+
+"Emacs relates shortcuts"
+(dl/leader-keys
+  "e"  '(:ignore t :which-key "emacs")
+  "ee" '(dl/load-buffer-with-emacs-config :which-key "open emacs config")
+  "er" '(dl/reload-emacs :which-key "reload emacs"))
+
+"A few of my own personal shortcuts"
+(dl/leader-keys
+  ","  '(dl/insert-header :which-key "insert header")
+  "<"  '(dl/insert-current-time :which-key "insert header with current time")
+  "n"  '(dl/load-buffer-with-nix-config :which-key "open nix config"))
+
+(use-package yasnippet)
+(yas-global-mode 1)
+
+(setq org-roam-capture-templates
+ '(("d" "default" plain
+    "%?"
+    :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n\n")
+    :unnarrowed t)))
+
+(require 'ucs-normalize)
+
+(use-package compat
+  :straight t
+  :ensure t)
+
+(use-package org-roam
+  :straight (:host github :repo "dustinlyons/org-roam"
+             :branch "master"
+             :files (:defaults "extensions/*")
+  :build (:not compile))
+  :init
+    (setq org-roam-v2-ack t) ;; Turn off v2 warning
+    (setq org-roam-mode-section-functions
+      (list #'org-roam-backlinks-section
+            #'org-roam-reflinks-section
+            #'org-roam-unlinked-references-section))
+      (add-to-list 'display-buffer-alist
+           '("\\*org-roam\\*"
+             (display-buffer-in-direction)
+             (direction . right)
+             (window-width . 0.33)
+             (window-height . fit-window-to-buffer)))
+  :custom
+    (org-roam-directory (file-truename "~/.local/share/org-roam"))
+    (org-roam-dailies-directory "daily/")
+    (org-roam-completion-everywhere t)
+  :bind
+    (("C-c r b" . org-roam-buffer-toggle)
+     ("C-c r t" . org-roam-dailies-goto-today)
+     ("C-c r y" . org-roam-dailies-goto-yesterday)
+     ("C-M-n" . org-roam-node-insert)
+       :map org-mode-map
+     ("C-M-i"   . completion-at-point)
+     ("C-M-f" . org-roam-node-find)
+     ("C-M-c" . dl/org-roam-create-id)
+     ("C-<left>" . org-roam-dailies-goto-previous-note)
+     ("C-`" . org-roam-buffer-toggle)
+     ("C-<right>" . org-roam-dailies-goto-next-note)))
+(org-roam-db-autosync-mode)
+
+(setq org-roam-dailies-capture-templates
+  '(("d" "default" entry
+     "* %?"
+     :if-new (file+head "%<%Y-%m-%d>.org"
+                        (lambda () (concat ":PROPERTIES:\n:ID:       " (org-id-new) "\n:END:\n"
+                                           "#+TITLE: %<%Y-%m-%d>\n#+filetags: Daily\n"))))))
+
+(defvar dl/org-created-property-name "CREATED")
+
+(defun dl/org-set-created-property (&optional active name)
+  (interactive)
+  (let* ((created (or name dl/org-created-property-name))
+         (fmt (if active "<%s>" "[%s]"))
+         (now (format fmt (format-time-string "%Y-%m-%d %a %H:%M"))))
+    (unless (org-entry-get (point) created nil)
+      (org-set-property created now)
+      now)))
+
+(defun dl/org-find-time-file-property (property &optional anywhere)
+  (save-excursion
+    (goto-char (point-min))
+    (let ((first-heading
+           (save-excursion
+             (re-search-forward org-outline-regexp-bol nil t))))
+      (when (re-search-forward (format "^#\\+%s:" property)
+                               (if anywhere nil first-heading) t)
+        (point)))))
+
+(defun dl/org-has-time-file-property-p (property &optional anywhere)
+  (when-let ((pos (dl/org-find-time-file-property property anywhere)))
+    (save-excursion
+      (goto-char pos)
+      (if (and (looking-at-p " ")
+               (progn (forward-char)
+                      (org-at-timestamp-p 'lax)))
+          pos -1))))
+
+(defun dl/org-set-time-file-property (property &optional anywhere pos)
+  (when-let ((pos (or pos
+                      (dl/org-find-time-file-property property))))
+    (save-excursion
+      (goto-char pos)
+      (if (looking-at-p " ")
+          (forward-char)
+        (insert " "))
+      (delete-region (point) (line-end-position))
+      (let* ((now (format-time-string "[%Y-%m-%d %a %H:%M]")))
+        (insert now)))))
+
+(defun dl/org-set-last-modified ()
+  "Update the LAST_MODIFIED file property in the preamble."
+  (when (derived-mode-p 'org-mode)
+    (dl/org-set-time-file-property "LAST_MODIFIED")))
+
+(defun dl/org-roam-create-id ()
+"Add created date to org-roam node."
+  (interactive)
+  (org-id-get-create)
+  (dl/org-set-created-property))
+
+(set-face-attribute 'ivy-current-match nil :foreground "#3d434d" :background "#ffcc66")
+
+(use-package org-superstar
+  :after org
+  :hook (org-mode . org-superstar-mode)
+  :custom
+    (org-superstar-remove-leading-stars t)
+    (org-superstar-headline-bullets-list '("•" "•" "•" "◦" "◦" "◦" "◦")))
+
+(add-hook 'org-mode-hook 'variable-pitch-mode)
+ (require 'org-indent)
+ (set-face-attribute 'org-block nil :foreground nil :inherit 'fixed-pitch)
+ (set-face-attribute 'org-table nil  :inherit 'fixed-pitch)
+ (set-face-attribute 'org-formula nil  :inherit 'fixed-pitch)
+ (set-face-attribute 'org-code nil   :inherit '(shadow fixed-pitch))
+ (set-face-attribute 'org-indent nil :inherit '(org-hide fixed-pitch))
+ (set-face-attribute 'org-verbatim nil :inherit '(shadow fixed-pitch))
+ (set-face-attribute 'org-special-keyword nil :inherit '(font-lock-comment-face fixed-pitch))
+ (set-face-attribute 'org-meta-line nil :inherit '(font-lock-comment-face fixed-pitch))
+ (set-face-attribute 'org-checkbox nil :inherit 'fixed-pitch)
+ (when (system-is-linux)
+   (set-face-attribute 'org-document-title nil :font "Helvetica LT Std Condensed" :weight 'bold :height 1.2))
+ (when (system-is-mac)
+   (set-face-attribute 'variable-pitch nil :font "Helvetica" :height 120))
+ (dolist (face '((org-level-1 . 1.2)
+                 (org-level-2 . 1.15)
+                 (org-level-3 . 1.1)
+                 (org-level-4 . 1.05)
+                 (org-level-5 . 1.05)
+                 (org-level-6 . 1.0)
+                 (org-level-7 . 1.0)
+                 (org-level-8 . 1.0)))
+(when (system-is-linux)
+  (set-face-attribute (car face) nil :font "Helvetica LT Std Condensed" :weight 'medium :height (cdr face)))
+(when (system-is-mac)
+  (set-face-attribute 'variable-pitch nil :font "Helvetica" :weight 'medium :height 170)))
+
+(defun dl/evil-hook ()
+  (dolist (mode '(eshell-mode
+                  git-rebase-mode
+                  term-mode))
+  (add-to-list 'evil-emacs-state-modes mode))) ;; no evil mode for these modes
+
+(use-package evil
+  :init
+    (setq evil-want-integration t) ;; TODO: research what this does
+    (setq evil-want-fine-undo 'fine) ;; undo/redo each motion
+    (setq evil-want-Y-yank-to-eol t) ;; Y copies to end of line like vim
+    (setq evil-want-C-u-scroll t) ;; vim like scroll up
+    (evil-mode 1)
+    :hook (evil-mode . dl/evil-hook)
+  :config
+    ;; Emacs "cancel" == vim "cancel"
+    (define-key evil-insert-state-map (kbd "C-g") 'evil-normal-state)
+
+    ;; Ctrl-h deletes in vim insert mode
+    (define-key evil-insert-state-map (kbd "C-h")
+      'evil-delete-backward-char-and-join)
+
+    ;; When we wrap lines, jump visually, not to the "actual" next line
+    (evil-global-set-key 'motion "j" 'evil-next-visual-line)
+    (evil-global-set-key 'motion "k" 'evil-previous-visual-line)
+
+    (evil-set-initial-state 'message-buffer-mode 'normal)
+    (evil-set-initial-state 'dashboard-mode 'normal))
+
+  ;; Gives me vim bindings elsewhere in emacs
+  (use-package evil-collection
+    :after evil
+    :config
+    (evil-collection-init))
+
+  ;; Keybindings in org mode
+  (use-package evil-org
+    :after evil
+    :hook
+      (org-mode . (lambda () evil-org-mode))
+    :config
+      (require 'evil-org-agenda)
+      (evil-org-agenda-set-keys))
+
+  ;; Branching undo system
+  (use-package undo-tree
+    :after evil
+    :diminish
+    :config
+    (evil-set-undo-system 'undo-tree)
+    (global-undo-tree-mode 1))
+
+  (use-package evil-commentary
+    :after evil
+    :config
+    (evil-commentary-mode))
+
+  ;; Keep undo files from littering directories
+  (setq undo-tree-history-directory-alist '(("." . "~/.local/state/emacs/undo")))
+
+(use-package all-the-icons-dired)
+
+(use-package dired
+  :ensure nil
+  :straight nil
+  :defer 1
+  :commands (dired dired-jump)
+  :config
+    (setq dired-listing-switches "-agho --group-directories-first")
+    (setq dired-omit-files "^\\.[^.].*")
+    (setq dired-omit-verbose nil)
+    (setq dired-hide-details-hide-symlink-targets nil)
+    (put 'dired-find-alternate-file 'disabled nil)
+    (setq delete-by-moving-to-trash t)
+    (autoload 'dired-omit-mode "dired-x")
+    (add-hook 'dired-load-hook
+          (lambda ()
+            (interactive)
+            (dired-collapse)))
+    (add-hook 'dired-mode-hook
+          (lambda ()
+            (interactive)
+            (dired-omit-mode 1)
+            (dired-hide-details-mode 1)
+            (all-the-icons-dired-mode 1))
+            (hl-line-mode 1)))
+
+(use-package dired-single)
+(use-package dired-ranger)
+(use-package dired-collapse)
+
+(evil-collection-define-key 'normal 'dired-mode-map
+  "h" 'dired-single-up-directory
+  "c" 'find-file
+  "H" 'dired-omit-mode
+  "l" 'dired-single-buffer
+  "y" 'dired-ranger-copy
+  "X" 'dired-ranger-move
+  "p" 'dired-ranger-paste)
+
+;; Darwin needs ls from coreutils for dired to work
+(when (system-is-mac)
+  (setq insert-directory-program
+    (expand-file-name ".nix-profile/bin/ls" (getenv "HOME"))))
+
+(defun my-org-archive-done-tasks ()
+  "Archive all DONE tasks in the current buffer."
+  (interactive)
+  (org-map-entries
+  (lambda ()
+    (org-archive-subtree)
+    (setq org-map-continue-from (outline-previous-heading)))
+  "/DONE" 'tree))
+
+(defun er-delete-file-and-buffer ()
+  "Kill the current buffer and deletes the file it is visiting."
+  (interactive)
+  (let ((filename (buffer-file-name)))
+    (when filename
+      (if (yes-or-no-p (concat "Do you really want to delete file: " filename "? ")) ; Ask for confirmation
+          (if (vc-backend filename)
+              (vc-delete-file filename)
+            (progn
+              (delete-file filename)
+              (message "Deleted file %s" filename)
+              (kill-buffer)))
+        (message "Aborted"))))) ; Abort message
+
+(define-key org-mode-map (kbd "C-c D") 'my-org-archive-done-tasks)
+(define-key org-mode-map (kbd "C-c d") 'org-archive-subtree)
+(global-set-key (kbd "C-c x")  #'er-delete-file-and-buffer)
+
+(use-package org-download)
+;; Drag-and-drop to `dired`
+(add-hook 'dired-mode-hook 'org-download-enable)
+
+(setq backup-directory-alist
+      `((".*" . "~/.local/state/emacs/backup"))
+      backup-by-copying t    ; Don't delink hardlinks
+      version-control t      ; Use version numbers on backups
+      delete-old-versions t) ; Automatically delete excess backups
+
+(setq auto-save-file-name-transforms
+      `((".*" "~/.local/state/emacs/" t)))
+(setq lock-file-name-transforms
+      `((".*" "~/.local/state/emacs/lock-files/" t)))
+
+(use-package ripgrep)
+(use-package projectile
+  :diminish projectile-mode
+  :config (projectile-mode)
+  :custom
+    ((projectile-completion-system 'ivy))
+  :bind-keymap
+	    ("C-c p" . projectile-command-map)
+  :init
+    (setq projectile-enable-caching t)
+    (setq projectile-sort-order 'recently-active)
+    (setq projectile-switch-project-action #'projectile-dired))
+
+(setq projectile-project-root-files-bottom-up '("package.json" ".projectile" ".project" ".git"))
+(setq projectile-ignored-projects '("~/.emacs.d/"))
+(setq projectile-globally-ignored-directories '("dist" "node_modules" ".log" ".git"))
+
+;; Gives me Ivy options in the Projectile menus
+(use-package counsel-projectile :after projectile)
+
+(defun enter-writing-mode ()
+  (load-theme 'doom-one-light t)
+  (when (bound-and-true-p treemacs-mode) (treemacs))
+  (add-hook 'window-buffer-change-functions 'check-leaving-buffer nil t))
+
+(defun exit-writing-mode ()
+  (load-theme 'doom-one t)
+  (when (bound-and-true-p treemacs-mode) (treemacs))
+  (remove-hook 'window-buffer-change-functions 'check-leaving-buffer t))
+
+(add-hook 'writeroom-mode-hook
+          (lambda ()
+            (if writeroom-mode
+                (enter-writing-mode)
+                (exit-writing-mode))))
+
+(use-package writeroom-mode
+  :ensure t)
+
+(global-set-key (kbd "C-c w") 'writeroom-mode)
+
+(when (system-is-mac)
+  (with-eval-after-load "ispell"
+    (setq ispell-program-name
+      (expand-file-name ".nix-profile/bin/hunspell" (getenv "HOME")))
+    (setq ispell-dictionary "en_US"))
+  (setq ispell-personal-dictionary "~/.local/share/dict/user/hunspell_en_US"))
+
+(use-package flyspell-correct
+  :after flyspell
+  :bind (:map flyspell-mode-map ("C-;" . flyspell-correct-wrapper)))
+
+(use-package flyspell-correct-ivy
+  :after flyspell-correct)
+
+(add-hook 'git-commit-mode-hook 'turn-on-flyspell)
+(add-hook 'text-mode-hook 'flyspell-mode)
+(add-hook 'org-mode-hook 'flyspell-mode)
+(add-hook 'prog-mode-hook 'flyspell-prog-mode)
+
+(defun spell() (interactive) (flyspell-mode 1))
+
+;; Auto scroll the buffer as we compile
+(setq compilation-scroll-output t)
+
+;; By default, eshell doesn't support ANSI colors. Enable them for compilation.
+(require 'ansi-color)
+(defun colorize-compilation-buffer ()
+  (let ((inhibit-read-only t))
+    (ansi-color-apply-on-region (point-min) (point-max))))
+(add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
+
+(use-package tide
+  :ensure t
+  :after (typescript-mode company flycheck)
+  :hook ((typescript-mode . tide-setup)
+         (typescript-mode . tide-hl-identifier-mode)
+         (before-save . tide-format-before-save)))
+
+(setq tide-format-options
+      '(:insertSpaceAfterFunctionKeywordForAnonymousFunctions t
+        :placeOpenBraceOnNewLineForFunctions nil))
+
+(use-package lsp-mode
+  :commands lsp lsp-deferred
+  :init
+    (setq lsp-keymap-prefix "C-c l")
+    (setq lsp-restart 'ignore)
+    (setq lsp-headerline-breadcrumb-enable nil)
+    (setq lsp-auto-guess-root t)
+    (setq lsp-enable-which-key-integration t))
+
+(use-package lsp-ui
+  :hook (lsp-mode . lsp-ui-mode)
+  :custom
+    (lsp-ui-doc-position 'bottom))
+
+(use-package lsp-treemacs
+  :after lsp)
+
+(use-package company
+  :after lsp-mode
+  :hook (lsp-mode . company-mode)
+  :bind (:map company-active-map
+        ("<tab>" . company-complete-selection))
+        (:map lsp-mode-map
+        ("<tab>" . company-indent-or-complete-common))
+   :custom
+     (company-minimum-prefix-length 1)
+     (company-idle-delay 0.0))
+
+(use-package company-box
+  :hook (company-mode . company-box-mode))
+
+(add-hook 'lsp-mode-hook #'lsp-headerline-breadcrumb-mode)
+
+(defun dl/lsp-find-references-other-window ()
+  (interactive)
+  (switch-to-buffer-other-window (current-buffer))
+  (lsp-find-references))
+
+(defun dl/lsp-find-implementation-other-window ()
+  (interactive)
+  (switch-to-buffer-other-window (current-buffer))
+  (lsp-find-implementation))
+
+(defun dl/lsp-find-definition-other-window ()
+  (interactive)
+  (switch-to-buffer-other-window (current-buffer))
+  (lsp-find-definition))
+
+(dl/leader-keys
+"l"  '(:ignore t :which-key "lsp")
+"lf" '(dl/lsp-find-references-other-window :which-key "find references")
+"lc" '(dl/lsp-find-implementation-other-window :which-key "find implementation")
+"ls" '(lsp-treemacs-symbols :which-key "list symbols")
+"lt" '(list-flycheck-errors :which-key "list errors")
+"lh" '(lsp-treemacs-call-hierarchy :which-key "call hierarchy")
+"lF" '(lsp-format-buffer :which-key "format buffer")
+"li" '(lsp-organize-imports :which-key "organize imports")
+"ll" '(lsp :which-key "enable lsp mode")
+"lr" '(lsp-rename :which-key "rename")
+"ld" '(dl/lsp-find-definition-other-window :which-key "goto definition"))
+
+(use-package lsp-pyright
+  :ensure t
+  :hook (python-mode . (lambda ()
+    (require 'lsp-pyright)
+    (lsp-deferred))))  ; or lsp-deferred
+
+(setq python-indent-offset 2)
+
+(use-package blacken
+  :ensure t)
+
+(setq blacken-line-length '88)
+(setq blacken-allow-py36 t)
+(setq blacken-executable "black")
+(setq blacken-fast-unsafe t)
+
+(add-hook 'python-mode-hook 'blacken-mode)
+
+(add-to-list 'auto-mode-alist '("\\.env" . shell-script-mode))
+
+(use-package yaml-mode
+  :commands (markdown-mode gfm-mode)
+  :mode (("\\.yml\\'" . yaml-mode)))
+
+;; This uses Github Flavored Markdown for README files
+(use-package markdown-mode
+  :commands (markdown-mode gfm-mode)
+  :mode (("README\\.md\\'" . gfm-mode)
+    ("\\.md\\'" . markdown-mode)
+    ("\\.markdown\\'" . markdown-mode))
+  :init (setq markdown-command "pandoc"))
+
+(add-to-list 'auto-mode-alist '("\\.mdx\\'" . markdown-mode))
+
+(use-package emmet-mode)
+(add-hook 'sgml-mode-hook 'emmet-mode)
+(add-hook 'css-mode-hook  'emmet-mode)
+(define-key emmet-mode-keymap [tab] 'emmet-expand-line)
+(add-to-list 'emmet-jsx-major-modes 'jsx-mode)
+
+(use-package rainbow-mode)
+
+(use-package go-mode)
+
+;; Set up before-save hooks to format buffer and add/delete imports.
+;; Make sure you don't have other gofmt/goimports hooks enabled.
+(defun lsp-go-install-save-hooks ()
+  (add-hook 'before-save-hook #'lsp-format-buffer t t)
+  (add-hook 'before-save-hook #'lsp-organize-imports t t))
+
+(add-hook 'go-mode-hook #'lsp-go-install-save-hooks)
+(add-hook 'go-mode-hook #'lsp-deferred)
+
+(defun dl/go-mode-hook ()
+  ; Call Gofmt before saving
+  (add-hook 'before-save-hook 'gofmt-before-save)
+  ; Customize compile command to run go build
+  (if (not (string-match "go" compile-command))
+      (set (make-local-variable 'compile-command)
+           "go build -v && go test -v && go vet"))
+  ; Godef jump key binding
+  (local-set-key (kbd "M-.") 'godef-jump)
+  ;; pop-tag-mark moves back before jump, to undo M-,
+  (local-set-key (kbd "M-*") 'pop-tag-mark))
+
+(add-hook 'go-mode-hook 'dl/go-mode-hook)
+
+(use-package php-mode
+  :ensure t
+  :config
+    (add-hook 'php-mode-hook 'lsp-mode-deferred))
+
+(require 'cl)
+(add-hook 'before-save-hook 'php-cs-fixer-before-save)
+;; Adjust auto-mode-alist to use php-mode for PHP files
+(add-to-list 'auto-mode-alist '("\\.php$" . php-mode))
+
+(use-package web-mode
+  :hook (web-mode . lsp-deferred))
+
+(add-to-list 'auto-mode-alist '("\\.jsx?$" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.tsx$" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.ts$" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.js$" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.mjs$" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.html$" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.vue\\'" . web-mode))
+
+(defun web-mode-init-hook ()
+  "Hooks for Web mode.  Adjust indent."
+  (setq web-mode-markup-indent-offset 2))
+(add-hook 'web-mode-hook  'web-mode-init-hook)
+(add-hook 'typescript-mode-hook #'lsp-deferred)
+
+;; Keeps indentation organized across these modes
+(use-package prettier-js)
+
+;; Turn off hooks for now 1/4/2024 - DHL
+;;(add-hook 'js2-mode-hook 'prettier-js-mode)
+;;(add-hook 'web-mode-hook 'prettier-js-mode)
+;;(add-hook 'css-mode-hook 'prettier-js-mode)
+
+(use-package magit
+  :commands (magit-status magit-get-current-branch))
+(define-key magit-hunk-section-map (kbd "RET") 'magit-diff-visit-file-other-window)
+(global-set-key (kbd "C-x G") 'magit-log-buffer-file)
+
+(use-package nix-mode
+  :mode "\\.nix\\'")
+
+;; This uses dockerfile-mode for Docker files
+(use-package dockerfile-mode)
+(put 'dockerfile-image-name 'safe-local-variable #'stringp)
+(add-to-list 'auto-mode-alist '("\\Dockerfile?$" . dockerfile-mode)) ;; auto-enable for Dockerfiles
+
+(use-package terraform-mode
+  :hook ((terraform-mode . lsp-deferred)
+         (terraform-mode . terraform-format-on-save-mode)))
+
+(add-to-list 'auto-mode-alist '("\\.tf\\'" . terraform-mode))
+
+(use-package copilot
+  :straight (:host github :repo "zerolfx/copilot.el" :files ("dist" "*.el"))
+  :ensure t)
+
+(add-hook 'prog-mode-hook 'copilot-mode)
+
+(define-key copilot-completion-map (kbd "<tab>") 'copilot-accept-completion)
+(define-key copilot-completion-map (kbd "TAB") 'copilot-accept-completion)
+
+(defvar dl/prompts-directory "~/.local/share/prompts"
+  "Directory containing LLM prompt files.")
+
+(defun dl/get-prompt-files ()
+  "Get list of prompt files from the prompts directory."
+  (when (file-directory-p dl/prompts-directory)
+    (directory-files dl/prompts-directory nil "\\.org$")))
+
+(defun dl/read-prompt-file (filename)
+  "Read the contents of a prompt file."
+  (let ((filepath (expand-file-name filename dl/prompts-directory)))
+    (when (file-exists-p filepath)
+      (with-temp-buffer
+        (insert-file-contents filepath)
+        (buffer-string)))))
+
+(defun dl/format-prompt-name (filename)
+  "Format filename for display (remove .org extension)."
+  (file-name-sans-extension filename))
+
+(defun dl/llm-prompt-selector ()
+  "Select a LLM prompt and copy it to clipboard."
+  (interactive)
+  (let ((prompt-files (dl/get-prompt-files)))
+    (if prompt-files
+        (ivy-read "Select LLM prompt: "
+                  (mapcar #'dl/format-prompt-name prompt-files)
+                  :action (lambda (prompt-name)
+                            (let* ((filename (concat prompt-name ".org"))
+                                   (content (dl/read-prompt-file filename)))
+                              (if content
+                                  (progn
+                                    (kill-new content)
+                                    (message "Prompt '%s' copied to clipboard!" prompt-name))
+                                (message "Error: Could not read prompt file")))))
+      (message "No prompt files found in %s" dl/prompts-directory))))
+
+(defun dl/open-prompts-directory ()
+  "Open the prompts directory in dired."
+  (interactive)
+  (if (file-directory-p dl/prompts-directory)
+      (dired dl/prompts-directory)
+    (progn
+      (make-directory dl/prompts-directory t)
+      (dired dl/prompts-directory)
+      (message "Created prompts directory: %s" dl/prompts-directory))))
+
+(defun dl/create-new-prompt ()
+  "Create a new prompt file."
+  (interactive)
+  (unless (file-directory-p dl/prompts-directory)
+    (make-directory dl/prompts-directory t))
+  (let ((prompt-name (read-string "Prompt name: ")))
+    (when (and prompt-name (not (string-empty-p prompt-name)))
+      (let ((filename (expand-file-name
+                       (concat prompt-name ".org")
+                       dl/prompts-directory)))
+        (find-file filename)
+        (when (= (buffer-size) 0)
+          (insert (format "#+TITLE: %s\n#+AUTHOR: %s\n#+DATE: %s\n\n"
+                          prompt-name
+                          user-full-name
+                          (format-time-string "%Y-%m-%d")))
+          (goto-char (point-max)))))))
+
+;; Add leader key bindings for LLM prompts
+(dl/leader-keys
+  "c"   '(:ignore t :which-key "llm prompts")
+  "cs"  '(dl/claude-prompt-selector :which-key "select prompt")
+  "co"  '(dl/open-prompts-directory :which-key "open prompts dir")
+  "cn"  '(dl/create-new-prompt :which-key "new prompt"))
+
+;; Optional: Global keybinding for quick access
+(global-set-key (kbd "C-c C-p") 'dl/claude-prompt-selector)
+
+(with-eval-after-load 'org
+  (org-babel-do-load-languages
+  'org-babel-load-languages
+  '(
+    (emacs-lisp . t)
+    (python . t)
+    (sql . t)
+    (shell . t)))
+ )
+
+(defun dl/babel-ansi ()
+  (when-let ((beg (org-babel-where-is-src-block-result nil nil)))
+    (save-excursion
+      (goto-char beg)
+      (when (looking-at org-babel-result-regexp)
+        (let ((end (org-babel-result-end))
+              (ansi-color-context-region nil))
+          (ansi-color-apply-on-region beg end))))))
+(add-hook 'org-babel-after-execute-hook 'dl/babel-ansi)
