@@ -406,7 +406,7 @@ We use two spaces in place of tabs. I don't even want to hear it.
     :config
       (setq doom-themes-enable-bold t
               doom-themes-enable-italic t)
-      (load-theme 'doom-one t)
+      (load-theme 'doom-spacegrey t)
       (doom-themes-visual-bell-config)
       (doom-themes-org-config))
 #+END_SRC
