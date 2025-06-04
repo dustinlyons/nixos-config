@@ -32,8 +32,9 @@ let user = "%USER%";
   # replicates the default behaviour.
   networking = {
     hostName = "%HOST%"; # Define your hostname.
-    useDHCP = false;
+    useDHCP = true;
     interfaces."%INTERFACE%".useDHCP = true;
+    networkmanager.enable = true;
   };
 
   # Turn on flag for proprietary software
