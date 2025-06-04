@@ -264,6 +264,7 @@ let user = "%USER%";
       extraGroups = [
         "wheel" # Enable ‘sudo’ for the user.
         "docker"
+        "networkmanager"
       ];
       shell = pkgs.zsh;
       openssh.authorizedKeys.keys = keys;
