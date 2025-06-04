@@ -36,6 +36,7 @@ let user = "%USER%";
     hostName = "%HOST%"; # Define your hostname.
     useDHCP = false;
     interfaces."%INTERFACE%".useDHCP = true;
+    networkmanager.enable = true;
   };
 
   nix = {
