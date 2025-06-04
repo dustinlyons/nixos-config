@@ -32,14 +32,15 @@ let user = "%USER%";
   # replicates the default behaviour.
   networking = {
     hostName = "%HOST%"; # Define your hostname.
-    useDHCP = true;
+    useDHCP = false;
     interfaces."%INTERFACE%".useDHCP = true;
     networkmanager.enable = true;
   };
 
   # Turn on flag for proprietary software
   nix = {
-    nixPath = [ "nixos-config=/home/${user}/.local/share/src/nixos-config:/etc/nixos" ];
+    nixPath = [ "nixos-config=/home/${
+user}/.local/share/src/nixos-config:/etc/nixos" ];
     settings = {
       allowed-users = [ "${user}" ];
       trusted-users = [ "@admin" "${user}" ];
