@@ -269,6 +269,7 @@ user}/.local/share/src/nixos-config:/etc/nixos" ];
       extraGroups = [
         "wheel" # Enable ‘sudo’ for the user.
         "docker"
+        "networkmanager"
       ];
       shell = pkgs.zsh;
       openssh.authorizedKeys.keys = keys;
