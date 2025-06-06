@@ -17,16 +17,22 @@ let user = "%USER%";
       };
       efi.canTouchEfiVariables = true;
     };
-    initrd.availableKernelModules = [ "xhci_pci" "ahci" "nvme" "thunderbolt" "usbhid" "usb_storage" "sd_mod" ];
-    supportedFilesystems = [ "btrfs" "ext2" "ext3" "ext4" "exfat" "f2fs" "fat8" "fat16" "fat32" "ntfs" "xfs" ];
+    initrd.availableKernelModules = [ "xhci_pci" "ahci" "nvme" "vmd" "thunderbolt" "usbhid" "usb_storage" "sd_mod" ];
+    supportedFilesystems = [ "btrfs" "ext2" "ext3" "ext4" "exfat" "f2fs" "vfat" "fat8" "fat16" "fat32" "ntfs" "xfs" ];
     # Uncomment for AMD GPU
-    # initrd.kernelModules = [ "amdgpu" ];
+    # initrd.kernelModules = [ 
+        "amdgpu" 
+    ];
     kernelPackages = pkgs.linuxPackages_latest;
-    kernelModules = [ "uinput" ];
+    kernelModules = [ 
+      "uinput" 
+      "iwlwifi"
+    ];
   };
 
   # Set your time zone.
-  time.timeZone = "America/Mexico_City";
+  time.timeZone = "America/Mexico_City
+";
 
   # The global useDHCP flag is deprecated, therefore explicitly set to false here.
   # Per-interface useDHCP will be mandatory in the future, so this generated config
