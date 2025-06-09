@@ -8,8 +8,8 @@
     # Comment these out initially if you want to start completely minimal
     # ../../modules/shared
     
-    # Agenix for secrets management
-    inputs.agenix.nixosModules.default
+    # Agenix for secrets management - temporarily disabled
+    # inputs.agenix.nixosModules.default
   ];
 
   # Hardware Configuration (merged from hardware-configuration.nix)
@@ -139,7 +139,7 @@
     alacritty
     chromium
     _1password-gui
-    inputs.agenix.packages."${pkgs.system}".default # agenix CLI for secrets management
+    # inputs.agenix.packages."${pkgs.system}".default # agenix CLI for secrets management - temporarily disabled
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
