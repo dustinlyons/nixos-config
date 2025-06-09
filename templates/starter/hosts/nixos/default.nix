@@ -67,9 +67,6 @@ in {
   };
 
   services = {
-    # SSH
-    openssh.enable = true;
-
     # Fallback console on tty1: auto-login your user
     getty.autologinUser = user;
     getty.autologinOnce = false;
