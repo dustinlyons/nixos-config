@@ -57,6 +57,13 @@ Mainly splash screen settings. In the future we may look to optimize performance
                   (select-frame frame)
                   (when (system-is-mac) (adjust-frame-size-and-position frame)))
     (adjust-frame-size-and-position)))
+
+  ;; Smooth out garbage collection
+  (use-package gcmh
+    :ensure t
+    :demand t
+    :config
+    (gcmh-mode 1))
   #+END_SRC
 
 *** Add package sources
@@ -326,6 +333,48 @@ Predefine windows with hotkeys and jump to them.
     (ace-window-display-mode 1))
 #+END_SRC
 
+**** Resume where I left off
+*** Save Place
+This enables save-place-mode, so Emacs remembers the cursor position in each file and restores it when reopening that file.
+
+#+NAME: save-place
+#+BEGIN_SRC emacs-lisp
+(save-place-mode 1)
+(setq save-place-file "~/.local/state/emacs/saveplace")
+#+END_SRC
+
+*** Save History
+This enables savehist-mode, which saves minibuffer histories—search strings, commands, kill ring entries, and Org refile/capture history—between Emacs sessions.
+
+#+NAME: savehist
+#+BEGIN_SRC emacs-lisp
+(savehist-mode 1)
+(setq savehist-additional-variables
+  '(search-ring
+    regexp-search-ring
+    kill-ring
+    register-alist
+    org-refile-history
+    org-capture-history))
+(setq savehist-file "~/.local/state/emacs/savehist")
+#+END_SRC
+
+*** Recent Files
+This enables recentf-mode so we can quickly reopen files you visited recently. It also binds C-x C-r to the recentf-open-files command.
+
+#+NAME: recentf-mode
+#+BEGIN_SRC emacs-lisp
+(use-package recentf
+  :ensure nil
+  :init
+  (setq recentf-max-saved-items 100
+    recentf-max-menu-items 50
+    recentf-save-file "~/.local/state/emacs/recentf")
+  :config
+    (recentf-mode 1))
+    (global-set-key (kbd "C-x C-r") 'recentf-open-files)
+#+END_SRC
+
 *** Package managers
 Using ~straight.el~ under the hood of ~use-package~ enables us to download packages using ~git~. This is preferred for easier hacking.
 
@@ -406,7 +455,7 @@ We use two spaces in place of tabs. I don't even want to hear it.
     :config
       (setq doom-themes-enable-bold t
               doom-themes-enable-italic t)
-      (load-theme 'doom-spacegrey t)
+      (load-theme 'doom-sourcerer t)
       (doom-themes-visual-bell-config)
       (doom-themes-org-config))
 #+END_SRC
@@ -1143,16 +1192,19 @@ Everything related to spell and grammar checking.
     (setq ispell-personal-dictionary "~/.local/share/dict/user/hunspell_en_US"))
 
   (use-package flyspell-correct
-    :after flyspell
-    :bind (:map flyspell-mode-map ("C-;" . flyspell-correct-wrapper)))
+  :after flyspell
+  :bind nil)
+
+  (dl/leader-keys
+    "s" '(flyspell-correct-wrapper :which-key "correct word"))
 
   (use-package flyspell-correct-ivy
     :after flyspell-correct)
 
-  (add-hook 'git-commit-mode-hook 'turn-on-flyspell)
-  (add-hook 'text-mode-hook 'flyspell-mode)
-  (add-hook 'org-mode-hook 'flyspell-mode)
-  (add-hook 'prog-mode-hook 'flyspell-prog-mode)
+  (add-hook 'git-commit-mode-hook  'turn-on-flyspell)
+  (add-hook 'text-mode-hook        'flyspell-mode)
+  (add-hook 'org-mode-hook         'flyspell-mode)
+  (add-hook 'prog-mode-hook        'flyspell-prog-mode)
 
   (defun spell() (interactive) (flyspell-mode 1))
 #+END_SRC
@@ -1527,18 +1579,38 @@ Nix is my package manager and operating system of choice; this mode enables me t
   ;; Add leader key bindings for LLM prompts
   (dl/leader-keys
     "c"   '(:ignore t :which-key "llm prompts")
-    "cs"  '(dl/claude-prompt-selector :which-key "select prompt")
+    "cs"  '(dl/llm-prompt-selector :which-key "select prompt")
     "co"  '(dl/open-prompts-directory :which-key "open prompts dir")
     "cn"  '(dl/create-new-prompt :which-key "new prompt"))
 
   ;; Optional: Global keybinding for quick access
-  (global-set-key (kbd "C-c C-p") 'dl/claude-prompt-selector)
+  (global-set-key (kbd "C-c C-p") 'dl/llm-prompt-selector)
 #+END_SRC
 
 ** Learning Emacs
 These packages may come and go, but ultimately aid in my understanding of emacs and emacs lisp.
 
 *** org-babel
+**** Show popup hints
+#+BEGIN_SRC emacs-lisp
+(use-package which-key
+  :ensure t
+  :init
+  (setq which-key-idle-delay 0.3
+        which-key-idle-secondary-delay 0.1)
+  :config
+  (which-key-mode))
+
+(use-package helpful
+  :ensure t
+  :commands (helpful-callable helpful-variable helpful-key)
+  :bind
+  ([remap describe-function] . helpful-callable)
+  ([remap describe-command]  . helpful-callable)
+  ([remap describe-variable] . helpful-variable)
+  ([remap describe-key]      . helpful-key))
+#+END_SRC
+
 **** Load languages to run in org mode code blocks
 #+BEGIN_SRC emacs-lisp
   (with-eval-after-load 'org

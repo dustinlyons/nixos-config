@@ -33,6 +33,13 @@
                 (when (system-is-mac) (adjust-frame-size-and-position frame)))
   (adjust-frame-size-and-position)))
 
+;; Smooth out garbage collection
+(use-package gcmh
+  :ensure t
+  :demand t
+  :config
+  (gcmh-mode 1))
+
 (unless (assoc-default "melpa" package-archives)
   (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t))
 (unless (assoc-default "nongnu" package-archives)
@@ -204,6 +211,29 @@
   :config
     (ace-window-display-mode 1))
 
+(save-place-mode 1)
+(setq save-place-file "~/.local/state/emacs/saveplace")
+
+(savehist-mode 1)
+(setq savehist-additional-variables
+  '(search-ring
+    regexp-search-ring
+    kill-ring
+    register-alist
+    org-refile-history
+    org-capture-history))
+(setq savehist-file "~/.local/state/emacs/savehist")
+
+(use-package recentf
+  :ensure nil
+  :init
+  (setq recentf-max-saved-items 100
+    recentf-max-menu-items 50
+    recentf-save-file "~/.local/state/emacs/recentf")
+  :config
+    (recentf-mode 1))
+    (global-set-key (kbd "C-x C-r") 'recentf-open-files)
+
 ;; Set the default pitch face
 (when (system-is-linux)
   (set-face-attribute 'default nil :font "JetBrainsMono" :height 100))
@@ -253,7 +283,7 @@
   :config
     (setq doom-themes-enable-bold t
             doom-themes-enable-italic t)
-    (load-theme 'doom-one t)
+    (load-theme 'doom-sourcerer t)
     (doom-themes-visual-bell-config)
     (doom-themes-org-config))
 
@@ -497,13 +527,8 @@ Note the weekly scope of the command's precision.")
 (dl/leader-keys
   "e"  '(:ignore t :which-key "emacs")
   "ee" '(dl/load-buffer-with-emacs-config :which-key "open emacs config")
+  "ey" '(org-download-clipboard :which-key "save file from clipboard")
   "er" '(dl/reload-emacs :which-key "reload emacs"))
-
-"A few of my own personal shortcuts"
-(dl/leader-keys
-  ","  '(dl/insert-header :which-key "insert header")
-  "<"  '(dl/insert-current-time :which-key "insert header with current time")
-  "n"  '(dl/load-buffer-with-nix-config :which-key "open nix config"))
 
 (use-package yasnippet)
 (yas-global-mode 1)
@@ -784,9 +809,12 @@ Note the weekly scope of the command's precision.")
 (define-key org-mode-map (kbd "C-c d") 'org-archive-subtree)
 (global-set-key (kbd "C-c x")  #'er-delete-file-and-buffer)
 
-(use-package org-download)
-;; Drag-and-drop to `dired`
-(add-hook 'dired-mode-hook 'org-download-enable)
+(use-package org-download
+  :after org
+  :custom
+  (org-download-image-dir (expand-file-name "files" "~/.local/share/org-roam/"))
+  :hook
+  (dired-mode . org-download-enable))
 
 (setq backup-directory-alist
       `((".*" . "~/.local/state/emacs/backup"))
@@ -848,16 +876,19 @@ Note the weekly scope of the command's precision.")
   (setq ispell-personal-dictionary "~/.local/share/dict/user/hunspell_en_US"))
 
 (use-package flyspell-correct
-  :after flyspell
-  :bind (:map flyspell-mode-map ("C-;" . flyspell-correct-wrapper)))
+:after flyspell
+:bind nil)
+
+(dl/leader-keys
+  "s" '(flyspell-correct-wrapper :which-key "correct word"))
 
 (use-package flyspell-correct-ivy
   :after flyspell-correct)
 
-(add-hook 'git-commit-mode-hook 'turn-on-flyspell)
-(add-hook 'text-mode-hook 'flyspell-mode)
-(add-hook 'org-mode-hook 'flyspell-mode)
-(add-hook 'prog-mode-hook 'flyspell-prog-mode)
+(add-hook 'git-commit-mode-hook  'turn-on-flyspell)
+(add-hook 'text-mode-hook        'flyspell-mode)
+(add-hook 'org-mode-hook         'flyspell-mode)
+(add-hook 'prog-mode-hook        'flyspell-prog-mode)
 
 (defun spell() (interactive) (flyspell-mode 1))
 
@@ -1141,12 +1172,29 @@ Note the weekly scope of the command's precision.")
 ;; Add leader key bindings for LLM prompts
 (dl/leader-keys
   "c"   '(:ignore t :which-key "llm prompts")
-  "cs"  '(dl/claude-prompt-selector :which-key "select prompt")
+  "cs"  '(dl/llm-prompt-selector :which-key "select prompt")
   "co"  '(dl/open-prompts-directory :which-key "open prompts dir")
   "cn"  '(dl/create-new-prompt :which-key "new prompt"))
 
 ;; Optional: Global keybinding for quick access
-(global-set-key (kbd "C-c C-p") 'dl/claude-prompt-selector)
+(global-set-key (kbd "C-c C-p") 'dl/llm-prompt-selector)
+
+(use-package which-key
+  :ensure t
+  :init
+  (setq which-key-idle-delay 0.3
+        which-key-idle-secondary-delay 0.1)
+  :config
+  (which-key-mode))
+
+(use-package helpful
+  :ensure t
+  :commands (helpful-callable helpful-variable helpful-key)
+  :bind
+  ([remap describe-function] . helpful-callable)
+  ([remap describe-command]  . helpful-callable)
+  ([remap describe-variable] . helpful-variable)
+  ([remap describe-key]      . helpful-key))
 
 (with-eval-after-load 'org
   (org-babel-do-load-languages
