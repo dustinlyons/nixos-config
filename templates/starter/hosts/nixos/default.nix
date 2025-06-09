@@ -1,8 +1,11 @@
 { config, inputs, pkgs, ... }:
 
-let user = "%USER%";
-    keys = [ "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOk8iAnIaa1deoc7jw8YACPNVka1ZFJxhnU4G74TmS+p" ]; in
-{
+let
+  user = "%USER%";
+  sshKeys = [
+    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOk8iAnIaa1deoc7jw8YACPNVka1ZFJxhnU4G74TmS+p"
+  ];
+in {
   imports = [
     ../../modules/nixos/disk-config.nix
     ../../modules/shared
@@ -50,7 +53,7 @@ let user = "%USER%";
     extraOptions = ''
       experimental-features = nix-command flakes
     '';
-   };
+  };
 
   # Manages keys and such
   programs = {
@@ -64,7 +67,15 @@ let user = "%USER%";
   };
 
   services = {
-    displayManager.defaultSession = "none+bspwm";
+    # SSH
+    openssh.enable = true;
+
+    # Fallback console on tty1: auto-login your user
+    getty.autologinUser = user;
+    getty.autologinOnce = false;
+
+    # Display manager & X server
+    displayManager.defaultSession = "bspwm";
     xserver = {
       enable = true;
 
@@ -251,7 +262,6 @@ let user = "%USER%";
     ledger.enable = true;
   };
 
-
   # Add docker daemon
   virtualisation = {
     docker = {
@@ -269,11 +279,11 @@ let user = "%USER%";
         "docker"
       ];
       shell = pkgs.zsh;
-      openssh.authorizedKeys.keys = keys;
+      openssh.authorizedKeys.keys = sshKeys;
     };
 
     root = {
-      openssh.authorizedKeys.keys = keys;
+      openssh.authorizedKeys.keys = sshKeys;
     };
   };
 
@@ -307,5 +317,4 @@ let user = "%USER%";
   ];
 
   system.stateVersion = "21.05"; # Don't change this
-
 }
