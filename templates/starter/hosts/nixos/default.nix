@@ -72,7 +72,7 @@ in {
     getty.autologinOnce = false;
 
     # Display manager & X server
-    displayManager.defaultSession = "bspwm";
+    displayManager.defaultSession = "none+bspwm";
     xserver = {
       enable = true;
 
