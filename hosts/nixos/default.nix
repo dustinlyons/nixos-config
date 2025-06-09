@@ -1,15 +1,12 @@
-{ config, inputs, lib, pkgs, modulesPath, ... }:
+{ config, lib, pkgs, modulesPath, inputs, user, ... }:
 
-let 
-  user = "dustin";
-in
 {
   imports = [
     (modulesPath + "/installer/scan/not-detected.nix")
     
     # Import shared configuration (tmux, zsh, packages, etc.)
     # Comment these out initially if you want to start completely minimal
-    ../../modules/shared
+    # ../../modules/shared
     
     # Agenix for secrets management
     inputs.agenix.nixosModules.default

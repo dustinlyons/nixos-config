@@ -114,14 +114,15 @@
       nixosConfigurations = nixpkgs.lib.genAttrs linuxSystems (system:
         nixpkgs.lib.nixosSystem {
           inherit system;
-          specialArgs = inputs;
+          specialArgs = inputs // { inherit user; };
           modules = [
             disko.nixosModules.disko
-            home-manager.nixosModules.home-manager {
+            home-manager.nixosModules.home-manager 
+            {
               home-manager = {
                 useGlobalPkgs = true;
                 useUserPackages = true;
-                users.${user} = import ./modules/nixos/home-manager.nix;
+                users.${user} = import ./modules/shared/home-manager.nix;
               };
             }
             ./hosts/nixos
