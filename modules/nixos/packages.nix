@@ -10,7 +10,6 @@ shared-packages ++ [
   keepassxc
 
   # App and package management
-  appimage-run
   gnumake
   cmake
   home-manager
@@ -18,16 +17,12 @@ shared-packages ++ [
   # Media and design tools
   gimp
   vlc
-  wineWowPackages.stable
-  fontconfig
-  font-manager
 
   # Printers and drivers
   brlaser # printer driver
 
   # Calculators
   bc # old school calculator
-  galculator
 
   # Audio tools
   pavucontrol # Pulse audio controls
@@ -35,58 +30,31 @@ shared-packages ++ [
   # Messaging and chat applications
   cider # Apple Music on Linux
   discord
-  hexchat # Chat
-  fractal # Matrix.org messaging app
-  #tdesktop # telegram desktop
 
   # Testing and development tools
-  beekeeper-studio
-  cypress # Functional testing framework using headless chrome
   chromedriver
   direnv
-  rofi
-  rofi-calc
   qmk
-  postgresql
-  libusb1 # for Xbox controller
-  libtool # for Emacs vterm
 
   # Screenshot and recording tools
-  flameshot
   simplescreenrecorder
 
   # Text and terminal utilities
   emote # Emoji picker
-  feh # Manage wallpapers
   screenkey
   tree
   unixtools.ifconfig
   unixtools.netstat
   xclip # For the org-download package in Emacs
-  xorg.xwininfo # Provides a cursor to click and learn about windows
-  xorg.xrandr
 
   # File and system utilities
   inotify-tools # inotifywait, inotifywatch - For file system events
-  i3lock-fancy-rapid
   libnotify
-  ledger-live-desktop
   playerctl # Control media players from command line
-  pcmanfm # Our file browser
-  sqlite
-  xdg-utils
 
   # Other utilities
-  yad # I use yad-calendar with polybar
-  xdotool
   google-chrome
 
   # PDF viewer
   zathura
-
-  # Music and entertainment
-  spotify
-
-  # VR
-  immersed-vr
 ]

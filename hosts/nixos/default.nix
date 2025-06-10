@@ -6,8 +6,8 @@
 
     # Import shared configuration (tmux, zsh, packages, etc.)
     # Comment these out initially if you want to start completely minimal
-    # ../../modules/shared
-
+    ../../modules/shared
+    
     # Agenix for secrets management - temporarily disabled
     # inputs.agenix.nixosModules.default
   ];

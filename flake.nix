@@ -117,16 +117,15 @@
           system = "x86_64-linux";
           specialArgs = inputs // { inherit user; };
           modules = [
-            disko.nixosModules.disko
             # Temporarily disable home-manager to isolate issues
-            # home-manager.nixosModules.home-manager 
-            # {
-            #   home-manager = {
-            #     useGlobalPkgs = true;
-            #     useUserPackages = true;
-            #     users.${user} = import ./modules/shared/home-manager.nix;
-            #   };
-            # }
+             home-manager.nixosModules.home-manager 
+             {
+               home-manager = {
+                 useGlobalPkgs = true;
+                 useUserPackages = true;
+                 users.${user} = import ./modules/shared/home-manager.nix;
+               };
+             }
             ./hosts/nixos
           ];
         };

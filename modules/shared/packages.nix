@@ -41,12 +41,8 @@ with pkgs; [
   libfido2
 
   # Cloud-related tools and SDKs
-  flyctl
-  google-cloud-sdk
-  go
   gopls
   ngrok
-  ssm-session-manager-plugin
   terraform
   terraform-ls
   tflint
