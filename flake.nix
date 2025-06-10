@@ -111,9 +111,10 @@
           ];
         }
       );
-      nixosConfigurations = nixpkgs.lib.genAttrs linuxSystems (system:
-        nixpkgs.lib.nixosSystem {
-          inherit system;
+      nixosConfigurations = {
+        # Main NixOS configuration
+        nixos = nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
           specialArgs = inputs // { inherit user; };
           modules = [
             disko.nixosModules.disko
@@ -128,7 +129,20 @@
             # }
             ./hosts/nixos
           ];
-        }
-      );
+        };
+        
+        # Alternative: generate for all systems (if you want both)
+        # Uncomment the line below if you want to support multiple architectures
+        # } // nixpkgs.lib.genAttrs linuxSystems (system:
+        #   nixpkgs.lib.nixosSystem {
+        #     inherit system;
+        #     specialArgs = inputs // { inherit user; };
+        #     modules = [
+        #       disko.nixosModules.disko
+        #       ./hosts/nixos
+        #     ];
+        #   }
+        # );
+      };
     };
 }
