@@ -36,6 +36,11 @@
 ;; -------------------------
 ;; Environment Variables Setup
 ;; -------------------------
+(unless (package-installed-p 'exec-path-from-shell)
+  (package-refresh-contents)
+  (package-install 'exec-path-from-shell))
+
+(exec-path-from-shell-initialize)
 (use-package exec-path-from-shell
   :if (memq window-system '(mac ns x))
   :config
@@ -103,6 +108,7 @@
     (error (message "Error occurred in Org mode setup."))))
 
 (use-package org
+  :straight nil  ; Use built-in org-mode, don't install via straight
   :defer t
   :hook (org-mode . dl/org-mode-setup)
   :config
