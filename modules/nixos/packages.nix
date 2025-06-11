@@ -8,7 +8,6 @@ shared-packages ++ [
   brlaser # Printer driver
 
   chromedriver # Chrome webdriver for testing
-  cider # Apple Music on Linux
 
   claude-code # Coding agent
   inputs.claude-desktop.packages."${pkgs.system}".claude-desktop-with-fhs
