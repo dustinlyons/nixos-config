@@ -27,14 +27,10 @@ let name = "Dustin Lyons";
           file = "p10k.zsh";
       }
     ];
-    initExtraFirst = ''
+    initContent = lib.mkBefore ''
       if [[ -f /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh ]]; then
         . /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
         . /nix/var/nix/profiles/default/etc/profile.d/nix.sh
-      fi
-
-      if [[ "$(uname)" == "Linux" ]]; then
-        alias pbcopy='xclip -selection clipboard'
       fi
 
       # Define variables for directories
@@ -49,6 +45,9 @@ let name = "Dustin Lyons";
       # Ripgrep alias
       alias search='rg -p --glob "!node_modules/*" --glob "!vendor/*" "$@"'
 
+      # Claude GUI
+      alias claude-desktop='nohup claude-desktop > /dev/null 2>&1 & disown'
+
       # Emacs is my editor
       export ALTERNATE_EDITOR=""
       export EDITOR="emacsclient -t"
@@ -56,24 +55,15 @@ let name = "Dustin Lyons";
       e() {
           emacsclient -t "$@"
       }
-
+      
       # Laravel Artisan
       alias art='php artisan'
-
-      # PHP Deployer
-      alias deploy='dep deploy'
-
-      # Easy alias to trim whitespace from files on macOS
-      alias trimwhitespace="find . -type f \( -name '*.jsx' -o -name '*.php' -o -name '*.js' \) -exec sed -i \"\" 's/[[:space:]]*\$//' {} +"
 
       # Use difftastic, syntax-aware diffing
       alias diff=difft
 
       # Always color ls and group directories
       alias ls='ls --color=auto'
-
-      # Reboot into my dual boot Windows partition
-      alias windows='systemctl reboot --boot-loader-entry=auto-windows'
     '';
   };
 

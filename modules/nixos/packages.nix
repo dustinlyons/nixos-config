@@ -1,60 +1,42 @@
-{ pkgs }:
-
+{ pkgs, inputs }:
 with pkgs;
 let shared-packages = import ../shared/packages.nix { inherit pkgs; }; in
 shared-packages ++ [
 
-  # Security and authentication
-  _1password-gui
-  yubikey-agent
-  keepassxc
+  _1password-gui # Password manager
 
-  # App and package management
-  gnumake
-  cmake
-  home-manager
+  brlaser # Printer driver
 
-  # Media and design tools
-  gimp
-  vlc
-
-  # Printers and drivers
-  brlaser # printer driver
-
-  # Calculators
-  bc # old school calculator
-
-  # Audio tools
-  pavucontrol # Pulse audio controls
-
-  # Messaging and chat applications
+  chromedriver # Chrome webdriver for testing
   cider # Apple Music on Linux
-  discord
 
-  # Testing and development tools
-  chromedriver
-  direnv
-  qmk
+  claude-code # Coding agent
+  inputs.claude-desktop.packages."${pkgs.system}".claude-desktop-with-fhs
 
-  # Screenshot and recording tools
-  simplescreenrecorder
+  discord # Voice and text chat
 
-  # Text and terminal utilities
-  emote # Emoji picker
-  screenkey
-  tree
-  unixtools.ifconfig
-  unixtools.netstat
-  xclip # For the org-download package in Emacs
+  gimp # Image editor
+  google-chrome # Web browser
 
-  # File and system utilities
-  inotify-tools # inotifywait, inotifywatch - For file system events
-  libnotify
+  keepassxc # Password manager
+
+  pavucontrol # Pulse audio controls
   playerctl # Control media players from command line
 
-  # Other utilities
-  google-chrome
+  qmk # Keyboard firmware toolkit
 
-  # PDF viewer
-  zathura
+  screenkey # Display pressed keys on screen
+  simplescreenrecorder # Screen recording tool
+
+  unixtools.ifconfig # Network interface configuration
+  unixtools.netstat # Network statistics
+
+  vlc # Media player
+
+  xclip # Clipboard utilities
+
+  yubikey-agent # Yubikey SSH agent
+  pinentry-qt # GPG pinentry
+
+  zathura # PDF viewer
 ]

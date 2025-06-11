@@ -2,8 +2,21 @@
   description = "General Purpose Configuration for macOS and NixOS";
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-    agenix.url = "github:ryantm/agenix";
+    flake-utils.url = "github:numtide/flake-utils";
     home-manager.url = "github:nix-community/home-manager";
+    agenix.url = "github:ryantm/agenix";
+    claude-desktop = {
+      url = "github:k3d3/claude-desktop-linux-flake";
+      inputs = { 
+        nixpkgs.follows = "nixpkgs";
+        flake-utils.follows = "flake-utils";
+      };
+    };
+    plasma-manager = {
+      url = "github:nix-community/plasma-manager";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.home-manager.follows = "home-manager";
+    };
     darwin = {
       url = "github:LnL7/nix-darwin/master";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -32,7 +45,7 @@
       flake = false;
     };
   };
-  outputs = { self, darwin, nix-homebrew, homebrew-bundle, homebrew-core, homebrew-cask, home-manager, nixpkgs, disko, agenix, secrets } @inputs:
+  outputs = { self, darwin, claude-desktop, nix-homebrew, homebrew-bundle, homebrew-core, homebrew-cask, home-manager, plasma-manager, nixpkgs, flake-utils, disko, agenix, secrets } @inputs:
     let
       user = "dustin";
       linuxSystems = [ "x86_64-linux" "aarch64-linux" ];
@@ -90,7 +103,7 @@
       darwinConfigurations = nixpkgs.lib.genAttrs darwinSystems (system:
         darwin.lib.darwinSystem {
           inherit system;
-          specialArgs = inputs;
+          specialArgs = inputs // { inherit user; };
           modules = [
             home-manager.darwinModules.home-manager
             nix-homebrew.darwinModules.nix-homebrew
@@ -111,37 +124,24 @@
           ];
         }
       );
-      nixosConfigurations = {
-        # Main NixOS configuration
-        nixos = nixpkgs.lib.nixosSystem {
-          system = "x86_64-linux";
+      nixosConfigurations = nixpkgs.lib.genAttrs linuxSystems (system:
+        nixpkgs.lib.nixosSystem {
+          inherit system;
           specialArgs = inputs // { inherit user; };
           modules = [
-            # Temporarily disable home-manager to isolate issues
-             home-manager.nixosModules.home-manager 
-             {
-               home-manager = {
-                 useGlobalPkgs = true;
-                 useUserPackages = true;
-                 users.${user} = import ./modules/shared/home-manager.nix;
-               };
-             }
+            disko.nixosModules.disko
+            home-manager.nixosModules.home-manager {
+              home-manager = {
+                sharedModules = [ plasma-manager.homeManagerModules.plasma-manager ]; 
+                useGlobalPkgs = true;
+                useUserPackages = true;
+                users.${user} = { config, pkgs, lib, ... }:
+                  import ./modules/nixos/home-manager.nix { inherit config pkgs lib inputs; };
+              };
+            }
             ./hosts/nixos
           ];
-        };
-        
-        # Alternative: generate for all systems (if you want both)
-        # Uncomment the line below if you want to support multiple architectures
-        # } // nixpkgs.lib.genAttrs linuxSystems (system:
-        #   nixpkgs.lib.nixosSystem {
-        #     inherit system;
-        #     specialArgs = inputs // { inherit user; };
-        #     modules = [
-        #       disko.nixosModules.disko
-        #       ./hosts/nixos
-        #     ];
-        #   }
-        # );
-      };
+        }
+      );
     };
 }

@@ -1,5 +1,4 @@
 { pkgs, ... }:
-
 let
   myPython = pkgs.python3.withPackages (ps: with ps; [
     slpp
@@ -8,93 +7,113 @@ let
     virtualenv
     black
   ]);
+
+  myPHP = pkgs.php82.withExtensions ({ enabled, all }: enabled ++ (with all; [
+    xdebug
+  ]));
+
+  myFonts = import ./fonts.nix { inherit pkgs; };
 in
-
 with pkgs; [
-  # General packages for development and system management
-  act
-  alacritty
-  aspell
-  aspellDicts.en
-  bash-completion
-  bat
-  btop
-  coreutils
-  difftastic
-  du-dust
-  gcc
-  git-filter-repo
-  killall
-  neofetch
-  openssh
-  pandoc
-  sqlite
-  wget
-  zip
-  uv
+  # A
+  act # Run Github actions locally
+  age # File encryption tool
+  age-plugin-yubikey # YubiKey plugin for age encryption
+  alacritty # GPU-accelerated terminal emulator
+  aspell # Spell checker
+  aspellDicts.en # English dictionary for aspell
 
-  # Encryption and security tools
-  _1password
-  age
-  age-plugin-yubikey
-  gnupg
-  libfido2
+  # B
+  bash-completion # Bash completion scripts
+  bat # Cat clone with syntax highlighting
+  btop # System monitor and process viewer
 
-  # Cloud-related tools and SDKs
-  gopls
-  ngrok
-  terraform
-  terraform-ls
-  tflint
+  # C
+  coreutils # Basic file/text/shell utilities
 
-  # Media-related packages
-  emacs-all-the-icons-fonts
-  imagemagick
-  dejavu_fonts
-  ffmpeg
-  fd
-  font-awesome
-  glow
-  hack-font
-  jpegoptim
-  meslo-lgs-nf
-  noto-fonts
-  noto-fonts-emoji
-  pngquant
+  # D
+  direnv # Environment variable management per directory
+  difftastic # Structural diff tool
+  du-dust # Disk usage analyzer
 
-  # PHP
-  php82
-  php82Packages.composer
-  php82Packages.php-cs-fixer
-  php82Extensions.xdebug
-  php82Packages.deployer
-  phpunit
+  # F
+  fd # Fast find alternative
+  ffmpeg # Multimedia framework
+  fzf # Fuzzy finder
 
-  # Node.js development tools
-  fzf
-  nodePackages.live-server
-  nodePackages.nodemon
-  nodePackages.prettier
-  nodePackages.npm
-  nodejs
+  # G
+  gcc # GNU Compiler Collection
+  gh # GitHub CLI
+  glow # Markdown renderer for terminal
+  gnupg # GNU Privacy Guard
+  gopls # Go language server
 
-  # Source code management, Git, GitHub tools
-  gh
+  # H
+  htop # Interactive process viewer
+  hunspell # Spell checker
 
-  # Text and terminal utilities
-  htop
-  hunspell
-  iftop
-  jetbrains-mono
-  jetbrains.phpstorm
-  jq
-  ripgrep
-  slack
-  tree
-  tmux
-  unrar
-  unzip
-  zsh-powerlevel10k
+  # I
+  iftop # Network bandwidth monitor
+  imagemagick # Image manipulation toolkit
 
-  myPython
-]
+  # J
+  jetbrains.phpstorm # PHP IDE
+  jpegoptim # JPEG optimizer
+  jq # JSON processor
+
+  # K
+  killall # Kill processes by name
+
+  # L
+  libfido2 # FIDO2 library
+
+  # M
+  myPHP # Custom PHP with extensions
+  myPython # Custom Python with packages
+
+  # N
+  neofetch # System information tool
+  ngrok # Secure tunneling service
+  nodejs # JavaScript runtime
+  nodePackages.live-server # Development server with live reload
+  nodePackages.nodemon # Node.js file watcher
+  nodePackages.npm # Node package manager
+  nodePackages.prettier # Code formatter
+
+  # O
+  openssh # SSH client and server
+
+  # P
+  pandoc # Document converter
+  php82Packages.composer # PHP dependency manager
+  php82Packages.deployer # PHP deployment tool
+  php82Packages.php-cs-fixer # PHP code style fixer
+  phpunit # PHP testing framework
+  pngquant # PNG compression tool
+
+  # R
+  ripgrep # Fast text search tool
+
+  # S
+  slack # Team communication app
+  sqlite # SQL database engine
+
+  # T
+  terraform # Infrastructure as code tool
+  terraform-ls # Terraform language server
+  tflint # Terraform linter
+  tmux # Terminal multiplexer
+  tree # Directory tree viewer
+
+  # U
+  unrar # RAR archive extractor
+  unzip # ZIP archive extractor
+  uv # Python package installer
+
+  # W
+  wget # File downloader
+
+  # Z
+  zip # ZIP archive creator
+  zsh-powerlevel10k # Zsh theme
+] ++ myFonts

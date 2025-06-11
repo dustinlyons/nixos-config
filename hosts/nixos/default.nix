@@ -7,7 +7,7 @@
     # Import shared configuration (tmux, zsh, packages, etc.)
     # Comment these out initially if you want to start completely minimal
     ../../modules/shared
-    
+
     # Agenix for secrets management - temporarily disabled
     # inputs.agenix.nixosModules.default
   ];
@@ -50,7 +50,7 @@
 
   # Networking
   networking = {
-    hostName        = "felix";  # Define your hostname.
+    hostName        = "felix";
     useDHCP         = lib.mkDefault true;
     # networking.interfaces.eno1.useDHCP = lib.mkDefault true;
     networkmanager.enable = true;
@@ -85,7 +85,7 @@
       # Enable automatic login for the user.
       autoLogin = {
         enable = true;
-        user   = user;
+        inherit user;
       };
     };
 
@@ -103,7 +103,6 @@
 
     # Enable sound with PipeWire (PulseAudio disabled in favor of PipeWire).
     pulseaudio.enable = false;
-    security.rtkit.enable = true;
 
     pipewire = {
       enable           = true;
@@ -128,10 +127,6 @@
     isNormalUser = true;
     description  = "Dustin Lyons";
     extraGroups  = [ "networkmanager" "wheel" ];
-    packages     = with pkgs; [
-      kdePackages.kate
-      # thunderbird
-    ];
   };
 
   # Install firefox.
@@ -146,12 +141,8 @@
   # List packages installed in system profile. To search, run:
   #   $ nix search <pkg>
   environment.systemPackages = with pkgs; [
-    vim       # Remember to install an editor—Nano is included by default.
-    wget
+    vim
     git
-    alacritty
-    chromium
-    _1password-gui
     # inputs.agenix.packages."${pkgs.system}".default  # agenix CLI (temporarily disabled)
   ];
 
@@ -172,14 +163,7 @@
   };
 
   # Fonts
-  fonts.packages = with pkgs; [
-    dejavu_fonts
-    emacs-all-the-icons-fonts
-    jetbrains-mono
-    font-awesome
-    noto-fonts
-    noto-fonts-emoji
-  ];
+  fonts.packages = import ../../modules/shared/fonts.nix { inherit pkgs; };
 
   # Configure Nix settings for flakes and Cachix
   nix = {
@@ -206,6 +190,6 @@
 
   # This value determines the NixOS release from which default
   # settings for stateful data were taken. Leave it at your first
-  # install’s release unless you know what you’re doing.
+  # install's release unless you know what you're doing.
   system.stateVersion = "25.05";
 }
