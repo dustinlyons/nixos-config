@@ -74,28 +74,41 @@
     LC_TIME           = "en_US.UTF-8";
   };
 
-  # Enable the X11 windowing system.
-  # Enable the KDE Plasma Desktop Environment.
+  # Enable the X11 windowing system (still needed for compatibility).
+  # Enable the KDE Plasma Desktop Environment with Wayland.
   services = {
-    xserver.enable = true;
+    xserver = {
+      enable = true;
+
+      # Configure keymap
+      xkb = {
+        layout  = "us";
+        variant = "";
+      };
+    };
 
     displayManager = {
-      sddm.enable = true;
+      sddm = {
+        enable = true;
+        wayland.enable = true;  # Enable Wayland support in SDDM
+      };
 
       # Enable automatic login for the user.
       autoLogin = {
         enable = true;
         inherit user;
       };
+
+      # Set default session to Wayland
+      defaultSession = "plasma";  # This will use Plasma Wayland by default
     };
 
     # KDE Plasma 6 desktop
     desktopManager.plasma6.enable = true;
 
-    # Configure keymap in X11
-    xserver.xkb = {
-      layout  = "us";
-      variant = "";
+    emacs = {
+      enable = true;
+      package = pkgs.emacs;
     };
 
     # Enable CUPS to print documents.
@@ -127,6 +140,7 @@
     isNormalUser = true;
     description  = "Dustin Lyons";
     extraGroups  = [ "networkmanager" "wheel" ];
+    shell = pkgs.zsh;
   };
 
   # Install firefox.
@@ -143,6 +157,10 @@
   environment.systemPackages = with pkgs; [
     vim
     git
+    emacs
+    # Wayland-specific utilities
+    wl-clipboard     # Wayland clipboard utilities (replaces xclip)
+    wayland-utils    # Wayland utilities
     # inputs.agenix.packages."${pkgs.system}".default  # agenix CLI (temporarily disabled)
   ];
 
