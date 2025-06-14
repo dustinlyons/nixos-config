@@ -33,11 +33,12 @@ let name = "Dustin Lyons";
         . /nix/var/nix/profiles/default/etc/profile.d/nix.sh
       fi
 
-      # Define variables for directories
+      # Define PATH variables
       export PATH=$HOME/.pnpm-packages/bin:$HOME/.pnpm-packages:$PATH
       export PATH=$HOME/.npm-packages/bin:$HOME/bin:$PATH
       export PATH=$HOME/.composer/vendor/bin:$PATH
       export PATH=$HOME/.local/share/bin:$PATH
+      export PYTHONPATH="$HOME/.local-pip/packages:$PYTHONPATH"
 
       # Remove history data we don't want to see
       export HISTIGNORE="pwd:ls:cd"
