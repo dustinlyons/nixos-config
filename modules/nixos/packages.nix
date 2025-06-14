@@ -9,7 +9,6 @@ shared-packages ++ [
 
   chromedriver # Chrome webdriver for testing
 
-  claude-code # Coding agent
   inputs.claude-desktop.packages."${pkgs.system}".claude-desktop-with-fhs
 
   discord # Voice and text chat
