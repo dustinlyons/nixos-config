@@ -1,0 +1,36 @@
+name: Build NixOS Flakes
+
+on:
+  push:
+    branches:
+      - lessuseless
+  pull_request:
+    branches:
+      - lessuseless
+
+jobs:
+  build-nixos:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Install Nix
+        uses: cachix/install-nix-action@v21
+        with:
+          nix_path: ./nix.conf
+
+      - name: Install Cachix
+        run: nix-env -iA cachix -f https://cachix.org/api/v1/install
+
+      - name: Authenticate with Cachix
+        env:
+          CACHIX_AUTH_TOKEN: ${{ secrets.CACHIX_AUTH_TOKEN }}
+        run: cachix authtoken $CACHIX_AUTH_TOKEN
+
+      - name: Build Flakes for NixOS
+        run: nix build .#nixosConfigurations.system
+
+      - name: Push to Cachix
+        run: cachix push your-cachix-name
