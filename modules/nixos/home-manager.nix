@@ -1,10 +1,13 @@
-{ config, pkgs, lib, ... }:
-
-let
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}: let
   user = "dustin";
-  xdg_configHome  = "/home/${user}/.config";
-  shared-programs = import ../shared/home-manager.nix { inherit config pkgs lib; };
-  shared-files = import ../shared/files.nix { inherit config pkgs; };
+  xdg_configHome = "/home/${user}/.config";
+  shared-programs = import ../shared/home-manager.nix {inherit config pkgs lib;};
+  shared-files = import ../shared/files.nix {inherit config pkgs;};
 
   polybar-user_modules = builtins.readFile (pkgs.replaceVars ./config/polybar/user_modules.ini {
     packages = "${xdg_configHome}/polybar/bin/check-nixos-updates.sh";
@@ -28,14 +31,13 @@ let
     "/home/${user}/.ssh/pgp_github.key"
     "/home/${user}/.ssh/pgp_github.pub"
   ];
-in
-{
+in {
   home = {
     enableNixpkgsReleaseCheck = false;
     username = "${user}";
     homeDirectory = "/home/${user}";
     packages = pkgs.callPackage ./packages.nix {};
-    file = shared-files // import ./files.nix { inherit user pkgs; };
+    file = shared-files // import ./files.nix {inherit user pkgs;};
     stateVersion = "21.05";
   };
 
@@ -119,26 +121,25 @@ in
     };
   };
 
-  programs = shared-programs // { gpg.enable = true; };
+  programs = shared-programs // {gpg.enable = true;};
 
   # This installs my GPG signing keys for Github
   systemd.user.services.gpg-import-keys = {
     Unit = {
       Description = "Import gpg keys";
-      After = [ "gpg-agent.socket" ];
+      After = ["gpg-agent.socket"];
     };
 
     Service = {
       Type = "oneshot";
       ExecStart = toString (pkgs.writeScript "gpg-import-keys" ''
         #! ${pkgs.runtimeShell} -el
-        ${lib.optionalString (gpgKeys!= []) ''
-        ${pkgs.gnupg}/bin/gpg --import ${lib.concatStringsSep " " gpgKeys}
+        ${lib.optionalString (gpgKeys != []) ''
+          ${pkgs.gnupg}/bin/gpg --import ${lib.concatStringsSep " " gpgKeys}
         ''}
       '');
     };
 
-    Install = { WantedBy = [ "default.target" ]; };
+    Install = {WantedBy = ["default.target"];};
   };
-
 }

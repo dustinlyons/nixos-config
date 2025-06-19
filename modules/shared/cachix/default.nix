@@ -1,5 +1,8 @@
-{ pkgs, lib, ... }:
 {
+  pkgs,
+  lib,
+  ...
+}: {
   nix.settings = {
     substituters = [
       "https://nix-community.cachix.org"

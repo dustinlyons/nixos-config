@@ -1,7 +1,12 @@
-{ config, pkgs, agenix, secrets, ... }:
-
-let user = "dustin"; in
 {
+  config,
+  pkgs,
+  agenix,
+  secrets,
+  ...
+}: let
+  user = "dustin";
+in {
   age = {
     identityPaths = [
       "/Users/${user}/.ssh/id_ed25519"
@@ -11,7 +16,7 @@ let user = "dustin"; in
       "syncthing-cert" = {
         symlink = true;
         path = "/Users/${user}/Library/Application Support/Syncthing/cert.pem";
-        file =  "${secrets}/darwin-syncthing-cert.age";
+        file = "${secrets}/darwin-syncthing-cert.age";
         mode = "644";
         owner = "${user}";
         group = "staff";
@@ -20,7 +25,7 @@ let user = "dustin"; in
       "syncthing-key" = {
         symlink = true;
         path = "/Users/${user}/Library/Application Support/Syncthing/key.pem";
-        file =  "${secrets}/darwin-syncthing-key.age";
+        file = "${secrets}/darwin-syncthing-key.age";
         mode = "600";
         owner = "${user}";
         group = "staff";
@@ -29,7 +34,7 @@ let user = "dustin"; in
       "github-ssh-key" = {
         symlink = true;
         path = "/Users/${user}/.ssh/id_github";
-        file =  "${secrets}/github-ssh-key.age";
+        file = "${secrets}/github-ssh-key.age";
         mode = "600";
         owner = "${user}";
         group = "staff";
@@ -38,7 +43,7 @@ let user = "dustin"; in
       "github-signing-key" = {
         symlink = false;
         path = "/Users/${user}/.ssh/pgp_github.key";
-        file =  "${secrets}/github-signing-key.age";
+        file = "${secrets}/github-signing-key.age";
         mode = "600";
         owner = "${user}";
       };

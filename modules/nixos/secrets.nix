@@ -1,7 +1,12 @@
-{ config, pkgs, agenix, secrets, ... }:
-
-let user = "dustin"; in
 {
+  config,
+  pkgs,
+  agenix,
+  secrets,
+  ...
+}: let
+  user = "dustin";
+in {
   age = {
     identityPaths = [
       "/home/${user}/.ssh/id_ed25519"
@@ -11,7 +16,7 @@ let user = "dustin"; in
       "syncthing-cert" = {
         symlink = true;
         path = "/home/${user}/.config/syncthing/cert.pem";
-        file =  "${secrets}/felix-syncthing-cert.age";
+        file = "${secrets}/felix-syncthing-cert.age";
         mode = "600";
         owner = "${user}";
         group = "users";
@@ -20,7 +25,7 @@ let user = "dustin"; in
       "syncthing-key" = {
         symlink = true;
         path = "/home/{$user}/.config/syncthing/key.pem";
-        file =  "${secrets}/felix-syncthing-key.age";
+        file = "${secrets}/felix-syncthing-key.age";
         mode = "600";
         owner = "${user}";
         group = "users";
@@ -29,7 +34,7 @@ let user = "dustin"; in
       "github-ssh-key" = {
         symlink = false;
         path = "/home/${user}/.ssh/id_github";
-        file =  "${secrets}/github-ssh-key.age";
+        file = "${secrets}/github-ssh-key.age";
         mode = "600";
         owner = "${user}";
         group = "wheel";
@@ -38,12 +43,11 @@ let user = "dustin"; in
       "github-signing-key" = {
         symlink = false;
         path = "/home/${user}/.ssh/pgp_github.key";
-        file =  "${secrets}/github-signing-key.age";
+        file = "${secrets}/github-signing-key.age";
         mode = "600";
         owner = "${user}";
         group = "wheel";
       };
     };
   };
-
 }

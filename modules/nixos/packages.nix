@@ -1,92 +1,92 @@
-{ pkgs }:
+{pkgs}:
+with pkgs; let
+  shared-packages = import ../shared/packages.nix {inherit pkgs;};
+in
+  shared-packages
+  ++ [
+    # Security and authentication
+    _1password-gui
+    yubikey-agent
+    keepassxc
 
-with pkgs;
-let shared-packages = import ../shared/packages.nix { inherit pkgs; }; in
-shared-packages ++ [
+    # App and package management
+    appimage-run
+    gnumake
+    cmake
+    home-manager
 
-  # Security and authentication
-  _1password-gui
-  yubikey-agent
-  keepassxc
+    # Media and design tools
+    gimp
+    vlc
+    wineWowPackages.stable
+    fontconfig
+    font-manager
 
-  # App and package management
-  appimage-run
-  gnumake
-  cmake
-  home-manager
+    # Printers and drivers
+    brlaser # printer driver
 
-  # Media and design tools
-  gimp
-  vlc
-  wineWowPackages.stable
-  fontconfig
-  font-manager
+    # Calculators
+    bc # old school calculator
+    galculator
 
-  # Printers and drivers
-  brlaser # printer driver
+    # Audio tools
+    pavucontrol # Pulse audio controls
 
-  # Calculators
-  bc # old school calculator
-  galculator
+    # Messaging and chat applications
+    cider # Apple Music on Linux
+    discord
+    hexchat # Chat
+    fractal # Matrix.org messaging app
+    #tdesktop # telegram desktop
 
-  # Audio tools
-  pavucontrol # Pulse audio controls
+    # Testing and development tools
+    beekeeper-studio
+    cypress # Functional testing framework using headless chrome
+    chromedriver
+    direnv
+    rofi
+    rofi-calc
+    qmk
+    postgresql
+    libusb1 # for Xbox controller
+    libtool # for Emacs vterm
 
-  # Messaging and chat applications
-  cider # Apple Music on Linux
-  discord
-  hexchat # Chat
-  fractal # Matrix.org messaging app
-  #tdesktop # telegram desktop
+    # Screenshot and recording tools
+    flameshot
+    simplescreenrecorder
 
-  # Testing and development tools
-  beekeeper-studio
-  cypress # Functional testing framework using headless chrome
-  chromedriver
-  direnv
-  rofi
-  rofi-calc
-  qmk
-  postgresql
-  libusb1 # for Xbox controller
-  libtool # for Emacs vterm
+    # Text and terminal utilities
+    emote # Emoji picker
+    feh # Manage wallpapers
+    screenkey
+    tree
+    unixtools.ifconfig
+    unixtools.netstat
+    xclip # For the org-download package in Emacs
+    xorg.xwininfo # Provides a cursor to click and learn about windows
+    xorg.xrandr
 
-  # Screenshot and recording tools
-  flameshot
-  simplescreenrecorder
+    # File and system utilities
+    inotify-tools # inotifywait, inotifywatch - For file system events
+    i3lock-fancy-rapid
+    libnotify
+    ledger-live-desktop
+    playerctl # Control media players from command line
+    pcmanfm # Our file browser
+    sqlite
+    xdg-utils
 
-  # Text and terminal utilities
-  emote # Emoji picker
-  feh # Manage wallpapers
-  screenkey
-  tree
-  unixtools.ifconfig
-  unixtools.netstat
-  xclip # For the org-download package in Emacs
-  xorg.xwininfo # Provides a cursor to click and learn about windows
-  xorg.xrandr
+    # Other utilities
+    yad # I use yad-calendar with polybar
+    xdotool
+    google-chrome
 
-  # File and system utilities
-  inotify-tools # inotifywait, inotifywatch - For file system events
-  i3lock-fancy-rapid
-  libnotify
-  ledger-live-desktop
-  playerctl # Control media players from command line
-  pcmanfm # Our file browser
-  sqlite
-  xdg-utils
+    # PDF viewer
+    zathura
 
-  # Other utilities
-  yad # I use yad-calendar with polybar
-  xdotool
-  google-chrome
+    # Music and entertainment
+    spotify
 
-  # PDF viewer
-  zathura
-
-  # Music and entertainment
-  spotify
-
-  # VR
-  immersed-vr
-]
+    # VR
+    immersed-vr
+  ]

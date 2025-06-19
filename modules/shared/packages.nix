@@ -1,104 +1,102 @@
-{ pkgs, ... }:
-
-let
-  myPython = pkgs.python3.withPackages (ps: with ps; [
-    slpp
-    pip
-    rich
-    virtualenv
-    black
-  ]);
+{pkgs, ...}: let
+  myPython = pkgs.python3.withPackages (ps:
+    with ps; [
+      slpp
+      pip
+      rich
+      virtualenv
+      black
+    ]);
 in
+  with pkgs; [
+    # General packages for development and system management
+    act
+    alacritty
+    aspell
+    aspellDicts.en
+    bash-completion
+    bat
+    btop
+    coreutils
+    difftastic
+    du-dust
+    gcc
+    git-filter-repo
+    killall
+    neofetch
+    openssh
+    pandoc
+    sqlite
+    wget
+    zip
+    uv
 
-with pkgs; [
-  # General packages for development and system management
-  act
-  alacritty
-  aspell
-  aspellDicts.en
-  bash-completion
-  bat
-  btop
-  coreutils
-  difftastic
-  du-dust
-  gcc
-  git-filter-repo
-  killall
-  neofetch
-  openssh
-  pandoc
-  sqlite
-  wget
-  zip
-  uv
+    # Encryption and security tools
+    _1password
+    age
+    age-plugin-yubikey
+    gnupg
+    libfido2
 
-  # Encryption and security tools
-  _1password
-  age
-  age-plugin-yubikey
-  gnupg
-  libfido2
+    # Cloud-related tools and SDKs
+    flyctl
+    google-cloud-sdk
+    go
+    gopls
+    ngrok
+    ssm-session-manager-plugin
+    terraform
+    terraform-ls
+    tflint
 
-  # Cloud-related tools and SDKs
-  flyctl
-  google-cloud-sdk
-  go
-  gopls
-  ngrok
-  ssm-session-manager-plugin
-  terraform
-  terraform-ls
-  tflint
+    # Media-related packages
+    emacs-all-the-icons-fonts
+    imagemagick
+    dejavu_fonts
+    ffmpeg
+    fd
+    font-awesome
+    glow
+    hack-font
+    jpegoptim
+    meslo-lgs-nf
+    noto-fonts
+    noto-fonts-emoji
+    pngquant
 
-  # Media-related packages
-  emacs-all-the-icons-fonts
-  imagemagick
-  dejavu_fonts
-  ffmpeg
-  fd
-  font-awesome
-  glow
-  hack-font
-  jpegoptim
-  meslo-lgs-nf
-  noto-fonts
-  noto-fonts-emoji
-  pngquant
+    # PHP
+    php82
+    php82Packages.composer
+    php82Packages.php-cs-fixer
+    php82Extensions.xdebug
+    php82Packages.deployer
+    phpunit
 
-  # PHP
-  php82
-  php82Packages.composer
-  php82Packages.php-cs-fixer
-  php82Extensions.xdebug
-  php82Packages.deployer
-  phpunit
+    # Node.js development tools
+    fzf
+    nodePackages.live-server
+    nodePackages.nodemon
+    nodePackages.prettier
+    nodePackages.npm
+    nodejs
 
-  # Node.js development tools
-  fzf
-  nodePackages.live-server
-  nodePackages.nodemon
-  nodePackages.prettier
-  nodePackages.npm
-  nodejs
+    # Source code management, Git, GitHub tools
+    gh
 
-  # Source code management, Git, GitHub tools
-  gh
+    # Text and terminal utilities
+    htop
+    hunspell
+    iftop
+    jetbrains-mono
+    jetbrains.phpstorm
+    jq
+    ripgrep
+    slack
+    tree
+    tmux
+    unrar
+    unzip
+    zsh-powerlevel10k
 
-  # Text and terminal utilities
-  htop
-  hunspell
-  iftop
-  jetbrains-mono
-  jetbrains.phpstorm
-  jq
-  ripgrep
-  slack
-  tree
-  tmux
-  unrar
-  unzip
-  zsh-powerlevel10k
-
-  myPython
-]
+    myPython
+  ]

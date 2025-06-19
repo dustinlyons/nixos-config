@@ -9,7 +9,7 @@ _: {
           type = "gpt";
           partitions = {
             ESP = {
-              type = "EF00";  # EFI partition type.
+              type = "EF00"; # EFI partition type.
               size = "500M";
               content = {
                 type = "filesystem";
@@ -18,8 +18,8 @@ _: {
               };
             };
             root = {
-              start = "901G";  # Start immediately after Windows partition.
-              size = "100%";  # Takes the remaining half of the disk space.
+              start = "901G"; # Start immediately after Windows partition.
+              size = "100%"; # Takes the remaining half of the disk space.
               content = {
                 type = "filesystem";
                 format = "ext4";

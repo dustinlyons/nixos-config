@@ -1,8 +1,14 @@
-{ config, inputs, lib, pkgs, agenix, ... }:
-
-let user = "dustin";
-    keys = [ "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOk8iAnIaa1deoc7jw8YACPNVka1ZFJxhnU4G74TmS+p" ]; in
 {
+  config,
+  inputs,
+  lib,
+  pkgs,
+  agenix,
+  ...
+}: let
+  user = "dustin";
+  keys = ["ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOk8iAnIaa1deoc7jw8YACPNVka1ZFJxhnU4G74TmS+p"];
+in {
   imports = [
     ../../modules/nixos/secrets.nix
     ../../modules/nixos/disk-config.nix
@@ -19,9 +25,9 @@ let user = "dustin";
       };
       efi.canTouchEfiVariables = true;
     };
-    initrd.availableKernelModules = [ "xhci_pci" "ahci" "nvme" "usbhid" "usb_storage" "sd_mod" "v4l2loopback" ];
-    kernelModules = [ "uinput" "v4l2loopback" ];
-    extraModulePackages = [ pkgs.linuxPackages.v4l2loopback ];
+    initrd.availableKernelModules = ["xhci_pci" "ahci" "nvme" "usbhid" "usb_storage" "sd_mod" "v4l2loopback"];
+    kernelModules = ["uinput" "v4l2loopback"];
+    extraModulePackages = [pkgs.linuxPackages.v4l2loopback];
   };
 
   # Set your time zone.
@@ -38,18 +44,18 @@ let user = "dustin";
 
   # Turn on flag for proprietary software
   nix = {
-    nixPath = [ "nixos-config=/home/${user}/.local/share/src/nixos-config:/etc/nixos" ];
+    nixPath = ["nixos-config=/home/${user}/.local/share/src/nixos-config:/etc/nixos"];
     settings = {
-      allowed-users = [ "${user}" ];
-      trusted-users = [ "@admin" "${user}" ];
-      substituters = [ "https://nix-community.cachix.org" "https://cache.nixos.org" ];
-      trusted-public-keys = [ "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY=" ];
+      allowed-users = ["${user}"];
+      trusted-users = ["@admin" "${user}"];
+      substituters = ["https://nix-community.cachix.org" "https://cache.nixos.org"];
+      trusted-public-keys = ["cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="];
     };
     package = pkgs.nix;
     extraOptions = ''
       experimental-features = nix-command flakes
     '';
-   };
+  };
 
   # Manages keys and such
   programs = {
@@ -66,7 +72,7 @@ let user = "dustin";
     xserver = {
       enable = true;
 
-      videoDrivers = [ "nvidia" ];
+      videoDrivers = ["nvidia"];
 
       # This helps fix tearing of windows for Nvidia cards
       screenSection = ''
@@ -101,7 +107,7 @@ let user = "dustin";
     # Enable CUPS to print documents
     printing = {
       enable = true;
-      drivers = [ pkgs.brlaser ]; # Brother printer driver
+      drivers = [pkgs.brlaser]; # Brother printer driver
     };
 
     syncthing = {
@@ -121,13 +127,13 @@ let user = "dustin";
             id = "P2FYLQW-PKDFJGZ-EUGI2T7-OW4AH4I-KI462HD-U2VL3X3-GN55PP2-VNRE5AH";
             autoAcceptFolders = true;
             allowedNetwork = "192.168.0.0/16";
-            addresses = [ "tcp://192.168.0.99:51820" ];
+            addresses = ["tcp://192.168.0.99:51820"];
           };
           "Home Lab" = {
             id = "WW5O366-THBBBA3-HKQAYCP-EWADS4I-4KDDC5Z-3JCO42M-RLBZ3DY-NM7PEQA";
             allowedNetwork = "192.168.0.0/16";
             autoAcceptFolders = true;
-            addresses = [ "tcp://192.168.0.103:51820" ];
+            addresses = ["tcp://192.168.0.103:51820"];
           };
         };
 
@@ -135,13 +141,12 @@ let user = "dustin";
           "XDG Share" = {
             id = "ukrub-quh7k";
             path = "/home/${user}/.local/share";
-            devices = [ "Macbook Pro" "Home Lab" ];
+            devices = ["Macbook Pro" "Home Lab"];
           };
         };
 
         options.globalAnnounceEnabled = false; # Only sync on LAN
       };
-
     };
 
     # Picom, my window compositor with fancy effects
@@ -225,12 +230,21 @@ let user = "dustin";
         log-level = "info";
 
         wintypes = {
-          normal = { fade = true; shadow = false; };
-          tooltip = { fade = true; shadow = false; opacity = 0.75; focus = true; full-shadow = false; };
-          dock = { shadow = false; };
-          dnd = { shadow = false; };
-          popup_menu = { opacity = 1.0; };
-          dropdown_menu = { opacity = 1.0; };
+          normal = {
+            fade = true;
+            shadow = false;
+          };
+          tooltip = {
+            fade = true;
+            shadow = false;
+            opacity = 0.75;
+            focus = true;
+            full-shadow = false;
+          };
+          dock = {shadow = false;};
+          dnd = {shadow = false;};
+          popup_menu = {opacity = 1.0;};
+          dropdown_menu = {opacity = 1.0;};
         };
       };
     };
@@ -299,15 +313,17 @@ let user = "dustin";
   # Don't require password for users in `wheel` group for these commands
   security.sudo = {
     enable = true;
-    extraRules = [{
-      commands = [
-       {
-         command = "${pkgs.systemd}/bin/reboot";
-         options = [ "NOPASSWD" ];
-        }
-      ];
-      groups = [ "wheel" ];
-    }];
+    extraRules = [
+      {
+        commands = [
+          {
+            command = "${pkgs.systemd}/bin/reboot";
+            options = ["NOPASSWD"];
+          }
+        ];
+        groups = ["wheel"];
+      }
+    ];
   };
 
   fonts.packages = with pkgs; [
@@ -329,5 +345,4 @@ let user = "dustin";
   ];
 
   system.stateVersion = "21.05"; # Don't change this
-
 }

@@ -1,6 +1,8 @@
-{ pkgs, config, ... }:
-
-let
+{
+  pkgs,
+  config,
+  ...
+}: let
   githubPublicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOk8iAnIaa1deoc7jw8YACPNVka1ZFJxhnU4G74TmS+p dustin@Dustins-MBP.localdomain";
   githubPublicSigningKey = ''
     -----BEGIN PGP PUBLIC KEY BLOCK-----
@@ -45,9 +47,7 @@ let
     =WFfO
     -----END PGP PUBLIC KEY BLOCK-----
   '';
-in
-
-{
+in {
   # Initializes Emacs with org-mode so we can tangle the main config
   #
   # @todo: Get rid of this after we've upgraded to Emacs 29 on the Macbook

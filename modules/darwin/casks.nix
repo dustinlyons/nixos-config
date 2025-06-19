@@ -1,6 +1,4 @@
-_:
-
-[
+_: [
   # Development Tools
   "homebrew/cask/docker"
   "claude"
