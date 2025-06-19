@@ -20,6 +20,7 @@
   (add-to-list 'package-archives '("org" . "https://orgmode.org/elpa/") t))
 
 (setq package-enable-at-startup nil)
+(package-initialize)
 
 ;; -------------------------
 ;; Use-Package Setup
@@ -72,7 +73,9 @@
     (error "Error: Failed to load Straight.el.")))
 
 (setq straight-use-package-by-default t)
-(package-initialize)
+
+;; Load org early to prevent version mismatch
+(straight-use-package 'org)
 
 ;; -------------------------
 ;; Window and UI Setup

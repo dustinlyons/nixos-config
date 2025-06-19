@@ -291,8 +291,22 @@ Keeps info at my fingertips. Modeline is much better than Vim's Powerline (sorry
 #+BEGIN_SRC emacs-lisp
   ;; Run M-x all-the-icons-install-fonts to install
   (use-package all-the-icons)
+  
+  ;; Fix for f.el shortdoc issue
+  (use-package f
+    :ensure t
+    :config
+    ;; Workaround for shortdoc issue with f-older-p
+    (when (fboundp 'shortdoc-add-function)
+      (with-eval-after-load 'shortdoc
+        (shortdoc-add-function
+         'file 'f-older-p
+         :eval (f-older-p "newer.txt" "older.txt")
+         :eg-result nil))))
+  
   (use-package doom-modeline
     :ensure t
+    :after f
     :init (doom-modeline-mode 1))
 #+END_SRC
 
