@@ -74,7 +74,7 @@ with pkgs; [
   # N
   neofetch # System information tool
   ngrok # Secure tunneling service
-  nodejs # JavaScript runtime
+  nodejs_24
   nodePackages.live-server # Development server with live reload
   nodePackages.nodemon # Node.js file watcher
   nodePackages.npm # Node package manager
