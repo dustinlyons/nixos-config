@@ -74,11 +74,10 @@ with pkgs; [
   # N
   neofetch # System information tool
   ngrok # Secure tunneling service
-  nodejs_24
-  nodePackages.live-server # Development server with live reload
-  nodePackages.nodemon # Node.js file watcher
-  nodePackages.npm # Node package manager
-  nodePackages.prettier # Code formatter
+  nodePackages_latest.live-server # Development server with live reload
+  nodePackages_latest.nodemon # Node.js file watcher
+  nodePackages_latest.npm # Node package manager
+  nodePackages_latest.prettier # Code formatter
 
   # O
   openssh # SSH client and server
