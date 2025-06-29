@@ -74,6 +74,25 @@
 
 (setq straight-use-package-by-default t)
 
+;; Fix for f.el shortdoc issue in Emacs 30 - must be done before loading f.el
+(when (>= emacs-major-version 30)
+  ;; Define advice to filter out :noeval from shortdoc-add-function calls
+  (defun my/filter-shortdoc-args (group &rest args)
+    "Filter out :noeval from shortdoc arguments."
+    (let ((filtered-args nil)
+          (i 0))
+      (while (< i (length args))
+        (if (eq (nth i args) :noeval)
+            ;; Skip :noeval and its value
+            (setq i (+ i 2))
+          ;; Keep other arguments
+          (setq filtered-args (append filtered-args (list (nth i args))))
+          (setq i (1+ i))))
+      (cons group filtered-args)))
+  
+  ;; Apply the advice before shortdoc is loaded
+  (advice-add 'shortdoc-add-function :filter-args #'my/filter-shortdoc-args))
+
 ;; Load org early to prevent version mismatch
 (straight-use-package 'org)
 

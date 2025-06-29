@@ -183,17 +183,9 @@
 ;; Run M-x all-the-icons-install-fonts to install
 (use-package all-the-icons)
 
-;; Fix for f.el shortdoc issue
+;; f.el - modern file API
 (use-package f
-  :ensure t
-  :config
-  ;; Workaround for shortdoc issue with f-older-p
-  (when (fboundp 'shortdoc-add-function)
-    (with-eval-after-load 'shortdoc
-      (shortdoc-add-function
-       'file 'f-older-p
-       :eval (f-older-p "newer.txt" "older.txt")
-       :eg-result nil))))
+  :ensure t)
 
 (use-package doom-modeline
   :ensure t
@@ -723,7 +715,11 @@ Note the weekly scope of the command's precision.")
   ;; Gives me vim bindings elsewhere in emacs
   (use-package evil-collection
     :after evil
+    :init
+    ;; Define the variable before use
+    (defvar evil-collection-mode-list nil)
     :config
+    (setq evil-collection-mode-list (remove 'magit evil-collection-mode-list))
     (evil-collection-init))
 
   ;; Keybindings in org mode
@@ -1091,7 +1087,22 @@ Note the weekly scope of the command's precision.")
 ;;(add-hook 'css-mode-hook 'prettier-js-mode)
 
 (use-package magit
-  :commands (magit-status magit-get-current-branch))
+  :commands (magit-status magit-get-current-branch)
+  :config
+  ;; Enable vim-style navigation in Magit
+  (evil-set-initial-state 'magit-mode 'normal)
+  (evil-define-key 'normal magit-mode-map
+    "j" 'magit-section-forward
+    "k" 'magit-section-backward
+    "h" 'magit-section-hide
+    "l" 'magit-section-show
+    "n" 'magit-section-forward-sibling
+    "p" 'magit-section-backward-sibling
+    "J" 'magit-section-forward-sibling
+    "K" 'magit-section-backward-sibling
+    "gg" 'beginning-of-buffer
+    "G" 'end-of-buffer
+    "q" 'magit-mode-bury-buffer))
 (define-key magit-hunk-section-map (kbd "RET") 'magit-diff-visit-file-other-window)
 (global-set-key (kbd "C-x G") 'magit-log-buffer-file)
 
