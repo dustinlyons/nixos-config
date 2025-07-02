@@ -72,12 +72,13 @@ with pkgs; [
   myPython # Custom Python with packages
 
   # N
+  ncurses # Terminal control library with terminfo database
   neofetch # System information tool
   ngrok # Secure tunneling service
   nodePackages_latest.live-server # Development server with live reload
   nodePackages_latest.nodemon # Node.js file watcher
   nodePackages_latest.npm # Node package manager
-  nodePackages_latest.prettier # Code formatter
+  (hiPrio nodePackages_latest.prettier) # Code formatter
 
   # O
   openssh # SSH client and server
