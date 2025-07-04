@@ -75,10 +75,10 @@ with pkgs; [
   ncurses # Terminal control library with terminfo database
   neofetch # System information tool
   ngrok # Secure tunneling service
-  nodePackages_latest.live-server # Development server with live reload
-  nodePackages_latest.nodemon # Node.js file watcher
-  nodePackages_latest.npm # Node package manager
-  (hiPrio nodePackages_latest.prettier) # Code formatter
+  nodePackages.live-server # Development server with live reload
+  nodePackages.nodemon # Node.js file watcher
+  nodePackages.npm # Node package manager
+  (hiPrio nodePackages.prettier) # Code formatter
 
   # O
   openssh # SSH client and server
