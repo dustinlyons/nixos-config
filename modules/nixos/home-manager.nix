@@ -98,6 +98,12 @@ in
         Mod+K { focus-window-up; }
         Mod+J { focus-window-down; }
         
+        // Additional focus movement bindings
+        Ctrl+Alt+Left { focus-column-left; }
+        Ctrl+Alt+Right { focus-column-right; }
+        Mod+Left { focus-column-left; }
+        Mod+Right { focus-column-right; }
+        
         // Window movement
         Mod+Shift+H { move-column-left; }
         Mod+Shift+L { move-column-right; }
