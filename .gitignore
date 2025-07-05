@@ -4,3 +4,4 @@ result
 .DS_Store
 .claude
 CLAUDE.md
+*.AppImage
