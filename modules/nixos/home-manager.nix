@@ -18,7 +18,7 @@ in
     cursorTheme = {
       package = pkgs.apple-cursor;
       name = "macOS-Monterey";
-      size = 24;
+      size = 12;
     };
   };
 
@@ -30,6 +30,10 @@ in
     file = shared-files // import ./files.nix { inherit user pkgs; };
     stateVersion = "25.05";
     
+    sessionVariables = {
+      XCURSOR_SIZE = "12";
+      XCURSOR_THEME = "macOS-Monterey";
+    };
   };
 
   programs = shared-programs // { 
@@ -39,7 +43,7 @@ in
     niri.config = ''
       cursor {
         xcursor-theme "macOS-Monterey"
-        xcursor-size 24
+        xcursor-size 12
         hide-when-typing
       }
       
@@ -64,12 +68,12 @@ in
         Mod+E { spawn "/home/dustin/.local/bin/emacsclient-gui"; }
         
         // Essential bindings
-        Mod+Return { spawn "${pkgs.alacritty}/bin/alacritty"; }
+        Mod+Return { spawn "${pkgs.alacritty}/bin/alacritty" "--class" "floating-terminal"; }
         Mod+T { spawn "${pkgs.alacritty}/bin/alacritty"; }
-        Mod+Space { spawn "${pkgs.bemenu}/bin/bemenu-run" "--fn" "MesloLGS NF 12" "--tb" "#1f2528" "--tf" "#c0c5ce" "--fb" "#1f2528" "--ff" "#c0c5ce" "--nb" "#1f2528" "--nf" "#65737e" "--hb" "#6699cc" "--hf" "#1f2528"; }
+        Mod+Space { spawn "${pkgs.fuzzel}/bin/fuzzel"; }
         
         // Clipboard history
-        Mod+V { spawn "bash" "-c" "${pkgs.cliphist}/bin/cliphist list | ${pkgs.bemenu}/bin/bemenu -l 10 | ${pkgs.cliphist}/bin/cliphist decode | ${pkgs.wl-clipboard}/bin/wl-copy"; }
+        Mod+V { spawn "bash" "-c" "${pkgs.cliphist}/bin/cliphist list | ${pkgs.fuzzel}/bin/fuzzel --dmenu -l 10 | ${pkgs.cliphist}/bin/cliphist decode | ${pkgs.wl-clipboard}/bin/wl-copy"; }
         
         // Color picker
         Mod+C { spawn "bash" "-c" "${pkgs.hyprpicker}/bin/hyprpicker -a"; }
@@ -79,6 +83,9 @@ in
         Mod+Shift+E { quit; }
         Mod+Q { close-window; }
         Alt+F4 { close-window; }
+        
+        // Toggle floating
+        Mod+W { toggle-window-floating; }
         
         // Screenshots
         Print { spawn "bash" "-c" "${pkgs.grim}/bin/grim -g \"$(${pkgs.slurp}/bin/slurp)\" - | ${pkgs.swappy}/bin/swappy -f -"; }
@@ -125,6 +132,9 @@ in
         Mod+Shift+F { fullscreen-window; }
         Mod+R { switch-preset-column-width; }
         Mod+Shift+R { reset-window-height; }
+        
+        // Floating window toggle
+        Mod+Shift+W { toggle-window-floating; }
         
         // Volume controls
         XF86AudioRaiseVolume { spawn "${pkgs.wireplumber}/bin/wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@" "5%+"; }
@@ -186,6 +196,11 @@ in
         default-column-width { proportion 0.5; }
       }
       
+      window-rule {
+        match app-id="floating-terminal"
+        open-floating true
+      }
+      
       spawn-at-startup "${pkgs.waybar}/bin/waybar"
       spawn-at-startup "${pkgs.mako}/bin/mako"
       spawn-at-startup "${pkgs.swaybg}/bin/swaybg" "-i" "/home/${user}/Pictures/space-goose.jpg" "-m" "fill"
@@ -203,8 +218,8 @@ in
           spacing = 4;
           
           modules-left = ["custom/niri_workspaces"];
-          modules-center = ["clock"];
-          modules-right = ["custom/media" "custom/weather" "tray"];
+          modules-center = [];
+          modules-right = ["custom/media" "custom/weather" "tray" "clock"];
 
           "custom/niri_workspaces" = {
             format = "{}";
@@ -368,19 +383,26 @@ in
       enable = true;
       settings = {
         main = {
-          font = "MesloLGS NF:size=14";
+          font = "Inter:size=14";
           dpi-aware = "yes";
-          width = 35;
-          lines = 10;
+          width = 40;
+          lines = 12;
           tabs = 4;
+          inner-pad = 16;
+          horizontal-pad = 16;
+          vertical-pad = 16;
         };
         colors = {
-          background = "1f2528dd";
-          text = "c0c5ceff";
-          match = "6699ccff";
-          selection = "65737eff";
+          background = "2a2a2aee";
+          text = "ffffffff";
+          match = "888888ff";
+          selection = "404040ff";
           selection-text = "ffffffff";
-          border = "6699ccff";
+          border = "00000033";
+        };
+        border = {
+          width = 1;
+          radius = 8;
         };
       };
     };
@@ -390,15 +412,15 @@ in
   services.mako = {
     enable = true;
     settings = {
-      background-color = "#1f2528";
-      text-color = "#c0c5ce";
-      border-color = "#6699cc";
-      border-size = 2;
-      border-radius = 5;
+      background-color = "#2a2a2a";
+      text-color = "#ffffff";
+      border-color = "#00000033";
+      border-size = 1;
+      border-radius = 8;
       default-timeout = 5000;
-      font = "MesloLGS NF 10";
-      padding = "10";
-      margin = "10";
+      font = "Inter 12";
+      padding = "16";
+      margin = "16";
       layer = "overlay";
     };
   };

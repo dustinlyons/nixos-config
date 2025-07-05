@@ -74,8 +74,11 @@
     LC_TIME           = "en_US.UTF-8";
   };
 
-  # Enable Niri Wayland compositor
-  programs.niri.enable = true;
+  # Programs configuration
+  programs = {
+    niri.enable = true;
+    zsh.enable = true;
+  };
   
   # Set Niri as the default session
   services.displayManager.defaultSession = "niri";
@@ -130,11 +133,6 @@
     shell = pkgs.zsh;
   };
 
-  # Install firefox.
-  programs.firefox.enable = true;
-
-  # My shell
-  programs.zsh.enable = true;
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
