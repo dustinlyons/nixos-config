@@ -52,6 +52,8 @@ shared-packages ++ [
   wev # Wayland event viewer (useful for debugging)
   swaybg # Wallpaper daemon for Wayland
   
+  nautilus # GNOME file browser with excellent Wayland support
+  
   yubikey-agent # Yubikey SSH agent
   pinentry-qt # GPG pinentry
 

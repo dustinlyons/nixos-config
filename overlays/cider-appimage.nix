@@ -3,10 +3,7 @@ self: super: with super; {
     pname = "cider";
     version = "3.0.2";
 
-    src = builtins.path {
-      path = ./cider-v3.0.2-linux-x64.AppImage;
-      name = "cider-v${version}-linux-x64.AppImage";
-    };
+    src = /home/dustin/.local/share/src/nixos-private-packages/cider-v${version}-linux-x64.AppImage;
 
     nativeBuildInputs = [ makeWrapper ];
 
