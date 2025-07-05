@@ -7,7 +7,7 @@ shared-packages ++ [
   
   apple-cursor # macOS-style cursor theme
   
-  bemenu # Wayland-native application launcher
+  cider-appimage # Apple Music client
   
   cliphist # Clipboard history manager for Wayland
 
