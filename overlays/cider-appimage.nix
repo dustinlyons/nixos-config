@@ -3,9 +3,9 @@ self: super: with super; {
     pname = "cider";
     version = "3.0.2";
 
-    src = fetchurl {
-      url = "https://github.com/dustinlyons/nixos-private-packages/raw/main/cider-v${version}-linux-x64.AppImage";
-      sha256 = "1jxm2d2gwprc97fqk9cvhxrsz604h6xcp6s882w604khr1hiah12";
+    src = builtins.path {
+      path = ./cider-v3.0.2-linux-x64.AppImage;
+      name = "cider-v${version}-linux-x64.AppImage";
     };
 
     nativeBuildInputs = [ makeWrapper ];
