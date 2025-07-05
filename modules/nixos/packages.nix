@@ -4,6 +4,12 @@ let shared-packages = import ../shared/packages.nix { inherit pkgs; }; in
 shared-packages ++ [
 
   _1password-gui # Password manager
+  
+  apple-cursor # macOS-style cursor theme
+  
+  bemenu # Wayland-native application launcher
+  
+  cliphist # Clipboard history manager for Wayland
 
   brlaser # Printer driver
 
@@ -16,6 +22,8 @@ shared-packages ++ [
   gimp # Image editor
   google-chrome # Web browser
 
+  imv # Lightweight Wayland image viewer
+  
   keepassxc # Password manager
 
   pavucontrol # Pulse audio controls
@@ -31,8 +39,17 @@ shared-packages ++ [
 
   vlc # Media player
 
-  xclip # Clipboard utilities
-
+  # Wayland-specific tools for Niri
+  grim # Screenshot tool for Wayland
+  slurp # Area selection for screenshots
+  swappy # Screenshot annotation tool
+  swaylock # Screen locker for Wayland
+  swayidle # Idle management daemon
+  kanshi # Dynamic display configuration
+  wdisplays # GUI display configurator for Wayland
+  wev # Wayland event viewer (useful for debugging)
+  swaybg # Wallpaper daemon for Wayland
+  
   yubikey-agent # Yubikey SSH agent
   pinentry-qt # GPG pinentry
 

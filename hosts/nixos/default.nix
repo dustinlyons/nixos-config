@@ -74,41 +74,28 @@
     LC_TIME           = "en_US.UTF-8";
   };
 
-  # Enable the X11 windowing system (still needed for compatibility).
-  # Enable the KDE Plasma Desktop Environment with Wayland.
+  # Enable Niri Wayland compositor
+  programs.niri.enable = true;
+  
+  # Set Niri as the default session
+  services.displayManager.defaultSession = "niri";
+
+  # Services configuration
   services = {
-    xserver = {
+    # greetd display manager for Wayland
+    greetd = {
       enable = true;
-
-      # Configure keymap
-      xkb = {
-        layout  = "us";
-        variant = "";
+      settings = {
+        default_session = {
+          command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --cmd niri-session";
+          user = "greeter";
+        };
       };
     };
-
-    displayManager = {
-      sddm = {
-        enable = true;
-        wayland.enable = true;  # Enable Wayland support in SDDM
-      };
-
-      # Enable automatic login for the user.
-      autoLogin = {
-        enable = true;
-        inherit user;
-      };
-
-      # Set default session to Wayland
-      defaultSession = "plasma";  # This will use Plasma Wayland by default
-    };
-
-    # KDE Plasma 6 desktop
-    desktopManager.plasma6.enable = true;
 
     emacs = {
       enable = true;
-      package = pkgs.emacs;
+      package = pkgs.emacs-unstable-pgtk;  # Wayland-native Emacs with pgtk
     };
 
     # Enable CUPS to print documents.
@@ -157,7 +144,7 @@
   environment.systemPackages = with pkgs; [
     vim
     git
-    emacs
+    emacs-unstable-pgtk
     # Wayland-specific utilities
     wl-clipboard     # Wayland clipboard utilities (replaces xclip)
     wayland-utils    # Wayland utilities

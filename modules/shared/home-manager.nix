@@ -111,7 +111,7 @@ let name = "Dustin Lyons";
       set ruler
       set backspace=indent,eol,start
       set laststatus=2
-      set clipboard=autoselect
+      set clipboard=unnamedplus
 
       " Dir stuff
       set nobackup
