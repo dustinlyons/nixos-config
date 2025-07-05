@@ -60,15 +60,19 @@ in
       binds {
         // Custom keybindings
         Ctrl+Alt+T { spawn "${pkgs.alacritty}/bin/alacritty"; }
-        Ctrl+Alt+B { spawn "google-chrome-stable" "--ozone-platform=wayland"; }
-        Ctrl+Alt+E { spawn "/home/dustin/.local/bin/emacsclient-gui"; }
+        Mod+B { spawn "google-chrome-stable" "--ozone-platform=wayland"; }
+        Mod+E { spawn "/home/dustin/.local/bin/emacsclient-gui"; }
         
         // Essential bindings
         Mod+Return { spawn "${pkgs.alacritty}/bin/alacritty"; }
+        Mod+T { spawn "${pkgs.alacritty}/bin/alacritty"; }
         Mod+Space { spawn "${pkgs.bemenu}/bin/bemenu-run" "--fn" "MesloLGS NF 12" "--tb" "#1f2528" "--tf" "#c0c5ce" "--fb" "#1f2528" "--ff" "#c0c5ce" "--nb" "#1f2528" "--nf" "#65737e" "--hb" "#6699cc" "--hf" "#1f2528"; }
         
         // Clipboard history
         Mod+V { spawn "bash" "-c" "${pkgs.cliphist}/bin/cliphist list | ${pkgs.bemenu}/bin/bemenu -l 10 | ${pkgs.cliphist}/bin/cliphist decode | ${pkgs.wl-clipboard}/bin/wl-copy"; }
+        
+        // Color picker
+        Mod+C { spawn "bash" "-c" "${pkgs.hyprpicker}/bin/hyprpicker -a"; }
         
         // Screen lock
         Ctrl+Alt+L { spawn "${pkgs.swaylock}/bin/swaylock" "-c" "000000"; }
@@ -100,6 +104,14 @@ in
         Mod+4 { focus-workspace 4; }
         Mod+5 { focus-workspace 5; }
         Mod+6 { focus-workspace 6; }
+        
+        // Navigate workspaces with arrow keys
+        Mod+Up { focus-workspace-up; }
+        Mod+Down { focus-workspace-down; }
+        
+        // Move windows between workspaces with arrow keys
+        Mod+Shift+Up { move-column-to-workspace-up; }
+        Mod+Shift+Down { move-column-to-workspace-down; }
         
         Mod+Shift+1 { move-column-to-workspace 1; }
         Mod+Shift+2 { move-column-to-workspace 2; }
@@ -190,18 +202,18 @@ in
           height = 30;
           spacing = 4;
           
-          modules-left = ["custom/niri_workspaces" "custom/weather"];
+          modules-left = ["custom/niri_workspaces"];
           modules-center = ["clock"];
-          modules-right = ["custom/notifications" "pulseaudio" "network" "cpu" "memory"];
+          modules-right = ["custom/media" "custom/weather" "tray"];
 
           "custom/niri_workspaces" = {
             format = "{}";
             interval =  2;
             return-type = "json";
-            exec = "$HOME/.config/waybar/modules/workspaces.sh \"$WAYBAR_OUTPUT_NAME\"";
+            exec = "$HOME/.config/waybar/modules/workspaces-improved.sh \"$WAYBAR_OUTPUT_NAME\"";
             on-click = "fuzzel";
-            on-scroll-up = "$HOME/.config/waybar/modules/workspaces.sh up";
-            on-scroll-down = "$HOME/.config/waybar/modules/workspaces.sh down";
+            on-scroll-up = "$HOME/.config/waybar/modules/workspaces-improved.sh up";
+            on-scroll-down = "$HOME/.config/waybar/modules/workspaces-improved.sh down";
             signal = 8;
           };
           
@@ -243,9 +255,10 @@ in
           };
           
           clock = {
+            format = "{:%I:%M %p}";
             timezone = "America/Kentucky/Louisville";
             tooltip-format = "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>";
-            format-alt = "{:%Y-%m-%d}";
+            format-alt = "{:%A, %B %d, %Y}";
           };
           
           cpu = {
@@ -299,88 +312,53 @@ in
       
       style = ''
         * {
-          font-family: MesloLGS NF, FontAwesome, sans-serif;
-          font-size: 13px;
+          font-family: "Inter", "SF Pro Display", -apple-system, BlinkMacSystemFont, sans-serif;
+          font-size: 14px;
+          font-weight: 500;
           border: none;
           border-radius: 0;
         }
         
         window#waybar {
-          background: linear-gradient(135deg, rgba(40, 42, 54, 0.7) 0%, rgba(68, 71, 90, 0.7) 100%);
-          color: #f8f8f2;
-          border-bottom: 1px solid rgba(189, 147, 249, 0.3);
-          box-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
+          background: rgba(30, 30, 30, 0.85);
+          color: #ffffff;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
         
-        #workspaces button {
-          padding: 0 12px;
-          background-color: transparent;
-          color: #f8f8f2;
-          margin: 0 2px;
-          border-radius: 6px;
-          transition: all 0.3s ease;
+        #custom-niri_workspaces {
+          padding: 0 16px;
+          font-weight: 600;
+          font-family: "JetBrainsMono", monospace;
         }
         
-        #workspaces button:hover {
-          background: rgba(189, 147, 249, 0.2);
-          color: #bd93f9;
-        }
-        
-        #workspaces button.active {
-          background: linear-gradient(135deg, #bd93f9 0%, #ff79c6 100%);
-          color: #282a36;
-          font-weight: bold;
-        }
-        
-        #clock,
-        #battery,
-        #cpu,
-        #memory,
-        #network,
-        #pulseaudio,
-        #tray,
-        #custom-niri,
-        #custom-weather,
-        #custom-music,
-        #custom-notifications,
-        #custom-power {
-          padding: 0 12px;
-          margin: 0;
-          color: #f8f8f2;
-          transition: all 0.3s ease;
-        }
-        
-        #custom-niri,
-        #custom-power {
-          font-size: 16px;
-        }
-        
-        #custom-music {
-          color: #50fa7b;
+        #clock {
+          padding: 0 16px;
+          font-weight: 600;
         }
         
         #custom-weather {
-          color: #8be9fd;
+          padding: 0 16px;
+          margin-right: 8px;
+          opacity: 0.8;
         }
         
-        #custom-notifications {
-          color: #ffb86c;
+        #custom-media {
+          padding: 0 16px;
+          color: #6699cc;
+          font-style: italic;
         }
         
-        #battery.charging {
-          color: #99c794;
+        #tray {
+          padding: 0 12px;
         }
         
-        #battery.critical:not(.charging) {
-          color: #ec5f67;
+        #tray > .passive {
+          -gtk-icon-effect: dim;
         }
         
-        #network.disconnected {
-          color: #ec5f67;
-        }
-        
-        #pulseaudio.muted {
-          color: #65737e;
+        #tray > .needs-attention {
+          -gtk-icon-effect: highlight;
+          background-color: #eb4d4b;
         }
       '';
     };

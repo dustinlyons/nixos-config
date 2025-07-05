@@ -99,6 +99,14 @@
 ;; -------------------------
 ;; Window and UI Setup
 ;; -------------------------
+(defun system-is-mac ()
+  "Return true if system is darwin-based (Mac OS X)"
+  (string-equal system-type "darwin"))
+
+(defun system-is-linux ()
+  "Return true if system is linux-based"
+  (string-equal system-type "gnu/linux"))
+
 (defun dl/window-setup ()
   (condition-case nil
       (progn
@@ -107,9 +115,11 @@
         (menu-bar-mode -1)
         (tool-bar-mode 0)
         (winner-mode 1)
-        (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
-        (add-to-list 'default-frame-alist '(ns-appearance . dark))
-        (setq ns-use-proxy-icon nil)
+        ;; Only apply macOS-specific settings on macOS
+        (when (system-is-mac)
+          (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
+          (add-to-list 'default-frame-alist '(ns-appearance . dark))
+          (setq ns-use-proxy-icon nil))
         (setq frame-title-format nil)
         (message "Window and UI setup completed successfully."))
     (error (message "Error occurred in Window and UI setup."))))

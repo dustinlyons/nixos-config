@@ -21,6 +21,8 @@ shared-packages ++ [
 
   gimp # Image editor
   google-chrome # Web browser
+  
+  hyprpicker # Wayland color picker
 
   imv # Lightweight Wayland image viewer
   
