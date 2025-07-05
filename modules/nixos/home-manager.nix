@@ -147,6 +147,11 @@ in
         XF86AudioLowerVolume { spawn "${pkgs.wireplumber}/bin/wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@" "5%-"; }
         XF86AudioMute { spawn "${pkgs.wireplumber}/bin/wpctl" "set-mute" "@DEFAULT_AUDIO_SINK@" "toggle"; }
         
+        // Media controls
+        Mod+Shift+P { spawn "${pkgs.playerctl}/bin/playerctl" "play-pause"; }
+        Mod+Shift+N { spawn "${pkgs.playerctl}/bin/playerctl" "next"; }
+        Mod+Shift+B { spawn "${pkgs.playerctl}/bin/playerctl" "previous"; }
+        
         // Enhanced navigation and window management
         Mod+Tab { focus-column-right; }
         Mod+Shift+Tab { focus-column-left; }
@@ -225,16 +230,16 @@ in
           
           modules-left = ["custom/niri_workspaces"];
           modules-center = [];
-          modules-right = ["custom/media" "custom/weather" "tray" "clock"];
+          modules-right = ["custom/media" "pulseaudio" "custom/weather" "clock"];
 
           "custom/niri_workspaces" = {
             format = "{}";
             interval =  2;
             return-type = "json";
-            exec = "$HOME/.config/waybar/modules/workspaces-improved.sh \"$WAYBAR_OUTPUT_NAME\"";
+            exec = "$HOME/.config/waybar/modules/workspaces.sh \"$WAYBAR_OUTPUT_NAME\"";
             on-click = "fuzzel";
-            on-scroll-up = "$HOME/.config/waybar/modules/workspaces-improved.sh up";
-            on-scroll-down = "$HOME/.config/waybar/modules/workspaces-improved.sh down";
+            on-scroll-up = "$HOME/.config/waybar/modules/workspaces.sh up";
+            on-scroll-down = "$HOME/.config/waybar/modules/workspaces.sh down";
             signal = 8;
           };
           
