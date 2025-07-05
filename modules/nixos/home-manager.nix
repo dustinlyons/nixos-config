@@ -121,6 +121,8 @@ in
         // Navigate workspaces with arrow keys
         Mod+Up { focus-workspace-up; }
         Mod+Down { focus-workspace-down; }
+        Ctrl+Alt+Up { focus-workspace-up; }
+        Ctrl+Alt+Down { focus-workspace-down; }
         
         // Move windows between workspaces with arrow keys
         Mod+Shift+Up { move-column-to-workspace-up; }
@@ -290,10 +292,16 @@ in
           cpu = {
             format = " {usage}%";
             tooltip = false;
+            states = {
+              warning = 80;
+            };
           };
           
           memory = {
             format = " {}%";
+            states = {
+              warning = 80;
+            };
           };
           
           battery = {
@@ -385,6 +393,17 @@ in
         #tray > .needs-attention {
           -gtk-icon-effect: highlight;
           background-color: #eb4d4b;
+        }
+        
+        #cpu,
+        #memory {
+          padding: 0 16px;
+          color: #ffffff;
+        }
+        
+        #cpu.warning,
+        #memory.warning {
+          color: #ff6666;
         }
       '';
     };

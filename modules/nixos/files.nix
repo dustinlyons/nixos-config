@@ -82,18 +82,18 @@ let
           # Get all workspaces for this output
           workspaces=$(niri msg -j workspaces | jq ".[] | select(.output == \"$1\")")
           
-          # Build the workspace string with numbers
+          # Build the workspace string with dot indicators
           for ws in $(echo "$workspaces" | jq -c "."); do
               idx=$(echo "$ws" | jq -r ".idx")
               is_active=$(echo "$ws" | jq -r ".is_active")
               
               if [ "$is_active" = "true" ]; then
-                  # Active workspace - larger, colored number
-                  workspace_str="$workspace_str <span size='large' weight='bold' color='#6699cc'>$idx</span> "
+                  # Active workspace - filled blue dot
+                  workspace_str="$workspace_str <span size='x-large' color='#6699cc'>●</span> "
                   active_idx=$idx
               else
-                  # Inactive workspace - smaller, dimmed number
-                  workspace_str="$workspace_str <span size='small' alpha='50%'>$idx</span> "
+                  # Inactive workspace - hollow dot
+                  workspace_str="$workspace_str <span size='large' alpha='60%'>○</span> "
               fi
           done
           
