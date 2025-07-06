@@ -917,6 +917,10 @@ Note the weekly scope of the command's precision.")
   :after (typescript-mode company flycheck)
   :hook ((typescript-mode . tide-setup)
          (typescript-mode . tide-hl-identifier-mode)
+         (web-mode . (lambda ()
+                       (when (string-match "tsx?" (file-name-extension buffer-file-name))
+                         (tide-setup)
+                         (tide-hl-identifier-mode))))
          (before-save . tide-format-before-save)))
 
 (setq tide-format-options
@@ -1062,7 +1066,17 @@ Note the weekly scope of the command's precision.")
 (add-to-list 'auto-mode-alist '("\\.php$" . php-mode))
 
 (use-package web-mode
-  :hook (web-mode . lsp-deferred))
+  :hook (web-mode . lsp-deferred)
+  :config
+  ;; Set content types for proper syntax highlighting
+  (setq web-mode-content-types-alist
+        '(("jsx" . "\\.js[x]?\\'")
+          ("jsx" . "\\.tsx\\'")))  ; Force TSX to use JSX content type
+  ;; Enable syntax highlighting features
+  (setq web-mode-enable-auto-pairing t)
+  (setq web-mode-enable-css-colorization t)
+  (setq web-mode-enable-current-element-highlight t)
+  (setq web-mode-enable-auto-quoting nil))
 
 (add-to-list 'auto-mode-alist '("\\.jsx?$" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.tsx$" . web-mode))
@@ -1074,7 +1088,10 @@ Note the weekly scope of the command's precision.")
 
 (defun web-mode-init-hook ()
   "Hooks for Web mode.  Adjust indent."
-  (setq web-mode-markup-indent-offset 2))
+  (setq web-mode-markup-indent-offset 2)
+  (setq web-mode-code-indent-offset 2)
+  (setq web-mode-css-indent-offset 2)
+  (setq web-mode-attr-indent-offset 2))
 (add-hook 'web-mode-hook  'web-mode-init-hook)
 (add-hook 'typescript-mode-hook #'lsp-deferred)
 
