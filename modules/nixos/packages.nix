@@ -10,6 +10,8 @@ shared-packages ++ [
   cider-appimage # Apple Music client
   
   cliphist # Clipboard history manager for Wayland
+  
+  tableplus-appimage # Database management tool
 
   brlaser # Printer driver
 
