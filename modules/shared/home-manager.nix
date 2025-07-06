@@ -46,9 +46,6 @@ let name = "Dustin Lyons";
       # Ripgrep alias
       alias search='rg -p --glob "!node_modules/*" --glob "!vendor/*" "$@"'
 
-      # Claude GUI
-      alias claude-desktop='nohup claude-desktop > /dev/null 2>&1 & disown'
-
       # Emacs is my editor
       export ALTERNATE_EDITOR=""
       export EDITOR="emacsclient -t"
@@ -67,9 +64,11 @@ let name = "Dustin Lyons";
       alias ls='ls --color=auto'
       
       # macOS-style open command using Nautilus
+      ${lib.optionalString pkgs.stdenv.hostPlatform.isLinux ''
       open() {
           nohup nautilus "$@" > /dev/null 2>&1 & disown
       }
+      ''}
     '';
   };
 
