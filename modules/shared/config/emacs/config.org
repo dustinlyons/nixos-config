@@ -462,6 +462,15 @@ We use two spaces in place of tabs. I don't even want to hear it.
       (setq doom-themes-enable-bold t
               doom-themes-enable-italic t)
       (load-theme 'doom-sourcerer t)
+      
+      ;; Fix white frame issue by setting default frame parameters
+      (setq default-frame-alist 
+            (append default-frame-alist
+                    '((background-color . "#1c1e27")
+                      (foreground-color . "#cccac2"))))
+      (set-face-background 'default "#1c1e27")
+      (set-face-background 'fringe "#1c1e27")
+      
       (doom-themes-visual-bell-config)
       (doom-themes-org-config))
 #+END_SRC

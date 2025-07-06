@@ -65,6 +65,11 @@ let name = "Dustin Lyons";
 
       # Always color ls and group directories
       alias ls='ls --color=auto'
+      
+      # macOS-style open command using Nautilus
+      open() {
+          nohup nautilus "$@" > /dev/null 2>&1 & disown
+      }
     '';
   };
 
