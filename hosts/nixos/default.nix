@@ -55,6 +55,11 @@
     # networking.interfaces.eno1.useDHCP = lib.mkDefault true;
     networkmanager.enable = true;
     firewall.enable       = false;
+    
+    # Custom hosts entries
+    extraHosts = ''
+      10.0.10.2 lab-1
+    '';
   };
 
   # Set your time zone.
