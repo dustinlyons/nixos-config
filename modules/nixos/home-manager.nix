@@ -163,6 +163,11 @@ in
         
         // Lock screen
         Mod+Ctrl+Q { spawn "${pkgs.swaylock}/bin/swaylock"; }
+        
+        // Terminal animations
+        Mod+F1 { spawn "${pkgs.alacritty}/bin/alacritty" "--class" "fullscreen-animation" "-e" "${pkgs.asciiquarium}/bin/asciiquarium"; }
+        Mod+F2 { spawn "${pkgs.alacritty}/bin/alacritty" "--class" "fullscreen-animation" "-e" "${pkgs.tty-clock}/bin/tty-clock" "-C" "6" "-c"; }
+        Mod+F3 { spawn "${pkgs.alacritty}/bin/alacritty" "--class" "fullscreen-animation" "-e" "${pkgs.cava}/bin/cava"; }
       }
       
       layout {
@@ -212,6 +217,12 @@ in
       window-rule {
         match app-id="floating-terminal"
         open-floating true
+      }
+      
+      window-rule {
+        match app-id="fullscreen-animation"
+        open-fullscreen true
+        open-on-workspace "next"
       }
       
       spawn-at-startup "${pkgs.waybar}/bin/waybar"

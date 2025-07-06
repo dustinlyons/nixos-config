@@ -40,6 +40,7 @@ shared-packages ++ [
 
   unixtools.ifconfig # Network interface configuration
   unixtools.netstat # Network statistics
+  glances # System monitoring tool with style
 
   vlc # Media player
 
@@ -60,4 +61,9 @@ shared-packages ++ [
   pinentry-qt # GPG pinentry
 
   zathura # PDF viewer
+  
+  # Terminal animations
+  cava # Console-based audio visualizer
+  asciiquarium # ASCII art aquarium animation
+  tty-clock # Terminal digital clock
 ]
