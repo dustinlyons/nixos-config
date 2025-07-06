@@ -168,6 +168,42 @@ in
         Mod+F1 { spawn "${pkgs.alacritty}/bin/alacritty" "--class" "fullscreen-animation" "-e" "${pkgs.asciiquarium}/bin/asciiquarium"; }
         Mod+F2 { spawn "${pkgs.alacritty}/bin/alacritty" "--class" "fullscreen-animation" "-e" "${pkgs.tty-clock}/bin/tty-clock" "-C" "6" "-c"; }
         Mod+F3 { spawn "${pkgs.alacritty}/bin/alacritty" "--class" "fullscreen-animation" "-e" "${pkgs.cava}/bin/cava"; }
+        
+        // Show keybindings help
+        Mod+Shift+Slash { show-hotkey-overlay; }
+        
+        // Focus all windows including floating
+        Mod+N { focus-window-or-workspace-down; }
+        Mod+P { focus-window-or-workspace-up; }
+        
+        // Column width management
+        Mod+Minus { set-column-width "-10%"; }
+        Mod+Equal { set-column-width "+10%"; }
+        
+        // Window height management
+        Mod+Shift+Minus { set-window-height "-10%"; }
+        Mod+Shift+Equal { set-window-height "+10%"; }
+        
+        // Monitor focus
+        Mod+Shift+Left { focus-monitor-left; }
+        Mod+Shift+Right { focus-monitor-right; }
+        
+        // Move to monitor
+        Mod+Ctrl+Shift+Left { move-column-to-monitor-left; }
+        Mod+Ctrl+Shift+Right { move-column-to-monitor-right; }
+        
+        // Consume window into column
+        Mod+Comma { consume-window-into-column; }
+        
+        // Expel window from column
+        Mod+Period { expel-window-from-column; }
+        
+        // Center column
+        Mod+Shift+C { center-column; }
+        
+        // Focus specific column
+        Mod+Ctrl+H { focus-column-first; }
+        Mod+Ctrl+L { focus-column-last; }
       }
       
       layout {

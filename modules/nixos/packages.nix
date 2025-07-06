@@ -22,6 +22,7 @@ shared-packages ++ [
   discord # Voice and text chat
 
   gimp # Image editor
+  glow # Terminal markdown viewer
   google-chrome # Web browser
   
   hyprpicker # Wayland color picker
