@@ -23,7 +23,7 @@ Check out the step-by-step commands below to get started!
   - [Videos](#videos)
     - [macOS](#macos)
       - [Updating dependencies with one command](#updating-dependencies-with-one-command)
-      - [Instant Emacs 29 thanks to daemon mode](#instant-emacs-29-thanks-to-daemon-mode)
+      - [Instant Emacs 30 thanks to daemon mode](#instant-emacs-30-thanks-to-daemon-mode)
     - [NixOS](#nixos)
   - [Disclaimer](#disclaimer)
   - [Layout](#layout)
@@ -97,7 +97,7 @@ Check out the step-by-step commands below to get started!
 #### Updating dependencies with one command
 https://github.com/dustinlyons/nixos-config/assets/1292576/2168d482-6eea-4b51-adc1-2ef1291b6598
 
-#### Instant Emacs 29 thanks to daemon mode
+#### Instant Emacs 30 thanks to daemon mode
 - **GUI**
 
 https://github.com/dustinlyons/nixos-config/assets/1292576/66001066-2bbf-4492-bc9e-60ea1abeb987
