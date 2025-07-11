@@ -33,6 +33,7 @@ in
     sessionVariables = {
       XCURSOR_SIZE = "12";
       XCURSOR_THEME = "macOS-Monterey";
+      _JAVA_AWT_WM_NONREPARENTING = "1";
     };
   };
 
@@ -78,8 +79,6 @@ in
         // Color picker
         Mod+C { spawn "bash" "-c" "${pkgs.hyprpicker}/bin/hyprpicker -a"; }
         
-        // Screen lock
-        Ctrl+Alt+L { spawn "${pkgs.swaylock}/bin/swaylock" "-c" "000000"; }
         Mod+Shift+E { quit; }
         Mod+Q { close-window; }
         Alt+F4 { close-window; }
@@ -161,8 +160,6 @@ in
         // Window sizing presets (cycle through widths)
         Mod+Ctrl+R { switch-preset-column-width; }
         
-        // Lock screen
-        Mod+Ctrl+Q { spawn "${pkgs.swaylock}/bin/swaylock"; }
         
         // Terminal animations
         Mod+F1 { spawn "${pkgs.alacritty}/bin/alacritty" "--class" "fullscreen-animation" "-e" "${pkgs.asciiquarium}/bin/asciiquarium"; }
@@ -173,8 +170,11 @@ in
         Mod+Shift+Slash { show-hotkey-overlay; }
         
         // Focus all windows including floating
-        Mod+N { focus-window-or-workspace-down; }
-        Mod+P { focus-window-or-workspace-up; }
+        Mod+I { focus-window-or-workspace-up; }
+        Mod+O { focus-window-or-workspace-down; }
+        
+        // Launch Cider
+        Mod+P { spawn "cider"; }
         
         // Column width management
         Mod+Minus { set-column-width "-10%"; }
@@ -500,6 +500,19 @@ in
       margin = "16";
       layer = "overlay";
     };
+  };
+
+  # Idle management for monitor sleep
+  services.swayidle = {
+    enable = true;
+    events = [];
+    timeouts = [
+      {
+        timeout = 300;  # 5 minutes
+        command = "${pkgs.niri}/bin/niri msg action power-off-monitors";
+        resumeCommand = "${pkgs.niri}/bin/niri msg action power-on-monitors";
+      }
+    ];
   };
 
   # This installs my GPG signing keys for Github

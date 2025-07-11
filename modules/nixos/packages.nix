@@ -49,7 +49,6 @@ shared-packages ++ [
   grim # Screenshot tool for Wayland
   slurp # Area selection for screenshots
   swappy # Screenshot annotation tool
-  swaylock # Screen locker for Wayland
   swayidle # Idle management daemon
   kanshi # Dynamic display configuration
   wdisplays # GUI display configurator for Wayland
@@ -62,6 +61,8 @@ shared-packages ++ [
   pinentry-qt # GPG pinentry
 
   zathura # PDF viewer
+  
+  xwayland # X11 compatibility layer for Wayland
   
   # Terminal animations
   cava # Console-based audio visualizer
