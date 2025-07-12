@@ -33,6 +33,8 @@ let name = "Dustin Lyons";
         . /nix/var/nix/profiles/default/etc/profile.d/nix.sh
       fi
 
+      export TERM=xterm-256color
+
       # Define PATH variables
       export PATH=$HOME/.pnpm-packages/bin:$HOME/.pnpm-packages:$PATH
       export PATH=$HOME/.npm-packages/bin:$HOME/bin:$PATH
