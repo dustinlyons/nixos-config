@@ -170,7 +170,7 @@ let name = "Dustin Lyons";
       set ruler
       set backspace=indent,eol,start
       set laststatus=2
-      set clipboard=unnamedplus
+      " Don't use clipboard=unnamedplus, use macOS pbcopy/pbpaste instead
 
       " Dir stuff
       set nobackup
@@ -213,11 +213,9 @@ let name = "Dustin Lyons";
       filetype plugin on
       filetype indent on
 
-      "" Paste from clipboard
-      nnoremap <Leader>, "+gP
-
-      "" Copy from clipboard
-      xnoremap <Leader>. "+y
+      "" macOS clipboard integration
+      vnoremap <Leader>. :w !pbcopy<CR><CR>
+      nnoremap <Leader>, :r !pbpaste<CR>
 
       "" Move cursor by display lines when wrapping
       nnoremap j gj

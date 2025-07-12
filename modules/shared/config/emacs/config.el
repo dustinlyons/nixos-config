@@ -290,6 +290,15 @@
     (setq doom-themes-enable-bold t
             doom-themes-enable-italic t)
     (load-theme 'doom-sourcerer t)
+    
+    ;; Fix white frame issue by setting default frame parameters
+    (setq default-frame-alist 
+          (append default-frame-alist
+                  '((background-color . "#1c1e27")
+                    (foreground-color . "#cccac2"))))
+    (set-face-background 'default "#1c1e27")
+    (set-face-background 'fringe "#1c1e27")
+    
     (doom-themes-visual-bell-config)
     (doom-themes-org-config))
 
@@ -719,7 +728,7 @@ Note the weekly scope of the command's precision.")
     ;; Define the variable before use
     (defvar evil-collection-mode-list nil)
     :config
-    (setq evil-collection-mode-list (remove 'magit evil-collection-mode-list))
+    ;; Don't exclude magit - let evil-collection handle it
     (evil-collection-init))
 
   ;; Keybindings in org mode
@@ -1104,22 +1113,7 @@ Note the weekly scope of the command's precision.")
 ;;(add-hook 'css-mode-hook 'prettier-js-mode)
 
 (use-package magit
-  :commands (magit-status magit-get-current-branch)
-  :config
-  ;; Enable vim-style navigation in Magit
-  (evil-set-initial-state 'magit-mode 'normal)
-  (evil-define-key 'normal magit-mode-map
-    "j" 'magit-section-forward
-    "k" 'magit-section-backward
-    "h" 'magit-section-hide
-    "l" 'magit-section-show
-    "n" 'magit-section-forward-sibling
-    "p" 'magit-section-backward-sibling
-    "J" 'magit-section-forward-sibling
-    "K" 'magit-section-backward-sibling
-    "gg" 'beginning-of-buffer
-    "G" 'end-of-buffer
-    "q" 'magit-mode-bury-buffer))
+  :commands (magit-status magit-get-current-branch))
 (define-key magit-hunk-section-map (kbd "RET") 'magit-diff-visit-file-other-window)
 (global-set-key (kbd "C-x G") 'magit-log-buffer-file)
 
