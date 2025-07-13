@@ -185,7 +185,8 @@
 
 ;; f.el - modern file API
 (use-package f
-  :ensure t)
+  :ensure t
+  :demand t)
 
 (use-package doom-modeline
   :ensure t
@@ -989,7 +990,7 @@ Note the weekly scope of the command's precision.")
 "lf" '(dl/lsp-find-references-other-window :which-key "find references")
 "lc" '(dl/lsp-find-implementation-other-window :which-key "find implementation")
 "ls" '(lsp-treemacs-symbols :which-key "list symbols")
-"lt" '(list-flycheck-errors :which-key "list errors")
+"lt" '(flycheck-list-errors :which-key "list errors")
 "lh" '(lsp-treemacs-call-hierarchy :which-key "call hierarchy")
 "lF" '(lsp-format-buffer :which-key "format buffer")
 "li" '(lsp-organize-imports :which-key "organize imports")
@@ -1074,26 +1075,47 @@ Note the weekly scope of the command's precision.")
 ;; Adjust auto-mode-alist to use php-mode for PHP files
 (add-to-list 'auto-mode-alist '("\\.php$" . php-mode))
 
-(use-package web-mode
-  :hook (web-mode . lsp-deferred)
+;; Modern tree-sitter support for better syntax highlighting
+(use-package tree-sitter
+  :ensure t
   :config
-  ;; Set content types for proper syntax highlighting
-  (setq web-mode-content-types-alist
-        '(("jsx" . "\\.js[x]?\\'")
-          ("jsx" . "\\.tsx\\'")))  ; Force TSX to use JSX content type
-  ;; Enable syntax highlighting features
-  (setq web-mode-enable-auto-pairing t)
-  (setq web-mode-enable-css-colorization t)
-  (setq web-mode-enable-current-element-highlight t)
-  (setq web-mode-enable-auto-quoting nil))
+  (global-tree-sitter-mode)
+  (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode))
 
-(add-to-list 'auto-mode-alist '("\\.jsx?$" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.tsx$" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.ts$" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.js$" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.mjs$" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.html$" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.vue\\'" . web-mode))
+(use-package tree-sitter-langs
+  :ensure t
+  :after tree-sitter)
+
+;; Use built-in treesit for Emacs 29+ or fallback to tree-sitter
+(if (and (fboundp 'treesit-available-p) (treesit-available-p))
+    (progn
+      ;; Native tree-sitter modes for Emacs 29+
+      (use-package typescript-ts-mode
+        :mode (("\\.ts\\'" . typescript-ts-mode)
+               ("\\.tsx\\'" . tsx-ts-mode))
+        :hook ((typescript-ts-mode . lsp-deferred)
+               (tsx-ts-mode . lsp-deferred))))
+  ;; Fallback to web-mode with enhanced configuration
+  (progn
+    (use-package web-mode
+      :hook (web-mode . lsp-deferred)
+      :config
+      ;; Set content types for proper syntax highlighting
+      (setq web-mode-content-types-alist
+            '(("jsx" . "\\.js[x]?\\'")
+              ("jsx" . "\\.tsx\\'")))  ; Force TSX to use JSX content type
+      ;; Enable syntax highlighting features
+      (setq web-mode-enable-auto-pairing t)
+      (setq web-mode-enable-css-colorization t)
+      (setq web-mode-enable-current-element-highlight t)
+      (setq web-mode-enable-auto-quoting nil))
+    (add-to-list 'auto-mode-alist '("\\.jsx?$" . web-mode))
+    (add-to-list 'auto-mode-alist '("\\.tsx$" . web-mode))
+    (add-to-list 'auto-mode-alist '("\\.ts$" . web-mode))
+    (add-to-list 'auto-mode-alist '("\\.js$" . web-mode))
+    (add-to-list 'auto-mode-alist '("\\.mjs$" . web-mode))
+    (add-to-list 'auto-mode-alist '("\\.html$" . web-mode))
+    (add-to-list 'auto-mode-alist '("\\.vue\\'" . web-mode))))
 
 (defun web-mode-init-hook ()
   "Hooks for Web mode.  Adjust indent."
@@ -1102,7 +1124,12 @@ Note the weekly scope of the command's precision.")
   (setq web-mode-css-indent-offset 2)
   (setq web-mode-attr-indent-offset 2))
 (add-hook 'web-mode-hook  'web-mode-init-hook)
-(add-hook 'typescript-mode-hook #'lsp-deferred)
+
+;; TypeScript mode for non-TSX files if not using tree-sitter
+(unless (and (fboundp 'treesit-available-p) (treesit-available-p))
+  (use-package typescript-mode
+    :mode "\\.ts\\'"
+    :hook (typescript-mode . lsp-deferred)))
 
 ;; Keeps indentation organized across these modes
 (use-package prettier-js)

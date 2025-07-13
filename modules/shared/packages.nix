@@ -65,6 +65,7 @@ with pkgs; [
   killall # Kill processes by name
 
   # L
+  lnav # Log file navigator
   libfido2 # FIDO2 library
 
   # M
