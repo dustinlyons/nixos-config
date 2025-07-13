@@ -729,7 +729,7 @@ Note the weekly scope of the command's precision.")
     ;; Define the variable before use
     (defvar evil-collection-mode-list nil)
     :config
-    ;; Don't exclude magit - let evil-collection handle it
+    (setq evil-collection-mode-list (remove 'magit evil-collection-mode-list))
     (evil-collection-init))
 
   ;; Keybindings in org mode
@@ -1140,7 +1140,35 @@ Note the weekly scope of the command's precision.")
 ;;(add-hook 'css-mode-hook 'prettier-js-mode)
 
 (use-package magit
-  :commands (magit-status magit-get-current-branch))
+  :commands (magit-status magit-get-current-branch)
+  :config
+  ;; Enable vim-style navigation in Magit
+  (evil-set-initial-state 'magit-mode 'normal)
+  (evil-set-initial-state 'magit-status-mode 'normal)
+  (evil-set-initial-state 'magit-diff-mode 'normal)
+  (evil-set-initial-state 'magit-log-mode 'normal)
+  (evil-define-key 'normal magit-mode-map
+    "j" 'magit-section-forward
+    "k" 'magit-section-backward
+    "h" 'magit-section-hide
+    "l" 'magit-section-show
+    "n" 'magit-section-forward-sibling
+    "p" 'magit-section-backward-sibling
+    "J" 'magit-section-forward-sibling
+    "K" 'magit-section-backward-sibling
+    "gg" 'beginning-of-buffer
+    "G" 'end-of-buffer
+    "q" 'magit-mode-bury-buffer)
+  ;; Also set for specific magit modes
+  (evil-define-key 'normal magit-status-mode-map
+    "j" 'magit-section-forward
+    "k" 'magit-section-backward)
+  (evil-define-key 'normal magit-diff-mode-map
+    "j" 'magit-section-forward
+    "k" 'magit-section-backward)
+  (evil-define-key 'normal magit-log-mode-map
+    "j" 'magit-section-forward
+    "k" 'magit-section-backward))
 (define-key magit-hunk-section-map (kbd "RET") 'magit-diff-visit-file-other-window)
 (global-set-key (kbd "C-x G") 'magit-log-buffer-file)
 
