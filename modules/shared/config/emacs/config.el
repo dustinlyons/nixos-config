@@ -290,7 +290,7 @@
   :config
     (setq doom-themes-enable-bold t
             doom-themes-enable-italic t)
-    (load-theme 'doom-sourcerer t)
+    (load-theme 'doom-1337 t)
     
     ;; Fix white frame issue by setting default frame parameters
     (setq default-frame-alist 
@@ -795,7 +795,9 @@ Note the weekly scope of the command's precision.")
   "l" 'dired-single-buffer
   "y" 'dired-ranger-copy
   "X" 'dired-ranger-move
-  "p" 'dired-ranger-paste)
+  "p" 'dired-ranger-paste
+  (kbd "RET") 'dired-single-buffer
+  (kbd "<return>") 'dired-single-buffer)
 
 ;; Darwin needs ls from coreutils for dired to work
 (when (system-is-mac)
