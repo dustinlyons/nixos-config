@@ -122,9 +122,7 @@ let name = "Dustin Lyons";
       
       # macOS-style open command using Nautilus
       ${lib.optionalString pkgs.stdenv.hostPlatform.isLinux ''
-      open() {
-          xdg-open
-      }
+        alias open="xdg-open"
       ''}
     '';
   };
