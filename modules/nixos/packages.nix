@@ -19,6 +19,13 @@ shared-packages ++ [
 
   discord # Voice and text chat
 
+  lutris # Game launcher
+  wine # Windows compatibility layer
+  winetricks # Wine configuration helper
+  vulkan-tools # Vulkan utilities
+  mangohud # Performance overlay for games
+  gamemode # Optimize system performance for games
+
   gimp # Image editor
   glow # Terminal markdown viewer
   google-chrome # Web browser

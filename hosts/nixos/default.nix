@@ -44,6 +44,14 @@
 
   # Hardware platform
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
+  
+  # Hardware support for gaming
+  hardware = {
+    opengl = {
+      enable = true;
+      driSupport32Bit = true;
+    };
+  };
 
   # Networking
   networking = {
@@ -80,7 +88,15 @@
   # Programs configuration
   programs = {
     zsh.enable = true;
+    steam = {
+      enable = true;
+      remotePlay.openFirewall = true;
+      dedicatedServer.openFirewall = true;
+    };
   };
+
+  # Console configuration for virtual terminals
+  console.useXkbConfig = true;
 
   # Services configuration
   services = {
@@ -92,6 +108,10 @@
     xserver = {
      enable = true;
      videoDrivers = ["amdgpu"];
+     xkb = {
+       layout = "us";
+       options = "ctrl:nocaps";
+     };
     };
 
     displayManager.sddm.enable = true;

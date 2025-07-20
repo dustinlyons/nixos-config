@@ -26,7 +26,10 @@ in
   programs = shared-programs // { 
     gpg.enable = true;
     plasma = {
-      enable = true; 
+      enable = true;
+      workspace = {
+        clickItemTo = "select";
+      };
       panels = [
         {
           floating = true;
