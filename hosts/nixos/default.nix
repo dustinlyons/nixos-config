@@ -47,6 +47,11 @@
   
   # Hardware support for gaming
   hardware = {
+    bluetooth = {
+      enable = true;
+      powerOnBoot = true;
+    };
+
     opengl = {
       enable = true;
       driSupport32Bit = true;
@@ -105,6 +110,7 @@
     #  package = pkgs.emacs-unstable-pgtk;  # Wayland-native Emacs with pgtk
     #};
 
+
     xserver = {
      enable = true;
      videoDrivers = ["amdgpu"];
@@ -134,6 +140,9 @@
 
     # Enable the OpenSSH daemon.
     openssh.enable = true;
+
+    # Bluetooth
+    blueman.enable = true;
   };
 
   # Define a user account. Don't forget to set a password with 'passwd'.

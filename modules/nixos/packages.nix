@@ -11,6 +11,8 @@ shared-packages ++ [
   
   tableplus-appimage # Database management tool
 
+  bluez # Bluetooth
+
   brlaser # Printer driver
 
   chromedriver # Chrome webdriver for testing
