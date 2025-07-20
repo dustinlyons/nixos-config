@@ -5,8 +5,6 @@ shared-packages ++ [
 
   _1password-gui # Password manager
   
-  apple-cursor # macOS-style cursor theme
-  
   cider-appimage # Apple Music client
   
   cliphist # Clipboard history manager for Wayland
@@ -54,8 +52,6 @@ shared-packages ++ [
   wdisplays # GUI display configurator for Wayland
   wev # Wayland event viewer (useful for debugging)
   swaybg # Wallpaper daemon for Wayland
-  
-  nautilus # GNOME file browser with excellent Wayland support
   
   yubikey-agent # Yubikey SSH agent
   pinentry-qt # GPG pinentry

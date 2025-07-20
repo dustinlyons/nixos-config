@@ -1,4 +1,4 @@
-{ config, lib, pkgs, modulesPath, inputs, user, ... }:
+{ config, lib, pkgs, modulesPath, user, ... }:
 
 {
   imports = [
@@ -20,33 +20,30 @@
     };
     loader.efi.canTouchEfiVariables = true;
 
-    initrd.availableKernelModules = [
-      "xhci_pci" "ahci" "nvme" "usbhid" "usb_storage" "sd_mod" "v4l2loopback"
-    ];
+    initrd.availableKernelModules = [ "nvme" "xhci_pci" "ahci" "usb_storage" "usbhid" "sd_mod" ];
     initrd.kernelModules        = [];
-    kernelModules               = [ "uinput" "v4l2loopback" ];  # uinput for input devices, v4l2loopback for virtual cameras
-    extraModulePackages         = [ pkgs.linuxPackages.v4l2loopback ];
+    kernelModules               = [ "kvm-amd" "uinput" ];
+    #kernelPackages              = pkgs.linuxPackages_latest;
+    #kernelModules               = [ "kvm-amd" "uinput" "v4l2loopback" ];
+    #extraModulePackages         = [ pkgs.linuxPackages.v4l2loopback ];
   };
 
   # Filesystems
-  fileSystems."/" = {
-    device = "/dev/disk/by-uuid/3b81b6bc-b655-4985-b7dc-108ffa292c63";
-    fsType = "ext4";
-  };
+  fileSystems."/" =
+    { device = "/dev/disk/by-uuid/27bb6e75-80f8-4072-8974-83f5a45cbe48";
+      fsType = "ext4";
+    };
 
-  fileSystems."/boot" = {
-    device  = "/dev/disk/by-uuid/D302-2157";
-    fsType  = "vfat";
-    options = [ "fmask=0077" "dmask=0077" ];
-  };
+  fileSystems."/boot" =
+    { device = "/dev/disk/by-uuid/8AC5-E75B";
+      fsType = "vfat";
+      options = [ "fmask=0077" "dmask=0077" ];
+    };
 
-  swapDevices = [
-    { device = "/dev/disk/by-uuid/d2b78e71-7ea1-472d-864a-64072cfa4978"; }
-  ];
+  swapDevices = [ ];
 
   # Hardware platform
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
-  hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
 
   # Networking
   networking = {
@@ -59,6 +56,7 @@
     # Custom hosts entries
     extraHosts = ''
       10.0.10.2 lab-1
+      10.0.10.3 lab-2
     '';
   };
 
@@ -81,30 +79,23 @@
 
   # Programs configuration
   programs = {
-    niri.enable = true;
     zsh.enable = true;
   };
-  
-  # Set Niri as the default session
-  services.displayManager.defaultSession = "niri";
 
   # Services configuration
   services = {
-    # greetd display manager for Wayland
-    greetd = {
-      enable = true;
-      settings = {
-        default_session = {
-          command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --cmd niri-session";
-          user = "greeter";
-        };
-      };
+    #emacs = {
+    #  enable = true;
+    #  package = pkgs.emacs-unstable-pgtk;  # Wayland-native Emacs with pgtk
+    #};
+
+    xserver = {
+     enable = true;
+     videoDrivers = ["amdgpu"];
     };
 
-    emacs = {
-      enable = true;
-      package = pkgs.emacs-unstable-pgtk;  # Wayland-native Emacs with pgtk
-    };
+    displayManager.sddm.enable = true;
+    desktopManager.plasma6.enable = true;
 
     # Enable CUPS to print documents.
     printing.enable = true;
@@ -113,18 +104,13 @@
     pulseaudio.enable = false;
 
     pipewire = {
-      enable           = true;
-      alsa.enable      = true;
-      alsa.support32Bit = true;
-      pulse.enable     = true;
-      # If you want to use JACK applications, uncomment:
-      # jack.enable = true;
-      # use the example session manager:
-      # media-session.enable = true;
+      enable = true;
+      alsa = {
+        enable = true;
+        support32Bit = true;
+      };
+      pulse.enable = true;
     };
-
-    # Enable touchpad support (enabled by default in most desktopManager).
-    # xserver.libinput.enable = true;
 
     # Enable the OpenSSH daemon.
     openssh.enable = true;
@@ -138,6 +124,8 @@
     shell = pkgs.zsh;
   };
 
+  services.displayManager.autoLogin.enable = true;
+  services.displayManager.autoLogin.user = "dustin";
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
@@ -147,11 +135,9 @@
   environment.systemPackages = with pkgs; [
     vim
     git
-    emacs-unstable-pgtk
-    # Wayland-specific utilities
+    #emacs-unstable-pgtk
     wl-clipboard     # Wayland clipboard utilities (replaces xclip)
     wayland-utils    # Wayland utilities
-    # inputs.agenix.packages."${pkgs.system}".default  # agenix CLI (temporarily disabled)
   ];
 
   # Don't require password for users in `wheel` group for these commands
