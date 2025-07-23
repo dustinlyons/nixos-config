@@ -178,7 +178,8 @@ let name = "%NAME%";
         \ ]
 
       let g:startify_bookmarks = [
-        \ '~/.local/share/src',
+        \ '~/Projects',
+        \ '~/Documents',
         \ ]
 
       let g:airline_theme='bubblegum'
@@ -210,14 +211,6 @@ let name = "%NAME%";
           (lib.mkIf pkgs.stdenv.hostPlatform.isLinux 10)
           (lib.mkIf pkgs.stdenv.hostPlatform.isDarwin 14)
         ];
-      };
-
-      dynamic_padding = true;
-      decorations = "full";
-      title = "Terminal";
-      class = {
-        instance = "Alacritty";
-        general = "Alacritty";
       };
 
       colors = {
@@ -262,17 +255,18 @@ let name = "%NAME%";
       )
     ];
     matchBlocks = {
-      "github.com" = {
-        identitiesOnly = true;
-        identityFile = [
-          (lib.mkIf pkgs.stdenv.hostPlatform.isLinux
-            "/home/${user}/.ssh/id_github"
-          )
-          (lib.mkIf pkgs.stdenv.hostPlatform.isDarwin
-            "/Users/${user}/.ssh/id_github"
-          )
-        ];
-      };
+      # Example SSH configuration for GitHub
+      # "github.com" = {
+      #   identitiesOnly = true;
+      #   identityFile = [
+      #     (lib.mkIf pkgs.stdenv.hostPlatform.isLinux
+      #       "/home/${user}/.ssh/id_github"
+      #     )
+      #     (lib.mkIf pkgs.stdenv.hostPlatform.isDarwin
+      #       "/Users/${user}/.ssh/id_github"
+      #     )
+      #   ];
+      # };
     };
   };
 

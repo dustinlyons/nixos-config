@@ -56,6 +56,11 @@ in
     text = builtins.readFile ./config/emacs/init.el;
   };
 
+  # Emacs configuration in org-mode format
+  ".config/emacs/config.org" = {
+    text = builtins.readFile ./config/emacs/config.org;
+  };
+
   ".ssh/id_github.pub" = {
     text = githubPublicKey;
   };

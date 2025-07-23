@@ -38,9 +38,7 @@ with pkgs; [
   meslo-lgs-nf
 
   # Node.js development tools
-  nodePackages.npm # globally install npm
-  nodePackages.prettier
-  nodejs
+  nodejs_24
 
   # Text and terminal utilities
   htop

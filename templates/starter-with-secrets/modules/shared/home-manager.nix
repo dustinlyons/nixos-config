@@ -8,7 +8,7 @@ let name = "%NAME%";
   zsh = {
     enable = true;
     autocd = false;
-    cdpath = [ "~/.local/share/src" ];
+    cdpath = [ "~/Projects" ];
     plugins = [
       {
           name = "powerlevel10k";
@@ -186,7 +186,8 @@ let name = "%NAME%";
         \ ]
 
       let g:startify_bookmarks = [
-        \ '~/.local/share/src',
+        \ '~/Projects',
+        \ '~/Documents',
         \ ]
 
       let g:airline_theme='bubblegum'
@@ -220,13 +221,6 @@ let name = "%NAME%";
         ];
       };
 
-      dynamic_padding = true;
-      decorations = "full";
-      title = "Terminal";
-      class = {
-        instance = "Alacritty";
-        general = "Alacritty";
-      };
 
       colors = {
         primary = {
