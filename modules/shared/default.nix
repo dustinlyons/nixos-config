@@ -1,7 +1,7 @@
 { config, pkgs, ... }:
 
 let
-  emacsOverlaySha256 = "06413w510jmld20i4lik9b36cfafm501864yq8k4vxl5r4hn0j0h";
+  emacsOverlaySha256 = "0rvpskk1z996arcj48ch4g08lvid6r856m0x5376y7lfjxlsawga";
 in
 {
 
