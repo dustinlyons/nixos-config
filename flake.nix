@@ -91,7 +91,7 @@
       templates = {
         starter = {
           path = ./templates/starter;
-          description = "Starter configuration";
+          description = "Starter configuration without secrets";
         };
         starter-with-secrets = {
           path = ./templates/starter-with-secrets;
