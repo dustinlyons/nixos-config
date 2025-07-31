@@ -21,6 +21,8 @@ shared-packages ++ [
 
   discord # Voice and text chat
 
+  xclip # Manage clipboard from command line
+
   wine # Windows compatibility layer
   winetricks # Wine configuration helper
   vulkan-tools # Vulkan utilities
@@ -71,4 +73,5 @@ shared-packages ++ [
   cava # Console-based audio visualizer
   asciiquarium # ASCII art aquarium animation
   tty-clock # Terminal digital clock
+
 ]
