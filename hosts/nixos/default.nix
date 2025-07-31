@@ -105,10 +105,10 @@
 
   # Services configuration
   services = {
-    #emacs = {
-    #  enable = true;
-    #  package = pkgs.emacs-unstable-pgtk;  # Wayland-native Emacs with pgtk
-    #};
+    emacs = {
+      enable = true;
+      package = pkgs.emacs-unstable-pgtk;  # Wayland-native Emacs with pgtk
+    };
 
 
     xserver = {
@@ -164,7 +164,7 @@
   environment.systemPackages = with pkgs; [
     vim
     git
-    #emacs-unstable-pgtk
+    emacs-unstable-pgtk
     wl-clipboard     # Wayland clipboard utilities (replaces xclip)
     wayland-utils    # Wayland utilities
   ];

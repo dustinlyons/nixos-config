@@ -222,7 +222,7 @@ This version filters out problematic keywords."
 ;; -------------------------
 ;; Load Org Config or Default
 ;; -------------------------
-(condition-case nil
+(condition-case err
     (progn
       (unless (file-exists-p org-config-file)
         (dl/download-default-config))
@@ -230,4 +230,12 @@ This version filters out problematic keywords."
           (org-babel-load-file org-config-file)
         (org-babel-load-file default-config-file))
       (message "Configuration loaded successfully."))
-  (error (message "Error occurred while loading the configuration.")))
+  (error 
+    (message "Error occurred while loading the configuration: %s" (error-message-string err))
+    ;; Try to at least enable evil-mode if it's available
+    (when (fboundp 'evil-mode)
+      (evil-mode 1))
+    (when (fboundp 'general-create-definer)
+      (general-create-definer dl/leader-keys
+        :keymaps '(normal visual emacs)
+        :prefix ","))))

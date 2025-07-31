@@ -115,8 +115,6 @@
 ;; ESC will also cancel/quit/etc.
 (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
 (use-package general
-  :init
-    (setq evil-want-keybinding nil)
   :config
     (general-evil-setup t)
     (general-create-definer dl/leader-keys
@@ -486,11 +484,7 @@ The type of heading (TODO, PROJECT, etc.) is specified by HEADING-TYPE."
     (org-element-map (org-element-parse-buffer) 'keyword
     (lambda (el) (when (string-match property (org-element-property :key el)) el)))))
 
-(defun dl/refile-and-transclude ()
-  "Move file and add transclude link with header"
-(interactive)
-  (org-roam-refile)
-  (insert "#+transclude: [[file:~/.local/share/org-roam/20220419121404-todo.org::*" (org-element-property :value (car (org-global-props "TITLE"))) "][Transclude]]"))
+;; Removed dl/refile-and-transclude function - no longer needed
 
 (defvar current-time-format "%H:%M:%S"
   "Format of date to insert with `insert-current-time' func.
@@ -555,53 +549,41 @@ Note the weekly scope of the command's precision.")
     :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n\n")
     :unnarrowed t)))
 
-(require 'ucs-normalize)
-
-(use-package compat
-  :straight t
-  :ensure t)
-
 (use-package org-roam
-  :straight (:host github :repo "dustinlyons/org-roam"
-             :branch "master"
-             :files (:defaults "extensions/*")
-  :build (:not compile))
+  :straight t
   :init
     (setq org-roam-v2-ack t) ;; Turn off v2 warning
-    (setq org-roam-mode-section-functions
-      (list #'org-roam-backlinks-section
-            #'org-roam-reflinks-section
-            #'org-roam-unlinked-references-section))
-      (add-to-list 'display-buffer-alist
-           '("\\*org-roam\\*"
-             (display-buffer-in-direction)
-             (direction . right)
-             (window-width . 0.33)
-             (window-height . fit-window-to-buffer)))
+    ;; Use the builtin SQLite backend
+    (setq org-roam-database-connector 'sqlite-builtin)
   :custom
     (org-roam-directory (file-truename "~/.local/share/org-roam"))
     (org-roam-dailies-directory "daily/")
     (org-roam-completion-everywhere t)
+  :config
+    (add-to-list 'display-buffer-alist
+         '("\\*org-roam\\*"
+           (display-buffer-in-direction)
+           (direction . right)
+           (window-width . 0.33)
+           (window-height . fit-window-to-buffer)))
+    (org-roam-db-autosync-mode)
   :bind
     (("C-c r b" . org-roam-buffer-toggle)
      ("C-c r t" . org-roam-dailies-goto-today)
      ("C-c r y" . org-roam-dailies-goto-yesterday)
-     ("C-M-n" . org-roam-node-insert)
+     ("C-c r n" . org-roam-node-insert)
+     ("C-c r f" . org-roam-node-find)
+     ("C-c r c" . dl/org-roam-create-id)
        :map org-mode-map
      ("C-M-i"   . completion-at-point)
-     ("C-M-f" . org-roam-node-find)
-     ("C-M-c" . dl/org-roam-create-id)
      ("C-<left>" . org-roam-dailies-goto-previous-note)
-     ("C-`" . org-roam-buffer-toggle)
      ("C-<right>" . org-roam-dailies-goto-next-note)))
-(org-roam-db-autosync-mode)
 
 (setq org-roam-dailies-capture-templates
   '(("d" "default" entry
      "* %?"
      :if-new (file+head "%<%Y-%m-%d>.org"
-                        (lambda () (concat ":PROPERTIES:\n:ID:       " (org-id-new) "\n:END:\n"
-                                           "#+TITLE: %<%Y-%m-%d>\n#+filetags: Daily\n"))))))
+                        "#+title: %<%Y-%m-%d>\n#+filetags: Daily\n\n"))))
 
 (defvar dl/org-created-property-name "CREATED")
 
@@ -702,12 +684,13 @@ Note the weekly scope of the command's precision.")
 (use-package evil
   :init
     (setq evil-want-integration t) ;; TODO: research what this does
+    (setq evil-want-keybinding nil) ;; Required for evil-collection
     (setq evil-want-fine-undo 'fine) ;; undo/redo each motion
     (setq evil-want-Y-yank-to-eol t) ;; Y copies to end of line like vim
     (setq evil-want-C-u-scroll t) ;; vim like scroll up
-    (evil-mode 1)
-    :hook (evil-mode . dl/evil-hook)
   :config
+    (evil-mode 1)
+    (dl/evil-hook)
     ;; Emacs "cancel" == vim "cancel"
     (define-key evil-insert-state-map (kbd "C-g") 'evil-normal-state)
 
