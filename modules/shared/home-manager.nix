@@ -33,6 +33,22 @@ let name = "Dustin Lyons";
         . /nix/var/nix/profiles/default/etc/profile.d/nix.sh
       fi
 
+      # Save and restore last directory
+      LAST_DIR_FILE="$HOME/.zsh_last_dir"
+      
+      # Save directory on every cd
+      function chpwd() {
+        echo "$PWD" > "$LAST_DIR_FILE"
+      }
+      
+      # Restore last directory on startup
+      if [[ -f "$LAST_DIR_FILE" ]] && [[ -r "$LAST_DIR_FILE" ]]; then
+        last_dir="$(cat "$LAST_DIR_FILE")"
+        if [[ -d "$last_dir" ]]; then
+          cd "$last_dir"
+        fi
+      fi
+
       export TERM=xterm-256color
 
       # Define PATH variables
@@ -41,6 +57,7 @@ let name = "Dustin Lyons";
       export PATH=$HOME/.composer/vendor/bin:$PATH
       export PATH=$HOME/.local/share/bin:$PATH
       export PATH=$HOME/.local/share/src/conductly/bin:$PATH
+      export PATH=$HOME/.local/share/src/conductly/utils:$PATH
       export PYTHONPATH="$HOME/.local-pip/packages:$PYTHONPATH"
 
       # Remove history data we don't want to see
