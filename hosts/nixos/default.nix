@@ -1,5 +1,9 @@
 { config, lib, pkgs, modulesPath, user, ... }:
 
+let
+  myEmacs = import ../../modules/shared/emacs.nix { inherit pkgs; };
+in
+
 {
   imports = [
     (modulesPath + "/installer/scan/not-detected.nix")
@@ -107,7 +111,7 @@
   services = {
     emacs = {
       enable = true;
-      package = pkgs.emacs-unstable-pgtk;  # Wayland-native Emacs with pgtk
+      package = myEmacs;
     };
 
 
@@ -164,7 +168,7 @@
   environment.systemPackages = with pkgs; [
     vim
     git
-    emacs-unstable-pgtk
+    myEmacs
     wl-clipboard     # Wayland clipboard utilities (replaces xclip)
     wayland-utils    # Wayland utilities
   ];

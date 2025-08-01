@@ -35,7 +35,7 @@
 
 ;; Smooth out garbage collection
 (use-package gcmh
-  :ensure t
+  :ensure nil  ; Managed by Nix
   :demand t
   :config
   (gcmh-mode 1))
@@ -183,11 +183,11 @@
 
 ;; f.el - modern file API
 (use-package f
-  :ensure t
+  :ensure nil  ; Managed by Nix
   :demand t)
 
 (use-package doom-modeline
-  :ensure t
+  :ensure nil  ; Managed by Nix
   :after f
   :init (doom-modeline-mode 1))
 
@@ -258,7 +258,7 @@
   (set-face-attribute 'variable-pitch nil :font "Helvetica" :weight 'normal :height 170))
 
 (use-package dashboard
-  :ensure t
+  :ensure nil  ; Managed by Nix
   :config
   (dashboard-setup-startup-hook)
   (setq dashboard-startup-banner 'ascii
@@ -284,7 +284,7 @@
 (global-set-key (kbd "<C-tab>") 'next-buffer)
 
 (use-package doom-themes
-  :ensure t
+  :ensure nil  ; Managed by Nix
   :config
     (setq doom-themes-enable-bold t
             doom-themes-enable-italic t)
@@ -550,11 +550,12 @@ Note the weekly scope of the command's precision.")
     :unnarrowed t)))
 
 (use-package org-roam
-  :straight t
+  :ensure nil  ; Managed by Nix
   :init
     (setq org-roam-v2-ack t) ;; Turn off v2 warning
-    ;; Use the builtin SQLite backend
+    ;; Use the builtin SQLite backend - set this before loading org-roam
     (setq org-roam-database-connector 'sqlite-builtin)
+  :demand t  ; Load immediately to ensure settings take effect
   :custom
     (org-roam-directory (file-truename "~/.local/share/org-roam"))
     (org-roam-dailies-directory "daily/")
@@ -744,7 +745,6 @@ Note the weekly scope of the command's precision.")
 
 (use-package dired
   :ensure nil
-  :straight nil
   :defer 1
   :commands (dired dired-jump)
   :config
@@ -767,20 +767,19 @@ Note the weekly scope of the command's precision.")
             (all-the-icons-dired-mode 1))
             (hl-line-mode 1)))
 
-(use-package dired-single)
 (use-package dired-ranger)
 (use-package dired-collapse)
 
 (evil-collection-define-key 'normal 'dired-mode-map
-  "h" 'dired-single-up-directory
+  "h" 'dired-up-directory
   "c" 'find-file
   "H" 'dired-omit-mode
-  "l" 'dired-single-buffer
+  "l" 'dired-find-file
   "y" 'dired-ranger-copy
   "X" 'dired-ranger-move
   "p" 'dired-ranger-paste
-  (kbd "RET") 'dired-single-buffer
-  (kbd "<return>") 'dired-single-buffer)
+  (kbd "RET") 'dired-find-file
+  (kbd "<return>") 'dired-find-file)
 
 ;; Darwin needs ls from coreutils for dired to work
 (when (system-is-mac)
@@ -869,7 +868,7 @@ Note the weekly scope of the command's precision.")
                 (exit-writing-mode))))
 
 (use-package writeroom-mode
-  :ensure t)
+  :ensure nil  ; Managed by Nix)
 
 (global-set-key (kbd "C-c w") 'writeroom-mode)
 
@@ -908,7 +907,7 @@ Note the weekly scope of the command's precision.")
 (add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
 
 (use-package tide
-  :ensure t
+  :ensure nil  ; Managed by Nix
   :after (typescript-mode company flycheck)
   :hook ((typescript-mode . tide-setup)
          (typescript-mode . tide-hl-identifier-mode)
@@ -984,7 +983,7 @@ Note the weekly scope of the command's precision.")
 "ld" '(dl/lsp-find-definition-other-window :which-key "goto definition"))
 
 (use-package lsp-pyright
-  :ensure t
+  :ensure nil  ; Managed by Nix
   :hook (python-mode . (lambda ()
     (require 'lsp-pyright)
     (lsp-deferred))))  ; or lsp-deferred
@@ -992,7 +991,7 @@ Note the weekly scope of the command's precision.")
 (setq python-indent-offset 2)
 
 (use-package blacken
-  :ensure t)
+  :ensure nil  ; Managed by Nix)
 
 (setq blacken-line-length '88)
 (setq blacken-allow-py36 t)
@@ -1013,7 +1012,16 @@ Note the weekly scope of the command's precision.")
   :mode (("README\\.md\\'" . gfm-mode)
     ("\\.md\\'" . markdown-mode)
     ("\\.markdown\\'" . markdown-mode))
-  :init (setq markdown-command "pandoc"))
+  :init (setq markdown-command "pandoc")
+  :config
+  ;; Enable syntax highlighting
+  (setq markdown-fontify-code-blocks-natively t)
+  ;; Enable inline code highlighting
+  (setq markdown-enable-highlighting-syntax t)
+  ;; Optional: customize faces for better visibility
+  (custom-set-faces
+   '(markdown-code-face ((t (:inherit fixed-pitch :background "#2d2d2d"))))
+   '(markdown-inline-code-face ((t (:inherit (font-lock-constant-face fixed-pitch) :background "#2d2d2d"))))))
 
 (add-to-list 'auto-mode-alist '("\\.mdx\\'" . markdown-mode))
 
@@ -1051,7 +1059,7 @@ Note the weekly scope of the command's precision.")
 (add-hook 'go-mode-hook 'dl/go-mode-hook)
 
 (use-package php-mode
-  :ensure t
+  :ensure nil  ; Managed by Nix
   :config
     (add-hook 'php-mode-hook 'lsp-mode-deferred))
 
@@ -1062,13 +1070,13 @@ Note the weekly scope of the command's precision.")
 
 ;; Modern tree-sitter support for better syntax highlighting
 (use-package tree-sitter
-  :ensure t
+  :ensure nil  ; Managed by Nix
   :config
   (global-tree-sitter-mode)
   (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode))
 
 (use-package tree-sitter-langs
-  :ensure t
+  :ensure nil  ; Managed by Nix
   :after tree-sitter)
 
 ;; Use built-in treesit for Emacs 29+ or fallback to tree-sitter
@@ -1171,14 +1179,20 @@ Note the weekly scope of the command's precision.")
 
 (add-to-list 'auto-mode-alist '("\\.tf\\'" . terraform-mode))
 
-(use-package copilot
-  :straight (:host github :repo "zerolfx/copilot.el" :files ("dist" "*.el"))
-  :ensure t)
+;; Copilot configuration
+;; Note: Since copilot.el is not in standard package repos,
+;; you'll need to manually clone it:
+;; git clone https://github.com/zerolfx/copilot.el ~/.emacs.d/copilot.el
 
-(add-hook 'prog-mode-hook 'copilot-mode)
-
-(define-key copilot-completion-map (kbd "<tab>") 'copilot-accept-completion)
-(define-key copilot-completion-map (kbd "TAB") 'copilot-accept-completion)
+(when (file-exists-p "~/.emacs.d/copilot.el")
+  (add-to-list 'load-path "~/.emacs.d/copilot.el")
+  (require 'copilot nil t)
+  
+  (add-hook 'prog-mode-hook 'copilot-mode)
+  
+  (with-eval-after-load 'copilot
+    (define-key copilot-completion-map (kbd "<tab>") 'copilot-accept-completion)
+    (define-key copilot-completion-map (kbd "TAB") 'copilot-accept-completion)))
 
 (defvar dl/prompts-directory "~/.local/share/prompts"
   "Directory containing LLM prompt files.")
@@ -1256,7 +1270,7 @@ Note the weekly scope of the command's precision.")
 (global-set-key (kbd "C-c C-p") 'dl/llm-prompt-selector)
 
 (use-package which-key
-  :ensure t
+  :ensure nil  ; Managed by Nix
   :init
   (setq which-key-idle-delay 0.3
         which-key-idle-secondary-delay 0.1)
@@ -1264,7 +1278,7 @@ Note the weekly scope of the command's precision.")
   (which-key-mode))
 
 (use-package helpful
-  :ensure t
+  :ensure nil  ; Managed by Nix
   :commands (helpful-callable helpful-variable helpful-key)
   :bind
   ([remap describe-function] . helpful-callable)

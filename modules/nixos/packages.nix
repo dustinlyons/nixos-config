@@ -68,6 +68,8 @@ shared-packages ++ [
   zathura # PDF viewer
   
   xwayland # X11 compatibility layer for Wayland
+
+  mariadb # mysql client
   
   # Terminal animations
   cava # Console-based audio visualizer
