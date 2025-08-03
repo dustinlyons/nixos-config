@@ -754,7 +754,6 @@ If you haven't heard of ~org-mode~, go watch [[https://www.youtube.com/watch?v=S
   (dl/leader-keys
     "e"  '(:ignore t :which-key "emacs")
     "ee" '(dl/load-buffer-with-emacs-config :which-key "open emacs config")
-    "ey" '(org-download-clipboard :which-key "save file from clipboard")
     "er" '(dl/reload-emacs :which-key "reload emacs"))
 
   #+END_SRC
@@ -1182,32 +1181,6 @@ Projectile enables me to organize projects with a killer grep interface.
 #+END_SRC
 
 ** Writing
-*** Modes
-Experimenting with different distraction free writing modes.
-
-#+BEGIN_SRC emacs-lisp
-(defun enter-writing-mode ()
-  (load-theme 'doom-one-light t)
-  (when (bound-and-true-p treemacs-mode) (treemacs))
-  (add-hook 'window-buffer-change-functions 'check-leaving-buffer nil t))
-
-(defun exit-writing-mode ()
-  (load-theme 'doom-one t)
-  (when (bound-and-true-p treemacs-mode) (treemacs))
-  (remove-hook 'window-buffer-change-functions 'check-leaving-buffer t))
-
-(add-hook 'writeroom-mode-hook
-          (lambda ()
-            (if writeroom-mode
-                (enter-writing-mode)
-                (exit-writing-mode))))
-
-(use-package writeroom-mode
-  :ensure nil  ; Managed by Nix)
-
-(global-set-key (kbd "C-c w") 'writeroom-mode)
-#+END_SRC
-
 *** Spell Check / Flycheck Mode
 Everything related to spell and grammar checking.
 
@@ -1470,6 +1443,9 @@ Rainbow mode is an Emacs minor mode to highlight the color shown by a RGB hex tr
   ;; Configure Phpactor for better PHP support with refactoring capabilities
   (setq lsp-phpactor-path (executable-find "phpactor"))
   (setq lsp-disabled-clients '(intelephense)) ; Disable intelephense to use phpactor
+  
+  ;; Configure lsp-mode file watch threshold if needed
+  (setq lsp-file-watch-threshold 2000)
   
   ;; Better completion
   (setq lsp-completion-provider :company-capf)
@@ -1811,12 +1787,6 @@ Nix is my package manager and operating system of choice; this mode enables me t
                               (dl/open-org-file filename)))
         (message "No org files found in %s" dl/org-files-directory))))
 
-  ;; Direct shortcut for emacs-php-workflow.org
-  (defun dl/open-emacs-php-workflow ()
-    "Open emacs-php-workflow.org directly."
-    (interactive)
-    (dl/open-org-file "emacs-php-workflow.org"))
-
   ;; Add leader key bindings for org files
   (dl/leader-keys
     "f"   '(:ignore t :which-key "org files")
@@ -1825,10 +1795,6 @@ Nix is my package manager and operating system of choice; this mode enables me t
     "fo"  '((lambda () (interactive) (dired dl/org-files-directory)) :which-key "open org dir")
     "fr"  '(recentf-open-files :which-key "recent files"))
 
-  ;; You can add more direct shortcuts for frequently accessed files
-  ;; Example:
-  ;; "fn"  '((lambda () (interactive) (dl/open-org-file "notes.org")) :which-key "notes")
-  ;; "ft"  '((lambda () (interactive) (dl/open-org-file "todo.org")) :which-key "todo")
 #+END_SRC
 
 ** Learning Emacs
