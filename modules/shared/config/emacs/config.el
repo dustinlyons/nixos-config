@@ -849,7 +849,32 @@ Note the weekly scope of the command's precision.")
 (setq projectile-globally-ignored-directories '("dist" "node_modules" ".log" ".git"))
 
 ;; Gives me Ivy options in the Projectile menus
-(use-package counsel-projectile :after projectile)
+(use-package counsel-projectile 
+  :after projectile
+  :config
+  (counsel-projectile-mode 1))
+
+;; Project-wide search keybindings
+(defun my/swiper-project ()
+  "Search across all files in current project using ripgrep."
+  (interactive)
+  (counsel-rg nil (projectile-project-root)))
+
+;; Search keybindings for projectile
+(dl/leader-keys
+  "/"   '(counsel-projectile-rg :which-key "search project")
+  "?"   '(my/swiper-project :which-key "search project (alt)")
+  "a"   '(:ignore t :which-key "search")
+  "aa"  '(swiper-all :which-key "search buffers") 
+  "ap"  '(counsel-projectile-rg :which-key "search project")
+  "ag"  '(counsel-projectile-grep :which-key "grep project")
+  "af"  '(counsel-projectile-find-file :which-key "find file")
+  "ad"  '(counsel-projectile-find-dir :which-key "find directory"))
+
+;; Alternative global keybindings for quick access
+(global-set-key (kbd "C-c C-s") 'counsel-projectile-rg)
+(global-set-key (kbd "C-c s p") 'my/swiper-project)
+(global-set-key (kbd "C-c s a") 'swiper-all)
 
 (defun enter-writing-mode ()
   (load-theme 'doom-one-light t)
@@ -1061,10 +1086,89 @@ Note the weekly scope of the command's precision.")
 (use-package php-mode
   :ensure nil  ; Managed by Nix
   :config
-    (add-hook 'php-mode-hook 'lsp-mode-deferred))
+    (add-hook 'php-mode-hook 'lsp-deferred))
 
-(require 'cl)
+;; Enhanced LSP configuration for PHP with PHPStan integration
+(use-package lsp-mode
+  :config
+  ;; Configure Phpactor for better PHP support with refactoring capabilities
+  (setq lsp-phpactor-path (executable-find "phpactor"))
+  (setq lsp-disabled-clients '(intelephense)) ; Disable intelephense to use phpactor
+  
+  ;; Better completion
+  (setq lsp-completion-provider :company-capf)
+  (setq company-minimum-prefix-length 2)
+  
+  ;; Use flycheck for diagnostics to integrate with PHPStan
+  (setq lsp-diagnostics-provider :flycheck))
+
+;; Configure flycheck to run PHPStan
+(use-package flycheck
+  :ensure nil  ; Managed by Nix
+  :config
+  ;; Define PHPStan checker
+  (flycheck-define-checker phpstan
+    "PHP static analysis using PHPStan."
+    :command ("phpstan" "analyse" "--no-progress" "--error-format=raw" source-original)
+    :error-patterns
+    ((error line-start (file-name) ":" line ":" (message) line-end))
+    :modes php-mode)
+  
+  ;; Add PHPStan to PHP checkers - run after the built-in PHP checker
+  (add-to-list 'flycheck-checkers 'phpstan t)
+  (flycheck-add-next-checker 'php 'phpstan))
+
+;; PHP mode setup with flycheck and formatting
+(defun setup-php-development ()
+  "Setup PHP development environment with LSP, flycheck, and formatting."
+  (lsp-deferred)
+  (flycheck-mode 1)
+  ;; Enable PHPStan checking
+  (when (executable-find "phpstan")
+    (flycheck-select-checker 'phpstan)))
+
+;; Add enhanced PHP mode hook
+(add-hook 'php-mode-hook #'setup-php-development)
+
+;; PHP formatting setup
+(require 'cl-lib)
 (add-hook 'before-save-hook 'php-cs-fixer-before-save)
+
+;; PHP navigation and documentation
+(defun php-doc-at-point ()
+  "Look up PHP documentation for symbol at point."
+  (interactive)
+  (let ((symbol (thing-at-point 'symbol)))
+    (when symbol
+      (browse-url (format "https://www.php.net/manual/en/function.%s.php" 
+                         (replace-regexp-in-string "_" "-" symbol))))))
+
+;; PHP-specific keybindings
+(with-eval-after-load 'php-mode
+  (define-key php-mode-map (kbd "C-c C-d") 'php-doc-at-point)
+  (define-key php-mode-map (kbd "C-c ! n") 'flycheck-next-error)
+  (define-key php-mode-map (kbd "C-c ! p") 'flycheck-previous-error)
+  (define-key php-mode-map (kbd "C-c ! l") 'flycheck-list-errors))
+
+;; Evil mode error navigation for PHP
+(with-eval-after-load 'evil
+  (evil-define-key 'normal php-mode-map
+    "]e" 'flycheck-next-error
+    "[e" 'flycheck-previous-error))
+
+;; PHP Leader key bindings
+(dl/leader-keys
+  "p"  '(:ignore t :which-key "php")
+  "pc" '((lambda () (interactive) (compile "composer install")) :which-key "composer install")
+  "pu" '((lambda () (interactive) (compile "composer update")) :which-key "composer update")
+  "pf" '(php-cs-fixer-fix-file :which-key "fix code style")
+  "ps" '((lambda () (interactive) 
+           (let ((default-directory (projectile-project-root)))
+             (compile "phpstan analyse --no-progress"))) :which-key "phpstan project")
+  "pS" '((lambda () (interactive) 
+           (compile (format "phpstan analyse --no-progress %s" (buffer-file-name)))) :which-key "phpstan file")
+  "pd" '(php-doc-at-point :which-key "php documentation"))
+
 ;; Adjust auto-mode-alist to use php-mode for PHP files
 (add-to-list 'auto-mode-alist '("\\.php$" . php-mode))
 
@@ -1268,6 +1372,52 @@ Note the weekly scope of the command's precision.")
 
 ;; Optional: Global keybinding for quick access
 (global-set-key (kbd "C-c C-p") 'dl/llm-prompt-selector)
+
+(defvar dl/org-files-directory "~/org"
+  "Directory containing personal org files.")
+
+(defun dl/open-org-file (filename)
+  "Open an org file from the org directory."
+  (interactive)
+  (let ((filepath (expand-file-name filename dl/org-files-directory)))
+    (if (file-exists-p filepath)
+        (find-file filepath)
+      (message "File not found: %s" filepath))))
+
+(defun dl/get-org-files ()
+  "Get list of org files from the org directory."
+  (when (file-directory-p dl/org-files-directory)
+    (directory-files dl/org-files-directory nil "\\.org$")))
+
+(defun dl/org-file-selector ()
+  "Select an org file from your org directory to open."
+  (interactive)
+  (let ((org-files (dl/get-org-files)))
+    (if org-files
+        (ivy-read "Select org file: "
+                  org-files
+                  :action (lambda (filename)
+                            (dl/open-org-file filename)))
+      (message "No org files found in %s" dl/org-files-directory))))
+
+;; Direct shortcut for emacs-php-workflow.org
+(defun dl/open-emacs-php-workflow ()
+  "Open emacs-php-workflow.org directly."
+  (interactive)
+  (dl/open-org-file "emacs-php-workflow.org"))
+
+;; Add leader key bindings for org files
+(dl/leader-keys
+  "f"   '(:ignore t :which-key "org files")
+  "ff"  '(dl/org-file-selector :which-key "find org file")
+  "fp"  '(dl/open-emacs-php-workflow :which-key "php workflow")
+  "fo"  '((lambda () (interactive) (dired dl/org-files-directory)) :which-key "open org dir")
+  "fr"  '(recentf-open-files :which-key "recent files"))
+
+;; You can add more direct shortcuts for frequently accessed files
+;; Example:
+;; "fn"  '((lambda () (interactive) (dl/open-org-file "notes.org")) :which-key "notes")
+;; "ft"  '((lambda () (interactive) (dl/open-org-file "todo.org")) :which-key "todo")
 
 (use-package which-key
   :ensure nil  ; Managed by Nix

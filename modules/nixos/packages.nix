@@ -1,6 +1,31 @@
 { pkgs, inputs }:
 with pkgs;
-let shared-packages = import ../shared/packages.nix { inherit pkgs; }; in
+let 
+  shared-packages = import ../shared/packages.nix { inherit pkgs; }; 
+  
+  # Custom scripts
+  rofi-launcher = pkgs.writeShellScriptBin "rofi-launcher" ''
+    # Use kstart5 to ensure proper KDE integration
+    ${pkgs.kdePackages.kde-cli-tools}/bin/kstart5 --window "rofi" -- ${pkgs.rofi-wayland}/bin/rofi -show drun
+  '';
+  
+  cheatsheet-viewer = pkgs.writeShellScriptBin "cheatsheet-viewer" ''
+    CHEATSHEET_DIR="$HOME/cheatsheets"
+    cd "$CHEATSHEET_DIR" || exit 1
+    
+    selected=$(ls *.md 2>/dev/null | sed 's/\.md$//' | \
+        ${pkgs.rofi-wayland}/bin/rofi -dmenu -i -p "Cheatsheet")
+    
+    if [ -z "$selected" ]; then
+        exit 0
+    fi
+    
+    # Display with glow in alacritty
+    ${pkgs.alacritty}/bin/alacritty --class "cheatsheet-viewer" \
+        --title "$selected" \
+        -e sh -c "${pkgs.glow}/bin/glow -p '$CHEATSHEET_DIR/''${selected}.md'; echo 'Press any key to close...'; read -n 1"
+  '';
+in
 shared-packages ++ [
 
   _1password-gui # Password manager
@@ -75,5 +100,8 @@ shared-packages ++ [
   cava # Console-based audio visualizer
   asciiquarium # ASCII art aquarium animation
   tty-clock # Terminal digital clock
+  
+  # Custom scripts
+  cheatsheet-viewer
 
 ]

@@ -60,6 +60,9 @@ in
       enable = true;
       enable32Bit = true;
     };
+
+    # CPU configuration
+    cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
   };
 
   # Networking
@@ -147,6 +150,8 @@ in
 
     # Bluetooth
     blueman.enable = true;
+
+
   };
 
   # Define a user account. Don't forget to set a password with 'passwd'.
@@ -171,6 +176,8 @@ in
     myEmacs
     wl-clipboard     # Wayland clipboard utilities (replaces xclip)
     wayland-utils    # Wayland utilities
+    lm_sensors       # Hardware monitoring sensors
+    btop             # Modern resource monitor with temp display
   ];
 
   # Don't require password for users in `wheel` group for these commands

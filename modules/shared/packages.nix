@@ -89,11 +89,14 @@ with pkgs; [
   php82Packages.composer # PHP dependency manager
   php82Packages.deployer # PHP deployment tool
   php82Packages.php-cs-fixer # PHP code style fixer
+  php82Packages.phpstan # PHP static analysis tool
+  phpactor # PHP language server with better refactoring support
   phpunit # PHP testing framework
   pngquant # PNG compression tool
 
   # R
   ripgrep # Fast text search tool
+  rofi-wayland # Application launcher and window switcher (Wayland version)
 
   # S
   slack # Team communication app

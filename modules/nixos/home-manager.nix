@@ -27,6 +27,15 @@ in
     gpg.enable = true;
     plasma = {
       enable = true;
+      
+      hotkeys.commands = {
+        "view-cheatsheets" = {
+          name = "View Cheatsheets";  
+          key = "Meta+C";
+          command = "cheatsheet-viewer";
+        };
+      };
+      
       workspace = {
         clickItemTo = "select";
       };
