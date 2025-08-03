@@ -61,8 +61,6 @@ in
       enable32Bit = true;
     };
 
-    # CPU configuration
-    cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
   };
 
   # Networking
