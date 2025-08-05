@@ -980,11 +980,7 @@ This is what makes emacs possible for me. All evil mode packages and related con
   ;; Gives me vim bindings elsewhere in emacs
   (use-package evil-collection
     :after evil
-    :init
-    ;; Define the variable before use
-    (defvar evil-collection-mode-list nil)
     :config
-    (setq evil-collection-mode-list (remove 'magit evil-collection-mode-list))
     (evil-collection-init))
 
   ;; Keybindings in org mode
@@ -1442,7 +1438,15 @@ Rainbow mode is an Emacs minor mode to highlight the color shown by a RGB hex tr
   :config
   ;; Configure Phpactor for better PHP support with refactoring capabilities
   (setq lsp-phpactor-path (executable-find "phpactor"))
-  (setq lsp-disabled-clients '(intelephense)) ; Disable intelephense to use phpactor
+  
+  ;; Force phpactor to be the only PHP server
+  (with-eval-after-load 'lsp-php
+    ;; Disable all other PHP clients
+    (setq lsp-clients-php-iph-server-command nil)
+    (setq lsp-clients-php-server-command nil)
+    (setq lsp-disabled-clients '(iph php-ls psalm-ls php-serenata))
+    ;; Only enable phpactor
+    (setq lsp-enabled-clients '(phpactor)))
   
   ;; Configure lsp-mode file watch threshold if needed
   (setq lsp-file-watch-threshold 2000)
@@ -1473,6 +1477,9 @@ Rainbow mode is an Emacs minor mode to highlight the color shown by a RGB hex tr
 ;; PHP mode setup with flycheck and formatting
 (defun setup-php-development ()
   "Setup PHP development environment with LSP, flycheck, and formatting."
+  ;; Force phpactor by disabling other clients before starting LSP
+  (setq-local lsp-disabled-clients '(iph php-ls))
+  (setq-local lsp-enabled-clients '(phpactor))
   (lsp-deferred)
   (flycheck-mode 1)
   ;; Enable PHPStan checking
@@ -1599,33 +1606,14 @@ Rainbow mode is an Emacs minor mode to highlight the color shown by a RGB hex tr
   (use-package magit
     :commands (magit-status magit-get-current-branch)
     :config
-    ;; Enable vim-style navigation in Magit
+    ;; Force evil keybindings in magit
     (evil-set-initial-state 'magit-mode 'normal)
     (evil-set-initial-state 'magit-status-mode 'normal)
     (evil-set-initial-state 'magit-diff-mode 'normal)
     (evil-set-initial-state 'magit-log-mode 'normal)
-    (evil-define-key 'normal magit-mode-map
-      "j" 'magit-section-forward
-      "k" 'magit-section-backward
-      "h" 'magit-section-hide
-      "l" 'magit-section-show
-      "n" 'magit-section-forward-sibling
-      "p" 'magit-section-backward-sibling
-      "J" 'magit-section-forward-sibling
-      "K" 'magit-section-backward-sibling
-      "gg" 'beginning-of-buffer
-      "G" 'end-of-buffer
-      "q" 'magit-mode-bury-buffer)
-    ;; Also set for specific magit modes
-    (evil-define-key 'normal magit-status-mode-map
-      "j" 'magit-section-forward
-      "k" 'magit-section-backward)
-    (evil-define-key 'normal magit-diff-mode-map
-      "j" 'magit-section-forward
-      "k" 'magit-section-backward)
-    (evil-define-key 'normal magit-log-mode-map
-      "j" 'magit-section-forward
-      "k" 'magit-section-backward))
+    ;; Ensure evil-collection loads after magit
+    (require 'evil-collection)
+    (evil-collection-magit-setup))
   (define-key magit-hunk-section-map (kbd "RET") 'magit-diff-visit-file-other-window)
   (global-set-key (kbd "C-x G") 'magit-log-buffer-file)
 #+END_SRC
@@ -1748,13 +1736,57 @@ Nix is my package manager and operating system of choice; this mode enables me t
 
   ;; Add leader key bindings for LLM prompts
   (dl/leader-keys
-    "c"   '(:ignore t :which-key "llm prompts")
-    "cs"  '(dl/llm-prompt-selector :which-key "select prompt")
-    "co"  '(dl/open-prompts-directory :which-key "open prompts dir")
-    "cn"  '(dl/create-new-prompt :which-key "new prompt"))
+    "p"   '(:ignore t :which-key "prompts")
+    "ps"  '(dl/llm-prompt-selector :which-key "select prompt")
+    "po"  '(dl/open-prompts-directory :which-key "open prompts dir")
+    "pn"  '(dl/create-new-prompt :which-key "new prompt"))
 
   ;; Optional: Global keybinding for quick access
   (global-set-key (kbd "C-c C-p") 'dl/llm-prompt-selector)
+#+END_SRC
+
+*** Claude Code
+#+NAME: claude-code
+#+BEGIN_SRC emacs-lisp
+  ;; Claude Code integration
+  ;; Note: Requires Claude Code CLI to be installed and available in PATH
+  ;; Also requires transient package (0.7.5+)
+  
+  ;; Since claude-code.el is not in standard package repos,
+  ;; we'll clone it similar to copilot.el
+  (when (executable-find "claude")
+    ;; Clone claude-code.el if it doesn't exist
+    (let ((claude-code-dir "~/.emacs.d/claude-code.el"))
+      (unless (file-exists-p claude-code-dir)
+        (message "Claude Code directory not found. Clone it with:")
+        (message "git clone https://github.com/stevemolitor/claude-code.el ~/.emacs.d/claude-code.el"))
+      
+      ;; Load claude-code if directory exists
+      (when (file-exists-p claude-code-dir)
+        (add-to-list 'load-path claude-code-dir)
+        (require 'claude-code nil t)
+        
+        ;; Enable claude-code-mode
+        (claude-code-mode)
+        
+        ;; Set up keybindings using 'c' as the leader key
+        (dl/leader-keys
+          "c"   '(:ignore t :which-key "claude")
+          "cc"  '(claude-code-menu :which-key "claude menu")
+          "cn"  '(claude-code-create :which-key "new claude")
+          "cs"  '(claude-code-send-region :which-key "send region")
+          "cf"  '(claude-code-send-file :which-key "send file")
+          "cb"  '(claude-code-send-buffer :which-key "send buffer")
+          "ce"  '(claude-code-fix-error :which-key "fix error")
+          "cr"  '(claude-code-restart :which-key "restart")
+          "ck"  '(claude-code-kill :which-key "kill"))
+        
+        ;; Global keymap for quick access
+        (define-key global-map (kbd "C-c c") 'claude-code-command-map)
+        
+        ;; Optional: Configure claude-code settings
+        (setq claude-code-terminal-backend 'eat)  ; or 'vterm' if you prefer
+        (setq claude-code-desktop-notifications t))))
 #+END_SRC
 
 *** Custom Org Files

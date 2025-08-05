@@ -107,6 +107,8 @@ let
     f  # File manipulation library
     rotate
     exec-path-from-shell
+    transient  # Required for claude-code.el (0.7.5+)
+    eat  # Terminal emulator for claude-code.el
     
     # Note: copilot needs special handling via manual installation
   ]);

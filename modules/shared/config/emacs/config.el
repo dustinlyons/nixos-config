@@ -537,7 +537,6 @@ Note the weekly scope of the command's precision.")
 (dl/leader-keys
   "e"  '(:ignore t :which-key "emacs")
   "ee" '(dl/load-buffer-with-emacs-config :which-key "open emacs config")
-  "ey" '(org-download-clipboard :which-key "save file from clipboard")
   "er" '(dl/reload-emacs :which-key "reload emacs"))
 
 (use-package yasnippet)
@@ -709,11 +708,7 @@ Note the weekly scope of the command's precision.")
   ;; Gives me vim bindings elsewhere in emacs
   (use-package evil-collection
     :after evil
-    :init
-    ;; Define the variable before use
-    (defvar evil-collection-mode-list nil)
     :config
-    (setq evil-collection-mode-list (remove 'magit evil-collection-mode-list))
     (evil-collection-init))
 
   ;; Keybindings in org mode
@@ -875,27 +870,6 @@ Note the weekly scope of the command's precision.")
 (global-set-key (kbd "C-c C-s") 'counsel-projectile-rg)
 (global-set-key (kbd "C-c s p") 'my/swiper-project)
 (global-set-key (kbd "C-c s a") 'swiper-all)
-
-(defun enter-writing-mode ()
-  (load-theme 'doom-one-light t)
-  (when (bound-and-true-p treemacs-mode) (treemacs))
-  (add-hook 'window-buffer-change-functions 'check-leaving-buffer nil t))
-
-(defun exit-writing-mode ()
-  (load-theme 'doom-one t)
-  (when (bound-and-true-p treemacs-mode) (treemacs))
-  (remove-hook 'window-buffer-change-functions 'check-leaving-buffer t))
-
-(add-hook 'writeroom-mode-hook
-          (lambda ()
-            (if writeroom-mode
-                (enter-writing-mode)
-                (exit-writing-mode))))
-
-(use-package writeroom-mode
-  :ensure nil  ; Managed by Nix)
-
-(global-set-key (kbd "C-c w") 'writeroom-mode)
 
 (when (system-is-mac)
   (with-eval-after-load "ispell"
@@ -1093,7 +1067,18 @@ Note the weekly scope of the command's precision.")
   :config
   ;; Configure Phpactor for better PHP support with refactoring capabilities
   (setq lsp-phpactor-path (executable-find "phpactor"))
-  (setq lsp-disabled-clients '(intelephense)) ; Disable intelephense to use phpactor
+  
+  ;; Force phpactor to be the only PHP server
+  (with-eval-after-load 'lsp-php
+    ;; Disable all other PHP clients
+    (setq lsp-clients-php-iph-server-command nil)
+    (setq lsp-clients-php-server-command nil)
+    (setq lsp-disabled-clients '(iph php-ls psalm-ls php-serenata))
+    ;; Only enable phpactor
+    (setq lsp-enabled-clients '(phpactor)))
+  
+  ;; Configure lsp-mode file watch threshold if needed
+  (setq lsp-file-watch-threshold 2000)
   
   ;; Better completion
   (setq lsp-completion-provider :company-capf)
@@ -1121,6 +1106,9 @@ Note the weekly scope of the command's precision.")
 ;; PHP mode setup with flycheck and formatting
 (defun setup-php-development ()
   "Setup PHP development environment with LSP, flycheck, and formatting."
+  ;; Force phpactor by disabling other clients before starting LSP
+  (setq-local lsp-disabled-clients '(iph php-ls))
+  (setq-local lsp-enabled-clients '(phpactor))
   (lsp-deferred)
   (flycheck-mode 1)
   ;; Enable PHPStan checking
@@ -1239,33 +1227,14 @@ Note the weekly scope of the command's precision.")
 (use-package magit
   :commands (magit-status magit-get-current-branch)
   :config
-  ;; Enable vim-style navigation in Magit
+  ;; Force evil keybindings in magit
   (evil-set-initial-state 'magit-mode 'normal)
   (evil-set-initial-state 'magit-status-mode 'normal)
   (evil-set-initial-state 'magit-diff-mode 'normal)
   (evil-set-initial-state 'magit-log-mode 'normal)
-  (evil-define-key 'normal magit-mode-map
-    "j" 'magit-section-forward
-    "k" 'magit-section-backward
-    "h" 'magit-section-hide
-    "l" 'magit-section-show
-    "n" 'magit-section-forward-sibling
-    "p" 'magit-section-backward-sibling
-    "J" 'magit-section-forward-sibling
-    "K" 'magit-section-backward-sibling
-    "gg" 'beginning-of-buffer
-    "G" 'end-of-buffer
-    "q" 'magit-mode-bury-buffer)
-  ;; Also set for specific magit modes
-  (evil-define-key 'normal magit-status-mode-map
-    "j" 'magit-section-forward
-    "k" 'magit-section-backward)
-  (evil-define-key 'normal magit-diff-mode-map
-    "j" 'magit-section-forward
-    "k" 'magit-section-backward)
-  (evil-define-key 'normal magit-log-mode-map
-    "j" 'magit-section-forward
-    "k" 'magit-section-backward))
+  ;; Ensure evil-collection loads after magit
+  (require 'evil-collection)
+  (evil-collection-magit-setup))
 (define-key magit-hunk-section-map (kbd "RET") 'magit-diff-visit-file-other-window)
 (global-set-key (kbd "C-x G") 'magit-log-buffer-file)
 
@@ -1400,12 +1369,6 @@ Note the weekly scope of the command's precision.")
                             (dl/open-org-file filename)))
       (message "No org files found in %s" dl/org-files-directory))))
 
-;; Direct shortcut for emacs-php-workflow.org
-(defun dl/open-emacs-php-workflow ()
-  "Open emacs-php-workflow.org directly."
-  (interactive)
-  (dl/open-org-file "emacs-php-workflow.org"))
-
 ;; Add leader key bindings for org files
 (dl/leader-keys
   "f"   '(:ignore t :which-key "org files")
@@ -1413,11 +1376,6 @@ Note the weekly scope of the command's precision.")
   "fp"  '(dl/open-emacs-php-workflow :which-key "php workflow")
   "fo"  '((lambda () (interactive) (dired dl/org-files-directory)) :which-key "open org dir")
   "fr"  '(recentf-open-files :which-key "recent files"))
-
-;; You can add more direct shortcuts for frequently accessed files
-;; Example:
-;; "fn"  '((lambda () (interactive) (dl/open-org-file "notes.org")) :which-key "notes")
-;; "ft"  '((lambda () (interactive) (dl/open-org-file "todo.org")) :which-key "todo")
 
 (use-package which-key
   :ensure nil  ; Managed by Nix
