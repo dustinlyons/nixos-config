@@ -1769,20 +1769,20 @@ Nix is my package manager and operating system of choice; this mode enables me t
         ;; Enable claude-code-mode
         (claude-code-mode)
         
-        ;; Set up keybindings using 'c' as the leader key
+        ;; Set up claude-code keybindings
+        ;; First unbind any existing 'c' binding, then set it as a prefix
         (dl/leader-keys
-          "c"   '(:ignore t :which-key "claude")
-          "cc"  '(claude-code-menu :which-key "claude menu")
-          "cn"  '(claude-code-create :which-key "new claude")
-          "cs"  '(claude-code-send-region :which-key "send region")
-          "cf"  '(claude-code-send-file :which-key "send file")
-          "cb"  '(claude-code-send-buffer :which-key "send buffer")
-          "ce"  '(claude-code-fix-error :which-key "fix error")
-          "cr"  '(claude-code-restart :which-key "restart")
-          "ck"  '(claude-code-kill :which-key "kill"))
+          "c" nil)  ; Explicitly unbind first
         
-        ;; Global keymap for quick access
-        (define-key global-map (kbd "C-c c") 'claude-code-command-map)
+        (dl/leader-keys
+          "c"  '(:ignore t :which-key "claude")
+          "cc" '(claude-code :which-key "start claude")
+          "cs" '(claude-code-send-command :which-key "send command")
+          "cr" '(claude-code-send-region :which-key "send region")
+          "cm" '(claude-code-transient :which-key "transient menu"))
+        
+        ;; Also bind the command map to C-c c for compatibility
+        (define-key global-map (kbd "C-c c") claude-code-command-map)
         
         ;; Optional: Configure claude-code settings
         (setq claude-code-terminal-backend 'eat)  ; or 'vterm' if you prefer

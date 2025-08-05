@@ -1334,13 +1334,53 @@ Note the weekly scope of the command's precision.")
 
 ;; Add leader key bindings for LLM prompts
 (dl/leader-keys
-  "c"   '(:ignore t :which-key "llm prompts")
-  "cs"  '(dl/llm-prompt-selector :which-key "select prompt")
-  "co"  '(dl/open-prompts-directory :which-key "open prompts dir")
-  "cn"  '(dl/create-new-prompt :which-key "new prompt"))
+  "p"   '(:ignore t :which-key "prompts")
+  "ps"  '(dl/llm-prompt-selector :which-key "select prompt")
+  "po"  '(dl/open-prompts-directory :which-key "open prompts dir")
+  "pn"  '(dl/create-new-prompt :which-key "new prompt"))
 
 ;; Optional: Global keybinding for quick access
 (global-set-key (kbd "C-c C-p") 'dl/llm-prompt-selector)
+
+;; Claude Code integration
+;; Note: Requires Claude Code CLI to be installed and available in PATH
+;; Also requires transient package (0.7.5+)
+
+;; Since claude-code.el is not in standard package repos,
+;; we'll clone it similar to copilot.el
+(when (executable-find "claude")
+  ;; Clone claude-code.el if it doesn't exist
+  (let ((claude-code-dir "~/.emacs.d/claude-code.el"))
+    (unless (file-exists-p claude-code-dir)
+      (message "Claude Code directory not found. Clone it with:")
+      (message "git clone https://github.com/stevemolitor/claude-code.el ~/.emacs.d/claude-code.el"))
+    
+    ;; Load claude-code if directory exists
+    (when (file-exists-p claude-code-dir)
+      (add-to-list 'load-path claude-code-dir)
+      (require 'claude-code nil t)
+      
+      ;; Enable claude-code-mode
+      (claude-code-mode)
+      
+      ;; Set up claude-code keybindings
+      ;; First unbind any existing 'c' binding, then set it as a prefix
+      (dl/leader-keys
+        "c" nil)  ; Explicitly unbind first
+      
+      (dl/leader-keys
+        "c"  '(:ignore t :which-key "claude")
+        "cc" '(claude-code :which-key "start claude")
+        "cs" '(claude-code-send-command :which-key "send command")
+        "cr" '(claude-code-send-region :which-key "send region")
+        "cm" '(claude-code-transient :which-key "transient menu"))
+      
+      ;; Also bind the command map to C-c c for compatibility
+      (define-key global-map (kbd "C-c c") claude-code-command-map)
+      
+      ;; Optional: Configure claude-code settings
+      (setq claude-code-terminal-backend 'eat)  ; or 'vterm' if you prefer
+      (setq claude-code-desktop-notifications t))))
 
 (defvar dl/org-files-directory "~/org"
   "Directory containing personal org files.")
