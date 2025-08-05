@@ -31,5 +31,24 @@ let
       Categories=Utility;Documentation;
     '';
   };
+
+  "${xdg_configHome}/kwinrulesrc" = {
+    text = ''
+[General]
+count=1
+rules=fa8dd962-e5d7-4a39-9bea-190a62f25ce2
+
+[fa8dd962-e5d7-4a39-9bea-190a62f25ce2]
+Description=Cheatsheet Viewer Position and Size
+position=2351,0
+positionrule=3
+size=988,1100
+sizerule=2
+types=1
+wmclass=alacritty cheatsheet-viewer
+wmclasscomplete=true
+wmclassmatch=1
+    '';
+  };
   
 }
