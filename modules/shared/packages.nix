@@ -6,6 +6,7 @@ let
     rich
     virtualenv
     black
+    faker
   ]);
 
   myPHP = pkgs.php82.withExtensions ({ enabled, all }: enabled ++ (with all; [
@@ -97,6 +98,7 @@ with pkgs; [
   # R
   ripgrep # Fast text search tool
   rofi-wayland # Application launcher and window switcher (Wayland version)
+  repomix # AI tooling
 
   # S
   slack # Team communication app
