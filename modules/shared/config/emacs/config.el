@@ -770,9 +770,13 @@ Note the weekly scope of the command's precision.")
   "c" 'find-file
   "H" 'dired-omit-mode
   "l" 'dired-find-file
+  "o" 'dired-find-file-other-window
+  (kbd "C-o") 'dired-display-file
   "y" 'dired-ranger-copy
   "X" 'dired-ranger-move
   "p" 'dired-ranger-paste
+  "gr" 'revert-buffer
+  "g" 'revert-buffer
   (kbd "RET") 'dired-find-file
   (kbd "<return>") 'dired-find-file)
 
@@ -842,6 +846,70 @@ Note the weekly scope of the command's precision.")
 (setq projectile-project-root-files-bottom-up '("package.json" ".projectile" ".project" ".git"))
 (setq projectile-ignored-projects '("~/.emacs.d/"))
 (setq projectile-globally-ignored-directories '("dist" "node_modules" ".log" ".git"))
+
+;; Custom projectile project shortcuts
+(defun dl/open-conductly-project ()
+  "Open the Conductly project starting at README.md."
+  (interactive)
+  (let ((conductly-path (expand-file-name "~/src/conductly/README.md")))
+    (if (file-exists-p conductly-path)
+        (progn
+          (find-file conductly-path)
+          (projectile-discover-projects-in-directory "~/src/conductly")
+          (projectile-switch-project-by-name "~/src/conductly"))
+      (message "Conductly project not found at ~/src/conductly"))))
+
+(defun dl/open-nixos-config-project ()
+  "Open the nixos-config project starting at README.md."
+  (interactive)
+  (let ((nixos-config-path (expand-file-name "~/src/nixos-config/README.md")))
+    (if (file-exists-p nixos-config-path)
+        (progn
+          (find-file nixos-config-path)
+          (projectile-discover-projects-in-directory "~/src/nixos-config")
+          (projectile-switch-project-by-name "~/src/nixos-config"))
+      (message "nixos-config project not found at ~/src/nixos-config"))))
+
+;; Custom magit project functions
+(defun dl/magit-status-conductly ()
+  "Open magit status for Conductly project in full frame."
+  (interactive)
+  (let ((conductly-path (expand-file-name "~/src/conductly")))
+    (if (file-directory-p conductly-path)
+        (progn
+          (magit-status conductly-path)
+          (delete-other-windows))
+      (message "Conductly project not found at ~/src/conductly"))))
+
+(defun dl/magit-status-nixos-config ()
+  "Open magit status for nixos-config project in full frame."
+  (interactive)
+  (let ((nixos-config-path (expand-file-name "~/src/nixos-config")))
+    (if (file-directory-p nixos-config-path)
+        (progn
+          (magit-status nixos-config-path)
+          (delete-other-windows))
+      (message "nixos-config project not found at ~/src/nixos-config"))))
+
+;; Projectile leader key bindings
+(dl/leader-keys
+  "p"   '(:ignore t :which-key "projectile")
+  "pc"  '(dl/open-conductly-project :which-key "conductly")
+  "pn"  '(dl/open-nixos-config-project :which-key "nixos-config")
+  "pp"  '(counsel-projectile-switch-project :which-key "switch project")
+  "pf"  '(counsel-projectile-find-file :which-key "find file")
+  "ps"  '(counsel-projectile-rg :which-key "search project")
+  "pb"  '(counsel-projectile-switch-to-buffer :which-key "switch buffer")
+  "pd"  '(projectile-dired :which-key "project dired"))
+
+;; Git/Magit leader key bindings
+(dl/leader-keys
+  "g"   '(:ignore t :which-key "git")
+  "gc"  '(dl/magit-status-conductly :which-key "magit conductly")
+  "gn"  '(dl/magit-status-nixos-config :which-key "magit nixos-config")
+  "gg"  '(magit-status :which-key "magit status")
+  "gb"  '(magit-blame :which-key "magit blame")
+  "gl"  '(magit-log-buffer-file :which-key "magit log file"))
 
 ;; Gives me Ivy options in the Projectile menus
 (use-package counsel-projectile 
@@ -1146,16 +1214,16 @@ Note the weekly scope of the command's precision.")
 
 ;; PHP Leader key bindings
 (dl/leader-keys
-  "p"  '(:ignore t :which-key "php")
-  "pc" '((lambda () (interactive) (compile "composer install")) :which-key "composer install")
-  "pu" '((lambda () (interactive) (compile "composer update")) :which-key "composer update")
-  "pf" '(php-cs-fixer-fix-file :which-key "fix code style")
-  "ps" '((lambda () (interactive) 
+  "P"  '(:ignore t :which-key "php")
+  "Pc" '((lambda () (interactive) (compile "composer install")) :which-key "composer install")
+  "Pu" '((lambda () (interactive) (compile "composer update")) :which-key "composer update")
+  "Pf" '(php-cs-fixer-fix-file :which-key "fix code style")
+  "Ps" '((lambda () (interactive) 
            (let ((default-directory (projectile-project-root)))
              (compile "phpstan analyse --no-progress"))) :which-key "phpstan project")
-  "pS" '((lambda () (interactive) 
+  "PS" '((lambda () (interactive) 
            (compile (format "phpstan analyse --no-progress %s" (buffer-file-name)))) :which-key "phpstan file")
-  "pd" '(php-doc-at-point :which-key "php documentation"))
+  "Pd" '(php-doc-at-point :which-key "php documentation"))
 
 ;; Adjust auto-mode-alist to use php-mode for PHP files
 (add-to-list 'auto-mode-alist '("\\.php$" . php-mode))
@@ -1234,7 +1302,9 @@ Note the weekly scope of the command's precision.")
   (evil-set-initial-state 'magit-log-mode 'normal)
   ;; Ensure evil-collection loads after magit
   (require 'evil-collection)
-  (evil-collection-magit-setup))
+  (evil-collection-magit-setup)
+  ;; Configure magit to display in full frame
+  (setq magit-display-buffer-function #'magit-display-buffer-fullframe-status-v1))
 (define-key magit-hunk-section-map (kbd "RET") 'magit-diff-visit-file-other-window)
 (global-set-key (kbd "C-x G") 'magit-log-buffer-file)
 
@@ -1334,10 +1404,10 @@ Note the weekly scope of the command's precision.")
 
 ;; Add leader key bindings for LLM prompts
 (dl/leader-keys
-  "p"   '(:ignore t :which-key "prompts")
-  "ps"  '(dl/llm-prompt-selector :which-key "select prompt")
-  "po"  '(dl/open-prompts-directory :which-key "open prompts dir")
-  "pn"  '(dl/create-new-prompt :which-key "new prompt"))
+  "i"   '(:ignore t :which-key "prompts")
+  "is"  '(dl/llm-prompt-selector :which-key "select prompt")
+  "io"  '(dl/open-prompts-directory :which-key "open prompts dir")
+  "in"  '(dl/create-new-prompt :which-key "new prompt"))
 
 ;; Optional: Global keybinding for quick access
 (global-set-key (kbd "C-c C-p") 'dl/llm-prompt-selector)
