@@ -68,6 +68,7 @@ shared-packages ++ [
   winetricks # Wine configuration helper
   vulkan-tools # Vulkan utilities
   gamemode # Optimize system performance for games
+  wowup-appimage # Game addon manager
 
   gimp # Image editor
   glow # Terminal markdown viewer
