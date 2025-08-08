@@ -11,6 +11,9 @@ in
     # Import shared configuration (tmux, zsh, packages, etc.)
     # Comment these out initially if you want to start completely minimal
     ../../modules/shared
+    
+    # Systemd services and timers
+    ../../modules/nixos/systemd.nix
 
     # Agenix for secrets management - temporarily disabled
     # inputs.agenix.nixosModules.default

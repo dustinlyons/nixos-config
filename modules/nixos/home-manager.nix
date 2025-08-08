@@ -21,6 +21,13 @@ in
     packages = pkgs.callPackage ./packages.nix { inherit inputs; };
     file = shared-files // import ./files.nix { inherit user pkgs; };
     stateVersion = "25.05";
+    
+    # Playwright environment variables for NixOS
+    sessionVariables = {
+      PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD = "1";
+      PLAYWRIGHT_SKIP_VALIDATE_HOST_REQUIREMENTS = "true";
+      PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH = "${pkgs.chromium}/bin/chromium";
+    };
   };
 
   programs = shared-programs // { 

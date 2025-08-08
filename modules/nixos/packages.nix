@@ -56,7 +56,7 @@ shared-packages ++ [
 
   brlaser # Printer driver
 
-  chromedriver # Chrome webdriver for testing
+  # chromedriver # Chrome webdriver for testing (commented out due to nodejs version conflict)
 
   inputs.claude-desktop.packages."${pkgs.system}".claude-desktop-with-fhs
 
@@ -120,5 +120,9 @@ shared-packages ++ [
   
   # Custom scripts
   cheatsheet-viewer
+  
+  # Additional KDE tools and notifications
+  libnotify # Notification library and notify-send command
+  kdePackages.kdialog # KDE dialog boxes and notifications
 
 ]

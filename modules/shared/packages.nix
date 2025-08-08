@@ -30,6 +30,7 @@ with pkgs; [
   btop # System monitor and process viewer
 
   # C
+  chromium # Open-source web browser (for Playwright)
   coreutils # Basic file/text/shell utilities
 
   # D
@@ -77,16 +78,15 @@ with pkgs; [
   ncurses # Terminal control library with terminfo database
   neofetch # System information tool
   ngrok # Secure tunneling service
-  nodePackages.live-server # Development server with live reload
-  nodePackages.nodemon # Node.js file watcher
-  nodePackages.npm # Node package manager
-  (hiPrio nodePackages.prettier) # Code formatter
+  nodejs_20 # Node.js JavaScript runtime (includes npm)
 
   # O
   openssh # SSH client and server
 
   # P
   pandoc # Document converter
+  playwright-deps # Playwright browser dependencies (from overlay)
+  playwright-wrapper # Wrapper script for running Playwright with system Chromium
   php82Packages.composer # PHP dependency manager
   php82Packages.deployer # PHP deployment tool
   php82Packages.php-cs-fixer # PHP code style fixer
