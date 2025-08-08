@@ -52,6 +52,9 @@ let
     projectile
     ripgrep
     
+    # Deadgrep - dedicated ripgrep UI with full buffer interface
+    deadgrep
+    
     # Org mode
     org-super-agenda
     org-superstar

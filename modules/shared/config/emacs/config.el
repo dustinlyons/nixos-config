@@ -830,6 +830,43 @@ Note the weekly scope of the command's precision.")
 (setq lock-file-name-transforms
       `((".*" "~/.local/state/emacs/lock-files/" t)))
 
+(use-package deadgrep
+  :bind (("C-c d g" . deadgrep)
+         ("C-c d p" . deadgrep-project))
+  :config
+  (defun deadgrep-project ()
+    "Run deadgrep in the current project root."
+    (interactive)
+    (let ((default-directory (projectile-project-root)))
+      (call-interactively #'deadgrep)))
+  
+  ;; Customize deadgrep faces for better visibility
+  :custom-face
+  ;; File headers with background color
+  (deadgrep-filename-face ((t (:foreground "#7cc3f3" 
+                                :background "#2a2e38"
+                                :weight bold
+                                :height 1.1
+                                :box (:line-width 2 :color "#3a3e48")))))
+  ;; Match count styling
+  (deadgrep-match-count-face ((t (:foreground "#99C794"
+                                   :weight bold))))
+  ;; Search term highlighting
+  (deadgrep-match-face ((t (:foreground "#1c1e27"
+                             :background "#FAC863"
+                             :weight bold))))
+  ;; Line numbers
+  (deadgrep-line-number-face ((t (:foreground "#65737E"))))
+  ;; Meta information
+  (deadgrep-meta-face ((t (:foreground "#5FB3B3"
+                           :italic t)))))
+
+;; Leader key bindings for Deadgrep
+(dl/leader-keys
+  "sd"  '(:ignore t :which-key "deadgrep")
+  "sdg" '(deadgrep :which-key "deadgrep here")
+  "sdp" '(deadgrep-project :which-key "deadgrep project"))
+
 (use-package ripgrep)
 (use-package projectile
   :diminish projectile-mode
