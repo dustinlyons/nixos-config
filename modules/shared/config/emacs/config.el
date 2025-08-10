@@ -574,6 +574,8 @@ Note the weekly scope of the command's precision.")
      ("C-c r n" . org-roam-node-insert)
      ("C-c r f" . org-roam-node-find)
      ("C-c r c" . dl/org-roam-create-id)
+     ("M-s-n" . org-roam-node-insert)  ; Alt + Super + N to create new node
+     ("M-s-f" . org-roam-node-find)    ; Alt + Super + F to find node
        :map org-mode-map
      ("C-M-i"   . completion-at-point)
      ("C-<left>" . org-roam-dailies-goto-previous-note)
@@ -1085,6 +1087,27 @@ Note the weekly scope of the command's precision.")
 "ll" '(lsp :which-key "enable lsp mode")
 "lr" '(lsp-rename :which-key "rename")
 "ld" '(dl/lsp-find-definition-other-window :which-key "goto definition"))
+
+(use-package dumb-jump
+  :ensure nil  ; Managed by Nix
+  :config
+  ;; Use ripgrep as the preferred searcher (it's the fastest)
+  (setq dumb-jump-prefer-searcher 'rg)
+  ;; Be smart about project context
+  (setq dumb-jump-force-searcher nil)
+  ;; Add to xref backend as a fallback
+  (add-hook 'xref-backend-functions #'dumb-jump-xref-activate)
+  ;; Silence the mode-line indicator
+  (setq dumb-jump-mode-line-format nil))
+
+;; Leader key bindings for dumb-jump
+(dl/leader-keys
+  "j"  '(:ignore t :which-key "jump")
+  "jj" '(dumb-jump-go :which-key "jump to definition")
+  "jo" '(dumb-jump-go-other-window :which-key "jump other window")
+  "jb" '(dumb-jump-back :which-key "jump back")
+  "jl" '(dumb-jump-quick-look :which-key "quick look")
+  "je" '(dumb-jump-go-prefer-external :which-key "jump external"))
 
 (use-package lsp-pyright
   :ensure nil  ; Managed by Nix

@@ -809,6 +809,8 @@ These are templates used to create new notes.
        ("C-c r n" . org-roam-node-insert)
        ("C-c r f" . org-roam-node-find)
        ("C-c r c" . dl/org-roam-create-id)
+       ("M-s-n" . org-roam-node-insert)  ; Alt + Super + N to create new node
+       ("M-s-f" . org-roam-node-find)    ; Alt + Super + F to find node
          :map org-mode-map
        ("C-M-i"   . completion-at-point)
        ("C-<left>" . org-roam-dailies-goto-previous-note)
@@ -1129,7 +1131,7 @@ These settings keep emacs from littering the filesystem with buffer backups. The
 #+END_SRC
 
 ** Managing projects
-*** Deadgrep (Dedicated ripgrep interface)
+*** Deadgrep
 Deadgrep provides a full-buffer interface for ripgrep with excellent UX. Results are displayed in a dedicated buffer with syntax highlighting.
 
 #+NAME: deadgrep-config
@@ -1237,6 +1239,15 @@ Projectile enables me to organize projects with a killer grep interface.
             (magit-status nixos-config-path)
             (delete-other-windows))
         (message "nixos-config project not found at ~/src/nixos-config"))))
+  (defun dl/magit-status-river ()
+    "Open magit status for River project in full frame."
+    (interactive)
+    (let ((river-path (expand-file-name "~/src/river")))
+      (if (file-directory-p river-path)
+          (progn
+            (magit-status river-path)
+            (delete-other-windows))
+        (message "River project not found at ~/src/river"))))
 
   ;; Projectile leader key bindings
   (dl/leader-keys
@@ -1254,6 +1265,7 @@ Projectile enables me to organize projects with a killer grep interface.
     "g"   '(:ignore t :which-key "git")
     "gc"  '(dl/magit-status-conductly :which-key "magit conductly")
     "gn"  '(dl/magit-status-nixos-config :which-key "magit nixos-config")
+    "gr"  '(dl/magit-status-river :which-key "magit river")
     "gg"  '(magit-status :which-key "magit status")
     "gb"  '(magit-blame :which-key "magit blame")
     "gl"  '(magit-log-buffer-file :which-key "magit log file"))
@@ -1424,6 +1436,34 @@ Leader keys for ~lsp-mode~.
   "ll" '(lsp :which-key "enable lsp mode")
   "lr" '(lsp-rename :which-key "rename")
   "ld" '(dl/lsp-find-definition-other-window :which-key "goto definition"))
+#+END_SRC
+
+*** Dumb Jump - Universal Code Navigation
+Dumb Jump provides a simple, language-agnostic way to jump to definitions using ag, rg, grep, or git-grep.
+It works as a fallback when LSP is not available or for languages without LSP support.
+
+#+NAME: dumb-jump
+#+BEGIN_SRC emacs-lisp
+  (use-package dumb-jump
+    :ensure nil  ; Managed by Nix
+    :config
+    ;; Use ripgrep as the preferred searcher (it's the fastest)
+    (setq dumb-jump-prefer-searcher 'rg)
+    ;; Be smart about project context
+    (setq dumb-jump-force-searcher nil)
+    ;; Add to xref backend as a fallback
+    (add-hook 'xref-backend-functions #'dumb-jump-xref-activate)
+    ;; Silence the mode-line indicator
+    (setq dumb-jump-mode-line-format nil))
+
+  ;; Leader key bindings for dumb-jump
+  (dl/leader-keys
+    "j"  '(:ignore t :which-key "jump")
+    "jj" '(dumb-jump-go :which-key "jump to definition")
+    "jo" '(dumb-jump-go-other-window :which-key "jump other window")
+    "jb" '(dumb-jump-back :which-key "jump back")
+    "jl" '(dumb-jump-quick-look :which-key "quick look")
+    "je" '(dumb-jump-go-prefer-external :which-key "jump external"))
 #+END_SRC
 
 *** Languages

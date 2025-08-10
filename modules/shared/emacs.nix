@@ -81,6 +81,9 @@ let
     company
     company-box
     
+    # Code navigation
+    dumb-jump
+    
     # Programming - Languages
     go-mode
     nix-mode
