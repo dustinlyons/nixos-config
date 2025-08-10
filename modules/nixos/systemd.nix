@@ -199,74 +199,76 @@ in
   
   # === World Buff Fetcher Service ===
   # Fetches buff timers using Playwright, with retry logic
-  systemd.services.world-buff-fetcher = {
-    description = "World Buff Fetcher";
-    serviceConfig = {
-      Type = "oneshot";
-      User = "dustin";
-      WorkingDirectory = "/home/dustin/.local/share/src/restxp";
-      ExecStart = "${fetcherWrapper}/bin/world-buff-fetcher-wrapper";
-      
-      # Environment for Node.js and Playwright
-      Environment = [
-        "HOME=/home/dustin"
-        "PATH=${pkgs.nodejs_20}/bin:/run/current-system/sw/bin"
-        "NODE_PATH=/home/dustin/.local/share/src/restxp/node_modules"
-      ];
-      
-      # No automatic restart - wrapper handles retries
-      Restart = "no";
-      
-      # Timeout accounts for retries (3 attempts * 5 min = 15 min + script time)
-      TimeoutStartSec = "20min";
-      
-      # Logging
-      StandardOutput = "journal";
-      StandardError = "journal";
+  systemd = {
+    services.world-buff-fetcher = {
+      description = "World Buff Fetcher";
+      serviceConfig = {
+        Type = "oneshot";
+        User = "dustin";
+        WorkingDirectory = "/home/dustin/.local/share/src/restxp";
+        ExecStart = "${fetcherWrapper}/bin/world-buff-fetcher-wrapper";
+        
+        # Environment for Node.js and Playwright
+        Environment = [
+          "HOME=/home/dustin"
+          "PATH=${pkgs.nodejs_20}/bin:/run/current-system/sw/bin"
+          "NODE_PATH=/home/dustin/.local/share/src/restxp/node_modules"
+        ];
+        
+        # No automatic restart - wrapper handles retries
+        Restart = "no";
+        
+        # Timeout accounts for retries (3 attempts * 5 min = 15 min + script time)
+        TimeoutStartSec = "20min";
+        
+        # Logging
+        StandardOutput = "journal";
+        StandardError = "journal";
+      };
     };
-  };
-  
-  # Timer: Run fetcher hourly from 6am to 10pm
-  systemd.timers.world-buff-fetcher = {
-    description = "Run Playwright script hourly from 6am to 10pm";
-    wantedBy = [ "timers.target" ];
-    timerConfig = {
-      OnCalendar = "*-*-* 06..22:00:00";  # Every hour from 6am to 10pm
-      Persistent = true;                   # Run if missed
-      RandomizedDelaySec = "30s";          # Small randomization
+    
+    # Timer: Run fetcher hourly from 6am to 10pm
+    timers.world-buff-fetcher = {
+      description = "Run Playwright script hourly from 6am to 10pm";
+      wantedBy = [ "timers.target" ];
+      timerConfig = {
+        OnCalendar = "*-*-* 06..22:00:00";  # Every hour from 6am to 10pm
+        Persistent = true;                   # Run if missed
+        RandomizedDelaySec = "30s";          # Small randomization
+      };
     };
-  };
-  
-  # === Buff Reminder Service ===
-  # Checks for upcoming buffs and notifies if characters need them
-  systemd.services.buff-reminder = {
-    description = "World Buff Reminder";
-    serviceConfig = {
-      Type = "oneshot";
-      User = "dustin";
-      ExecStart = "${buffReminderScript}/bin/buff-reminder";
-      
-      # Environment for GUI notifications
-      Environment = [
-        "HOME=/home/dustin"
-        "DISPLAY=:0"
-        "DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus"
-        "XDG_RUNTIME_DIR=/run/user/1000"
-      ];
-      
-      # Logging
-      StandardOutput = "journal";
-      StandardError = "journal";
+    
+    # === Buff Reminder Service ===
+    # Checks for upcoming buffs and notifies if characters need them
+    services.buff-reminder = {
+      description = "World Buff Reminder";
+      serviceConfig = {
+        Type = "oneshot";
+        User = "dustin";
+        ExecStart = "${buffReminderScript}/bin/buff-reminder";
+        
+        # Environment for GUI notifications
+        Environment = [
+          "HOME=/home/dustin"
+          "DISPLAY=:0"
+          "DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus"
+          "XDG_RUNTIME_DIR=/run/user/1000"
+        ];
+        
+        # Logging
+        StandardOutput = "journal";
+        StandardError = "journal";
+      };
     };
-  };
-  
-  # Timer: Check every 15 minutes
-  systemd.timers.buff-reminder = {
-    description = "Check for upcoming buffs every 15 minutes";
-    wantedBy = [ "timers.target" ];
-    timerConfig = {
-      OnCalendar = "*-*-* *:00,15,30,45:00";  # Every 15 minutes
-      Persistent = true;                        # Run if missed
+    
+    # Timer: Check every 15 minutes
+    timers.buff-reminder = {
+      description = "Check for upcoming buffs every 15 minutes";
+      wantedBy = [ "timers.target" ];
+      timerConfig = {
+        OnCalendar = "*-*-* *:00,15,30,45:00";  # Every 15 minutes
+        Persistent = true;                        # Run if missed
+      };
     };
   };
 }
