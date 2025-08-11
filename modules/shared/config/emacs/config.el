@@ -929,6 +929,15 @@ Note the weekly scope of the command's precision.")
           (magit-status nixos-config-path)
           (delete-other-windows))
       (message "nixos-config project not found at ~/src/nixos-config"))))
+(defun dl/magit-status-river ()
+  "Open magit status for River project in full frame."
+  (interactive)
+  (let ((river-path (expand-file-name "~/src/river")))
+    (if (file-directory-p river-path)
+        (progn
+          (magit-status river-path)
+          (delete-other-windows))
+      (message "River project not found at ~/src/river"))))
 
 ;; Projectile leader key bindings
 (dl/leader-keys
@@ -946,6 +955,7 @@ Note the weekly scope of the command's precision.")
   "g"   '(:ignore t :which-key "git")
   "gc"  '(dl/magit-status-conductly :which-key "magit conductly")
   "gn"  '(dl/magit-status-nixos-config :which-key "magit nixos-config")
+  "gr"  '(dl/magit-status-river :which-key "magit river")
   "gg"  '(magit-status :which-key "magit status")
   "gb"  '(magit-blame :which-key "magit blame")
   "gl"  '(magit-log-buffer-file :which-key "magit log file"))
