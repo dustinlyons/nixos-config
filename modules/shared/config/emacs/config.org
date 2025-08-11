@@ -37,8 +37,8 @@ Mainly splash screen settings. In the future we may look to optimize performance
   (defun adjust-frame-size-and-position (&optional frame)
     "Adjust size and position of FRAME based on its type."
     (if (display-graphic-p frame)
-        (let* ((w 150)  ; Set to desired width in characters
-              (h 50)   ; Set to desired height in lines
+        (let* ((w 200)  ; Set to desired width in characters
+              (h 70)   ; Set to desired height in lines
               (width (* w (frame-char-width frame)))
               (height (* h (frame-char-height frame)))
               (left (max 0 (floor (/ (- (x-display-pixel-width) width) 2))))
