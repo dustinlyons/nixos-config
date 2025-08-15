@@ -12,8 +12,8 @@
 (defun adjust-frame-size-and-position (&optional frame)
   "Adjust size and position of FRAME based on its type."
   (if (display-graphic-p frame)
-      (let* ((w 150)  ; Set to desired width in characters
-            (h 50)   ; Set to desired height in lines
+      (let* ((w 200)  ; Set to desired width in characters
+            (h 70)   ; Set to desired height in lines
             (width (* w (frame-char-width frame)))
             (height (* h (frame-char-height frame)))
             (left (max 0 (floor (/ (- (x-display-pixel-width) width) 2))))
@@ -39,6 +39,17 @@
   :demand t
   :config
   (gcmh-mode 1))
+
+;; Add internal borders and fringes for better spacing
+(setq-default left-fringe-width 16)
+(setq-default right-fringe-width 16)
+
+;; Set internal border width for padding around the frame
+(add-to-list 'default-frame-alist '(internal-border-width . 15))
+
+;; Apply to existing frames
+(dolist (frame (frame-list))
+  (set-frame-parameter frame 'internal-border-width 15))
 
 (unless (assoc-default "melpa" package-archives)
   (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t))
@@ -297,6 +308,10 @@
                     (foreground-color . "#cccac2"))))
     (set-face-background 'default "#1c1e27")
     (set-face-background 'fringe "#1c1e27")
+    (set-face-background 'internal-border "#1c1e27")
+    
+    ;; Add line spacing for better readability
+    (setq-default line-spacing 0.15)
     
     (doom-themes-visual-bell-config)
     (doom-themes-org-config))
@@ -868,6 +883,20 @@ Note the weekly scope of the command's precision.")
   "sd"  '(:ignore t :which-key "deadgrep")
   "sdg" '(deadgrep :which-key "deadgrep here")
   "sdp" '(deadgrep-project :which-key "deadgrep project"))
+
+;; Configure key-chord for double-shift to trigger deadgrep
+(use-package key-chord
+  :ensure nil  ; Managed by Nix
+  :config
+  (key-chord-mode 1)
+  ;; Set the delay between key presses (in seconds)
+  (setq key-chord-two-keys-delay 0.2)
+  ;; Define double-bracket to run deadgrep
+  ;; Note: Shift alone cannot be bound, so we use a workaround
+  (key-chord-define-global "[[" 'deadgrep))
+
+;; Since Emacs can't detect shift key alone, we use double brackets
+(message "Deadgrep configured: Use double-bracket ([[) to launch deadgrep")
 
 (use-package ripgrep)
 (use-package projectile

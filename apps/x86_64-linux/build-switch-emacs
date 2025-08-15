@@ -29,12 +29,8 @@ echo -e "${GREEN}Switch to new generation complete!${NC}"
 
 echo -e "${YELLOW}Restarting Emacs daemon...${NC}"
 
-# Kill the Emacs daemon if it's running
-if pgrep -x "emacs" > /dev/null; then
-    emacsclient -e "(kill-emacs)" 2>/dev/null || true
-    echo -e "${GREEN}Emacs daemon killed. It will restart automatically on next use.${NC}"
-else
-    echo -e "${YELLOW}Emacs daemon was not running.${NC}"
-fi
+# Kill the Emacs daemon using emacsclient
+emacsclient -e "(kill-emacs)" 2>/dev/null || true
+echo -e "${GREEN}Emacs daemon restarted.${NC}"
 
 echo -e "${GREEN}Build, switch, and Emacs restart complete!${NC}"
