@@ -67,6 +67,7 @@ with pkgs; [
   killall # Kill processes by name
 
   # L
+  linear-cli # Linear project management CLI
   lnav # Log file navigator
   libfido2 # FIDO2 library
 
