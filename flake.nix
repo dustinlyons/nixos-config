@@ -44,8 +44,12 @@
       url = "git+ssh://git@github.com/dustinlyons/nix-secrets.git";
       flake = false;
     };
+    chaotic = {
+      url = "github:chaotic-cx/nyx/nyxpkgs-unstable";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
-  outputs = { self, darwin, claude-desktop, nix-homebrew, homebrew-bundle, homebrew-core, homebrew-cask, home-manager, plasma-manager, nixpkgs, flake-utils, disko, agenix, secrets } @inputs:
+  outputs = { self, darwin, claude-desktop, nix-homebrew, homebrew-bundle, homebrew-core, homebrew-cask, home-manager, plasma-manager, nixpkgs, flake-utils, disko, agenix, secrets, chaotic } @inputs:
     let
       user = "dustin";
       linuxSystems = [ "x86_64-linux" "aarch64-linux" ];
@@ -131,6 +135,7 @@
           specialArgs = inputs // { inherit user; };
           modules = [
             disko.nixosModules.disko
+            chaotic.nixosModules.default
             home-manager.nixosModules.home-manager {
               home-manager = {
                 sharedModules = [ plasma-manager.homeManagerModules.plasma-manager ]; 
