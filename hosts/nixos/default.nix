@@ -169,6 +169,9 @@ in
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
+  # Enable mesa-git from Chaotic Nyx
+  chaotic.mesa-git.enable = true;
+
   # List packages installed in system profile. To search, run:
   #   $ nix search <pkg>
   environment.systemPackages = with pkgs; [
