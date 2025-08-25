@@ -30,7 +30,6 @@ with pkgs; [
   btop # System monitor and process viewer
 
   # C
-  chromium # Open-source web browser (for Playwright)
   coreutils # Basic file/text/shell utilities
 
   # D
@@ -86,8 +85,6 @@ with pkgs; [
 
   # P
   pandoc # Document converter
-  playwright-deps # Playwright browser dependencies (from overlay)
-  playwright-wrapper # Wrapper script for running Playwright with system Chromium
   php82Packages.composer # PHP dependency manager
   php82Packages.deployer # PHP deployment tool
   php82Packages.php-cs-fixer # PHP code style fixer
@@ -98,7 +95,6 @@ with pkgs; [
 
   # R
   ripgrep # Fast text search tool
-  rofi-wayland # Application launcher and window switcher (Wayland version)
   repomix # AI tooling
 
   # S

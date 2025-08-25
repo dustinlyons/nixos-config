@@ -34,10 +34,10 @@ in
     #
     enable = true;
     casks  = pkgs.callPackage ./casks.nix {};
-    masApps = {
-      "hidden-bar"   = 1452453066;
-      "wireguard"    = 1451685025;
-    };
+    #masApps = {
+    #  "hidden-bar"   = 1452453066;
+    #  "wireguard"    = 1451685025;
+    #};
   };
 
   home-manager = {

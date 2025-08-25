@@ -55,6 +55,8 @@ shared-packages ++ [
   bluez # Bluetooth
 
   brlaser # Printer driver
+  
+  chromium # Open-source web browser (for Playwright)
 
   # chromedriver # Chrome webdriver for testing (commented out due to nodejs version conflict)
 
@@ -82,6 +84,8 @@ shared-packages ++ [
 
   pavucontrol # Pulse audio controls
   playerctl # Control media players from command line
+  playwright-deps # Playwright browser dependencies (from overlay)
+  playwright-wrapper # Wrapper script for running Playwright with system Chromium
 
   qmk # Keyboard firmware toolkit
 
@@ -119,10 +123,14 @@ shared-packages ++ [
   tty-clock # Terminal digital clock
   
   # Custom scripts
+  rofi-launcher
   cheatsheet-viewer
   
   # Additional KDE tools and notifications
   libnotify # Notification library and notify-send command
   kdePackages.kdialog # KDE dialog boxes and notifications
+  
+  # Application launcher
+  rofi-wayland # Application launcher and window switcher (Wayland version)
 
 ]
