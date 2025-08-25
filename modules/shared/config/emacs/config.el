@@ -12,8 +12,8 @@
 (defun adjust-frame-size-and-position (&optional frame)
   "Adjust size and position of FRAME based on its type."
   (if (display-graphic-p frame)
-      (let* ((w 200)  ; Set to desired width in characters
-            (h 70)   ; Set to desired height in lines
+      (let* ((w 120)  ; Set to desired width in characters (good for documents)
+            (h 50)   ; Set to desired height in lines (comfortable reading height)
             (width (* w (frame-char-width frame)))
             (height (* h (frame-char-height frame)))
             (left (max 0 (floor (/ (- (x-display-pixel-width) width) 2))))
@@ -30,8 +30,8 @@
     (add-hook 'after-make-frame-functions
               (lambda (frame)
                 (select-frame frame)
-                (when (system-is-mac) (adjust-frame-size-and-position frame)))
-  (adjust-frame-size-and-position)))
+                (adjust-frame-size-and-position frame)))
+  (adjust-frame-size-and-position))
 
 ;; Smooth out garbage collection
 (use-package gcmh
@@ -43,6 +43,10 @@
 ;; Add internal borders and fringes for better spacing
 (setq-default left-fringe-width 16)
 (setq-default right-fringe-width 16)
+
+;; Set frame dimensions in default-frame-alist for consistency
+(add-to-list 'default-frame-alist '(width . 120))
+(add-to-list 'default-frame-alist '(height . 50))
 
 ;; Set internal border width for padding around the frame
 (add-to-list 'default-frame-alist '(internal-border-width . 15))
