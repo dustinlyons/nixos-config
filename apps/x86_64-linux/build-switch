@@ -9,22 +9,31 @@ NC='\033[0m'
 HOST=""
 OTHER_ARGS=""
 
+echo "DEBUG: Arguments received: $@"
+
 while [ $# -gt 0 ]; do
+  echo "DEBUG: Processing argument: $1"
   case "$1" in
     --host=*)
       HOST="${1#*=}"
+      echo "DEBUG: Found --host=*, HOST set to: $HOST"
       shift
       ;;
     --host)
       HOST="$2"
+      echo "DEBUG: Found --host, HOST set to: $HOST"
       shift 2
       ;;
     *)
       OTHER_ARGS="$OTHER_ARGS $1"
+      echo "DEBUG: Other arg: $1"
       shift
       ;;
   esac
 done
+
+echo "DEBUG: Final HOST value: '$HOST'"
+echo "DEBUG: Final OTHER_ARGS: '$OTHER_ARGS'"
 
 # If host is specified, use it directly
 if [ -n "$HOST" ]; then
