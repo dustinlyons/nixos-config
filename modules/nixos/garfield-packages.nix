@@ -5,7 +5,7 @@ let
 in
 
 # NixOS-specific packages for garfield (without gaming/AMD packages)
-shared-packages ++ [
+shared-packages ++ (with pkgs; [
 
   audacity # Audio editor
   
@@ -51,4 +51,4 @@ shared-packages ++ [
   vscode # Code editor
 
   wget # Download tool
-]
+])
