@@ -113,13 +113,6 @@ in
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
-  
-  # Disable overlays for garfield
-  nixpkgs.overlays = [
-    (final: prev: {
-      cider-appimage = null;  # Disable cider-appimage for garfield
-    })
-  ];
 
   # Note: chaotic.mesa-git.enable disabled for this host
 
