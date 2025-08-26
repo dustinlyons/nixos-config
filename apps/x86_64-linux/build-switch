@@ -5,24 +5,53 @@ GREEN='\033[1;32m'
 YELLOW='\033[1;33m'
 NC='\033[0m'
 
-SYSTEM=$(uname -m)
+# Parse arguments for --host parameter
+HOST=""
+OTHER_ARGS=""
 
-case "$SYSTEM" in
-  x86_64)
-    FLAKE_TARGET="x86_64-linux"
-    ;;
-  aarch64)
-    FLAKE_TARGET="aarch64-linux"
-    ;;
-  *)
-    echo -e "${RED}Unsupported architecture: $SYSTEM${NC}"
-    exit 1
-    ;;
-esac
+while [ $# -gt 0 ]; do
+  case "$1" in
+    --host=*)
+      HOST="${1#*=}"
+      shift
+      ;;
+    --host)
+      HOST="$2"
+      shift 2
+      ;;
+    *)
+      OTHER_ARGS="$OTHER_ARGS $1"
+      shift
+      ;;
+  esac
+done
+
+# If host is specified, use it directly
+if [ -n "$HOST" ]; then
+  FLAKE_TARGET="$HOST"
+  echo -e "${YELLOW}Building for named host: $HOST${NC}"
+else
+  # Default behavior: detect system architecture
+  SYSTEM=$(uname -m)
+  
+  case "$SYSTEM" in
+    x86_64)
+      FLAKE_TARGET="x86_64-linux"
+      ;;
+    aarch64)
+      FLAKE_TARGET="aarch64-linux"
+      ;;
+    *)
+      echo -e "${RED}Unsupported architecture: $SYSTEM${NC}"
+      exit 1
+      ;;
+  esac
+  echo -e "${YELLOW}Building for platform: $FLAKE_TARGET${NC}"
+fi
 
 echo -e "${YELLOW}Starting...${NC}"
 
 # We pass SSH from user to root so root can download secrets from our private Github
-sudo /run/current-system/sw/bin/nixos-rebuild switch --flake .#$FLAKE_TARGET $@
+sudo /run/current-system/sw/bin/nixos-rebuild switch --flake .#$FLAKE_TARGET $OTHER_ARGS
 
 echo -e "${GREEN}Switch to new generation complete!${NC}"

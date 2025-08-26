@@ -129,25 +129,50 @@
           ];
         }
       );
-      nixosConfigurations = nixpkgs.lib.genAttrs linuxSystems (system:
-        nixpkgs.lib.nixosSystem {
-          inherit system;
-          specialArgs = inputs // { inherit user; };
-          modules = [
-            disko.nixosModules.disko
-            chaotic.nixosModules.default
-            home-manager.nixosModules.home-manager {
-              home-manager = {
-                sharedModules = [ plasma-manager.homeManagerModules.plasma-manager ]; 
-                useGlobalPkgs = true;
-                useUserPackages = true;
-                users.${user} = { config, pkgs, lib, ... }:
-                  import ./modules/nixos/home-manager.nix { inherit config pkgs lib inputs; };
-              };
-            }
-            ./hosts/nixos
-          ];
-        }
-      );
+      nixosConfigurations = 
+        # Platform-based configurations (current behavior)
+        nixpkgs.lib.genAttrs linuxSystems (system:
+          nixpkgs.lib.nixosSystem {
+            inherit system;
+            specialArgs = inputs // { inherit user; };
+            modules = [
+              disko.nixosModules.disko
+              chaotic.nixosModules.default
+              home-manager.nixosModules.home-manager {
+                home-manager = {
+                  sharedModules = [ plasma-manager.homeManagerModules.plasma-manager ]; 
+                  useGlobalPkgs = true;
+                  useUserPackages = true;
+                  users.${user} = { config, pkgs, lib, ... }:
+                    import ./modules/nixos/home-manager.nix { inherit config pkgs lib inputs; };
+                };
+              }
+              ./hosts/nixos
+            ];
+          }
+        )
+        
+        // # Named host configurations
+        
+        {
+          garfield = nixpkgs.lib.nixosSystem {
+            system = "x86_64-linux";
+            specialArgs = inputs // { inherit user; };
+            modules = [
+              disko.nixosModules.disko
+              chaotic.nixosModules.default
+              home-manager.nixosModules.home-manager {
+                home-manager = {
+                  sharedModules = [ plasma-manager.homeManagerModules.plasma-manager ]; 
+                  useGlobalPkgs = true;
+                  useUserPackages = true;
+                  users.${user} = { config, pkgs, lib, ... }:
+                    import ./modules/nixos/home-manager.nix { inherit config pkgs lib inputs; };
+                };
+              }
+              ./hosts/nixos/garfield
+            ];
+          };
+        };
     };
 }
