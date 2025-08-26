@@ -1,7 +1,7 @@
-{ pkgs, inputs }:
+{ pkgs }:
 
 let
-  shared-packages = import ../shared/packages.nix { inherit pkgs inputs; };
+  shared-packages = import ../shared/packages.nix { inherit pkgs; };
   nixos-packages = import ./packages.nix { inherit pkgs inputs; };
   # Filter out cider-appimage from nixos-packages for garfield
   filtered-nixos-packages = builtins.filter (pkg: pkg != pkgs.cider-appimage) nixos-packages;
