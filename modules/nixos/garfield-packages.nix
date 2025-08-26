@@ -38,7 +38,7 @@ shared-packages ++ (with pkgs; [
   mpv # Video player
 
   obsidian # Note-taking app
-  okular # PDF viewer
+  kdePackages.okular # PDF viewer
 
   rofi-wayland # Application launcher for Wayland
 
