@@ -1,4 +1,4 @@
-{ config, lib, pkgs, modulesPath, user, ... }:
+{ config, lib, pkgs, modulesPath, user, inputs, ... }:
 
 let
   myEmacs = import ../../../modules/shared/emacs.nix { inherit pkgs; };
