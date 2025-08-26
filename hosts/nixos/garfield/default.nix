@@ -12,10 +12,10 @@ in
     # Import shared configuration (tmux, zsh, home-manager, etc.)
     ../../../modules/shared
     
-    # Import garfield-specific packages  
-    ({ config, pkgs, lib, inputs, ... }: {
-      environment.systemPackages = import ../../../modules/nixos/garfield-packages.nix { inherit pkgs inputs; };
-    })
+    # Import garfield-specific packages
+    {
+      environment.systemPackages = import ../../../modules/nixos/garfield-packages.nix { inherit pkgs; };
+    }
 
     # Note: systemd.nix module excluded for this host
     # Note: agenix disabled for this host

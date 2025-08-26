@@ -1,14 +1,11 @@
-{ pkgs, inputs }:
+{ pkgs }:
 
 let
   shared-packages = import ../shared/packages.nix { inherit pkgs; };
-  nixos-packages = import ./packages.nix { inherit pkgs inputs; };
-  # Filter out cider-appimage from nixos-packages for garfield
-  filtered-nixos-packages = builtins.filter (pkg: pkg != pkgs.cider-appimage) nixos-packages;
 in
 
-# NixOS-specific packages for garfield (without gaming/AMD packages)  
-shared-packages ++ filtered-nixos-packages ++ (with pkgs; [
+# NixOS-specific packages for garfield (without gaming/AMD packages)
+shared-packages ++ (with pkgs; [
 
   audacity # Audio editor
   
