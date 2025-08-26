@@ -14,7 +14,7 @@ in
     
     # Import garfield-specific packages
     {
-      environment.systemPackages = import ../../../modules/nixos/garfield-packages.nix { inherit config pkgs inputs; };
+      environment.systemPackages = import ../../../modules/nixos/garfield-packages.nix { inherit pkgs inputs; };
     }
 
     # Note: systemd.nix module excluded for this host

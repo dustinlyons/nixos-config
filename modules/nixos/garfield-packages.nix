@@ -1,4 +1,4 @@
-{ config, pkgs, inputs, ... }:
+{ pkgs, inputs }:
 
 let
   shared-packages = import ../shared/packages.nix { inherit pkgs inputs; };
