@@ -1291,6 +1291,7 @@ Note the weekly scope of the command's precision.")
 
 ;; PHP formatting setup
 (require 'cl-lib)
+(require 'php-cs-fixer)
 (add-hook 'before-save-hook 'php-cs-fixer-before-save)
 
 ;; PHP navigation and documentation
@@ -1307,7 +1308,8 @@ Note the weekly scope of the command's precision.")
   (define-key php-mode-map (kbd "C-c C-d") 'php-doc-at-point)
   (define-key php-mode-map (kbd "C-c ! n") 'flycheck-next-error)
   (define-key php-mode-map (kbd "C-c ! p") 'flycheck-previous-error)
-  (define-key php-mode-map (kbd "C-c ! l") 'flycheck-list-errors))
+  (define-key php-mode-map (kbd "C-c ! l") 'flycheck-list-errors)
+  (define-key php-mode-map (kbd "M-s-l") 'php-cs-fixer-fix))
 
 ;; Evil mode error navigation for PHP
 (with-eval-after-load 'evil
@@ -1320,7 +1322,7 @@ Note the weekly scope of the command's precision.")
   "P"  '(:ignore t :which-key "php")
   "Pc" '((lambda () (interactive) (compile "composer install")) :which-key "composer install")
   "Pu" '((lambda () (interactive) (compile "composer update")) :which-key "composer update")
-  "Pf" '(php-cs-fixer-fix-file :which-key "fix code style")
+  "Pf" '(php-cs-fixer-fix :which-key "fix code style")
   "Ps" '((lambda () (interactive) 
            (let ((default-directory (projectile-project-root)))
              (compile "phpstan analyse --no-progress"))) :which-key "phpstan project")

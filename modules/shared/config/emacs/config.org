@@ -1675,6 +1675,7 @@ Rainbow mode is an Emacs minor mode to highlight the color shown by a RGB hex tr
 
 ;; PHP formatting setup
 (require 'cl-lib)
+(require 'php-cs-fixer)
 (add-hook 'before-save-hook 'php-cs-fixer-before-save)
 
 ;; PHP navigation and documentation
@@ -1687,11 +1688,14 @@ Rainbow mode is an Emacs minor mode to highlight the color shown by a RGB hex tr
                          (replace-regexp-in-string "_" "-" symbol))))))
 
 ;; PHP-specific keybindings
-(with-eval-after-load 'php-mode
-  (define-key php-mode-map (kbd "C-c C-d") 'php-doc-at-point)
-  (define-key php-mode-map (kbd "C-c ! n") 'flycheck-next-error)
-  (define-key php-mode-map (kbd "C-c ! p") 'flycheck-previous-error)
-  (define-key php-mode-map (kbd "C-c ! l") 'flycheck-list-errors))
+(eval-after-load 'php-mode
+  '(progn
+     (define-key php-mode-map (kbd "C-c C-d") 'php-doc-at-point)
+     (define-key php-mode-map (kbd "C-c ! n") 'flycheck-next-error)
+     (define-key php-mode-map (kbd "C-c ! p") 'flycheck-previous-error)
+     (define-key php-mode-map (kbd "C-c ! l") 'flycheck-list-errors)
+     ;; Ctrl+Alt+L to fix PHP code formatting
+     (define-key php-mode-map (kbd "C-M-l") 'php-cs-fixer-fix)))
 
 ;; Evil mode error navigation for PHP
 (with-eval-after-load 'evil
@@ -1704,7 +1708,7 @@ Rainbow mode is an Emacs minor mode to highlight the color shown by a RGB hex tr
   "P"  '(:ignore t :which-key "php")
   "Pc" '((lambda () (interactive) (compile "composer install")) :which-key "composer install")
   "Pu" '((lambda () (interactive) (compile "composer update")) :which-key "composer update")
-  "Pf" '(php-cs-fixer-fix-file :which-key "fix code style")
+  "Pf" '(php-cs-fixer-fix :which-key "fix code style")
   "Ps" '((lambda () (interactive) 
            (let ((default-directory (projectile-project-root)))
              (compile "phpstan analyse --no-progress"))) :which-key "phpstan project")
