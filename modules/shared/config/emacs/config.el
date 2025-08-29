@@ -1304,12 +1304,14 @@ Note the weekly scope of the command's precision.")
                          (replace-regexp-in-string "_" "-" symbol))))))
 
 ;; PHP-specific keybindings
-(with-eval-after-load 'php-mode
-  (define-key php-mode-map (kbd "C-c C-d") 'php-doc-at-point)
-  (define-key php-mode-map (kbd "C-c ! n") 'flycheck-next-error)
-  (define-key php-mode-map (kbd "C-c ! p") 'flycheck-previous-error)
-  (define-key php-mode-map (kbd "C-c ! l") 'flycheck-list-errors)
-  (define-key php-mode-map (kbd "M-s-l") 'php-cs-fixer-fix))
+(eval-after-load 'php-mode
+  '(progn
+     (define-key php-mode-map (kbd "C-c C-d") 'php-doc-at-point)
+     (define-key php-mode-map (kbd "C-c ! n") 'flycheck-next-error)
+     (define-key php-mode-map (kbd "C-c ! p") 'flycheck-previous-error)
+     (define-key php-mode-map (kbd "C-c ! l") 'flycheck-list-errors)
+     ;; Ctrl+Alt+L to fix PHP code formatting
+     (define-key php-mode-map (kbd "C-M-l") 'php-cs-fixer-fix)))
 
 ;; Evil mode error navigation for PHP
 (with-eval-after-load 'evil
