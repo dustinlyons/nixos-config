@@ -200,6 +200,27 @@ in
   # === World Buff Fetcher Service ===
   # Fetches buff timers using Playwright, with retry logic
   systemd = {
+    # === Conductly Development Environment Service ===
+    # Automatically starts conductly development environment in tmux on login
+    user.services.conductly-devenv = {
+      description = "Start conductly development environment in tmux";
+      wantedBy = [ "default.target" ];
+      after = [ "graphical-session.target" ];
+      serviceConfig = {
+        Type = "forking";
+        ExecStart = "${pkgs.writeShellScript "start-conductly" ''
+          cd /home/dustin/.local/share/src/conductly
+          export TMUX_TMPDIR=/run/user/1000
+          ${pkgs.tmux}/bin/tmux -S /run/user/1000/tmux-conductly new-session -d -s conductly "${pkgs.nix}/bin/nix develop --impure -c bash -c \"devenv up; exec bash\""
+        ''}";
+        ExecStop = "${pkgs.tmux}/bin/tmux -S /run/user/1000/tmux-conductly kill-session -t conductly";
+        RemainAfterExit = "no";
+        Environment = [
+          "PATH=/run/current-system/sw/bin:/home/dustin/.nix-profile/bin:/etc/profiles/per-user/dustin/bin:/nix/var/nix/profiles/default/bin:/run/wrappers/bin:/usr/bin:/bin"
+        ];
+      };
+    };
+
     services.world-buff-fetcher = {
       description = "World Buff Fetcher";
       serviceConfig = {

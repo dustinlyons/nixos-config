@@ -138,6 +138,9 @@ let name = "Dustin Lyons";
           esac
       }
       
+      # Tmux alias for conductly devenv session
+      alias conductly='tmux -S /run/user/1000/tmux-conductly attach -t conductly'
+
       # macOS-style open command using Nautilus
       ${lib.optionalString pkgs.stdenv.hostPlatform.isLinux ''
         alias open="xdg-open"
