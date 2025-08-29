@@ -230,6 +230,11 @@ in
     '';
   };
 
+  # Increase inotify watch limit to prevent warnings
+  boot.kernel.sysctl = {
+    "fs.inotify.max_user_watches" = 524288;
+  };
+
   # This value determines the NixOS release from which default
   # settings for stateful data were taken. Leave it at your first
   # install's release unless you know what you're doing.
