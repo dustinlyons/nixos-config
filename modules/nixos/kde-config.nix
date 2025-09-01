@@ -230,13 +230,14 @@
       "kiorc"."Confirmations"."ConfirmEmptyTrash" = false;
     };
 
-    # Panel configuration
+    # Panel configuration (felix-style two-panel setup)
     panels = [
-      # Main taskbar panel (center-left bottom)
+      # Main taskbar panel (center bottom) - matches felix alignment=132
       {
         floating = true;
         location = "bottom";
         alignment = "center";
+        lengthMode = "fit";
         height = 50;
         hiding = "autohide";
         widgets = [
@@ -259,16 +260,21 @@
                 "preferred://filemanager"
                 "preferred://browser"
                 "applications:Alacritty.desktop"
+                "applications:phpstorm.desktop"
+                "applications:emacs.desktop"
               ];
             };
           }
         ];
       }
-      # System tray panel (right side bottom)
+      # System tray panel (right side bottom) - matches felix alignment=2
       {
         floating = true;
         location = "bottom";
         alignment = "right";
+        lengthMode = "custom";
+        minLength = 155;
+        maxLength = 429;
         height = 22;
         hiding = "autohide";
         widgets = [
