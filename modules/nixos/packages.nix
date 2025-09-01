@@ -132,5 +132,6 @@ shared-packages ++ [
   
   # Application launcher
   rofi-wayland # Application launcher and window switcher (Wayland version)
+  linuxKernel.packages.linux_zen.xone
 
 ]
