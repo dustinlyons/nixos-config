@@ -5,6 +5,7 @@ let
   xdg_configHome  = "/home/${user}/.config";
   shared-programs = import ../shared/home-manager.nix { inherit config pkgs lib; };
   shared-files = import ../shared/files.nix { inherit config pkgs; };
+  kde-config = import ./kde-config.nix;
 
   # These files are generated when secrets are decrypted at build time
   gpgKeys = [
@@ -219,9 +220,7 @@ in
         sort = true;
       };
     };
-    plasma = {
-      enable = true;
-      
+    plasma = lib.recursiveUpdate kde-config.programs.plasma {
       hotkeys.commands = {
         "view-cheatsheets" = {
           name = "View Cheatsheets";  
