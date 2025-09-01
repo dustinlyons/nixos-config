@@ -239,7 +239,7 @@
         alignment = "center";
         lengthMode = "fit";
         height = 50;
-        hiding = "autohide";
+        hiding = "none";
         widgets = [
           {
             kickoff = {
@@ -276,7 +276,7 @@
         minLength = 155;
         maxLength = 429;
         height = 22;
-        hiding = "autohide";
+        hiding = "none";
         widgets = [
           {
             systemTray.items = {
