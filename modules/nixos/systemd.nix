@@ -191,17 +191,18 @@ except Exception:
 in
 {
   # ========================================
-  # World of Warcraft Systemd Services
+  # Development Environment Services
   # ========================================
-  # This module manages automated WoW-related tasks:
-  # 1. Fetching world buff timers from hcbuffs.com
-  # 2. Sending desktop notifications for upcoming buffs
+  # This module manages development environment services and
+  # automated WoW-related tasks:
+  # 1. Development environments (conductly, river)
+  # 2. Fetching world buff timers from hcbuffs.com
+  # 3. Sending desktop notifications for upcoming buffs
   
-  # === World Buff Fetcher Service ===
-  # Fetches buff timers using Playwright, with retry logic
   systemd = {
-    # === Conductly Development Environment Service ===
-    # Automatically starts conductly development environment in tmux on login
+    # === Development Environment Services ===
+    # Automatically start development environments in tmux on login
+    
     user.services.conductly-devenv = {
       description = "Start conductly development environment in tmux";
       wantedBy = [ "default.target" ];
@@ -220,6 +221,28 @@ in
         ];
       };
     };
+
+    user.services.river-devenv = {
+      description = "Start river development environment in tmux";
+      wantedBy = [ "default.target" ];
+      after = [ "graphical-session.target" ];
+      serviceConfig = {
+        Type = "forking";
+        ExecStart = "${pkgs.writeShellScript "start-river" ''
+          cd /home/dustin/.local/share/src/river
+          export TMUX_TMPDIR=/run/user/1000
+          ${pkgs.tmux}/bin/tmux -S /run/user/1000/tmux-river new-session -d -s river "${pkgs.nix}/bin/nix develop --impure -c bash -c \"devenv up; exec bash\""
+        ''}";
+        ExecStop = "${pkgs.tmux}/bin/tmux -S /run/user/1000/tmux-river kill-session -t river";
+        RemainAfterExit = "no";
+        Environment = [
+          "PATH=/run/current-system/sw/bin:/home/dustin/.nix-profile/bin:/etc/profiles/per-user/dustin/bin:/nix/var/nix/profiles/default/bin:/run/wrappers/bin:/usr/bin:/bin"
+        ];
+      };
+    };
+
+    # === World Buff Services ===
+    # Fetches buff timers using Playwright, with retry logic
 
     services.world-buff-fetcher = {
       description = "World Buff Fetcher";

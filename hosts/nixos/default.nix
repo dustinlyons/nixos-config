@@ -152,6 +152,13 @@ in
     # Bluetooth
     blueman.enable = true;
 
+    # Key remapping service
+    keyd = {
+      enable = true;
+      keyboards.default.settings.main = {
+        end = "sysrq";  # Map End key to Print Screen
+      };
+    };
 
   };
 

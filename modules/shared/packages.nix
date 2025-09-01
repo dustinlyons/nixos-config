@@ -7,6 +7,7 @@ let
     virtualenv
     black
     faker
+    textual
   ]);
 
   myPHP = pkgs.php82.withExtensions ({ enabled, all }: enabled ++ (with all; [
@@ -20,7 +21,7 @@ with pkgs; [
   act # Run Github actions locally
   age # File encryption tool
   age-plugin-yubikey # YubiKey plugin for age encryption
-  alacritty # GPU-accelerated terminal emulator
+  ghostty # GPU-accelerated terminal emulator
   aspell # Spell checker
   aspellDicts.en # English dictionary for aspell
 
