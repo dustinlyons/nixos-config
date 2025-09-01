@@ -232,49 +232,6 @@ in
       workspace = {
         clickItemTo = "select";
       };
-      panels = [
-        {
-          floating = true;
-          location = "bottom";
-          widgets = [
-            {
-              kickoff = {
-                sortAlphabetically = true;
-                icon = "plasma-symbolic";
-              };
-            }
-            {
-              iconTasks = {
-                appearance = {
-                  showTooltips = true;
-                  highlightWindows = true;
-                  indicateAudioStreams = true;
-                  fill = true;
-                };
-                launchers = [
-                  "preferred://browser"
-                  "applications:systemsettings.desktop"
-                  "preferred://filemanager"
-                  "applications:Alacritty.desktop"
-                ];
-              };
-            }
-            "org.kde.plasma.marginsseparator"
-            {
-              systemTray.items = {
-                shown = [
-                  "org.kde.plasma.clipboard"
-                  "org.kde.plasma.volume"
-                  "org.kde.plasma.brightness"
-                  "org.kde.plasma.networkmanagement"
-                  "org.kde.plasma.brightness"
-                ];
-              };
-            }
-            "org.kde.plasma.digitalclock"
-          ];
-        }
-      ];
     };
   };
 

@@ -229,5 +229,64 @@
       # Trash confirmation
       "kiorc"."Confirmations"."ConfirmEmptyTrash" = false;
     };
+
+    # Panel configuration
+    panels = [
+      # Main taskbar panel (center-left bottom)
+      {
+        floating = true;
+        location = "bottom";
+        alignment = "center";
+        height = 50;
+        hiding = "autohide";
+        widgets = [
+          {
+            kickoff = {
+              sortAlphabetically = true;
+              icon = "utilities-terminal";
+            };
+          }
+          "org.kde.plasma.marginsseparator"
+          {
+            iconTasks = {
+              appearance = {
+                showTooltips = true;
+                highlightWindows = true;
+                indicateAudioStreams = true;
+                fill = true;
+              };
+              launchers = [
+                "preferred://filemanager"
+                "preferred://browser"
+                "applications:Alacritty.desktop"
+              ];
+            };
+          }
+        ];
+      }
+      # System tray panel (right side bottom)
+      {
+        floating = true;
+        location = "bottom";
+        alignment = "right";
+        height = 22;
+        hiding = "autohide";
+        widgets = [
+          {
+            systemTray.items = {
+              shown = [
+                "org.kde.plasma.clipboard"
+                "org.kde.plasma.volume"
+                "org.kde.plasma.brightness"
+                "org.kde.plasma.battery"
+                "org.kde.plasma.networkmanagement"
+                "org.kde.plasma.bluetooth"
+              ];
+            };
+          }
+          "org.kde.plasma.digitalclock"
+        ];
+      }
+    ];
   };
 }
