@@ -140,7 +140,9 @@
       # Global settings
       "kdeglobals"."General"."TerminalApplication" = "alacritty";
       "kdeglobals"."General"."TerminalService" = "Alacritty.desktop";
+      "kdeglobals"."General"."ColorScheme" = "BreezeDark";
       "kdeglobals"."KDE"."SingleClick" = false;
+      "kdeglobals"."KDE"."LookAndFeelPackage" = "org.kde.breezedark.desktop";
 
       # File dialog settings
       "kdeglobals"."KFileDialog Settings"."Breadcrumb Navigation" = true;
