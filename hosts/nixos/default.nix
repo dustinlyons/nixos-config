@@ -239,7 +239,7 @@ in
 
   # Increase inotify watch limit to prevent warnings
   boot.kernel.sysctl = {
-    "fs.inotify.max_user_watches" = 524288;
+    "fs.inotify.max_user_watches" = 1048576;
   };
 
   # This value determines the NixOS release from which default
