@@ -387,6 +387,7 @@ On first boot at the login screen:
 - Login as `root` using the password created during installation
 - Set the user password with `passwd <user>`
 - Go back to the login screen: `Ctrl-Alt-F7`
+- **Review the essential hotkeys** in [NixOS README](modules/nixos/README.md#essential-hotkeys) to get started with the bspwm window manager
 
 ## How to create secrets
 To create a new secret `secret.age`, first [create a `secrets.nix` file](https://github.com/ryantm/agenix#tutorial) at the root of your [`nix-secrets`](https://github.com/dustinlyons/nix-secrets-example) repository. Use this code:
