@@ -262,7 +262,7 @@
                 "preferred://filemanager"
                 "preferred://browser"
                 "applications:Alacritty.desktop"
-                "applications:emacs.desktop"
+                "applications:emacsclient.desktop"
               ];
             };
           }
