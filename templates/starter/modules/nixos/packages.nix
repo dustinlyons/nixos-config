@@ -15,7 +15,6 @@ shared-packages ++ [
   home-manager
 
   # Media and design tools
-  vlc
   fontconfig
   font-manager
 
@@ -30,7 +29,6 @@ shared-packages ++ [
   direnv
   rofi
   rofi-calc
-  postgresql
   libtool # for Emacs vterm
 
   # Screenshot and recording tools
@@ -63,5 +61,4 @@ shared-packages ++ [
   zathura
 
   # Music and entertainment
-  spotify
 ]

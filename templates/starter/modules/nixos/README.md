@@ -75,3 +75,41 @@ nix run .#build-switch -- --host hostname
 The `--host` flag allows targeting specific named hosts instead of the default platform-based configuration, enabling per-host customization while sharing the base configuration.
 
 **Example:** Check out the `garfield` host in the [main repository](https://github.com/dustinlyones/nixos-config) to see how it differs from the default configuration with Nvidia graphics, different packages, simplified services, etc.
+
+## Essential Hotkeys
+
+After your first boot, here are the essential hotkeys to get started with the bspwm window manager:
+
+### Core Navigation
+- **Super + Space** - Open application launcher (rofi)
+- **Super + Enter** - Open terminal (floating)
+- **Super + Ctrl + Enter** - Open terminal (tiled)
+- **Alt + F4** - Close window
+- **Ctrl + Alt + Backspace** - Lock screen
+
+### Window Management
+- **Super + h/j/k/l** - Focus window (left/down/up/right)
+- **Super + Shift + h/j/k/l** - Move window (left/down/up/right)
+- **Super + f** - Toggle fullscreen
+- **Super + d** - Toggle floating/tiled mode
+- **Super + m** - Toggle monocle layout
+
+### Workspaces
+- **Super + 1-6** - Switch to workspace 1-6
+- **Super + Shift + 1-6** - Move window to workspace 1-6
+- **Super + Left/Right** - Switch to prev/next occupied workspace
+- **Super + Tab** - Switch to last workspace
+
+### Applications
+- **Super + Alt + Enter** - Open Emacs
+- **Ctrl + Alt + Enter** - Open web browser
+- **Super + Shift + Space** - Open file manager
+- **Super + Shift + x** - Open KeePassXC password manager
+- **Print** - Take screenshot
+
+### Audio Controls
+- **XF86AudioRaiseVolume** - Volume up
+- **XF86AudioLowerVolume** - Volume down  
+- **XF86AudioMute** - Toggle mute
+
+These hotkeys are defined in `~/.config/sxhkd/sxhkdrc` and can be customized by editing the configuration in this repository.
