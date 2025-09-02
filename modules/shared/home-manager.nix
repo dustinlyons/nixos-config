@@ -140,6 +140,9 @@ let name = "Dustin Lyons";
       
       # Tmux alias for conductly devenv session
       alias conductly='tmux -S /run/user/1000/tmux-conductly attach -t conductly'
+      
+      # Tmux alias for river devenv session
+      alias river='tmux -S /run/user/1000/tmux-river attach -t river'
 
       # macOS-style open command using Nautilus
       ${lib.optionalString pkgs.stdenv.hostPlatform.isLinux ''
