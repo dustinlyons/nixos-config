@@ -241,7 +241,7 @@
         alignment = "center";
         lengthMode = "fit";
         height = 50;
-        hiding = "none";
+        hiding = "dodgewindows";
         widgets = [
           {
             kickoff = {
@@ -262,7 +262,6 @@
                 "preferred://filemanager"
                 "preferred://browser"
                 "applications:Alacritty.desktop"
-                "applications:phpstorm.desktop"
                 "applications:emacs.desktop"
               ];
             };
@@ -278,7 +277,7 @@
         minLength = 155;
         maxLength = 429;
         height = 22;
-        hiding = "none";
+        hiding = "dodgewindows";
         widgets = [
           {
             systemTray.items = {

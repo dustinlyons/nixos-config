@@ -8,6 +8,7 @@ let
     black
     faker
     textual
+    pyqt5
   ]);
 
   myPHP = pkgs.php82.withExtensions ({ enabled, all }: enabled ++ (with all; [
@@ -77,6 +78,7 @@ with pkgs; [
 
   # N
   ncurses # Terminal control library with terminfo database
+  ncdu # Disk space utility
   neofetch # System information tool
   ngrok # Secure tunneling service
   nodejs_20 # Node.js JavaScript runtime (includes npm)
@@ -93,6 +95,9 @@ with pkgs; [
   phpactor # PHP language server with better refactoring support
   phpunit # PHP testing framework
   pngquant # PNG compression tool
+
+  # Q
+  qt5.qtbase # Qt5 base library with platform plugins
 
   # R
   ripgrep # Fast text search tool
