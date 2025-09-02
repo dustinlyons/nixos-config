@@ -95,6 +95,10 @@ shared-packages ++ [
   unixtools.ifconfig # Network interface configuration
   unixtools.netstat # Network statistics
   glances # System monitoring tool with style
+  
+  # Graphics utilities (keep useful ones for system maintenance)
+  pciutils # lspci command for hardware identification
+  mesa-demos # glxinfo and other OpenGL utilities (useful for troubleshooting)
 
   vlc # Media player
 

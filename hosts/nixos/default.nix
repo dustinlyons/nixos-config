@@ -23,13 +23,19 @@ in
   boot = {
     loader.systemd-boot = {
       enable             = true;
-      configurationLimit = 42;  # Limit number of generations in boot menu
+      configurationLimit = 5;   # Keep 5 generations for rollback capability
     };
     loader.efi.canTouchEfiVariables = true;
 
     initrd.availableKernelModules = [ "nvme" "xhci_pci" "ahci" "usb_storage" "usbhid" "sd_mod" ];
     initrd.kernelModules        = [];
     kernelModules               = [ "kvm-amd" "uinput" ];
+    kernelParams = [
+      # Essential parameters for ASUS PG278Q monitor with RX 9070 GPU
+      "amdgpu.dc=1"              # Force display core (required for RDNA 4 GPUs)
+      "drm.edid_firmware=DP-2:edid/PG278Q.bin" # Force EDID for ASUS PG278Q monitor
+      "video=DP-2:2560x1440@60e" # Force CVT timing to ensure proper display
+    ];
     #kernelPackages              = pkgs.linuxPackages_latest;
     #kernelModules               = [ "kvm-amd" "uinput" "v4l2loopback" ];
     #extraModulePackages         = [ pkgs.linuxPackages.v4l2loopback ];
@@ -63,6 +69,15 @@ in
       enable = true;
       enable32Bit = true;
     };
+    
+    # Custom EDID firmware for ASUS PG278Q ROG Swift
+    firmware = with pkgs; [ 
+      (runCommand "pg278q-edid" {} ''
+        mkdir -p $out/lib/firmware/edid
+        cp ${./firmware/edid/PG278Q.bin} $out/lib/firmware/edid/PG278Q.bin
+        cp ${./firmware/edid/PG278Q.bin} $out/lib/firmware/edid/DP-2.bin
+      '')
+    ];
 
   };
 
@@ -127,6 +142,7 @@ in
        options = "ctrl:nocaps";
      };
     };
+    
 
     displayManager.sddm.enable = true;
     desktopManager.plasma6.enable = true;
