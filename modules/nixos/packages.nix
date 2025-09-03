@@ -75,6 +75,7 @@ shared-packages ++ [
   gimp # Image editor
   glow # Terminal markdown viewer
   google-chrome # Web browser
+  firefox # Web browser
   
   hyprpicker # Wayland color picker
 

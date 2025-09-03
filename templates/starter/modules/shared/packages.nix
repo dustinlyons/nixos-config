@@ -18,18 +18,11 @@ with pkgs; [
 
   # Encryption and security tools
   age
-  age-plugin-yubikey
   gnupg
-  libfido2
-
-  # Cloud-related tools and SDKs
-  docker
-  docker-compose
 
   # Media-related packages
   emacs-all-the-icons-fonts
   dejavu_fonts
-  ffmpeg
   fd
   font-awesome
   hack-font
@@ -49,7 +42,6 @@ with pkgs; [
   ripgrep
   tree
   tmux
-  unrar
   unzip
   zsh-powerlevel10k
 
