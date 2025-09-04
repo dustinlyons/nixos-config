@@ -1,12 +1,9 @@
 self: super: with super; {
   cider-appimage = appimageTools.wrapType2 rec {
     pname = "cider";
-    version = "3.0.2";
+    version = "3.1.2";
 
-    src = fetchurl {
-      url = "http://10.0.10.2:8080/cider-v${version}-linux-x64.AppImage";
-      sha256 = "sha256-XVBhMgSNJAYTRpx5GGroteeOx0APIzuHCbf+kINT2eU=";
-    };
+    src = ./cider-v3.1.2-linux-x64.AppImage;
 
     nativeBuildInputs = [ makeWrapper ];
 
