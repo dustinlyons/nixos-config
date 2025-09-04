@@ -24,8 +24,27 @@ jobs:
           echo "Disk usage before cleanup:"
           df -h
           
-          # Remove large packages
-          sudo apt-get remove -y '^ghc-.*' '^dotnet-.*' '^llvm-.*' azure-cli google-cloud-sdk hhvm google-chrome-stable firefox powershell mono-devel
+          # Remove large packages that exist
+          packages_to_remove=(
+            azure-cli
+            google-chrome-stable
+            firefox
+            powershell
+            mono-devel
+          )
+          
+          for pkg in "${packages_to_remove[@]}"; do
+            if dpkg -l | grep -q "^ii  $pkg "; then
+              echo "Removing $pkg..."
+              sudo apt-get remove -y "$pkg" || true
+            fi
+          done
+          
+          # Remove packages by pattern (ignore errors for missing packages)
+          sudo apt-get remove -y '^ghc-.*' 2>/dev/null || true
+          sudo apt-get remove -y '^dotnet-.*' 2>/dev/null || true  
+          sudo apt-get remove -y '^llvm-.*' 2>/dev/null || true
+          
           sudo apt-get autoremove -y
           sudo apt-get clean
           
