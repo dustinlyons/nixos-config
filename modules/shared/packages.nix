@@ -58,6 +58,7 @@ with pkgs; [
   # I
   iftop # Network bandwidth monitor
   imagemagick # Image manipulation toolkit
+  intelephense # PHP LSP server
 
   # J
   jetbrains.phpstorm # PHP IDE
