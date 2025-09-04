@@ -19,6 +19,27 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Free disk space
+        run: |
+          echo "Disk usage before cleanup:"
+          df -h
+          
+          # Remove large packages
+          sudo apt-get remove -y '^ghc-.*' '^dotnet-.*' '^llvm-.*' azure-cli google-cloud-sdk hhvm google-chrome-stable firefox powershell mono-devel
+          sudo apt-get autoremove -y
+          sudo apt-get clean
+          
+          # Remove large directories
+          sudo rm -rf /usr/share/dotnet
+          sudo rm -rf /usr/local/lib/android
+          sudo rm -rf /opt/ghc
+          sudo rm -rf /opt/hostedtoolcache/CodeQL
+          sudo rm -rf /usr/local/.ghcup
+          sudo rm -rf /usr/share/swift
+          
+          echo "Disk usage after cleanup:"
+          df -h
+
       - name: Install Nix
         uses: nixbuild/nix-quick-install-action@master
 
