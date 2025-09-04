@@ -3,14 +3,11 @@
 with pkgs; [
   # General packages for development and system management
   alacritty
-  aspell
-  aspellDicts.en
   bash-completion
   bat
   btop
   coreutils
   killall
-  neofetch
   openssh
   sqlite
   wget
@@ -19,6 +16,10 @@ with pkgs; [
   # Encryption and security tools
   age
   gnupg
+
+  # Cloud-related tools and SDKs
+  docker
+  docker-compose
 
   # Media-related packages
   emacs-all-the-icons-fonts
@@ -35,8 +36,6 @@ with pkgs; [
 
   # Text and terminal utilities
   htop
-  hunspell
-  iftop
   jetbrains-mono
   jq
   ripgrep
@@ -44,6 +43,22 @@ with pkgs; [
   tmux
   unzip
   zsh-powerlevel10k
+  
+  # Development tools
+  curl
+  gh
+  terraform
+  kubectl
+  awscli2
+  lazygit
+  fzf
+  direnv
+  
+  # Programming languages and runtimes
+  go
+  rustc
+  cargo
+  openjdk
 
   # Python packages
   python3

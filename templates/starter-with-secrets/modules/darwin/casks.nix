@@ -4,6 +4,9 @@ _:
   # Development Tools
   "homebrew/cask/docker"
   "visual-studio-code"
+  "iterm2"
+  "postman"
+  "cursor"
 
   # Productivity Tools
   "raycast"

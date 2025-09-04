@@ -16,17 +16,13 @@ shared-packages ++ [
 
   # Media and design tools
   fontconfig
-  font-manager
 
   # Productivity tools
-  bc # old school calculator
-  galculator
 
   # Audio tools
   pavucontrol # Pulse audio controls
 
   # Testing and development tools
-  direnv
   rofi
   rofi-calc
   libtool # for Emacs vterm
@@ -35,8 +31,6 @@ shared-packages ++ [
   flameshot
 
   # Text and terminal utilities
-  feh # Manage wallpapers
-  screenkey
   tree
   unixtools.ifconfig
   unixtools.netstat
@@ -46,19 +40,19 @@ shared-packages ++ [
 
   # File and system utilities
   inotify-tools # inotifywait, inotifywatch - For file system events
-  i3lock-fancy-rapid
   libnotify
   pcmanfm # File browser
   sqlite
   xdg-utils
 
   # Other utilities
-  yad # yad-calendar is used with polybar
-  xdotool
   google-chrome
 
   # PDF viewer
   zathura
 
+  # Development tools
+  firefox
+  
   # Music and entertainment
 ]
