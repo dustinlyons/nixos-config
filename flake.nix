@@ -140,7 +140,7 @@
               chaotic.nixosModules.default
               home-manager.nixosModules.home-manager {
                 home-manager = {
-                  sharedModules = [ plasma-manager.homeManagerModules.plasma-manager ]; 
+                  sharedModules = [ plasma-manager.homeModules.plasma-manager ]; 
                   useGlobalPkgs = true;
                   useUserPackages = true;
                   users.${user} = { config, pkgs, lib, ... }:
@@ -163,7 +163,7 @@
               chaotic.nixosModules.default
               home-manager.nixosModules.home-manager {
                 home-manager = {
-                  sharedModules = [ plasma-manager.homeManagerModules.plasma-manager ]; 
+                  sharedModules = [ plasma-manager.homeModules.plasma-manager ]; 
                   useGlobalPkgs = true;
                   useUserPackages = true;
                   users.${user} = { config, pkgs, lib, ... }:
