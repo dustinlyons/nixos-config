@@ -542,3 +542,4 @@ Did you find my project useful? Your support is appreciated.
 > "All we have to decide is what to do with the time that is given us." - J.R.R. Tolkien
 
 [![Star History Chart](https://api.star-history.com/svg?repos=dustinlyons/nixos-config&type=Date)](https://star-history.com/#dustinlyons/nixos-config&Date)
+
