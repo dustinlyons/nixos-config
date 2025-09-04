@@ -124,6 +124,7 @@ with pkgs; [
   wget # File downloader
 
   # Z
+  zed-editor
   zip # ZIP archive creator
   zsh-powerlevel10k # Zsh theme
 ] ++ myFonts
