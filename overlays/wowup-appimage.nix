@@ -5,7 +5,7 @@ self: super: with super; {
 
     src = fetchurl {
       url = "https://github.com/WowUp/WowUp.CF/releases/download/v2.21.0-beta.3/WowUp-CF-2.21.0-beta.3.AppImage";
-      hash = "sha256-oDlmL/1N+6Q4zBExLlnILL4LSoz+aF2tSA/x+WpsZ4A=";
+      hash = "sha256-6UN5YMahrmKBxIjMDyWz2MNLJTxYxnuhR/Y2CYf+eZE=";
     };
 
     nativeBuildInputs = [ makeWrapper ];

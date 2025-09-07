@@ -227,6 +227,11 @@ in
           key = "Meta+C";
           command = "cheatsheet-viewer";
         };
+        "zeditor" = {
+          name = "Zed Editor";
+          key = "Meta+Z";
+          command = "zeditor";
+        };
       };
       
       workspace = {
