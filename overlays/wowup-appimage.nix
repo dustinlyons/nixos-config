@@ -1,10 +1,10 @@
 self: super: with super; {
   wowup-appimage = appimageTools.wrapType2 rec {
     pname = "wowup";
-    version = "2.20.0";
+    version = "2.21.0-beta.3";
 
     src = fetchurl {
-      url = "https://github.com/WowUp/WowUp/releases/download/v${version}/WowUp-${version}.AppImage";
+      url = "https://github.com/WowUp/WowUp.CF/releases/download/v2.21.0-beta.3/WowUp-CF-2.21.0-beta.3.AppImage";
       hash = "sha256-oDlmL/1N+6Q4zBExLlnILL4LSoz+aF2tSA/x+WpsZ4A=";
     };
 
