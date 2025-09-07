@@ -134,6 +134,10 @@
       "services/org.kde.dolphin.desktop"."_launch" = "Meta+D";
       "services/org.kde.krunner.desktop"."_launch" = "Meta+Space";
       "services/plasma-manager-commands.desktop"."view-cheatsheets" = "Meta+C";
+      "services/plasma-manager-commands.desktop"."zeditor" = "Meta+Z";
+      
+      # Disable conflicting zed.desktop shortcut
+      "services/dev.zed.Zed.desktop"."_launch" = "none";
     };
 
     configFile = {
