@@ -246,6 +246,7 @@ let name = "%NAME%";
 
   ssh = {
     enable = true;
+    enableDefaultConfig = false;
     includes = [
       (lib.mkIf pkgs.stdenv.hostPlatform.isLinux
         "/home/${user}/.ssh/config_external"
@@ -255,6 +256,11 @@ let name = "%NAME%";
       )
     ];
     matchBlocks = {
+      "*" = {
+        # Set the default values we want to keep
+        sendEnv = [ "LANG" "LC_*" ];
+        hashKnownHosts = true;
+      };
       # Example SSH configuration for GitHub
       # "github.com" = {
       #   identitiesOnly = true;
