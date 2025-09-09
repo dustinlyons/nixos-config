@@ -7,6 +7,7 @@ let
     mysql-connector
     virtualenv
     black
+    requests
     faker
     textual
     pyqt5
