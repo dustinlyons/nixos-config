@@ -4,11 +4,13 @@ let
     slpp
     pip
     rich
+    mysql-connector
     virtualenv
     black
     faker
     textual
     pyqt5
+    pyyaml
   ]);
 
   myPHP = pkgs.php82.withExtensions ({ enabled, all }: enabled ++ (with all; [
@@ -42,9 +44,11 @@ with pkgs; [
   # F
   fd # Fast find alternative
   ffmpeg # Multimedia framework
+  flyctl # Fly.io tools
   fzf # Fuzzy finder
 
   # G
+  go # Go
   gcc # GNU Compiler Collection
   gh # GitHub CLI
   glow # Markdown renderer for terminal
