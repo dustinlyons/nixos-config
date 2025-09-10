@@ -149,6 +149,29 @@ let name = "Dustin Lyons";
         alias open="xdg-open"
         alias rxp="/home/dustin/.local/share/src/restxp/restxp"
       ''}
+      
+      # Screenshot function with path selection
+      screenshot() {
+          local project_path
+          case "$1" in
+              conductly|c)
+                  project_path="/home/dustin/.local/share/src/conductly"
+                  ;;
+              bitcoin-noobs|b)
+                  project_path="/home/dustin/.local/share/src/bitcoin-noobs"
+                  ;;
+              *)
+                  echo "Usage: screenshot [conductly|c|bitcoin-noobs|b]"
+                  echo "  conductly (c) - Save to conductly project"
+                  echo "  bitcoin-noobs (b) - Save to bitcoin-noobs project"
+                  return 1
+                  ;;
+          esac
+          
+          local filename="screenshot-$(date +'%Y%m%d-%H%M%S').png"
+          spectacle -r -b -o "$project_path/$filename"
+          echo "Screenshot saved to: $project_path/$filename"
+      }
     '';
   };
 

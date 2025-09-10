@@ -12,6 +12,8 @@ let
     textual
     pyqt5
     pyyaml
+    feedparser
+    python-dateutil
   ]);
 
   myPHP = pkgs.php82.withExtensions ({ enabled, all }: enabled ++ (with all; [

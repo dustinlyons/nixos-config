@@ -104,9 +104,6 @@ shared-packages ++ [
   vlc # Media player
 
   # Wayland-specific tools for Niri
-  grim # Screenshot tool for Wayland
-  slurp # Area selection for screenshots
-  swappy # Screenshot annotation tool
   swayidle # Idle management daemon
   kanshi # Dynamic display configuration
   wdisplays # GUI display configurator for Wayland
