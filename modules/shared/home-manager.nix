@@ -168,7 +168,17 @@ let name = "Dustin Lyons";
                   ;;
           esac
           
-          local filename="screenshot-$(date +'%Y%m%d-%H%M%S').png"
+          # Prompt user for filename
+          echo -n "Enter screenshot filename (without .png extension): "
+          read -r user_filename
+          
+          # Use user input or fallback to timestamp if empty
+          if [[ -n "$user_filename" ]]; then
+              local filename="$user_filename.png"
+          else
+              local filename="screenshot-$(date +'%Y%m%d-%H%M%S').png"
+          fi
+          
           spectacle -r -b -o "$project_path/$filename"
           echo "Screenshot saved to: $project_path/$filename"
       }
