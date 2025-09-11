@@ -1,0 +1,11 @@
+[Unit]
+Description=Run Bitcoin Noobs Crypto Article Generator Daily
+Requires=bitcoin-noobs-crypto.service
+
+[Timer]
+OnCalendar=daily
+RandomizedDelaySec=3600
+Persistent=true
+
+[Install]
+WantedBy=timers.target

@@ -1,0 +1,11 @@
+[Unit]
+Description=Run Bitcoin Noobs News Article Generator Daily
+Requires=bitcoin-noobs-news.service
+
+[Timer]
+OnCalendar=weekly
+RandomizedDelaySec=3600
+Persistent=true
+
+[Install]
+WantedBy=timers.target

@@ -1,0 +1,17 @@
+[Unit]
+Description=Bitcoin Noobs Crypto Article Generator
+After=network.target
+
+[Service]
+Type=oneshot
+User=dustin
+Group=dustin
+WorkingDirectory=/home/dustin/src/bitcoin-noobs
+Environment=HOME=/home/dustin
+Environment=USER=dustin
+ExecStart=/usr/bin/python3 /home/dustin/src/bitcoin-noobs/article_generator.py crypto --count 10 --skip-review --skip-integration
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target

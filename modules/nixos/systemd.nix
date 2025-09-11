@@ -314,5 +314,64 @@ in
         Persistent = true;                        # Run if missed
       };
     };
+
+    # === Bitcoin Noobs Article Generation Services ===
+    # Automated article generation for crypto and news content
+
+    services.bitcoin-noobs-crypto = {
+      description = "Bitcoin Noobs Crypto Article Generator";
+      after = [ "network.target" ];
+      serviceConfig = {
+        Type = "oneshot";
+        User = "dustin";
+        Group = "dustin";
+        WorkingDirectory = "/home/dustin/src/bitcoin-noobs";
+        ExecStart = "${pkgs.python3}/bin/python3 /home/dustin/src/bitcoin-noobs/article_generator.py crypto --count 10 --skip-review --skip-integration";
+        Environment = [
+          "HOME=/home/dustin"
+          "USER=dustin"
+        ];
+        StandardOutput = "journal";
+        StandardError = "journal";
+      };
+    };
+
+    timers.bitcoin-noobs-crypto = {
+      description = "Run Bitcoin Noobs Crypto Article Generator Daily";
+      wantedBy = [ "timers.target" ];
+      timerConfig = {
+        OnCalendar = "daily";
+        RandomizedDelaySec = "3600";  # Random delay 0-60 minutes
+        Persistent = true;
+      };
+    };
+
+    services.bitcoin-noobs-news = {
+      description = "Bitcoin Noobs News Article Generator";
+      after = [ "network.target" ];
+      serviceConfig = {
+        Type = "oneshot";
+        User = "dustin";
+        Group = "dustin";
+        WorkingDirectory = "/home/dustin/src/bitcoin-noobs";
+        ExecStart = "${pkgs.python3}/bin/python3 /home/dustin/src/bitcoin-noobs/article_generator.py news --auto-discover --skip-review";
+        Environment = [
+          "HOME=/home/dustin"
+          "USER=dustin"
+        ];
+        StandardOutput = "journal";
+        StandardError = "journal";
+      };
+    };
+
+    timers.bitcoin-noobs-news = {
+      description = "Run Bitcoin Noobs News Article Generator Weekly";
+      wantedBy = [ "timers.target" ];
+      timerConfig = {
+        OnCalendar = "weekly";
+        RandomizedDelaySec = "3600";  # Random delay 0-60 minutes
+        Persistent = true;
+      };
+    };
   };
 }
