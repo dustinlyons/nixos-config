@@ -241,136 +241,139 @@ in
       };
     };
 
-    # === World Buff Services ===
-    # Fetches buff timers using Playwright, with retry logic
+    # === World Buff Services & Bitcoin Noobs Article Generation ===
+    services = {
+      # Fetches buff timers using Playwright, with retry logic
+      world-buff-fetcher = {
+        description = "World Buff Fetcher";
+        serviceConfig = {
+          Type = "oneshot";
+          User = "dustin";
+          WorkingDirectory = "/home/dustin/.local/share/src/restxp";
+          ExecStart = "${fetcherWrapper}/bin/world-buff-fetcher-wrapper";
 
-    services.world-buff-fetcher = {
-      description = "World Buff Fetcher";
-      serviceConfig = {
-        Type = "oneshot";
-        User = "dustin";
-        WorkingDirectory = "/home/dustin/.local/share/src/restxp";
-        ExecStart = "${fetcherWrapper}/bin/world-buff-fetcher-wrapper";
-        
-        # Environment for Node.js and Playwright
-        Environment = [
-          "HOME=/home/dustin"
-          "PATH=${pkgs.nodejs_20}/bin:/run/current-system/sw/bin"
-          "NODE_PATH=/home/dustin/.local/share/src/restxp/node_modules"
-        ];
-        
-        # No automatic restart - wrapper handles retries
-        Restart = "no";
-        
-        # Timeout accounts for retries (3 attempts * 5 min = 15 min + script time)
-        TimeoutStartSec = "20min";
-        
-        # Logging
-        StandardOutput = "journal";
-        StandardError = "journal";
-      };
-    };
-    
-    # Timer: Run fetcher hourly from 6am to 10pm
-    timers.world-buff-fetcher = {
-      description = "Run Playwright script hourly from 6am to 10pm";
-      wantedBy = [ "timers.target" ];
-      timerConfig = {
-        OnCalendar = "*-*-* 06..22:00:00";  # Every hour from 6am to 10pm
-        Persistent = true;                   # Run if missed
-        RandomizedDelaySec = "30s";          # Small randomization
-      };
-    };
-    
-    # === Buff Reminder Service ===
-    # Checks for upcoming buffs and notifies if characters need them
-    services.buff-reminder = {
-      description = "World Buff Reminder";
-      serviceConfig = {
-        Type = "oneshot";
-        User = "dustin";
-        ExecStart = "${buffReminderScript}/bin/buff-reminder";
-        
-        # Environment for GUI notifications
-        Environment = [
-          "HOME=/home/dustin"
-          "DISPLAY=:0"
-          "DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus"
-          "XDG_RUNTIME_DIR=/run/user/1000"
-        ];
-        
-        # Logging
-        StandardOutput = "journal";
-        StandardError = "journal";
-      };
-    };
-    
-    # Timer: Check every 15 minutes
-    timers.buff-reminder = {
-      description = "Check for upcoming buffs every 15 minutes";
-      wantedBy = [ "timers.target" ];
-      timerConfig = {
-        OnCalendar = "*-*-* *:00,15,30,45:00";  # Every 15 minutes
-        Persistent = true;                        # Run if missed
-      };
-    };
+          # Environment for Node.js and Playwright
+          Environment = [
+            "HOME=/home/dustin"
+            "PATH=${pkgs.nodejs_20}/bin:/run/current-system/sw/bin"
+            "NODE_PATH=/home/dustin/.local/share/src/restxp/node_modules"
+          ];
 
-    # === Bitcoin Noobs Article Generation Services ===
-    # Automated article generation for crypto and news content
+          # No automatic restart - wrapper handles retries
+          Restart = "no";
 
-    services.bitcoin-noobs-crypto = {
-      description = "Bitcoin Noobs Crypto Article Generator";
-      after = [ "network.target" ];
-      serviceConfig = {
-        Type = "oneshot";
-        User = "dustin";
-        Group = "dustin";
-        WorkingDirectory = "/home/dustin/src/bitcoin-noobs";
-        ExecStart = "${pkgs.python3}/bin/python3 /home/dustin/src/bitcoin-noobs/article_generator.py crypto --count 10 --skip-review --skip-integration";
-        Environment = [
-          "HOME=/home/dustin"
-          "USER=dustin"
-        ];
-        StandardOutput = "journal";
-        StandardError = "journal";
+          # Timeout accounts for retries (3 attempts * 5 min = 15 min + script time)
+          TimeoutStartSec = "20min";
+
+          # Logging
+          StandardOutput = "journal";
+          StandardError = "journal";
+        };
+      };
+
+      # Checks for upcoming buffs and notifies if characters need them
+      buff-reminder = {
+        description = "World Buff Reminder";
+        serviceConfig = {
+          Type = "oneshot";
+          User = "dustin";
+          ExecStart = "${buffReminderScript}/bin/buff-reminder";
+
+          # Environment for GUI notifications
+          Environment = [
+            "HOME=/home/dustin"
+            "DISPLAY=:0"
+            "DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus"
+            "XDG_RUNTIME_DIR=/run/user/1000"
+          ];
+
+          # Logging
+          StandardOutput = "journal";
+          StandardError = "journal";
+        };
+      };
+
+      # Automated article generation for crypto content
+      bitcoin-noobs-crypto = {
+        description = "Bitcoin Noobs Crypto Article Generator";
+        after = [ "network.target" ];
+        serviceConfig = {
+          Type = "oneshot";
+          User = "dustin";
+          Group = "users";
+          WorkingDirectory = "/home/dustin/src/bitcoin-noobs";
+          ExecStart = "/usr/bin/python3 /home/dustin/src/bitcoin-noobs/article_generator.py crypto --count 10 --skip-review --skip-integration";
+          Environment = [
+            "HOME=/home/dustin"
+            "USER=dustin"
+          ];
+          StandardOutput = "journal";
+          StandardError = "journal";
+        };
+      };
+
+      # Automated article generation for news content
+      bitcoin-noobs-news = {
+        description = "Bitcoin Noobs News Article Generator";
+        after = [ "network.target" ];
+        serviceConfig = {
+          Type = "oneshot";
+          User = "dustin";
+          Group = "users";
+          WorkingDirectory = "/home/dustin/src/bitcoin-noobs";
+          ExecStart = "/usr/bin/python3 /home/dustin/src/bitcoin-noobs/article_generator.py news --auto-discover --skip-review";
+          Environment = [
+            "HOME=/home/dustin"
+            "USER=dustin"
+          ];
+          StandardOutput = "journal";
+          StandardError = "journal";
+        };
       };
     };
 
-    timers.bitcoin-noobs-crypto = {
-      description = "Run Bitcoin Noobs Crypto Article Generator Daily";
-      wantedBy = [ "timers.target" ];
-      timerConfig = {
-        OnCalendar = "daily";
-        RandomizedDelaySec = "3600";  # Random delay 0-60 minutes
-        Persistent = true;
+    timers = {
+      # Run fetcher hourly from 6am to 10pm
+      world-buff-fetcher = {
+        description = "Run Playwright script hourly from 6am to 10pm";
+        wantedBy = [ "timers.target" ];
+        timerConfig = {
+          OnCalendar = "*-*-* 06..22:00:00";  # Every hour from 6am to 10pm
+          Persistent = true;                   # Run if missed
+          RandomizedDelaySec = "30s";          # Small randomization
+        };
       };
-    };
 
-    services.bitcoin-noobs-news = {
-      description = "Bitcoin Noobs News Article Generator";
-      after = [ "network.target" ];
-      serviceConfig = {
-        Type = "oneshot";
-        User = "dustin";
-        Group = "dustin";
-        WorkingDirectory = "/home/dustin/src/bitcoin-noobs";
-        ExecStart = "${pkgs.python3}/bin/python3 /home/dustin/src/bitcoin-noobs/article_generator.py news --auto-discover --skip-review";
-        Environment = [
-          "HOME=/home/dustin"
-          "USER=dustin"
-        ];
-        StandardOutput = "journal";
-        StandardError = "journal";
+      # Check every 15 minutes for upcoming buffs
+      buff-reminder = {
+        description = "Check for upcoming buffs every 15 minutes";
+        wantedBy = [ "timers.target" ];
+        timerConfig = {
+          OnCalendar = "*-*-* *:00,15,30,45:00";  # Every 15 minutes
+          Persistent = true;                        # Run if missed
+        };
       };
-    };
 
-    timers.bitcoin-noobs-news = {
-      description = "Run Bitcoin Noobs News Article Generator Weekly";
-      wantedBy = [ "timers.target" ];
-      timerConfig = {
-        OnCalendar = "weekly";
-        RandomizedDelaySec = "3600";  # Random delay 0-60 minutes
-        Persistent = true;
+      # Run crypto article generator daily
+      bitcoin-noobs-crypto = {
+        description = "Run Bitcoin Noobs Crypto Article Generator Daily";
+        wantedBy = [ "timers.target" ];
+        timerConfig = {
+          OnCalendar = "daily";
+          RandomizedDelaySec = "3600";  # Random delay 0-60 minutes
+          Persistent = true;
+        };
+      };
+
+      # Run news article generator weekly
+      bitcoin-noobs-news = {
+        description = "Run Bitcoin Noobs News Article Generator Weekly";
+        wantedBy = [ "timers.target" ];
+        timerConfig = {
+          OnCalendar = "weekly";
+          RandomizedDelaySec = "3600";  # Random delay 0-60 minutes
+          Persistent = true;
+        };
       };
     };
   };
