@@ -54,6 +54,7 @@
       mkLinuxApps = system: {
         "apply" = mkApp "apply" system;
         "build-switch" = mkApp "build-switch" system;
+        "clean" = mkApp "clean" system;
         "copy-keys" = mkApp "copy-keys" system;
         "create-keys" = mkApp "create-keys" system;
         "check-keys" = mkApp "check-keys" system;
@@ -64,6 +65,7 @@
         "apply" = mkApp "apply" system;
         "build" = mkApp "build" system;
         "build-switch" = mkApp "build-switch" system;
+        "clean" = mkApp "clean" system;
         "copy-keys" = mkApp "copy-keys" system;
         "create-keys" = mkApp "create-keys" system;
         "check-keys" = mkApp "check-keys" system;
