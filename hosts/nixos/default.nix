@@ -36,7 +36,7 @@ in
       "drm.edid_firmware=DP-2:edid/PG278Q.bin" # Force EDID for ASUS PG278Q monitor
       "video=DP-2:2560x1440@60e" # Force CVT timing to ensure proper display
     ];
-    #kernelPackages              = pkgs.linuxPackages_latest;
+    kernelPackages              = pkgs.linuxPackages_latest;
     #kernelModules               = [ "kvm-amd" "uinput" "v4l2loopback" ];
     #extraModulePackages         = [ pkgs.linuxPackages.v4l2loopback ];
   };
