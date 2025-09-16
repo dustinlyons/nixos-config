@@ -40,7 +40,7 @@ shared-packages ++ (with pkgs; [
   obsidian # Note-taking app
   kdePackages.okular # PDF viewer
 
-  rofi-wayland # Application launcher for Wayland
+  rofi # Application launcher (includes Wayland support)
 
   signal-desktop # Secure messaging
   telegram-desktop # Telegram client

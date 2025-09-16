@@ -97,7 +97,7 @@ with pkgs; [
   # P
   pandoc # Document converter
   php82Packages.composer # PHP dependency manager
-  php82Packages.deployer # PHP deployment tool
+  deployer # PHP deployment tool
   php82Packages.php-cs-fixer # PHP code style fixer
   php82Packages.phpstan # PHP static analysis tool
   phpactor # PHP language server with better refactoring support

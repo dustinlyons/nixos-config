@@ -36,7 +36,7 @@ in
     
     rofi = {
       enable = true;
-      package = pkgs.rofi-wayland;
+      package = pkgs.rofi;
       theme = let
         inherit (config.lib.formats.rasi) mkLiteral;
       in {

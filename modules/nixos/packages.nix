@@ -6,7 +6,7 @@ let
   # Custom scripts
   rofi-launcher = pkgs.writeShellScriptBin "rofi-launcher" ''
     # Use kstart5 to ensure proper KDE integration
-    ${pkgs.kdePackages.kde-cli-tools}/bin/kstart5 --window "rofi" -- ${pkgs.rofi-wayland}/bin/rofi -show drun
+    ${pkgs.kdePackages.kde-cli-tools}/bin/kstart5 --window "rofi" -- ${pkgs.rofi}/bin/rofi -show drun
   '';
   
   cheatsheet-viewer = pkgs.writeShellScriptBin "cheatsheet-viewer" ''
@@ -30,7 +30,7 @@ let
     fi
     
     selected=$(ls *.md 2>/dev/null | sed 's/\.md$//' | \
-        ${pkgs.rofi-wayland}/bin/rofi -dmenu -i -p "Cheatsheet")
+        ${pkgs.rofi}/bin/rofi -dmenu -i -p "Cheatsheet")
     
     if [ -z "$selected" ]; then
         exit 0
@@ -133,7 +133,7 @@ shared-packages ++ [
   kdePackages.kdialog # KDE dialog boxes and notifications
   
   # Application launcher
-  rofi-wayland # Application launcher and window switcher (Wayland version)
+  rofi # Application launcher and window switcher (includes Wayland support)
   linuxKernel.packages.linux_zen.xone
 
 ]
