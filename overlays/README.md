@@ -1,51 +1,94 @@
 # Overlays
 
-Files in this directory run automatically as part of each build. Some common ways I've used overlays in the past:
-* Applying patches
-* Downloading different versions of files (locking to a version or trying a fork)
-* Workarounds and stuff I need to run temporarily
+Files in this directory are automatically loaded as Nix overlays during each build. Overlays allow you to:
+* Add new packages or create custom package definitions
+* Override existing packages with patches, different versions, or configurations
+* Create wrapper scripts and development tools
+* Package AppImages and other external binaries
 
-Here are some previous examples.
+**Important:** All overlay files must be added to git before building (`git add <file>.nix`) since Nix flakes only see tracked files.
 
-### Overriding a package with a specific hash from Github
-To get the sha256, I just made something up and tried to build it; Nix will complain with the actual sha256.
+## Current Overlays
+
+### AppImage Packages
+- **`cider-appimage.nix`** - Apple Music client with Wayland support
+- **`tableplus-appimage.nix`** - Database GUI tool, fetched from latest release
+- **`wowup-appimage.nix`** - World of Warcraft addon manager
+
+### Development Tools
+- **`linear-cli.nix`** - Linear CLI wrapper using npx and Node.js 20
+- **`playwright.nix`** - Playwright with browser dependencies and wrapper script
+- **`phpstorm.nix`** - JetBrains PhpStorm with custom JDK override
+
+## Common Patterns
+
+### AppImage Wrapper with Wayland Support
 ```nix
-final: prev: {
-  picom = prev.picom.overrideAttrs (old: {
-    src = prev.fetchFromGitHub {
-      owner = "pijulius";
-      repo = "picom";
-      rev = "982bb43e5d4116f1a37a0bde01c9bda0b88705b9";
-      sha256 = "YiuLScDV9UfgI1MiYRtjgRkJ0VuA1TExATA2nJSJMhM=";
-    };
-  });
+self: super: with super; {
+  app-name = appimageTools.wrapType2 rec {
+    pname = "app-name";
+    version = "1.0.0";
+    src = ./app.AppImage;  # or fetchurl for remote
+
+    nativeBuildInputs = [ makeWrapper ];
+
+    extraInstallCommands = ''
+      wrapProgram $out/bin/${pname} \
+        --add-flags "--ozone-platform=wayland --enable-features=UseOzonePlatform"
+    '';
+  };
 }
 ```
 
-### Override a file or attribute of a package
-In Nix, we get to just patch things willy nilly. This is an old patch I used to get the `cypress` package working; it tidied me over until a proper fix was in `nixpkgs`.
-
+### NPM/Node.js Tool Wrapper
 ```nix
-# When Cypress starts, it copies some files locally from the Nix Store, but
-# fails to remove the read-only flag.
-#
-# Luckily, the code responsible is a plain text script that we can easily patch:
-#
 final: prev: {
-  cypress = prev.cypress.overrideAttrs (oldAttrs: {
-    installPhase = let
-      matchForChrome = "yield utils_1.default.copyExtension(pathToExtension, extensionDest);";
-      appendForChrome = "yield fs_1.fs.chmodAsync(extensionBg, 0o0644);"; # We edit this line
+  tool-name = prev.writeShellScriptBin "tool-name" ''
+    export PATH="${prev.nodejs_20}/bin:$PATH"
+    exec ${prev.nodejs_20}/bin/npx --yes package-name "$@"
+  '';
+}
+```
 
-      matchForFirefox = "copyExtension(pathToExtension, extensionDest)";
-      replaceForFirefox = "copyExtension(pathToExtension, extensionDest).then(() => fs.chmodAsync(extensionBg, 0o0644))"; # We edit this line
-    in ''
-      sed -i '/${matchForChrome}/a\${appendForChrome}' \
-          ./resources/app/packages/server/lib/browsers/chrome.js
+### Package Override with Custom JDK
+```nix
+final: prev: {
+  jetbrains = prev.jetbrains // {
+    phpstorm = prev.jetbrains.phpstorm.override {
+      jdk = prev.jdk21;
+    };
+  };
+}
+```
 
-      sed -i 's/${matchForFirefox}/${replaceForFirefox}/' \
-          ./resources/app/packages/server/lib/browsers/utils.js
-    '' + oldAttrs.installPhase;
+### Development Environment with Dependencies
+```nix
+final: prev:
+let
+  deps = with prev; [ lib1 lib2 lib3 ];
+in {
+  tool-deps = prev.buildEnv {
+    name = "tool-deps";
+    paths = deps;
+  };
+
+  tool-wrapper = prev.writeScriptBin "tool-wrapper" ''
+    export LD_LIBRARY_PATH="${prev.lib.makeLibraryPath deps}:$LD_LIBRARY_PATH"
+    exec "$@"
+  '';
+}
+```
+
+### Fetching from GitHub with Specific Commit
+```nix
+final: prev: {
+  package-name = prev.package-name.overrideAttrs (old: {
+    src = prev.fetchFromGitHub {
+      owner = "owner";
+      repo = "repo";
+      rev = "commit-hash";
+      sha256 = "sha256-hash";  # Use fake hash first, Nix will show correct one
+    };
   });
 }
 ```
