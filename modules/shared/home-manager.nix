@@ -148,6 +148,9 @@ let name = "Dustin Lyons";
       ${lib.optionalString pkgs.stdenv.hostPlatform.isLinux ''
         alias open="xdg-open"
         alias rxp="/home/dustin/.local/share/src/restxp/restxp"
+
+        # Reboot to Windows partition (Linux only)
+        alias windows='sudo systemctl reboot --boot-loader-entry=auto-windows'
       ''}
       
       # Screenshot function with path selection

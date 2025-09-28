@@ -35,6 +35,9 @@ in
       "amdgpu.dc=1"              # Force display core (required for RDNA 4 GPUs)
       "drm.edid_firmware=DP-2:edid/PG278Q.bin" # Force EDID for ASUS PG278Q monitor
       "video=DP-2:2560x1440@60e" # Force CVT timing to ensure proper display
+      # GPU stability parameters
+      "amdgpu.gpu_recovery=1"    # Enable GPU recovery after timeouts
+      "amdgpu.runpm=0"          # Disable runtime power management for stability
     ];
     kernelPackages              = pkgs.linuxPackages_latest;
     #kernelModules               = [ "kvm-amd" "uinput" "v4l2loopback" ];
@@ -52,6 +55,19 @@ in
       fsType = "vfat";
       options = [ "fmask=0077" "dmask=0077" ];
     };
+
+  # Windows partition mount
+  fileSystems."/mnt/windows" = {
+    device = "/dev/nvme0n1p3";
+    fsType = "ntfs-3g";
+    options = [
+      "defaults"
+      "uid=1000"
+      "gid=100"
+      "umask=0022"
+      "nofail"
+    ];
+  };
 
   swapDevices = [ ];
 
@@ -192,8 +208,8 @@ in
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
-  # Enable mesa-git from Chaotic Nyx
-  chaotic.mesa-git.enable = true;
+  # Enable mesa-git from Chaotic Nyx - disabled for GPU stability
+  # chaotic.mesa-git.enable = true;
 
   # List packages installed in system profile. To search, run:
   #   $ nix search <pkg>
@@ -257,6 +273,11 @@ in
   boot.kernel.sysctl = {
     "fs.inotify.max_user_watches" = 1048576;
   };
+
+  # Create symlink for easier Windows partition access
+  systemd.tmpfiles.rules = [
+    "L+ /home/dustin/windows - - - - /mnt/windows"
+  ];
 
   # This value determines the NixOS release from which default
   # settings for stateful data were taken. Leave it at your first
