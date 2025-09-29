@@ -45,28 +45,30 @@ in
   };
 
   # Filesystems
-  fileSystems."/" =
-    { device = "/dev/disk/by-uuid/27bb6e75-80f8-4072-8974-83f5a45cbe48";
+  fileSystems = {
+    "/" = {
+      device = "/dev/disk/by-uuid/27bb6e75-80f8-4072-8974-83f5a45cbe48";
       fsType = "ext4";
     };
 
-  fileSystems."/boot" =
-    { device = "/dev/disk/by-uuid/8AC5-E75B";
+    "/boot" = {
+      device = "/dev/disk/by-uuid/8AC5-E75B";
       fsType = "vfat";
       options = [ "fmask=0077" "dmask=0077" ];
     };
 
-  # Windows partition mount
-  fileSystems."/mnt/windows" = {
-    device = "/dev/nvme0n1p3";
-    fsType = "ntfs-3g";
-    options = [
-      "defaults"
-      "uid=1000"
-      "gid=100"
-      "umask=0022"
-      "nofail"
-    ];
+    # Windows partition mount
+    "/mnt/windows" = {
+      device = "/dev/nvme0n1p3";
+      fsType = "ntfs-3g";
+      options = [
+        "defaults"
+        "uid=1000"
+        "gid=100"
+        "umask=0022"
+        "nofail"
+      ];
+    };
   };
 
   swapDevices = [ ];
