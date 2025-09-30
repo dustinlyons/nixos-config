@@ -1,17 +1,18 @@
-{ pkgs, inputs }:
+{ pkgs, inputs, config ? null }:
 with pkgs;
-let 
-  shared-packages = import ../shared/packages.nix { inherit pkgs; }; 
-  
+let
+  shared-packages = import ../shared/packages.nix { inherit pkgs; };
+  hostname = if config != null then (config.networking.hostName or "") else "";
+
   # Custom scripts
   rofi-launcher = pkgs.writeShellScriptBin "rofi-launcher" ''
     # Use kstart5 to ensure proper KDE integration
     ${pkgs.kdePackages.kde-cli-tools}/bin/kstart5 --window "rofi" -- ${pkgs.rofi}/bin/rofi -show drun
   '';
-  
+
   cheatsheet-viewer = pkgs.writeShellScriptBin "cheatsheet-viewer" ''
     CHEATSHEET_DIR="$HOME/cheatsheets"
-    
+
     # Check if directory exists
     if [ ! -d "$CHEATSHEET_DIR" ]; then
         mkdir -p "$CHEATSHEET_DIR"
@@ -19,23 +20,23 @@ let
         echo "Add some .md files there and run this command again"
         exit 0
     fi
-    
+
     cd "$CHEATSHEET_DIR" || exit 1
-    
+
     # Check if there are any markdown files
     if ! ls *.md >/dev/null 2>&1; then
         echo "No markdown files found in $CHEATSHEET_DIR"
         echo "Add some .md files and try again"
         exit 0
     fi
-    
+
     selected=$(ls *.md 2>/dev/null | sed 's/\.md$//' | \
         ${pkgs.rofi}/bin/rofi -dmenu -i -p "Cheatsheet")
-    
+
     if [ -z "$selected" ]; then
         exit 0
     fi
-    
+
     # Display with glow in alacritty (positioned and sized by KDE window rules)
     ${pkgs.alacritty}/bin/alacritty --class "cheatsheet-viewer" \
         --title "$selected - Cheatsheet" \
@@ -45,8 +46,10 @@ in
 shared-packages ++ [
 
   _1password-gui # Password manager
-  
+
+] ++ lib.optionals (pkgs ? cider-appimage) [
   cider-appimage # Apple Music client
+] ++ [
   
   cliphist # Clipboard history manager for Wayland
   

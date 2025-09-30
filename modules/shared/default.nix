@@ -20,10 +20,19 @@ in
 
     overlays =
       # Apply each overlay found in the /overlays directory
-      let path = ../../overlays; in with builtins;
+      let
+        path = ../../overlays;
+        hostname = config.networking.hostName or "";
+        excludeForHost = {
+          "garfield" = [ "cider-appimage.nix" ];
+        };
+        excludedFiles = excludeForHost.${hostname} or [];
+      in with builtins;
       map (n: import (path + ("/" + n)))
-          (filter (n: match ".*\\.nix" n != null ||
-                      pathExists (path + ("/" + n + "/default.nix")))
+          (filter (n:
+            (match ".*\\.nix" n != null ||
+             pathExists (path + ("/" + n + "/default.nix")))
+            && !(elem n excludedFiles))
                   (attrNames (readDir path)))
 
       ++ [(import (builtins.fetchTarball {
