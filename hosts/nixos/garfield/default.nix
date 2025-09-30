@@ -11,11 +11,14 @@ in
 
     # Import shared configuration (tmux, zsh, home-manager, etc.)
     ../../../modules/shared
-    
+
     # Import garfield-specific packages
     {
       environment.systemPackages = import ../../../modules/nixos/garfield-packages.nix { inherit pkgs; };
     }
+
+    # GitHub Runner module for lab CI
+    ../../../modules/nixos/github-runner.nix
 
     # Note: systemd.nix module excluded for this host
     # Note: agenix disabled for this host
@@ -24,12 +27,57 @@ in
   # Hardware Configuration - use dedicated hardware-configuration.nix
   # (imported above)
 
-  # Networking
+  # GitHub Runners Configuration
+  services.github-runners-lab = {
+    enable = true;
+    runnerCount = 4;
+    organization = "conductly";
+  };
+
+  # Networking with VLAN support for GitHub runners
   networking = {
-    hostName        = "garfield";
-    useDHCP         = lib.mkDefault true;
-    networkmanager.enable = true;
-    firewall.enable       = false;
+    hostName = "garfield";
+    networkmanager.enable = false;  # Disabled for manual VLAN control
+    useNetworkd = true;  # Use systemd-networkd for VLAN support
+    firewall = {
+      enable = true;
+      allowedTCPPorts = [ 22 ];  # SSH
+    };
+
+    # VLAN interfaces on eno0 (or your main interface)
+    # NOTE: Adjust interface name if not eno0 - check with `ip link`
+    vlans = {
+      "eno0.10" = {
+        id = 10;
+        interface = "eno0";
+      };
+      "eno0.20" = {
+        id = 20;
+        interface = "eno0";
+      };
+    };
+
+    interfaces = {
+      eno0 = {};
+      "eno0.10" = {
+        ipv4.addresses = [
+          { address = "10.0.10.2"; prefixLength = 24; }
+        ];
+      };
+      "eno0.20" = {
+        ipv4.addresses = [
+          { address = "10.0.20.2"; prefixLength = 24; }
+        ];
+      };
+    };
+
+    # Gateway on VLAN 10
+    defaultGateway = {
+      address = "10.0.10.1";
+      interface = "eno0.10";
+    };
+
+    nameservers = [ "10.0.10.1" "1.1.1.1" ];
   };
 
   # Set your time zone.
