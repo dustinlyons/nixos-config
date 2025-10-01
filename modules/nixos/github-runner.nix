@@ -6,7 +6,7 @@ let
   cfg = config.services.github-runners-lab;
 
   # Configuration for multiple runners
-  runnerCount = cfg.runnerCount;
+  inherit (cfg) runnerCount;
   runnerNumbers = lib.range 1 runnerCount;
 
   # Service user for CI processes

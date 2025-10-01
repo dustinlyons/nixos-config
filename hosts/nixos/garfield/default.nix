@@ -27,13 +27,6 @@ in
   # Hardware Configuration - use dedicated hardware-configuration.nix
   # (imported above)
 
-  # GitHub Runners Configuration
-  services.github-runners-lab = {
-    enable = true;
-    runnerCount = 4;
-    organization = "conductly";
-  };
-
   # Networking with VLAN support for GitHub runners
   networking = {
     hostName = "garfield";
@@ -108,6 +101,13 @@ in
 
   # Services configuration
   services = {
+    # GitHub Runners Configuration
+    github-runners-lab = {
+      enable = true;
+      runnerCount = 4;
+      organization = "conductly";
+    };
+
     emacs = {
       enable = true;
       package = myEmacs;
@@ -123,7 +123,14 @@ in
      };
     };
 
-    displayManager.sddm.enable = true;
+    displayManager = {
+      sddm.enable = true;
+      autoLogin = {
+        enable = true;
+        user = "dustin";
+      };
+    };
+
     desktopManager.plasma6.enable = true;
 
     # Enable CUPS to print documents.
@@ -155,9 +162,6 @@ in
     extraGroups  = [ "networkmanager" "wheel" ];
     shell = pkgs.zsh;
   };
-
-  services.displayManager.autoLogin.enable = true;
-  services.displayManager.autoLogin.user = "dustin";
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
