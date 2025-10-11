@@ -42,6 +42,7 @@ with pkgs; [
   # D
   direnv # Environment variable management per directory
   difftastic # Structural diff tool
+  doctl # DigitalOcean CLI
   du-dust # Disk usage analyzer
 
   # F
@@ -74,6 +75,7 @@ with pkgs; [
 
   # K
   killall # Kill processes by name
+  kubectl # Kubernetes CLI
 
   # L
   linear-cli # Linear project management CLI
