@@ -20,6 +20,9 @@ in
     # GitHub Runner module for lab CI
     ../../../modules/nixos/github-runner.nix
 
+    # Home Assistant for camera monitoring and automation
+    ../../../modules/nixos/home-assistant.nix
+
     # Note: systemd.nix module excluded for this host
     # Note: agenix disabled for this host
   ];
@@ -34,7 +37,7 @@ in
     useNetworkd = true;  # Use systemd-networkd for VLAN support
     firewall = {
       enable = true;
-      allowedTCPPorts = [ 22 ];  # SSH
+      allowedTCPPorts = [ 22 8123 ];  # SSH, Home Assistant
     };
 
     # VLAN interfaces on eno0 (or your main interface)
