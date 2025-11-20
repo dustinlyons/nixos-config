@@ -200,7 +200,7 @@ in
   users.users.${user} = {
     isNormalUser = true;
     description  = "Dustin Lyons";
-    extraGroups  = [ "networkmanager" "wheel" ];
+    extraGroups  = [ "networkmanager" "wheel" "docker" ];
     shell = pkgs.zsh;
   };
 
@@ -275,6 +275,9 @@ in
   boot.kernel.sysctl = {
     "fs.inotify.max_user_watches" = 1048576;
   };
+
+  # Docker
+  virtualisation.docker.enable = true;
 
   # Create symlink for easier Windows partition access
   systemd.tmpfiles.rules = [
