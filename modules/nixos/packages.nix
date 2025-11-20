@@ -48,11 +48,16 @@ shared-packages ++ [
   _1password-gui # Password manager
 
 ] ++ lib.optionals (pkgs ? cider-appimage) [
+  obsidian-appimage # Note taking application
   cider-appimage # Apple Music client
 ] ++ [
   
   cliphist # Clipboard history manager for Wayland
-  
+
+  docker-compose # Docker Compose tool
+
+  ninja # Fast build system
+
   tableplus-appimage # Database management tool
 
   bluez # Bluetooth
@@ -63,7 +68,7 @@ shared-packages ++ [
 
   # chromedriver # Chrome webdriver for testing (commented out due to nodejs version conflict)
 
-  inputs.claude-desktop.packages."${pkgs.system}".claude-desktop-with-fhs
+  #inputs.claude-desktop.packages."${pkgs.system}".claude-desktop-with-fhs
 
   discord # Voice and text chat
 
