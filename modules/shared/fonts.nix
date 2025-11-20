@@ -8,5 +8,5 @@ with pkgs; [
   jetbrains-mono
   meslo-lgs-nf
   noto-fonts
-  noto-fonts-emoji
+  noto-fonts-color-emoji
 ]
