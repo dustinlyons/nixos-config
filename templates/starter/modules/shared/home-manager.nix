@@ -202,6 +202,13 @@ let name = "%NAME%";
         };
       };
 
+      # Fix for shell path when launching from desktop
+      # When launching from desktop, $SHELL may point to /bin/zsh instead of
+      # the Nix-managed shell, causing environment issues
+      terminal.shell = {
+        program = "${pkgs.zsh}/bin/zsh";
+      };
+
       font = {
         normal = {
           family = "MesloLGS NF";
