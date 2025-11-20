@@ -43,7 +43,7 @@ with pkgs; [
   direnv # Environment variable management per directory
   difftastic # Structural diff tool
   doctl # DigitalOcean CLI
-  du-dust # Disk usage analyzer
+  dust # Disk usage analyzer
 
   # F
   fd # Fast find alternative
