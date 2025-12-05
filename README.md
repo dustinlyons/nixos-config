@@ -138,40 +138,33 @@ xcode-select --install
 ```
 
 ### 2. Install Nix
-Thank you for the [installer](https://zero-to-nix.com/concepts/nix-installer), [Determinate Systems](https://determinate.systems/)!
+
 ```sh
-curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install
+sh <(curl --proto '=https' --tlsv1.2 -L https://nixos.org/nix/install)
 ```
 
 After installation, open a new terminal session to make the `nix` executable available in your `$PATH`. You'll need this in the steps ahead.
 
 > [!IMPORTANT]
 >
-> The installer will ask if you want to install Determinate Nix. Answer _No_ as it [currently conflicts](https://github.com/dustinlyons/nixos-config/issues/146) with `nix-darwin`.
+> If you recently updated to macOS 15 Sequoia and are getting `error: the user '_nixbld1' in the group 'nixbld' does not exist` when running Nix commands, refer to GitHub issue [NixOS/nix#10892](https://github.com/NixOS/nix/issues/10892) for instructions to fix your installation without reinstalling.
 
-> [!IMPORTANT]
->
-> If using [the official installation instructions](https://nixos.org/download) instead, [`flakes`](https://nixos.wiki/wiki/Flakes) and [`nix-command`](https://nixos.wiki/wiki/Nix_command) aren't available by default.
->
-> You'll need to enable them.
->
-> **Add this line to your `/etc/nix/nix.conf` file**
-> ```
-> experimental-features = nix-command flakes
-> ```
->
-> **_OR_**
->
-> **Specify experimental features when using `nix run` below**
-> ```
-> nix --extra-experimental-features 'nix-command flakes' run .#<command>
-> ```
+### 3. Enable flakes and nix-command
 
-> [!IMPORTANT]
->
-> If you haven't upgraded to macOS Sequioa yet, read this article: [Nix Support for macOS Sequioa](https://determinate.systems/posts/nix-support-for-macos-sequoia/).
+[`flakes`](https://nixos.wiki/wiki/Flakes) and [`nix-command`](https://nixos.wiki/wiki/Nix_command) aren't available by default. You'll need to enable them.
 
-### 3. Initialize a starter template
+**Add this line to your `/etc/nix/nix.conf` file**
+```
+experimental-features = nix-command flakes
+```
+**_OR_**
+
+**Specify experimental features when using `nix run` below**
+```
+nix --extra-experimental-features 'nix-command flakes' run .#<command>
+```
+
+### 4. Initialize a starter template
 *Choose one of two options*
 
 **Simplified version without secrets management**
@@ -190,12 +183,12 @@ mkdir -p nixos-config && cd nixos-config && nix flake --extra-experimental-featu
 mkdir -p nixos-config && cd nixos-config && nix flake --extra-experimental-features 'nix-command flakes' init -t github:dustinlyons/nixos-config#starter-with-secrets
 ```
 
-### 4. Make [apps](https://github.com/dustinlyons/nixos-config/tree/main/apps) executable
+### 5. Make [apps](https://github.com/dustinlyons/nixos-config/tree/main/apps) executable
 ```sh
 find apps/$(uname -m | sed 's/arm64/aarch64/')-darwin -type f \( -name apply -o -name build -o -name build-switch -o -name create-keys -o -name copy-keys -o -name check-keys -o -name rollback \) -exec chmod +x {} \;
 ```
 
-### 5. Apply your current user info
+### 6. Apply your current user info
 Run this Nix command to replace stub values with your system properties, username, full name, and email.
 > Your email is only used in the `git` configuration.
 ```sh
@@ -206,7 +199,7 @@ nix run .#apply
 >
 > You must run `git add .` first.
 
-### 6. Decide what packages to install
+### 7. Decide what packages to install
 You can search for packages on the [official NixOS website](https://search.nixos.org/packages).
 
 **Review these files**
@@ -215,7 +208,7 @@ You can search for packages on the [official NixOS website](https://search.nixos
 * [`modules/darwin/packages.nix`](https://github.com/dustinlyons/nixos-config/blob/main/modules/darwin/packages.nix)
 * [`modules/shared/packages.nix`](https://github.com/dustinlyons/nixos-config/blob/main/modules/shared/packages.nix)
 
-### 7. Review your shell configuration
+### 8. Review your shell configuration
 Add anything from your existing `~/.zshrc`, or just review the new configuration.
 
 **Review these files**
@@ -223,13 +216,13 @@ Add anything from your existing `~/.zshrc`, or just review the new configuration
 * [`modules/darwin/home-manager`](https://github.com/dustinlyons/nixos-config/blob/main/modules/darwin/home-manager.nix)
 * [`modules/shared/home-manager`](https://github.com/dustinlyons/nixos-config/blob/main/modules/shared/home-manager.nix)
 
-### 8. Optional: Setup secrets
+### 9. Optional: Setup secrets
 If you are using the starter with secrets, there are a few additional steps.
 
-#### 8a. Create a private Github repo to hold your secrets
+#### 9a. Create a private Github repo to hold your secrets
 In Github, create a private [`nix-secrets`](https://github.com/dustinlyons/nix-secrets-example) repository with at least one file (like a `README`). You'll enter this name during installation.
 
-#### 8b. Install keys
+#### 9b. Install keys
 Before generating your first build, these keys must exist in your `~/.ssh` directory. Don't worry, I provide a few commands to help you.
 
 | Key Name            | Platform         | Description                                                                              |
@@ -263,7 +256,7 @@ If you're rolling your own, just check they are installed correctly.
 nix run .#check-keys
 ```
 
-### 9. Install configuration
+### 10. Install configuration
 Ensure the build works before deploying the configuration, run:
 ```sh
 nix run .#build
@@ -303,7 +296,7 @@ nix run .#build
 > * [macOS 15 Sequoia clobbers _nixbld1-4 users](https://github.com/NixOS/nix/issues/10892)
 > * [macOS Sequoia replaces _nixbld{1,2,3,4} with system users causing darwin-rebuild to fail](https://github.com/LnL7/nix-darwin/issues/970)
 
-### 10. Make changes
+### 11. Make changes
 Finally, alter your system with this command:
 ```sh
 nix run .#build-switch
