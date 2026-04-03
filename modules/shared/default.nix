@@ -1,7 +1,7 @@
 { config, pkgs, ... }:
 
 let
-  emacsOverlaySha256 = "11p1c1l04zrn8dd5w8zyzlv172z05dwi9avbckav4d5fk043m754";
+  emacsOverlaySha256 = "0vqw5n9kv9i1z1x9kym1d8svwq7b2wahra8w0mznxgi6gygirsy9";
   
   # Shared Emacs package configuration
   myEmacs = import ./emacs.nix { inherit pkgs; };
@@ -36,7 +36,7 @@ in
                   (attrNames (readDir path)))
 
       ++ [(import (builtins.fetchTarball {
-               url = "https://github.com/dustinlyons/emacs-overlay/archive/refs/heads/master.tar.gz";
+               url = "https://github.com/nix-community/emacs-overlay/archive/refs/heads/master.tar.gz";
                sha256 = emacsOverlaySha256;
            }))];
   };

@@ -126,6 +126,7 @@ shared-packages ++ [
   xwayland # X11 compatibility layer for Wayland
 
   mariadb # mysql client
+  newrelic-cli # New Relic CLI
   
   # Terminal animations
   cava # Console-based audio visualizer
