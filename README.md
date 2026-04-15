@@ -525,9 +525,11 @@ Interested in contributing to this project? Here's how you can help:
 This project is released under the [BSD-3-Clause license](https://github.com/dustinlyons/nixos-config/blob/main/LICENSE).
 
 ### Support
-Did you find my project useful? Your support is appreciated.
+If this project has been useful, consider supporting it.
 
 <a href="https://www.buymeacoffee.com/dustinlyons1" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png" alt="Buy Me A Coffee" style="height: 41px !important;width: 174px !important;box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;-webkit-box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;" ></a>
+
+I maintain this configuration in my spare time. I also build software for music and performing arts schools to manage scheduling, billing, and student records—if you know a teacher or studio owner, feel free to share [Conductly](https://conductly.com).
 
 ### Stars
 
