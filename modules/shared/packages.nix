@@ -36,6 +36,7 @@ with pkgs; [
   btop # System monitor and process viewer
 
   # C
+  claude-code # Anthropic's AI coding assistant (native binary, from sadjow/claude-code-nix)
   coreutils # Basic file/text/shell utilities
 
   # D

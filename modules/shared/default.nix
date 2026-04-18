@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, claude-code, ... }:
 
 let
   emacsOverlaySha256 = "0vqw5n9kv9i1z1x9kym1d8svwq7b2wahra8w0mznxgi6gygirsy9";
@@ -38,6 +38,7 @@ in
       ++ [(import (builtins.fetchTarball {
                url = "https://github.com/nix-community/emacs-overlay/archive/refs/heads/master.tar.gz";
                sha256 = emacsOverlaySha256;
-           }))];
+           }))]
+      ++ [ claude-code.overlays.default ];
   };
 }

@@ -91,6 +91,8 @@ shared-packages ++ [
   
   keepassxc # Password manager
 
+  qalculate-qt # Powerful calculator with unit conversions and symbolic math
+
   pavucontrol # Pulse audio controls
   playerctl # Control media players from command line
   playwright-deps # Playwright browser dependencies (from overlay)
