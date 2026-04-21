@@ -90,7 +90,7 @@ in
     {
       system.activationScripts.postActivation.text = ''
           echo >&2 "Setting up the Dock for ${cfg.username}..."
-          su ${cfg.username} -s /bin/sh <<'USERBLOCK'
+          sudo -u ${cfg.username} ${pkgs.zsh}/bin/zsh -s /bin/sh <<'USERBLOCK'
         haveURIs="$(${dockutil}/bin/dockutil --list | ${pkgs.coreutils}/bin/cut -f2)"
         if ! diff -wu <(echo -n "$haveURIs") <(echo -n '${wantURIs}') >&2 ; then
           echo >&2 "Resetting Dock."
