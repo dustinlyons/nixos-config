@@ -4,3 +4,5 @@ result
 .DS_Store
 .claude
 CLAUDE.md
+modules/nixos/scripts/__pycache__/
+tests/garage-analyzer/__pycache__/
