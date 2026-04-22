@@ -1,7 +1,7 @@
 { config, pkgs, claude-code, ... }:
 
 let
-  emacsOverlaySha256 = "0vqw5n9kv9i1z1x9kym1d8svwq7b2wahra8w0mznxgi6gygirsy9";
+  emacsOverlaySha256 = "1ayppwhwify85sx4j7mljxhc3pmsi3mgzfps05a0gglmx4jik2xc";
   
   # Shared Emacs package configuration
   myEmacs = import ./emacs.nix { inherit pkgs; };
@@ -24,7 +24,7 @@ in
         path = ../../overlays;
         hostname = config.networking.hostName or "";
         excludeForHost = {
-          "garfield" = [ "cider-appimage.nix" ];
+          "garfield" = [ "cider-appimage.nix" "obsidian-appimage.nix" "curseforge-appimage.nix" ];
         };
         excludedFiles = excludeForHost.${hostname} or [];
       in with builtins;

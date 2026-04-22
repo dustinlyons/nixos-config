@@ -242,7 +242,7 @@ in
         fira-code
         fira-code-symbols
         dejavu_fonts
-        ubuntu_font_family
+        ubuntu-classic
       ];
     };
   };

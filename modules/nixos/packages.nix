@@ -78,8 +78,9 @@ shared-packages ++ [
   winetricks # Wine configuration helper
   vulkan-tools # Vulkan utilities
   gamemode # Optimize system performance for games
+] ++ lib.optionals (pkgs ? curseforge-appimage) [
   curseforge-appimage # Game addon manager
-
+] ++ [
   gimp # Image editor
   glow # Terminal markdown viewer
   google-chrome # Web browser
@@ -129,6 +130,7 @@ shared-packages ++ [
 
   mariadb # mysql client
   newrelic-cli # New Relic CLI
+  sentry-cli # Sentry CLI
   
   # Terminal animations
   cava # Console-based audio visualizer

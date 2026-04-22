@@ -15,6 +15,10 @@ shared-packages ++ (with pkgs; [
 
   cliphist # Clipboard history manager for Wayland
 
+  bun # JavaScript runtime for Claude Code channel plugins
+
+  claude-code
+
   dconf # Configuration system (required for some GNOME apps)
 
   firefox # Web browser
