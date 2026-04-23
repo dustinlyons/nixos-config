@@ -23,6 +23,9 @@ in
     # Home Assistant for camera monitoring and automation
     ../../../modules/nixos/home-assistant.nix
 
+    # n8n workflow automation for GTM pipeline
+    ../../../modules/nixos/n8n.nix
+
     # Note: systemd.nix module excluded for this host
     # Note: agenix disabled for this host
   ];
