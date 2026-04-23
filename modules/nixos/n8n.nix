@@ -90,6 +90,10 @@ in
   systemd.services.n8n = {
     after = [ "postgresql.service" "n8n-encryption-key.service" ];
     requires = [ "postgresql.service" "n8n-encryption-key.service" ];
+
+    # n8n 2.x task runner spawns `node` as a child process.
+    # Without PATH to nodejs, it fails with "spawn node ENOENT".
+    path = [ pkgs.nodejs ];
   };
 
   # Generate encryption key on first boot if it doesn't exist
