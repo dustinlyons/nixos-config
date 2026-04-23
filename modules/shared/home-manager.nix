@@ -191,12 +191,12 @@ let name = "Dustin Lyons";
   git = {
     enable = true;
     ignores = [ "*.swp" ];
-    userName = name;
-    userEmail = email;
     lfs = {
       enable = true;
     };
-    extraConfig = {
+    settings = {
+      user.name = name;
+      user.email = email;
       init.defaultBranch = "main";
       core = {
 	    editor = "vim";
