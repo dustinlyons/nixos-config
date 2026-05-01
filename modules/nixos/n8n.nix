@@ -23,45 +23,59 @@ in
   #   2. Port forward: WAN 80  → 10.0.10.134:80  (ACME HTTP-01 challenge)
   #   3. Firewall rule: Allow TCP, External → Internal, dst 10.0.10.134, ports 80,443
 
-  services.n8n = {
-    enable = true;
-    openFirewall = false;
+  services = {
+    n8n = {
+      enable = true;
+      openFirewall = false;
 
-    environment = {
-      # Bind to localhost only — nginx handles external traffic
-      N8N_HOST = "127.0.0.1";
+      environment = {
+        # Bind to localhost only — nginx handles external traffic
+        N8N_HOST = "127.0.0.1";
 
-      # Public webhook URL
-      WEBHOOK_URL = "https://${domain}";
+        # Public webhook URL
+        WEBHOOK_URL = "https://${domain}";
 
-      # PostgreSQL connection
-      DB_TYPE = "postgresdb";
-      DB_POSTGRESDB_HOST = "/run/postgresql";
-      DB_POSTGRESDB_DATABASE = "n8n";
-      DB_POSTGRESDB_USER = "n8n";
+        # PostgreSQL connection
+        DB_TYPE = "postgresdb";
+        DB_POSTGRESDB_HOST = "/run/postgresql";
+        DB_POSTGRESDB_DATABASE = "n8n";
+        DB_POSTGRESDB_USER = "n8n";
 
-      # Encryption key for stored credentials
-      N8N_ENCRYPTION_KEY_FILE = "/var/lib/n8n-secrets/encryption.key";
-    };
-  };
-
-  # Nginx reverse proxy with TLS termination
-  services.nginx = {
-    enable = true;
-
-    recommendedProxySettings = true;
-    recommendedTlsSettings = true;
-    recommendedOptimisation = true;
-    recommendedGzipSettings = true;
-
-    virtualHosts.${domain} = {
-      forceSSL = true;
-      enableACME = true;
-
-      locations."/" = {
-        proxyPass = "http://127.0.0.1:5678";
-        proxyWebsockets = true;
+        # Encryption key for stored credentials
+        N8N_ENCRYPTION_KEY_FILE = "/var/lib/n8n-secrets/encryption.key";
       };
+    };
+
+    # Nginx reverse proxy with TLS termination
+    nginx = {
+      enable = true;
+
+      recommendedProxySettings = true;
+      recommendedTlsSettings = true;
+      recommendedOptimisation = true;
+      recommendedGzipSettings = true;
+
+      virtualHosts.${domain} = {
+        forceSSL = true;
+        enableACME = true;
+
+        locations."/" = {
+          proxyPass = "http://127.0.0.1:5678";
+          proxyWebsockets = true;
+        };
+      };
+    };
+
+    # PostgreSQL for n8n data storage
+    postgresql = {
+      enable = true;
+      ensureDatabases = [ "n8n" ];
+      ensureUsers = [
+        {
+          name = "n8n";
+          ensureDBOwnership = true;
+        }
+      ];
     };
   };
 
@@ -73,18 +87,6 @@ in
 
   # Firewall — allow HTTPS + ACME on the Lab interface
   networking.firewall.interfaces."eno1".allowedTCPPorts = [ 80 443 ];
-
-  # PostgreSQL for n8n data storage
-  services.postgresql = {
-    enable = true;
-    ensureDatabases = [ "n8n" ];
-    ensureUsers = [
-      {
-        name = "n8n";
-        ensureDBOwnership = true;
-      }
-    ];
-  };
 
   # Ensure n8n starts after PostgreSQL
   systemd.services.n8n = {
