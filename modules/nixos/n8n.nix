@@ -86,44 +86,46 @@ in
         add_header Referrer-Policy "strict-origin-when-cross-origin" always;
       '';
 
-      # Webhooks — public, rate-limited
-      locations."/webhook/" = {
-        proxyPass = "http://127.0.0.1:5678";
-        proxyWebsockets = false;
-        extraConfig = ''
-          limit_req zone=webhooks burst=10 nodelay;
-          limit_req_status 429;
-        '';
-      };
+      locations = {
+        # Webhooks — public, rate-limited
+        "/webhook/" = {
+          proxyPass = "http://127.0.0.1:5678";
+          proxyWebsockets = false;
+          extraConfig = ''
+            limit_req zone=webhooks burst=10 nodelay;
+            limit_req_status 429;
+          '';
+        };
 
-      # Webhook test paths (n8n uses /webhook-test/ for manual testing)
-      locations."/webhook-test/" = {
-        proxyPass = "http://127.0.0.1:5678";
-        proxyWebsockets = false;
-        extraConfig = ''
-          ${lanAllowRules}
-          deny all;
-        '';
-      };
+        # Webhook test paths (n8n uses /webhook-test/ for manual testing)
+        "/webhook-test/" = {
+          proxyPass = "http://127.0.0.1:5678";
+          proxyWebsockets = false;
+          extraConfig = ''
+            ${lanAllowRules}
+            deny all;
+          '';
+        };
 
-      # n8n REST API — LAN only
-      locations."/api/" = {
-        proxyPass = "http://127.0.0.1:5678";
-        proxyWebsockets = false;
-        extraConfig = ''
-          ${lanAllowRules}
-          deny all;
-        '';
-      };
+        # n8n REST API — LAN only
+        "/api/" = {
+          proxyPass = "http://127.0.0.1:5678";
+          proxyWebsockets = false;
+          extraConfig = ''
+            ${lanAllowRules}
+            deny all;
+          '';
+        };
 
-      # n8n UI and everything else — LAN only
-      locations."/" = {
-        proxyPass = "http://127.0.0.1:5678";
-        proxyWebsockets = true;
-        extraConfig = ''
-          ${lanAllowRules}
-          deny all;
-        '';
+        # n8n UI and everything else — LAN only
+        "/" = {
+          proxyPass = "http://127.0.0.1:5678";
+          proxyWebsockets = true;
+          extraConfig = ''
+            ${lanAllowRules}
+            deny all;
+          '';
+        };
       };
     };
   };

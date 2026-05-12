@@ -13,67 +13,69 @@
     # === Development Environment Services ===
     # Automatically start development environments in tmux on login
 
-    user.services.atlas-devenv = {
-      description = "Start atlas server in tmux";
-      wantedBy = [ "default.target" ];
-      after = [ "graphical-session.target" ];
-      serviceConfig = {
-        Type = "forking";
-        ExecStart = "${pkgs.writeShellScript "start-atlas" ''
-          ATLAS_DIR=/home/dustin/.local/share/src/atlas
+    user.services = {
+      atlas-devenv = {
+        description = "Start atlas server in tmux";
+        wantedBy = [ "default.target" ];
+        after = [ "graphical-session.target" ];
+        serviceConfig = {
+          Type = "forking";
+          ExecStart = "${pkgs.writeShellScript "start-atlas" ''
+            ATLAS_DIR=/home/dustin/.local/share/src/atlas
 
-          # Install dependencies if needed
-          if [ ! -d "$ATLAS_DIR/node_modules" ]; then
-            cd "$ATLAS_DIR" && ${pkgs.nix}/bin/nix develop /home/dustin/.local/share/src/conductly --impure -c bash -c "bun install"
-          fi
+            # Install dependencies if needed
+            if [ ! -d "$ATLAS_DIR/node_modules" ]; then
+              cd "$ATLAS_DIR" && ${pkgs.nix}/bin/nix develop /home/dustin/.local/share/src/conductly --impure -c bash -c "bun install"
+            fi
 
-          cd /home/dustin/.local/share/src/conductly
-          export TMUX_TMPDIR=/run/user/1000
-          ${pkgs.tmux}/bin/tmux -S /run/user/1000/tmux-atlas new-session -d -s atlas "${pkgs.nix}/bin/nix develop --impure -c bash -c \"bun run $ATLAS_DIR/server.ts\""
-        ''}";
-        ExecStop = "${pkgs.tmux}/bin/tmux -S /run/user/1000/tmux-atlas kill-session -t atlas";
-        RemainAfterExit = "no";
-        Environment = [
-          "PATH=/run/current-system/sw/bin:/home/dustin/.nix-profile/bin:/etc/profiles/per-user/dustin/bin:/nix/var/nix/profiles/default/bin:/run/wrappers/bin:/usr/bin:/bin"
-        ];
+            cd /home/dustin/.local/share/src/conductly
+            export TMUX_TMPDIR=/run/user/1000
+            ${pkgs.tmux}/bin/tmux -S /run/user/1000/tmux-atlas new-session -d -s atlas "${pkgs.nix}/bin/nix develop --impure -c bash -c \"bun run $ATLAS_DIR/server.ts\""
+          ''}";
+          ExecStop = "${pkgs.tmux}/bin/tmux -S /run/user/1000/tmux-atlas kill-session -t atlas";
+          RemainAfterExit = "no";
+          Environment = [
+            "PATH=/run/current-system/sw/bin:/home/dustin/.nix-profile/bin:/etc/profiles/per-user/dustin/bin:/nix/var/nix/profiles/default/bin:/run/wrappers/bin:/usr/bin:/bin"
+          ];
+        };
       };
-    };
 
-    user.services.conductly-devenv = {
-      description = "Start conductly development environment in tmux";
-      wantedBy = [ "default.target" ];
-      after = [ "graphical-session.target" ];
-      serviceConfig = {
-        Type = "forking";
-        ExecStart = "${pkgs.writeShellScript "start-conductly" ''
-          cd /home/dustin/.local/share/src/conductly
-          export TMUX_TMPDIR=/run/user/1000
-          ${pkgs.tmux}/bin/tmux -S /run/user/1000/tmux-conductly new-session -d -s conductly "${pkgs.nix}/bin/nix develop --impure -c bash -c \"devenv up; exec bash\""
-        ''}";
-        ExecStop = "${pkgs.tmux}/bin/tmux -S /run/user/1000/tmux-conductly kill-session -t conductly";
-        RemainAfterExit = "no";
-        Environment = [
-          "PATH=/run/current-system/sw/bin:/home/dustin/.nix-profile/bin:/etc/profiles/per-user/dustin/bin:/nix/var/nix/profiles/default/bin:/run/wrappers/bin:/usr/bin:/bin"
-        ];
+      conductly-devenv = {
+        description = "Start conductly development environment in tmux";
+        wantedBy = [ "default.target" ];
+        after = [ "graphical-session.target" ];
+        serviceConfig = {
+          Type = "forking";
+          ExecStart = "${pkgs.writeShellScript "start-conductly" ''
+            cd /home/dustin/.local/share/src/conductly
+            export TMUX_TMPDIR=/run/user/1000
+            ${pkgs.tmux}/bin/tmux -S /run/user/1000/tmux-conductly new-session -d -s conductly "${pkgs.nix}/bin/nix develop --impure -c bash -c \"devenv up; exec bash\""
+          ''}";
+          ExecStop = "${pkgs.tmux}/bin/tmux -S /run/user/1000/tmux-conductly kill-session -t conductly";
+          RemainAfterExit = "no";
+          Environment = [
+            "PATH=/run/current-system/sw/bin:/home/dustin/.nix-profile/bin:/etc/profiles/per-user/dustin/bin:/nix/var/nix/profiles/default/bin:/run/wrappers/bin:/usr/bin:/bin"
+          ];
+        };
       };
-    };
 
-    user.services.river-devenv = {
-      description = "Start river development environment in tmux";
-      wantedBy = [ "default.target" ];
-      after = [ "graphical-session.target" ];
-      serviceConfig = {
-        Type = "forking";
-        ExecStart = "${pkgs.writeShellScript "start-river" ''
-          cd /home/dustin/.local/share/src/river
-          export TMUX_TMPDIR=/run/user/1000
-          ${pkgs.tmux}/bin/tmux -S /run/user/1000/tmux-river new-session -d -s river "${pkgs.nix}/bin/nix develop --impure -c bash -c \"devenv up; exec bash\""
-        ''}";
-        ExecStop = "${pkgs.tmux}/bin/tmux -S /run/user/1000/tmux-river kill-session -t river";
-        RemainAfterExit = "no";
-        Environment = [
-          "PATH=/run/current-system/sw/bin:/home/dustin/.nix-profile/bin:/etc/profiles/per-user/dustin/bin:/nix/var/nix/profiles/default/bin:/run/wrappers/bin:/usr/bin:/bin"
-        ];
+      river-devenv = {
+        description = "Start river development environment in tmux";
+        wantedBy = [ "default.target" ];
+        after = [ "graphical-session.target" ];
+        serviceConfig = {
+          Type = "forking";
+          ExecStart = "${pkgs.writeShellScript "start-river" ''
+            cd /home/dustin/.local/share/src/river
+            export TMUX_TMPDIR=/run/user/1000
+            ${pkgs.tmux}/bin/tmux -S /run/user/1000/tmux-river new-session -d -s river "${pkgs.nix}/bin/nix develop --impure -c bash -c \"devenv up; exec bash\""
+          ''}";
+          ExecStop = "${pkgs.tmux}/bin/tmux -S /run/user/1000/tmux-river kill-session -t river";
+          RemainAfterExit = "no";
+          Environment = [
+            "PATH=/run/current-system/sw/bin:/home/dustin/.nix-profile/bin:/etc/profiles/per-user/dustin/bin:/nix/var/nix/profiles/default/bin:/run/wrappers/bin:/usr/bin:/bin"
+          ];
+        };
       };
     };
 
