@@ -138,10 +138,9 @@ let name = "Dustin Lyons";
           esac
       }
       
-      # Tmux alias for conductly devenv session
+      # Tmux aliases for devenv sessions
+      alias atlas='tmux -S /run/user/1000/tmux-atlas attach -t atlas'
       alias conductly='tmux -S /run/user/1000/tmux-conductly attach -t conductly'
-      
-      # Tmux alias for river devenv session
       alias river='tmux -S /run/user/1000/tmux-river attach -t river'
 
       # macOS-style open command using Nautilus
