@@ -26,7 +26,10 @@ in
     # n8n workflow automation for GTM pipeline
     ../../../modules/nixos/n8n.nix
 
-    # Note: systemd.nix module excluded for this host
+    # Atlas devenv service
+    ../../../modules/nixos/atlas.nix
+
+    # Note: systemd.nix module excluded for this host (only atlas imported above)
     # Note: agenix disabled for this host
   ];
 
