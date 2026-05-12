@@ -1,15 +1,21 @@
 { config, pkgs, lib, ... }:
 
 let
-  domain = "n8n.dlyons.dev";
+  domain = "dlyons.dev";
+  lanCidrs = [
+    "10.0.10.0/24"    # Server VLAN
+    "192.168.0.0/24"  # Client VLAN
+    "127.0.0.1/32"    # Localhost
+  ];
+  lanAllowRules = lib.concatMapStringsSep "\n" (cidr: "allow ${cidr};") lanCidrs;
 in
 {
   # ========================================
   # n8n Workflow Automation
   # ========================================
   # Self-hosted workflow automation for the GTM pipeline.
-  # Web UI: https://n8n.dlyons.dev (internal via Lab VLAN)
-  # Webhooks: https://n8n.dlyons.dev/webhook/* (external via DMZ VLAN)
+  # Web UI: https://dlyons.dev (LAN only — blocked from internet)
+  # Webhooks: https://dlyons.dev/webhook/* (public — rate limited)
   #
   # Data stored in PostgreSQL (n8n database).
   # Encryption key auto-generated on first boot at /var/lib/n8n-secrets/encryption.key
@@ -18,10 +24,11 @@ in
   #   WAN :443 → UDM port forward → 10.0.10.134:443 (eno1) → nginx → localhost:5678 (n8n)
   #   Lab clients → 10.0.10.134:443 → nginx → localhost:5678 (n8n)
   #
-  # UDM Pro requirements:
-  #   1. Port forward: WAN 443 → 10.0.10.134:443
-  #   2. Port forward: WAN 80  → 10.0.10.134:80  (ACME HTTP-01 challenge)
-  #   3. Firewall rule: Allow TCP, External → Internal, dst 10.0.10.134, ports 80,443
+  # Security:
+  #   - Only /webhook/* is reachable from the internet
+  #   - n8n UI, API, and all other paths are LAN-only
+  #   - Webhook endpoints are rate-limited (5 req/sec burst 10)
+  #   - Security headers set on all responses
 
   services = {
     n8n = {
@@ -45,37 +52,79 @@ in
         N8N_ENCRYPTION_KEY_FILE = "/var/lib/n8n-secrets/encryption.key";
       };
     };
+  };
 
-    # Nginx reverse proxy with TLS termination
-    nginx = {
-      enable = true;
+  # Nginx reverse proxy with TLS termination
+  services.nginx = {
+    enable = true;
 
-      recommendedProxySettings = true;
-      recommendedTlsSettings = true;
-      recommendedOptimisation = true;
-      recommendedGzipSettings = true;
+    recommendedProxySettings = true;
+    recommendedTlsSettings = true;
+    recommendedOptimisation = true;
+    recommendedGzipSettings = true;
 
-      virtualHosts.${domain} = {
-        forceSSL = true;
-        enableACME = true;
+    # Access logging for monitoring and fail2ban
+    appendHttpConfig = ''
+      log_format gtm '$remote_addr - [$time_local] "$request" $status $body_bytes_sent "$http_referer" "$http_user_agent" rt=$request_time';
+      map $request_uri $loggable {
+        ~^/healthz 0;
+        default    1;
+      }
+      access_log /var/log/nginx/access.log gtm if=$loggable;
+      limit_req_zone $binary_remote_addr zone=webhooks:10m rate=5r/s;
+    '';
 
-        locations."/" = {
-          proxyPass = "http://127.0.0.1:5678";
-          proxyWebsockets = true;
-        };
+    virtualHosts.${domain} = {
+      forceSSL = true;
+      enableACME = true;
+
+      # Security headers
+      extraConfig = ''
+        add_header X-Frame-Options "DENY" always;
+        add_header X-Content-Type-Options "nosniff" always;
+        add_header X-XSS-Protection "1; mode=block" always;
+        add_header Referrer-Policy "strict-origin-when-cross-origin" always;
+      '';
+
+      # Webhooks — public, rate-limited
+      locations."/webhook/" = {
+        proxyPass = "http://127.0.0.1:5678";
+        proxyWebsockets = false;
+        extraConfig = ''
+          limit_req zone=webhooks burst=10 nodelay;
+          limit_req_status 429;
+        '';
       };
-    };
 
-    # PostgreSQL for n8n data storage
-    postgresql = {
-      enable = true;
-      ensureDatabases = [ "n8n" ];
-      ensureUsers = [
-        {
-          name = "n8n";
-          ensureDBOwnership = true;
-        }
-      ];
+      # Webhook test paths (n8n uses /webhook-test/ for manual testing)
+      locations."/webhook-test/" = {
+        proxyPass = "http://127.0.0.1:5678";
+        proxyWebsockets = false;
+        extraConfig = ''
+          ${lanAllowRules}
+          deny all;
+        '';
+      };
+
+      # n8n REST API — LAN only
+      locations."/api/" = {
+        proxyPass = "http://127.0.0.1:5678";
+        proxyWebsockets = false;
+        extraConfig = ''
+          ${lanAllowRules}
+          deny all;
+        '';
+      };
+
+      # n8n UI and everything else — LAN only
+      locations."/" = {
+        proxyPass = "http://127.0.0.1:5678";
+        proxyWebsockets = true;
+        extraConfig = ''
+          ${lanAllowRules}
+          deny all;
+        '';
+      };
     };
   };
 
@@ -87,6 +136,46 @@ in
 
   # Firewall — allow HTTPS + ACME on the Lab interface
   networking.firewall.interfaces."eno1".allowedTCPPorts = [ 80 443 ];
+
+  # Monitoring tools
+  environment.systemPackages = [ pkgs.goaccess ];
+
+  # fail2ban — auto-ban abusive IPs
+  services.fail2ban = {
+    enable = true;
+    bantime = "1h";
+    bantime-increment.enable = true; # Repeat offenders get longer bans
+    jails = {
+      # Ban IPs that hit rate limits (429s)
+      nginx-ratelimit = ''
+        enabled = true
+        filter = nginx-limit-req
+        logpath = /var/log/nginx/access.log
+        maxretry = 10
+        findtime = 60
+      '';
+      # Ban IPs that scan for exploits (404s)
+      nginx-botsearch = ''
+        enabled = true
+        filter = nginx-botsearch
+        logpath = /var/log/nginx/access.log
+        maxretry = 5
+        findtime = 60
+      '';
+    };
+  };
+
+  # PostgreSQL for n8n data storage
+  services.postgresql = {
+    enable = true;
+    ensureDatabases = [ "n8n" ];
+    ensureUsers = [
+      {
+        name = "n8n";
+        ensureDBOwnership = true;
+      }
+    ];
+  };
 
   # Ensure n8n starts after PostgreSQL
   systemd.services.n8n = {
