@@ -43,7 +43,26 @@ in
     useNetworkd = true;  # Use systemd-networkd for VLAN support
     firewall = {
       enable = true;
-      allowedTCPPorts = [ 22 8123 ];  # SSH, Home Assistant
+      allowedTCPPorts = []; # Per-service ports managed below with source restrictions
+      # Allow SSH and Home Assistant only from LAN subnets.
+      # Without this, ports 22/8123 are open to any source IP — reachable
+      # from the Internet if the UDM forwards them.
+      extraCommands = ''
+        iptables -A nixos-fw -p tcp --dport 22 -s 10.0.10.0/24 -j nixos-fw-accept
+        iptables -A nixos-fw -p tcp --dport 22 -s 192.168.0.0/24 -j nixos-fw-accept
+        iptables -A nixos-fw -p tcp --dport 22 -s 127.0.0.0/8 -j nixos-fw-accept
+        iptables -A nixos-fw -p tcp --dport 8123 -s 10.0.10.0/24 -j nixos-fw-accept
+        iptables -A nixos-fw -p tcp --dport 8123 -s 192.168.0.0/24 -j nixos-fw-accept
+        iptables -A nixos-fw -p tcp --dport 8123 -s 127.0.0.0/8 -j nixos-fw-accept
+      '';
+      extraStopCommands = ''
+        iptables -D nixos-fw -p tcp --dport 22 -s 10.0.10.0/24 -j nixos-fw-accept 2>/dev/null || true
+        iptables -D nixos-fw -p tcp --dport 22 -s 192.168.0.0/24 -j nixos-fw-accept 2>/dev/null || true
+        iptables -D nixos-fw -p tcp --dport 22 -s 127.0.0.0/8 -j nixos-fw-accept 2>/dev/null || true
+        iptables -D nixos-fw -p tcp --dport 8123 -s 10.0.10.0/24 -j nixos-fw-accept 2>/dev/null || true
+        iptables -D nixos-fw -p tcp --dport 8123 -s 192.168.0.0/24 -j nixos-fw-accept 2>/dev/null || true
+        iptables -D nixos-fw -p tcp --dport 8123 -s 127.0.0.0/8 -j nixos-fw-accept 2>/dev/null || true
+      '';
     };
 
     # VLAN interfaces on eno0 (or your main interface)
@@ -158,7 +177,12 @@ in
     };
 
     # Enable the OpenSSH daemon.
-    openssh.enable = true;
+    # openFirewall disabled — port 22 is opened with LAN source restrictions
+    # in the firewall.extraCommands above instead of globally.
+    openssh = {
+      enable = true;
+      openFirewall = false;
+    };
 
     # Bluetooth
     blueman.enable = true;

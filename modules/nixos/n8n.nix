@@ -146,26 +146,52 @@ in
   services.fail2ban = {
     enable = true;
     bantime = "1h";
-    bantime-increment.enable = true; # Repeat offenders get longer bans
+    bantime-increment = {
+      enable = true;
+      maxtime = "168h"; # Cap repeat offender bans at 1 week
+    };
     jails = {
-      # Ban IPs that hit rate limits (429s)
-      nginx-ratelimit = ''
+      # Ban external IPs that get denied/not-found (scanners, exploit probes).
+      # Uses a custom filter because the stock nginx-botsearch doesn't work:
+      #   - Its journalmatch reads systemd journal, but access logs go to file
+      #   - Its regex expects combined log format (with username field)
+      #   - It only matches 404s, but deny rules return 403s
+      nginx-deny = ''
         enabled = true
-        filter = nginx-limit-req
-        logpath = /var/log/nginx/access.log
-        maxretry = 10
-        findtime = 60
-      '';
-      # Ban IPs that scan for exploits (404s)
-      nginx-botsearch = ''
-        enabled = true
-        filter = nginx-botsearch
+        filter = nginx-deny-gtm
         logpath = /var/log/nginx/access.log
         maxretry = 5
         findtime = 60
+        ignoreip = 127.0.0.0/8 ::1 10.0.10.0/24 192.168.0.0/24
       '';
+      # Ban IPs that hit webhook rate limits (reads nginx error log from journal)
+      nginx-ratelimit = ''
+        enabled = true
+        filter = nginx-limit-req
+        backend = systemd
+        maxretry = 10
+        findtime = 60
+        ignoreip = 127.0.0.0/8 ::1 10.0.10.0/24 192.168.0.0/24
+      '';
+      # SSH brute force protection (uses built-in NixOS sshd jail)
+      sshd.settings = {
+        enabled = true;
+        maxretry = 5;
+        findtime = 300;
+        ignoreip = "127.0.0.0/8 ::1 10.0.10.0/24 192.168.0.0/24";
+      };
     };
   };
+
+  # Custom fail2ban filter for the GTM access log format.
+  # Matches 400 (malformed/binary requests), 403 (denied by ACL), 404 (not found).
+  # No journalmatch — forces file-based reading from the access log.
+  environment.etc."fail2ban/filter.d/nginx-deny-gtm.conf".text = ''
+    [Definition]
+    failregex = ^<HOST> - \[.*?\] "[^"]*" (?:400|403|404) \d+
+    ignoreregex =
+    datepattern = ^[^\[]*\[({DATE})
+  '';
 
   # PostgreSQL for n8n data storage
   services.postgresql = {

@@ -109,7 +109,9 @@ in
     };
   };
 
-  networking.firewall.allowedTCPPorts = [ 8123 ];
+  # Port 8123 is opened with LAN source restrictions in garfield/default.nix
+  # instead of globally here, to prevent Internet exposure via port forwarding.
+  # networking.firewall.allowedTCPPorts = [ 8123 ];
 
   systemd.services.home-assistant = {
     serviceConfig = {
