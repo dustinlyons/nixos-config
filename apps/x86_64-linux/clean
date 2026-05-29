@@ -13,7 +13,7 @@ sudo nix-collect-garbage --delete-older-than 7d
 
 # Clean up boot partition by reinstalling bootloader
 echo -e "${YELLOW}Cleaning up boot partition...${NC}"
-sudo nixos-rebuild boot --flake .#aarch64-linux --install-bootloader
+sudo nixos-rebuild boot --flake .#x86_64-linux --install-bootloader
 
 echo -e "${GREEN}Cleanup complete!${NC}"
 echo -e "${YELLOW}Boot partition status:${NC}"
