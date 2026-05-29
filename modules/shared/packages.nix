@@ -90,7 +90,7 @@ with pkgs; [
   ncurses # Terminal control library with terminfo database
   ncdu # Disk space utility
   ngrok # Secure tunneling service
-  nodejs_22 # Node.js JavaScript runtime (includes npm)
+  nodejs_24 # Node.js JavaScript runtime (includes npm)
 
   # O
   openssh # SSH client and server
