@@ -23,7 +23,7 @@ in
   boot = {
     loader.systemd-boot = {
       enable             = true;
-      configurationLimit = 5;   # Keep 5 generations for rollback capability
+      configurationLimit = 1;   # ESP is only 96M — can't fit more than one generation (~41M each)
     };
     loader.efi.canTouchEfiVariables = true;
 
