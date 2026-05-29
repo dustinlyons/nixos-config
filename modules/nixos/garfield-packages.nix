@@ -17,8 +17,6 @@ shared-packages ++ (with pkgs; [
 
   bun # JavaScript runtime for Claude Code channel plugins
 
-  claude-code
-
   dconf # Configuration system (required for some GNOME apps)
 
   firefox # Web browser

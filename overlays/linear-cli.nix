@@ -4,9 +4,9 @@ final: prev: {
     # Linear CLI wrapper using npx
     # Uses evangodon's linear-cli package
     
-    export PATH="${prev.nodejs_20}/bin:$PATH"
-    
+    export PATH="${prev.nodejs_22}/bin:$PATH"
+
     # Run using npx with cache
-    exec ${prev.nodejs_20}/bin/npx --yes @egcli/lr "$@"
+    exec ${prev.nodejs_22}/bin/npx --yes @egcli/lr "$@"
   '';
 }
