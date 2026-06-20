@@ -50,8 +50,10 @@ RUN add-apt-repository -y ppa:ondrej/php && \
 # Install Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-# Install Node.js 20.x
-RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - && \
+# Install Node.js 24.x
+# Vite 8 / Vitest 4 (used by conductly) require Node >=20.19 || >=22.12; pin to
+# 24.x to match the rest of this repo (nodejs_24) and stay clear of that floor.
+RUN curl -fsSL https://deb.nodesource.com/setup_24.x | bash - && \
     apt-get install -y nodejs && \
     npm install -g yarn
 
