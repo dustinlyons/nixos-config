@@ -3,7 +3,10 @@ self: super: with super; {
     pname = "curseforge";
     version = "latest";
 
-    src = ./curseforge-latest-linux.AppImage;
+    src = fetchurl {
+      url = "http://garfield:8088/curseforge-latest-linux.AppImage";
+      hash = "sha256-RXW5eFCqHzuM4I+gGjUyyLoQTrp9l6aShIfx/fLiGEU=";
+    };
 
     nativeBuildInputs = [ makeWrapper ];
 

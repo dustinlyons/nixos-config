@@ -3,7 +3,10 @@ self: super: with super; {
     pname = "obsidian";
     version = "1.9.14";
 
-    src = ./obsidian-v1.9.14-linux-x64.AppImage;
+    src = fetchurl {
+      url = "http://garfield:8088/obsidian-v1.9.14-linux-x64.AppImage";
+      hash = "sha256-XxFWn+6uj2WiewR2t2z0KKeO7pBoL/by1xeUx9QEvpY=";
+    };
 
     nativeBuildInputs = [ makeWrapper ];
 

@@ -26,6 +26,9 @@ in
     # n8n workflow automation for GTM pipeline
     ../../../modules/nixos/n8n.nix
 
+    # LAN-only HTTP host for AppImage binaries (fetched by other hosts at build time)
+    ../../../modules/nixos/appimage-host.nix
+
     # Atlas devenv service
     ../../../modules/nixos/atlas.nix
 
