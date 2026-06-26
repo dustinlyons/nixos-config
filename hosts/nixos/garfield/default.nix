@@ -135,7 +135,10 @@ in
     # GitHub Runners Configuration
     github-runners-lab = {
       enable = true;
-      runnerCount = 4;
+      # Cap concurrent CI jobs at 2 box-wide. All runners share the `self-hosted`
+      # label, so the runner count is the effective concurrency limit for pest /
+      # playwright / deploy. 2 keeps the box from being overwhelmed.
+      runnerCount = 2;
       organization = "conductly";
     };
 
