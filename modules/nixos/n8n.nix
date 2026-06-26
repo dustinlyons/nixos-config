@@ -215,17 +215,18 @@ in
     path = [ pkgs.nodejs ];
   };
 
-  # Generate encryption key on first boot if it doesn't exist
+  # Install the n8n encryption key from agenix into the path systemd's
+  # LoadCredential expects (600 root:root). This key decrypts every credential
+  # stored in the n8n database, so it must be identical across rebuilds and
+  # restores — it is sourced from nix-secrets (n8n-encryption-key.age), not
+  # randomly generated. Reinstalled each boot so a rebuilt machine self-heals.
   systemd.services.n8n-encryption-key = {
-    description = "Generate n8n encryption key";
+    description = "Install n8n encryption key from agenix";
     wantedBy = [ "multi-user.target" ];
-    unitConfig.ConditionPathExists = "!/var/lib/n8n-secrets/encryption.key";
     serviceConfig = {
       Type = "oneshot";
-      ExecStartPre = "${pkgs.coreutils}/bin/mkdir -p /var/lib/n8n-secrets";
-      ExecStart = "${pkgs.bash}/bin/bash -c '${pkgs.openssl}/bin/openssl rand -hex 32 > /var/lib/n8n-secrets/encryption.key'";
-      ExecStartPost = "${pkgs.coreutils}/bin/chmod 600 /var/lib/n8n-secrets/encryption.key";
       RemainAfterExit = true;
+      ExecStart = "${pkgs.coreutils}/bin/install -D -m600 -o root -g root ${config.age.secrets.n8n-encryption-key.path} /var/lib/n8n-secrets/encryption.key";
     };
   };
 }

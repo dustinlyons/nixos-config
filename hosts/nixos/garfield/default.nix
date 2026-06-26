@@ -1,4 +1,4 @@
-{ config, lib, pkgs, modulesPath, user, inputs, ... }:
+{ config, lib, pkgs, modulesPath, user, agenix, ... }:
 
 let
   myEmacs = import ../../../modules/shared/emacs.nix { inherit pkgs; };
@@ -32,8 +32,12 @@ in
     # Atlas devenv service
     ../../../modules/nixos/atlas.nix
 
+    # agenix for garfield's non-reproducible system secrets
+    # (n8n encryption key, GitHub runner registration).
+    agenix.nixosModules.default
+    ../../../modules/nixos/garfield-secrets.nix
+
     # Note: systemd.nix module excluded for this host (only atlas imported above)
-    # Note: agenix disabled for this host
   ];
 
   # Hardware Configuration - use dedicated hardware-configuration.nix
