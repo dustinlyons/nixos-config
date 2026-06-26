@@ -223,6 +223,7 @@ in
     wayland-utils    # Wayland utilities
     lm_sensors       # Hardware monitoring sensors
     btop             # Modern resource monitor with temp display
+    bun              # JS runtime for the atlas devenv service (migrated from garfield)
   ];
 
   # Don't require password for users in `wheel` group for these commands
