@@ -3,10 +3,7 @@ self: super: with super; {
     pname = "cider";
     version = "3.1.2";
 
-    src = fetchurl {
-      url = "http://garfield:8088/cider-v3.1.2-linux-x64.AppImage";
-      hash = "sha256-1syFQAvx4OdM2y03nP31r+YapH69ijd8XhEp4WxNxOo=";
-    };
+    src = ./cider-v3.1.2-linux-x64.AppImage;
 
     nativeBuildInputs = [ makeWrapper ];
 
