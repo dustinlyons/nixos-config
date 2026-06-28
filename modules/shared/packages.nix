@@ -115,6 +115,7 @@ with pkgs; [
   # S
   slack # Team communication app
   sqlite # SQL database engine
+  stripe-cli
 
   # T
   terraform # Infrastructure as code tool

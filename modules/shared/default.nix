@@ -22,7 +22,10 @@ in
       # Apply each overlay found in the /overlays directory
       let
         path = ../../overlays;
-        hostname = config.networking.hostName or "";
+        hostname =
+          if (config.networking.hostName or null) == null
+          then ""
+          else config.networking.hostName;
         excludeForHost = {
           "garfield" = [ "cider-appimage.nix" "obsidian-appimage.nix" "curseforge-appimage.nix" ];
         };

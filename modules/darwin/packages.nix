@@ -8,4 +8,5 @@ shared-packages ++ [
 
   # F
   fswatch # File change monitor
+  # rpi-imager # Raspberry PI SD card imager (commented out - broken in current nixpkgs, build fails trying to fetch git)
 ]
