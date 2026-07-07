@@ -64,7 +64,17 @@
 
         cd /home/dustin/.local/share/src/conductly
         export TMUX_TMPDIR=/run/user/1000
-        ${pkgs.tmux}/bin/tmux -S /run/user/1000/tmux-atlas new-session -d -s atlas "${pkgs.nix}/bin/nix develop --impure -c bash -c \"bun run $ATLAS_DIR/server.ts\""
+        # App env vars must be set on the innermost shell that execs bun (NOT just
+        # exported here) so they survive the tmux + `nix develop` layers — this is
+        # the same `env VAR=val` form the repo's start.sh uses. Keep in sync with
+        # start.sh. ATLAS_AUTO_MERGE=1 lets the merge-prs beat auto-merge Atlas-
+        # labeled PRs into develop once CI + bot review settle (release PRs to main
+        # are never auto-merged). ATLAS_STUDIO=1 enables the 3D studio front door
+        # (port 8787); SLACK_ALLOWED_SENDERS is a comma-separated allowlist of Slack
+        # user IDs that REPLACES the default (must include Dustin's own ID). Budget
+        # caps are OFF by default in code (core/config.ts) — set ATLAS_ENABLE_QUOTA=1
+        # to enforce.
+        ${pkgs.tmux}/bin/tmux -S /run/user/1000/tmux-atlas new-session -d -s atlas "${pkgs.nix}/bin/nix develop --impure -c bash -c \"env ATLAS_AUTO_MERGE=1 ATLAS_STUDIO=1 SLACK_ALLOWED_SENDERS=U06EL4RDNSH,U072SUTF8NB bun run $ATLAS_DIR/server.ts\""
       ''}";
       ExecStop = "${pkgs.tmux}/bin/tmux -S /run/user/1000/tmux-atlas kill-session -t atlas";
       RemainAfterExit = "no";
