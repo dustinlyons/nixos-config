@@ -65,12 +65,11 @@
         cd /home/dustin/.local/share/src/conductly
         export TMUX_TMPDIR=/run/user/1000
         # App env vars must be set on the innermost shell that execs bun (NOT just
-        # exported here) so they survive the tmux + `nix develop` layers — this is
-        # the same `env VAR=val` form the repo's start.sh uses. Keep in sync with
-        # start.sh. ATLAS_AUTO_MERGE=1 lets the merge-prs beat auto-merge Atlas-
+        # exported here) so they survive the tmux + `nix develop` layers.
+        # ATLAS_AUTO_MERGE=1 lets the merge-prs beat auto-merge Atlas-
         # labeled PRs into develop once CI + bot review settle (release PRs to main
         # are never auto-merged). ATLAS_STUDIO=1 enables the 3D studio front door
-        # (port 8787); SLACK_ALLOWED_SENDERS is a comma-separated allowlist of Slack
+        # (port 8787). SLACK_ALLOWED_SENDERS is a comma-separated allowlist of Slack
         # user IDs that REPLACES the default (must include Dustin's own ID). Budget
         # caps are OFF by default in code (core/config.ts) — set ATLAS_ENABLE_QUOTA=1
         # to enforce.
