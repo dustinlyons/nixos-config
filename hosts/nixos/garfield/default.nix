@@ -282,18 +282,6 @@ in
     };
     loader.efi.canTouchEfiVariables = true;
     kernelPackages = pkgs.linuxPackages_latest;
-
-    # TEMPORARY (2026-07-09): force an offline fsck of the root ext4 FS at the
-    # next boot. A file under /tmp/runner-work-3/.../test-results (a Playwright
-    # trace artifact from the CI runner) has a corrupt inode — ext4 metadata
-    # checksum mismatch, `rm` fails with EBADMSG ("Bad message") even as root.
-    # Root can't be repaired while mounted rw, so the initrd runs `fsck -f -y`
-    # on it before mounting. NixOS's stage-1 initrd honors these cmdline params.
-    #
-    # This forces a full fsck on EVERY boot until removed. After the next reboot
-    # has repaired the FS (check `journalctl -b -u systemd-fsck-root` or the boot
-    # console), DELETE these two lines and rebuild again.
-    kernelParams = [ "fsck.mode=force" "fsck.repair=yes" ];
   };
 
   # Don't require password for users in `wheel` group for these commands
