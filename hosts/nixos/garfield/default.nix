@@ -26,6 +26,10 @@ in
     # n8n workflow automation for GTM pipeline
     ../../../modules/nixos/n8n.nix
 
+    # Atlas webhook ingress: TLS front door for hooks.dlyons.dev, proxied to
+    # Atlas on felix (garfield owns the WAN 443 forward; nginx base is n8n.nix)
+    ../../../modules/nixos/hooks-proxy.nix
+
     # LAN-only HTTP host for AppImage binaries (fetched by other hosts at build time)
     ../../../modules/nixos/appimage-host.nix
 

@@ -30,7 +30,11 @@
 
             cd /home/dustin/.local/share/src/conductly
             export TMUX_TMPDIR=/run/user/1000
-            ${pkgs.tmux}/bin/tmux -S /run/user/1000/tmux-atlas new-session -d -s atlas "${pkgs.nix}/bin/nix develop --impure -c bash -c \"env ATLAS_STUDIO=1 SLACK_ALLOWED_SENDERS=U06EL4RDNSH,U072SUTF8NB bun run $ATLAS_DIR/server.ts\""
+            # ATLAS_WEBHOOK_HOST=0.0.0.0: the TLS front door for webhooks is
+            # garfield's nginx (modules/nixos/hooks-proxy.nix), which proxies
+            # hooks.dlyons.dev → this box :8788 over the LAN, so the listener
+            # must bind beyond localhost. Deliveries are HMAC-verified in Atlas.
+            ${pkgs.tmux}/bin/tmux -S /run/user/1000/tmux-atlas new-session -d -s atlas "${pkgs.nix}/bin/nix develop --impure -c bash -c \"env ATLAS_STUDIO=1 ATLAS_WEBHOOK_HOST=0.0.0.0 SLACK_ALLOWED_SENDERS=U06EL4RDNSH,U072SUTF8NB bun run $ATLAS_DIR/server.ts\""
           ''}";
           ExecStop = "${pkgs.tmux}/bin/tmux -S /run/user/1000/tmux-atlas kill-session -t atlas";
           RemainAfterExit = "no";
