@@ -142,10 +142,15 @@ in
     # GitHub Runners Configuration
     github-runners-lab = {
       enable = true;
-      # Cap concurrent CI jobs at 2 box-wide. All runners share the `self-hosted`
-      # label, so the runner count is the effective concurrency limit for pest /
-      # playwright / deploy. 2 keeps the box from being overwhelmed.
+      # Cap concurrent CI jobs at 2 box-wide (pest / playwright / preview
+      # deploys, all selecting `[self-hosted, ci]`). 2 keeps the box from being
+      # overwhelmed.
       runnerCount = 2;
+      # Plus one deploy-only runner (`[self-hosted, deploy]`) that CI can never
+      # occupy, so staging/production deploys start immediately instead of
+      # queueing behind a multi-hour playwright run. Cheap to co-locate: deploys
+      # are SSH/rsync-bound and finish in under 15 minutes.
+      deployRunnerCount = 1;
       organization = "conductly";
     };
 
