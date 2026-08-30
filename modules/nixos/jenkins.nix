@@ -38,20 +38,30 @@ in
   # the unlocked setup wizard was publicly reachable and served its robots.txt
   # to an off-network fetch — before the vhost moved here.
   #
-  # 8443 is not forwarded by the UDM, so the NAT boundary is what keeps this
-  # off the internet. That is the same protection Home Assistant on :8123
-  # already relies on (see the firewall block in garfield/default.nix). The
-  # allow/deny rules below are kept as a second layer: for traffic that
+  # No UDM forward targets THIS HOST on 8443, so the NAT boundary is what
+  # keeps Jenkins off the internet — the same protection Home Assistant on
+  # :8123 already relies on (see the firewall block in garfield/default.nix).
+  #
+  # Careful: WAN :8443 *is* forwarded, just not here. The "Unifi Portal" rule
+  # sends it to 192.168.1.1:443, a UniFi admin UI, so an external client on
+  # that port lands there and never reaches this host. Verified 2026-08-30 —
+  # an off-network fetch of https://jenkins.dlyons.dev:8443 is answered with
+  # UniFi's CN=unifi.local certificate, not this vhost's Let's Encrypt one.
+  # If that rule is ever repointed at ${lanIp}, Jenkins is public again, and
+  # the fix is another unforwarded port: an ACL cannot work here, see above.
+  #
+  # The allow/deny rules below are kept as a second layer: for traffic that
   # reaches this port directly over the LAN the source address is genuine, so
   # they do constrain which VLANs can connect.
   #
   # LAN NAME RESOLUTION: `jenkins.dlyons.dev` resolves publicly to the WAN
-  # address, which does not forward 8443 — so a LAN client must resolve it to
-  # ${lanIp} instead, or the browser will hang. garfield gets that via the
-  # networking.hosts entry below; other machines need a local DNS record on
-  # the UDM (Settings -> Routing & Firewall -> DNS) pointing the name at
-  # ${lanIp}. Without it, use https://${lanIp}:8443 and accept the name
-  # mismatch, or tunnel: ssh -L 8080:127.0.0.1:8080 garfield
+  # address, so a LAN client must be told to resolve it to ${lanIp} instead or
+  # the browser lands on that Unifi Portal forward. Two things provide it:
+  # garfield itself via the networking.hosts entry below, and every other LAN
+  # client via a static DNS record on the UDM (added 2026-08-30, id
+  # 6a94b930d6b00347cde93eb6 — Settings -> search "Local DNS"). If that record
+  # is lost, use https://${lanIp}:8443 and accept the name mismatch, or
+  # tunnel: ssh -L 8080:127.0.0.1:8080 garfield
   #
   # PREREQUISITE — public DNS: `jenkins.dlyons.dev` must keep an A record
   # pointing at the WAN address (70.228.88.181, same as dlyons.dev and
