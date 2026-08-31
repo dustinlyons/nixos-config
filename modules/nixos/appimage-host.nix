@@ -13,8 +13,12 @@ let
   # Nix and not tracked in git — see the overlays/*-appimage.nix fetchurl URLs.
   serveRoot = "/var/lib/appimages";
 
-  # eno1 carries 10.0.10.134, the address `garfield` resolves to on the LAN.
-  serveAddr = "10.0.10.134";
+  # Bind every address rather than 10.0.10.134 specifically. That address is a
+  # DHCP lease from the UDM, not something this repo sets — so pinning it here
+  # meant nginx failed to bind, and every vhost on this host went down with
+  # it, if the lease ever moved. Reachability is still constrained: the
+  # firewall opens this port on eno1 only, and the allow/deny rules below
+  # restrict it to the LAN subnets.
   servePort = 8088;
 in
 {
@@ -36,7 +40,7 @@ in
     virtualHosts."garfield-appimages" = {
       default = true;
       listen = [
-        { addr = serveAddr; port = servePort; }
+        { addr = "0.0.0.0"; port = servePort; }
       ];
       root = serveRoot;
       extraConfig = ''

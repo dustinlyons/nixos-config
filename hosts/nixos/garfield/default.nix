@@ -36,6 +36,10 @@ in
     # LAN-only HTTP host for AppImage binaries (fetched by other hosts at build time)
     ../../../modules/nixos/appimage-host.nix
 
+    # Nightly off-box backup of the state nixos-rebuild cannot recreate
+    # (n8n workflows + database, Home Assistant .storage).
+    ../../../modules/nixos/backups.nix
+
     # agenix for garfield's non-reproducible system secrets
     # (n8n encryption key, GitHub runner registration).
     agenix.nixosModules.default
@@ -78,39 +82,28 @@ in
       '';
     };
 
-    # VLAN interfaces on eno0 (or your main interface)
-    # NOTE: Adjust interface name if not eno0 - check with `ip link`
-    vlans = {
-      "eno0.10" = {
-        id = 10;
-        interface = "eno0";
-      };
-      "eno0.20" = {
-        id = 20;
-        interface = "eno0";
-      };
-    };
-
-    interfaces = {
-      eno0 = {};
-      "eno0.10" = {
-        ipv4.addresses = [
-          { address = "10.0.10.2"; prefixLength = 24; }
-        ];
-      };
-      "eno0.20" = {
-        ipv4.addresses = [
-          { address = "10.0.20.2"; prefixLength = 24; }
-        ];
-      };
-    };
-
-    # Gateway on VLAN 10
-    defaultGateway = {
-      address = "10.0.10.1";
-      interface = "eno0.10";
-    };
-
+    # ADDRESSING — this host is on DHCP, and that is deliberate now.
+    #
+    # This block used to declare VLAN sub-interfaces on `eno0` (10.0.10.2 on
+    # VLAN 10, 10.0.20.2 on VLAN 20) with a matching static default gateway.
+    # None of it ever took effect: there is no `eno0` on this machine. The
+    # single NIC enumerates as `eno1`, systemd-networkd had nothing to attach
+    # the VLANs to, and the box has been reachable this whole time only
+    # because hardware-configuration.nix leaves `networking.useDHCP` on.
+    #
+    # Removed rather than corrected (2026-08-31). The declared addresses were
+    # never the ones in use, so "fixing" them to eno0.10 would have moved a
+    # working host onto an untested static configuration during the one
+    # exercise — disaster recovery — where that is least welcome. What runs
+    # today is one DHCP interface at 10.0.10.134, a lease from the UDM.
+    #
+    # Consequence worth knowing before a rebuild on new hardware: the address
+    # comes from the UDM, not from this file. New hardware means a new MAC and
+    # a new lease, so either give the replacement a reservation for
+    # 10.0.10.134 or expect to re-point the UDM's forwards and its static DNS
+    # record. Nothing in this repo binds to that address any more — see the
+    # listen/hosts notes in appimage-host.nix and jenkins.nix — so services
+    # will start regardless; they just won't be where the network expects.
     nameservers = [ "10.0.10.1" "1.1.1.1" ];
   };
 

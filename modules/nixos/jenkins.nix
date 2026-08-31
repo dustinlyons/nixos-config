@@ -3,9 +3,10 @@
 let
   domain = "jenkins.dlyons.dev";
 
-  # garfield's address on the server VLAN, and the port the web UI is served
-  # on. Deliberately NOT 443 — see the topology note below.
-  lanIp = "10.0.10.134";
+  # The port the web UI is served on. Deliberately NOT 443 — see the topology
+  # note below. There is no lanIp binding any more: this host's address is a
+  # DHCP lease, so the comments below name it as the fact it is rather than
+  # pretending the config sets it.
   lanPort = 8443;
 
   # Same LAN allowlist n8n.nix uses. Kept local rather than shared because the
@@ -47,7 +48,7 @@ in
   # that port lands there and never reaches this host. Verified 2026-08-30 —
   # an off-network fetch of https://jenkins.dlyons.dev:8443 is answered with
   # UniFi's CN=unifi.local certificate, not this vhost's Let's Encrypt one.
-  # If that rule is ever repointed at ${lanIp}, Jenkins is public again, and
+  # If that rule is ever repointed at 10.0.10.134, Jenkins is public again, and
   # the fix is another unforwarded port: an ACL cannot work here, see above.
   #
   # The allow/deny rules below are kept as a second layer: for traffic that
@@ -55,12 +56,12 @@ in
   # they do constrain which VLANs can connect.
   #
   # LAN NAME RESOLUTION: `jenkins.dlyons.dev` resolves publicly to the WAN
-  # address, so a LAN client must be told to resolve it to ${lanIp} instead or
+  # address, so a LAN client must be told to resolve it to 10.0.10.134 instead or
   # the browser lands on that Unifi Portal forward. Two things provide it:
   # garfield itself via the networking.hosts entry below, and every other LAN
   # client via a static DNS record on the UDM (added 2026-08-30, id
   # 6a94b930d6b00347cde93eb6 — Settings -> search "Local DNS"). If that record
-  # is lost, use https://${lanIp}:8443 and accept the name mismatch, or
+  # is lost, use https://10.0.10.134:8443 and accept the name mismatch, or
   # tunnel: ssh -L 8080:127.0.0.1:8080 garfield
   #
   # PREREQUISITE — public DNS: `jenkins.dlyons.dev` must keep an A record
@@ -224,6 +225,14 @@ in
     # So the host serving the cert can also resolve the name it is served
     # under; without this, curl/jenkins-cli on garfield follow public DNS out
     # to the WAN address and hang on the unforwarded port.
-    hosts.${lanIp} = [ domain ];
+    #
+    # Points at loopback, not at this box's LAN address: that address is a
+    # DHCP lease and would silently start resolving to the wrong host if the
+    # lease moved. The vhost listens on 0.0.0.0:${toString lanPort} and the
+    # allow list below already covers 127.0.0.1/32, so loopback reaches it and
+    # presents the same certificate. Only affects name resolution *on this
+    # host* — LAN clients still need the UDM's static DNS record described
+    # above, which must point at whatever address this machine actually holds.
+    hosts."127.0.0.1" = [ domain ];
   };
 }
