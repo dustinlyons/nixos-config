@@ -1,7 +1,12 @@
 { config, pkgs, claude-code, ... }:
 
 let
-  emacsOverlaySha256 = "1ws890244a4f7140hlkgvcc41m5k6bbphpqc3yrh2ipkmg9vjd4m";
+  # NOTE: this pins a *moving* ref (refs/heads/master) by hash, so it goes
+  # stale every time emacs-overlay pushes upstream and every build then fails
+  # with a hash mismatch — for every host, not just the one being worked on.
+  # Bumped 2026-08-31 because it was already broken. Pinning a tag or promoting
+  # it to a proper flake input would stop this recurring.
+  emacsOverlaySha256 = "16r9yzjkjvvgfx86n2qaykjj6qw2my9mmqibpggpjj9hkrv09ipi";
   
   # Shared Emacs package configuration
   myEmacs = import ./emacs.nix { inherit pkgs; };
