@@ -61,24 +61,36 @@ in
     firewall = {
       enable = true;
       allowedTCPPorts = []; # Per-service ports managed below with source restrictions
-      # Allow SSH and Home Assistant only from LAN subnets.
-      # Without this, ports 22/8123 are open to any source IP — reachable
-      # from the Internet if the UDM forwards them.
+      # Allow SSH and Home Assistant only from the LAN subnets and the
+      # remote-access VPN. Without this, ports 22/8123 are open to any source
+      # IP — reachable from the Internet if the UDM forwards them.
+      #
+      # 192.168.1.0/24 is the UDM's remote-user VPN range ("WireGuard Server
+      # 1", the network behind Teleport), added 2026-09-10. The UDM already
+      # routed Vpn -> Internal, so these two services were unreachable over
+      # the VPN purely because this host dropped the packets — including the
+      # `ssh -L` tunnel that jenkins.nix suggests as a fallback, which could
+      # never have worked from off-LAN. See the vpnCidrs note in jenkins.nix
+      # for why allowing this range does not weaken the WAN threat model.
       extraCommands = ''
         iptables -A nixos-fw -p tcp --dport 22 -s 10.0.10.0/24 -j nixos-fw-accept
         iptables -A nixos-fw -p tcp --dport 22 -s 192.168.0.0/24 -j nixos-fw-accept
         iptables -A nixos-fw -p tcp --dport 22 -s 127.0.0.0/8 -j nixos-fw-accept
+        iptables -A nixos-fw -p tcp --dport 22 -s 192.168.1.0/24 -j nixos-fw-accept
         iptables -A nixos-fw -p tcp --dport 8123 -s 10.0.10.0/24 -j nixos-fw-accept
         iptables -A nixos-fw -p tcp --dport 8123 -s 192.168.0.0/24 -j nixos-fw-accept
         iptables -A nixos-fw -p tcp --dport 8123 -s 127.0.0.0/8 -j nixos-fw-accept
+        iptables -A nixos-fw -p tcp --dport 8123 -s 192.168.1.0/24 -j nixos-fw-accept
       '';
       extraStopCommands = ''
         iptables -D nixos-fw -p tcp --dport 22 -s 10.0.10.0/24 -j nixos-fw-accept 2>/dev/null || true
         iptables -D nixos-fw -p tcp --dport 22 -s 192.168.0.0/24 -j nixos-fw-accept 2>/dev/null || true
         iptables -D nixos-fw -p tcp --dport 22 -s 127.0.0.0/8 -j nixos-fw-accept 2>/dev/null || true
+        iptables -D nixos-fw -p tcp --dport 22 -s 192.168.1.0/24 -j nixos-fw-accept 2>/dev/null || true
         iptables -D nixos-fw -p tcp --dport 8123 -s 10.0.10.0/24 -j nixos-fw-accept 2>/dev/null || true
         iptables -D nixos-fw -p tcp --dport 8123 -s 192.168.0.0/24 -j nixos-fw-accept 2>/dev/null || true
         iptables -D nixos-fw -p tcp --dport 8123 -s 127.0.0.0/8 -j nixos-fw-accept 2>/dev/null || true
+        iptables -D nixos-fw -p tcp --dport 8123 -s 192.168.1.0/24 -j nixos-fw-accept 2>/dev/null || true
       '';
     };
 

@@ -17,7 +17,30 @@ let
     "192.168.0.0/24"  # Client VLAN
     "127.0.0.1/32"    # Localhost
   ];
-  lanAllowRules = lib.concatMapStringsSep "\n" (cidr: "allow ${cidr};") lanCidrs;
+
+  # Remote-access VPN peers. The UDM's "WireGuard Server 1" (the network behind
+  # Teleport, which is WireGuard underneath) leases 192.168.1.6-254 to
+  # connected clients, and the UDM's own zone firewall already permits
+  # Vpn -> Internal for everything. So until 2026-09-10 the only thing stopping
+  # a VPN client from reaching Jenkins was this host: the iptables rule below
+  # dropped the SYN before nginx ever saw it, which is why the browser hung
+  # rather than showing an error.
+  #
+  # Kept separate from lanCidrs rather than appended to it, for two reasons.
+  # It is a different trust domain — an authenticated remote peer, not a device
+  # physically on the LAN — and n8n.nix has its own copy of lanCidrs that
+  # deliberately does not grant VPN access.
+  #
+  # Safe to allow even under the threat model described below: no port forward
+  # or NAT rule translates a WAN request into this range, so unlike a LAN CIDR
+  # it cannot be spoofed from the internet. Reaching it requires a WireGuard
+  # handshake against the UDM.
+  vpnCidrs = [
+    "192.168.1.0/24"  # UDM remote-user VPN (Teleport / WireGuard Server 1)
+  ];
+
+  allowedCidrs = lanCidrs ++ vpnCidrs;
+  allowRules = lib.concatMapStringsSep "\n" (cidr: "allow ${cidr};") allowedCidrs;
 in
 {
   # ========================================
@@ -43,26 +66,49 @@ in
   # keeps Jenkins off the internet — the same protection Home Assistant on
   # :8123 already relies on (see the firewall block in garfield/default.nix).
   #
-  # Careful: WAN :8443 *is* forwarded, just not here. The "Unifi Portal" rule
-  # sends it to 192.168.1.1:443, a UniFi admin UI, so an external client on
-  # that port lands there and never reaches this host. Verified 2026-08-30 —
-  # an off-network fetch of https://jenkins.dlyons.dev:8443 is answered with
-  # UniFi's CN=unifi.local certificate, not this vhost's Let's Encrypt one.
-  # If that rule is ever repointed at 10.0.10.134, Jenkins is public again, and
-  # the fix is another unforwarded port: an ACL cannot work here, see above.
+  # CORRECTION 2026-09-10 — two claims above no longer hold. Re-verify before
+  # relying on either.
   #
-  # The allow/deny rules below are kept as a second layer: for traffic that
-  # reaches this port directly over the LAN the source address is genuine, so
-  # they do constrain which VLANs can connect.
+  # 1. The source-NAT premise is wrong on the current firmware (UniFi OS
+  #    5.1.31). Forwarded WAN requests arrive at nginx with their REAL public
+  #    source address, not a LAN one: garfield's nginx journal shows clients
+  #    like 66.249.69.195 and 3.92.26.80 denied by rule on the :80/:443
+  #    vhosts, and no real_ip/proxy_protocol directive is rewriting them. So
+  #    an allow/deny ACL does discriminate against internet traffic. What
+  #    actually broke on 2026-08-27 was therefore something else — most likely
+  #    that dlyons.dev is the default vhost and answered before any per-VLAN
+  #    rule applied. Treat the incident as real and the explanation as
+  #    unproven.
+  #
+  # 2. The "Unifi Portal" forward (WAN 8443 -> 192.168.1.1:443) is now
+  #    DISABLED on the UDM, so nothing forwards WAN 8443 at all. The
+  #    unforwarded-port protection below still holds — it holds harder, in
+  #    fact — but an off-network fetch no longer lands on UniFi's
+  #    CN=unifi.local certificate, so that test no longer proves anything.
+  #
+  # Either way the conclusion is unchanged: no UDM forward targets this host
+  # on 8443, and that is what keeps Jenkins off the internet. Keep it that way.
+  #
+  # The allow/deny rules below are a second layer, and per correction 1 they
+  # are a more meaningful one than this comment used to claim: source
+  # addresses reaching this port are genuine, so they do constrain who can
+  # connect.
   #
   # LAN NAME RESOLUTION: `jenkins.dlyons.dev` resolves publicly to the WAN
-  # address, so a LAN client must be told to resolve it to 10.0.10.134 instead or
-  # the browser lands on that Unifi Portal forward. Two things provide it:
-  # garfield itself via the networking.hosts entry below, and every other LAN
-  # client via a static DNS record on the UDM (added 2026-08-30, id
-  # 6a94b930d6b00347cde93eb6 — Settings -> search "Local DNS"). If that record
-  # is lost, use https://10.0.10.134:8443 and accept the name mismatch, or
-  # tunnel: ssh -L 8080:127.0.0.1:8080 garfield
+  # address, so a client must be told to resolve it to 10.0.10.134 instead or
+  # the browser tries the WAN address on a port nothing forwards and hangs.
+  # Two things provide it: garfield itself via the networking.hosts entry
+  # below, and every other LAN client via a static DNS record on the UDM
+  # (added 2026-08-30, id 6a94b930d6b00347cde93eb6 — Settings -> search
+  # "Local DNS"). If that record is lost, use https://10.0.10.134:8443 and
+  # accept the name mismatch, or tunnel: ssh -L 8080:127.0.0.1:8080 garfield
+  #
+  # VPN clients get that record only if they resolve through the UDM. The
+  # WireGuard server's DHCP DNS is unset (dhcpd_dns_enabled = false), so
+  # whether a Teleport client picks up 192.168.1.1 as its resolver or keeps
+  # its own depends on the client and on split- vs full-tunnel mode. If the
+  # name fails from the VPN but https://10.0.10.134:8443 works, that is the
+  # cause — set the VPN network's DNS server to 10.0.10.1 on the UDM.
   #
   # PREREQUISITE — public DNS: `jenkins.dlyons.dev` must keep an A record
   # pointing at the WAN address (70.228.88.181, same as dlyons.dev and
@@ -197,7 +243,7 @@ in
         # Agent connections and the live console log both use WebSockets.
         proxyWebsockets = true;
         extraConfig = ''
-          ${lanAllowRules}
+          ${allowRules}
           deny all;
 
           # Jenkins streams request bodies (CLI, file parameters, agent
@@ -209,18 +255,18 @@ in
     };
   };
 
-  # Open 8443 to the LAN VLANs only, matching the per-service source-restricted
-  # style garfield already uses for 22 and 8123. extraCommands is types.lines,
-  # so this appends to the rules in garfield/default.nix rather than replacing
-  # them.
+  # Open 8443 to the LAN VLANs and the remote-access VPN only, matching the
+  # per-service source-restricted style garfield already uses for 22 and 8123.
+  # extraCommands is types.lines, so this appends to the rules in
+  # garfield/default.nix rather than replacing them.
   networking = {
     firewall.extraCommands = lib.concatMapStringsSep "\n"
       (cidr: "iptables -A nixos-fw -p tcp --dport ${toString lanPort} -s ${cidr} -j nixos-fw-accept")
-      lanCidrs;
+      allowedCidrs;
 
     firewall.extraStopCommands = lib.concatMapStringsSep "\n"
       (cidr: "iptables -D nixos-fw -p tcp --dport ${toString lanPort} -s ${cidr} -j nixos-fw-accept 2>/dev/null || true")
-      lanCidrs;
+      allowedCidrs;
 
     # So the host serving the cert can also resolve the name it is served
     # under; without this, curl/jenkins-cli on garfield follow public DNS out
