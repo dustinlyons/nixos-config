@@ -111,13 +111,20 @@ let
           else
             TOKEN_URL="https://api.github.com/repos/$GITHUB_OWNER/$GITHUB_REPOSITORY/actions/runners/registration-token"
           fi
-          RUNNER_TOKEN=$(${pkgs.curl}/bin/curl -sfX POST \
+          # Keep the HTTP status and body: a 403 from a mis-scoped PAT and a
+          # network failure look identical otherwise, and the journal is the
+          # only place this ever surfaces.
+          RESPONSE=$(${pkgs.curl}/bin/curl -s -X POST -w '\n%{http_code}' \
             -H "Authorization: token $ACCESS_TOKEN" \
             -H "Accept: application/vnd.github+json" \
-            "$TOKEN_URL" | ${pkgs.jq}/bin/jq -r .token)
+            "$TOKEN_URL")
           unset ACCESS_TOKEN
-          if [ -z "$RUNNER_TOKEN" ] || [ "$RUNNER_TOKEN" = "null" ]; then
-            echo "ERROR: could not obtain a runner registration token from $TOKEN_URL"
+          HTTP_CODE=$(printf '%s' "$RESPONSE" | tail -n1)
+          BODY=$(printf '%s' "$RESPONSE" | sed '$d')
+          RUNNER_TOKEN=$(printf '%s' "$BODY" | ${pkgs.jq}/bin/jq -r '.token // empty' 2>/dev/null || true)
+          if [ "$HTTP_CODE" != "201" ] || [ -z "$RUNNER_TOKEN" ]; then
+            echo "ERROR: registration-token request to $TOKEN_URL returned HTTP $HTTP_CODE:"
+            printf '%s\n' "$BODY" | ${pkgs.jq}/bin/jq -r '.message // .' 2>/dev/null || printf '%s\n' "$BODY"
             exit 1
           fi
 
