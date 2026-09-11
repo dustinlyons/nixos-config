@@ -61,8 +61,13 @@ in
 
       homeassistant = {
         name = "Garfield Home";
-        latitude = 38.244481;
-        longitude = -85.688943;
+        # Read from /var/lib/hass/secrets.yaml at startup (the NixOS module
+        # turns the quoted "!secret x" into a real YAML tag). This repo is
+        # public; the literal coordinates are a street address. The file must
+        # exist before Home Assistant starts or config validation fails — see
+        # hosts/nixos/garfield/home-assistant-secrets.yaml.template.
+        latitude = "!secret latitude";
+        longitude = "!secret longitude";
         elevation = 142;
         unit_system = "us_customary";
         time_zone = "America/Kentucky/Louisville";
@@ -71,6 +76,12 @@ in
       http = {
         server_host = "0.0.0.0";
         server_port = 8123;
+        # Lock out an address after 5 failed logins (written to
+        # /var/lib/hass/ip_bans.yaml; delete the entry there to lift one).
+        # Reachability is already LAN+VPN only via garfield's firewall; this
+        # covers a compromised device on the LAN guessing at the login.
+        ip_ban_enabled = true;
+        login_attempts_threshold = 5;
       };
 
       # The analyzer operates on a fixed "latest.jpg" path so there is no

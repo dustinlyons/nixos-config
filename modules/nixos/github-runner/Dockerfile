@@ -219,15 +219,12 @@ echo "Starting GitHub runner..."\n\
 echo "Runner: ${RUNNER_NAME}"\n\
 echo "Scope: ${RUNNER_SCOPE}"\n\
 \n\
-# Check Docker access\n\
+# Check Docker access. The host passes its docker GID via --group-add\n\
+# (see github-runner.nix); do NOT chmod the socket here: it is the host\n\
+# socket bind-mounted in, and opening it to everyone opens it on the host.\n\
 if ! docker version > /dev/null 2>&1; then\n\
-  echo "ERROR: Cannot access Docker daemon"\n\
-  echo "Trying to fix permissions..."\n\
-  sudo chmod 666 /var/run/docker.sock || true\n\
-  if ! docker version > /dev/null 2>&1; then\n\
-    echo "Still cannot access Docker. Exiting."\n\
-    exit 1\n\
-  fi\n\
+  echo "ERROR: Cannot access Docker daemon (is --group-add <host docker gid> set?)"\n\
+  exit 1\n\
 fi\n\
 \n\
 if [ -z "${RUNNER_NAME}" ]; then\n\
@@ -235,8 +232,12 @@ if [ -z "${RUNNER_NAME}" ]; then\n\
   exit 1\n\
 fi\n\
 \n\
-if [ -z "${ACCESS_TOKEN}" ]; then\n\
-  echo "ACCESS_TOKEN environment variable is not set"\n\
+# The host (github-runner.nix) exchanges the org PAT for a single-use\n\
+# registration token and passes only RUNNER_TOKEN in. The PAT itself must\n\
+# never enter this container: /proc/1/environ keeps the original environment\n\
+# and is readable by the runner user, so any job could read it back.\n\
+if [ -z "${RUNNER_TOKEN}" ]; then\n\
+  echo "RUNNER_TOKEN environment variable is not set"\n\
   exit 1\n\
 fi\n\
 \n\
@@ -248,8 +249,6 @@ if [ "${RUNNER_SCOPE}" = "org" ]; then\n\
   fi\n\
   echo "Configuring runner for organization ${ORG_NAME}"\n\
   RUNNER_URL="https://github.com/${ORG_NAME}"\n\
-  RUNNER_TOKEN=$(curl -sX POST -H "Authorization: token ${ACCESS_TOKEN}" \\\n\
-    https://api.github.com/orgs/${ORG_NAME}/actions/runners/registration-token | jq -r .token)\n\
 else\n\
   if [ -z "${REPO_URL}" ]; then\n\
     echo "REPO_URL required for repo runners"\n\
@@ -257,12 +256,11 @@ else\n\
   fi\n\
   echo "Configuring runner for repository ${REPO_URL}"\n\
   RUNNER_URL="${REPO_URL}"\n\
-  REPO_PATH=$(echo ${REPO_URL} | sed "s|https://github.com/||")\n\
-  RUNNER_TOKEN=$(curl -sX POST -H "Authorization: token ${ACCESS_TOKEN}" \\\n\
-    https://api.github.com/repos/${REPO_PATH}/actions/runners/registration-token | jq -r .token)\n\
 fi\n\
 \n\
-# Configure the runner\n\
+# Configure the runner. --ephemeral: take exactly one job, deregister, exit.\n\
+# The host restarts the container (fresh filesystem, fresh token) for the\n\
+# next job, so nothing a job leaves behind survives into the next one.\n\
 ./config.sh \\\n\
   --url "${RUNNER_URL}" \\\n\
   --token "${RUNNER_TOKEN}" \\\n\
@@ -270,12 +268,15 @@ fi\n\
   --labels "${LABELS:-self-hosted,linux,x64,php82}" \\\n\
   --work "${RUNNER_WORKDIR:-_work}" \\\n\
   --unattended \\\n\
+  --ephemeral \\\n\
   --replace\n\
 \n\
-# Cleanup function\n\
+# Cleanup function. After a completed ephemeral job the runner has already\n\
+# deregistered itself, so this only matters when the container is stopped\n\
+# mid-idle; ignore the error in the normal case.\n\
 cleanup() {\n\
   echo "Removing runner..."\n\
-  ./config.sh remove --unattended --token "${RUNNER_TOKEN}"\n\
+  ./config.sh remove --unattended --token "${RUNNER_TOKEN}" || true\n\
 }\n\
 \n\
 trap cleanup EXIT\n\

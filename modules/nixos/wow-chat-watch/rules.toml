@@ -1,0 +1,57 @@
+# wow-chat-watch rules.
+#
+# Deployed to ~/.config/wow-chat-watch/rules.toml by modules/nixos/wow-chat-watch.nix.
+# After editing, `nix run .#build-switch` restarts the watcher with the new rules.
+# To try a change against a real log without rebuilding:
+#   cp ~/.config/wow-chat-watch/rules.toml /tmp/rules.toml && $EDITOR /tmp/rules.toml
+#   wow-chat-watch --config /tmp/rules.toml replay
+#
+# Patterns are Python regular expressions, matched case-insensitively against the
+# message text only (not the sender or channel). Use \b for word boundaries.
+
+[watch]
+# The chat log the game client writes when /chatlog is on (AutoChatLog turns it on).
+log_file = "~/.local/share/Steam/steamapps/compatdata/3212376421/pfx/drive_c/Program Files (x86)/World of Warcraft/_anniversary_/Logs/WoWChatLog.txt"
+
+# Only messages from these channels are checked against the rules. Numbered
+# channels use their bare name ("Trade - City" is matched as "Trade"). Other
+# channel names: Guild, Officer, Party, Raid, say, yell, whisper, system.
+channels = ["LookingForGroup", "World", "Trade", "General"]
+
+# After a sender triggers a rule, further matches from the same sender for the
+# same rule are recorded but not notified for this long. Rules can override it.
+cooldown_minutes = 30
+
+# Every match is appended here (notified or not); `wow-chat-watch show` reads it.
+history_file = "~/.local/state/wow-chat-watch/matches.jsonl"
+
+[alert]
+# Desktop popups via notify-send (libnotify).
+notify = true
+# Sound to play with pw-play on each notification. Empty string = silent.
+# e.g. "/run/current-system/sw/share/sounds/freedesktop/stereo/message-new-instant.oga"
+sound = ""
+
+# ---------------------------------------------------------------------------
+# Rules. Fields:
+#   name             shown as the notification title and in `show`
+#   match            list; the message must match at least one
+#   require          list; the message must match every one (optional)
+#   reject           list; the message must match none (optional)
+#   channels         override [watch].channels for this rule (optional)
+#   cooldown_minutes override [watch].cooldown_minutes for this rule (optional)
+#   urgency          notify-send urgency: low | normal | critical (optional,
+#                    default normal; critical popups stay until dismissed)
+# ---------------------------------------------------------------------------
+
+[[rules]]
+name = "Gruul"
+match = ['\bgruul']
+reject = ['\bgdkp\b']
+urgency = "critical"
+
+[[rules]]
+name = "Guild recruiting DPS"
+match = ['\brecruit', '\bis\s+lf\b', '\blooking\s+for\b']
+require = ['\bdps\b']
+urgency = "normal"

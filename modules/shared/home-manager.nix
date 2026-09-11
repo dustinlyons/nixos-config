@@ -185,24 +185,26 @@ let name = "Dustin Lyons";
           printf '\033]11;#1f2528\007'
       }
       
-      # Override ssh command to detect known hosts
+      # Override ssh command to detect known hosts. Matches the Host aliases
+      # from ~/.ssh/config_external only — never raw addresses, since this
+      # file is public.
       ssh() {
           case "$1" in
-              production|209.97.152.81)
+              production)
                   # Change terminal background to dark red
                   printf '\033]11;#3d1515\007'
                   command ssh "$@"
                   # Reset terminal background
                   printf '\033]11;#1f2528\007'
                   ;;
-              staging|174.138.88.191)
+              staging)
                   # Change terminal background to dark orange
                   printf '\033]11;#3d2915\007'
                   command ssh "$@"
                   # Reset terminal background
                   printf '\033]11;#1f2528\007'
                   ;;
-              droplet|165.227.66.119)
+              droplet)
                   # Change terminal background to dark green
                   printf '\033]11;#153d15\007'
                   command ssh "$@"

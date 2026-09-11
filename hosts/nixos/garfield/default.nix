@@ -179,10 +179,13 @@ in
 
     displayManager = {
       sddm.enable = true;
-      autoLogin = {
-        enable = true;
-        user = "dustin";
-      };
+      # No auto-login on the server (off since 2026-09-11). With it on, a
+      # keyboard plugged into this box landed in a wheel session — and this
+      # host runs Jenkins, n8n and Home Assistant. Nothing here depends on a
+      # graphical session: the nightly backup runs as root and uses the SSH key
+      # file, Emacs is a system service, and systemd.nix's user services are
+      # not imported on this host.
+      autoLogin.enable = false;
     };
 
     desktopManager.plasma6.enable = true;
@@ -208,6 +211,12 @@ in
     openssh = {
       enable = true;
       openFirewall = false;
+      # Keys only. fail2ban (n8n.nix) still watches sshd, but there is nothing
+      # for it to brute-force once passwords are off.
+      settings = {
+        PasswordAuthentication = false;
+        KbdInteractiveAuthentication = false;
+      };
     };
 
     # Bluetooth
@@ -301,7 +310,10 @@ in
     kernelPackages = pkgs.linuxPackages_latest;
   };
 
-  # Don't require password for users in `wheel` group for these commands
+  # Don't require a password for `reboot`. nixos-rebuild used to be listed
+  # here too; removed 2026-09-11 — it evaluates and activates arbitrary Nix,
+  # so a passwordless entry for it is a passwordless root shell for anyone
+  # holding a wheel session. `nix run .#build-switch` now prompts once.
   security.sudo = {
     enable     = true;
     extraRules = [
@@ -309,10 +321,6 @@ in
         commands = [
           {
             command = "${pkgs.systemd}/bin/reboot";
-            options = [ "NOPASSWD" ];
-          }
-          {
-            command = "/run/current-system/sw/bin/nixos-rebuild";
             options = [ "NOPASSWD" ];
           }
         ];

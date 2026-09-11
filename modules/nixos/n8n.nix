@@ -74,6 +74,25 @@ in
       limit_req_zone $binary_remote_addr zone=webhooks:10m rate=5r/s;
     '';
 
+    # Catch-all for requests that name no vhost: a bare IP, an unknown Host
+    # header, or an SNI nothing here serves. Without this nginx answers such
+    # requests with the alphabetically-first server block — dlyons.dev — which
+    # is the most likely explanation for the 2026-08-27 Jenkins exposure (see
+    # jenkins.nix). Now: TLS handshakes for unknown names are rejected before
+    # a certificate is sent, and plain-HTTP requests get 444 (connection
+    # closed, no response). fail2ban's nginx-deny jail below counts 444s.
+    #
+    # Scoped to the ports this module opens (80/443); the AppImage host on
+    # 8088 and Jenkins on 8443 declare their own listens and are unaffected.
+    virtualHosts."catch-all" = {
+      serverName = "_";
+      default = true;
+      rejectSSL = true;
+      extraConfig = ''
+        return 444;
+      '';
+    };
+
     virtualHosts.${domain} = {
       forceSSL = true;
       enableACME = true;
@@ -184,11 +203,12 @@ in
   };
 
   # Custom fail2ban filter for the GTM access log format.
-  # Matches 400 (malformed/binary requests), 403 (denied by ACL), 404 (not found).
+  # Matches 400 (malformed/binary requests), 403 (denied by ACL), 404 (not
+  # found), 444 (closed by the catch-all vhost above).
   # No journalmatch — forces file-based reading from the access log.
   environment.etc."fail2ban/filter.d/nginx-deny-gtm.conf".text = ''
     [Definition]
-    failregex = ^<HOST> - \[.*?\] "[^"]*" (?:400|403|404) \d+
+    failregex = ^<HOST> - \[.*?\] "[^"]*" (?:400|403|404|444) \d+
     ignoreregex =
     datepattern = ^[^\[]*\[({DATE})
   '';

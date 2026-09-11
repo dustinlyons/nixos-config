@@ -16,13 +16,13 @@ jobs:
     needs: check-build
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
 
       - name: Install Nix
-        uses: nixbuild/nix-quick-install-action@master
+        uses: nixbuild/nix-quick-install-action@9f63be77f412a248c9d9a65a4c82cf066cdf8f0c # v35
 
       - name: Set up cache
-        uses: nix-community/cache-nix-action@main
+        uses: nix-community/cache-nix-action@7df957e333c1e5da7721f60227dbba6d06080569 # v7
         with:
           primary-key: nix-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('**/*.nix', '**/flake.lock') }}
           restore-prefixes-first-match: nix-${{ runner.os }}-${{ runner.arch }}
@@ -59,7 +59,7 @@ jobs:
           echo "$USERNAME" > /tmp/username.txt
 
       - name: Update flake.lock
-        uses: DeterminateSystems/update-flake-lock@main
+        uses: DeterminateSystems/update-flake-lock@da03c0f078bc4b2c37ee4f7e072d34bf8f188bb3 # v29
         with:
           token: ${{ secrets.GH_TOKEN_FOR_UPDATES }}
           pr-title: "Update flake.lock"

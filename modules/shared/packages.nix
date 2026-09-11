@@ -55,6 +55,7 @@ with pkgs; [
   go # Go
   gcc # GNU Compiler Collection
   gh # GitHub CLI
+  gitleaks # Secret scanner; wired into this repo's pre-commit hook (see README)
   glow # Markdown renderer for terminal
   gnupg # GNU Privacy Guard
   gopls # Go language server

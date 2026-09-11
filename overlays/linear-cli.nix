@@ -6,7 +6,8 @@ final: prev: {
     
     export PATH="${prev.nodejs_24}/bin:$PATH"
 
-    # Run using npx with cache
-    exec ${prev.nodejs_24}/bin/npx --yes @egcli/lr "$@"
+    # Run using npx with cache. Version pinned: an unpinned `npx --yes` would
+    # execute whatever is on the registry at that moment, as this user.
+    exec ${prev.nodejs_24}/bin/npx --yes @egcli/lr@0.18.0 "$@"
   '';
 }

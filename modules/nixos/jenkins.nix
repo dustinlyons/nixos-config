@@ -69,8 +69,8 @@ in
   # CORRECTION 2026-09-10 — two claims above no longer hold. Re-verify before
   # relying on either.
   #
-  # 1. The source-NAT premise is wrong on the current firmware (UniFi OS
-  #    5.1.31). Forwarded WAN requests arrive at nginx with their REAL public
+  # 1. The source-NAT premise is wrong on the UDM's current firmware.
+  #    Forwarded WAN requests arrive at nginx with their REAL public
   #    source address, not a LAN one: garfield's nginx journal shows clients
   #    like 66.249.69.195 and 3.92.26.80 denied by rule on the :80/:443
   #    vhosts, and no real_ip/proxy_protocol directive is rewriting them. So
@@ -99,9 +99,9 @@ in
   # the browser tries the WAN address on a port nothing forwards and hangs.
   # Two things provide it: garfield itself via the networking.hosts entry
   # below, and every other LAN client via a static DNS record on the UDM
-  # (added 2026-08-30, id 6a94b930d6b00347cde93eb6 — Settings -> search
-  # "Local DNS"). If that record is lost, use https://10.0.10.134:8443 and
-  # accept the name mismatch, or tunnel: ssh -L 8080:127.0.0.1:8080 garfield
+  # (added 2026-08-30 — Settings -> search "Local DNS"). If that record is
+  # lost, use https://10.0.10.134:8443 and accept the name mismatch, or
+  # tunnel: ssh -L 8080:127.0.0.1:8080 garfield
   #
   # VPN clients get that record only if they resolve through the UDM. The
   # WireGuard server's DHCP DNS is unset (dhcpd_dns_enabled = false), so
@@ -111,8 +111,8 @@ in
   # cause — set the VPN network's DNS server to 10.0.10.1 on the UDM.
   #
   # PREREQUISITE — public DNS: `jenkins.dlyons.dev` must keep an A record
-  # pointing at the WAN address (70.228.88.181, same as dlyons.dev and
-  # hooks.dlyons.dev). Let's Encrypt reaches the :80 vhost below over that
+  # pointing at the WAN address (the same one dlyons.dev and hooks.dlyons.dev
+  # resolve to). Let's Encrypt reaches the :80 vhost below over that
   # record to issue and renew via http-01. Note this also publishes the
   # hostname to Certificate Transparency logs, so treat the name as public
   # knowledge — obscurity is not part of the model above.
@@ -205,10 +205,10 @@ in
   # The upstream module hardens the unit with PrivateUsers=true, which drops
   # the process into a user namespace where unmapped supplementary groups
   # collapse to nobody — taking the `docker` group membership with them. The
-  # socket happens to be chmod 666 on this host (github-runner.nix's
-  # docker-permissions.service), so access would survive by accident; disable
-  # the namespace so it survives on purpose and doesn't break if that service
-  # ever goes away. Every other hardening knob upstream sets is left alone.
+  # socket is root:docker 0660 (github-runner.nix no longer opens it to
+  # everyone), so that membership is the only thing granting access; disable
+  # the namespace so it is honoured. Every other hardening knob upstream sets
+  # is left alone.
   systemd.services.jenkins.serviceConfig.PrivateUsers = lib.mkForce false;
 
   # Public :80 — ACME http-01 challenge only. No TLS, no proxy: any path other

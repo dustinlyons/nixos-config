@@ -15,6 +15,9 @@ in
     # Systemd services and timers
     ../../modules/nixos/systemd.nix
 
+    # WoW chat-log watcher: popups + history for LFG / recruitment messages
+    ../../modules/nixos/wow-chat-watch.nix
+
     # Agenix for secrets management - temporarily disabled
     # inputs.agenix.nixosModules.default
   ];
@@ -111,8 +114,55 @@ in
     useDHCP         = lib.mkDefault true;
     # networking.interfaces.eno1.useDHCP = lib.mkDefault true;
     networkmanager.enable = true;
-    firewall.enable       = false;
-    
+
+    # Firewall on, nothing opened globally. Before 2026-09-11 this was
+    # `firewall.enable = false`, which left the Conductly dev database
+    # (mariadb :3306), `php artisan serve` (:8000), Vite (:5173), Storybook
+    # (:6006) and the Atlas webhook listener (:8788) reachable from every phone,
+    # TV and guest device on the client VLAN. Dev servers now answer on
+    # loopback only; the two things other machines legitimately reach get
+    # source-restricted rules below, in the same style garfield uses.
+    #
+    # programs.steam's remotePlay/dedicatedServer openFirewall options (above)
+    # declare their own ports and start taking effect now that this is on.
+    # IPv4 only, like garfield: the LAN does not route IPv6.
+    firewall = {
+      enable = true;
+      allowedTCPPorts = [];
+      extraCommands = ''
+        # SSH from the two LAN VLANs and the UDM's remote-access VPN.
+        iptables -A nixos-fw -p tcp --dport 22 -s 10.0.10.0/24 -j nixos-fw-accept
+        iptables -A nixos-fw -p tcp --dport 22 -s 192.168.0.0/24 -j nixos-fw-accept
+        iptables -A nixos-fw -p tcp --dport 22 -s 192.168.1.0/24 -j nixos-fw-accept
+
+        # Atlas webhook receiver (systemd.nix binds it to 0.0.0.0:8788).
+        # garfield's nginx is the only legitimate caller (hooks-proxy.nix) and
+        # it lives on the server VLAN; nothing on the client VLAN needs this.
+        iptables -A nixos-fw -p tcp --dport 8788 -s 10.0.10.0/24 -j nixos-fw-accept
+
+        # mDNS from the client VLAN, so Chrome casting and Steam's LAN
+        # discovery keep working (both were seen bound to 5353 when this was
+        # written). Multicast queries are unsolicited, so the default
+        # established/related rule does not cover them.
+        iptables -A nixos-fw -p udp --dport 5353 -s 192.168.0.0/24 -j nixos-fw-accept
+
+        # Opt-in: testing the Conductly dev build from a phone on the client
+        # VLAN. Vite was deliberately bound to this box's LAN address, so this
+        # was probably in use; uncomment if it is. Leave 3306 closed regardless.
+        # iptables -A nixos-fw -p tcp --dport 5173 -s 192.168.0.0/24 -j nixos-fw-accept
+        # iptables -A nixos-fw -p tcp --dport 8000 -s 192.168.0.0/24 -j nixos-fw-accept
+      '';
+      extraStopCommands = ''
+        iptables -D nixos-fw -p tcp --dport 22 -s 10.0.10.0/24 -j nixos-fw-accept 2>/dev/null || true
+        iptables -D nixos-fw -p tcp --dport 22 -s 192.168.0.0/24 -j nixos-fw-accept 2>/dev/null || true
+        iptables -D nixos-fw -p tcp --dport 22 -s 192.168.1.0/24 -j nixos-fw-accept 2>/dev/null || true
+        iptables -D nixos-fw -p tcp --dport 8788 -s 10.0.10.0/24 -j nixos-fw-accept 2>/dev/null || true
+        iptables -D nixos-fw -p udp --dport 5353 -s 192.168.0.0/24 -j nixos-fw-accept 2>/dev/null || true
+        # iptables -D nixos-fw -p tcp --dport 5173 -s 192.168.0.0/24 -j nixos-fw-accept 2>/dev/null || true
+        # iptables -D nixos-fw -p tcp --dport 8000 -s 192.168.0.0/24 -j nixos-fw-accept 2>/dev/null || true
+      '';
+    };
+
     # Custom hosts entries
     extraHosts = ''
       10.0.10.2 lab-1
@@ -186,8 +236,19 @@ in
       pulse.enable = true;
     };
 
-    # Enable the OpenSSH daemon.
-    openssh.enable = true;
+    # Enable the OpenSSH daemon. Keys only: this desktop has no firewall and
+    # shares the client VLAN with every phone and IoT device in the house.
+    openssh = {
+      enable = true;
+      # Port 22 is opened per-source in networking.firewall.extraCommands
+      # above; the module's default would open it to every address first and
+      # make those rules meaningless.
+      openFirewall = false;
+      settings = {
+        PasswordAuthentication = false;
+        KbdInteractiveAuthentication = false;
+      };
+    };
 
     # Bluetooth
     blueman.enable = true;
@@ -233,7 +294,11 @@ in
     bubblewrap       # Unprivileged sandboxing tool
   ];
 
-  # Don't require password for users in `wheel` group for these commands
+  # Don't require a password for `reboot`. nixos-rebuild used to be listed
+  # here too; it was removed 2026-09-11 because it evaluates and activates
+  # arbitrary Nix, so a passwordless entry for it is a passwordless root
+  # shell for anyone holding a wheel session (this desktop auto-logs in).
+  # `nix run .#build-switch` now prompts once per switch.
   security.sudo = {
     enable     = true;
     extraRules = [
@@ -241,10 +306,6 @@ in
         commands = [
           {
             command = "${pkgs.systemd}/bin/reboot";
-            options = [ "NOPASSWD" ];
-          }
-          {
-            command = "/run/current-system/sw/bin/nixos-rebuild";
             options = [ "NOPASSWD" ];
           }
         ];

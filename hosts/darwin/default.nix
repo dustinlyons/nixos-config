@@ -52,8 +52,12 @@ in
     primaryUser = user;
     stateVersion = 4;
     defaults = {
+      # Gatekeeper's "downloaded from the internet" check. This was false
+      # until 2026-09-11; set to true explicitly (not just removed) because
+      # nix-darwin does not unset a default it stops managing — the old false
+      # would have stayed in the defaults store.
       LaunchServices = {
-        LSQuarantine = false;
+        LSQuarantine = true;
       };
       NSGlobalDomain = {
         AppleShowAllExtensions = true;

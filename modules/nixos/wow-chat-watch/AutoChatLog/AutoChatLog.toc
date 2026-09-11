@@ -1,0 +1,5 @@
+## Interface: 20506
+## Title: AutoChatLog
+## Notes: Turns on /chatlog at every login so Logs/WoWChatLog.txt is always written.
+## Version: 1.0
+AutoChatLog.lua
