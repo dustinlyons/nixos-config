@@ -3,7 +3,7 @@
   # ========================================
   # Atlas webhook ingress (garfield = TLS front door; Atlas lives on FELIX)
   # ========================================
-  # Public HTTPS endpoint that lets external providers (GitHub today) PUSH
+  # Public HTTPS endpoint that lets external providers (GitHub, Linear) PUSH
   # events to Atlas instead of Atlas polling. Atlas's receiver
   # (atlas/core/webhooks.ts) runs on felix and verifies the per-request HMAC
   # signature; a verified event is a doorbell, not data — it just kicks the
@@ -25,10 +25,14 @@
   # Felix binds the listener beyond localhost via ATLAS_WEBHOOK_HOST=0.0.0.0
   # (set in systemd.nix's start-atlas env line).
   #
-  # nginx itself (enable, ACME terms, the shared "webhooks" rate-limit zone,
-  # the access log, and the fail2ban jails) is configured alongside n8n in
-  # n8n.nix; this adds one more virtualHost, which the NixOS module system
-  # merges in. Ports 80/443 are already open/forwarded (n8n.nix), so no
+  # UDM IDS noise: the gateway's intrusion detection regularly flags outbound
+  # garfield -> 174.138.88.191. That is the DigitalOcean host running the MCP
+  # server Atlas uses, not an intrusion; ignore those alerts.
+  #
+  # nginx itself (enable, ACME terms, the "webhooks" / "webhooks_linear"
+  # rate-limit zones, the access log, and the fail2ban jails) is configured
+  # alongside n8n in n8n.nix; this adds one more virtualHost, which the NixOS
+  # module system merges in. Ports 80/443 are already open/forwarded (n8n.nix), so no
   # firewall change is needed; port 80 also serves the ACME http-01 challenge
   # for this vhost's own hooks.dlyons.dev certificate.
   services.nginx.virtualHosts."hooks.dlyons.dev" = {
@@ -50,6 +54,19 @@
         proxyWebsockets = false;
         extraConfig = ''
           limit_req zone=webhooks burst=10 nodelay;
+          limit_req_status 429;
+        '';
+      };
+
+      # Linear gets its own, looser limit (zone defined in n8n.nix): it sends
+      # bursts from a few shared IPs and the GitHub-sized limit above was
+      # dropping its deliveries. nginx picks the longest matching prefix, so
+      # this wins over "/hook/" for Linear and nothing else changes.
+      "/hook/linear" = {
+        proxyPass = "http://192.168.0.169:8788";
+        proxyWebsockets = false;
+        extraConfig = ''
+          limit_req zone=webhooks_linear burst=50 nodelay;
           limit_req_status 429;
         '';
       };

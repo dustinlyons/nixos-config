@@ -119,9 +119,12 @@ in
     # `firewall.enable = false`, which left the Conductly dev database
     # (mariadb :3306), `php artisan serve` (:8000), Vite (:5173), Storybook
     # (:6006) and the Atlas webhook listener (:8788) reachable from every phone,
-    # TV and guest device on the client VLAN. Dev servers now answer on
-    # loopback only; the two things other machines legitimately reach get
-    # source-restricted rules below, in the same style garfield uses.
+    # TV and guest device on the client VLAN. Those dev servers still bind
+    # 0.0.0.0 (as of 2026-09-16: mariadb :3306, PHP :8000, Next :3000,
+    # Storybook :6006, epmd :4369, and Vite on the LAN address :5173) — the
+    # firewall is what keeps them off the LAN, not their bind address. The two
+    # things other machines legitimately reach get source-restricted rules
+    # below, in the same style garfield uses.
     #
     # programs.steam's remotePlay/dedicatedServer openFirewall options (above)
     # declare their own ports and start taking effect now that this is on.

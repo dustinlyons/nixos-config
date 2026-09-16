@@ -72,6 +72,12 @@ in
       }
       access_log /var/log/nginx/access.log gtm if=$loggable;
       limit_req_zone $binary_remote_addr zone=webhooks:10m rate=5r/s;
+      # Linear delivers webhooks in bursts from a few shared Google Cloud IPs
+      # (35.196.x, 35.231.x), so the 5r/s + burst=10 zone above returned 429 to
+      # 16 of its deliveries in the week of 2026-09-09 and Atlas missed those
+      # events. hooks-proxy.nix puts /hook/linear on this zone; GitHub and n8n
+      # stay on `webhooks`.
+      limit_req_zone $binary_remote_addr zone=webhooks_linear:10m rate=20r/s;
     '';
 
     # Catch-all for requests that name no vhost: a bare IP, an unknown Host
