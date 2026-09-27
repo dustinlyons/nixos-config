@@ -39,6 +39,8 @@ let
       gzip
       gnused
       jq
+      # git pushes over SSH; without this every push failed ("cannot run ssh").
+      openssh
       util-linux
       config.services.postgresql.package
     ];
