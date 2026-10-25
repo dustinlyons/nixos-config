@@ -232,6 +232,16 @@ in
           key = "Meta+Z";
           command = "zeditor";
         };
+        "shot-copy" = {
+          name = "Screenshot to Clipboard";
+          key = "Meta+Shift+S";
+          command = "shot-copy";
+        };
+        "shot-save" = {
+          name = "Screenshot and Save";
+          key = "Meta+Ctrl+S";
+          command = "shot-save";
+        };
       };
       
       workspace = {

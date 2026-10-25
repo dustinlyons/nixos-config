@@ -135,6 +135,11 @@
       "services/org.kde.krunner.desktop"."_launch" = "Meta+Space";
       "services/plasma-manager-commands.desktop"."view-cheatsheets" = "Meta+C";
       "services/plasma-manager-commands.desktop"."zeditor" = "Meta+Z";
+      "services/plasma-manager-commands.desktop"."shot-copy" = "Meta+Shift+S";
+      "services/plasma-manager-commands.desktop"."shot-save" = "Meta+Ctrl+S";
+
+      # Free Meta+Shift+S from Spectacle's own region capture
+      "services/org.kde.spectacle.desktop"."RectangularRegionScreenShot" = "none";
       
       # Disable conflicting zed.desktop shortcut
       "services/dev.zed.Zed.desktop"."_launch" = "none";

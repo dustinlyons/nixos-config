@@ -42,6 +42,43 @@ let
         --title "$selected - Cheatsheet" \
         -e sh -c "${pkgs.glow}/bin/glow -p \"$CHEATSHEET_DIR/''${selected}.md\"; echo; echo 'Press any key to close...'; read -n 1"
   '';
+
+  # Screenshots: drag a region and it is captured on mouse release (-k).
+  # shot-copy puts the image on the clipboard; shot-save also asks where to save it.
+  shot-copy = pkgs.writeShellScriptBin "shot-copy" ''
+    tmp=$(mktemp --suffix=.png -p "''${XDG_RUNTIME_DIR:-/tmp}")
+    trap 'rm -f "$tmp"' EXIT
+    ${pkgs.kdePackages.spectacle}/bin/spectacle -b -n -r -k -o "$tmp"
+    [ -s "$tmp" ] || exit 0  # selection cancelled
+    ${pkgs.wl-clipboard}/bin/wl-copy --type image/png < "$tmp"
+  '';
+
+  shot-save = pkgs.writeShellScriptBin "shot-save" ''
+    # Saved locations; any other directory can be typed into the menu
+    locations="$HOME/src/conductly/screenshots
+    $HOME/src/atlas-2.0
+    $HOME/Pictures/Screenshots
+    $HOME/Downloads"
+
+    tmp=$(mktemp --suffix=.png -p "''${XDG_RUNTIME_DIR:-/tmp}")
+    trap 'rm -f "$tmp"' EXIT
+    ${pkgs.kdePackages.spectacle}/bin/spectacle -b -n -r -k -o "$tmp"
+    [ -s "$tmp" ] || exit 0  # selection cancelled
+
+    dir=$(printf '%s\n' "$locations" | sed 's/^ *//' | \
+        ${pkgs.rofi}/bin/rofi -dmenu -i -p "Save to")
+    [ -n "$dir" ] || exit 0
+    dir="''${dir/#\~/$HOME}"
+
+    name=$(${pkgs.rofi}/bin/rofi -dmenu -p "Name (Enter = timestamp)" < /dev/null)
+    name="''${name%.png}"
+    [ -n "$name" ] || name="screenshot-$(date +'%Y%m%d-%H%M%S')"
+
+    mkdir -p "$dir"
+    cp "$tmp" "$dir/$name.png"
+    ${pkgs.wl-clipboard}/bin/wl-copy --type image/png < "$tmp"
+    ${pkgs.libnotify}/bin/notify-send -a Screenshot "Saved and copied" "$dir/$name.png"
+  '';
 in
 shared-packages ++ [
 
@@ -53,6 +90,9 @@ shared-packages ++ [
 ] ++ [
   
   cliphist # Clipboard history manager for Wayland
+
+  shot-copy # Region screenshot straight to clipboard
+  shot-save # Region screenshot saved to a chosen location
 
   docker-compose # Docker Compose tool
 
