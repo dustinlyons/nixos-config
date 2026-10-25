@@ -34,7 +34,10 @@
             # garfield's nginx (modules/nixos/hooks-proxy.nix), which proxies
             # hooks.dlyons.dev → this box :8788 over the LAN, so the listener
             # must bind beyond localhost. Deliveries are HMAC-verified in Atlas.
-            ${pkgs.tmux}/bin/tmux -S /run/user/1000/tmux-atlas new-session -d -s atlas "${pkgs.nix}/bin/nix develop --impure -c bash -c \"env ATLAS_STUDIO=1 ATLAS_WEBHOOK_HOST=0.0.0.0 SLACK_ALLOWED_SENDERS=U06EL4RDNSH,U072SUTF8NB bun run $ATLAS_DIR/server.ts\""
+            # supervise.sh (in the atlas repo) runs server.ts in a restart loop and
+            # logs its output to ~/.cache/atlas/logs/server.log. systemd only sees
+            # the tmux server, so it can't notice the server itself dying.
+            ${pkgs.tmux}/bin/tmux -S /run/user/1000/tmux-atlas new-session -d -s atlas "${pkgs.nix}/bin/nix develop --impure -c bash -c \"env ATLAS_STUDIO=1 ATLAS_WEBHOOK_HOST=0.0.0.0 SLACK_ALLOWED_SENDERS=U06EL4RDNSH,U072SUTF8NB $ATLAS_DIR/supervise.sh\""
           ''}";
           ExecStop = "${pkgs.tmux}/bin/tmux -S /run/user/1000/tmux-atlas kill-session -t atlas";
           RemainAfterExit = "no";

@@ -55,6 +55,7 @@ with pkgs; [
   go # Go
   gcc # GNU Compiler Collection
   gh # GitHub CLI
+  gh-dash # TUI dashboard for GitHub PRs/issues on top of gh (run as `gh-dash`)
   gitleaks # Secret scanner; wired into this repo's pre-commit hook (see README)
   glow # Markdown renderer for terminal
   gnupg # GNU Privacy Guard
@@ -119,6 +120,7 @@ with pkgs; [
   slack # Team communication app
   sqlite # SQL database engine
   stripe-cli
+  sox # Audio dep required for Claude Code Voice
 
   # T
   terraform # Infrastructure as code tool
