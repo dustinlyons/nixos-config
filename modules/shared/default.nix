@@ -32,7 +32,7 @@ in
           then ""
           else config.networking.hostName;
         excludeForHost = {
-          "garfield" = [ "cider-appimage.nix" "obsidian-appimage.nix" "curseforge-appimage.nix" ];
+          "garfield" = [ "cider-appimage.nix" "obsidian-appimage.nix" "curseforge-appimage.nix" "eden-appimage.nix" ];
         };
         excludedFiles = excludeForHost.${hostname} or [];
       in with builtins;

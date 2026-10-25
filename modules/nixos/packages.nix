@@ -120,6 +120,8 @@ shared-packages ++ [
   gamemode # Optimize system performance for games
 ] ++ lib.optionals (pkgs ? curseforge-appimage) [
   curseforge-appimage # Game addon manager
+] ++ lib.optionals (pkgs ? eden-appimage) [
+  eden-appimage # Nintendo Switch emulator
 ] ++ [
   gimp # Image editor
   glow # Terminal markdown viewer
