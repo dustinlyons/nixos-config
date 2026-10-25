@@ -170,8 +170,8 @@ in
 
       # Language toolchains
       pkgs.nodejs
-      pkgs.php82
-      pkgs.php82Packages.composer
+      pkgs.php83
+      pkgs.php83Packages.composer
 
       # Flake builds (`nix build`, `nix run`). Requires the allowed-users entry
       # below or the daemon refuses the connection.

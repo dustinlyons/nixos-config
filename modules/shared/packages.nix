@@ -16,7 +16,7 @@ let
     python-dateutil
   ]);
 
-  myPHP = pkgs.php82.withExtensions ({ enabled, all }: enabled ++ (with all; [
+  myPHP = pkgs.php83.withExtensions ({ enabled, all }: enabled ++ (with all; [
     xdebug
   ]));
 
@@ -101,9 +101,9 @@ with pkgs; [
 
   # P
   pandoc # Document converter
-  php82Packages.composer # PHP dependency manager
+  php83Packages.composer # PHP dependency manager
   deployer # PHP deployment tool
-  php82Packages.php-cs-fixer # PHP code style fixer
+  php83Packages.php-cs-fixer # PHP code style fixer
   phpstan # PHP static analysis tool
   phpactor # PHP language server with better refactoring support
   phpunit # PHP testing framework
