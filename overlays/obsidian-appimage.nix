@@ -19,11 +19,15 @@ self: super: with super; {
            --add-flags "--ozone-platform=wayland --enable-features=UseOzonePlatform,WaylandWindowDecorations" \
            --add-flags "--no-sandbox --disable-gpu-sandbox"
 
-        if [ -f ${contents}/Obsidian.desktop ]; then
-          install -m 444 -D ${contents}/Obsidian.desktop $out/share/applications/${pname}.desktop
-          substituteInPlace $out/share/applications/${pname}.desktop \
-            --replace-warn 'Exec=Obsidian' 'Exec=${pname}'
-        fi
+        # The AppImage's .desktop runs AppRun directly; point it at our wrapper
+        # (which already passes --no-sandbox) and ship its icons so KDE can find
+        # the Icon=obsidian it names.
+        install -m 444 -D ${contents}/obsidian.desktop $out/share/applications/${pname}.desktop
+        substituteInPlace $out/share/applications/${pname}.desktop \
+          --replace-fail 'Exec=AppRun --no-sandbox' 'Exec=${pname}'
+
+        mkdir -p $out/share/icons
+        cp -r --no-preserve=mode ${contents}/usr/share/icons/hicolor $out/share/icons/
       '';
 
     meta = with lib; {

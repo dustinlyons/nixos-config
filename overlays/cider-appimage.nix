@@ -24,6 +24,9 @@ self: super: with super; {
           substituteInPlace $out/share/applications/${pname}.desktop \
             --replace-warn 'Exec=Cider' 'Exec=${pname}'
         fi
+
+        # The .desktop file says Icon=cider; without this KDE shows a generic icon
+        install -m 444 -D ${contents}/Cider.png $out/share/icons/hicolor/256x256/apps/${pname}.png
       '';
 
     meta = with lib; {
