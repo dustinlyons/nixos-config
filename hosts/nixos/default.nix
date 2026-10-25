@@ -22,6 +22,8 @@ in
     # Lead pipeline (~/src/scraper): Postgres + the `leads` user service
     ../../modules/nixos/leads.nix
 
+    # Meshy → Blender → Unity pipeline: Unity Hub + Unity CLI + nix-ld + Blender
+    ../../modules/nixos/game-dev.nix
 
     # Kills dev servers left in deleted worktrees and orphaned demo Postgres
     ../../modules/nixos/dev-reaper.nix
