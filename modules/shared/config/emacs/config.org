@@ -1301,7 +1301,8 @@ Projectile enables me to organize projects with a killer grep interface.
     "gr"  '(dl/magit-status-river :which-key "magit river")
     "gg"  '(magit-status :which-key "magit status")
     "gb"  '(magit-blame :which-key "magit blame")
-    "gl"  '(magit-log-buffer-file :which-key "magit log file"))
+    "gl"  '(magit-log-buffer-file :which-key "magit log file")
+    "gf"  '(forge-dispatch :which-key "forge (PRs/issues)"))
 
   ;; Gives me Ivy options in the Projectile menus
   (use-package counsel-projectile 
@@ -1512,7 +1513,7 @@ It works as a fallback when LSP is not available or for languages without LSP su
   (setq python-indent-offset 2)
 
   (use-package blacken
-    :ensure nil  ; Managed by Nix)
+    :ensure nil)  ; Managed by Nix
 
   (setq blacken-line-length '88)
   (setq blacken-allow-py36 t)
@@ -1806,6 +1807,385 @@ Rainbow mode is an Emacs minor mode to highlight the color shown by a RGB hex tr
     (setq magit-display-buffer-function #'magit-display-buffer-fullframe-status-v1))
   (define-key magit-hunk-section-map (kbd "RET") 'magit-diff-visit-file-other-window)
   (global-set-key (kbd "C-x G") 'magit-log-buffer-file)
+#+END_SRC
+
+**** Forge: GitHub PRs and issues inside Magit
+Forge pulls a repository's GitHub pull requests and issues into the Magit status
+buffer, so I can list PRs, read review threads, check out a PR branch, comment,
+approve and merge without opening the browser. =, g f= (or =@= in any Magit
+buffer, the evil-collection binding) opens the Forge menu; =C-c RET= on a PR
+opens the per-PR menu where =M= merges it.
+
+Authentication reuses the token the =gh= CLI already holds instead of a separate
+=~/.authinfo= entry. Forge asks Emacs's credential lookup (=auth-source=) for a
+secret matching =api.github.com=; the small backend below answers that request by
+running =gh auth token=. If =gh auth status= works in a shell, Forge works here.
+
+First use in a repo: =@ / a= (=forge-add-repository=) and pick how much history
+to pull; the data is cached in a local SQLite database and =@ f f= refreshes it.
+
+#+NAME: forge
+#+BEGIN_SRC emacs-lisp
+  ;; --- auth-source backend that hands out the gh CLI token ------------------
+  ;; ghub (Forge's HTTP layer) searches auth-source for :host "api.github.com"
+  ;; and :user "<github.user>^forge". We answer with the token from `gh auth
+  ;; token', as a :secret closure like the netrc backend does.
+  (require 'auth-source)
+  (cl-defun dl/gh-cli-auth-source-search (&rest _spec &key host user &allow-other-keys)
+    "Return the `gh auth token' as an auth-source entry for api.github.com."
+    (when (member "api.github.com" (ensure-list host))
+      (let ((token (string-trim (shell-command-to-string "gh auth token 2>/dev/null"))))
+        (unless (string-empty-p token)
+          ;; `apply-partially' rather than a lambda: the tangled config.el
+          ;; is loaded without lexical-binding, so a lambda can't capture TOKEN.
+          (list (list :host "api.github.com"
+                      :user (car (ensure-list user))
+                      :secret (apply-partially #'identity token)))))))
+
+  (defun dl/gh-cli-auth-source-backend-parse (entry)
+    "Turn the symbol `gh-cli' in `auth-sources' into a backend."
+    (when (eq entry 'gh-cli)
+      (auth-source-backend
+       :source "gh-cli"
+       :type 'gh-cli
+       :search-function #'dl/gh-cli-auth-source-search)))
+
+  (add-hook 'auth-source-backend-parser-functions #'dl/gh-cli-auth-source-backend-parse)
+  (add-to-list 'auth-sources 'gh-cli t)
+
+  ;; --- Forge itself ----------------------------------------------------------
+  ;; evil-collection installs its own Forge bindings (`@' for the menu and the
+  ;; extra entries in Magit's transient menus). Tell Forge not to add the
+  ;; default set too, or the menus end up with duplicate entries. Must be nil
+  ;; before Forge loads, which `:after magit' guarantees happens after this.
+  (setq forge-add-default-bindings nil)
+
+  ;; Forge's buffers derive from `magit-mode', so they inherit the evil normal
+  ;; initial state set in the Magit block above.
+  (use-package forge
+    :after magit)
+
+  ;; --- PR review flow --------------------------------------------------------
+  ;; Magit's `d d' (diff dwim) already shows a pull request's whole diff when
+  ;; point is on a PR line in the status buffer, but inside the PR buffer it
+  ;; only works while point is on the "Commits" heading. This shows the whole
+  ;; diff from anywhere in the PR buffer: the PR's head against its merge-base
+  ;; with the target branch, which is what GitHub's "Files changed" tab shows.
+  (defun dl/forge-pullreq-diff ()
+    "Show the full diff of the current pull request in a Magit diff buffer."
+    (interactive)
+    (let* ((pullreq (forge-current-pullreq t))
+           (range (forge--pullreq-range pullreq t)))
+      (unless range
+        (user-error "PR #%s has not been fetched yet; run `@ f f' first"
+                    (oref pullreq number)))
+      (magit-diff-range range (magit-diff-arguments))))
+
+  (with-eval-after-load 'forge
+    ;; `forge-pullreq-mode-map' inherits Magit's evil "overriding" marker, so
+    ;; a plain define-key beats evil's own `d' (delete) in PR buffers. Don't
+    ;; use an evil auxiliary map here: one on this child keymap would shadow
+    ;; the evil-collection Magit bindings (j/k/…) inherited from magit-mode-map.
+    (define-key forge-pullreq-mode-map (kbd "d") #'dl/forge-pullreq-diff)
+
+    ;; evil-collection moves Magit's `j' jump menu to `g' prefixes (gs, gu, …)
+    ;; but never adds Forge's two jumps, so `j N p' from the docs does nothing
+    ;; here. Follow the same pattern.
+    (evil-collection-define-key 'normal 'magit-status-mode-map
+      "gP" #'forge-jump-to-pullreqs
+      "gI" #'forge-jump-to-issues))
+
+  ;; Open a PR by number/title from anywhere in the project, no status buffer
+  ;; needed. Then `d' for the diff, `C-c RET' for the actions menu.
+  (dl/leader-keys
+    "gp"  '(forge-visit-pullreq :which-key "open pull request"))
+#+END_SRC
+
+**** Linear issues in the Magit status buffer
+There is no Linear equivalent of Forge, so this is a small section of my own. In
+any repo whose =origin= points at a =conductly/= GitHub repo, the Magit status
+buffer gets a *Linear* section listing the issue named by the current branch
+(=con-1513-…= → =CON-1513=) followed by a list of open issues chosen by the
+current /view/. =RET= on an issue opens it in the browser; =RET= on the *Linear*
+heading switches the view (and refetches). Views are the presets in
+=dl/magit-linear-views= (=mine=, =team=, =all=, =bugs=) or an ad-hoc filter typed
+at the prompt: =label:Bug=, =project:Store=, =assignee:Amanda=, =team:CON=.
+Closed issues (completed, canceled, duplicate) are always excluded.
+
+Requests are asynchronous and the result is cached for five minutes, so Magit's
+constant refreshing never waits on the network and being offline only means the
+section says "error" instead of listing issues.
+
+The API key is a Linear personal API key (Linear → Settings → Security & access →
+Personal API keys) stored in the desktop keyring, which =auth-source='s Secret
+Service backend reads. To store it:
+
+#+begin_example
+  nix shell nixpkgs#libsecret -c secret-tool store --label='Linear API key' host api.linear.app user dustin
+#+end_example
+
+(paste the key at the prompt). A =machine api.linear.app … password …= line in
+=~/.authinfo.gpg= works too. Until a key is present the section is a single
+dimmed line saying so.
+
+#+NAME: magit-linear
+#+BEGIN_SRC emacs-lisp
+  (require 'url)
+  (require 'json)
+
+  ;; Let auth-source read the desktop keyring (KWallet's Secret Service) in
+  ;; addition to the authinfo files, so the Linear key can live there.
+  (add-to-list 'auth-sources 'default t)
+
+  (defcustom dl/magit-linear-cache-ttl 300
+    "Seconds to reuse a Linear result before asking the API again."
+    :type 'integer :group 'magit)
+
+  (defcustom dl/magit-linear-limit 10
+    "How many open Linear issues the list shows. 0 hides the list."
+    :type 'integer :group 'magit)
+
+  (defcustom dl/magit-linear-views
+    '(("mine" . "assignee:{isMe:{eq:true}}")
+      ("team" . "team:{key:{eq:\"CON\"}}")
+      ("all"  . "")
+      ("bugs" . "labels:{some:{name:{eqIgnoreCase:\"bug\"}}}"))
+    "Named views: NAME -> a GraphQL IssueFilter fragment (\"\" = no filter).
+  Besides these, `dl/magit-linear-set-view' accepts label:NAME, project:NAME,
+  assignee:NAME and team:KEY."
+    :type '(alist :key-type string :value-type string) :group 'magit)
+
+  (defvar dl/magit-linear-view "mine"
+    "Name of the view currently shown; see `dl/magit-linear-views'.")
+
+  (defun dl/magit-linear--gql-string (s)
+    "Quote S as a GraphQL string literal."
+    (concat "\"" (replace-regexp-in-string "[\"\\\\]" "\\\\\\&" s) "\""))
+
+  (defun dl/magit-linear--view-filter (view)
+    "Return the IssueFilter fragment for VIEW, a preset name or KIND:VALUE."
+    (or (cdr (assoc view dl/magit-linear-views))
+        (pcase (split-string view ":" nil "[ \t]+")
+          (`("label" ,name)    (format "labels:{some:{name:{eqIgnoreCase:%s}}}"
+                                       (dl/magit-linear--gql-string name)))
+          (`("project" ,name)  (format "project:{name:{containsIgnoreCase:%s}}"
+                                       (dl/magit-linear--gql-string name)))
+          (`("assignee" ,name) (format "assignee:{displayName:{containsIgnoreCase:%s}}"
+                                       (dl/magit-linear--gql-string name)))
+          (`("team" ,key)      (format "team:{key:{eq:%s}}"
+                                       (dl/magit-linear--gql-string (upcase key))))
+          ;; A bare word is taken as a label name.
+          (`(,name)            (format "labels:{some:{name:{eqIgnoreCase:%s}}}"
+                                       (dl/magit-linear--gql-string name)))
+          (_ (user-error "Unknown Linear view: %s" view)))))
+
+  (defcustom dl/magit-linear-remote-regexp "github\\.com[:/]conductly/"
+    "Only show the Linear section in repos whose origin URL matches this."
+    :type 'regexp :group 'magit)
+
+  (defvar dl/magit-linear--cache (make-hash-table :test #'equal)
+    "Cache keyed by \"VIEW|IDENTIFIER\": (FETCHED-AT . RESULT).
+  RESULT is (:branch ISSUE :list ISSUES) or (:error STRING).")
+
+  (defvar dl/magit-linear--inflight (make-hash-table :test #'equal)
+    "Keys with a request in progress -> the Magit buffer that asked.")
+
+  (defun dl/magit-linear--api-key ()
+    "Return the Linear API key from auth-source, or nil."
+    (when-let* ((entry (car (auth-source-search :host "api.linear.app" :max 1)))
+                (secret (plist-get entry :secret)))
+      (if (functionp secret) (funcall secret) secret)))
+
+  (defun dl/magit-linear--branch-issue ()
+    "Return (TEAM . NUMBER) named by the current branch, or nil.
+  Matches a 2-5 letter team key and a number at the start of the branch
+  name, optionally after a prefix/: con-1513-foo, CON1513, feature/con-1513."
+    (when-let* ((branch (magit-get-current-branch)))
+      (when (string-match "\\(?:\\`\\|/\\)\\([[:alpha:]]\\{2,5\\}\\)-?\\([0-9]+\\)\\(?:[^0-9]\\|\\'\\)" branch)
+        (cons (upcase (match-string 1 branch))
+              (string-to-number (match-string 2 branch))))))
+
+  (defun dl/magit-linear--query (with-branch view)
+    "Build the GraphQL query for VIEW.
+  WITH-BRANCH adds the lookup by team key + number."
+    (let ((view-filter (dl/magit-linear--view-filter view)))
+      (concat
+       (if with-branch "query($team:String!,$number:Float!,$limit:Int!){" "query($limit:Int!){")
+       (when with-branch
+         "branch: issues(first:1, filter:{team:{key:{eq:$team}}, number:{eq:$number}}){nodes{...F}} ")
+       "list: issues(first:$limit, orderBy:updatedAt, filter:{"
+       (unless (string-empty-p view-filter) (concat view-filter ", "))
+       "state:{type:{nin:[\"completed\",\"canceled\",\"duplicate\"]}}}){nodes{...F}}}"
+       " fragment F on Issue{identifier title url priorityLabel state{name type} assignee{displayName}}")))
+
+  (defun dl/magit-linear--fetch (key ref view api-key buffer)
+    "Start an async request for cache KEY; REF is (TEAM . NUMBER) or nil.
+  The reply is handled by `dl/magit-linear--callback' and redraws BUFFER."
+    (puthash key buffer dl/magit-linear--inflight)
+    (let* ((vars (append (and ref `(:team ,(car ref) :number ,(cdr ref)))
+                         `(:limit ,dl/magit-linear-limit)))
+           (url-request-method "POST")
+           (url-request-extra-headers `(("Content-Type" . "application/json")
+                                        ("Authorization" . ,api-key)))
+           (url-request-data (encode-coding-string
+                              (json-serialize `(:query ,(dl/magit-linear--query ref view)
+                                                :variables ,vars))
+                              'utf-8)))
+      (url-retrieve "https://api.linear.app/graphql"
+                    #'dl/magit-linear--callback (list key) t t)))
+
+  (defun dl/magit-linear--callback (status key)
+    "Parse the Linear reply for KEY, cache it, and redraw the asking buffer."
+    (let* ((failure (plist-get status :error)) ; e.g. (error http 400) or (error connection-failed ...)
+           (http-status (and (boundp 'url-http-response-status) url-http-response-status))
+           (result
+            (condition-case err
+                (progn
+                  ;; Only a connection-level failure has no body worth reading;
+                  ;; an HTTP 4xx from Linear still carries the real message.
+                  (when (and failure (not (eq (cadr failure) 'http)))
+                    (signal (car failure) (cdr failure)))
+                  (goto-char (or (and (boundp 'url-http-end-of-headers) url-http-end-of-headers)
+                                 (point-min)))
+                  (let* ((body (decode-coding-string
+                                (buffer-substring-no-properties (point) (point-max)) 'utf-8))
+                         (json (json-parse-string body :object-type 'alist
+                                                  :array-type 'list :null-object nil))
+                         (errors (alist-get 'errors json))
+                         (data (alist-get 'data json)))
+                    (cond (errors (list :error (alist-get 'message (car errors))))
+                          (data (list :branch (car (alist-get 'nodes (alist-get 'branch data)))
+                                      :list (alist-get 'nodes (alist-get 'list data))))
+                          (t (list :error (format "HTTP %s" http-status))))))
+              (error (list :error (if failure
+                                      (format "HTTP %s" (or http-status (error-message-string err)))
+                                    (error-message-string err))))))
+           (buffer (gethash key dl/magit-linear--inflight)))
+      (kill-buffer (current-buffer))
+      (puthash key (cons (float-time) result) dl/magit-linear--cache)
+      (remhash key dl/magit-linear--inflight)
+      ;; Redraw from the command loop, not from inside the network callback.
+      (when (buffer-live-p buffer)
+        (run-at-time 0 nil #'dl/magit-linear--redraw buffer))))
+
+  (defun dl/magit-linear--redraw (buffer)
+    (with-current-buffer buffer
+      (when (derived-mode-p 'magit-status-mode)
+        (magit-refresh-buffer))))
+
+  (defun dl/magit-linear--insert-issue (issue &optional note)
+    "Insert one ISSUE line as a `linear-issue' section; NOTE trails it dimmed."
+    (let* ((state (alist-get 'state issue))
+           (type (alist-get 'type state))
+           (state-face (pcase type
+                         ("started" 'success)
+                         ((or "completed" "canceled" "duplicate") 'magit-dimmed)
+                         (_ 'default))))
+      (magit-insert-section (linear-issue issue)
+        (insert (propertize (alist-get 'identifier issue) 'face 'magit-hash)
+                " "
+                (propertize (format "%-12s" (alist-get 'name state)) 'face state-face)
+                " "
+                (alist-get 'title issue)
+                (if note (propertize (concat "  " note) 'face 'magit-dimmed) "")
+                "\n"))))
+
+  (defun dl/magit-insert-linear ()
+    "Insert the Linear section into the Magit status buffer."
+    (let* ((origin (magit-get "remote" "origin" "url"))
+           (ref (dl/magit-linear--branch-issue)))
+      (when (or ref (and origin (string-match-p dl/magit-linear-remote-regexp origin)))
+        (let ((api-key (dl/magit-linear--api-key)))
+          (if (not api-key)
+              (magit-insert-section (linear)
+                (magit-insert-heading
+                  "Linear " (propertize "(no API key in the keyring; see config.org)"
+                                        'face 'magit-dimmed))
+                (insert "\n"))
+            (let* ((ident (and ref (format "%s-%d" (car ref) (cdr ref))))
+                   (view dl/magit-linear-view)
+                   (key (format "%s|%s" view (or ident "")))
+                   (entry (gethash key dl/magit-linear--cache))
+                   (fresh (and entry (< (- (float-time) (car entry)) dl/magit-linear-cache-ttl)))
+                   (result (cdr entry)))
+              (unless (or fresh (gethash key dl/magit-linear--inflight))
+                (dl/magit-linear--fetch key ref view api-key (current-buffer)))
+              (magit-insert-section (linear)
+                (magit-insert-heading
+                  "Linear "
+                  (propertize (format "(%s%s)" view
+                                      (cond ((null entry) ", fetching…")
+                                            ((not fresh) ", refreshing…")
+                                            (t "")))
+                              'face 'magit-dimmed))
+                (cond
+                 ((plist-get result :error)
+                  (insert (propertize (format "error: %s\n" (plist-get result :error))
+                                      'face 'magit-dimmed)))
+                 (entry
+                  (let ((branch-issue (plist-get result :branch)))
+                    (cond (branch-issue
+                           (dl/magit-linear--insert-issue branch-issue "← this branch"))
+                          (ident
+                           (insert (propertize (format "%s  not found in Linear\n" ident)
+                                               'face 'magit-dimmed))))
+                    (dolist (issue (plist-get result :list))
+                      (unless (equal (alist-get 'identifier issue) ident)
+                        (dl/magit-linear--insert-issue issue))))))
+                (insert "\n"))))))))
+
+  (defun dl/magit-linear-browse ()
+    "Open the Linear issue at point in the browser."
+    (interactive)
+    (if-let* ((issue (magit-section-value-if 'linear-issue)))
+        (browse-url (alist-get 'url issue))
+      (user-error "No Linear issue at point")))
+
+  (defun dl/magit-linear-copy-url ()
+    "Copy the URL of the Linear issue at point."
+    (interactive)
+    (if-let* ((issue (magit-section-value-if 'linear-issue)))
+        (progn (kill-new (alist-get 'url issue))
+               (message "Copied %s" (alist-get 'url issue)))
+      (user-error "No Linear issue at point")))
+
+  (defun dl/magit-linear-refresh ()
+    "Drop the Linear cache and refresh the status buffer."
+    (interactive)
+    (clrhash dl/magit-linear--cache)
+    (magit-refresh))
+
+  (defun dl/magit-linear-set-view (view)
+    "Switch the Linear list to VIEW and refetch it.
+  VIEW is a preset from `dl/magit-linear-views' or label:NAME, project:NAME,
+  assignee:NAME, team:KEY. Picking the current view again just refetches."
+    (interactive
+     (list (completing-read
+            (format "Linear view (current: %s; or label:/project:/assignee:/team:NAME): "
+                    dl/magit-linear-view)
+            (mapcar #'car dl/magit-linear-views) nil nil nil nil dl/magit-linear-view)))
+    (dl/magit-linear--view-filter view)   ; validate before switching
+    (setq dl/magit-linear-view view)
+    (maphash (lambda (k _) (when (string-prefix-p (concat view "|") k)
+                             (remhash k dl/magit-linear--cache)))
+             dl/magit-linear--cache)
+    (magit-refresh))
+
+  ;; Magit finds a section's keymap by name: magit-<type>-section-map.
+  (defvar-keymap magit-linear-issue-section-map
+    "<remap> <magit-visit-thing>"  #'dl/magit-linear-browse
+    "<remap> <magit-browse-thing>" #'dl/magit-linear-browse
+    "<remap> <magit-copy-thing>"   #'dl/magit-linear-copy-url
+    "RET"                          #'dl/magit-linear-browse)
+
+  (defvar-keymap magit-linear-section-map
+    "<remap> <magit-visit-thing>" #'dl/magit-linear-set-view
+    "RET"                         #'dl/magit-linear-set-view)
+
+  (with-eval-after-load 'magit
+    (magit-add-section-hook 'magit-status-sections-hook
+                            #'dl/magit-insert-linear
+                            'magit-insert-status-headers t))
 #+END_SRC
 
 *** Infrastructure

@@ -293,6 +293,7 @@ let name = "Dustin Lyons";
       user.name = name;
       user.email = email;
       init.defaultBranch = "main";
+      github.user = "dustinlyons"; # Used by Forge/ghub to pick the GitHub account
       core = {
 	    editor = "vim";
         autocrlf = "input";

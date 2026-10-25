@@ -73,6 +73,7 @@ let
     
     # Version control
     magit
+    forge  # GitHub/GitLab issues and PRs inside Magit
     
     # Programming - Language servers
     lsp-mode
