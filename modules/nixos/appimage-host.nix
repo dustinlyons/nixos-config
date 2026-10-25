@@ -25,7 +25,7 @@ in
   # ========================================
   # AppImage file host
   # ========================================
-  # Serves large AppImage binaries (Cider, Obsidian, CurseForge) to other LAN
+  # Serves large AppImage binaries (Cider, CurseForge) to other LAN
   # hosts (e.g. felix) so they can be pulled at build time via pkgs.fetchurl
   # instead of living in the config repo. Plain HTTP is fine here: integrity is
   # guaranteed by the Nix hash on each fetch, and access is LAN-only.

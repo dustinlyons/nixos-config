@@ -4,6 +4,12 @@ self: super: with super; {
       pname = "eden";
       version = "0.2.1";
 
+      # The GitHub mirror of Eden's releases returns 451; eden-emu.dev serves them.
+      src = fetchurl {
+        url = "https://git.eden-emu.dev/eden-emu/eden/releases/download/v${version}/Eden-Linux-v${version}-amd64-clang-pgo.AppImage";
+        hash = "sha256-eii/mIsGSIMZiXIr26qQqzE3G0A4CBmYE+DqfIslum0=";
+      };
+
       # Eden ships a DwarFS AppImage (uruntime), which appimageTools.extract
       # can't read since it only understands squashfs. Unpack it with
       # dwarfsextract and hand the tree to wrapAppImage instead.
@@ -11,7 +17,7 @@ self: super: with super; {
         nativeBuildInputs = [ dwarfs ];
       } ''
         mkdir $out
-        dwarfsextract -i ${./Eden-Linux-v0.2.1-amd64-clang-pgo.AppImage} -O auto -o $out
+        dwarfsextract -i ${src} -O auto -o $out
       '';
     in
     appimageTools.wrapAppImage {

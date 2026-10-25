@@ -1,9 +1,15 @@
 self: super: with super; {
   curseforge-appimage = appimageTools.wrapType2 rec {
     pname = "curseforge";
-    version = "latest";
+    version = "1.321.1-39714";
 
-    src = ./curseforge-latest-linux.AppImage;
+    # Upstream only publishes a "latest" link whose contents change with every
+    # release, so a pinned copy is served from garfield's LAN file host
+    # (modules/nixos/appimage-host.nix).
+    src = fetchurl {
+      url = "http://10.0.10.134:8088/curseforge-${version}-linux.AppImage";
+      hash = "sha256-4DQZNlrJGY1gGAyqB74+vhhI9lCDPAEQrayhSX5G0Uc=";
+    };
 
     nativeBuildInputs = [ makeWrapper ];
 

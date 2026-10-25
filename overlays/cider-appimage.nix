@@ -3,7 +3,12 @@ self: super: with super; {
     pname = "cider";
     version = "3.1.2";
 
-    src = ./cider-v3.1.2-linux-x64.AppImage;
+    # Paid app with no public download; served from garfield's LAN file host
+    # (modules/nixos/appimage-host.nix).
+    src = fetchurl {
+      url = "http://10.0.10.134:8088/cider-v3.1.2-linux-x64.AppImage";
+      hash = "sha256-1syFQAvx4OdM2y03nP31r+YapH69ijd8XhEp4WxNxOo=";
+    };
 
     nativeBuildInputs = [ makeWrapper ];
 
