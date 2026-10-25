@@ -19,6 +19,8 @@ in
     ../../modules/nixos/wow-chat-watch.nix
     ../../modules/nixos/wow.nix
 
+    # Lead pipeline (~/src/scraper): Postgres + the `leads` user service
+    ../../modules/nixos/leads.nix
 
 
     # Kills dev servers left in deleted worktrees and orphaned demo Postgres
