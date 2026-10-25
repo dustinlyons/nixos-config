@@ -17,6 +17,9 @@ in
 
     # WoW chat-log watcher: popups + history for LFG / recruitment messages
     ../../modules/nixos/wow-chat-watch.nix
+    ../../modules/nixos/wow.nix
+
+
 
     # Kills dev servers left in deleted worktrees and orphaned demo Postgres
     ../../modules/nixos/dev-reaper.nix

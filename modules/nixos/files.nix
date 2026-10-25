@@ -43,6 +43,10 @@ wmclassmatch=1
 
 [7c1f0a94-3d6b-4e52-9a08-2b5c41e7d310]
 Description=Steam game on ultrawide (DP-3)
+acceptfocus=true
+acceptfocusrule=2
+fsplevel=0
+fsplevelrule=2
 screen=1
 screenrule=2
 types=1
