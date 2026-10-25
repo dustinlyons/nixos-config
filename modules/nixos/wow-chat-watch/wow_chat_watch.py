@@ -75,6 +75,12 @@ def normalize_channel(name: str) -> str:
     return name.split(" - ", 1)[0].strip()
 
 
+def base_name(sender: str) -> str:
+    """'Shamcows-Dreamscythe' -> 'Shamcows'. The client writes the same player
+    with and without the realm suffix, so cooldowns and display drop it."""
+    return sender.split("-", 1)[0]
+
+
 def parse_line(raw: str) -> ChatLine | None:
     """Split one log line into channel / sender / text; None if it has no timestamp."""
     m = TIMESTAMP_RE.match(raw)
@@ -238,7 +244,7 @@ class Watcher:
         """Restore cooldowns from the history file so a restart doesn't re-notify."""
         for rec in read_history(self.cfg.history_file)[-limit:]:
             if rec.get("notified"):
-                key = (rec.get("rule", ""), str(rec.get("sender", "")).lower())
+                key = (rec.get("rule", ""), base_name(str(rec.get("sender", ""))).lower())
                 self.last_alert[key] = max(self.last_alert.get(key, 0.0), float(rec.get("ts", 0)))
 
     def process(self, line: ChatLine, now: float) -> list[Match]:
@@ -249,7 +255,7 @@ class Watcher:
                 continue
             if not rule.matches(line.text):
                 continue
-            key = (rule.name, line.sender.lower())
+            key = (rule.name, base_name(line.sender).lower())
             last = self.last_alert.get(key)
             notified = last is None or now - last >= rule.cooldown_s
             if notified:
@@ -282,7 +288,7 @@ def send_notification(m: Match, cfg: Config) -> None:
     title = m.rule.name
     # notify-send treats the body as Pango markup, so a "<Guild Name>" in chat
     # would vanish as an unknown tag unless escaped.
-    body = html.escape(f"[{m.line.channel}] {m.line.sender}: {m.line.text}")
+    body = html.escape(f"[{m.line.channel}] {base_name(m.line.sender)}: {m.line.text}")
     cmd = ["notify-send", "--app-name=WoW Chat", f"--urgency={m.rule.urgency}", "--icon=dialog-information"]
     if m.rule.urgency != "critical":
         cmd.append("--expire-time=30000")
@@ -377,12 +383,13 @@ def fmt_record(rec: dict, color: bool) -> str:
         when = str(rec.get("log_time", "?"))[:11]
     rule = str(rec.get("rule", ""))
     mark = "!" if rec.get("notified") else " "
-    head = f"{when}  {mark} {rule:<22.22} {rec.get('channel', ''):<16.16} {rec.get('sender', ''):<18.18} "
+    sender = base_name(str(rec.get("sender", "")))
+    head = f"{when}  {mark} {rule:<22.22} {rec.get('channel', ''):<16.16} {sender:<16.16} "
     text = str(rec.get("text", ""))
     if not color:
         return head + text
     c = PALETTE[sum(map(ord, rule)) % len(PALETTE)]
-    line = f"{DIM}{when}{RESET}  {mark} {c}{BOLD}{rule:<22.22}{RESET} {DIM}{rec.get('channel', ''):<16.16}{RESET} {rec.get('sender', ''):<18.18} {text}"
+    line = f"{DIM}{when}{RESET}  {mark} {c}{BOLD}{rule:<22.22}{RESET} {DIM}{rec.get('channel', ''):<16.16}{RESET} {sender:<16.16} {text}"
     return f"{DIM}{line}{RESET}" if not rec.get("notified") else line
 
 
@@ -464,14 +471,19 @@ def build_parser() -> argparse.ArgumentParser:
     ap.add_argument("-v", "--verbose", action="store_true")
     sub = ap.add_subparsers(dest="cmd")
 
-    w = sub.add_parser("watch", help="follow the chat log and notify (default)")
+    def add(name, help):
+        p = sub.add_parser(name, help=help)
+        p.add_argument("-v", "--verbose", action="store_true", default=argparse.SUPPRESS)
+        return p
+
+    w = add("watch", "follow the chat log and notify (default)")
     w.add_argument("--no-notify", action="store_true", help="record matches but skip notify-send")
     w.add_argument("--from-start", action="store_true", help="process the existing log content before following")
 
-    r = sub.add_parser("replay", help="run the rules over the whole existing log; no side effects")
+    r = add("replay", "run the rules over the whole existing log; no side effects")
     r.add_argument("--all", action="store_true", help="also print matches the cooldown would have silenced")
 
-    s = sub.add_parser("show", help="print past matches")
+    s = add("show", "print past matches")
     s.add_argument("-n", "--limit", type=int, default=40, help="how many recent matches to print (default 40)")
     s.add_argument("-f", "--follow", action="store_true", help="keep printing new matches as they happen")
     s.add_argument("--all", action="store_true", help="include matches that were silenced by a cooldown")

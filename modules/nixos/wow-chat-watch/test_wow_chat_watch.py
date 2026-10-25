@@ -152,6 +152,8 @@ class WatcherTests(ConfigCase):
         self.assertTrue(first[0].notified)
         again = watcher.process(self.line("LookingForGroup", "somedude", "LFM gruul 1 more"), 1000 + 60)
         self.assertFalse(again[0].notified)  # same sender (case-insensitive), inside 30 min
+        realm = watcher.process(self.line("LookingForGroup", "Somedude-Dreamscythe", "LFM gruul"), 1000 + 60)
+        self.assertFalse(realm[0].notified)  # realm suffix comes and goes; same person
         other = watcher.process(self.line("LookingForGroup", "Else", "LFM gruul"), 1000 + 60)
         self.assertTrue(other[0].notified)
         later = watcher.process(self.line("LookingForGroup", "Somedude", "LFM gruul"), 1000 + 1800)
@@ -189,7 +191,7 @@ class WatcherTests(ConfigCase):
 
 class NotificationTests(ConfigCase):
     def test_notify_send_command_and_escaping(self):
-        m = w.Match(self.cfg.rules[1], w.ChatLine("", "t", "World", "Guy", "<Big Guild> recruiting dps & heals"), True, 0)
+        m = w.Match(self.cfg.rules[1], w.ChatLine("", "t", "World", "Guy-Realm", "<Big Guild> recruiting dps & heals"), True, 0)
         with mock.patch.object(subprocess, "run") as run, mock.patch.object(subprocess, "Popen") as popen:
             w.send_notification(m, self.cfg)
         cmd = run.call_args.args[0]
@@ -310,6 +312,15 @@ class CliTests(ConfigCase):
         self.assertIn("one", default)
         self.assertNotIn("two", default)
         self.assertIn("two", everything)
+
+    def test_verbose_flag_accepted_in_either_position(self):
+        self.log.write_text("9/11 20:15:32.456  [1. LookingForGroup] A: hi\r\n")
+        for argv in (["-v", "replay"], ["replay", "-v"]):
+            with mock.patch("sys.stdout") as out, mock.patch("sys.stderr"):
+                out.isatty.return_value = False
+                self.assertEqual(w.main(["--config", str(self.rules)] + argv), 0)
+                printed = "".join(c.args[0] for c in out.write.call_args_list)
+            self.assertIn("[LookingForGroup] A: hi", printed, argv)
 
     def test_bad_config_exit_code(self):
         with mock.patch("sys.stderr"):
