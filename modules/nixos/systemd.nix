@@ -16,7 +16,9 @@
     user.services = {
       atlas-devenv = {
         description = "Start atlas server in tmux";
-        wantedBy = [ "default.target" ];
+        # Disabled 2026-10-26: out of usage credits. Restore
+        # [ "default.target" ] to start it on login again.
+        wantedBy = [ ];
         after = [ "graphical-session.target" ];
         serviceConfig = {
           Type = "forking";
