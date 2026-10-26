@@ -3,9 +3,11 @@
 # ========================================
 # World of Warcraft launcher (no Steam)
 # ========================================
-# Runs Battle.net through umu-launcher with Steam's Proton 10.0, reusing the
-# prefix of the old Steam non-Steam shortcut, and tells Battle.net to start
-# WoW right away. Battle.net still has to run: WoW logs in through it.
+# Runs Battle.net through umu-launcher with GE-Proton, reusing the prefix of
+# the Steam non-Steam shortcut, and tells Battle.net to start WoW right away.
+# Battle.net still has to run: WoW logs in through it. Keep the Proton here
+# matching the shortcut's; switching versions on one prefix upgrades or
+# downgrades it each time.
 #
 # Don't also launch the Steam shortcut while this is running; two Wine
 # sessions in one prefix can corrupt it.
@@ -16,7 +18,7 @@ let
 
   wow = pkgs.writeShellScriptBin "wow" ''
     export WINEPREFIX="${prefix}"
-    export PROTONPATH="${steamDir}/steamapps/common/Proton 10.0"
+    export PROTONPATH="${pkgs.proton-ge-bin.steamcompattool}"
     export GAMEID=0
     exec ${pkgs.umu-launcher}/bin/umu-run \
       "$WINEPREFIX/drive_c/Program Files (x86)/Battle.net/Battle.net.exe" \

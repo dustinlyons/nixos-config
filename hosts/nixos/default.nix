@@ -42,7 +42,8 @@ in
 
     initrd.availableKernelModules = [ "nvme" "xhci_pci" "ahci" "usb_storage" "usbhid" "sd_mod" ];
     initrd.kernelModules        = [];
-    kernelModules               = [ "kvm-amd" "uinput" ];
+    # ntsync: kernel NT sync primitives; Proton uses /dev/ntsync when present
+    kernelModules               = [ "kvm-amd" "uinput" "ntsync" ];
     kernelParams = [
       # Essential parameters for ASUS PG278Q monitor with RX 9070 GPU
       "amdgpu.dc=1"              # Force display core (required for RDNA 4 GPUs)
@@ -207,8 +208,18 @@ in
       enable = true;
       remotePlay.openFirewall = true;
       dedicatedServer.openFirewall = true;
+      # GE-Proton 11-7+ fixes Warcraft III's false "check your VPN" login error
+      # (crypt32 rejects the game's 88-byte cert chain engine config).
+      extraCompatPackages = [ pkgs.proton-ge-bin ];
     };
+    # Daemon for `gamemoderun %command%`: performance CPU governor while a game runs
+    gamemode.enable = true;
   };
+
+  # Let the logged-in user open /dev/ntsync (root-only by default)
+  services.udev.extraRules = ''
+    KERNEL=="ntsync", MODE="0660", TAG+="uaccess"
+  '';
 
   # Console configuration for virtual terminals
   console.useXkbConfig = true;
