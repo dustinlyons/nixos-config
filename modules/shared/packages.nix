@@ -52,6 +52,7 @@ with pkgs; [
   # fzf is installed by programs.fzf in modules/shared/home-manager.nix
 
   # G
+  gam # Google Workspace admin CLI (GAM7); setup + usage in ~/.claude/skills/gam
   go # Go
   gcc # GNU Compiler Collection
   gh # GitHub CLI
