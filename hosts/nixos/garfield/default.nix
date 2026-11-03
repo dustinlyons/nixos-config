@@ -308,6 +308,16 @@ in
     };
     loader.efi.canTouchEfiVariables = true;
     kernelPackages = pkgs.linuxPackages_latest;
+
+    # Force a full e2fsck of the root fs at every boot, answering yes to all
+    # repairs. Added 2026-11-01: the non-ECC memory faults (CON-2185) reached
+    # on-disk metadata — ext4 inode #21112174 (Jenkins workspace
+    # node_modules/lz-string) fails its directory-block checksum and every
+    # conductly-ci build since #388 dies in `npm ci` with errno -74. `yes`
+    # rather than `preen`: preen refuses non-trivial repairs and drops a
+    # headless box into emergency mode. Remove both once errors_count under
+    # /sys/fs/ext4/nvme0n1p2/ reads 0 after a reboot.
+    kernelParams = [ "fsck.mode=force" "fsck.repair=yes" ];
   };
 
   # Don't require a password for `reboot`. nixos-rebuild used to be listed
