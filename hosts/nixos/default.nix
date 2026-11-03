@@ -37,6 +37,10 @@ in
     loader.systemd-boot = {
       enable             = true;
       configurationLimit = 1;   # ESP is only 96M — can't fit more than one generation (~41M each)
+      # Nov 2026: three hard resets in one day with nothing in the journal, and
+      # bit-flip-looking zsh/php segfaults the week before. 4x Crucial Pro
+      # DDR5-6000 on AM5 is a known-marginal config; keep memtest one reboot away.
+      memtest86.enable   = true;
     };
     loader.efi.canTouchEfiVariables = true;
 
@@ -92,6 +96,14 @@ in
   
   # Hardware support for gaming
   hardware = {
+    enableRedistributableFirmware = true;
+    # BIOS 3072 ships microcode 0x0a601209 and the kernel reports "Vulnerable:
+    # No microcode"; load AMD's current microcode early from the initrd.
+    cpu.amd.updateMicrocode = true;
+    # Log machine-check / memory-controller errors to a persistent sqlite db
+    # (ras-mc-ctl --errors) so the next hard reset leaves hardware evidence.
+    rasdaemon.enable = true;
+
     bluetooth = {
       enable = true;
       powerOnBoot = true;
