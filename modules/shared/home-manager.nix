@@ -9,6 +9,8 @@ let name = "Dustin Lyons";
       enable = true;
       enableZshIntegration = true;
       nix-direnv.enable = true;
+      # Skip the long "export +AR +AS …" line on every cd
+      config.global.hide_env_diff = true;
     };
 
   # Fuzzy finder. The binary alone does nothing for daily use -- the value is
