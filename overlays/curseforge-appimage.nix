@@ -1,14 +1,15 @@
 self: super: with super; {
   curseforge-appimage = appimageTools.wrapType2 rec {
     pname = "curseforge";
-    version = "1.321.1-39714";
+    version = "1.325.0-41594";
 
-    # Upstream only publishes a "latest" link whose contents change with every
-    # release, so a pinned copy is served from garfield's LAN file host
-    # (modules/nixos/appimage-host.nix).
+    # Versioned builds stay published under the app's auto-update feed. The
+    # current version is listed in
+    # https://curseforge.overwolf.com/electron/linux/latest-linux.yml
+    # (the website's curseforge-latest-linux.zip link is stale).
     src = fetchurl {
-      url = "http://10.0.10.134:8088/curseforge-${version}-linux.AppImage";
-      hash = "sha256-4DQZNlrJGY1gGAyqB74+vhhI9lCDPAEQrayhSX5G0Uc=";
+      url = "https://curseforge.overwolf.com/electron/linux/CurseForge-${version}.AppImage";
+      hash = "sha256-vJpsXJabVyp6Ge+NPRwoy7yNUtlsO5xG7I1MrqUW7zc=";
     };
 
     nativeBuildInputs = [ makeWrapper ];
