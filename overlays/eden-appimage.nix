@@ -13,8 +13,20 @@ self: super: with super; {
       # Eden ships a DwarFS AppImage (uruntime), which appimageTools.extract
       # can't read since it only understands squashfs. Unpack it with
       # dwarfsextract and hand the tree to wrapAppImage instead.
+      #
+      # dwarfs 0.15.8 aborts in its dwarfsextract_format_test cases
+      # (pwb/raw/xar archive output). We only extract to a directory, so add
+      # them to nixpkgs' GTEST_FILTER exclusions. (doCheck = false doesn't
+      # work: gtest is a check input, and without it CMake tries to git-clone
+      # googletest.) Drop this once nixpkgs fixes dwarfs.
+      dwarfs' = dwarfs.overrideAttrs (old: {
+        env = old.env // {
+          GTEST_FILTER = old.env.GTEST_FILTER + ":dwarfs/dwarfsextract_format_test.basic/*";
+        };
+      });
+
       extracted = runCommand "${pname}-${version}-extracted" {
-        nativeBuildInputs = [ dwarfs ];
+        nativeBuildInputs = [ dwarfs' ];
       } ''
         mkdir $out
         dwarfsextract -i ${src} -O auto -o $out
