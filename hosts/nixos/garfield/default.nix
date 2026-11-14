@@ -305,6 +305,8 @@ in
     loader.systemd-boot = {
       enable             = true;
       configurationLimit = 42;
+      # Non-ECC memory faults (CON-2185): keep memtest86+ one reboot away.
+      memtest86.enable   = true;
     };
     loader.efi.canTouchEfiVariables = true;
     kernelPackages = pkgs.linuxPackages_latest;
