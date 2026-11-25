@@ -146,6 +146,10 @@ let name = "Dustin Lyons";
       export MANPAGER="sh -c 'col -bx | bat -l man -p'"
       export MANROFFOPT="-c"
 
+      # New Claude Code sessions start on Opus. This outranks whatever `/model`
+      # saved as the default. For one session: `claude --model fable`.
+      export ANTHROPIC_MODEL=opus
+
       # Emacs is my editor
       export ALTERNATE_EDITOR=""
       export EDITOR="emacsclient -t"
