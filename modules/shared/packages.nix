@@ -104,7 +104,6 @@ with pkgs; [
   pandoc # Document converter
   php83Packages.composer # PHP dependency manager
   deployer # PHP deployment tool
-  php83Packages.php-cs-fixer # PHP code style fixer
   phpstan # PHP static analysis tool
   phpactor # PHP language server with better refactoring support
   phpunit # PHP testing framework

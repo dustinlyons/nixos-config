@@ -105,7 +105,6 @@ let
     
     # PHP
     php-mode
-    php-cs-fixer
     
     # Infrastructure
     dockerfile-mode
