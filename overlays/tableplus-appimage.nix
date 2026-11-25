@@ -5,7 +5,7 @@ self: super: with super; {
 
     src = fetchurl {
       url = "https://tableplus.com/release/linux/x64/TablePlus-x64.AppImage";
-      hash = "sha256-UGqY55G4emVXlA8CaMT2R1tVVPunvVmppQ+r3AiZLsk=";
+      hash = "sha256-2Xl0EryYqRApefYRSVFLCHebBSMC/Oq254rcIOXhxQc=";
     };
 
     nativeBuildInputs = [ makeWrapper ];
